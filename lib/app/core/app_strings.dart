@@ -1,5 +1,5 @@
-class Strings {
-  Strings._();
+class AppStrings {
+  AppStrings._();
 
-  static const String title = "Easy";
+  static const String easyVat = "Easy Vat";
 }
