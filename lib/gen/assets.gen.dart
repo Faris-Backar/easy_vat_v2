@@ -10,6 +10,9 @@
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/arrow_forward.svg
+  String get arrowForward => 'assets/icons/arrow_forward.svg';
+
   /// File path: assets/icons/book.svg
   String get book => 'assets/icons/book.svg';
 
@@ -33,6 +36,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<String> get values => [
+    arrowForward,
     book,
     dashboard,
     homeSelected,
