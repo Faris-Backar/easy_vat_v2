@@ -54,15 +54,16 @@ class HomeScreen extends StatelessWidget {
                       children: [
                         HomeCategoryMenu(
                             title: AppStrings.masterData,
-                            dataList: HomeData.masterData),
+                            dataList: HomeCategoryData.masterData),
                         HomeCategoryMenu(
                             title: AppStrings.inventoryVoucher,
-                            dataList: HomeData.inventoryVoucher),
+                            dataList: HomeCategoryData.inventoryVoucher),
                         HomeCategoryMenu(
                             title: AppStrings.accountVoucher,
-                            dataList: HomeData.accountVoucher),
+                            dataList: HomeCategoryData.accountVoucher),
                         HomeCategoryMenu(
-                            title: AppStrings.hrm, dataList: HomeData.hrmData),
+                            title: AppStrings.hrm,
+                            dataList: HomeCategoryData.hrmData),
                       ],
                     ),
                   ),

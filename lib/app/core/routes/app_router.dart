@@ -18,6 +18,7 @@ class AppRouter extends RootStackRouter {
           AutoRoute(page: ReportRoute.page, path: report),
           AutoRoute(page: SettingsRoute.page, path: settings),
         ]),
+        AutoRoute(page: PosRoute.page, path: pos),
       ];
 
   @override
@@ -31,6 +32,7 @@ class AppRouter extends RootStackRouter {
   static const String report = "report";
   static const String settings = "settings";
   static const String home = "home";
+  static const String pos = "/pos";
 }
 
 class AuthGuard extends AutoRouteGuard {

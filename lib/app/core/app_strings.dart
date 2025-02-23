@@ -54,4 +54,18 @@ class AppStrings {
   static const String employeeRegistration = "Employee Registration";
   static const String salaryProcessing = "Salary Processing";
   static const String salaryPayment = "Salary Payment";
+  static const String pointOfSales = "Point of Sales";
+  static const String search = "Search";
+  static const String saleNo = "Sale No";
+  static const String salesDate = "Sale Date";
+  static const String soldBy = "Sold By";
+  static const String netTotal = "Sold By";
+  static const String credit = "Credit";
+  static const String unPaid = "Unpaid";
+  static const String card = "Card";
+  static const String cash = "Cash";
+  static const String print = "Print";
+  static const String downloadExcel = "Download Excel";
+  static const String showReport = "Show Report";
+  static const String addNew = "Add New";
 }

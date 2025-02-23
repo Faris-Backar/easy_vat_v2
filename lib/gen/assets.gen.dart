@@ -49,6 +49,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/expenses.svg
   String get expenses => 'assets/icons/expenses.svg';
 
+  /// File path: assets/icons/filter.svg
+  String get filter => 'assets/icons/filter.svg';
+
   /// File path: assets/icons/home_selected.svg
   String get homeSelected => 'assets/icons/home_selected.svg';
 
@@ -150,6 +153,7 @@ class $AssetsIconsGen {
     dividend,
     employee,
     expenses,
+    filter,
     homeSelected,
     homeUnselected,
     income,

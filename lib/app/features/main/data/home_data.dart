@@ -1,8 +1,9 @@
 import 'package:easy_vat_v2/app/core/app_core.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
 
-class HomeData {
-  HomeData._();
+class HomeCategoryData {
+  HomeCategoryData._();
 
   static List<HomeDataModel> quickItemsData = [
     HomeDataModel(
@@ -10,7 +11,7 @@ class HomeData {
         label: AppStrings.pos,
         icon: Assets.icons.pos,
         darkIcon: Assets.icons.dark.posDark,
-        pagePath: ""),
+        pagePath: AppRouter.pos),
     HomeDataModel(
         category: AppStrings.quickItems,
         label: AppStrings.salesInvoice,
@@ -70,7 +71,7 @@ class HomeData {
         label: AppStrings.reciept,
         icon: Assets.icons.pos,
         darkIcon: Assets.icons.dark.posDark,
-        pagePath: ""),
+        pagePath: AppRouter.pos),
     HomeDataModel(
         category: AppStrings.quickItems,
         label: AppStrings.payment,

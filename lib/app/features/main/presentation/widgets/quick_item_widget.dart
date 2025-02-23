@@ -1,4 +1,6 @@
-import 'package:easy_vat_v2/app/features/main/presentation/widgets/category_menu.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:easy_vat_v2/app/core/theme/custom_text_theme.dart';
+import 'package:easy_vat_v2/app/features/main/presentation/widgets/category_item_card.dart';
 import 'package:flutter/material.dart';
 
 import 'package:easy_vat_v2/app/core/app_strings.dart';
@@ -24,8 +26,8 @@ class QuickItemWidget extends StatelessWidget {
             padding: const EdgeInsets.symmetric(
               horizontal: 16.0,
             ),
-            child: CategoryMenu(
-              dataList: HomeData.quickItemsData,
+            child: _CategoryMenu(
+              dataList: HomeCategoryData.quickItemsData,
               label: AppStrings.quickItems,
             ),
           ),
@@ -62,5 +64,53 @@ class _SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
     return oldDelegate.maxHeight != maxHeight ||
         oldDelegate.minHeight != minHeight ||
         oldDelegate.child != child;
+  }
+}
+
+class _CategoryMenu extends StatelessWidget {
+  final String label;
+  final List<HomeDataModel> dataList;
+  const _CategoryMenu({
+    required this.label,
+    required this.dataList,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          height: 20,
+        ),
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Text(AppStrings.quickItems,
+              style: CustomTextTheme.header(context)),
+        ),
+        SizedBox(
+          height: 20,
+        ),
+        Expanded(
+          child: GridView.builder(
+            shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 4,
+              childAspectRatio: .7,
+              mainAxisSpacing: 15,
+              crossAxisSpacing: 15,
+            ),
+            itemCount: dataList.length,
+            itemBuilder: (context, index) {
+              final homeData = dataList[index];
+              return InkWell(
+                  onTap: () => context.router.pushNamed(homeData.pagePath),
+                  child: CategoryItemCard(homeData: homeData));
+            },
+          ),
+        ),
+      ],
+    );
   }
 }

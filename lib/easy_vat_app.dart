@@ -18,7 +18,6 @@ class EasyVatApp extends StatelessWidget {
         builder: (_, child) {
           return Consumer(builder: (context, ref, child) {
             final themeMode = ref.watch(themeNotifierProvider);
-
             return MaterialApp.router(
                 debugShowCheckedModeBanner: false,
                 routerConfig: _appRouter.config(),
