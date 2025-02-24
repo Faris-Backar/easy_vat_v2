@@ -17,7 +17,7 @@ class PosAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      // surfaceTintColor: context.colorScheme.onPrimary,
+      surfaceTintColor: context.colorScheme.onPrimary,
       title: Text(AppStrings.pointOfSales),
       actions: [
         PopupMenuButton<String>(

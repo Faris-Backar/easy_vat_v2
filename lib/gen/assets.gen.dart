@@ -37,11 +37,17 @@ class $AssetsIconsGen {
   /// File path: assets/icons/debit_note.svg
   String get debitNote => 'assets/icons/debit_note.svg';
 
+  /// File path: assets/icons/delete.svg
+  String get delete => 'assets/icons/delete.svg';
+
   /// File path: assets/icons/delivery_note.svg
   String get deliveryNote => 'assets/icons/delivery_note.svg';
 
   /// File path: assets/icons/dividend.svg
   String get dividend => 'assets/icons/dividend.svg';
+
+  /// File path: assets/icons/edit.svg
+  String get edit => 'assets/icons/edit.svg';
 
   /// File path: assets/icons/employee.svg
   String get employee => 'assets/icons/employee.svg';
@@ -78,6 +84,9 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/pos.svg
   String get pos => 'assets/icons/pos.svg';
+
+  /// File path: assets/icons/print.svg
+  String get print => 'assets/icons/print.svg';
 
   /// File path: assets/icons/production.svg
   String get production => 'assets/icons/production.svg';
@@ -139,6 +148,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/vehicle_registration.svg
   String get vehicleRegistration => 'assets/icons/vehicle_registration.svg';
 
+  /// File path: assets/icons/view.svg
+  String get view => 'assets/icons/view.svg';
+
   /// List of all assets
   List<String> get values => [
     arrowForward,
@@ -149,8 +161,10 @@ class $AssetsIconsGen {
     customer,
     dashboard,
     debitNote,
+    delete,
     deliveryNote,
     dividend,
+    edit,
     employee,
     expenses,
     filter,
@@ -163,6 +177,7 @@ class $AssetsIconsGen {
     ledgerGroup,
     payment,
     pos,
+    print,
     production,
     purchaseInvoice,
     purchaseOrder,
@@ -183,6 +198,7 @@ class $AssetsIconsGen {
     store,
     supplier,
     vehicleRegistration,
+    view,
   ];
 }
 
