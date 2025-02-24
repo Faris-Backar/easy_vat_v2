@@ -59,7 +59,7 @@ class AppStrings {
   static const String saleNo = "Sale No";
   static const String salesDate = "Sale Date";
   static const String soldBy = "Sold By";
-  static const String netTotal = "Sold By";
+  static const String netTotal = "Net Total";
   static const String credit = "Credit";
   static const String unPaid = "Unpaid";
   static const String card = "Card";
@@ -68,4 +68,12 @@ class AppStrings {
   static const String downloadExcel = "Download Excel";
   static const String showReport = "Show Report";
   static const String addNew = "Add New";
+  static const String filters = "Filters";
+  static const String clearAll = "Clear All";
+  static const String enterSalesNumber = "Enter sales number";
+  static const String enterInvoiceNumber = "Enter invoice number";
+  static const String refNo = "Ref No";
+  static const String salesMode = "Sales Mode";
+  static const String selectDate = "Select date";
+  static const String filter = "Filter";
 }

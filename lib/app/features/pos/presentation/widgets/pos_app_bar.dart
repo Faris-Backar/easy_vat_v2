@@ -1,4 +1,6 @@
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
+import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -95,6 +97,13 @@ class PosAppBar extends StatelessWidget implements PreferredSizeWidget {
               controller: searchController,
               prefixIcon: const Icon(Icons.search_rounded),
               hint: AppStrings.search,
+              suffixIcon: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: InkWell(
+                  onTap: () {},
+                  child: SvgIcon(icon: Assets.icons.barcode),
+                ),
+              ),
             ),
           ),
           SizedBox(width: 10.w),

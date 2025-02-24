@@ -16,8 +16,14 @@ class $AssetsIconsGen {
   /// File path: assets/icons/bank.svg
   String get bank => 'assets/icons/bank.svg';
 
+  /// File path: assets/icons/barcode.svg
+  String get barcode => 'assets/icons/barcode.svg';
+
   /// File path: assets/icons/book.svg
   String get book => 'assets/icons/book.svg';
+
+  /// File path: assets/icons/calendar.svg
+  String get calendar => 'assets/icons/calendar.svg';
 
   /// File path: assets/icons/contra.svg
   String get contra => 'assets/icons/contra.svg';
@@ -155,7 +161,9 @@ class $AssetsIconsGen {
   List<String> get values => [
     arrowForward,
     bank,
+    barcode,
     book,
+    calendar,
     contra,
     creditNote,
     customer,
