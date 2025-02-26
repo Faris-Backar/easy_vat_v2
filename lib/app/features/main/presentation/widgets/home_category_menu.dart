@@ -1,5 +1,5 @@
 import 'package:easy_vat_v2/app/core/theme/custom_text_theme.dart';
-import 'package:easy_vat_v2/app/features/main/data/home_data.dart';
+import 'package:easy_vat_v2/app/features/main/data/home_category_data.dart';
 import 'package:easy_vat_v2/app/features/main/presentation/widgets/category_item_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

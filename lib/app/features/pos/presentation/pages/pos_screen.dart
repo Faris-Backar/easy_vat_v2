@@ -4,9 +4,9 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/app_strings.dart';
-import 'package:easy_vat_v2/app/features/pos/presentation/widgets/pos_app_bar.dart';
-import 'package:easy_vat_v2/app/features/pos/presentation/widgets/transaction_card.dart';
-import 'package:easy_vat_v2/app/features/pos/presentation/widgets/transaction_slidable_widget.dart';
+import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/pos_app_bar.dart';
+import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/transaction_card.dart';
+import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/transaction_slidable_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -62,6 +62,7 @@ class _PosScreenState extends State<PosScreen> {
                   soldBy: order.soldBy,
                   netTotal: order.netTotal,
                   status: order.status,
+                  refNo: "",
                 ),
               ),
             );

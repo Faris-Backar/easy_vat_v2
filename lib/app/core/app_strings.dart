@@ -76,4 +76,13 @@ class AppStrings {
   static const String salesMode = "Sales Mode";
   static const String selectDate = "Select date";
   static const String filter = "Filter";
+  static const String addNewSales = "Add New Sales";
+  static const String addItem = "Add Item";
+  static const String scan = "Scan";
+  static const String itemName = "Item Name";
+  static const String cost = "Cost";
+  static const String itemcode = "Item Code";
+  static const String price = "Price";
+  static const String barcode = "Barcode";
+  static const String noDataIsFound = "No data is found.";
 }

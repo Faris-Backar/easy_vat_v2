@@ -1,6 +1,6 @@
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/main/data/home_data.dart';
+import 'package:easy_vat_v2/app/features/main/data/home_category_data.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:flutter/material.dart';
 

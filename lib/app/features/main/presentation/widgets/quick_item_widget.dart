@@ -4,7 +4,7 @@ import 'package:easy_vat_v2/app/features/main/presentation/widgets/category_item
 import 'package:flutter/material.dart';
 
 import 'package:easy_vat_v2/app/core/app_strings.dart';
-import 'package:easy_vat_v2/app/features/main/data/home_data.dart';
+import 'package:easy_vat_v2/app/features/main/data/home_category_data.dart';
 
 class QuickItemWidget extends StatelessWidget {
   const QuickItemWidget({

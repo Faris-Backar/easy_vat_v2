@@ -12,6 +12,7 @@ class TransactionCard extends StatelessWidget {
   final String soldBy;
   final double netTotal;
   final String status;
+  final String refNo;
 
   const TransactionCard({
     super.key,
@@ -21,6 +22,7 @@ class TransactionCard extends StatelessWidget {
     required this.soldBy,
     required this.netTotal,
     required this.status,
+    required this.refNo,
   });
 
   @override
@@ -44,7 +46,7 @@ class TransactionCard extends StatelessWidget {
         _buildCell(context, AppStrings.customer, customerName, darkGreyColor,
             greyColor),
         _buildThreeColumnRow(
-            context, AppStrings.refNo, "refNo", AppStrings.netTotal, ""),
+            context, AppStrings.refNo, refNo, AppStrings.netTotal, ""),
         _buildThreeColumnRow(
             context, AppStrings.soldBy, soldBy, "", "\$ $netTotal"),
         _buildFooter(context),

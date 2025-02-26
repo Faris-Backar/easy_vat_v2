@@ -17,7 +17,7 @@ class HomeCategoryData {
         label: AppStrings.salesInvoice,
         icon: Assets.icons.sales,
         darkIcon: Assets.icons.dark.salesInoviceDark,
-        pagePath: ""),
+        pagePath: AppRouter.salesInvoice),
     HomeDataModel(
         category: AppStrings.purchaseInvoice,
         label: AppStrings.purchaseInvoice,
@@ -218,7 +218,7 @@ class HomeCategoryData {
         label: AppStrings.salesInvoice,
         icon: Assets.icons.sales,
         darkIcon: Assets.icons.dark.salesInoviceDark,
-        pagePath: ""),
+        pagePath: AppRouter.salesInvoice),
     HomeDataModel(
         category: AppStrings.accountVoucher,
         label: AppStrings.salesReturn,

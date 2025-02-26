@@ -1,0 +1,212 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'sales_invoice_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+_$SalesInvoiceModelImpl _$$SalesInvoiceModelImplFromJson(
+        Map<String, dynamic> json) =>
+    _$SalesInvoiceModelImpl(
+      status: json['status'] as bool?,
+      message: json['message'] as String?,
+      salesList: (json['salesList'] as List<dynamic>?)
+          ?.map((e) => SalesListModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$SalesInvoiceModelImplToJson(
+        _$SalesInvoiceModelImpl instance) =>
+    <String, dynamic>{
+      'status': instance.status,
+      'message': instance.message,
+      'salesList': instance.salesList,
+    };
+
+_$SalesListModelImpl _$$SalesListModelImplFromJson(Map<String, dynamic> json) =>
+    _$SalesListModelImpl(
+      saleIdpk: json['saleIdpk'] as String?,
+      saleNo: (json['saleNo'] as num?)?.toInt(),
+      saleMode: json['saleMode'] as String?,
+      crLedgerIdfk: json['crLedgerIdfk'] as String?,
+      drLedgerIdfk: json['drLedgerIdfk'] as String?,
+      custemerIdfk: json['custemerIdfk'] as String?,
+      creditAccount: json['creditAccount'] as String?,
+      debitAccount: json['debitAccount'] as String?,
+      referenceNo: json['referenceNo'] as String?,
+      saleDate: json['saleDate'] == null
+          ? null
+          : DateTime.parse(json['saleDate'] as String),
+      cashTrn: json['cashTrn'] as String?,
+      cashCustomerAddress: json['cashCustomerAddress'] as String?,
+      shippingAddress: json['shippingAddress'] as String?,
+      customerName: json['customerName'] as String?,
+      remarks: json['remarks'] as String?,
+      lpoNo: json['lpoNo'] as String?,
+      doNo: json['doNo'] as String?,
+      diningArea: json['diningArea'] as String?,
+      diningTable: json['diningTable'] as String?,
+      quotationNo: json['quotationNo'] as String?,
+      requestNo: json['requestNo'] as String?,
+      cashAmount: (json['cashAmount'] as num?)?.toDouble(),
+      creditCardAmount: (json['creditCardAmount'] as num?)?.toDouble(),
+      actualSalesDate: json['actualSalesDate'] == null
+          ? null
+          : DateTime.parse(json['actualSalesDate'] as String),
+      vehicleNo: json['vehicleNo'] as String?,
+      genaralNotes: json['genaralNotes'] as String?,
+      salesOrderNo: json['salesOrderNo'] as String?,
+      soldBy: json['soldBy'] as String?,
+      grossAmount: (json['grossAmount'] as num?)?.toDouble(),
+      tax: (json['tax'] as num?)?.toDouble(),
+      discount: (json['discount'] as num?)?.toDouble(),
+      netTotal: (json['netTotal'] as num?)?.toDouble(),
+      roundOff: (json['roundOff'] as num?)?.toDouble(),
+      amountTendered: (json['amountTendered'] as num?)?.toDouble(),
+      deliveryBoy: json['deliveryBoy'] as String?,
+      isEditable: json['isEditable'] as bool?,
+      isCanceled: json['isCanceled'] as bool?,
+      isLockVoucher: json['isLockVoucher'] as bool?,
+      createdBy: json['createdBy'] as String?,
+      createdDate: json['createdDate'] == null
+          ? null
+          : DateTime.parse(json['createdDate'] as String),
+      modifiedBy: json['modifiedBy'] as String?,
+      modifiedDate: json['modifiedDate'] == null
+          ? null
+          : DateTime.parse(json['modifiedDate'] as String),
+      rowguid: json['rowguid'] as String?,
+      isPos: json['isPos'] as bool?,
+      deliveryBoyIdpk: json['deliveryBoyIdpk'] as String?,
+      notesAndInstructions: json['notesAndInstructions'] as String?,
+      drLedgerCashAccount: json['drLedgerCashAccount'] as String?,
+      drLedgerBankAccount: json['drLedgerBankAccount'] as String?,
+      orderType: json['orderType'] as String?,
+      deliveryCharge: (json['deliveryCharge'] as num?)?.toInt(),
+      soldItems: (json['soldItems'] as List<dynamic>?)
+          ?.map((e) => SoldItemModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$$SalesListModelImplToJson(
+        _$SalesListModelImpl instance) =>
+    <String, dynamic>{
+      'saleIdpk': instance.saleIdpk,
+      'saleNo': instance.saleNo,
+      'saleMode': instance.saleMode,
+      'crLedgerIdfk': instance.crLedgerIdfk,
+      'drLedgerIdfk': instance.drLedgerIdfk,
+      'custemerIdfk': instance.custemerIdfk,
+      'creditAccount': instance.creditAccount,
+      'debitAccount': instance.debitAccount,
+      'referenceNo': instance.referenceNo,
+      'saleDate': instance.saleDate?.toIso8601String(),
+      'cashTrn': instance.cashTrn,
+      'cashCustomerAddress': instance.cashCustomerAddress,
+      'shippingAddress': instance.shippingAddress,
+      'customerName': instance.customerName,
+      'remarks': instance.remarks,
+      'lpoNo': instance.lpoNo,
+      'doNo': instance.doNo,
+      'diningArea': instance.diningArea,
+      'diningTable': instance.diningTable,
+      'quotationNo': instance.quotationNo,
+      'requestNo': instance.requestNo,
+      'cashAmount': instance.cashAmount,
+      'creditCardAmount': instance.creditCardAmount,
+      'actualSalesDate': instance.actualSalesDate?.toIso8601String(),
+      'vehicleNo': instance.vehicleNo,
+      'genaralNotes': instance.genaralNotes,
+      'salesOrderNo': instance.salesOrderNo,
+      'soldBy': instance.soldBy,
+      'grossAmount': instance.grossAmount,
+      'tax': instance.tax,
+      'discount': instance.discount,
+      'netTotal': instance.netTotal,
+      'roundOff': instance.roundOff,
+      'amountTendered': instance.amountTendered,
+      'deliveryBoy': instance.deliveryBoy,
+      'isEditable': instance.isEditable,
+      'isCanceled': instance.isCanceled,
+      'isLockVoucher': instance.isLockVoucher,
+      'createdBy': instance.createdBy,
+      'createdDate': instance.createdDate?.toIso8601String(),
+      'modifiedBy': instance.modifiedBy,
+      'modifiedDate': instance.modifiedDate?.toIso8601String(),
+      'rowguid': instance.rowguid,
+      'isPos': instance.isPos,
+      'deliveryBoyIdpk': instance.deliveryBoyIdpk,
+      'notesAndInstructions': instance.notesAndInstructions,
+      'drLedgerCashAccount': instance.drLedgerCashAccount,
+      'drLedgerBankAccount': instance.drLedgerBankAccount,
+      'orderType': instance.orderType,
+      'deliveryCharge': instance.deliveryCharge,
+      'soldItems': instance.soldItems,
+    };
+
+_$SoldItemModelImpl _$$SoldItemModelImplFromJson(Map<String, dynamic> json) =>
+    _$SoldItemModelImpl(
+      saleIdpk: json['saleIdpk'] as String?,
+      itemIdpk: json['itemIdpk'] as String?,
+      barcode: json['barcode'] as String?,
+      itemCode: json['itemCode'] as String?,
+      itemName: json['itemName'] as String?,
+      description: json['description'] as String?,
+      unit: json['unit'] as String?,
+      actualQty: (json['actualQty'] as num?)?.toInt(),
+      billedQty: (json['billedQty'] as num?)?.toInt(),
+      cost: (json['cost'] as num?)?.toInt(),
+      sellingPrice: (json['sellingPrice'] as num?)?.toInt(),
+      discount: (json['discount'] as num?)?.toInt(),
+      grossTotal: (json['grossTotal'] as num?)?.toInt(),
+      taxAmount: (json['taxAmount'] as num?)?.toInt(),
+      taxPercentage: (json['taxPercentage'] as num?)?.toInt(),
+      netTotal: (json['netTotal'] as num?)?.toInt(),
+      currentStock: (json['currentStock'] as num?)?.toInt(),
+      profit: (json['profit'] as num?)?.toInt(),
+      profitPercentage: (json['profitPercentage'] as num?)?.toInt(),
+      isSent: json['isSent'] as bool?,
+      expiryDate: json['expiryDate'] == null
+          ? null
+          : DateTime.parse(json['expiryDate'] as String),
+      storeIdfk: json['storeIdfk'] as String?,
+      projectIdpk: json['projectIdpk'] as String?,
+      quotationIdpk: json['quotationIdpk'] as String?,
+      salesOrderIdpk: json['salesOrderIdpk'] as String?,
+      deliveryNoteIdpk: json['deliveryNoteIdpk'] as String?,
+      importId: json['importId'] as String?,
+      rowguid: json['rowguid'] as String?,
+    );
+
+Map<String, dynamic> _$$SoldItemModelImplToJson(_$SoldItemModelImpl instance) =>
+    <String, dynamic>{
+      'saleIdpk': instance.saleIdpk,
+      'itemIdpk': instance.itemIdpk,
+      'barcode': instance.barcode,
+      'itemCode': instance.itemCode,
+      'itemName': instance.itemName,
+      'description': instance.description,
+      'unit': instance.unit,
+      'actualQty': instance.actualQty,
+      'billedQty': instance.billedQty,
+      'cost': instance.cost,
+      'sellingPrice': instance.sellingPrice,
+      'discount': instance.discount,
+      'grossTotal': instance.grossTotal,
+      'taxAmount': instance.taxAmount,
+      'taxPercentage': instance.taxPercentage,
+      'netTotal': instance.netTotal,
+      'currentStock': instance.currentStock,
+      'profit': instance.profit,
+      'profitPercentage': instance.profitPercentage,
+      'isSent': instance.isSent,
+      'expiryDate': instance.expiryDate?.toIso8601String(),
+      'storeIdfk': instance.storeIdfk,
+      'projectIdpk': instance.projectIdpk,
+      'quotationIdpk': instance.quotationIdpk,
+      'salesOrderIdpk': instance.salesOrderIdpk,
+      'deliveryNoteIdpk': instance.deliveryNoteIdpk,
+      'importId': instance.importId,
+      'rowguid': instance.rowguid,
+    };
