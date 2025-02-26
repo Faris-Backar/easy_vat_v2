@@ -1,7 +1,10 @@
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_notifiers.dart';
+import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
+import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
+import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +33,9 @@ class PosAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
 class _PosAppBarState extends ConsumerState<PosAppBar> {
   DateTime fromDate = DateTime.now();
   DateTime? toDate;
+  DateTime? selectedSaleDate;
+  final ValueNotifier<String?> salesModeNotifer = ValueNotifier(null);
+  final ValueNotifier<String?> soldByNotifier = ValueNotifier(null);
 
   void _updateFromDate(DateTime selectedDate) {
     setState(() {
@@ -106,58 +112,97 @@ class _PosAppBarState extends ConsumerState<PosAppBar> {
                   ),
                 ),
                 Expanded(
-                    flex: 1,
-                    child: Container(
-                        color: context.colorScheme.surfaceContainerLowest,
-                        padding: const EdgeInsets.all(5),
-                        child: FilterWidget(
-                          onTap: () => showModalBottomSheet(
-                            context: context,
-                            builder: (context) => Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 16.0, vertical: 16.0),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        AppStrings.filters,
-                                        style: context.textTheme.bodyMedium
-                                            ?.copyWith(
-                                                fontWeight: FontWeight.w700),
-                                      ),
-                                      Text(
-                                        AppStrings.clearAll,
-                                        style: context.textTheme.bodySmall
-                                            ?.copyWith(
-                                          fontWeight: FontWeight.w500,
-                                          color: context.colorScheme.primary,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 16.h,
-                                  ),
-                                  Divider(
-                                    height: 0,
-                                  ),
-                                  // Row(
-                                  //   children: [
-                                  //     Expanded(child: )
-                                  //   ],
-                                  // )
-                                ],
-                              ),
-                            ),
-                          ),
-                        ))),
+                  flex: 1,
+                  child: Container(
+                    color: context.colorScheme.surfaceContainerLowest,
+                    padding: const EdgeInsets.all(5),
+                    child: FilterWidget(
+                      onTap: () => _buildFilterBottomSheet(context),
+                    ),
+                  ),
+                ),
               ],
             ),
             const Divider(thickness: 4, height: 0),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _buildFilterBottomSheet(BuildContext context) {
+    return showModalBottomSheet(
+      backgroundColor: context.colorScheme.surfaceContainerLowest,
+      context: context,
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppStrings.filters,
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text(
+                  AppStrings.clearAll,
+                  style: context.textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: context.colorScheme.primary,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ],
+            ),
+            const Divider(),
+            SizedBox(height: 12.h),
+            Row(
+              children: [
+                Expanded(
+                  child: DatePickerTextField(
+                    label: AppStrings.salesDate,
+                    onDateSelected: (DateTime selectedDate) {
+                      selectedSaleDate = selectedDate;
+                    },
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: DropdownField(
+                    label: AppStrings.salesMode,
+                    valueNotifier: salesModeNotifer,
+                    items: ["Cash", "Card", "Online"],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 12.h),
+            Row(
+              children: [
+                Expanded(
+                  child: DropdownField(
+                    label: AppStrings.soldBy,
+                    hint: AppStrings.selectSaleMode,
+                    valueNotifier: soldByNotifier,
+                    items: ["Faris", "Salih", "Adhil"],
+                  ),
+                ),
+                SizedBox(width: 12.w),
+                const Expanded(child: SizedBox()),
+              ],
+            ),
+            SizedBox(height: 16.h),
+            SizedBox(
+              width: double.infinity,
+              child: PrimaryButton(
+                label: AppStrings.filter,
+                onPressed: () {},
+              ),
+            ),
           ],
         ),
       ),

@@ -1,8 +1,11 @@
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
-import 'package:flutter/foundation.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DropdownField extends StatelessWidget {
+  final double? height;
+  final String? hint;
   final String label;
   final ValueNotifier<String?> valueNotifier;
   final List<String> items;
@@ -10,7 +13,9 @@ class DropdownField extends StatelessWidget {
       {super.key,
       required this.label,
       required this.valueNotifier,
-      required this.items});
+      required this.items,
+      this.height,
+      this.hint});
 
   @override
   Widget build(BuildContext context) {
@@ -25,22 +30,23 @@ class DropdownField extends StatelessWidget {
           valueListenable: valueNotifier,
           builder: (context, value, child) {
             return Container(
-              height: 50,
+              height: height ?? 38.h,
               width: double.infinity,
               padding:
                   const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                border: Border.all(
-                    color: context.colorScheme.outline.withValues(alpha: 0.4)),
-              ),
+                  borderRadius: BorderRadius.circular(8.0),
+                  border: Border.all(
+                      color:
+                          context.colorScheme.outline.withValues(alpha: 0.4)),
+                  color: context.colorScheme.surfaceContainerLowest),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   icon: const Icon(Icons.keyboard_arrow_down_rounded),
                   value: value,
                   isExpanded: true,
-                  hint: Text("Select an option",
-                      style: context.textTheme.bodySmall
+                  hint: Text(hint ?? "Select an option",
+                      style: context.textTheme.bodyMedium
                           ?.copyWith(color: context.colorScheme.outline)),
                   items: items.map((String item) {
                     return DropdownMenuItem<String>(

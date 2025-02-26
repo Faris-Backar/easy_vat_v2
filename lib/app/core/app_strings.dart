@@ -85,4 +85,5 @@ class AppStrings {
   static const String price = "Price";
   static const String barcode = "Barcode";
   static const String noDataIsFound = "No data is found.";
+  static const String selectSaleMode = "Select sale mode";
 }
