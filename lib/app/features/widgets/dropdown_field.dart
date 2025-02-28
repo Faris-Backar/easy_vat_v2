@@ -9,13 +9,15 @@ class DropdownField extends StatelessWidget {
   final String label;
   final ValueNotifier<String?> valueNotifier;
   final List<String> items;
+  final double? labelAndTextFieldGap;
   const DropdownField(
       {super.key,
       required this.label,
       required this.valueNotifier,
       required this.items,
       this.height,
-      this.hint});
+      this.hint,
+      this.labelAndTextFieldGap});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class DropdownField extends StatelessWidget {
         Text(label,
             style: context.textTheme.bodyMedium
                 ?.copyWith(fontWeight: FontWeight.w500)),
-        const SizedBox(height: 5),
+        SizedBox(height: labelAndTextFieldGap ?? 5),
         ValueListenableBuilder<String?>(
           valueListenable: valueNotifier,
           builder: (context, value, child) {

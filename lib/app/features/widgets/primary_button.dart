@@ -19,13 +19,9 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        side: const BorderSide(color: Colors.black),
+        side: isOutlineButton ? BorderSide(color: Colors.black) : null,
         backgroundColor: isOutlineButton ? null : context.colorScheme.primary,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(8),
-          ),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       ),
       onPressed: onPressed,
       child: isLoading

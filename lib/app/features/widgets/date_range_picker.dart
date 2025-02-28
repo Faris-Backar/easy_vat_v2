@@ -58,7 +58,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
   Widget build(BuildContext context) {
     return Container(
       height: 54.h,
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      // padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       color: context.colorScheme.surfaceContainerLowest,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -47,41 +47,49 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
   Widget build(BuildContext context) {
     final salesInvoiceState = ref.watch(salesInvoiceNotifierProvider);
     return Scaffold(
-      appBar: PosAppBar(searchController: _searchTextController),
+      appBar: SalesInvoiceAppBar(searchController: _searchTextController),
       backgroundColor: context.colorScheme.surfaceContainerLowest,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         child: salesInvoiceState.maybeWhen(
-          success: (salesInvoiceData) => ListView.builder(
-            itemCount: salesInvoiceData.salesList?.length ?? 0,
-            itemBuilder: (context, index) {
-              final salesInvoice = salesInvoiceData.salesList?[index];
-              if (salesInvoiceData.salesList?.isEmpty == true) {
-                return Center(
-                  child: Text(AppStrings.noDataIsFound),
-                );
-              }
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 16.0),
-                child: Slidable(
-                  endActionPane: const ActionPane(
-                    extentRatio: .15,
-                    motion: ScrollMotion(),
-                    children: [TransactionSlidableActionWidget()],
-                  ),
-                  child: TransactionCard(
-                    salesOrderNumber: salesInvoice?.salesOrderNo ?? "",
-                    salesDate: salesInvoice?.saleDate ?? DateTime.now(),
-                    customerName: salesInvoice?.customerName ?? "",
-                    soldBy: salesInvoice?.soldBy ?? "",
-                    netTotal: salesInvoice?.netTotal ?? 0.0,
-                    refNo: salesInvoice?.referenceNo ?? "",
-                    status: "Unpaid",
-                  ),
-                ),
+          success: (salesInvoiceData) {
+            if (salesInvoiceData.salesList?.isEmpty == true) {
+              return Center(
+                child: Text(AppStrings.noDataIsFound),
               );
-            },
-          ),
+            }
+            return ListView.builder(
+              itemCount: salesInvoiceData.salesList?.length ?? 0,
+              itemBuilder: (context, index) {
+                final salesInvoice = salesInvoiceData.salesList?[index];
+
+                if (salesInvoiceData.salesList?.isEmpty == true) {
+                  return Center(
+                    child: Text(AppStrings.noDataIsFound),
+                  );
+                }
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Slidable(
+                    endActionPane: const ActionPane(
+                      extentRatio: .15,
+                      motion: ScrollMotion(),
+                      children: [TransactionSlidableActionWidget()],
+                    ),
+                    child: TransactionCard(
+                      salesOrderNumber: salesInvoice?.salesOrderNo ?? "",
+                      salesDate: salesInvoice?.saleDate ?? DateTime.now(),
+                      customerName: salesInvoice?.customerName ?? "",
+                      soldBy: salesInvoice?.soldBy ?? "",
+                      netTotal: salesInvoice?.netTotal ?? 0.0,
+                      refNo: salesInvoice?.referenceNo ?? "",
+                      status: "Unpaid",
+                    ),
+                  ),
+                );
+              },
+            );
+          },
           loading: () => Center(
             child: CircularProgressIndicator.adaptive(),
           ),

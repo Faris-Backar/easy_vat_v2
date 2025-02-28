@@ -39,7 +39,7 @@ class _PosScreenState extends State<PosScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PosAppBar(searchController: _searchTextController),
+      appBar: SalesInvoiceAppBar(searchController: _searchTextController),
       backgroundColor: context.colorScheme.surfaceContainerLowest,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),

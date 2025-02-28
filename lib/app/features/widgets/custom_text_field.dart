@@ -13,18 +13,25 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? textInputType;
   final int maxLines;
   final bool enabled;
-  const CustomTextField(
-      {super.key,
-      required this.label,
-      required this.controller,
-      this.suffixIcon,
-      this.passwordvisibility,
-      this.hint,
-      this.textInputAction,
-      this.validator,
-      this.textInputType,
-      this.maxLines = 1,
-      this.enabled = true});
+  final double? height;
+  final double? width;
+  final double? labelAndTextfieldGap;
+  const CustomTextField({
+    super.key,
+    required this.label,
+    required this.controller,
+    this.suffixIcon,
+    this.passwordvisibility,
+    this.hint,
+    this.textInputAction,
+    this.validator,
+    this.textInputType,
+    this.maxLines = 1,
+    this.enabled = true,
+    this.height,
+    this.width,
+    this.labelAndTextfieldGap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,25 +43,29 @@ class CustomTextField extends StatelessWidget {
           style: context.textTheme.bodyMedium
               ?.copyWith(fontWeight: FontWeight.w500),
         ),
-        const SizedBox(height: 5),
-        TextInputFormField(
-          enabled: enabled,
-          controller: controller,
-          suffixIcon: suffixIcon,
-          isPasswordVisible: passwordvisibility,
-          hintDecoration: context.textTheme.labelMedium
-              ?.copyWith(color: context.colorScheme.outline),
-          hint: hint,
-          textInputAction: textInputAction,
-          validator: validator,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          maxLines: maxLines,
-          contentPadding: maxLines != 1
-              ? EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0)
-              : null,
-          style: context.textTheme.bodyMedium
-              ?.copyWith(color: context.colorScheme.onSurface),
-          textInputType: textInputType,
+        SizedBox(height: labelAndTextfieldGap ?? 5),
+        SizedBox(
+          height: height,
+          width: width,
+          child: TextInputFormField(
+            enabled: enabled,
+            controller: controller,
+            suffixIcon: suffixIcon,
+            isPasswordVisible: passwordvisibility,
+            hintDecoration: context.textTheme.bodyMedium
+                ?.copyWith(color: context.colorScheme.outline),
+            hint: hint,
+            textInputAction: textInputAction,
+            validator: validator,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            maxLines: maxLines,
+            contentPadding: maxLines != 1
+                ? EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0)
+                : null,
+            style: context.textTheme.bodyMedium
+                ?.copyWith(color: context.colorScheme.onSurface),
+            textInputType: textInputType,
+          ),
         ),
       ],
     );

@@ -18,7 +18,7 @@ class HomeFabButton extends StatelessWidget {
           shape: BoxShape.circle,
           gradient: AutoTabsRouter.of(context).activeIndex == 2
               ? LinearGradient(
-                  colors: [context.secondaryColor, context.primaryColor],
+                  colors: [context.secondaryColor, Color(0xFF27165D)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 )

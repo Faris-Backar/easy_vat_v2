@@ -4,4 +4,5 @@ class UrlResources {
   static const String baseUrl = "https://devp.ddns.net/";
   static const String getSalesOrders = "Order/Select/SelectAll";
   static const String getSalesInvoice = "Sales/Select/BetweenDate";
+  static const String getCustomers = "Customer/Select/LoadCustomer";
 }

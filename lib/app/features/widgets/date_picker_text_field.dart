@@ -10,8 +10,17 @@ class DatePickerTextField extends StatefulWidget {
   final Function(DateTime data) onDateSelected;
   final String? label;
   final String? hint;
+  final double? height;
+  final double? width;
+  final double? labelAndTextfieldGap;
   const DatePickerTextField(
-      {super.key, required this.onDateSelected, this.label, this.hint});
+      {super.key,
+      required this.onDateSelected,
+      this.label,
+      this.hint,
+      this.height,
+      this.width,
+      this.labelAndTextfieldGap});
 
   @override
   State<DatePickerTextField> createState() => _DatePickerTextFieldState();
@@ -45,13 +54,13 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
                 ?.copyWith(fontWeight: FontWeight.w500),
           ),
         SizedBox(
-          height: 5.h,
+          height: widget.labelAndTextfieldGap ?? 5.h,
         ),
         InkWell(
           onTap: () => _pickDate(context),
           borderRadius: BorderRadius.circular(8.0),
           child: Container(
-            height: 38.h,
+            height: widget.height ?? 38.h,
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),

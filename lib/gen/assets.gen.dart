@@ -25,6 +25,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/calendar.svg
   String get calendar => 'assets/icons/calendar.svg';
 
+  /// File path: assets/icons/cart.svg
+  String get cart => 'assets/icons/cart.svg';
+
   /// File path: assets/icons/contra.svg
   String get contra => 'assets/icons/contra.svg';
 
@@ -164,6 +167,7 @@ class $AssetsIconsGen {
     barcode,
     book,
     calendar,
+    cart,
     contra,
     creditNote,
     customer,

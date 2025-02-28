@@ -8,7 +8,7 @@ abstract final class AppTheme {
   static ThemeData light = FlexThemeData.light(
     scheme: FlexScheme.blue,
     colors: FlexSchemeColor(
-      primary: Color(0xFF27165D),
+      primary: Color(0xFF4627A5),
       secondary: Color(0xFF522EC3),
       tertiary: Color(0xFF7B7687),
       primaryContainer: Color(0xFF3E3656),

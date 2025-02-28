@@ -14,7 +14,7 @@ class FilterWidget extends StatelessWidget {
       onTap: onTap,
       borderRadius: BorderRadius.circular(8.0),
       child: Container(
-        height: 38.h,
+        height: 37.h,
         width: 41.w,
         padding: const EdgeInsets.all(8.0),
         decoration: BoxDecoration(

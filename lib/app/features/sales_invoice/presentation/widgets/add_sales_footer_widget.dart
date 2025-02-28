@@ -24,7 +24,7 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 95.h,
+      height: 67.h,
       width: double.infinity,
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
@@ -39,27 +39,12 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
       ),
       child: Column(
         children: [
-          _buildTotalRow(context),
-          SizedBox(height: 10.h),
           _buildButtonsRow(context),
         ],
       ),
     );
   }
 
-  /// Builds the "Net Total" row
-  Widget _buildTotalRow(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        _styledText(context, AppStrings.netTotal,
-            isBold: true, isOutline: true),
-        _styledText(context, "\$ 0", isBold: true),
-      ],
-    );
-  }
-
-  /// Builds the action buttons row
   Widget _buildButtonsRow(BuildContext context) {
     return Row(
       children: [
@@ -71,6 +56,7 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
           () {
             showModalBottomSheet(
               context: context,
+              backgroundColor: context.colorScheme.surfaceContainerLowest,
               builder: (context) => Padding(
                 padding: const EdgeInsets.symmetric(
                     horizontal: 16.0, vertical: 16.0),
@@ -145,9 +131,10 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
         )),
         SizedBox(width: 8.w),
         Expanded(
-            child: _buildActionButton(
-                context, Assets.icons.barcode, AppStrings.scan, () {},
-                isSvg: true)),
+          child: _buildActionButton(
+              context, Assets.icons.barcode, AppStrings.scanBarCode, () {},
+              isSvg: true),
+        ),
       ],
     );
   }
@@ -163,7 +150,7 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
         children: [
           isSvg ? SvgIcon(icon: icon) : Icon(icon, size: 18),
           SizedBox(width: 6.w),
-          _styledText(context, label, isPrimary: true),
+          _styledText(context, label, isPrimary: true, isBold: true),
         ],
       ),
     );

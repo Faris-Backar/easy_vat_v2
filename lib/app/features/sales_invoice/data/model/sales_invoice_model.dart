@@ -1,15 +1,8 @@
-import 'dart:convert';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/domain/entities/sales_invoice_entity.dart';
 
 part 'sales_invoice_model.freezed.dart';
 part 'sales_invoice_model.g.dart';
-
-SalesInvoiceModel salesInvoiceModelFromJson(String str) =>
-    SalesInvoiceModel.fromJson(json.decode(str));
-
-String salesInvoiceModelToJson(SalesInvoiceModel data) =>
-    json.encode(data.toJson());
 
 @freezed
 class SalesInvoiceModel extends SalesInvoiceEntity with _$SalesInvoiceModel {

@@ -15,22 +15,23 @@ import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/filter_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 
-class PosAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
+class SalesInvoiceAppBar extends ConsumerStatefulWidget
+    implements PreferredSizeWidget {
   final TextEditingController searchController;
 
-  const PosAppBar({
+  const SalesInvoiceAppBar({
     super.key,
     required this.searchController,
   });
 
   @override
-  ConsumerState<PosAppBar> createState() => _PosAppBarState();
+  ConsumerState<SalesInvoiceAppBar> createState() => _PosAppBarState();
 
   @override
   Size get preferredSize => Size.fromHeight(110.h + kToolbarHeight);
 }
 
-class _PosAppBarState extends ConsumerState<PosAppBar> {
+class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
   DateTime fromDate = DateTime.now();
   DateTime? toDate;
   DateTime? selectedSaleDate;
@@ -69,7 +70,7 @@ class _PosAppBarState extends ConsumerState<PosAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       surfaceTintColor: context.colorScheme.onPrimary,
-      title: Text(AppStrings.pointOfSales),
+      title: Text(AppStrings.salesInvoice),
       actions: [
         PopupMenuButton<String>(
           shape: RoundedRectangleBorder(
@@ -101,27 +102,35 @@ class _PosAppBarState extends ConsumerState<PosAppBar> {
           children: [
             _buildSearchAndFilter(context),
             const Divider(height: 0),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: DateRangePicker(
-                    onFromDateSelected: _updateFromDate,
-                    onToDateSelected: _updateToDate,
-                  ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Container(
-                    color: context.colorScheme.surfaceContainerLowest,
-                    padding: const EdgeInsets.all(5),
-                    child: FilterWidget(
-                      onTap: () => _buildFilterBottomSheet(context),
+            Container(
+              color: context.colorScheme.surfaceContainerLowest,
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    flex: 5,
+                    child: DateRangePicker(
+                      onFromDateSelected: _updateFromDate,
+                      onToDateSelected: _updateToDate,
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    width: 2.w,
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                      color: context.colorScheme.surfaceContainerLowest,
+                      padding: const EdgeInsets.all(5),
+                      child: FilterWidget(
+                        onTap: () => _buildFilterBottomSheet(context),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
             const Divider(thickness: 4, height: 0),
           ],
