@@ -17,4 +17,8 @@ class CreateSalesInvoiceNotifier
   setCustomer(CustomerEntity customer) {
     state = state.copyWith(selectedCustomer: customer);
   }
+
+  clearData() {
+    state = state.copyWith(selectedCustomer: null);
+  }
 }

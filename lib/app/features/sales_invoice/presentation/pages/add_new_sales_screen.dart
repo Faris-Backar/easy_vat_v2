@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.dart';
+import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/create_sales_inovice/create_sales_invoice_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/add_new_sales_form.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/add_sales_footer_widget.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/rate_splitup_widget.dart';
@@ -9,6 +11,7 @@ import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 @RoutePage()
@@ -83,12 +86,20 @@ class _AddNewSalesScreenState extends State<AddNewSalesScreen> {
 
   AppBar _buildAppBar() {
     return AppBar(
+      leading: Consumer(builder: (context, ref, child) {
+        return IconButton(
+          onPressed: () {
+            ref.read(createSalesNotifierProvider.notifier).clearData();
+            context.back();
+          },
+          icon: Icon(Icons.adaptive.arrow_back),
+        );
+      }),
       title: Text(AppStrings.addNewSales),
       actions: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: SvgIcon(icon: Assets.icons.cart),
-        ),
+        IconButton(
+            onPressed: () => context.router.pushNamed(AppRouter.cart),
+            icon: SvgIcon(icon: Assets.icons.cart)),
       ],
     );
   }

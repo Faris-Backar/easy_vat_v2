@@ -21,6 +21,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: PosRoute.page, path: pos),
         AutoRoute(page: AddNewSalesRoute.page, path: addNewSales),
         AutoRoute(page: SalesInvoiceRoute.page, path: salesInvoice),
+        AutoRoute(page: CartRoute.page, path: cart),
       ];
 
   @override
@@ -37,6 +38,7 @@ class AppRouter extends RootStackRouter {
   static const String pos = "/pos";
   static const String addNewSales = "/add-new-sales";
   static const String salesInvoice = "/sales-invoice";
+  static const String cart = "/cart";
 }
 
 class AuthGuard extends AutoRouteGuard {

@@ -243,7 +243,10 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
         ),
         child: Column(
           children: [
-            _buildTabBar(context),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: _buildTabBar(context),
+            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -280,119 +283,29 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
       unselectedLabelColor: context.colorScheme.onSurface,
       indicatorColor: context.colorScheme.secondary,
       dividerColor: Colors.transparent,
+      indicator: UnderlineTabIndicator(
+        borderSide:
+            BorderSide(width: 2.0, color: context.colorScheme.secondary),
+      ),
       labelStyle: context.textTheme.bodySmall
           ?.copyWith(fontSize: 11, fontWeight: FontWeight.w600),
       tabAlignment: TabAlignment.fill,
       indicatorSize: TabBarIndicatorSize.label,
       labelPadding: EdgeInsets.zero,
       tabs: const [
-        Tab(text: AppStrings.info),
-        Tab(text: AppStrings.billing),
-        Tab(text: AppStrings.shipping),
+        Padding(
+          padding: EdgeInsets.all(4.0),
+          child: Text(AppStrings.info),
+        ),
+        Padding(
+          padding: EdgeInsets.all(4.0),
+          child: Text(AppStrings.billing),
+        ),
+        Padding(
+          padding: EdgeInsets.all(4.0),
+          child: Text(AppStrings.shipping),
+        )
       ],
     );
   }
 }
-
-class CustomerData {
-  final String name,
-      creditLimit,
-      creditDays,
-      status,
-      address,
-      phoneNumber,
-      outStanding;
-
-  const CustomerData({
-    required this.name,
-    required this.creditLimit,
-    required this.creditDays,
-    required this.status,
-    required this.address,
-    required this.phoneNumber,
-    required this.outStanding,
-  });
-}
-
-final List<CustomerData> dummyCustomers = [
-  const CustomerData(
-      name: "David Elson",
-      creditLimit: "1000.00",
-      creditDays: "4D",
-      status: "Overdue",
-      address: "1406 Mattson Street, Astoria, OR 97103",
-      phoneNumber: "+91 9876543210",
-      outStanding: "1000.00"),
-  const CustomerData(
-      name: "Alice Johnson",
-      creditLimit: "800.00",
-      creditDays: "5D",
-      status: "Good",
-      address: "221B Baker Street, London",
-      phoneNumber: "+44 123456789",
-      outStanding: "100.00"),
-  const CustomerData(
-      name: "John Doe",
-      creditLimit: "1500.00",
-      creditDays: "7D",
-      status: "Pending",
-      address: "742 Evergreen Terrace, Springfield",
-      phoneNumber: "+1 9876543210",
-      outStanding: "3500.00"),
-  const CustomerData(
-      name: "Emma Watson",
-      creditLimit: "500.00",
-      creditDays: "3D",
-      status: "Clear",
-      address: "12 Privet Drive, Little Whinging",
-      phoneNumber: "+44 987654321",
-      outStanding: "4500.00"),
-  const CustomerData(
-      name: "Michael Smith",
-      creditLimit: "2000.00",
-      creditDays: "10D",
-      status: "Overdue",
-      address: "1600 Pennsylvania Avenue, Washington DC",
-      phoneNumber: "+1 2024561111",
-      outStanding: "4512.00"),
-  const CustomerData(
-      name: "David Elson",
-      creditLimit: "1000.00",
-      creditDays: "4D",
-      status: "Overdue",
-      address: "1406 Mattson Street, Astoria, OR 97103",
-      phoneNumber: "+91 9876543210",
-      outStanding: "1000.00"),
-  const CustomerData(
-      name: "Alice Johnson",
-      creditLimit: "800.00",
-      creditDays: "5D",
-      status: "Good",
-      address: "221B Baker Street, London",
-      phoneNumber: "+44 123456789",
-      outStanding: "100.00"),
-  const CustomerData(
-      name: "John Doe",
-      creditLimit: "1500.00",
-      creditDays: "7D",
-      status: "Pending",
-      address: "742 Evergreen Terrace, Springfield",
-      phoneNumber: "+1 9876543210",
-      outStanding: "3500.00"),
-  const CustomerData(
-      name: "Emma Watson",
-      creditLimit: "500.00",
-      creditDays: "3D",
-      status: "Clear",
-      address: "12 Privet Drive, Little Whinging",
-      phoneNumber: "+44 987654321",
-      outStanding: "4500.00"),
-  const CustomerData(
-      name: "Michael Smith",
-      creditLimit: "2000.00",
-      creditDays: "10D",
-      status: "Overdue",
-      address: "1600 Pennsylvania Avenue, Washington DC",
-      phoneNumber: "+1 2024561111",
-      outStanding: "4512.00"),
-];

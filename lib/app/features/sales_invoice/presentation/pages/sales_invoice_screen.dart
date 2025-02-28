@@ -5,7 +5,7 @@ import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_invoice_state.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_notifiers.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/pos_app_bar.dart';
+import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/sales_invoice_app_bar.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/transaction_card.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/transaction_slidable_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';

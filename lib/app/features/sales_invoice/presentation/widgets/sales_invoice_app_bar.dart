@@ -105,7 +105,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
             Container(
               color: context.colorScheme.surfaceContainerLowest,
               padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 3.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
