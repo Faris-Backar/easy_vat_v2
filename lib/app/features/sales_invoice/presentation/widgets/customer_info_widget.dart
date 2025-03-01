@@ -3,6 +3,7 @@ import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entit
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_notifier.dart';
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_state.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/create_sales_inovice/create_sales_invoice_notifier.dart';
+import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/customer_details_card.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -61,6 +62,13 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
             prefixIcon: const Icon(Icons.search_rounded),
             hint: AppStrings.search,
             height: 36.h,
+            onChanged: (value) {
+              if (value.length > 3) {
+                ref
+                    .read(customerNotifierProvider.notifier)
+                    .searchCustomer(searchQuery: value);
+              }
+            },
           ),
           SizedBox(height: 16.h),
           if (state.status == CustomerStateStatus.success)
@@ -147,85 +155,8 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
       int index, int? expandedIndex, CustomerEntity customer) {
     final isExpanded = expandedIndex == index;
     return InkWell(
-      onTap: () => _expansionNotifier.value = isExpanded ? null : index,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        height: isExpanded ? 190.h : 89.h,
-        padding: const EdgeInsets.all(10.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12.0),
-          border: Border.all(
-            color: isExpanded
-                ? context.colorScheme.secondary
-                : context.colorScheme.outline.withValues(alpha: 0.5),
-          ),
-          color: const Color(0xFFF9F9F9),
-        ),
-        child: Column(
-          children: [
-            _buildHeaderRow(customer.ledgerName ?? "-"),
-            const SizedBox(height: 10),
-            _buildDetailsRow([
-              _buildCustomerDetail(AppStrings.outstanding,
-                  customer.openingBalance?.toStringAsFixed(2) ?? "-"),
-              _buildCustomerDetail(AppStrings.creditLimit,
-                  customer.creditLimit?.toStringAsFixed(2) ?? "0.0"),
-              _buildCustomerDetail(AppStrings.creditDays,
-                  customer.creditDays?.toString() ?? "0"),
-              _buildCustomerDetail(AppStrings.status, customer.nature ?? "-"),
-            ]),
-            if (isExpanded) ...[
-              const SizedBox(height: 12),
-              _buildDetailsRow([
-                _buildCustomerDetail(
-                    AppStrings.address, customer.billingAddress ?? "-"),
-                _buildCustomerDetail(
-                    AppStrings.phoneNumber, customer.phone ?? "-"),
-              ]),
-              const SizedBox(height: 12),
-              _buildDetailsRow([
-                _buildCustomerDetail(
-                    AppStrings.trn, customer.taxRegistrationNo ?? "-"),
-                const SizedBox.shrink(),
-              ]),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeaderRow(String name) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(name,
-            style: context.textTheme.bodyMedium
-                ?.copyWith(fontWeight: FontWeight.w600)),
-        const Icon(Icons.keyboard_arrow_down_rounded),
-      ],
-    );
-  }
-
-  Widget _buildDetailsRow(List<Widget> children) {
-    return Row(
-        children: children.map((child) => Expanded(child: child)).toList());
-  }
-
-  Widget _buildCustomerDetail(String label, String content) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label,
-            style: context.textTheme.labelSmall?.copyWith(
-                fontWeight: FontWeight.w500,
-                color: context.colorScheme.outline)),
-        const SizedBox(height: 5),
-        Text(content,
-            style: context.textTheme.bodySmall
-                ?.copyWith(fontWeight: FontWeight.w600)),
-      ],
-    );
+        onTap: () => _expansionNotifier.value = isExpanded ? null : index,
+        child: CustomerDetailsCard(isExpanded: isExpanded, customer: customer));
   }
 
   Widget _buildCustomerTabView(BuildContext context) {

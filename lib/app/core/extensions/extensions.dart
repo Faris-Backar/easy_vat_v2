@@ -1,3 +1,4 @@
+import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:flutter/material.dart';
 
 extension ThemeContext on BuildContext {
@@ -16,6 +17,7 @@ extension ThemeContext on BuildContext {
   Color get onBackgroundColor => colorScheme.onSurface;
   Color get onSurfaceColor => colorScheme.onSurface;
   Color get errorColor => colorScheme.error;
+  Color get defaultTextColor => CustomColors.getDefaultTextColor(this);
 }
 
 extension DefaultScreenPadding on BuildContext {

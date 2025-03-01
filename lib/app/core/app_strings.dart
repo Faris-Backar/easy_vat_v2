@@ -113,4 +113,13 @@ class AppStrings {
   static const String phoneNumber = "Phone Number";
   static const String addCustomer = "Add Customer";
   static const String submit = "Submit";
+  static const String cart = "Cart";
+  static const String addNewItems = "Add New Items";
+  static const String unit = "Unit";
+  static const String itemCount = "Item Count";
+  static const String addItems = "Add Items";
+  static const String delete = "Delete";
+  static const String cancel = "Cancel";
+  static const String deleteConfirmationInCart =
+      "Are you sure you want to delete this file? This action cannot be undone.";
 }

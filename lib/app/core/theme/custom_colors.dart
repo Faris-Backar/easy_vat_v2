@@ -29,4 +29,8 @@ class CustomColors {
   static Color getTransactionCardBlueColor(BuildContext context) {
     return AppUtils.isDarkMode(context) ? Color(0xFF3B3487) : Color(0xFF3B3487);
   }
+
+  static Color getDefaultTextColor(BuildContext context) {
+    return AppUtils.isDarkMode(context) ? Color(0xFFFFFFFF) : Color(0xFF101010);
+  }
 }

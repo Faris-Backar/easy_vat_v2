@@ -7,20 +7,23 @@ class PrimaryButton extends StatelessWidget {
   final bool isLoading;
   final bool isOutlineButton;
   final Widget? child;
+  final Color? bgColor;
   const PrimaryButton(
       {super.key,
       this.label = "",
       this.onPressed,
       this.isLoading = false,
       this.isOutlineButton = false,
-      this.child});
+      this.child,
+      this.bgColor});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         side: isOutlineButton ? BorderSide(color: Colors.black) : null,
-        backgroundColor: isOutlineButton ? null : context.colorScheme.primary,
+        backgroundColor:
+            isOutlineButton ? null : (bgColor ?? context.colorScheme.primary),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
       ),
       onPressed: onPressed,

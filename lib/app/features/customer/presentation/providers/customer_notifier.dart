@@ -44,4 +44,29 @@ class CustomerNotifier extends StateNotifier<CustomerState> {
           status: CustomerStateStatus.success);
     });
   }
+
+  Future<void> searchCustomer({required String searchQuery}) async {
+    if (state.customerList?.isEmpty ?? true) {
+      await getCustomer();
+    }
+    if (state.status == CustomerStateStatus.success) {
+      final customerList = state.customerList;
+      if (customerList?.isNotEmpty == true) {
+        if (searchQuery.isEmpty) {
+          state = state.copyWith(customerList: customerList);
+          return;
+        }
+
+        final customerSearchList = customerList
+            ?.where((customer) =>
+                customer.ledgerName
+                    ?.toLowerCase()
+                    .contains(searchQuery.toLowerCase()) ??
+                false)
+            .toList();
+
+        state = state.copyWith(customerList: customerSearchList);
+      }
+    }
+  }
 }

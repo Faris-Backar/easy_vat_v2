@@ -136,6 +136,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/sales_return.svg
   String get salesReturn => 'assets/icons/sales_return.svg';
 
+  /// File path: assets/icons/search.svg
+  String get search => 'assets/icons/search.svg';
+
   /// File path: assets/icons/service_job.svg
   String get serviceJob => 'assets/icons/service_job.svg';
 
@@ -203,6 +206,7 @@ class $AssetsIconsGen {
     sales,
     salesOrders,
     salesReturn,
+    search,
     serviceJob,
     settings,
     settingsSelected,

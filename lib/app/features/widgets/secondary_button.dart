@@ -6,20 +6,25 @@ class SecondaryButton extends StatelessWidget {
   final Widget? child;
   final String label;
   final VoidCallback onPressed;
+  final BorderSide? border;
+  final Color? labelColor;
   const SecondaryButton(
       {super.key,
       this.backgroundColor,
       this.child,
       required this.onPressed,
+      this.border,
+      this.labelColor,
       required this.label});
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        side: BorderSide(
-          color: context.colorScheme.primary.withValues(alpha: 0.1),
-        ),
+        side: border ??
+            BorderSide(
+              color: context.colorScheme.primary.withValues(alpha: 0.1),
+            ),
         backgroundColor: backgroundColor ?? Color(0xFFF9F9F9),
         shadowColor: Colors.transparent,
         shape: const RoundedRectangleBorder(
@@ -31,11 +36,9 @@ class SecondaryButton extends StatelessWidget {
       onPressed: onPressed,
       child: child ??
           Text(
-            "",
-            style: Theme.of(context)
-                .textTheme
-                .bodyLarge!
-                .copyWith(color: Colors.white, fontWeight: FontWeight.w500),
+            label,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: labelColor ?? Colors.white, fontWeight: FontWeight.w600),
           ),
     );
   }

@@ -31,11 +31,12 @@ class _AddNewSalesFormState extends State<AddNewSalesForm> {
       children: [
         Row(
           children: [
-            Expanded(child: CustomerInfoWidget()),
+            Expanded(flex: 4, child: CustomerInfoWidget()),
             SizedBox(
               width: 10.w,
             ),
             Expanded(
+              flex: 3,
               child: Column(
                 children: [
                   SizedBox(
