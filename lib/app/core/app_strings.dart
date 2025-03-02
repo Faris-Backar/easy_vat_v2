@@ -122,4 +122,10 @@ class AppStrings {
   static const String cancel = "Cancel";
   static const String deleteConfirmationInCart =
       "Are you sure you want to delete this file? This action cannot be undone.";
+  static const String somethingWentWrong = "Something went wrong.";
+  static const String inStock = "InStock";
+  static const String outOfStock = "Out of stock";
+  static const String addToCart = "Add to Cart";
+  static const String qty = "Qty";
+  static const String total = "Total";
 }

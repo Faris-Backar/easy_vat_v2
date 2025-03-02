@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CartState {
-  List<ItemModel>? get itemList => throw _privateConstructorUsedError;
+  List<CartEntity>? get itemList => throw _privateConstructorUsedError;
   double get totalAmount => throw _privateConstructorUsedError;
 
   /// Create a copy of CartState
@@ -31,7 +31,7 @@ abstract class $CartStateCopyWith<$Res> {
   factory $CartStateCopyWith(CartState value, $Res Function(CartState) then) =
       _$CartStateCopyWithImpl<$Res, CartState>;
   @useResult
-  $Res call({List<ItemModel>? itemList, double totalAmount});
+  $Res call({List<CartEntity>? itemList, double totalAmount});
 }
 
 /// @nodoc
@@ -56,7 +56,7 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
       itemList: freezed == itemList
           ? _value.itemList
           : itemList // ignore: cast_nullable_to_non_nullable
-              as List<ItemModel>?,
+              as List<CartEntity>?,
       totalAmount: null == totalAmount
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
@@ -73,7 +73,7 @@ abstract class _$$CartStateImplCopyWith<$Res>
       __$$CartStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<ItemModel>? itemList, double totalAmount});
+  $Res call({List<CartEntity>? itemList, double totalAmount});
 }
 
 /// @nodoc
@@ -96,7 +96,7 @@ class __$$CartStateImplCopyWithImpl<$Res>
       itemList: freezed == itemList
           ? _value._itemList
           : itemList // ignore: cast_nullable_to_non_nullable
-              as List<ItemModel>?,
+              as List<CartEntity>?,
       totalAmount: null == totalAmount
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
@@ -109,12 +109,12 @@ class __$$CartStateImplCopyWithImpl<$Res>
 
 class _$CartStateImpl implements _CartState {
   const _$CartStateImpl(
-      {final List<ItemModel>? itemList, required this.totalAmount})
+      {final List<CartEntity>? itemList, required this.totalAmount})
       : _itemList = itemList;
 
-  final List<ItemModel>? _itemList;
+  final List<CartEntity>? _itemList;
   @override
-  List<ItemModel>? get itemList {
+  List<CartEntity>? get itemList {
     final value = _itemList;
     if (value == null) return null;
     if (_itemList is EqualUnmodifiableListView) return _itemList;
@@ -155,11 +155,11 @@ class _$CartStateImpl implements _CartState {
 
 abstract class _CartState implements CartState {
   const factory _CartState(
-      {final List<ItemModel>? itemList,
+      {final List<CartEntity>? itemList,
       required final double totalAmount}) = _$CartStateImpl;
 
   @override
-  List<ItemModel>? get itemList;
+  List<CartEntity>? get itemList;
   @override
   double get totalAmount;
 

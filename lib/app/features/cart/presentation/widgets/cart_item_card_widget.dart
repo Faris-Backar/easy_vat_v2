@@ -1,14 +1,14 @@
-import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
+import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 
-class ItemDetailsCard extends StatelessWidget {
+class CartItemCardWidget extends StatelessWidget {
   final bool isExpanded;
-  final ItemEntity items;
-  const ItemDetailsCard({
+  final CartEntity items;
+  const CartItemCardWidget({
     super.key,
     required this.isExpanded,
     required this.items,
@@ -33,17 +33,18 @@ class ItemDetailsCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                items.itemName ?? "",
+                items.item.itemName ?? "",
                 style: context.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
-                items.isActive == true
+                items.item.isActive == true
                     ? AppStrings.inStock
                     : AppStrings.outOfStock,
                 style: context.textTheme.bodySmall?.copyWith(
-                  color: items.isActive == true ? Colors.green : Colors.red,
+                  color:
+                      items.item.isActive == true ? Colors.green : Colors.red,
                   fontWeight: FontWeight.w600,
                 ),
               )
@@ -59,15 +60,15 @@ class ItemDetailsCard extends StatelessWidget {
               Expanded(
                 child: _buildContents(
                   context,
-                  AppStrings.barcode,
-                  items.barcode ?? "",
+                  AppStrings.itemcode,
+                  items.item.itemCode ?? "",
                 ),
               ),
               Expanded(
                 child: _buildContents(
                   context,
-                  AppStrings.itemcode,
-                  items.itemCode ?? "",
+                  AppStrings.price,
+                  items.item.retailRate?.toStringAsFixed(2) ?? "",
                 ),
               ),
               Expanded(
@@ -75,8 +76,8 @@ class ItemDetailsCard extends StatelessWidget {
                   alignment: Alignment.center,
                   child: _buildContents(
                     context,
-                    AppStrings.cost,
-                    items.cost?.toStringAsFixed(2) ?? "0.0",
+                    AppStrings.qty,
+                    items.qty.toStringAsFixed(2),
                   ),
                 ),
               ),
@@ -85,8 +86,8 @@ class ItemDetailsCard extends StatelessWidget {
                   alignment: Alignment.center,
                   child: _buildContents(
                     context,
-                    AppStrings.price,
-                    items.retailRate?.toStringAsFixed(2) ?? "0.0",
+                    AppStrings.total,
+                    items.total.toStringAsFixed(2),
                   ),
                 ),
               ),
@@ -96,7 +97,7 @@ class ItemDetailsCard extends StatelessWidget {
                   child: _buildContents(
                     context,
                     AppStrings.unit,
-                    items.unit ?? "",
+                    items.item.unit ?? "",
                   ),
                 ),
               ),
@@ -109,8 +110,8 @@ class ItemDetailsCard extends StatelessWidget {
 
   Widget _buildContents(BuildContext context, String label, String content) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Text(
           label,

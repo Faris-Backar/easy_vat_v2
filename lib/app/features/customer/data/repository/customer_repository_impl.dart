@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 
@@ -20,20 +18,15 @@ class CustomerRepositoryImpl extends CustomerRepository {
     try {
       final response = await dio.get(UrlResources.getCustomers);
       if (response.statusCode == 200) {
-        log("here 1");
         List<CustomerModel> customersList = (response.data as List)
             .map((json) => CustomerModel.fromJson(json))
             .toList();
-        log("here 2 => $customersList");
         return Right(customersList);
       }
-      log("here 3");
       return Left(ServerFailure(message: "Something went wrong."));
     } on DioException catch (e) {
-      log("here 4");
       return Left(ServerFailure(message: e.response?.data ?? e.error ?? ""));
     } catch (e) {
-      log("here 5");
       return Left(
         ServerFailure(message: e.toString()),
       );
