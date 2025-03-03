@@ -34,7 +34,7 @@ class _AddNewSalesScreenState extends State<AddNewSalesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(),
-      backgroundColor: context.colorScheme.surfaceContainerLowest,
+      backgroundColor: context.surfaceColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: SingleChildScrollView(
@@ -56,8 +56,12 @@ class _AddNewSalesScreenState extends State<AddNewSalesScreen> {
                 height: 16,
               ),
               Align(
-                  alignment: Alignment.centerRight,
-                  child: SizedBox(width: 0.5.sw, child: RateSplitupWidget())),
+                alignment: Alignment.centerRight,
+                child: SizedBox(
+                  width: 0.5.sw,
+                  child: RateSplitupWidget(),
+                ),
+              ),
               SizedBox(
                 height: 16,
               ),

@@ -1,6 +1,7 @@
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/core/utils/date_format_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -167,14 +168,18 @@ class TransactionCard extends StatelessWidget {
           bottomLeft: Radius.circular(12.r),
           bottomRight: Radius.circular(12.r),
         ),
-        color: footerColor.withAlpha(50),
+        color: AppUtils.isDarkMode(context)
+            ? footerColor
+            : footerColor.withAlpha(50),
       ),
       alignment: Alignment.center,
       child: Text(
         status,
         style: context.textTheme.bodySmall?.copyWith(
           fontWeight: FontWeight.w600,
-          color: footerColor,
+          color: AppUtils.isDarkMode(context)
+              ? context.onPrimaryColor
+              : footerColor,
         ),
       ),
     );

@@ -64,7 +64,7 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
-              color: context.colorScheme.surfaceContainerLowest,
+              color: context.surfaceColor,
               border: Border.all(
                 color: context.colorScheme.outline.withValues(alpha: 0.5),
               ),

@@ -1,4 +1,5 @@
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/core/utils/date_format_utils.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
@@ -59,37 +60,43 @@ class _DateRangePickerState extends State<DateRangePicker> {
     return Container(
       height: 54.h,
       // padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-      color: context.colorScheme.surfaceContainerLowest,
+      color: AppUtils.isDarkMode(context)
+          ? Theme.of(context).scaffoldBackgroundColor
+          : context.colorScheme.surfaceContainerLowest,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: InkWell(
-              onTap: () => _pickFromDate(context),
-              borderRadius: BorderRadius.circular(8.0),
-              child: Container(
-                padding: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: context.colorScheme.surfaceContainerLowest,
-                  border: Border.all(
-                    color: context.colorScheme.outline.withValues(alpha: 0.5),
+          InkWell(
+            onTap: () => _pickFromDate(context),
+            borderRadius: BorderRadius.circular(8.0),
+            child: Container(
+              height: 36.h,
+              width: 131.w,
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                color: context.colorScheme.surfaceBright,
+                border: Border.all(
+                  color: context.colorScheme.outline.withValues(alpha: 0.5),
+                ),
+              ),
+              child: Row(
+                children: [
+                  SvgIcon(
+                    icon: Assets.icons.calendar,
+                    color: AppUtils.isDarkMode(context) ? Colors.white : null,
                   ),
-                ),
-                child: Row(
-                  children: [
-                    SvgIcon(icon: Assets.icons.calendar),
-                    SizedBox(
-                      width: 6.w,
-                    ),
-                    ValueListenableBuilder(
-                        valueListenable: _selectedFromDate,
-                        builder: (context, DateTime fromDate, child) {
-                          return Text(
-                              DateFormatUtils.getDateOnly(date: fromDate));
-                        }),
-                  ],
-                ),
+                  SizedBox(
+                    width: 6.w,
+                  ),
+                  ValueListenableBuilder(
+                      valueListenable: _selectedFromDate,
+                      builder: (context, DateTime fromDate, child) {
+                        return Text(
+                          DateFormatUtils.getDateOnly(date: fromDate),
+                        );
+                      }),
+                ],
               ),
             ),
           ),
@@ -100,33 +107,35 @@ class _DateRangePickerState extends State<DateRangePicker> {
           SizedBox(
             width: 5.w,
           ),
-          Expanded(
-            child: InkWell(
-              onTap: () => _pickToDate(context),
-              borderRadius: BorderRadius.circular(8.0),
-              child: Container(
-                padding: const EdgeInsets.all(10.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: context.colorScheme.surfaceContainerLowest,
-                  border: Border.all(
-                    color: context.colorScheme.outline.withValues(alpha: 0.5),
+          InkWell(
+            onTap: () => _pickToDate(context),
+            borderRadius: BorderRadius.circular(8.0),
+            child: Container(
+              height: 36.h,
+              width: 131.w,
+              padding: const EdgeInsets.all(10.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.0),
+                color: context.colorScheme.surfaceBright,
+                border: Border.all(
+                  color: context.colorScheme.outline.withValues(alpha: 0.5),
+                ),
+              ),
+              child: Row(
+                children: [
+                  SvgIcon(
+                    icon: Assets.icons.calendar,
+                    color: AppUtils.isDarkMode(context) ? Colors.white : null,
                   ),
-                ),
-                child: Row(
-                  children: [
-                    SvgIcon(icon: Assets.icons.calendar),
-                    SizedBox(
-                      width: 6.w,
-                    ),
-                    ValueListenableBuilder(
-                        valueListenable: _selectedToDate,
-                        builder: (context, DateTime toDate, child) {
-                          return Text(
-                              DateFormatUtils.getDateOnly(date: toDate));
-                        }),
-                  ],
-                ),
+                  SizedBox(
+                    width: 6.w,
+                  ),
+                  ValueListenableBuilder(
+                      valueListenable: _selectedToDate,
+                      builder: (context, DateTime toDate, child) {
+                        return Text(DateFormatUtils.getDateOnly(date: toDate));
+                      }),
+                ],
               ),
             ),
           ),

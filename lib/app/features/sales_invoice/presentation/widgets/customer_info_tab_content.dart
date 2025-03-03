@@ -1,5 +1,6 @@
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,25 +10,48 @@ class CustomerInfoTabContent extends StatelessWidget {
   final String creditDays;
   final String creditLimit;
   final String trn;
+  final bool isActive;
   const CustomerInfoTabContent(
       {super.key,
       required this.customerName,
       required this.outstandingAmount,
       required this.creditDays,
       required this.creditLimit,
-      required this.trn});
+      required this.trn,
+      this.isActive = true});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          AppStrings.customer,
-          style: context.textTheme.bodyMedium?.copyWith(
-            fontWeight: FontWeight.w500,
-            color: context.colorScheme.outline,
-          ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              AppStrings.customer,
+              style: context.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+                color: context.colorScheme.outline,
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(25.0),
+                  color: isActive
+                      ? CustomColors.activeGreenColor(context)
+                      : CustomColors.inActiveRedColor(context)),
+              child: Text(
+                isActive ? AppStrings.active : AppStrings.overdue,
+                style: context.textTheme.bodySmall?.copyWith(
+                  fontSize: 10.0,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
         ),
         SizedBox(
           height: 40.h,

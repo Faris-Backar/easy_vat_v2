@@ -128,4 +128,6 @@ class AppStrings {
   static const String addToCart = "Add to Cart";
   static const String qty = "Qty";
   static const String total = "Total";
+  static const String active = "Active";
+  static const String overdue = "Overdue";
 }

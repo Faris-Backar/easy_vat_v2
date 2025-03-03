@@ -1,4 +1,5 @@
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class FilterWidget extends StatelessWidget {
           height: 24,
           width: 24,
           icon: Assets.icons.filter,
+          color: AppUtils.isDarkMode(context) ? Colors.white : null,
         ),
       ),
     );

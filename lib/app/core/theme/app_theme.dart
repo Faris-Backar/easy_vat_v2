@@ -41,11 +41,13 @@ abstract final class AppTheme {
   static ThemeData dark = FlexThemeData.dark(
     scheme: FlexScheme.blue,
     colors: FlexSchemeColor(
-        primary: Color(0xFF27165D),
-        secondary: Color(0xFF522EC3),
-        primaryContainer: Color(0xFFFFFFFF),
-        tertiaryContainer: Color(0xFF242425),
-        secondaryContainer: Color(0xFF5C5C5C)),
+      primary: Color(0xFF27165D),
+      secondary: Color(0xFF522EC3),
+      tertiary: Color(0xFF3C4249),
+      primaryContainer: Color(0xFFFFFFFF),
+      tertiaryContainer: Color(0xFF242425),
+      secondaryContainer: Color(0xFF5C5C5C),
+    ),
     subThemesData: const FlexSubThemesData(
       interactionEffects: true,
       tintedDisabledControls: true,
@@ -56,6 +58,11 @@ abstract final class AppTheme {
       alignedDropdown: true,
       navigationRailUseIndicator: true,
       navigationRailLabelType: NavigationRailLabelType.all,
+      appBarTitleTextStyle: TextStyle(
+        color: Color(0xFFFFFFFF),
+        fontSize: 16,
+        fontWeight: FontWeight.w700,
+      ),
     ),
     fontFamily: FontFamily.inter,
     scaffoldBackground: Color(0xFF161616),

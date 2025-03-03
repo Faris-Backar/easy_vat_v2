@@ -11,7 +11,7 @@ extension ThemeContext on BuildContext {
   Color get primaryColor => colorScheme.primary;
   Color get secondaryColor => colorScheme.secondary;
   Color get backgroundColor => colorScheme.surface;
-  Color get surfaceColor => colorScheme.surface;
+  Color get surfaceColor => CustomColors.getSurfaceLowestColor(this);
   Color get onPrimaryColor => colorScheme.onPrimary;
   Color get onSecondaryColor => colorScheme.onSecondary;
   Color get onBackgroundColor => colorScheme.onSurface;

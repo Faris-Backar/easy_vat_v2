@@ -1,4 +1,5 @@
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_notifiers.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
@@ -32,7 +33,7 @@ class SalesInvoiceAppBar extends ConsumerStatefulWidget
 }
 
 class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
-  DateTime fromDate = DateTime.now();
+  DateTime? fromDate;
   DateTime? toDate;
   DateTime? selectedSaleDate;
   final ValueNotifier<String?> salesModeNotifer = ValueNotifier(null);
@@ -42,21 +43,19 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
     setState(() {
       fromDate = selectedDate;
     });
-    _fetchSalesInvoice();
   }
 
   void _updateToDate(DateTime selectedDate) {
     setState(() {
       toDate = selectedDate;
     });
-    _fetchSalesInvoice();
   }
 
   void _fetchSalesInvoice() {
-    if (toDate != null) {
+    if (fromDate != null && toDate != null) {
       final params = SalesInvoiceParams(
         salesIDPK: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        fromDate: fromDate,
+        fromDate: fromDate!,
         toDate: toDate!,
         customerID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
       );
@@ -103,9 +102,11 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
             _buildSearchAndFilter(context),
             const Divider(height: 0),
             Container(
-              color: context.colorScheme.surfaceContainerLowest,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 3.0),
+              color: AppUtils.isDarkMode(context)
+                  ? Theme.of(context).scaffoldBackgroundColor
+                  : context.colorScheme.surfaceContainerLowest,
+              padding: const EdgeInsets.only(
+                  left: 16.0, top: 3.0, bottom: 3.0, right: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -117,15 +118,31 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
                     ),
                   ),
                   SizedBox(
-                    width: 2.w,
+                    width: 10.w,
                   ),
-                  Expanded(
-                    flex: 1,
+                  InkWell(
+                    onTap: () {
+                      _fetchSalesInvoice();
+                    },
                     child: Container(
-                      color: context.colorScheme.surfaceContainerLowest,
-                      padding: const EdgeInsets.all(5),
-                      child: FilterWidget(
-                        onTap: () => _buildFilterBottomSheet(context),
+                      height: 36.h,
+                      width: 41.w,
+                      decoration: BoxDecoration(
+                          color: AppUtils.isDarkMode(context)
+                              ? context.colorScheme.surfaceBright
+                              : context.colorScheme.surfaceContainerLowest,
+                          border: Border.all(
+                            color: context.colorScheme.outline.withValues(
+                              alpha: 0.5,
+                            ),
+                          ),
+                          borderRadius: BorderRadius.circular(10)),
+                      padding: const EdgeInsets.all(10),
+                      child: SvgIcon(
+                        icon: Assets.icons.search,
+                        color: AppUtils.isDarkMode(context)
+                            ? context.onPrimaryColor
+                            : null,
                       ),
                     ),
                   ),
@@ -141,7 +158,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
 
   _buildFilterBottomSheet(BuildContext context) {
     return showModalBottomSheet(
-      backgroundColor: context.colorScheme.surfaceContainerLowest,
+      backgroundColor: context.colorScheme.tertiaryContainer,
       context: context,
       builder: (context) => Padding(
         padding: const EdgeInsets.all(16.0),
@@ -161,7 +178,9 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
                   AppStrings.clearAll,
                   style: context.textTheme.bodySmall?.copyWith(
                     fontWeight: FontWeight.w500,
-                    color: context.colorScheme.primary,
+                    color: AppUtils.isDarkMode(context)
+                        ? Color(0xFF8B62F1)
+                        : context.colorScheme.primary,
                     decoration: TextDecoration.underline,
                   ),
                 ),
@@ -229,20 +248,52 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
   }
 
   Widget _buildSearchAndFilter(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-      child: TextInputFormField(
-        controller: widget.searchController,
-        prefixIcon: const Icon(Icons.search_rounded),
-        hint: AppStrings.search,
-        suffixIcon: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: InkWell(
-            onTap: () {},
-            child: SvgIcon(icon: Assets.icons.barcode),
+    return Row(
+      children: [
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.only(
+                left: 16.0, top: 16.0, bottom: 16.0, right: 8.0),
+            child: TextInputFormField(
+              height: 36.h,
+              controller: widget.searchController,
+              fillColor: AppUtils.isDarkMode(context)
+                  ? context.colorScheme.surfaceBright
+                  : null,
+              prefixIcon: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: SvgIcon(
+                    icon: Assets.icons.search,
+                    color: AppUtils.isDarkMode(context)
+                        ? context.colorScheme.onPrimary
+                        : null),
+              ),
+              hint: AppStrings.search,
+              hintDecoration: context.textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: context.defaultTextColor.withValues(alpha: .32)),
+              suffixIcon: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: InkWell(
+                  onTap: () {},
+                  child: SvgIcon(
+                      icon: Assets.icons.barcode,
+                      color: AppUtils.isDarkMode(context)
+                          ? context.colorScheme.onPrimary
+                          : null),
+                ),
+              ),
+            ),
           ),
         ),
-      ),
+        Container(
+          color: context.colorScheme.surfaceContainer,
+          padding: const EdgeInsets.all(5),
+          child: FilterWidget(
+            onTap: () => _buildFilterBottomSheet(context),
+          ),
+        ),
+      ],
     );
   }
 }

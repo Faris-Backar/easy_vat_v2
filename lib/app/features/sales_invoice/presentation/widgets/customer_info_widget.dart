@@ -175,7 +175,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              padding: const EdgeInsets.all(8.0),
               child: _buildTabBar(context),
             ),
             Expanded(
@@ -184,16 +184,18 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                 child: TabBarView(
                   children: [
                     CustomerInfoTabContent(
-                        creditDays:
-                            selectedCustomer?.creditDays?.toString() ?? "0",
-                        creditLimit:
-                            selectedCustomer?.creditLimit?.toStringAsFixed(2) ??
-                                "0.0",
-                        customerName: selectedCustomer?.ledgerName ?? "",
-                        outstandingAmount:
-                            selectedCustomer?.creditLimit?.toStringAsFixed(2) ??
-                                "0.0",
-                        trn: selectedCustomer?.taxRegistrationNo ?? ""),
+                      creditDays:
+                          selectedCustomer?.creditDays?.toString() ?? "0",
+                      creditLimit:
+                          selectedCustomer?.creditLimit?.toStringAsFixed(2) ??
+                              "0.0",
+                      customerName: selectedCustomer?.ledgerName ?? "",
+                      outstandingAmount:
+                          selectedCustomer?.creditLimit?.toStringAsFixed(2) ??
+                              "0.0",
+                      trn: selectedCustomer?.taxRegistrationNo ?? "",
+                      isActive: selectedCustomer?.isActive ?? false,
+                    ),
                     CustomerAddressInfo(
                         address: selectedCustomer?.billingAddress ?? "-"),
                     CustomerAddressInfo(
@@ -214,6 +216,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
       unselectedLabelColor: context.colorScheme.onSurface,
       indicatorColor: context.colorScheme.secondary,
       dividerColor: Colors.transparent,
+      padding: EdgeInsets.zero,
       indicator: UnderlineTabIndicator(
         borderSide:
             BorderSide(width: 2.0, color: context.colorScheme.secondary),

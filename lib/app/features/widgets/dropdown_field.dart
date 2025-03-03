@@ -41,7 +41,7 @@ class DropdownField extends StatelessWidget {
                   border: Border.all(
                       color:
                           context.colorScheme.outline.withValues(alpha: 0.4)),
-                  color: context.colorScheme.surfaceContainerLowest),
+                  color: context.surfaceColor),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   icon: const Icon(Icons.keyboard_arrow_down_rounded),
