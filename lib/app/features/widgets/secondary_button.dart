@@ -1,4 +1,5 @@
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 
 class SecondaryButton extends StatelessWidget {
@@ -25,7 +26,10 @@ class SecondaryButton extends StatelessWidget {
             BorderSide(
               color: context.colorScheme.primary.withValues(alpha: 0.1),
             ),
-        backgroundColor: backgroundColor ?? Color(0xFFF9F9F9),
+        backgroundColor: backgroundColor ??
+            (AppUtils.isDarkMode(context)
+                ? Color(0xFF414141)
+                : Color(0xFFF9F9F9)),
         shadowColor: Colors.transparent,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.all(

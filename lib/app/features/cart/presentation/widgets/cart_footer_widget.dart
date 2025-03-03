@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/item_details_card.dart';
@@ -42,15 +43,17 @@ class _CartFooterWidgetState extends ConsumerState<CartFooterWidget> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.add_circle_outline_rounded,
-                  color: context.colorScheme.surfaceContainerLowest,
-                  size: 18.sp),
+              Icon(
+                Icons.add_circle_outline_rounded,
+                color: context.onPrimaryColor,
+                size: 18.sp,
+              ),
               SizedBox(width: 3.w),
               Text(
                 AppStrings.addItem,
                 style: context.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w600,
-                  color: context.colorScheme.surfaceContainerLowest,
+                  color: context.onPrimaryColor,
                 ),
               ),
             ],
@@ -65,7 +68,9 @@ class _CartFooterWidgetState extends ConsumerState<CartFooterWidget> {
       context: context,
       isScrollControlled: true,
       useSafeArea: true,
-      backgroundColor: context.colorScheme.surfaceContainerLowest,
+      backgroundColor: AppUtils.isDarkMode(context)
+          ? context.colorScheme.tertiaryContainer
+          : context.colorScheme.surfaceContainerLowest,
       builder: (context) => Consumer(
         builder: (context, ref, child) {
           final state = ref.watch(itemProvider);
@@ -101,6 +106,7 @@ class _CartFooterWidgetState extends ConsumerState<CartFooterWidget> {
   Widget _buildSearchField() {
     return TextInputFormField(
       controller: _searchController,
+      fillColor: AppUtils.isDarkMode(context) ? context.surfaceColor : null,
       onChanged: (value) {
         if (value.isEmpty) {
           ref.read(itemProvider.notifier).fetchItems();
@@ -120,7 +126,10 @@ class _CartFooterWidgetState extends ConsumerState<CartFooterWidget> {
             const VerticalDivider(width: 0, endIndent: 5, indent: 5),
             Padding(
               padding: const EdgeInsets.all(10.0),
-              child: SvgIcon(icon: Assets.icons.barcode),
+              child: SvgIcon(
+                icon: Assets.icons.barcode,
+                color: context.defaultTextColor,
+              ),
             ),
           ],
         ),

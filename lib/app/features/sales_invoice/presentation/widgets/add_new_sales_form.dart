@@ -1,5 +1,6 @@
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/customer_info_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
@@ -55,14 +56,21 @@ class _AddNewSalesFormState extends State<AddNewSalesForm> {
                     label: AppStrings.date,
                     onDateSelected: (data) {},
                     labelAndTextfieldGap: 2,
+                    backgroundColor: AppUtils.isDarkMode(context)
+                        ? context.colorScheme.tertiaryContainer
+                        : null,
                   ),
                   SizedBox(
                     height: 5,
                   ),
                   DropdownField(
-                      label: AppStrings.salesMode,
-                      valueNotifier: widget.salesModeNotifier,
-                      items: ["item 1", "Item 2"])
+                    label: AppStrings.salesMode,
+                    valueNotifier: widget.salesModeNotifier,
+                    items: ["item 1", "Item 2"],
+                    backgroundColor: AppUtils.isDarkMode(context)
+                        ? context.colorScheme.tertiaryContainer
+                        : context.surfaceColor,
+                  ),
                 ],
               ),
             ),
@@ -92,6 +100,9 @@ class _AddNewSalesFormState extends State<AddNewSalesForm> {
                 label: AppStrings.salesMode,
                 valueNotifier: widget.soldByNotifier,
                 items: ["item 1", "Item 2"],
+                backgroundColor: AppUtils.isDarkMode(context)
+                    ? context.colorScheme.tertiaryContainer
+                    : context.surfaceColor,
               ),
             ),
           ],
@@ -152,7 +163,9 @@ class _AddNewSalesFormState extends State<AddNewSalesForm> {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4.0),
-                  color: context.colorScheme.secondary.withValues(alpha: 0.2),
+                  color: AppUtils.isDarkMode(context)
+                      ? context.colorScheme.tertiaryContainer
+                      : context.colorScheme.secondary.withValues(alpha: 0.2),
                 ),
                 padding: const EdgeInsets.all(5.0),
                 child: Row(

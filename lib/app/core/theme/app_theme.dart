@@ -37,11 +37,12 @@ abstract final class AppTheme {
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),
   );
+
   // The defined dark theme.
   static ThemeData dark = FlexThemeData.dark(
     scheme: FlexScheme.blue,
     colors: FlexSchemeColor(
-      primary: Color(0xFF27165D),
+      primary: Color(0xFF4627A5),
       secondary: Color(0xFF522EC3),
       tertiary: Color(0xFF3C4249),
       primaryContainer: Color(0xFFFFFFFF),
@@ -67,6 +68,7 @@ abstract final class AppTheme {
     fontFamily: FontFamily.inter,
     scaffoldBackground: Color(0xFF161616),
     appBarStyle: FlexAppBarStyle.scaffoldBackground,
+    appBarBackground: Color(0xFF242425),
     applyElevationOverlayColor: false,
     visualDensity: FlexColorScheme.comfortablePlatformDensity,
     cupertinoOverrideTheme: const CupertinoThemeData(applyThemeToAll: true),

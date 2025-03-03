@@ -1,10 +1,14 @@
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
+import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddSalesFooterWidget extends StatefulWidget {
@@ -23,26 +27,46 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 67.h,
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-      decoration: BoxDecoration(
-        color: context.colorScheme.surfaceContainerLowest,
-        boxShadow: [
-          BoxShadow(
-            color: context.colorScheme.shadow.withValues(alpha: 0.5),
-            blurRadius: 1,
-            blurStyle: BlurStyle.outer,
-          ),
-        ],
-      ),
-      child: Column(
-        children: [
-          _buildButtonsRow(context),
-        ],
-      ),
-    );
+    return Consumer(builder: (context, ref, child) {
+      final isCartNotEmpty =
+          (ref.watch(cartProvider).itemList?.length ?? 0) > 0;
+      return AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        height: isCartNotEmpty ? 107.h : 67.h,
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+        decoration: BoxDecoration(
+          color: AppUtils.isDarkMode(context)
+              ? context.colorScheme.tertiaryContainer
+              : context.surfaceColor,
+          boxShadow: [
+            BoxShadow(
+              color: context.colorScheme.shadow.withValues(alpha: 0.5),
+              blurRadius: 1,
+              blurStyle: BlurStyle.outer,
+            ),
+          ],
+        ),
+        child: Column(
+          children: [
+            _buildButtonsRow(context),
+            if (isCartNotEmpty) ...[
+              SizedBox(
+                height: 6,
+              ),
+              SizedBox(
+                width: double.infinity,
+                height: 40.h,
+                child: PrimaryButton(
+                  label: AppStrings.save,
+                  onPressed: () {},
+                ),
+              )
+            ],
+          ],
+        ),
+      );
+    });
   }
 
   Widget _buildButtonsRow(BuildContext context) {
@@ -148,7 +172,19 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          isSvg ? SvgIcon(icon: icon) : Icon(icon, size: 18),
+          isSvg
+              ? SvgIcon(
+                  icon: icon,
+                  color: (AppUtils.isDarkMode(context)
+                      ? context.defaultTextColor
+                      : context.colorScheme.primary))
+              : Icon(
+                  icon,
+                  size: 18,
+                  color: (AppUtils.isDarkMode(context)
+                      ? context.defaultTextColor
+                      : context.colorScheme.primary),
+                ),
           SizedBox(width: 6.w),
           _styledText(context, label, isPrimary: true, isBold: true),
         ],
@@ -164,7 +200,11 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
         fontWeight: isBold ? FontWeight.w600 : FontWeight.w500,
         color: isOutline
             ? context.colorScheme.outline
-            : (isPrimary ? context.colorScheme.primary : null),
+            : (isPrimary
+                ? (AppUtils.isDarkMode(context)
+                    ? context.defaultTextColor
+                    : context.colorScheme.primary)
+                : null),
       ),
     );
   }

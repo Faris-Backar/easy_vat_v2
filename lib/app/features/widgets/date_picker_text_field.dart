@@ -13,6 +13,7 @@ class DatePickerTextField extends StatefulWidget {
   final double? height;
   final double? width;
   final double? labelAndTextfieldGap;
+  final Color? backgroundColor;
   const DatePickerTextField(
       {super.key,
       required this.onDateSelected,
@@ -20,7 +21,8 @@ class DatePickerTextField extends StatefulWidget {
       this.hint,
       this.height,
       this.width,
-      this.labelAndTextfieldGap});
+      this.labelAndTextfieldGap,
+      this.backgroundColor});
 
   @override
   State<DatePickerTextField> createState() => _DatePickerTextFieldState();
@@ -64,7 +66,7 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
             padding: const EdgeInsets.all(10.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.0),
-              color: context.surfaceColor,
+              color: widget.backgroundColor ?? context.surfaceColor,
               border: Border.all(
                 color: context.colorScheme.outline.withValues(alpha: 0.5),
               ),

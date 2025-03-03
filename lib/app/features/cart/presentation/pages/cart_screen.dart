@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
-import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/cart_app_bar.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/cart_footer_widget.dart';
@@ -22,9 +21,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(cartProvider);
     return Scaffold(
-      backgroundColor: AppUtils.isDarkMode(context)
-          ? context.colorScheme.surfaceContainerLowest
-          : null,
+      backgroundColor: context.surfaceColor,
       appBar: CartAppBar(),
       bottomNavigationBar: CartFooterWidget(),
       body: Padding(

@@ -30,9 +30,9 @@ class CustomerInfoTabContent extends StatelessWidget {
           children: [
             Text(
               AppStrings.customer,
-              style: context.textTheme.bodyMedium?.copyWith(
+              style: context.textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w500,
-                color: context.colorScheme.outline,
+                color: context.defaultTextColor.withValues(alpha: 0.50),
               ),
             ),
             Container(
@@ -95,9 +95,9 @@ class CustomerInfoTabContent extends StatelessWidget {
       children: [
         Text(
           label,
-          style: context.textTheme.bodyMedium?.copyWith(
+          style: context.textTheme.bodySmall?.copyWith(
             fontWeight: FontWeight.w500,
-            color: context.colorScheme.outline,
+            color: context.defaultTextColor.withValues(alpha: 0.50),
           ),
         ),
         Text(

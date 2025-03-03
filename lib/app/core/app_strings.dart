@@ -130,4 +130,5 @@ class AppStrings {
   static const String total = "Total";
   static const String active = "Active";
   static const String overdue = "Overdue";
+  static const String save = "Save";
 }

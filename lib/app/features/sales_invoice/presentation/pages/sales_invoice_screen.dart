@@ -49,9 +49,7 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
     final salesInvoiceState = ref.watch(salesInvoiceNotifierProvider);
     return Scaffold(
       appBar: SalesInvoiceAppBar(searchController: _searchTextController),
-      backgroundColor: !AppUtils.isDarkMode(context)
-          ? context.colorScheme.surfaceContainerLowest
-          : null,
+      backgroundColor: context.surfaceColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         child: salesInvoiceState.maybeWhen(

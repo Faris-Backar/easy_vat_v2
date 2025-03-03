@@ -87,7 +87,7 @@ class TextInputFormField extends StatelessWidget {
                 TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: Color(0xFF101010).withValues(alpha: .32)),
+                    color: context.defaultTextColor.withValues(alpha: .32)),
             errorStyle: context.textTheme.labelSmall?.copyWith(
                 color: context.colorScheme.error, fontWeight: FontWeight.w400)),
         maxLines: maxLines,

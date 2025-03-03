@@ -10,6 +10,7 @@ class DropdownField extends StatelessWidget {
   final ValueNotifier<String?> valueNotifier;
   final List<String> items;
   final double? labelAndTextFieldGap;
+  final Color? backgroundColor;
   const DropdownField(
       {super.key,
       required this.label,
@@ -17,7 +18,8 @@ class DropdownField extends StatelessWidget {
       required this.items,
       this.height,
       this.hint,
-      this.labelAndTextFieldGap});
+      this.labelAndTextFieldGap,
+      this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +43,7 @@ class DropdownField extends StatelessWidget {
                   border: Border.all(
                       color:
                           context.colorScheme.outline.withValues(alpha: 0.4)),
-                  color: context.surfaceColor),
+                  color: backgroundColor ?? context.surfaceColor),
               child: DropdownButtonHideUnderline(
                 child: DropdownButton<String>(
                   icon: const Icon(Icons.keyboard_arrow_down_rounded),

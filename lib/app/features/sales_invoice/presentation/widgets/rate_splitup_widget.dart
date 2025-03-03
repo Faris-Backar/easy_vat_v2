@@ -51,6 +51,13 @@ class _RateSplitupWidgetState extends State<RateSplitupWidget> {
               child: TextInputFormField(
                 controller: _discountController,
                 hint: "00.00",
+                maxLines: 1,
+                hintDecoration: context.textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: context.defaultTextColor.withValues(alpha: 0.32)),
+                style: context.textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: context.defaultTextColor),
               ),
             ),
           ],
@@ -60,7 +67,7 @@ class _RateSplitupWidgetState extends State<RateSplitupWidget> {
         ),
         CustomPaint(
           size: Size(double.infinity, 1),
-          painter: DottedLinePainter(),
+          painter: DottedLinePainter(color: context.colorScheme.outline),
         ),
         SizedBox(
           height: 5,
@@ -121,7 +128,7 @@ class _RateSplitupWidgetState extends State<RateSplitupWidget> {
         if (isDottedDivider)
           CustomPaint(
             size: Size(double.infinity, 1),
-            painter: DottedLinePainter(),
+            painter: DottedLinePainter(color: context.colorScheme.outline),
           )
         else
           Divider(

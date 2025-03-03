@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_notifier.dart';
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_state.dart';
@@ -169,7 +170,9 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
         decoration: BoxDecoration(
           border: Border.all(
               color: context.colorScheme.outline.withValues(alpha: 0.5)),
-          color: const Color(0xFFFDFBFF),
+          color: AppUtils.isDarkMode(context)
+              ? context.colorScheme.tertiaryContainer
+              : const Color(0xFFFDFBFF),
           borderRadius: BorderRadius.circular(12.0),
         ),
         child: Column(
@@ -212,14 +215,21 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
 
   Widget _buildTabBar(BuildContext context) {
     return TabBar(
-      labelColor: context.colorScheme.secondary,
+      labelColor: AppUtils.isDarkMode(context)
+          ? Color(0xFF8B62F1)
+          : context.colorScheme.secondary,
       unselectedLabelColor: context.colorScheme.onSurface,
-      indicatorColor: context.colorScheme.secondary,
+      indicatorColor: AppUtils.isDarkMode(context)
+          ? Color(0xFF8B62F1)
+          : context.colorScheme.secondary,
       dividerColor: Colors.transparent,
       padding: EdgeInsets.zero,
       indicator: UnderlineTabIndicator(
-        borderSide:
-            BorderSide(width: 2.0, color: context.colorScheme.secondary),
+        borderSide: BorderSide(
+            width: 2.0,
+            color: AppUtils.isDarkMode(context)
+                ? Color(0xFF8B62F1)
+                : context.colorScheme.secondary),
       ),
       labelStyle: context.textTheme.bodySmall
           ?.copyWith(fontSize: 11, fontWeight: FontWeight.w600),
