@@ -1,5 +1,6 @@
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,7 +24,9 @@ class CustomerDetailsCard extends StatelessWidget {
               ? context.colorScheme.secondary
               : context.colorScheme.outline.withValues(alpha: 0.5),
         ),
-        color: const Color(0xFFF9F9F9),
+        color: AppUtils.isDarkMode(context)
+            ? Color(0xFF2B2E30)
+            : const Color(0xFFF9F9F9),
       ),
       child: Column(
         children: [

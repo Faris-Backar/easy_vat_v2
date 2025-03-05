@@ -2,7 +2,6 @@ import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
-import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -12,19 +11,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AddSalesFooterWidget extends StatefulWidget {
-  const AddSalesFooterWidget({super.key});
+  final TextEditingController saleNoController;
+  final TextEditingController refNoController;
+  final ValueNotifier<String?> salesModeNotifier;
+  final ValueNotifier<String?> soldByNotifier;
+  const AddSalesFooterWidget(
+      {super.key,
+      required this.saleNoController,
+      required this.refNoController,
+      required this.salesModeNotifier,
+      required this.soldByNotifier});
 
   @override
   State<AddSalesFooterWidget> createState() => _AddSalesFooterWidgetState();
 }
 
 class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
-  final _itemNameController = TextEditingController();
-  final _barcodeController = TextEditingController();
-  final _itemCodeController = TextEditingController();
-  final _costController = TextEditingController();
-  final _priceController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
@@ -59,7 +61,23 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                 height: 40.h,
                 child: PrimaryButton(
                   label: AppStrings.save,
-                  onPressed: () {},
+                  onPressed: () {
+                    ref
+                        .read(cartProvider.notifier)
+                        .setSalesNo(widget.saleNoController.text);
+                    ref
+                        .read(cartProvider.notifier)
+                        .setSalesMode(widget.salesModeNotifier.value ?? "");
+                    ref
+                        .read(cartProvider.notifier)
+                        .setRefNo(widget.refNoController.text);
+                    ref
+                        .read(cartProvider.notifier)
+                        .setSoldBy(widget.soldByNotifier.value ?? "");
+                    // ref
+                    //     .read(cartProvider.notifier)
+                    //     .setCashAccount(widget.salesModeNotifier.value ?? "");
+                  },
                 ),
               )
             ],
@@ -77,81 +95,7 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
           context,
           Icons.add_circle_outline_rounded,
           AppStrings.addItem,
-          () {
-            showModalBottomSheet(
-              context: context,
-              backgroundColor: context.colorScheme.surfaceContainerLowest,
-              builder: (context) => Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 16.0),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        AppStrings.addItem,
-                        style: context.textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w700),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Divider(),
-                    CustomTextField(
-                      label: AppStrings.itemName,
-                      controller: _itemNameController,
-                      hint: AppStrings.itemName,
-                    ),
-                    SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CustomTextField(
-                            label: AppStrings.barcode,
-                            controller: _barcodeController,
-                            hint: AppStrings.barcode,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 12.w,
-                        ),
-                        Expanded(
-                          child: CustomTextField(
-                            label: AppStrings.itemcode,
-                            controller: _itemCodeController,
-                            hint: AppStrings.itemcode,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 12),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CustomTextField(
-                            label: AppStrings.cost,
-                            controller: _costController,
-                            hint: AppStrings.cost,
-                          ),
-                        ),
-                        SizedBox(
-                          width: 12.w,
-                        ),
-                        Expanded(
-                          child: CustomTextField(
-                            label: AppStrings.price,
-                            controller: _priceController,
-                            hint: AppStrings.price,
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
-            );
-          },
+          () {},
         )),
         SizedBox(width: 8.w),
         Expanded(

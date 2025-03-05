@@ -5,9 +5,20 @@ part 'cart_state.freezed.dart';
 
 @freezed
 class CartState with _$CartState {
-  const factory CartState(
-      {List<CartEntity>? itemList, required double totalAmount}) = _CartState;
+  const factory CartState({
+    List<CartEntity>? itemList,
+    required double totalAmount,
+    required double discount,
+    required double roundOf,
+    required double totalTax,
+    required double totalBeforeTax,
+  }) = _CartState;
 
-  factory CartState.initial() =>
-      const CartState(itemList: null, totalAmount: 0.00);
+  factory CartState.initial() => const CartState(
+      itemList: null,
+      totalAmount: 0.00,
+      discount: 0.0,
+      roundOf: 0.0,
+      totalBeforeTax: 0.0,
+      totalTax: 0.0);
 }

@@ -16,22 +16,23 @@ class CustomTextField extends StatelessWidget {
   final double? height;
   final double? width;
   final double? labelAndTextfieldGap;
-  const CustomTextField({
-    super.key,
-    required this.label,
-    required this.controller,
-    this.suffixIcon,
-    this.passwordvisibility,
-    this.hint,
-    this.textInputAction,
-    this.validator,
-    this.textInputType,
-    this.maxLines = 1,
-    this.enabled = true,
-    this.height,
-    this.width,
-    this.labelAndTextfieldGap,
-  });
+  final Color? fillColor;
+  const CustomTextField(
+      {super.key,
+      required this.label,
+      required this.controller,
+      this.suffixIcon,
+      this.passwordvisibility,
+      this.hint,
+      this.textInputAction,
+      this.validator,
+      this.textInputType,
+      this.maxLines = 1,
+      this.enabled = true,
+      this.height,
+      this.width,
+      this.labelAndTextfieldGap,
+      this.fillColor});
 
   @override
   Widget build(BuildContext context) {
@@ -50,6 +51,7 @@ class CustomTextField extends StatelessWidget {
           child: TextInputFormField(
             enabled: enabled,
             controller: controller,
+            fillColor: fillColor,
             suffixIcon: suffixIcon,
             isPasswordVisible: passwordvisibility,
             hintDecoration: context.textTheme.bodyMedium

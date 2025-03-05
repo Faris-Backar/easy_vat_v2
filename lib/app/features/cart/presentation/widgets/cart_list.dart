@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/cart_item_card_widget.dart';
@@ -40,16 +41,21 @@ class CartList extends StatelessWidget {
             child: Container(
               height: 88.h,
               width: 43.w,
-              color: CustomColors.getTransactionCardRedColor(context)
-                  .withValues(alpha: 0.15),
+              color: AppUtils.isDarkMode(context)
+                  ? CustomColors.getTransactionCardRedColor(context)
+                  : CustomColors.getTransactionCardRedColor(context)
+                      .withValues(alpha: 0.15),
               padding: const EdgeInsets.all(12.0),
-              child: SvgIcon(icon: Assets.icons.delete),
+              child: SvgIcon(
+                  icon: Assets.icons.delete,
+                  color: AppUtils.isDarkMode(context)
+                      ? context.onPrimaryColor
+                      : null),
             ),
           ),
         ],
       ),
       child: CartItemCardWidget(
-        isExpanded: false,
         items: itemList[index],
       ),
     );

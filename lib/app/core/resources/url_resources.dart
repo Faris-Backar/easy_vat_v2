@@ -15,4 +15,10 @@ class UrlResources {
   // items
   static const String getItems = "Item/Select/SelectAll";
   static const String searchItems = "Item/Select/SearchItem";
+
+  //employee
+  static const String getEmployees = "Employee/Select/SelectAll";
+
+  //paymentMode
+  static const String paymentMode = "PaymentMode/Select/SalesPaymnetMode";
 }

@@ -86,7 +86,11 @@ class _AddNewSalesScreenState extends State<AddNewSalesScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: AddSalesFooterWidget(),
+      bottomNavigationBar: AddSalesFooterWidget(
+          saleNoController: saleNoController,
+          refNoController: refNoController,
+          salesModeNotifier: salesModeNotifier,
+          soldByNotifier: soldByNotifier),
     );
   }
 

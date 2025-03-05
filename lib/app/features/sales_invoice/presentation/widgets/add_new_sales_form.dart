@@ -1,14 +1,17 @@
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+import 'package:easy_vat_v2/app/features/employees/presentation/providers/employee_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/customer_info_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class AddNewSalesForm extends StatefulWidget {
+class AddNewSalesForm extends ConsumerStatefulWidget {
   final TextEditingController saleNoController;
   final TextEditingController refNoController;
   final ValueNotifier<String?> salesModeNotifier;
@@ -21,11 +24,21 @@ class AddNewSalesForm extends StatefulWidget {
       required this.soldByNotifier});
 
   @override
-  State<AddNewSalesForm> createState() => _AddNewSalesFormState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _AddNewSalesFormState();
 }
 
-class _AddNewSalesFormState extends State<AddNewSalesForm> {
+class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
   final _viewMoreNotifier = ValueNotifier(false);
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(employeeProvider.notifier).getEmployees();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,14 +65,18 @@ class _AddNewSalesFormState extends State<AddNewSalesForm> {
                   SizedBox(
                     height: 5,
                   ),
-                  DatePickerTextField(
-                    label: AppStrings.date,
-                    onDateSelected: (data) {},
-                    labelAndTextfieldGap: 2,
-                    backgroundColor: AppUtils.isDarkMode(context)
-                        ? context.colorScheme.tertiaryContainer
-                        : null,
-                  ),
+                  Consumer(builder: (context, WidgetRef ref, child) {
+                    return DatePickerTextField(
+                      label: AppStrings.date,
+                      onDateSelected: (data) {
+                        ref.read(cartProvider.notifier).setSalesDate(data);
+                      },
+                      labelAndTextfieldGap: 2,
+                      backgroundColor: AppUtils.isDarkMode(context)
+                          ? context.colorScheme.tertiaryContainer
+                          : null,
+                    );
+                  }),
                   SizedBox(
                     height: 5,
                   ),
@@ -94,16 +111,28 @@ class _AddNewSalesFormState extends State<AddNewSalesForm> {
               width: 10.w,
             ),
             Expanded(
-              child: DropdownField(
-                height: 38.h,
-                labelAndTextFieldGap: 2,
-                label: AppStrings.salesMode,
-                valueNotifier: widget.soldByNotifier,
-                items: ["item 1", "Item 2"],
-                backgroundColor: AppUtils.isDarkMode(context)
-                    ? context.colorScheme.tertiaryContainer
-                    : context.surfaceColor,
-              ),
+              child: Consumer(builder: (context, WidgetRef ref, child) {
+                final state = ref.read(employeeProvider);
+                return state.maybeWhen(
+                  loaded: (employeeList) => DropdownField(
+                    height: 38.h,
+                    labelAndTextFieldGap: 2,
+                    label: AppStrings.soldBy,
+                    valueNotifier: widget.soldByNotifier,
+                    items: employeeList.map((employee) {
+                      return '${employee.firstName ?? ''} ${employee.lastName ?? ''}'
+                          .trim();
+                    }).toList(),
+                    backgroundColor: AppUtils.isDarkMode(context)
+                        ? context.colorScheme.tertiaryContainer
+                        : context.surfaceColor,
+                  ),
+                  initial: () => Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  ),
+                  orElse: () => SizedBox.shrink(),
+                );
+              }),
             ),
           ],
         ),

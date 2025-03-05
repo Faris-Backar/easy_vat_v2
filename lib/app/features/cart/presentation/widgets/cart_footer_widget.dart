@@ -2,13 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/widgets/cart_item_add_dialog.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/item_details_card.dart';
 import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
 import 'package:easy_vat_v2/app/features/items/presentation/providers/item_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
-import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
@@ -150,132 +148,8 @@ class _CartFooterWidgetState extends ConsumerState<CartFooterWidget> {
             itemTotalNotifer.value = itemsList[index].retailRate ?? 0.0;
             showDialog(
               context: context,
-              builder: (context) => AlertDialog(
-                backgroundColor: context.colorScheme.surfaceContainerLowest,
-                title: Text(AppStrings.addToCart),
-                titleTextStyle: context.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 18,
-                ),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "${AppStrings.itemName} : ",
-                          style: context.textTheme.bodySmall?.copyWith(
-                              color: context.defaultTextColor
-                                  .withValues(alpha: .5)),
-                        ),
-                        Text(
-                          itemsList[index].itemName ?? "",
-                          style: context.textTheme.bodySmall
-                              ?.copyWith(fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "${AppStrings.price} : ",
-                          style: context.textTheme.bodySmall?.copyWith(
-                              color: context.defaultTextColor
-                                  .withValues(alpha: .5)),
-                        ),
-                        Text(
-                          itemsList[index].retailRate?.toStringAsFixed(2) ??
-                              "0.00",
-                          style: context.textTheme.bodySmall
-                              ?.copyWith(fontWeight: FontWeight.w600),
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "${AppStrings.qty} : ",
-                          style: context.textTheme.bodySmall?.copyWith(
-                              color: context.defaultTextColor
-                                  .withValues(alpha: .5)),
-                        ),
-                        TextInputFormField(
-                          controller: TextEditingController(),
-                          maxLines: 1,
-                          height: 30.h,
-                          width: 100.w,
-                          onChanged: (qty) => itemTotalNotifer.value =
-                              ((itemsList[index].retailRate ?? 0.0) *
-                                  (int.tryParse(qty) ?? 0.0)),
-                          style: context.textTheme.bodySmall
-                              ?.copyWith(fontWeight: FontWeight.w600),
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "${AppStrings.total} : ",
-                          style: context.textTheme.bodySmall?.copyWith(
-                              color: context.defaultTextColor
-                                  .withValues(alpha: .5)),
-                        ),
-                        ValueListenableBuilder(
-                          valueListenable: itemTotalNotifer,
-                          builder: (context, double total, child) {
-                            return Text(
-                              total.toStringAsFixed(2),
-                              style: context.textTheme.bodyMedium
-                                  ?.copyWith(fontWeight: FontWeight.w600),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                contentTextStyle: context.textTheme.bodyMedium
-                    ?.copyWith(fontWeight: FontWeight.w400),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
-                actions: [
-                  SecondaryButton(
-                    onPressed: () => context.router.popForced(),
-                    label: AppStrings.cancel,
-                    labelColor: Colors.black,
-                    backgroundColor: context.colorScheme.surfaceContainerLowest,
-                    border: BorderSide(
-                      color: context.colorScheme.primary.withValues(alpha: 0.2),
-                    ),
-                  ),
-                  SizedBox(width: 5.w),
-                  PrimaryButton(
-                    label: AppStrings.addToCart,
-                    onPressed: () {
-                      final CartEntity cartEntity = CartEntity(
-                          item: itemsList[index],
-                          qty: double.tryParse(itemCountController.text) ?? 0.0,
-                          total: itemTotalNotifer.value);
-                      ref
-                          .read(cartProvider.notifier)
-                          .addItemsIntoCart(item: cartEntity);
-                      context.router.popForced();
-                    },
-                  ),
-                ],
+              builder: (context) => CartItemAddDialog(
+                item: itemsList[index],
               ),
             );
           },
@@ -283,7 +157,6 @@ class _CartFooterWidgetState extends ConsumerState<CartFooterWidget> {
             valueListenable: itemDetailsExpansionNotifier,
             builder: (context, value, child) {
               return ItemDetailsCard(
-                isExpanded: value == index,
                 items: itemsList[index],
               );
             },

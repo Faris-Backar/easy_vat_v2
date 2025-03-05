@@ -18,6 +18,10 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$CartState {
   List<CartEntity>? get itemList => throw _privateConstructorUsedError;
   double get totalAmount => throw _privateConstructorUsedError;
+  double get discount => throw _privateConstructorUsedError;
+  double get roundOf => throw _privateConstructorUsedError;
+  double get totalTax => throw _privateConstructorUsedError;
+  double get totalBeforeTax => throw _privateConstructorUsedError;
 
   /// Create a copy of CartState
   /// with the given fields replaced by the non-null parameter values.
@@ -31,7 +35,13 @@ abstract class $CartStateCopyWith<$Res> {
   factory $CartStateCopyWith(CartState value, $Res Function(CartState) then) =
       _$CartStateCopyWithImpl<$Res, CartState>;
   @useResult
-  $Res call({List<CartEntity>? itemList, double totalAmount});
+  $Res call(
+      {List<CartEntity>? itemList,
+      double totalAmount,
+      double discount,
+      double roundOf,
+      double totalTax,
+      double totalBeforeTax});
 }
 
 /// @nodoc
@@ -51,6 +61,10 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
   $Res call({
     Object? itemList = freezed,
     Object? totalAmount = null,
+    Object? discount = null,
+    Object? roundOf = null,
+    Object? totalTax = null,
+    Object? totalBeforeTax = null,
   }) {
     return _then(_value.copyWith(
       itemList: freezed == itemList
@@ -60,6 +74,22 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
       totalAmount: null == totalAmount
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      discount: null == discount
+          ? _value.discount
+          : discount // ignore: cast_nullable_to_non_nullable
+              as double,
+      roundOf: null == roundOf
+          ? _value.roundOf
+          : roundOf // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalTax: null == totalTax
+          ? _value.totalTax
+          : totalTax // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalBeforeTax: null == totalBeforeTax
+          ? _value.totalBeforeTax
+          : totalBeforeTax // ignore: cast_nullable_to_non_nullable
               as double,
     ) as $Val);
   }
@@ -73,7 +103,13 @@ abstract class _$$CartStateImplCopyWith<$Res>
       __$$CartStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({List<CartEntity>? itemList, double totalAmount});
+  $Res call(
+      {List<CartEntity>? itemList,
+      double totalAmount,
+      double discount,
+      double roundOf,
+      double totalTax,
+      double totalBeforeTax});
 }
 
 /// @nodoc
@@ -91,6 +127,10 @@ class __$$CartStateImplCopyWithImpl<$Res>
   $Res call({
     Object? itemList = freezed,
     Object? totalAmount = null,
+    Object? discount = null,
+    Object? roundOf = null,
+    Object? totalTax = null,
+    Object? totalBeforeTax = null,
   }) {
     return _then(_$CartStateImpl(
       itemList: freezed == itemList
@@ -101,6 +141,22 @@ class __$$CartStateImplCopyWithImpl<$Res>
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
               as double,
+      discount: null == discount
+          ? _value.discount
+          : discount // ignore: cast_nullable_to_non_nullable
+              as double,
+      roundOf: null == roundOf
+          ? _value.roundOf
+          : roundOf // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalTax: null == totalTax
+          ? _value.totalTax
+          : totalTax // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalBeforeTax: null == totalBeforeTax
+          ? _value.totalBeforeTax
+          : totalBeforeTax // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -109,7 +165,12 @@ class __$$CartStateImplCopyWithImpl<$Res>
 
 class _$CartStateImpl implements _CartState {
   const _$CartStateImpl(
-      {final List<CartEntity>? itemList, required this.totalAmount})
+      {final List<CartEntity>? itemList,
+      required this.totalAmount,
+      required this.discount,
+      required this.roundOf,
+      required this.totalTax,
+      required this.totalBeforeTax})
       : _itemList = itemList;
 
   final List<CartEntity>? _itemList;
@@ -124,10 +185,18 @@ class _$CartStateImpl implements _CartState {
 
   @override
   final double totalAmount;
+  @override
+  final double discount;
+  @override
+  final double roundOf;
+  @override
+  final double totalTax;
+  @override
+  final double totalBeforeTax;
 
   @override
   String toString() {
-    return 'CartState(itemList: $itemList, totalAmount: $totalAmount)';
+    return 'CartState(itemList: $itemList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, totalTax: $totalTax, totalBeforeTax: $totalBeforeTax)';
   }
 
   @override
@@ -137,12 +206,25 @@ class _$CartStateImpl implements _CartState {
             other is _$CartStateImpl &&
             const DeepCollectionEquality().equals(other._itemList, _itemList) &&
             (identical(other.totalAmount, totalAmount) ||
-                other.totalAmount == totalAmount));
+                other.totalAmount == totalAmount) &&
+            (identical(other.discount, discount) ||
+                other.discount == discount) &&
+            (identical(other.roundOf, roundOf) || other.roundOf == roundOf) &&
+            (identical(other.totalTax, totalTax) ||
+                other.totalTax == totalTax) &&
+            (identical(other.totalBeforeTax, totalBeforeTax) ||
+                other.totalBeforeTax == totalBeforeTax));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_itemList), totalAmount);
+      runtimeType,
+      const DeepCollectionEquality().hash(_itemList),
+      totalAmount,
+      discount,
+      roundOf,
+      totalTax,
+      totalBeforeTax);
 
   /// Create a copy of CartState
   /// with the given fields replaced by the non-null parameter values.
@@ -156,12 +238,24 @@ class _$CartStateImpl implements _CartState {
 abstract class _CartState implements CartState {
   const factory _CartState(
       {final List<CartEntity>? itemList,
-      required final double totalAmount}) = _$CartStateImpl;
+      required final double totalAmount,
+      required final double discount,
+      required final double roundOf,
+      required final double totalTax,
+      required final double totalBeforeTax}) = _$CartStateImpl;
 
   @override
   List<CartEntity>? get itemList;
   @override
   double get totalAmount;
+  @override
+  double get discount;
+  @override
+  double get roundOf;
+  @override
+  double get totalTax;
+  @override
+  double get totalBeforeTax;
 
   /// Create a copy of CartState
   /// with the given fields replaced by the non-null parameter values.

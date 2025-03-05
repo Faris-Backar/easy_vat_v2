@@ -38,7 +38,9 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
           context: context,
           useSafeArea: true,
           isScrollControlled: true,
-          backgroundColor: context.colorScheme.surfaceContainerLowest,
+          backgroundColor: AppUtils.isDarkMode(context)
+              ? context.colorScheme.tertiaryContainer
+              : context.colorScheme.surfaceContainerLowest,
           builder: (context) => Consumer(builder: (context, ref, child) {
             final state = ref.watch(customerNotifierProvider);
             return _buildCustomerBottomSheet(context, state);
@@ -55,6 +57,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
     return Container(
       height: 1.sh,
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      color: context.surfaceColor,
       child: Column(
         children: [
           SizedBox(height: 5.h),
@@ -63,6 +66,9 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
             prefixIcon: const Icon(Icons.search_rounded),
             hint: AppStrings.search,
             height: 36.h,
+            fillColor: AppUtils.isDarkMode(context)
+                ? Theme.of(context).scaffoldBackgroundColor
+                : null,
             onChanged: (value) {
               if (value.length > 3) {
                 ref
@@ -98,7 +104,9 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
           Container(
             height: 67,
             width: double.infinity,
-            color: context.colorScheme.surfaceContainerLowest,
+            color: AppUtils.isDarkMode(context)
+                ? context.surfaceColor
+                : context.colorScheme.surfaceContainerLowest,
             child: Row(
               children: [
                 Expanded(
@@ -108,13 +116,20 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SvgIcon(icon: Assets.icons.customer),
+                        SvgIcon(
+                          icon: Assets.icons.customer,
+                          color: AppUtils.isDarkMode(context)
+                              ? context.defaultTextColor
+                              : null,
+                        ),
                         SizedBox(width: 6.w),
                         Text(
                           AppStrings.addCustomer,
                           style: context.textTheme.bodyMedium?.copyWith(
                               fontWeight: FontWeight.w600,
-                              color: context.colorScheme.primary),
+                              color: AppUtils.isDarkMode(context)
+                                  ? context.defaultTextColor
+                                  : context.colorScheme.primary),
                         )
                       ],
                     ),
@@ -129,6 +144,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                       builder: (context, int? value, child) {
                         return PrimaryButton(
                           label: AppStrings.submit,
+                          bgColor: context.colorScheme.primary,
                           onPressed: value != null
                               ? () {
                                   if (state.customerList?.isNotEmpty == true) {

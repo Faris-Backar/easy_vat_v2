@@ -29,7 +29,7 @@ class DatePickerTextField extends StatefulWidget {
 }
 
 class _DatePickerTextFieldState extends State<DatePickerTextField> {
-  final ValueNotifier<DateTime?> _selectedDate = ValueNotifier(null);
+  final ValueNotifier<DateTime> _selectedDate = ValueNotifier(DateTime.now());
   Future<void> _pickDate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
       context: context,
@@ -40,7 +40,7 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
 
     if (pickedDate != null) {
       _selectedDate.value = pickedDate;
-      widget.onDateSelected(_selectedDate.value!);
+      widget.onDateSelected(_selectedDate.value);
     }
   }
 
@@ -73,7 +73,10 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
             ),
             child: Row(
               children: [
-                SvgIcon(icon: Assets.icons.calendar),
+                SvgIcon(
+                  icon: Assets.icons.calendar,
+                  color: context.defaultTextColor,
+                ),
                 SizedBox(
                   width: 6.w,
                 ),
@@ -85,7 +88,7 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
                           ? DateFormatUtils.getDateOnly(date: date)
                           : AppStrings.selectDate,
                       style: context.textTheme.bodyMedium
-                          ?.copyWith(color: context.colorScheme.outline),
+                          ?.copyWith(color: context.defaultTextColor),
                     );
                   },
                 ),

@@ -131,4 +131,8 @@ class AppStrings {
   static const String active = "Active";
   static const String overdue = "Overdue";
   static const String save = "Save";
+  static const String quantity = "Quantity";
+  static const String sellingPrice = "Selling Price";
+  static const String priceWithOutTax = "Price with out tax";
+  static const String description = "Description";
 }

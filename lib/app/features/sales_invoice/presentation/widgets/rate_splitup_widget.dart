@@ -1,27 +1,31 @@
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/dotted_line.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class RateSplitupWidget extends StatefulWidget {
+class RateSplitupWidget extends ConsumerStatefulWidget {
   const RateSplitupWidget({super.key});
 
   @override
-  State<RateSplitupWidget> createState() => _RateSplitupWidgetState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _RateSplitupWidgetState();
 }
 
-class _RateSplitupWidgetState extends State<RateSplitupWidget> {
+class _RateSplitupWidgetState extends ConsumerState<RateSplitupWidget> {
   final _discountController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(cartProvider);
     return Column(
       children: [
         _buildRateSplitup(
           context,
-          content: "\$ 0.0",
+          content: state.totalBeforeTax.toStringAsFixed(2),
           label: AppStrings.totalBeforeTax,
         ),
         SizedBox(
@@ -29,7 +33,7 @@ class _RateSplitupWidgetState extends State<RateSplitupWidget> {
         ),
         _buildRateSplitup(
           context,
-          content: "\$ 0.0",
+          content: state.totalTax.toStringAsFixed(2),
           label: AppStrings.totalTax,
         ),
         SizedBox(
@@ -73,7 +77,7 @@ class _RateSplitupWidgetState extends State<RateSplitupWidget> {
           height: 5,
         ),
         _buildRateSplitup(context,
-            content: "\$ 0.0",
+            content: state.roundOf.toStringAsFixed(2),
             label: AppStrings.roundOf,
             isDottedDivider: false),
         SizedBox(
@@ -89,7 +93,7 @@ class _RateSplitupWidgetState extends State<RateSplitupWidget> {
               ),
             ),
             Text(
-              "00.00",
+              state.totalAmount.toStringAsFixed(2),
               style: context.textTheme.bodyMedium
                   ?.copyWith(fontWeight: FontWeight.w700),
             ),
