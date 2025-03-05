@@ -21,4 +21,10 @@ class UrlResources {
 
   //paymentMode
   static const String paymentMode = "PaymentMode/Select/SalesPaymnetMode";
+
+  //cash account
+  static const String getCAshAccount = "Ledger/Select/GetCashLedger";
+
+  //salesAccout
+  static const String getSalesAccount = "Ledger/Select/GetSalesLedger";
 }

@@ -1,3 +1,4 @@
+import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/usecase/no_params.dart';
 import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/employees/data/repository/employee_repository_impl.dart';
@@ -29,10 +30,16 @@ class EmployeeNotifier extends StateNotifier<EmployeeState> {
 
   getEmployees() async {
     state = EmployeeState.loading();
-    final result = await getEmployeesUsecase.call(params: NoParams());
-    result.fold(
-      (l) => EmployeeState.error(l.message),
-      (r) => EmployeeState.loaded(employeeList: r),
-    );
+    try {
+      final result = await getEmployeesUsecase.call(params: NoParams());
+      result.fold(
+        (l) => state = EmployeeState.error(l.message),
+        (r) => state = EmployeeState.loaded(employeeList: r),
+      );
+    } on Failure catch (e) {
+      state = EmployeeState.error(e.message.toString());
+    } catch (e) {
+      state = EmployeeState.error(e.toString());
+    }
   }
 }

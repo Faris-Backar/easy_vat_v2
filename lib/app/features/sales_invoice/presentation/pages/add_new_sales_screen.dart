@@ -30,6 +30,8 @@ class _AddNewSalesScreenState extends State<AddNewSalesScreen> {
   final _noteController = TextEditingController();
   final ValueNotifier<String?> salesModeNotifier = ValueNotifier(null);
   final ValueNotifier<String?> soldByNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> cashAccountNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> salesAccountNotifier = ValueNotifier(null);
 
   @override
   Widget build(BuildContext context) {
@@ -42,10 +44,13 @@ class _AddNewSalesScreenState extends State<AddNewSalesScreen> {
           child: Column(
             children: [
               AddNewSalesForm(
-                  saleNoController: saleNoController,
-                  refNoController: refNoController,
-                  salesModeNotifier: salesModeNotifier,
-                  soldByNotifier: soldByNotifier),
+                saleNoController: saleNoController,
+                refNoController: refNoController,
+                salesModeNotifier: salesModeNotifier,
+                soldByNotifier: soldByNotifier,
+                cashAccountNotifier: cashAccountNotifier,
+                salesAccountNotifier: salesAccountNotifier,
+              ),
               SizedBox(
                 height: 10,
               ),

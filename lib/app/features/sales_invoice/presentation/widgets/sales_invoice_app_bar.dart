@@ -204,6 +204,10 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
                     label: AppStrings.salesMode,
                     valueNotifier: salesModeNotifer,
                     items: ["Cash", "Card", "Online"],
+                    backgroundColor: AppUtils.isDarkMode(context)
+                        ? context.colorScheme.tertiaryContainer
+                        : context.surfaceColor,
+                    onChanged: (newValue) => salesModeNotifer.value = newValue,
                   ),
                 ),
               ],
@@ -217,6 +221,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
                     hint: AppStrings.selectSaleMode,
                     valueNotifier: soldByNotifier,
                     items: ["Faris", "Salih", "Adhil"],
+                    onChanged: (newValue) => soldByNotifier.value = newValue,
                   ),
                 ),
                 SizedBox(width: 12.w),

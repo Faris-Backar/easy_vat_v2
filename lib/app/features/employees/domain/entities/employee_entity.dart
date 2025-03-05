@@ -36,6 +36,11 @@ class EmployeeEntity {
     // this.documents,
     // this.ledger,
   });
+
+  @override
+  String toString() {
+    return 'EmployeeEntity(employeeIdpk: $employeeIdpk, employeeId: $employeeId, firstName: $firstName, middleName: $middleName, lastName: $lastName, departmentIdpk: $departmentIdpk, designationIdpk: $designationIdpk, contactNumber: $contactNumber, permanentAddress: $permanentAddress, gender: $gender, emailId: $emailId, photoUrl: $photoUrl, salaryType: $salaryType, remarks: $remarks, companyIdpk: $companyIdpk)';
+  }
 }
 
 class DocumentEntity {

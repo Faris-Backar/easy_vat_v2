@@ -11,6 +11,7 @@ class DropdownField extends StatelessWidget {
   final List<String> items;
   final double? labelAndTextFieldGap;
   final Color? backgroundColor;
+  final Function(String? value) onChanged;
   const DropdownField(
       {super.key,
       required this.label,
@@ -19,7 +20,8 @@ class DropdownField extends StatelessWidget {
       this.height,
       this.hint,
       this.labelAndTextFieldGap,
-      this.backgroundColor});
+      this.backgroundColor,
+      required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -60,7 +62,7 @@ class DropdownField extends StatelessWidget {
                           style: context.textTheme.bodyMedium,
                         ));
                   }).toList(),
-                  onChanged: (newValue) => valueNotifier.value = newValue,
+                  onChanged: onChanged,
                 ),
               ),
             );

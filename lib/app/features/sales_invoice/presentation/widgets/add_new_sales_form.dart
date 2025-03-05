@@ -5,9 +5,10 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/employees/presentation/providers/employee_notifiers.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/data/model/payment_mode_model.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
-import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_state.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/customer_info_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
@@ -21,12 +22,16 @@ class AddNewSalesForm extends ConsumerStatefulWidget {
   final TextEditingController refNoController;
   final ValueNotifier<String?> salesModeNotifier;
   final ValueNotifier<String?> soldByNotifier;
+  final ValueNotifier<String?> cashAccountNotifier;
+  final ValueNotifier<String?> salesAccountNotifier;
   const AddNewSalesForm(
       {super.key,
       required this.saleNoController,
       required this.refNoController,
       required this.salesModeNotifier,
-      required this.soldByNotifier});
+      required this.soldByNotifier,
+      required this.cashAccountNotifier,
+      required this.salesAccountNotifier});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -35,21 +40,26 @@ class AddNewSalesForm extends ConsumerStatefulWidget {
 
 class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
   final _viewMoreNotifier = ValueNotifier(false);
-  late PaymentModeState paymentModeState;
 
   @override
   void initState() {
     super.initState();
-    paymentModeState = ref.read(paymentModeNotifierProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(employeeProvider.notifier).getEmployees();
-      ref.watch(paymentModeNotifierProvider.notifier).fetchPaymentModes();
+      ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
+      ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
+      ref.read(salesLedgerNotifierProvider.notifier).fetchSalesLedgers();
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    log("State=> $paymentModeState");
+    final employeeState = ref.watch(employeeProvider);
+    final paymentModeState = ref.watch(paymentModeNotifierProvider);
+    final cashLedgerState = ref.watch(cashLedgerNotifierProvider);
+    final salesLedgerState = ref.watch(salesLedgerNotifierProvider);
+
+    log("State=> $employeeState");
     return Column(
       children: [
         Row(
@@ -69,7 +79,19 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                       height: 38.h,
                       labelAndTextfieldGap: 2,
                       hint: AppStrings.salesNo,
+                      fillColor: context.surfaceColor,
+                      enabled: false,
                     ),
+                  ),
+                  SizedBox(
+                    height: 5,
+                  ),
+                  CustomTextField(
+                    label: AppStrings.refNo,
+                    controller: widget.refNoController,
+                    hint: AppStrings.enterRefNumber,
+                    labelAndTextfieldGap: 2,
+                    height: 38.h,
                   ),
                   SizedBox(
                     height: 5,
@@ -86,37 +108,6 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                           : null,
                     );
                   }),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  paymentModeState.when(
-                    initial: () => const SizedBox.shrink(),
-                    loading: () =>
-                        Center(child: CircularProgressIndicator.adaptive()),
-                    error: (message) => Text('Error: $message'),
-                    loaded: (paymentModes, selectedPaymentMode) {
-                      if (paymentModes.isNotEmpty &&
-                          widget.salesModeNotifier.value == null) {
-                        final defaultSelection =
-                            _getDefaultSelection(paymentModes);
-
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          widget.salesModeNotifier.value = defaultSelection;
-                        });
-                      }
-
-                      return DropdownField(
-                        label: AppStrings.salesMode,
-                        valueNotifier: widget.salesModeNotifier,
-                        items: paymentModes
-                            .map((mode) => mode.paymentModes)
-                            .toList(),
-                        backgroundColor: AppUtils.isDarkMode(context)
-                            ? context.colorScheme.tertiaryContainer
-                            : context.surfaceColor,
-                      );
-                    },
-                  )
                 ],
               ),
             ),
@@ -128,40 +119,74 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
         Row(
           children: [
             Expanded(
-              child: CustomTextField(
-                label: AppStrings.refNo,
-                controller: widget.refNoController,
-                hint: AppStrings.enterRefNumber,
-                labelAndTextfieldGap: 2,
-                height: 38.h,
-              ),
-            ),
+                child: paymentModeState.when(
+              initial: () => const SizedBox.shrink(),
+              loading: () =>
+                  Center(child: CircularProgressIndicator.adaptive()),
+              error: (message) => Text('Error: $message'),
+              loaded: (paymentModes, selectedPaymentMode) {
+                if (paymentModes.isNotEmpty &&
+                    widget.salesModeNotifier.value == null) {
+                  final defaultSelection = _getDefaultSelection(paymentModes);
+
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    widget.salesModeNotifier.value = defaultSelection;
+                  });
+                }
+
+                return DropdownField(
+                  label: AppStrings.salesMode,
+                  valueNotifier: widget.salesModeNotifier,
+                  items: paymentModes.map((mode) => mode.paymentModes).toList(),
+                  backgroundColor: AppUtils.isDarkMode(context)
+                      ? context.colorScheme.tertiaryContainer
+                      : context.surfaceColor,
+                  onChanged: (newValue) =>
+                      widget.salesModeNotifier.value = newValue,
+                );
+              },
+            )),
             SizedBox(
               width: 10.w,
             ),
             Expanded(
-              child: Consumer(builder: (context, WidgetRef ref, child) {
-                final state = ref.read(employeeProvider);
-                return state.maybeWhen(
-                  loaded: (employeeList) => DropdownField(
+              child: employeeState.maybeWhen(
+                loaded: (employeeList) {
+                  final List<String> employeeNames = employeeList
+                      .map((employee) =>
+                          '${employee.firstName ?? ''} ${employee.lastName ?? ''}'
+                              .trim())
+                      .where((name) => name.isNotEmpty)
+                      .toList();
+
+                  if (employeeNames.isNotEmpty) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      if (!employeeNames
+                          .contains(widget.soldByNotifier.value)) {
+                        widget.soldByNotifier.value = employeeNames.first;
+                      }
+                    });
+                  }
+                  log("employee names => $employeeNames");
+                  return DropdownField(
                     height: 38.h,
                     labelAndTextFieldGap: 2,
                     label: AppStrings.soldBy,
                     valueNotifier: widget.soldByNotifier,
-                    items: employeeList.map((employee) {
-                      return '${employee.firstName ?? ''} ${employee.lastName ?? ''}'
-                          .trim();
-                    }).toList(),
+                    onChanged: (newValue) =>
+                        widget.soldByNotifier.value = newValue,
+                    items: employeeNames,
                     backgroundColor: AppUtils.isDarkMode(context)
                         ? context.colorScheme.tertiaryContainer
                         : context.surfaceColor,
-                  ),
-                  initial: () => Center(
-                    child: CircularProgressIndicator.adaptive(),
-                  ),
-                  orElse: () => SizedBox.shrink(),
-                );
-              }),
+                  );
+                },
+                loading: () => const Center(
+                  child: CircularProgressIndicator.adaptive(),
+                ),
+                error: (message) => Text(message),
+                orElse: () => const SizedBox.shrink(),
+              ),
             ),
           ],
         ),
@@ -179,24 +204,84 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                   Row(
                     children: [
                       Expanded(
-                        child: DropdownField(
-                          height: 38.h,
-                          labelAndTextFieldGap: 2,
-                          label: AppStrings.cashAccount,
-                          valueNotifier: widget.soldByNotifier,
-                          items: ["item 1", "Item 2"],
+                        child: cashLedgerState.maybeWhen(
+                          loading: () => Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
+                          loaded: (ledgers) {
+                            if (ledgers.isEmpty) {
+                              return Text('No cash ledger data available');
+                            }
+
+                            final List<String> ledgerNames = ledgers
+                                .map((ledger) => ledger.ledgerName ?? "")
+                                .toList();
+
+                            if (ledgerNames.isNotEmpty &&
+                                widget.cashAccountNotifier.value == null) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                widget.cashAccountNotifier.value =
+                                    ledgerNames.first;
+                              });
+                            }
+
+                            return DropdownField(
+                              height: 38.h,
+                              labelAndTextFieldGap: 2,
+                              label: AppStrings.cashAccount,
+                              valueNotifier: widget.cashAccountNotifier,
+                              backgroundColor: AppUtils.isDarkMode(context)
+                                  ? context.colorScheme.tertiaryContainer
+                                  : context.surfaceColor,
+                              items: ledgerNames,
+                              onChanged: (newValue) =>
+                                  widget.cashAccountNotifier.value = newValue,
+                            );
+                          },
+                          error: (message) => Text(message),
+                          orElse: () => SizedBox.shrink(),
                         ),
                       ),
                       SizedBox(
                         width: 10.w,
                       ),
                       Expanded(
-                        child: DropdownField(
-                          height: 38.h,
-                          labelAndTextFieldGap: 2,
-                          label: AppStrings.salesAccount,
-                          valueNotifier: widget.soldByNotifier,
-                          items: ["item 1", "Item 2"],
+                        child: salesLedgerState.maybeWhen(
+                          loading: () => const Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
+                          loaded: (ledgers) {
+                            if (ledgers.isEmpty) {
+                              return Text('No sales ledger data available');
+                            }
+
+                            final List<String> ledgerNames = ledgers
+                                .map((ledger) => ledger.ledgerName ?? "")
+                                .where((name) => name.isNotEmpty)
+                                .toList();
+
+                            if (ledgerNames.isNotEmpty &&
+                                widget.soldByNotifier.value == null) {
+                              WidgetsBinding.instance.addPostFrameCallback((_) {
+                                widget.soldByNotifier.value = ledgerNames.first;
+                              });
+                            }
+
+                            return DropdownField(
+                              height: 38.h,
+                              labelAndTextFieldGap: 2,
+                              label: AppStrings.salesAccount,
+                              valueNotifier: widget.salesAccountNotifier,
+                              items: ledgerNames,
+                              backgroundColor: AppUtils.isDarkMode(context)
+                                  ? context.colorScheme.tertiaryContainer
+                                  : context.surfaceColor,
+                              onChanged: (newValue) =>
+                                  widget.salesAccountNotifier.value = newValue,
+                            );
+                          },
+                          error: (message) => Text(message),
+                          orElse: () => const SizedBox.shrink(),
                         ),
                       ),
                     ],

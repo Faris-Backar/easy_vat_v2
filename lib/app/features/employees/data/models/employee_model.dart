@@ -1,27 +1,38 @@
 import 'package:easy_vat_v2/app/features/employees/domain/entities/employee_entity.dart';
 
 class EmployeeModel extends EmployeeEntity {
-  final int? basicSalary;
+  DateTime? dateOfJoining;
+  double? regularWorkingHours;
+  double? hourlyRate;
+  double? basicSalary;
+  double? paidLeave;
+  List<DocumentModel>? documents;
+  List<AdditionalInfoModel>? additionalInfo;
+  List<LedgerModel>? ledger;
   EmployeeModel({
-    super.employeeIdpk,
-    super.employeeId,
-    super.firstName,
-    super.middleName,
-    super.lastName,
+    this.dateOfJoining,
+    this.regularWorkingHours,
+    this.hourlyRate,
+    this.basicSalary,
+    this.paidLeave,
+    this.documents,
+    this.additionalInfo,
+    this.ledger,
+    super.companyIdpk,
+    super.contactNumber,
     super.departmentIdpk,
     super.designationIdpk,
-    super.contactNumber,
-    super.permanentAddress,
-    super.gender,
     super.emailId,
+    super.employeeId,
+    super.employeeIdpk,
+    super.firstName,
+    super.gender,
+    super.lastName,
+    super.middleName,
+    super.permanentAddress,
     super.photoUrl,
-    super.salaryType,
     super.remarks,
-    super.companyIdpk,
-    // super.documents,
-    // super.ledger,
-    required this.basicSalary,
-    // required this.additionalInfo,
+    super.salaryType,
   });
 
   factory EmployeeModel.fromJson(Map<String, dynamic> json) => EmployeeModel(
@@ -37,23 +48,99 @@ class EmployeeModel extends EmployeeEntity {
         gender: json["gender"],
         emailId: json["emailID"],
         photoUrl: json["photoUrl"],
+        dateOfJoining: DateTime.tryParse(json["dateOfJoining"]),
         salaryType: json["salaryType"],
+        regularWorkingHours: json["regularWorkingHours"]?.toDouble(),
+        hourlyRate: json["hourlyRate"],
         basicSalary: json["basicSalary"],
+        paidLeave: json["paidLeave"].toDouble(),
         remarks: json["remarks"],
         companyIdpk: json["companyIDPK"],
+        documents: List<DocumentModel>.from(
+            json["documents"].map((x) => DocumentModel.fromJson(x))),
+        additionalInfo: List<AdditionalInfoModel>.from(
+            json["additionalInfo"].map((x) => AdditionalInfoModel.fromJson(x))),
+        ledger: List<LedgerModel>.from(
+            json["ledger"].map((x) => LedgerModel.fromJson(x))),
       );
+
+  Map<String, dynamic> toJson() => {
+        "employeeIDPK": employeeIdpk,
+        "employeeID": employeeId,
+        "firstName": firstName,
+        "middleName": middleName,
+        "lastName": lastName,
+        "departmentIDPK": departmentIdpk,
+        "designationIDPK": designationIdpk,
+        "contactNumber": contactNumber,
+        "permanentAddress": permanentAddress,
+        "gender": gender,
+        "emailID": emailId,
+        "photoUrl": photoUrl,
+        "dateOfJoining": dateOfJoining?.toIso8601String(),
+        "salaryType": salaryType,
+        "regularWorkingHours": regularWorkingHours,
+        "hourlyRate": hourlyRate,
+        "basicSalary": basicSalary,
+        "paidLeave": paidLeave,
+        "remarks": remarks,
+        "companyIDPK": companyIdpk,
+        "documents":
+            List<dynamic>.from(documents?.map((x) => x.toJson()) ?? []),
+        "additionalInfo":
+            List<dynamic>.from(additionalInfo?.map((x) => x.toJson()) ?? []),
+        "ledger": List<dynamic>.from(ledger?.map((x) => x.toJson()) ?? []),
+      };
 }
 
-class DocumentModel extends DocumentEntity {
+class AdditionalInfoModel {
+  String? addTranIdfk;
+  String? addFieldName;
+  String? addFieldValue;
+  String? addFieldDataType;
+
+  AdditionalInfoModel({
+    this.addTranIdfk,
+    this.addFieldName,
+    this.addFieldValue,
+    this.addFieldDataType,
+  });
+
+  factory AdditionalInfoModel.fromJson(Map<String, dynamic> json) =>
+      AdditionalInfoModel(
+        addTranIdfk: json["addTranIDFK"],
+        addFieldName: json["addFieldName"],
+        addFieldValue: json["addFieldValue"],
+        addFieldDataType: json["addFieldDataType"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "addTranIDFK": addTranIdfk,
+        "addFieldName": addFieldName,
+        "addFieldValue": addFieldValue,
+        "addFieldDataType": addFieldDataType,
+      };
+}
+
+class DocumentModel {
+  String? documentsIdpk;
+  String? documentsTranIdpk;
+  String? documentTypeIdfk;
+  String? documentNumber;
+  String? referenceType;
+  DateTime? issuedDate;
+  DateTime? renewalDate;
+  DateTime? expiryDate;
+
   DocumentModel({
-    super.documentsIdpk,
-    super.documentsTranIdpk,
-    super.documentTypeIdfk,
-    super.documentNumber,
-    super.referenceType,
-    super.issuedDate,
-    super.renewalDate,
-    super.expiryDate,
+    this.documentsIdpk,
+    this.documentsTranIdpk,
+    this.documentTypeIdfk,
+    this.documentNumber,
+    this.referenceType,
+    this.issuedDate,
+    this.renewalDate,
+    this.expiryDate,
   });
 
   factory DocumentModel.fromJson(Map<String, dynamic> json) => DocumentModel(
@@ -66,54 +153,86 @@ class DocumentModel extends DocumentEntity {
         renewalDate: DateTime.parse(json["renewalDate"]),
         expiryDate: DateTime.parse(json["expiryDate"]),
       );
+
+  Map<String, dynamic> toJson() => {
+        "documentsIDPK": documentsIdpk,
+        "documentsTranIDPK": documentsTranIdpk,
+        "documentTypeIDFK": documentTypeIdfk,
+        "documentNumber": documentNumber,
+        "referenceType": referenceType,
+        "issuedDate": issuedDate?.toIso8601String(),
+        "renewalDate": renewalDate?.toIso8601String(),
+        "expiryDate": expiryDate?.toIso8601String(),
+      };
 }
 
-class LedgerModel extends LedgerEntity {
-  final int? countryIdfk;
-  final int? countryStatIdfk;
-  final String? taxability;
-  final String? taxRegistrationType;
-  final DateTime? dateOfTaxRegistration;
-  final String? taxRegistrationNo;
-  final int? openingBalance;
-  final int? currentBalance;
-  final int? creditDays;
-  final int? creditLimit;
-  final String? rowguid;
+class LedgerModel {
+  String? ledgerIdpk;
+  String? underIdfk;
+  String? ledgerName;
+  String? description;
+  double? taxPercentage;
+  String? mailingName;
+  String? billingAddress;
+  int? countryIdfk;
+  int? countryStatIdfk;
+  String? taxability;
+  String? taxRegistrationType;
+  DateTime? dateOfTaxRegistration;
+  String? taxRegistrationNo;
+  String? mobile;
+  String? phone;
+  bool? isActive;
+  double? openingBalance;
+  String? openingBalanceType;
+  double? currentBalance;
+  String? contactPerson;
+  int? creditDays;
+  double? creditLimit;
+  String? createdBy;
+  DateTime? createdDate;
+  String? rowguid;
+  DateTime? modifiedDate;
+  bool? isEdit;
+  String? ledgerCode;
+  String? modifiedBy;
+  String? contactNo;
+  String? companyIdpk;
+  String? defaultPaymentMode;
 
   LedgerModel({
-    super.ledgerIdpk,
-    super.underIdfk,
-    super.ledgerName,
-    super.description,
-    super.taxPercentage,
-    super.mailingName,
-    super.billingAddress,
-    super.mobile,
-    super.phone,
-    super.isActive,
-    super.openingBalanceType,
-    super.contactPerson,
-    super.createdBy,
-    super.createdDate,
-    super.modifiedDate,
-    super.isEdit,
-    super.ledgerCode,
-    super.modifiedBy,
-    super.contactNo,
-    super.companyIdpk,
-    super.defaultPaymentMode,
-    required this.countryIdfk,
-    required this.countryStatIdfk,
-    required this.taxability,
-    required this.taxRegistrationType,
-    required this.dateOfTaxRegistration,
-    required this.taxRegistrationNo,
-    required this.openingBalance,
-    required this.currentBalance,
-    required this.creditDays,
-    required this.creditLimit,
-    required this.rowguid,
+    this.ledgerIdpk,
+    this.underIdfk,
+    this.ledgerName,
+    this.description,
+    this.taxPercentage,
+    this.mailingName,
+    this.billingAddress,
+    this.countryIdfk,
+    this.countryStatIdfk,
+    this.taxability,
+    this.taxRegistrationType,
+    this.dateOfTaxRegistration,
+    this.taxRegistrationNo,
+    this.mobile,
+    this.phone,
+    this.isActive,
+    this.openingBalance,
+    this.openingBalanceType,
+    this.currentBalance,
+    this.contactPerson,
+    this.creditDays,
+    this.creditLimit,
+    this.createdBy,
+    this.createdDate,
+    this.rowguid,
+    this.modifiedDate,
+    this.isEdit,
+    this.ledgerCode,
+    this.modifiedBy,
+    this.contactNo,
+    this.companyIdpk,
+    this.defaultPaymentMode,
   });
 
   factory LedgerModel.fromJson(Map<String, dynamic> json) => LedgerModel(
@@ -150,4 +269,39 @@ class LedgerModel extends LedgerEntity {
         companyIdpk: json["companyIDPK"],
         defaultPaymentMode: json["defaultPaymentMode"],
       );
+
+  Map<String, dynamic> toJson() => {
+        "ledgerIDPK": ledgerIdpk,
+        "underIDFK": underIdfk,
+        "ledgerName": ledgerName,
+        "description": description,
+        "taxPercentage": taxPercentage,
+        "mailingName": mailingName,
+        "billingAddress": billingAddress,
+        "countryIDFK": countryIdfk,
+        "countryStatIDFK": countryStatIdfk,
+        "taxability": taxability,
+        "taxRegistrationType": taxRegistrationType,
+        "dateOfTaxRegistration": dateOfTaxRegistration?.toIso8601String(),
+        "taxRegistrationNo": taxRegistrationNo,
+        "mobile": mobile,
+        "phone": phone,
+        "isActive": isActive,
+        "openingBalance": openingBalance,
+        "openingBalanceType": openingBalanceType,
+        "currentBalance": currentBalance,
+        "contactPerson": contactPerson,
+        "creditDays": creditDays,
+        "creditLimit": creditLimit,
+        "createdBy": createdBy,
+        "createdDate": createdDate?.toIso8601String(),
+        "rowguid": rowguid,
+        "modifiedDate": modifiedDate?.toIso8601String(),
+        "isEdit": isEdit,
+        "ledgerCode": ledgerCode,
+        "modifiedBy": modifiedBy,
+        "contactNo": contactNo,
+        "companyIDPK": companyIdpk,
+        "defaultPaymentMode": defaultPaymentMode,
+      };
 }
