@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/employees/presentation/providers/employee_notifiers.dart';
+import 'package:easy_vat_v2/app/features/payment_mode/data/model/payment_mode_model.dart';
+import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
+import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_state.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/customer_info_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
@@ -30,17 +35,21 @@ class AddNewSalesForm extends ConsumerStatefulWidget {
 
 class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
   final _viewMoreNotifier = ValueNotifier(false);
+  late PaymentModeState paymentModeState;
 
   @override
   void initState() {
     super.initState();
+    paymentModeState = ref.read(paymentModeNotifierProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(employeeProvider.notifier).getEmployees();
+      ref.watch(paymentModeNotifierProvider.notifier).fetchPaymentModes();
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    log("State=> $paymentModeState");
     return Column(
       children: [
         Row(
@@ -80,14 +89,34 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                   SizedBox(
                     height: 5,
                   ),
-                  DropdownField(
-                    label: AppStrings.salesMode,
-                    valueNotifier: widget.salesModeNotifier,
-                    items: ["item 1", "Item 2"],
-                    backgroundColor: AppUtils.isDarkMode(context)
-                        ? context.colorScheme.tertiaryContainer
-                        : context.surfaceColor,
-                  ),
+                  paymentModeState.when(
+                    initial: () => const SizedBox.shrink(),
+                    loading: () =>
+                        Center(child: CircularProgressIndicator.adaptive()),
+                    error: (message) => Text('Error: $message'),
+                    loaded: (paymentModes, selectedPaymentMode) {
+                      if (paymentModes.isNotEmpty &&
+                          widget.salesModeNotifier.value == null) {
+                        final defaultSelection =
+                            _getDefaultSelection(paymentModes);
+
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          widget.salesModeNotifier.value = defaultSelection;
+                        });
+                      }
+
+                      return DropdownField(
+                        label: AppStrings.salesMode,
+                        valueNotifier: widget.salesModeNotifier,
+                        items: paymentModes
+                            .map((mode) => mode.paymentModes)
+                            .toList(),
+                        backgroundColor: AppUtils.isDarkMode(context)
+                            ? context.colorScheme.tertiaryContainer
+                            : context.surfaceColor,
+                      );
+                    },
+                  )
                 ],
               ),
             ),
@@ -222,5 +251,14 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
         ),
       ],
     );
+  }
+
+  String _getDefaultSelection(List<PaymentModeModel> paymentModes) {
+    final cashMode = paymentModes.firstWhere(
+      (mode) => mode.paymentModes.toLowerCase() == 'cash',
+      orElse: () => paymentModes.first,
+    );
+
+    return cashMode.paymentModes;
   }
 }
