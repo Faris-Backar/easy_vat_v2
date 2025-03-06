@@ -135,15 +135,19 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                 }
 
                 return DropdownField(
-                  label: AppStrings.salesMode,
-                  valueNotifier: widget.salesModeNotifier,
-                  items: paymentModes.map((mode) => mode.paymentModes).toList(),
-                  backgroundColor: AppUtils.isDarkMode(context)
-                      ? context.colorScheme.tertiaryContainer
-                      : context.surfaceColor,
-                  onChanged: (newValue) =>
-                      widget.salesModeNotifier.value = newValue,
-                );
+                    label: AppStrings.salesMode,
+                    valueNotifier: widget.salesModeNotifier,
+                    items:
+                        paymentModes.map((mode) => mode.paymentModes).toList(),
+                    backgroundColor: AppUtils.isDarkMode(context)
+                        ? context.colorScheme.tertiaryContainer
+                        : context.surfaceColor,
+                    onChanged: (newValue) {
+                      widget.salesModeNotifier.value = newValue;
+                      if (newValue != null) {
+                        ref.read(cartProvider.notifier).setSalesMode(newValue);
+                      }
+                    });
               },
             )),
             SizedBox(
@@ -167,14 +171,26 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                       }
                     });
                   }
-                  log("employee names => $employeeNames");
                   return DropdownField(
                     height: 38.h,
                     labelAndTextFieldGap: 2,
                     label: AppStrings.soldBy,
                     valueNotifier: widget.soldByNotifier,
-                    onChanged: (newValue) =>
-                        widget.soldByNotifier.value = newValue,
+                    onChanged: (newValue) {
+                      widget.soldByNotifier.value = newValue;
+                      if (newValue != null) {
+                        final selectedEmployee = employeeList.firstWhere(
+                          (employee) =>
+                              '${employee.firstName ?? ''} ${employee.lastName ?? ''}'
+                                  .trim()
+                                  .toLowerCase() ==
+                              newValue.toLowerCase(),
+                        );
+                        ref
+                            .read(cartProvider.notifier)
+                            .setSoldBy(selectedEmployee);
+                      }
+                    },
                     items: employeeNames,
                     backgroundColor: AppUtils.isDarkMode(context)
                         ? context.colorScheme.tertiaryContainer
@@ -226,17 +242,22 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                             }
 
                             return DropdownField(
-                              height: 38.h,
-                              labelAndTextFieldGap: 2,
-                              label: AppStrings.cashAccount,
-                              valueNotifier: widget.cashAccountNotifier,
-                              backgroundColor: AppUtils.isDarkMode(context)
-                                  ? context.colorScheme.tertiaryContainer
-                                  : context.surfaceColor,
-                              items: ledgerNames,
-                              onChanged: (newValue) =>
-                                  widget.cashAccountNotifier.value = newValue,
-                            );
+                                height: 38.h,
+                                labelAndTextFieldGap: 2,
+                                label: AppStrings.cashAccount,
+                                valueNotifier: widget.cashAccountNotifier,
+                                backgroundColor: AppUtils.isDarkMode(context)
+                                    ? context.colorScheme.tertiaryContainer
+                                    : context.surfaceColor,
+                                items: ledgerNames,
+                                onChanged: (newValue) {
+                                  widget.cashAccountNotifier.value = newValue;
+                                  if (newValue != null) {
+                                    ref
+                                        .read(cartProvider.notifier)
+                                        .setCashAccount(newValue);
+                                  }
+                                });
                           },
                           error: (message) => Text(message),
                           orElse: () => SizedBox.shrink(),
@@ -268,17 +289,22 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                             }
 
                             return DropdownField(
-                              height: 38.h,
-                              labelAndTextFieldGap: 2,
-                              label: AppStrings.salesAccount,
-                              valueNotifier: widget.salesAccountNotifier,
-                              items: ledgerNames,
-                              backgroundColor: AppUtils.isDarkMode(context)
-                                  ? context.colorScheme.tertiaryContainer
-                                  : context.surfaceColor,
-                              onChanged: (newValue) =>
-                                  widget.salesAccountNotifier.value = newValue,
-                            );
+                                height: 38.h,
+                                labelAndTextFieldGap: 2,
+                                label: AppStrings.salesAccount,
+                                valueNotifier: widget.salesAccountNotifier,
+                                items: ledgerNames,
+                                backgroundColor: AppUtils.isDarkMode(context)
+                                    ? context.colorScheme.tertiaryContainer
+                                    : context.surfaceColor,
+                                onChanged: (newValue) {
+                                  widget.salesAccountNotifier.value = newValue;
+                                  if (newValue != null) {
+                                    ref
+                                        .read(cartProvider.notifier)
+                                        .setSalesAccount(newValue);
+                                  }
+                                });
                           },
                           error: (message) => Text(message),
                           orElse: () => const SizedBox.shrink(),
@@ -343,6 +369,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
       (mode) => mode.paymentModes.toLowerCase() == 'cash',
       orElse: () => paymentModes.first,
     );
+    ref.read(cartProvider.notifier).setSalesMode(cashMode.paymentModes);
 
     return cashMode.paymentModes;
   }

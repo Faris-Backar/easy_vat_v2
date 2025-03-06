@@ -15,7 +15,7 @@ class ItemEntity {
   final double? wholeSaleRate;
   final double? wholeSalePriceLock;
   final double? taxPercentage;
-  final int? openingStock;
+  final double? openingStock;
   final double? openingCost;
   final double? currentStock;
   final String? itemNameArabic;
@@ -25,15 +25,15 @@ class ItemEntity {
   final String? itemType;
   final String? shelfNo;
   final String? rackNo;
-  final int? convention;
+  final double? convention;
   final bool? isMaster;
   final String? accessLetter;
   final bool? quickItem;
   final double? maxDiscPerc;
-  final int? reorderLevel;
-  final int? reorderQty;
+  final double? reorderLevel;
+  final double? reorderQty;
   final String? supplierIdfk;
-  final int? kitchenNo;
+  final double? kitchenNo;
   final bool? isEditable;
   final DateTime? createdDate;
   final String? createdBy;
@@ -98,7 +98,7 @@ class ItemEntity {
 class StoreCurrentStockEntity {
   final String? storeIdpk;
   final String? itemIdpk;
-  final int? currentStock;
+  final double? currentStock;
   final String? companyIdpk;
 
   StoreCurrentStockEntity(
@@ -110,7 +110,7 @@ class SubItemEntity {
   final String? barcode;
   final String? itemName;
   final String? description;
-  final int? convention;
+  final double? convention;
   final String? unit;
   final double? cost;
   final double? retailRate;

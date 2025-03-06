@@ -1,4 +1,5 @@
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
+import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'cart_state.freezed.dart';
@@ -12,6 +13,7 @@ class CartState with _$CartState {
     required double roundOf,
     required double totalTax,
     required double totalBeforeTax,
+    CustomerEntity? selectedCustomer,
   }) = _CartState;
 
   factory CartState.initial() => const CartState(
@@ -20,5 +22,6 @@ class CartState with _$CartState {
       discount: 0.0,
       roundOf: 0.0,
       totalBeforeTax: 0.0,
-      totalTax: 0.0);
+      totalTax: 0.0,
+      selectedCustomer: null);
 }

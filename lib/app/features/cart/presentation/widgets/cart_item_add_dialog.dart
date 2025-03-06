@@ -69,7 +69,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
               Expanded(
                 child: CustomTextField(
                   height: 36.h,
-                  label: AppStrings.quantity,
+                  label: AppStrings.sellingPrice,
                   controller: _sellingPriceController,
                   fillColor: context.colorScheme.tertiaryContainer,
                 ),

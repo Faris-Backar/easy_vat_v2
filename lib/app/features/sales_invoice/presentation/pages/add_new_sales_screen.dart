@@ -4,7 +4,6 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/create_sales_inovice/create_sales_invoice_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/add_new_sales_form.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/add_sales_footer_widget.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/rate_splitup_widget.dart';
@@ -104,7 +103,7 @@ class _AddNewSalesScreenState extends State<AddNewSalesScreen> {
       leading: Consumer(builder: (context, ref, child) {
         return IconButton(
           onPressed: () {
-            ref.read(createSalesNotifierProvider.notifier).clearData();
+            ref.read(cartProvider.notifier).clearCart();
             context.router.popForced();
           },
           icon: Icon(Icons.adaptive.arrow_back),

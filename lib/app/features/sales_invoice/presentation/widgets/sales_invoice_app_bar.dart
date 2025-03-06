@@ -33,8 +33,8 @@ class SalesInvoiceAppBar extends ConsumerStatefulWidget
 }
 
 class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
-  DateTime? fromDate;
-  DateTime? toDate;
+  DateTime fromDate = DateTime.now();
+  DateTime toDate = DateTime.now();
   DateTime? selectedSaleDate;
   final ValueNotifier<String?> salesModeNotifer = ValueNotifier(null);
   final ValueNotifier<String?> soldByNotifier = ValueNotifier(null);
@@ -52,17 +52,15 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
   }
 
   void _fetchSalesInvoice() {
-    if (fromDate != null && toDate != null) {
-      final params = SalesInvoiceParams(
-        salesIDPK: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-        fromDate: fromDate!,
-        toDate: toDate!,
-        customerID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      );
-      ref
-          .read(salesInvoiceNotifierProvider.notifier)
-          .fetchSalesInvoice(params: params);
-    }
+    final params = SalesInvoiceParams(
+      salesIDPK: "00000000-0000-0000-0000-000000000000",
+      fromDate: fromDate,
+      toDate: toDate,
+      customerID: "00000000-0000-0000-0000-000000000000",
+    );
+    ref
+        .read(salesInvoiceNotifierProvider.notifier)
+        .fetchSalesInvoice(params: params);
   }
 
   @override

@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_notifier.dart';
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_state.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/create_sales_inovice/create_sales_invoice_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/customer_details_card.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
@@ -28,12 +30,39 @@ class CustomerInfoWidget extends ConsumerStatefulWidget {
 class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
   final _searchController = TextEditingController();
   final _expansionNotifier = ValueNotifier<int?>(null);
+  late CustomerState customerState;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _fetchAndSelectCustomer();
+    });
+  }
+
+  Future<void> _fetchAndSelectCustomer() async {
+    await ref.read(customerNotifierProvider.notifier).getCustomer();
+
+    final customerState = ref.read(customerNotifierProvider);
+
+    if (customerState.status == CustomerStateStatus.success) {
+      final selectedCustomer = customerState.customerList?.firstWhere(
+        (customer) =>
+            customer.ledgerName?.toLowerCase() == 'cash' ||
+            customer.ledgerName?.toLowerCase() == 'cash customer',
+      );
+
+      if (selectedCustomer != null) {
+        ref.read(cartProvider.notifier).setCustomer(selectedCustomer);
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    customerState = ref.watch(customerNotifierProvider);
     return InkWell(
       onTap: () {
-        ref.read(customerNotifierProvider.notifier).getCustomer();
         showModalBottomSheet(
           context: context,
           useSafeArea: true,
@@ -42,8 +71,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
               ? context.colorScheme.tertiaryContainer
               : context.colorScheme.surfaceContainerLowest,
           builder: (context) => Consumer(builder: (context, ref, child) {
-            final state = ref.watch(customerNotifierProvider);
-            return _buildCustomerBottomSheet(context, state);
+            return _buildCustomerBottomSheet(context, customerState);
           }),
         ).whenComplete(() {
           _expansionNotifier.value = null;
@@ -85,10 +113,19 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                 builder: (_, expandedIndex, __) => ListView.separated(
                   separatorBuilder: (_, __) => const SizedBox(height: 10),
                   itemCount: state.customerList?.length ?? 0,
-                  itemBuilder: (_, index) => InkWell(
-                      onTap: () {},
-                      child: _buildCustomerCard(
-                          index, expandedIndex, state.customerList![index])),
+                  itemBuilder: (_, index) {
+                    final customer = state.customerList![index];
+                    if (customer.ledgerName?.toLowerCase() == 'cash' ||
+                        customer.ledgerName?.toLowerCase() == 'cash customer') {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        ref.read(cartProvider.notifier).setCustomer(customer);
+                      });
+                    }
+                    return InkWell(
+                        onTap: () {},
+                        child:
+                            _buildCustomerCard(index, expandedIndex, customer));
+                  },
                 ),
               ),
             )
@@ -148,11 +185,13 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                           onPressed: value != null
                               ? () {
                                   if (state.customerList?.isNotEmpty == true) {
+                                    final selectedCustomer =
+                                        state.customerList![
+                                            _expansionNotifier.value!];
+                                    log("selected Customer => ${_expansionNotifier.value} || \n $selectedCustomer");
                                     ref
-                                        .read(createSalesNotifierProvider
-                                            .notifier)
-                                        .setCustomer(state.customerList![
-                                            _expansionNotifier.value!]);
+                                        .read(cartProvider.notifier)
+                                        .setCustomer(selectedCustomer);
                                     context.router.popForced();
                                   }
                                 }
@@ -177,56 +216,68 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
   }
 
   Widget _buildCustomerTabView(BuildContext context) {
-    final selectedCustomer =
-        ref.watch(createSalesNotifierProvider).selectedCustomer;
-    return DefaultTabController(
-      length: 3,
-      child: Container(
-        height: 185.h,
-        decoration: BoxDecoration(
-          border: Border.all(
-              color: context.colorScheme.outline.withValues(alpha: 0.5)),
-          color: AppUtils.isDarkMode(context)
-              ? context.colorScheme.tertiaryContainer
-              : const Color(0xFFFDFBFF),
-          borderRadius: BorderRadius.circular(12.0),
-        ),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: _buildTabBar(context),
-            ),
-            Expanded(
-              child: Padding(
+    final selectedCustomer = ref.watch(cartProvider).selectedCustomer;
+    log("selected customer from => $selectedCustomer");
+    if (customerState.status == CustomerStateStatus.loading) {
+      return Center(
+        child: CircularProgressIndicator.adaptive(),
+      );
+    } else if (customerState.status == CustomerStateStatus.success) {
+      return DefaultTabController(
+        length: 3,
+        child: Container(
+          height: 185.h,
+          decoration: BoxDecoration(
+            border: Border.all(
+                color: context.colorScheme.outline.withValues(alpha: 0.5)),
+            color: AppUtils.isDarkMode(context)
+                ? context.colorScheme.tertiaryContainer
+                : const Color(0xFFFDFBFF),
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          child: Column(
+            children: [
+              Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: TabBarView(
-                  children: [
-                    CustomerInfoTabContent(
-                      creditDays:
-                          selectedCustomer?.creditDays?.toString() ?? "0",
-                      creditLimit:
-                          selectedCustomer?.creditLimit?.toStringAsFixed(2) ??
-                              "0.0",
-                      customerName: selectedCustomer?.ledgerName ?? "",
-                      outstandingAmount:
-                          selectedCustomer?.creditLimit?.toStringAsFixed(2) ??
-                              "0.0",
-                      trn: selectedCustomer?.taxRegistrationNo ?? "",
-                      isActive: selectedCustomer?.isActive ?? false,
-                    ),
-                    CustomerAddressInfo(
-                        address: selectedCustomer?.billingAddress ?? "-"),
-                    CustomerAddressInfo(
-                        address: selectedCustomer?.billingAddress ?? "-"),
-                  ],
+                child: _buildTabBar(context),
+              ),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TabBarView(
+                    children: [
+                      CustomerInfoTabContent(
+                        creditDays:
+                            selectedCustomer?.creditDays?.toString() ?? "0",
+                        creditLimit:
+                            selectedCustomer?.creditLimit?.toStringAsFixed(2) ??
+                                "0.0",
+                        customerName: selectedCustomer?.ledgerName ?? "",
+                        outstandingAmount:
+                            selectedCustomer?.creditLimit?.toStringAsFixed(2) ??
+                                "0.0",
+                        trn: selectedCustomer?.taxRegistrationNo ?? "",
+                        isActive: selectedCustomer?.isActive ?? false,
+                      ),
+                      CustomerAddressInfo(
+                          address: selectedCustomer?.billingAddress ?? "-"),
+                      CustomerAddressInfo(
+                          address: selectedCustomer?.billingAddress ?? "-"),
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    } else if (customerState.status == CustomerStateStatus.failure) {
+      return Center(
+        child: Text(customerState.errorMessage ?? "Something went wrong."),
+      );
+    } else {
+      return SizedBox.shrink();
+    }
   }
 
   Widget _buildTabBar(BuildContext context) {

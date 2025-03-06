@@ -1,7 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/widgets/items_bottom_modal_sheet.dart';
+import 'package:easy_vat_v2/app/features/items/presentation/providers/item_notifier.dart';
+import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/create_sales_inovice/create_sales_invoice_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -9,6 +13,7 @@ import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddSalesFooterWidget extends StatefulWidget {
   final TextEditingController saleNoController;
@@ -59,24 +64,55 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
               SizedBox(
                 width: double.infinity,
                 height: 40.h,
-                child: PrimaryButton(
-                  label: AppStrings.save,
-                  onPressed: () {
-                    ref
-                        .read(cartProvider.notifier)
-                        .setSalesNo(widget.saleNoController.text);
-                    ref
-                        .read(cartProvider.notifier)
-                        .setSalesMode(widget.salesModeNotifier.value ?? "");
-                    ref
-                        .read(cartProvider.notifier)
-                        .setRefNo(widget.refNoController.text);
-                    ref
-                        .read(cartProvider.notifier)
-                        .setSoldBy(widget.soldByNotifier.value ?? "");
-                    // ref
-                    //     .read(cartProvider.notifier)
-                    //     .setCashAccount(widget.salesModeNotifier.value ?? "");
+                child: Consumer(
+                  builder: (context, WidgetRef ref, child) {
+                    ref.listen(createSalesNotifierProvider, (previous, next) {
+                      next.mapOrNull(
+                        success: (success) {
+                          Fluttertoast.showToast(
+                            msg: "Sales order successfully created!",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                          );
+                          ref.read(cartProvider.notifier).clearCart();
+                          context.router.popForced();
+                        },
+                        failure: (message) =>
+                            ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(message.error)),
+                        ),
+                      );
+                    });
+
+                    final state = ref.watch(createSalesNotifierProvider);
+
+                    return state.maybeWhen(
+                      orElse: () => PrimaryButton(
+                        label: AppStrings.save,
+                        isLoading: false,
+                        onPressed: () {
+                          ref
+                              .read(cartProvider.notifier)
+                              .setSalesNo(widget.saleNoController.text);
+                          ref.read(cartProvider.notifier).setSalesMode(
+                              widget.salesModeNotifier.value ?? "");
+                          ref
+                              .read(cartProvider.notifier)
+                              .setRefNo(widget.refNoController.text);
+
+                          final newSale =
+                              ref.read(cartProvider.notifier).createNewSale();
+                          ref
+                              .read(createSalesNotifierProvider.notifier)
+                              .createSalesOrder(request: newSale);
+                        },
+                      ),
+                      loading: () => PrimaryButton(
+                        label: AppStrings.save,
+                        isLoading: true,
+                        onPressed: () {},
+                      ),
+                    );
                   },
                 ),
               )
@@ -90,13 +126,17 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
   Widget _buildButtonsRow(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-            child: _buildActionButton(
-          context,
-          Icons.add_circle_outline_rounded,
-          AppStrings.addItem,
-          () {},
-        )),
+        Expanded(child: Consumer(builder: (context, WidgetRef ref, child) {
+          return _buildActionButton(
+            context,
+            Icons.add_circle_outline_rounded,
+            AppStrings.addItem,
+            () {
+              ref.read(itemProvider.notifier).fetchItems();
+              showItemsBottomSheet(context);
+            },
+          );
+        })),
         SizedBox(width: 8.w),
         Expanded(
           child: _buildActionButton(

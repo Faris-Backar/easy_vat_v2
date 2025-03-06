@@ -21,57 +21,57 @@ SalesInvoiceRequestModel _$SalesInvoiceRequestModelFromJson(
 
 /// @nodoc
 mixin _$SalesInvoiceRequestModel {
-  String get saleIdpk => throw _privateConstructorUsedError;
-  int get saleNo => throw _privateConstructorUsedError;
-  String get saleMode => throw _privateConstructorUsedError;
-  String get crLedgerIdfk => throw _privateConstructorUsedError;
-  String get drLedgerIdfk => throw _privateConstructorUsedError;
-  String get custemerIdfk => throw _privateConstructorUsedError;
-  String get creditAccount => throw _privateConstructorUsedError;
-  String get debitAccount => throw _privateConstructorUsedError;
-  String get referenceNo => throw _privateConstructorUsedError;
-  DateTime get saleDate => throw _privateConstructorUsedError;
-  String get cashTrn => throw _privateConstructorUsedError;
-  String get cashCustomerAddress => throw _privateConstructorUsedError;
-  String get shippingAddress => throw _privateConstructorUsedError;
-  String get customerName => throw _privateConstructorUsedError;
-  String get remarks => throw _privateConstructorUsedError;
-  String get lpoNo => throw _privateConstructorUsedError;
-  String get doNo => throw _privateConstructorUsedError;
-  String get diningArea => throw _privateConstructorUsedError;
-  String get diningTable => throw _privateConstructorUsedError;
-  String get quotationNo => throw _privateConstructorUsedError;
-  String get requestNo => throw _privateConstructorUsedError;
-  int get cashAmount => throw _privateConstructorUsedError;
-  int get creditCardAmount => throw _privateConstructorUsedError;
-  DateTime get actualSalesDate => throw _privateConstructorUsedError;
-  String get vehicleNo => throw _privateConstructorUsedError;
-  String get genaralNotes => throw _privateConstructorUsedError;
-  String get salesOrderNo => throw _privateConstructorUsedError;
-  String get soldBy => throw _privateConstructorUsedError;
-  int get grossAmount => throw _privateConstructorUsedError;
-  int get tax => throw _privateConstructorUsedError;
-  int get discount => throw _privateConstructorUsedError;
-  int get netTotal => throw _privateConstructorUsedError;
-  int get roundOff => throw _privateConstructorUsedError;
-  int get amountTendered => throw _privateConstructorUsedError;
-  String get deliveryBoy => throw _privateConstructorUsedError;
-  bool get isEditable => throw _privateConstructorUsedError;
-  bool get isCanceled => throw _privateConstructorUsedError;
-  bool get isLockVoucher => throw _privateConstructorUsedError;
-  String get createdBy => throw _privateConstructorUsedError;
-  DateTime get createdDate => throw _privateConstructorUsedError;
-  String get modifiedBy => throw _privateConstructorUsedError;
-  DateTime get modifiedDate => throw _privateConstructorUsedError;
-  String get rowguid => throw _privateConstructorUsedError;
-  bool get isPos => throw _privateConstructorUsedError;
-  String get deliveryBoyIdpk => throw _privateConstructorUsedError;
-  String get notesAndInstructions => throw _privateConstructorUsedError;
-  String get drLedgerCashAccount => throw _privateConstructorUsedError;
-  String get drLedgerBankAccount => throw _privateConstructorUsedError;
-  String get orderType => throw _privateConstructorUsedError;
-  int get deliveryCharge => throw _privateConstructorUsedError;
-  List<SoldItem> get soldItems => throw _privateConstructorUsedError;
+  String? get saleIdpk => throw _privateConstructorUsedError;
+  int? get saleNo => throw _privateConstructorUsedError;
+  String? get saleMode => throw _privateConstructorUsedError;
+  String? get crLedgerIdfk => throw _privateConstructorUsedError;
+  String? get drLedgerIdfk => throw _privateConstructorUsedError;
+  String? get custemerIdfk => throw _privateConstructorUsedError;
+  String? get creditAccount => throw _privateConstructorUsedError;
+  String? get debitAccount => throw _privateConstructorUsedError;
+  String? get referenceNo => throw _privateConstructorUsedError;
+  DateTime? get saleDate => throw _privateConstructorUsedError;
+  String? get cashTrn => throw _privateConstructorUsedError;
+  String? get cashCustomerAddress => throw _privateConstructorUsedError;
+  String? get shippingAddress => throw _privateConstructorUsedError;
+  String? get customerName => throw _privateConstructorUsedError;
+  String? get remarks => throw _privateConstructorUsedError;
+  String? get lpoNo => throw _privateConstructorUsedError;
+  String? get doNo => throw _privateConstructorUsedError;
+  String? get diningArea => throw _privateConstructorUsedError;
+  String? get diningTable => throw _privateConstructorUsedError;
+  String? get quotationNo => throw _privateConstructorUsedError;
+  String? get requestNo => throw _privateConstructorUsedError;
+  double? get cashAmount => throw _privateConstructorUsedError;
+  double? get creditCardAmount => throw _privateConstructorUsedError;
+  DateTime? get actualSalesDate => throw _privateConstructorUsedError;
+  String? get vehicleNo => throw _privateConstructorUsedError;
+  String? get genaralNotes => throw _privateConstructorUsedError;
+  String? get salesOrderNo => throw _privateConstructorUsedError;
+  String? get soldBy => throw _privateConstructorUsedError;
+  double? get grossAmount => throw _privateConstructorUsedError;
+  double? get tax => throw _privateConstructorUsedError;
+  double? get discount => throw _privateConstructorUsedError;
+  double? get netTotal => throw _privateConstructorUsedError;
+  double? get roundOff => throw _privateConstructorUsedError;
+  double? get amountTendered => throw _privateConstructorUsedError;
+  String? get deliveryBoy => throw _privateConstructorUsedError;
+  bool? get isEditable => throw _privateConstructorUsedError;
+  bool? get isCanceled => throw _privateConstructorUsedError;
+  bool? get isLockVoucher => throw _privateConstructorUsedError;
+  String? get createdBy => throw _privateConstructorUsedError;
+  DateTime? get createdDate => throw _privateConstructorUsedError;
+  String? get modifiedBy => throw _privateConstructorUsedError;
+  DateTime? get modifiedDate => throw _privateConstructorUsedError;
+  String? get rowguid => throw _privateConstructorUsedError;
+  bool? get isPos => throw _privateConstructorUsedError;
+  String? get deliveryBoyIdpk => throw _privateConstructorUsedError;
+  String? get notesAndInstructions => throw _privateConstructorUsedError;
+  String? get drLedgerCashAccount => throw _privateConstructorUsedError;
+  String? get drLedgerBankAccount => throw _privateConstructorUsedError;
+  String? get orderType => throw _privateConstructorUsedError;
+  int? get deliveryCharge => throw _privateConstructorUsedError;
+  List<SoldItem>? get soldItems => throw _privateConstructorUsedError;
 
   /// Serializes this SalesInvoiceRequestModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -90,57 +90,57 @@ abstract class $SalesInvoiceRequestModelCopyWith<$Res> {
       _$SalesInvoiceRequestModelCopyWithImpl<$Res, SalesInvoiceRequestModel>;
   @useResult
   $Res call(
-      {String saleIdpk,
-      int saleNo,
-      String saleMode,
-      String crLedgerIdfk,
-      String drLedgerIdfk,
-      String custemerIdfk,
-      String creditAccount,
-      String debitAccount,
-      String referenceNo,
-      DateTime saleDate,
-      String cashTrn,
-      String cashCustomerAddress,
-      String shippingAddress,
-      String customerName,
-      String remarks,
-      String lpoNo,
-      String doNo,
-      String diningArea,
-      String diningTable,
-      String quotationNo,
-      String requestNo,
-      int cashAmount,
-      int creditCardAmount,
-      DateTime actualSalesDate,
-      String vehicleNo,
-      String genaralNotes,
-      String salesOrderNo,
-      String soldBy,
-      int grossAmount,
-      int tax,
-      int discount,
-      int netTotal,
-      int roundOff,
-      int amountTendered,
-      String deliveryBoy,
-      bool isEditable,
-      bool isCanceled,
-      bool isLockVoucher,
-      String createdBy,
-      DateTime createdDate,
-      String modifiedBy,
-      DateTime modifiedDate,
-      String rowguid,
-      bool isPos,
-      String deliveryBoyIdpk,
-      String notesAndInstructions,
-      String drLedgerCashAccount,
-      String drLedgerBankAccount,
-      String orderType,
-      int deliveryCharge,
-      List<SoldItem> soldItems});
+      {String? saleIdpk,
+      int? saleNo,
+      String? saleMode,
+      String? crLedgerIdfk,
+      String? drLedgerIdfk,
+      String? custemerIdfk,
+      String? creditAccount,
+      String? debitAccount,
+      String? referenceNo,
+      DateTime? saleDate,
+      String? cashTrn,
+      String? cashCustomerAddress,
+      String? shippingAddress,
+      String? customerName,
+      String? remarks,
+      String? lpoNo,
+      String? doNo,
+      String? diningArea,
+      String? diningTable,
+      String? quotationNo,
+      String? requestNo,
+      double? cashAmount,
+      double? creditCardAmount,
+      DateTime? actualSalesDate,
+      String? vehicleNo,
+      String? genaralNotes,
+      String? salesOrderNo,
+      String? soldBy,
+      double? grossAmount,
+      double? tax,
+      double? discount,
+      double? netTotal,
+      double? roundOff,
+      double? amountTendered,
+      String? deliveryBoy,
+      bool? isEditable,
+      bool? isCanceled,
+      bool? isLockVoucher,
+      String? createdBy,
+      DateTime? createdDate,
+      String? modifiedBy,
+      DateTime? modifiedDate,
+      String? rowguid,
+      bool? isPos,
+      String? deliveryBoyIdpk,
+      String? notesAndInstructions,
+      String? drLedgerCashAccount,
+      String? drLedgerBankAccount,
+      String? orderType,
+      int? deliveryCharge,
+      List<SoldItem>? soldItems});
 }
 
 /// @nodoc
@@ -159,263 +159,263 @@ class _$SalesInvoiceRequestModelCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? saleIdpk = null,
-    Object? saleNo = null,
-    Object? saleMode = null,
-    Object? crLedgerIdfk = null,
-    Object? drLedgerIdfk = null,
-    Object? custemerIdfk = null,
-    Object? creditAccount = null,
-    Object? debitAccount = null,
-    Object? referenceNo = null,
-    Object? saleDate = null,
-    Object? cashTrn = null,
-    Object? cashCustomerAddress = null,
-    Object? shippingAddress = null,
-    Object? customerName = null,
-    Object? remarks = null,
-    Object? lpoNo = null,
-    Object? doNo = null,
-    Object? diningArea = null,
-    Object? diningTable = null,
-    Object? quotationNo = null,
-    Object? requestNo = null,
-    Object? cashAmount = null,
-    Object? creditCardAmount = null,
-    Object? actualSalesDate = null,
-    Object? vehicleNo = null,
-    Object? genaralNotes = null,
-    Object? salesOrderNo = null,
-    Object? soldBy = null,
-    Object? grossAmount = null,
-    Object? tax = null,
-    Object? discount = null,
-    Object? netTotal = null,
-    Object? roundOff = null,
-    Object? amountTendered = null,
-    Object? deliveryBoy = null,
-    Object? isEditable = null,
-    Object? isCanceled = null,
-    Object? isLockVoucher = null,
-    Object? createdBy = null,
-    Object? createdDate = null,
-    Object? modifiedBy = null,
-    Object? modifiedDate = null,
-    Object? rowguid = null,
-    Object? isPos = null,
-    Object? deliveryBoyIdpk = null,
-    Object? notesAndInstructions = null,
-    Object? drLedgerCashAccount = null,
-    Object? drLedgerBankAccount = null,
-    Object? orderType = null,
-    Object? deliveryCharge = null,
-    Object? soldItems = null,
+    Object? saleIdpk = freezed,
+    Object? saleNo = freezed,
+    Object? saleMode = freezed,
+    Object? crLedgerIdfk = freezed,
+    Object? drLedgerIdfk = freezed,
+    Object? custemerIdfk = freezed,
+    Object? creditAccount = freezed,
+    Object? debitAccount = freezed,
+    Object? referenceNo = freezed,
+    Object? saleDate = freezed,
+    Object? cashTrn = freezed,
+    Object? cashCustomerAddress = freezed,
+    Object? shippingAddress = freezed,
+    Object? customerName = freezed,
+    Object? remarks = freezed,
+    Object? lpoNo = freezed,
+    Object? doNo = freezed,
+    Object? diningArea = freezed,
+    Object? diningTable = freezed,
+    Object? quotationNo = freezed,
+    Object? requestNo = freezed,
+    Object? cashAmount = freezed,
+    Object? creditCardAmount = freezed,
+    Object? actualSalesDate = freezed,
+    Object? vehicleNo = freezed,
+    Object? genaralNotes = freezed,
+    Object? salesOrderNo = freezed,
+    Object? soldBy = freezed,
+    Object? grossAmount = freezed,
+    Object? tax = freezed,
+    Object? discount = freezed,
+    Object? netTotal = freezed,
+    Object? roundOff = freezed,
+    Object? amountTendered = freezed,
+    Object? deliveryBoy = freezed,
+    Object? isEditable = freezed,
+    Object? isCanceled = freezed,
+    Object? isLockVoucher = freezed,
+    Object? createdBy = freezed,
+    Object? createdDate = freezed,
+    Object? modifiedBy = freezed,
+    Object? modifiedDate = freezed,
+    Object? rowguid = freezed,
+    Object? isPos = freezed,
+    Object? deliveryBoyIdpk = freezed,
+    Object? notesAndInstructions = freezed,
+    Object? drLedgerCashAccount = freezed,
+    Object? drLedgerBankAccount = freezed,
+    Object? orderType = freezed,
+    Object? deliveryCharge = freezed,
+    Object? soldItems = freezed,
   }) {
     return _then(_value.copyWith(
-      saleIdpk: null == saleIdpk
+      saleIdpk: freezed == saleIdpk
           ? _value.saleIdpk
           : saleIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      saleNo: null == saleNo
+              as String?,
+      saleNo: freezed == saleNo
           ? _value.saleNo
           : saleNo // ignore: cast_nullable_to_non_nullable
-              as int,
-      saleMode: null == saleMode
+              as int?,
+      saleMode: freezed == saleMode
           ? _value.saleMode
           : saleMode // ignore: cast_nullable_to_non_nullable
-              as String,
-      crLedgerIdfk: null == crLedgerIdfk
+              as String?,
+      crLedgerIdfk: freezed == crLedgerIdfk
           ? _value.crLedgerIdfk
           : crLedgerIdfk // ignore: cast_nullable_to_non_nullable
-              as String,
-      drLedgerIdfk: null == drLedgerIdfk
+              as String?,
+      drLedgerIdfk: freezed == drLedgerIdfk
           ? _value.drLedgerIdfk
           : drLedgerIdfk // ignore: cast_nullable_to_non_nullable
-              as String,
-      custemerIdfk: null == custemerIdfk
+              as String?,
+      custemerIdfk: freezed == custemerIdfk
           ? _value.custemerIdfk
           : custemerIdfk // ignore: cast_nullable_to_non_nullable
-              as String,
-      creditAccount: null == creditAccount
+              as String?,
+      creditAccount: freezed == creditAccount
           ? _value.creditAccount
           : creditAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      debitAccount: null == debitAccount
+              as String?,
+      debitAccount: freezed == debitAccount
           ? _value.debitAccount
           : debitAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      referenceNo: null == referenceNo
+              as String?,
+      referenceNo: freezed == referenceNo
           ? _value.referenceNo
           : referenceNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      saleDate: null == saleDate
+              as String?,
+      saleDate: freezed == saleDate
           ? _value.saleDate
           : saleDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      cashTrn: null == cashTrn
+              as DateTime?,
+      cashTrn: freezed == cashTrn
           ? _value.cashTrn
           : cashTrn // ignore: cast_nullable_to_non_nullable
-              as String,
-      cashCustomerAddress: null == cashCustomerAddress
+              as String?,
+      cashCustomerAddress: freezed == cashCustomerAddress
           ? _value.cashCustomerAddress
           : cashCustomerAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      shippingAddress: null == shippingAddress
+              as String?,
+      shippingAddress: freezed == shippingAddress
           ? _value.shippingAddress
           : shippingAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      customerName: null == customerName
+              as String?,
+      customerName: freezed == customerName
           ? _value.customerName
           : customerName // ignore: cast_nullable_to_non_nullable
-              as String,
-      remarks: null == remarks
+              as String?,
+      remarks: freezed == remarks
           ? _value.remarks
           : remarks // ignore: cast_nullable_to_non_nullable
-              as String,
-      lpoNo: null == lpoNo
+              as String?,
+      lpoNo: freezed == lpoNo
           ? _value.lpoNo
           : lpoNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      doNo: null == doNo
+              as String?,
+      doNo: freezed == doNo
           ? _value.doNo
           : doNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      diningArea: null == diningArea
+              as String?,
+      diningArea: freezed == diningArea
           ? _value.diningArea
           : diningArea // ignore: cast_nullable_to_non_nullable
-              as String,
-      diningTable: null == diningTable
+              as String?,
+      diningTable: freezed == diningTable
           ? _value.diningTable
           : diningTable // ignore: cast_nullable_to_non_nullable
-              as String,
-      quotationNo: null == quotationNo
+              as String?,
+      quotationNo: freezed == quotationNo
           ? _value.quotationNo
           : quotationNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      requestNo: null == requestNo
+              as String?,
+      requestNo: freezed == requestNo
           ? _value.requestNo
           : requestNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      cashAmount: null == cashAmount
+              as String?,
+      cashAmount: freezed == cashAmount
           ? _value.cashAmount
           : cashAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      creditCardAmount: null == creditCardAmount
+              as double?,
+      creditCardAmount: freezed == creditCardAmount
           ? _value.creditCardAmount
           : creditCardAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      actualSalesDate: null == actualSalesDate
+              as double?,
+      actualSalesDate: freezed == actualSalesDate
           ? _value.actualSalesDate
           : actualSalesDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      vehicleNo: null == vehicleNo
+              as DateTime?,
+      vehicleNo: freezed == vehicleNo
           ? _value.vehicleNo
           : vehicleNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      genaralNotes: null == genaralNotes
+              as String?,
+      genaralNotes: freezed == genaralNotes
           ? _value.genaralNotes
           : genaralNotes // ignore: cast_nullable_to_non_nullable
-              as String,
-      salesOrderNo: null == salesOrderNo
+              as String?,
+      salesOrderNo: freezed == salesOrderNo
           ? _value.salesOrderNo
           : salesOrderNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      soldBy: null == soldBy
+              as String?,
+      soldBy: freezed == soldBy
           ? _value.soldBy
           : soldBy // ignore: cast_nullable_to_non_nullable
-              as String,
-      grossAmount: null == grossAmount
+              as String?,
+      grossAmount: freezed == grossAmount
           ? _value.grossAmount
           : grossAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      tax: null == tax
+              as double?,
+      tax: freezed == tax
           ? _value.tax
           : tax // ignore: cast_nullable_to_non_nullable
-              as int,
-      discount: null == discount
+              as double?,
+      discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
-              as int,
-      netTotal: null == netTotal
+              as double?,
+      netTotal: freezed == netTotal
           ? _value.netTotal
           : netTotal // ignore: cast_nullable_to_non_nullable
-              as int,
-      roundOff: null == roundOff
+              as double?,
+      roundOff: freezed == roundOff
           ? _value.roundOff
           : roundOff // ignore: cast_nullable_to_non_nullable
-              as int,
-      amountTendered: null == amountTendered
+              as double?,
+      amountTendered: freezed == amountTendered
           ? _value.amountTendered
           : amountTendered // ignore: cast_nullable_to_non_nullable
-              as int,
-      deliveryBoy: null == deliveryBoy
+              as double?,
+      deliveryBoy: freezed == deliveryBoy
           ? _value.deliveryBoy
           : deliveryBoy // ignore: cast_nullable_to_non_nullable
-              as String,
-      isEditable: null == isEditable
+              as String?,
+      isEditable: freezed == isEditable
           ? _value.isEditable
           : isEditable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isCanceled: null == isCanceled
+              as bool?,
+      isCanceled: freezed == isCanceled
           ? _value.isCanceled
           : isCanceled // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isLockVoucher: null == isLockVoucher
+              as bool?,
+      isLockVoucher: freezed == isLockVoucher
           ? _value.isLockVoucher
           : isLockVoucher // ignore: cast_nullable_to_non_nullable
-              as bool,
-      createdBy: null == createdBy
+              as bool?,
+      createdBy: freezed == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdDate: null == createdDate
+              as String?,
+      createdDate: freezed == createdDate
           ? _value.createdDate
           : createdDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      modifiedBy: null == modifiedBy
+              as DateTime?,
+      modifiedBy: freezed == modifiedBy
           ? _value.modifiedBy
           : modifiedBy // ignore: cast_nullable_to_non_nullable
-              as String,
-      modifiedDate: null == modifiedDate
+              as String?,
+      modifiedDate: freezed == modifiedDate
           ? _value.modifiedDate
           : modifiedDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      rowguid: null == rowguid
+              as DateTime?,
+      rowguid: freezed == rowguid
           ? _value.rowguid
           : rowguid // ignore: cast_nullable_to_non_nullable
-              as String,
-      isPos: null == isPos
+              as String?,
+      isPos: freezed == isPos
           ? _value.isPos
           : isPos // ignore: cast_nullable_to_non_nullable
-              as bool,
-      deliveryBoyIdpk: null == deliveryBoyIdpk
+              as bool?,
+      deliveryBoyIdpk: freezed == deliveryBoyIdpk
           ? _value.deliveryBoyIdpk
           : deliveryBoyIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      notesAndInstructions: null == notesAndInstructions
+              as String?,
+      notesAndInstructions: freezed == notesAndInstructions
           ? _value.notesAndInstructions
           : notesAndInstructions // ignore: cast_nullable_to_non_nullable
-              as String,
-      drLedgerCashAccount: null == drLedgerCashAccount
+              as String?,
+      drLedgerCashAccount: freezed == drLedgerCashAccount
           ? _value.drLedgerCashAccount
           : drLedgerCashAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      drLedgerBankAccount: null == drLedgerBankAccount
+              as String?,
+      drLedgerBankAccount: freezed == drLedgerBankAccount
           ? _value.drLedgerBankAccount
           : drLedgerBankAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      orderType: null == orderType
+              as String?,
+      orderType: freezed == orderType
           ? _value.orderType
           : orderType // ignore: cast_nullable_to_non_nullable
-              as String,
-      deliveryCharge: null == deliveryCharge
+              as String?,
+      deliveryCharge: freezed == deliveryCharge
           ? _value.deliveryCharge
           : deliveryCharge // ignore: cast_nullable_to_non_nullable
-              as int,
-      soldItems: null == soldItems
+              as int?,
+      soldItems: freezed == soldItems
           ? _value.soldItems
           : soldItems // ignore: cast_nullable_to_non_nullable
-              as List<SoldItem>,
+              as List<SoldItem>?,
     ) as $Val);
   }
 }
@@ -430,57 +430,57 @@ abstract class _$$SalesInvoiceRequestModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String saleIdpk,
-      int saleNo,
-      String saleMode,
-      String crLedgerIdfk,
-      String drLedgerIdfk,
-      String custemerIdfk,
-      String creditAccount,
-      String debitAccount,
-      String referenceNo,
-      DateTime saleDate,
-      String cashTrn,
-      String cashCustomerAddress,
-      String shippingAddress,
-      String customerName,
-      String remarks,
-      String lpoNo,
-      String doNo,
-      String diningArea,
-      String diningTable,
-      String quotationNo,
-      String requestNo,
-      int cashAmount,
-      int creditCardAmount,
-      DateTime actualSalesDate,
-      String vehicleNo,
-      String genaralNotes,
-      String salesOrderNo,
-      String soldBy,
-      int grossAmount,
-      int tax,
-      int discount,
-      int netTotal,
-      int roundOff,
-      int amountTendered,
-      String deliveryBoy,
-      bool isEditable,
-      bool isCanceled,
-      bool isLockVoucher,
-      String createdBy,
-      DateTime createdDate,
-      String modifiedBy,
-      DateTime modifiedDate,
-      String rowguid,
-      bool isPos,
-      String deliveryBoyIdpk,
-      String notesAndInstructions,
-      String drLedgerCashAccount,
-      String drLedgerBankAccount,
-      String orderType,
-      int deliveryCharge,
-      List<SoldItem> soldItems});
+      {String? saleIdpk,
+      int? saleNo,
+      String? saleMode,
+      String? crLedgerIdfk,
+      String? drLedgerIdfk,
+      String? custemerIdfk,
+      String? creditAccount,
+      String? debitAccount,
+      String? referenceNo,
+      DateTime? saleDate,
+      String? cashTrn,
+      String? cashCustomerAddress,
+      String? shippingAddress,
+      String? customerName,
+      String? remarks,
+      String? lpoNo,
+      String? doNo,
+      String? diningArea,
+      String? diningTable,
+      String? quotationNo,
+      String? requestNo,
+      double? cashAmount,
+      double? creditCardAmount,
+      DateTime? actualSalesDate,
+      String? vehicleNo,
+      String? genaralNotes,
+      String? salesOrderNo,
+      String? soldBy,
+      double? grossAmount,
+      double? tax,
+      double? discount,
+      double? netTotal,
+      double? roundOff,
+      double? amountTendered,
+      String? deliveryBoy,
+      bool? isEditable,
+      bool? isCanceled,
+      bool? isLockVoucher,
+      String? createdBy,
+      DateTime? createdDate,
+      String? modifiedBy,
+      DateTime? modifiedDate,
+      String? rowguid,
+      bool? isPos,
+      String? deliveryBoyIdpk,
+      String? notesAndInstructions,
+      String? drLedgerCashAccount,
+      String? drLedgerBankAccount,
+      String? orderType,
+      int? deliveryCharge,
+      List<SoldItem>? soldItems});
 }
 
 /// @nodoc
@@ -498,263 +498,263 @@ class __$$SalesInvoiceRequestModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? saleIdpk = null,
-    Object? saleNo = null,
-    Object? saleMode = null,
-    Object? crLedgerIdfk = null,
-    Object? drLedgerIdfk = null,
-    Object? custemerIdfk = null,
-    Object? creditAccount = null,
-    Object? debitAccount = null,
-    Object? referenceNo = null,
-    Object? saleDate = null,
-    Object? cashTrn = null,
-    Object? cashCustomerAddress = null,
-    Object? shippingAddress = null,
-    Object? customerName = null,
-    Object? remarks = null,
-    Object? lpoNo = null,
-    Object? doNo = null,
-    Object? diningArea = null,
-    Object? diningTable = null,
-    Object? quotationNo = null,
-    Object? requestNo = null,
-    Object? cashAmount = null,
-    Object? creditCardAmount = null,
-    Object? actualSalesDate = null,
-    Object? vehicleNo = null,
-    Object? genaralNotes = null,
-    Object? salesOrderNo = null,
-    Object? soldBy = null,
-    Object? grossAmount = null,
-    Object? tax = null,
-    Object? discount = null,
-    Object? netTotal = null,
-    Object? roundOff = null,
-    Object? amountTendered = null,
-    Object? deliveryBoy = null,
-    Object? isEditable = null,
-    Object? isCanceled = null,
-    Object? isLockVoucher = null,
-    Object? createdBy = null,
-    Object? createdDate = null,
-    Object? modifiedBy = null,
-    Object? modifiedDate = null,
-    Object? rowguid = null,
-    Object? isPos = null,
-    Object? deliveryBoyIdpk = null,
-    Object? notesAndInstructions = null,
-    Object? drLedgerCashAccount = null,
-    Object? drLedgerBankAccount = null,
-    Object? orderType = null,
-    Object? deliveryCharge = null,
-    Object? soldItems = null,
+    Object? saleIdpk = freezed,
+    Object? saleNo = freezed,
+    Object? saleMode = freezed,
+    Object? crLedgerIdfk = freezed,
+    Object? drLedgerIdfk = freezed,
+    Object? custemerIdfk = freezed,
+    Object? creditAccount = freezed,
+    Object? debitAccount = freezed,
+    Object? referenceNo = freezed,
+    Object? saleDate = freezed,
+    Object? cashTrn = freezed,
+    Object? cashCustomerAddress = freezed,
+    Object? shippingAddress = freezed,
+    Object? customerName = freezed,
+    Object? remarks = freezed,
+    Object? lpoNo = freezed,
+    Object? doNo = freezed,
+    Object? diningArea = freezed,
+    Object? diningTable = freezed,
+    Object? quotationNo = freezed,
+    Object? requestNo = freezed,
+    Object? cashAmount = freezed,
+    Object? creditCardAmount = freezed,
+    Object? actualSalesDate = freezed,
+    Object? vehicleNo = freezed,
+    Object? genaralNotes = freezed,
+    Object? salesOrderNo = freezed,
+    Object? soldBy = freezed,
+    Object? grossAmount = freezed,
+    Object? tax = freezed,
+    Object? discount = freezed,
+    Object? netTotal = freezed,
+    Object? roundOff = freezed,
+    Object? amountTendered = freezed,
+    Object? deliveryBoy = freezed,
+    Object? isEditable = freezed,
+    Object? isCanceled = freezed,
+    Object? isLockVoucher = freezed,
+    Object? createdBy = freezed,
+    Object? createdDate = freezed,
+    Object? modifiedBy = freezed,
+    Object? modifiedDate = freezed,
+    Object? rowguid = freezed,
+    Object? isPos = freezed,
+    Object? deliveryBoyIdpk = freezed,
+    Object? notesAndInstructions = freezed,
+    Object? drLedgerCashAccount = freezed,
+    Object? drLedgerBankAccount = freezed,
+    Object? orderType = freezed,
+    Object? deliveryCharge = freezed,
+    Object? soldItems = freezed,
   }) {
     return _then(_$SalesInvoiceRequestModelImpl(
-      saleIdpk: null == saleIdpk
+      saleIdpk: freezed == saleIdpk
           ? _value.saleIdpk
           : saleIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      saleNo: null == saleNo
+              as String?,
+      saleNo: freezed == saleNo
           ? _value.saleNo
           : saleNo // ignore: cast_nullable_to_non_nullable
-              as int,
-      saleMode: null == saleMode
+              as int?,
+      saleMode: freezed == saleMode
           ? _value.saleMode
           : saleMode // ignore: cast_nullable_to_non_nullable
-              as String,
-      crLedgerIdfk: null == crLedgerIdfk
+              as String?,
+      crLedgerIdfk: freezed == crLedgerIdfk
           ? _value.crLedgerIdfk
           : crLedgerIdfk // ignore: cast_nullable_to_non_nullable
-              as String,
-      drLedgerIdfk: null == drLedgerIdfk
+              as String?,
+      drLedgerIdfk: freezed == drLedgerIdfk
           ? _value.drLedgerIdfk
           : drLedgerIdfk // ignore: cast_nullable_to_non_nullable
-              as String,
-      custemerIdfk: null == custemerIdfk
+              as String?,
+      custemerIdfk: freezed == custemerIdfk
           ? _value.custemerIdfk
           : custemerIdfk // ignore: cast_nullable_to_non_nullable
-              as String,
-      creditAccount: null == creditAccount
+              as String?,
+      creditAccount: freezed == creditAccount
           ? _value.creditAccount
           : creditAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      debitAccount: null == debitAccount
+              as String?,
+      debitAccount: freezed == debitAccount
           ? _value.debitAccount
           : debitAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      referenceNo: null == referenceNo
+              as String?,
+      referenceNo: freezed == referenceNo
           ? _value.referenceNo
           : referenceNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      saleDate: null == saleDate
+              as String?,
+      saleDate: freezed == saleDate
           ? _value.saleDate
           : saleDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      cashTrn: null == cashTrn
+              as DateTime?,
+      cashTrn: freezed == cashTrn
           ? _value.cashTrn
           : cashTrn // ignore: cast_nullable_to_non_nullable
-              as String,
-      cashCustomerAddress: null == cashCustomerAddress
+              as String?,
+      cashCustomerAddress: freezed == cashCustomerAddress
           ? _value.cashCustomerAddress
           : cashCustomerAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      shippingAddress: null == shippingAddress
+              as String?,
+      shippingAddress: freezed == shippingAddress
           ? _value.shippingAddress
           : shippingAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      customerName: null == customerName
+              as String?,
+      customerName: freezed == customerName
           ? _value.customerName
           : customerName // ignore: cast_nullable_to_non_nullable
-              as String,
-      remarks: null == remarks
+              as String?,
+      remarks: freezed == remarks
           ? _value.remarks
           : remarks // ignore: cast_nullable_to_non_nullable
-              as String,
-      lpoNo: null == lpoNo
+              as String?,
+      lpoNo: freezed == lpoNo
           ? _value.lpoNo
           : lpoNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      doNo: null == doNo
+              as String?,
+      doNo: freezed == doNo
           ? _value.doNo
           : doNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      diningArea: null == diningArea
+              as String?,
+      diningArea: freezed == diningArea
           ? _value.diningArea
           : diningArea // ignore: cast_nullable_to_non_nullable
-              as String,
-      diningTable: null == diningTable
+              as String?,
+      diningTable: freezed == diningTable
           ? _value.diningTable
           : diningTable // ignore: cast_nullable_to_non_nullable
-              as String,
-      quotationNo: null == quotationNo
+              as String?,
+      quotationNo: freezed == quotationNo
           ? _value.quotationNo
           : quotationNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      requestNo: null == requestNo
+              as String?,
+      requestNo: freezed == requestNo
           ? _value.requestNo
           : requestNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      cashAmount: null == cashAmount
+              as String?,
+      cashAmount: freezed == cashAmount
           ? _value.cashAmount
           : cashAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      creditCardAmount: null == creditCardAmount
+              as double?,
+      creditCardAmount: freezed == creditCardAmount
           ? _value.creditCardAmount
           : creditCardAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      actualSalesDate: null == actualSalesDate
+              as double?,
+      actualSalesDate: freezed == actualSalesDate
           ? _value.actualSalesDate
           : actualSalesDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      vehicleNo: null == vehicleNo
+              as DateTime?,
+      vehicleNo: freezed == vehicleNo
           ? _value.vehicleNo
           : vehicleNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      genaralNotes: null == genaralNotes
+              as String?,
+      genaralNotes: freezed == genaralNotes
           ? _value.genaralNotes
           : genaralNotes // ignore: cast_nullable_to_non_nullable
-              as String,
-      salesOrderNo: null == salesOrderNo
+              as String?,
+      salesOrderNo: freezed == salesOrderNo
           ? _value.salesOrderNo
           : salesOrderNo // ignore: cast_nullable_to_non_nullable
-              as String,
-      soldBy: null == soldBy
+              as String?,
+      soldBy: freezed == soldBy
           ? _value.soldBy
           : soldBy // ignore: cast_nullable_to_non_nullable
-              as String,
-      grossAmount: null == grossAmount
+              as String?,
+      grossAmount: freezed == grossAmount
           ? _value.grossAmount
           : grossAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      tax: null == tax
+              as double?,
+      tax: freezed == tax
           ? _value.tax
           : tax // ignore: cast_nullable_to_non_nullable
-              as int,
-      discount: null == discount
+              as double?,
+      discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
-              as int,
-      netTotal: null == netTotal
+              as double?,
+      netTotal: freezed == netTotal
           ? _value.netTotal
           : netTotal // ignore: cast_nullable_to_non_nullable
-              as int,
-      roundOff: null == roundOff
+              as double?,
+      roundOff: freezed == roundOff
           ? _value.roundOff
           : roundOff // ignore: cast_nullable_to_non_nullable
-              as int,
-      amountTendered: null == amountTendered
+              as double?,
+      amountTendered: freezed == amountTendered
           ? _value.amountTendered
           : amountTendered // ignore: cast_nullable_to_non_nullable
-              as int,
-      deliveryBoy: null == deliveryBoy
+              as double?,
+      deliveryBoy: freezed == deliveryBoy
           ? _value.deliveryBoy
           : deliveryBoy // ignore: cast_nullable_to_non_nullable
-              as String,
-      isEditable: null == isEditable
+              as String?,
+      isEditable: freezed == isEditable
           ? _value.isEditable
           : isEditable // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isCanceled: null == isCanceled
+              as bool?,
+      isCanceled: freezed == isCanceled
           ? _value.isCanceled
           : isCanceled // ignore: cast_nullable_to_non_nullable
-              as bool,
-      isLockVoucher: null == isLockVoucher
+              as bool?,
+      isLockVoucher: freezed == isLockVoucher
           ? _value.isLockVoucher
           : isLockVoucher // ignore: cast_nullable_to_non_nullable
-              as bool,
-      createdBy: null == createdBy
+              as bool?,
+      createdBy: freezed == createdBy
           ? _value.createdBy
           : createdBy // ignore: cast_nullable_to_non_nullable
-              as String,
-      createdDate: null == createdDate
+              as String?,
+      createdDate: freezed == createdDate
           ? _value.createdDate
           : createdDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      modifiedBy: null == modifiedBy
+              as DateTime?,
+      modifiedBy: freezed == modifiedBy
           ? _value.modifiedBy
           : modifiedBy // ignore: cast_nullable_to_non_nullable
-              as String,
-      modifiedDate: null == modifiedDate
+              as String?,
+      modifiedDate: freezed == modifiedDate
           ? _value.modifiedDate
           : modifiedDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      rowguid: null == rowguid
+              as DateTime?,
+      rowguid: freezed == rowguid
           ? _value.rowguid
           : rowguid // ignore: cast_nullable_to_non_nullable
-              as String,
-      isPos: null == isPos
+              as String?,
+      isPos: freezed == isPos
           ? _value.isPos
           : isPos // ignore: cast_nullable_to_non_nullable
-              as bool,
-      deliveryBoyIdpk: null == deliveryBoyIdpk
+              as bool?,
+      deliveryBoyIdpk: freezed == deliveryBoyIdpk
           ? _value.deliveryBoyIdpk
           : deliveryBoyIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      notesAndInstructions: null == notesAndInstructions
+              as String?,
+      notesAndInstructions: freezed == notesAndInstructions
           ? _value.notesAndInstructions
           : notesAndInstructions // ignore: cast_nullable_to_non_nullable
-              as String,
-      drLedgerCashAccount: null == drLedgerCashAccount
+              as String?,
+      drLedgerCashAccount: freezed == drLedgerCashAccount
           ? _value.drLedgerCashAccount
           : drLedgerCashAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      drLedgerBankAccount: null == drLedgerBankAccount
+              as String?,
+      drLedgerBankAccount: freezed == drLedgerBankAccount
           ? _value.drLedgerBankAccount
           : drLedgerBankAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      orderType: null == orderType
+              as String?,
+      orderType: freezed == orderType
           ? _value.orderType
           : orderType // ignore: cast_nullable_to_non_nullable
-              as String,
-      deliveryCharge: null == deliveryCharge
+              as String?,
+      deliveryCharge: freezed == deliveryCharge
           ? _value.deliveryCharge
           : deliveryCharge // ignore: cast_nullable_to_non_nullable
-              as int,
-      soldItems: null == soldItems
+              as int?,
+      soldItems: freezed == soldItems
           ? _value._soldItems
           : soldItems // ignore: cast_nullable_to_non_nullable
-              as List<SoldItem>,
+              as List<SoldItem>?,
     ));
   }
 }
@@ -763,168 +763,170 @@ class __$$SalesInvoiceRequestModelImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$SalesInvoiceRequestModelImpl implements _SalesInvoiceRequestModel {
   const _$SalesInvoiceRequestModelImpl(
-      {required this.saleIdpk,
-      required this.saleNo,
-      required this.saleMode,
-      required this.crLedgerIdfk,
-      required this.drLedgerIdfk,
-      required this.custemerIdfk,
-      required this.creditAccount,
-      required this.debitAccount,
-      required this.referenceNo,
-      required this.saleDate,
-      required this.cashTrn,
-      required this.cashCustomerAddress,
-      required this.shippingAddress,
-      required this.customerName,
-      required this.remarks,
-      required this.lpoNo,
-      required this.doNo,
-      required this.diningArea,
-      required this.diningTable,
-      required this.quotationNo,
-      required this.requestNo,
-      required this.cashAmount,
-      required this.creditCardAmount,
-      required this.actualSalesDate,
-      required this.vehicleNo,
-      required this.genaralNotes,
-      required this.salesOrderNo,
-      required this.soldBy,
-      required this.grossAmount,
-      required this.tax,
-      required this.discount,
-      required this.netTotal,
-      required this.roundOff,
-      required this.amountTendered,
-      required this.deliveryBoy,
-      required this.isEditable,
-      required this.isCanceled,
-      required this.isLockVoucher,
-      required this.createdBy,
-      required this.createdDate,
-      required this.modifiedBy,
-      required this.modifiedDate,
-      required this.rowguid,
-      required this.isPos,
-      required this.deliveryBoyIdpk,
-      required this.notesAndInstructions,
-      required this.drLedgerCashAccount,
-      required this.drLedgerBankAccount,
-      required this.orderType,
-      required this.deliveryCharge,
-      required final List<SoldItem> soldItems})
+      {this.saleIdpk,
+      this.saleNo,
+      this.saleMode,
+      this.crLedgerIdfk,
+      this.drLedgerIdfk,
+      this.custemerIdfk,
+      this.creditAccount,
+      this.debitAccount,
+      this.referenceNo,
+      this.saleDate,
+      this.cashTrn,
+      this.cashCustomerAddress,
+      this.shippingAddress,
+      this.customerName,
+      this.remarks,
+      this.lpoNo,
+      this.doNo,
+      this.diningArea,
+      this.diningTable,
+      this.quotationNo,
+      this.requestNo,
+      this.cashAmount,
+      this.creditCardAmount,
+      this.actualSalesDate,
+      this.vehicleNo,
+      this.genaralNotes,
+      this.salesOrderNo,
+      this.soldBy,
+      this.grossAmount,
+      this.tax,
+      this.discount,
+      this.netTotal,
+      this.roundOff,
+      this.amountTendered,
+      this.deliveryBoy,
+      this.isEditable,
+      this.isCanceled,
+      this.isLockVoucher,
+      this.createdBy,
+      this.createdDate,
+      this.modifiedBy,
+      this.modifiedDate,
+      this.rowguid,
+      this.isPos,
+      this.deliveryBoyIdpk,
+      this.notesAndInstructions,
+      this.drLedgerCashAccount,
+      this.drLedgerBankAccount,
+      this.orderType,
+      this.deliveryCharge,
+      final List<SoldItem>? soldItems})
       : _soldItems = soldItems;
 
   factory _$SalesInvoiceRequestModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$SalesInvoiceRequestModelImplFromJson(json);
 
   @override
-  final String saleIdpk;
+  final String? saleIdpk;
   @override
-  final int saleNo;
+  final int? saleNo;
   @override
-  final String saleMode;
+  final String? saleMode;
   @override
-  final String crLedgerIdfk;
+  final String? crLedgerIdfk;
   @override
-  final String drLedgerIdfk;
+  final String? drLedgerIdfk;
   @override
-  final String custemerIdfk;
+  final String? custemerIdfk;
   @override
-  final String creditAccount;
+  final String? creditAccount;
   @override
-  final String debitAccount;
+  final String? debitAccount;
   @override
-  final String referenceNo;
+  final String? referenceNo;
   @override
-  final DateTime saleDate;
+  final DateTime? saleDate;
   @override
-  final String cashTrn;
+  final String? cashTrn;
   @override
-  final String cashCustomerAddress;
+  final String? cashCustomerAddress;
   @override
-  final String shippingAddress;
+  final String? shippingAddress;
   @override
-  final String customerName;
+  final String? customerName;
   @override
-  final String remarks;
+  final String? remarks;
   @override
-  final String lpoNo;
+  final String? lpoNo;
   @override
-  final String doNo;
+  final String? doNo;
   @override
-  final String diningArea;
+  final String? diningArea;
   @override
-  final String diningTable;
+  final String? diningTable;
   @override
-  final String quotationNo;
+  final String? quotationNo;
   @override
-  final String requestNo;
+  final String? requestNo;
   @override
-  final int cashAmount;
+  final double? cashAmount;
   @override
-  final int creditCardAmount;
+  final double? creditCardAmount;
   @override
-  final DateTime actualSalesDate;
+  final DateTime? actualSalesDate;
   @override
-  final String vehicleNo;
+  final String? vehicleNo;
   @override
-  final String genaralNotes;
+  final String? genaralNotes;
   @override
-  final String salesOrderNo;
+  final String? salesOrderNo;
   @override
-  final String soldBy;
+  final String? soldBy;
   @override
-  final int grossAmount;
+  final double? grossAmount;
   @override
-  final int tax;
+  final double? tax;
   @override
-  final int discount;
+  final double? discount;
   @override
-  final int netTotal;
+  final double? netTotal;
   @override
-  final int roundOff;
+  final double? roundOff;
   @override
-  final int amountTendered;
+  final double? amountTendered;
   @override
-  final String deliveryBoy;
+  final String? deliveryBoy;
   @override
-  final bool isEditable;
+  final bool? isEditable;
   @override
-  final bool isCanceled;
+  final bool? isCanceled;
   @override
-  final bool isLockVoucher;
+  final bool? isLockVoucher;
   @override
-  final String createdBy;
+  final String? createdBy;
   @override
-  final DateTime createdDate;
+  final DateTime? createdDate;
   @override
-  final String modifiedBy;
+  final String? modifiedBy;
   @override
-  final DateTime modifiedDate;
+  final DateTime? modifiedDate;
   @override
-  final String rowguid;
+  final String? rowguid;
   @override
-  final bool isPos;
+  final bool? isPos;
   @override
-  final String deliveryBoyIdpk;
+  final String? deliveryBoyIdpk;
   @override
-  final String notesAndInstructions;
+  final String? notesAndInstructions;
   @override
-  final String drLedgerCashAccount;
+  final String? drLedgerCashAccount;
   @override
-  final String drLedgerBankAccount;
+  final String? drLedgerBankAccount;
   @override
-  final String orderType;
+  final String? orderType;
   @override
-  final int deliveryCharge;
-  final List<SoldItem> _soldItems;
+  final int? deliveryCharge;
+  final List<SoldItem>? _soldItems;
   @override
-  List<SoldItem> get soldItems {
+  List<SoldItem>? get soldItems {
+    final value = _soldItems;
+    if (value == null) return null;
     if (_soldItems is EqualUnmodifiableListView) return _soldItems;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_soldItems);
+    return EqualUnmodifiableListView(value);
   }
 
   @override
@@ -1108,164 +1110,163 @@ class _$SalesInvoiceRequestModelImpl implements _SalesInvoiceRequestModel {
 
 abstract class _SalesInvoiceRequestModel implements SalesInvoiceRequestModel {
   const factory _SalesInvoiceRequestModel(
-          {required final String saleIdpk,
-          required final int saleNo,
-          required final String saleMode,
-          required final String crLedgerIdfk,
-          required final String drLedgerIdfk,
-          required final String custemerIdfk,
-          required final String creditAccount,
-          required final String debitAccount,
-          required final String referenceNo,
-          required final DateTime saleDate,
-          required final String cashTrn,
-          required final String cashCustomerAddress,
-          required final String shippingAddress,
-          required final String customerName,
-          required final String remarks,
-          required final String lpoNo,
-          required final String doNo,
-          required final String diningArea,
-          required final String diningTable,
-          required final String quotationNo,
-          required final String requestNo,
-          required final int cashAmount,
-          required final int creditCardAmount,
-          required final DateTime actualSalesDate,
-          required final String vehicleNo,
-          required final String genaralNotes,
-          required final String salesOrderNo,
-          required final String soldBy,
-          required final int grossAmount,
-          required final int tax,
-          required final int discount,
-          required final int netTotal,
-          required final int roundOff,
-          required final int amountTendered,
-          required final String deliveryBoy,
-          required final bool isEditable,
-          required final bool isCanceled,
-          required final bool isLockVoucher,
-          required final String createdBy,
-          required final DateTime createdDate,
-          required final String modifiedBy,
-          required final DateTime modifiedDate,
-          required final String rowguid,
-          required final bool isPos,
-          required final String deliveryBoyIdpk,
-          required final String notesAndInstructions,
-          required final String drLedgerCashAccount,
-          required final String drLedgerBankAccount,
-          required final String orderType,
-          required final int deliveryCharge,
-          required final List<SoldItem> soldItems}) =
-      _$SalesInvoiceRequestModelImpl;
+      {final String? saleIdpk,
+      final int? saleNo,
+      final String? saleMode,
+      final String? crLedgerIdfk,
+      final String? drLedgerIdfk,
+      final String? custemerIdfk,
+      final String? creditAccount,
+      final String? debitAccount,
+      final String? referenceNo,
+      final DateTime? saleDate,
+      final String? cashTrn,
+      final String? cashCustomerAddress,
+      final String? shippingAddress,
+      final String? customerName,
+      final String? remarks,
+      final String? lpoNo,
+      final String? doNo,
+      final String? diningArea,
+      final String? diningTable,
+      final String? quotationNo,
+      final String? requestNo,
+      final double? cashAmount,
+      final double? creditCardAmount,
+      final DateTime? actualSalesDate,
+      final String? vehicleNo,
+      final String? genaralNotes,
+      final String? salesOrderNo,
+      final String? soldBy,
+      final double? grossAmount,
+      final double? tax,
+      final double? discount,
+      final double? netTotal,
+      final double? roundOff,
+      final double? amountTendered,
+      final String? deliveryBoy,
+      final bool? isEditable,
+      final bool? isCanceled,
+      final bool? isLockVoucher,
+      final String? createdBy,
+      final DateTime? createdDate,
+      final String? modifiedBy,
+      final DateTime? modifiedDate,
+      final String? rowguid,
+      final bool? isPos,
+      final String? deliveryBoyIdpk,
+      final String? notesAndInstructions,
+      final String? drLedgerCashAccount,
+      final String? drLedgerBankAccount,
+      final String? orderType,
+      final int? deliveryCharge,
+      final List<SoldItem>? soldItems}) = _$SalesInvoiceRequestModelImpl;
 
   factory _SalesInvoiceRequestModel.fromJson(Map<String, dynamic> json) =
       _$SalesInvoiceRequestModelImpl.fromJson;
 
   @override
-  String get saleIdpk;
+  String? get saleIdpk;
   @override
-  int get saleNo;
+  int? get saleNo;
   @override
-  String get saleMode;
+  String? get saleMode;
   @override
-  String get crLedgerIdfk;
+  String? get crLedgerIdfk;
   @override
-  String get drLedgerIdfk;
+  String? get drLedgerIdfk;
   @override
-  String get custemerIdfk;
+  String? get custemerIdfk;
   @override
-  String get creditAccount;
+  String? get creditAccount;
   @override
-  String get debitAccount;
+  String? get debitAccount;
   @override
-  String get referenceNo;
+  String? get referenceNo;
   @override
-  DateTime get saleDate;
+  DateTime? get saleDate;
   @override
-  String get cashTrn;
+  String? get cashTrn;
   @override
-  String get cashCustomerAddress;
+  String? get cashCustomerAddress;
   @override
-  String get shippingAddress;
+  String? get shippingAddress;
   @override
-  String get customerName;
+  String? get customerName;
   @override
-  String get remarks;
+  String? get remarks;
   @override
-  String get lpoNo;
+  String? get lpoNo;
   @override
-  String get doNo;
+  String? get doNo;
   @override
-  String get diningArea;
+  String? get diningArea;
   @override
-  String get diningTable;
+  String? get diningTable;
   @override
-  String get quotationNo;
+  String? get quotationNo;
   @override
-  String get requestNo;
+  String? get requestNo;
   @override
-  int get cashAmount;
+  double? get cashAmount;
   @override
-  int get creditCardAmount;
+  double? get creditCardAmount;
   @override
-  DateTime get actualSalesDate;
+  DateTime? get actualSalesDate;
   @override
-  String get vehicleNo;
+  String? get vehicleNo;
   @override
-  String get genaralNotes;
+  String? get genaralNotes;
   @override
-  String get salesOrderNo;
+  String? get salesOrderNo;
   @override
-  String get soldBy;
+  String? get soldBy;
   @override
-  int get grossAmount;
+  double? get grossAmount;
   @override
-  int get tax;
+  double? get tax;
   @override
-  int get discount;
+  double? get discount;
   @override
-  int get netTotal;
+  double? get netTotal;
   @override
-  int get roundOff;
+  double? get roundOff;
   @override
-  int get amountTendered;
+  double? get amountTendered;
   @override
-  String get deliveryBoy;
+  String? get deliveryBoy;
   @override
-  bool get isEditable;
+  bool? get isEditable;
   @override
-  bool get isCanceled;
+  bool? get isCanceled;
   @override
-  bool get isLockVoucher;
+  bool? get isLockVoucher;
   @override
-  String get createdBy;
+  String? get createdBy;
   @override
-  DateTime get createdDate;
+  DateTime? get createdDate;
   @override
-  String get modifiedBy;
+  String? get modifiedBy;
   @override
-  DateTime get modifiedDate;
+  DateTime? get modifiedDate;
   @override
-  String get rowguid;
+  String? get rowguid;
   @override
-  bool get isPos;
+  bool? get isPos;
   @override
-  String get deliveryBoyIdpk;
+  String? get deliveryBoyIdpk;
   @override
-  String get notesAndInstructions;
+  String? get notesAndInstructions;
   @override
-  String get drLedgerCashAccount;
+  String? get drLedgerCashAccount;
   @override
-  String get drLedgerBankAccount;
+  String? get drLedgerBankAccount;
   @override
-  String get orderType;
+  String? get orderType;
   @override
-  int get deliveryCharge;
+  int? get deliveryCharge;
   @override
-  List<SoldItem> get soldItems;
+  List<SoldItem>? get soldItems;
 
   /// Create a copy of SalesInvoiceRequestModel
   /// with the given fields replaced by the non-null parameter values.
@@ -1281,34 +1282,34 @@ SoldItem _$SoldItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$SoldItem {
-  String get saleIdpk => throw _privateConstructorUsedError;
-  String get itemIdpk => throw _privateConstructorUsedError;
-  String get barcode => throw _privateConstructorUsedError;
-  String get itemCode => throw _privateConstructorUsedError;
-  String get itemName => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
-  String get unit => throw _privateConstructorUsedError;
-  int get actualQty => throw _privateConstructorUsedError;
-  int get billedQty => throw _privateConstructorUsedError;
-  int get cost => throw _privateConstructorUsedError;
-  int get sellingPrice => throw _privateConstructorUsedError;
-  int get discount => throw _privateConstructorUsedError;
-  int get grossTotal => throw _privateConstructorUsedError;
-  int get taxAmount => throw _privateConstructorUsedError;
-  int get taxPercentage => throw _privateConstructorUsedError;
-  int get netTotal => throw _privateConstructorUsedError;
-  int get currentStock => throw _privateConstructorUsedError;
-  int get profit => throw _privateConstructorUsedError;
-  int get profitPercentage => throw _privateConstructorUsedError;
-  bool get isSent => throw _privateConstructorUsedError;
-  DateTime get expiryDate => throw _privateConstructorUsedError;
-  String get storeIdfk => throw _privateConstructorUsedError;
-  String get projectIdpk => throw _privateConstructorUsedError;
-  String get quotationIdpk => throw _privateConstructorUsedError;
-  String get salesOrderIdpk => throw _privateConstructorUsedError;
-  String get deliveryNoteIdpk => throw _privateConstructorUsedError;
-  String get importId => throw _privateConstructorUsedError;
-  String get rowguid => throw _privateConstructorUsedError;
+  String? get saleIdpk => throw _privateConstructorUsedError;
+  String? get itemIdpk => throw _privateConstructorUsedError;
+  String? get barcode => throw _privateConstructorUsedError;
+  String? get itemCode => throw _privateConstructorUsedError;
+  String? get itemName => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  String? get unit => throw _privateConstructorUsedError;
+  double? get actualQty => throw _privateConstructorUsedError;
+  double? get billedQty => throw _privateConstructorUsedError;
+  double? get cost => throw _privateConstructorUsedError;
+  double? get sellingPrice => throw _privateConstructorUsedError;
+  double? get discount => throw _privateConstructorUsedError;
+  double? get grossTotal => throw _privateConstructorUsedError;
+  double? get taxAmount => throw _privateConstructorUsedError;
+  double? get taxPercentage => throw _privateConstructorUsedError;
+  double? get netTotal => throw _privateConstructorUsedError;
+  double? get currentStock => throw _privateConstructorUsedError;
+  double? get profit => throw _privateConstructorUsedError;
+  double? get profitPercentage => throw _privateConstructorUsedError;
+  bool? get isSent => throw _privateConstructorUsedError;
+  DateTime? get expiryDate => throw _privateConstructorUsedError;
+  String? get storeIdfk => throw _privateConstructorUsedError;
+  String? get projectIdpk => throw _privateConstructorUsedError;
+  String? get quotationIdpk => throw _privateConstructorUsedError;
+  String? get salesOrderIdpk => throw _privateConstructorUsedError;
+  String? get deliveryNoteIdpk => throw _privateConstructorUsedError;
+  String? get importId => throw _privateConstructorUsedError;
+  String? get rowguid => throw _privateConstructorUsedError;
 
   /// Serializes this SoldItem to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -1326,34 +1327,34 @@ abstract class $SoldItemCopyWith<$Res> {
       _$SoldItemCopyWithImpl<$Res, SoldItem>;
   @useResult
   $Res call(
-      {String saleIdpk,
-      String itemIdpk,
-      String barcode,
-      String itemCode,
-      String itemName,
-      String description,
-      String unit,
-      int actualQty,
-      int billedQty,
-      int cost,
-      int sellingPrice,
-      int discount,
-      int grossTotal,
-      int taxAmount,
-      int taxPercentage,
-      int netTotal,
-      int currentStock,
-      int profit,
-      int profitPercentage,
-      bool isSent,
-      DateTime expiryDate,
-      String storeIdfk,
-      String projectIdpk,
-      String quotationIdpk,
-      String salesOrderIdpk,
-      String deliveryNoteIdpk,
-      String importId,
-      String rowguid});
+      {String? saleIdpk,
+      String? itemIdpk,
+      String? barcode,
+      String? itemCode,
+      String? itemName,
+      String? description,
+      String? unit,
+      double? actualQty,
+      double? billedQty,
+      double? cost,
+      double? sellingPrice,
+      double? discount,
+      double? grossTotal,
+      double? taxAmount,
+      double? taxPercentage,
+      double? netTotal,
+      double? currentStock,
+      double? profit,
+      double? profitPercentage,
+      bool? isSent,
+      DateTime? expiryDate,
+      String? storeIdfk,
+      String? projectIdpk,
+      String? quotationIdpk,
+      String? salesOrderIdpk,
+      String? deliveryNoteIdpk,
+      String? importId,
+      String? rowguid});
 }
 
 /// @nodoc
@@ -1371,148 +1372,148 @@ class _$SoldItemCopyWithImpl<$Res, $Val extends SoldItem>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? saleIdpk = null,
-    Object? itemIdpk = null,
-    Object? barcode = null,
-    Object? itemCode = null,
-    Object? itemName = null,
-    Object? description = null,
-    Object? unit = null,
-    Object? actualQty = null,
-    Object? billedQty = null,
-    Object? cost = null,
-    Object? sellingPrice = null,
-    Object? discount = null,
-    Object? grossTotal = null,
-    Object? taxAmount = null,
-    Object? taxPercentage = null,
-    Object? netTotal = null,
-    Object? currentStock = null,
-    Object? profit = null,
-    Object? profitPercentage = null,
-    Object? isSent = null,
-    Object? expiryDate = null,
-    Object? storeIdfk = null,
-    Object? projectIdpk = null,
-    Object? quotationIdpk = null,
-    Object? salesOrderIdpk = null,
-    Object? deliveryNoteIdpk = null,
-    Object? importId = null,
-    Object? rowguid = null,
+    Object? saleIdpk = freezed,
+    Object? itemIdpk = freezed,
+    Object? barcode = freezed,
+    Object? itemCode = freezed,
+    Object? itemName = freezed,
+    Object? description = freezed,
+    Object? unit = freezed,
+    Object? actualQty = freezed,
+    Object? billedQty = freezed,
+    Object? cost = freezed,
+    Object? sellingPrice = freezed,
+    Object? discount = freezed,
+    Object? grossTotal = freezed,
+    Object? taxAmount = freezed,
+    Object? taxPercentage = freezed,
+    Object? netTotal = freezed,
+    Object? currentStock = freezed,
+    Object? profit = freezed,
+    Object? profitPercentage = freezed,
+    Object? isSent = freezed,
+    Object? expiryDate = freezed,
+    Object? storeIdfk = freezed,
+    Object? projectIdpk = freezed,
+    Object? quotationIdpk = freezed,
+    Object? salesOrderIdpk = freezed,
+    Object? deliveryNoteIdpk = freezed,
+    Object? importId = freezed,
+    Object? rowguid = freezed,
   }) {
     return _then(_value.copyWith(
-      saleIdpk: null == saleIdpk
+      saleIdpk: freezed == saleIdpk
           ? _value.saleIdpk
           : saleIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      itemIdpk: null == itemIdpk
+              as String?,
+      itemIdpk: freezed == itemIdpk
           ? _value.itemIdpk
           : itemIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      barcode: null == barcode
+              as String?,
+      barcode: freezed == barcode
           ? _value.barcode
           : barcode // ignore: cast_nullable_to_non_nullable
-              as String,
-      itemCode: null == itemCode
+              as String?,
+      itemCode: freezed == itemCode
           ? _value.itemCode
           : itemCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      itemName: null == itemName
+              as String?,
+      itemName: freezed == itemName
           ? _value.itemName
           : itemName // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      unit: null == unit
+              as String?,
+      unit: freezed == unit
           ? _value.unit
           : unit // ignore: cast_nullable_to_non_nullable
-              as String,
-      actualQty: null == actualQty
+              as String?,
+      actualQty: freezed == actualQty
           ? _value.actualQty
           : actualQty // ignore: cast_nullable_to_non_nullable
-              as int,
-      billedQty: null == billedQty
+              as double?,
+      billedQty: freezed == billedQty
           ? _value.billedQty
           : billedQty // ignore: cast_nullable_to_non_nullable
-              as int,
-      cost: null == cost
+              as double?,
+      cost: freezed == cost
           ? _value.cost
           : cost // ignore: cast_nullable_to_non_nullable
-              as int,
-      sellingPrice: null == sellingPrice
+              as double?,
+      sellingPrice: freezed == sellingPrice
           ? _value.sellingPrice
           : sellingPrice // ignore: cast_nullable_to_non_nullable
-              as int,
-      discount: null == discount
+              as double?,
+      discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
-              as int,
-      grossTotal: null == grossTotal
+              as double?,
+      grossTotal: freezed == grossTotal
           ? _value.grossTotal
           : grossTotal // ignore: cast_nullable_to_non_nullable
-              as int,
-      taxAmount: null == taxAmount
+              as double?,
+      taxAmount: freezed == taxAmount
           ? _value.taxAmount
           : taxAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      taxPercentage: null == taxPercentage
+              as double?,
+      taxPercentage: freezed == taxPercentage
           ? _value.taxPercentage
           : taxPercentage // ignore: cast_nullable_to_non_nullable
-              as int,
-      netTotal: null == netTotal
+              as double?,
+      netTotal: freezed == netTotal
           ? _value.netTotal
           : netTotal // ignore: cast_nullable_to_non_nullable
-              as int,
-      currentStock: null == currentStock
+              as double?,
+      currentStock: freezed == currentStock
           ? _value.currentStock
           : currentStock // ignore: cast_nullable_to_non_nullable
-              as int,
-      profit: null == profit
+              as double?,
+      profit: freezed == profit
           ? _value.profit
           : profit // ignore: cast_nullable_to_non_nullable
-              as int,
-      profitPercentage: null == profitPercentage
+              as double?,
+      profitPercentage: freezed == profitPercentage
           ? _value.profitPercentage
           : profitPercentage // ignore: cast_nullable_to_non_nullable
-              as int,
-      isSent: null == isSent
+              as double?,
+      isSent: freezed == isSent
           ? _value.isSent
           : isSent // ignore: cast_nullable_to_non_nullable
-              as bool,
-      expiryDate: null == expiryDate
+              as bool?,
+      expiryDate: freezed == expiryDate
           ? _value.expiryDate
           : expiryDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      storeIdfk: null == storeIdfk
+              as DateTime?,
+      storeIdfk: freezed == storeIdfk
           ? _value.storeIdfk
           : storeIdfk // ignore: cast_nullable_to_non_nullable
-              as String,
-      projectIdpk: null == projectIdpk
+              as String?,
+      projectIdpk: freezed == projectIdpk
           ? _value.projectIdpk
           : projectIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      quotationIdpk: null == quotationIdpk
+              as String?,
+      quotationIdpk: freezed == quotationIdpk
           ? _value.quotationIdpk
           : quotationIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      salesOrderIdpk: null == salesOrderIdpk
+              as String?,
+      salesOrderIdpk: freezed == salesOrderIdpk
           ? _value.salesOrderIdpk
           : salesOrderIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      deliveryNoteIdpk: null == deliveryNoteIdpk
+              as String?,
+      deliveryNoteIdpk: freezed == deliveryNoteIdpk
           ? _value.deliveryNoteIdpk
           : deliveryNoteIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      importId: null == importId
+              as String?,
+      importId: freezed == importId
           ? _value.importId
           : importId // ignore: cast_nullable_to_non_nullable
-              as String,
-      rowguid: null == rowguid
+              as String?,
+      rowguid: freezed == rowguid
           ? _value.rowguid
           : rowguid // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -1526,34 +1527,34 @@ abstract class _$$SoldItemImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String saleIdpk,
-      String itemIdpk,
-      String barcode,
-      String itemCode,
-      String itemName,
-      String description,
-      String unit,
-      int actualQty,
-      int billedQty,
-      int cost,
-      int sellingPrice,
-      int discount,
-      int grossTotal,
-      int taxAmount,
-      int taxPercentage,
-      int netTotal,
-      int currentStock,
-      int profit,
-      int profitPercentage,
-      bool isSent,
-      DateTime expiryDate,
-      String storeIdfk,
-      String projectIdpk,
-      String quotationIdpk,
-      String salesOrderIdpk,
-      String deliveryNoteIdpk,
-      String importId,
-      String rowguid});
+      {String? saleIdpk,
+      String? itemIdpk,
+      String? barcode,
+      String? itemCode,
+      String? itemName,
+      String? description,
+      String? unit,
+      double? actualQty,
+      double? billedQty,
+      double? cost,
+      double? sellingPrice,
+      double? discount,
+      double? grossTotal,
+      double? taxAmount,
+      double? taxPercentage,
+      double? netTotal,
+      double? currentStock,
+      double? profit,
+      double? profitPercentage,
+      bool? isSent,
+      DateTime? expiryDate,
+      String? storeIdfk,
+      String? projectIdpk,
+      String? quotationIdpk,
+      String? salesOrderIdpk,
+      String? deliveryNoteIdpk,
+      String? importId,
+      String? rowguid});
 }
 
 /// @nodoc
@@ -1569,148 +1570,148 @@ class __$$SoldItemImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? saleIdpk = null,
-    Object? itemIdpk = null,
-    Object? barcode = null,
-    Object? itemCode = null,
-    Object? itemName = null,
-    Object? description = null,
-    Object? unit = null,
-    Object? actualQty = null,
-    Object? billedQty = null,
-    Object? cost = null,
-    Object? sellingPrice = null,
-    Object? discount = null,
-    Object? grossTotal = null,
-    Object? taxAmount = null,
-    Object? taxPercentage = null,
-    Object? netTotal = null,
-    Object? currentStock = null,
-    Object? profit = null,
-    Object? profitPercentage = null,
-    Object? isSent = null,
-    Object? expiryDate = null,
-    Object? storeIdfk = null,
-    Object? projectIdpk = null,
-    Object? quotationIdpk = null,
-    Object? salesOrderIdpk = null,
-    Object? deliveryNoteIdpk = null,
-    Object? importId = null,
-    Object? rowguid = null,
+    Object? saleIdpk = freezed,
+    Object? itemIdpk = freezed,
+    Object? barcode = freezed,
+    Object? itemCode = freezed,
+    Object? itemName = freezed,
+    Object? description = freezed,
+    Object? unit = freezed,
+    Object? actualQty = freezed,
+    Object? billedQty = freezed,
+    Object? cost = freezed,
+    Object? sellingPrice = freezed,
+    Object? discount = freezed,
+    Object? grossTotal = freezed,
+    Object? taxAmount = freezed,
+    Object? taxPercentage = freezed,
+    Object? netTotal = freezed,
+    Object? currentStock = freezed,
+    Object? profit = freezed,
+    Object? profitPercentage = freezed,
+    Object? isSent = freezed,
+    Object? expiryDate = freezed,
+    Object? storeIdfk = freezed,
+    Object? projectIdpk = freezed,
+    Object? quotationIdpk = freezed,
+    Object? salesOrderIdpk = freezed,
+    Object? deliveryNoteIdpk = freezed,
+    Object? importId = freezed,
+    Object? rowguid = freezed,
   }) {
     return _then(_$SoldItemImpl(
-      saleIdpk: null == saleIdpk
+      saleIdpk: freezed == saleIdpk
           ? _value.saleIdpk
           : saleIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      itemIdpk: null == itemIdpk
+              as String?,
+      itemIdpk: freezed == itemIdpk
           ? _value.itemIdpk
           : itemIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      barcode: null == barcode
+              as String?,
+      barcode: freezed == barcode
           ? _value.barcode
           : barcode // ignore: cast_nullable_to_non_nullable
-              as String,
-      itemCode: null == itemCode
+              as String?,
+      itemCode: freezed == itemCode
           ? _value.itemCode
           : itemCode // ignore: cast_nullable_to_non_nullable
-              as String,
-      itemName: null == itemName
+              as String?,
+      itemName: freezed == itemName
           ? _value.itemName
           : itemName // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      unit: null == unit
+              as String?,
+      unit: freezed == unit
           ? _value.unit
           : unit // ignore: cast_nullable_to_non_nullable
-              as String,
-      actualQty: null == actualQty
+              as String?,
+      actualQty: freezed == actualQty
           ? _value.actualQty
           : actualQty // ignore: cast_nullable_to_non_nullable
-              as int,
-      billedQty: null == billedQty
+              as double?,
+      billedQty: freezed == billedQty
           ? _value.billedQty
           : billedQty // ignore: cast_nullable_to_non_nullable
-              as int,
-      cost: null == cost
+              as double?,
+      cost: freezed == cost
           ? _value.cost
           : cost // ignore: cast_nullable_to_non_nullable
-              as int,
-      sellingPrice: null == sellingPrice
+              as double?,
+      sellingPrice: freezed == sellingPrice
           ? _value.sellingPrice
           : sellingPrice // ignore: cast_nullable_to_non_nullable
-              as int,
-      discount: null == discount
+              as double?,
+      discount: freezed == discount
           ? _value.discount
           : discount // ignore: cast_nullable_to_non_nullable
-              as int,
-      grossTotal: null == grossTotal
+              as double?,
+      grossTotal: freezed == grossTotal
           ? _value.grossTotal
           : grossTotal // ignore: cast_nullable_to_non_nullable
-              as int,
-      taxAmount: null == taxAmount
+              as double?,
+      taxAmount: freezed == taxAmount
           ? _value.taxAmount
           : taxAmount // ignore: cast_nullable_to_non_nullable
-              as int,
-      taxPercentage: null == taxPercentage
+              as double?,
+      taxPercentage: freezed == taxPercentage
           ? _value.taxPercentage
           : taxPercentage // ignore: cast_nullable_to_non_nullable
-              as int,
-      netTotal: null == netTotal
+              as double?,
+      netTotal: freezed == netTotal
           ? _value.netTotal
           : netTotal // ignore: cast_nullable_to_non_nullable
-              as int,
-      currentStock: null == currentStock
+              as double?,
+      currentStock: freezed == currentStock
           ? _value.currentStock
           : currentStock // ignore: cast_nullable_to_non_nullable
-              as int,
-      profit: null == profit
+              as double?,
+      profit: freezed == profit
           ? _value.profit
           : profit // ignore: cast_nullable_to_non_nullable
-              as int,
-      profitPercentage: null == profitPercentage
+              as double?,
+      profitPercentage: freezed == profitPercentage
           ? _value.profitPercentage
           : profitPercentage // ignore: cast_nullable_to_non_nullable
-              as int,
-      isSent: null == isSent
+              as double?,
+      isSent: freezed == isSent
           ? _value.isSent
           : isSent // ignore: cast_nullable_to_non_nullable
-              as bool,
-      expiryDate: null == expiryDate
+              as bool?,
+      expiryDate: freezed == expiryDate
           ? _value.expiryDate
           : expiryDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-      storeIdfk: null == storeIdfk
+              as DateTime?,
+      storeIdfk: freezed == storeIdfk
           ? _value.storeIdfk
           : storeIdfk // ignore: cast_nullable_to_non_nullable
-              as String,
-      projectIdpk: null == projectIdpk
+              as String?,
+      projectIdpk: freezed == projectIdpk
           ? _value.projectIdpk
           : projectIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      quotationIdpk: null == quotationIdpk
+              as String?,
+      quotationIdpk: freezed == quotationIdpk
           ? _value.quotationIdpk
           : quotationIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      salesOrderIdpk: null == salesOrderIdpk
+              as String?,
+      salesOrderIdpk: freezed == salesOrderIdpk
           ? _value.salesOrderIdpk
           : salesOrderIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      deliveryNoteIdpk: null == deliveryNoteIdpk
+              as String?,
+      deliveryNoteIdpk: freezed == deliveryNoteIdpk
           ? _value.deliveryNoteIdpk
           : deliveryNoteIdpk // ignore: cast_nullable_to_non_nullable
-              as String,
-      importId: null == importId
+              as String?,
+      importId: freezed == importId
           ? _value.importId
           : importId // ignore: cast_nullable_to_non_nullable
-              as String,
-      rowguid: null == rowguid
+              as String?,
+      rowguid: freezed == rowguid
           ? _value.rowguid
           : rowguid // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -1719,94 +1720,94 @@ class __$$SoldItemImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$SoldItemImpl implements _SoldItem {
   const _$SoldItemImpl(
-      {required this.saleIdpk,
-      required this.itemIdpk,
-      required this.barcode,
-      required this.itemCode,
-      required this.itemName,
-      required this.description,
-      required this.unit,
-      required this.actualQty,
-      required this.billedQty,
-      required this.cost,
-      required this.sellingPrice,
-      required this.discount,
-      required this.grossTotal,
-      required this.taxAmount,
-      required this.taxPercentage,
-      required this.netTotal,
-      required this.currentStock,
-      required this.profit,
-      required this.profitPercentage,
-      required this.isSent,
-      required this.expiryDate,
-      required this.storeIdfk,
-      required this.projectIdpk,
-      required this.quotationIdpk,
-      required this.salesOrderIdpk,
-      required this.deliveryNoteIdpk,
-      required this.importId,
-      required this.rowguid});
+      {this.saleIdpk,
+      this.itemIdpk,
+      this.barcode,
+      this.itemCode,
+      this.itemName,
+      this.description,
+      this.unit,
+      this.actualQty,
+      this.billedQty,
+      this.cost,
+      this.sellingPrice,
+      this.discount,
+      this.grossTotal,
+      this.taxAmount,
+      this.taxPercentage,
+      this.netTotal,
+      this.currentStock,
+      this.profit,
+      this.profitPercentage,
+      this.isSent,
+      this.expiryDate,
+      this.storeIdfk,
+      this.projectIdpk,
+      this.quotationIdpk,
+      this.salesOrderIdpk,
+      this.deliveryNoteIdpk,
+      this.importId,
+      this.rowguid});
 
   factory _$SoldItemImpl.fromJson(Map<String, dynamic> json) =>
       _$$SoldItemImplFromJson(json);
 
   @override
-  final String saleIdpk;
+  final String? saleIdpk;
   @override
-  final String itemIdpk;
+  final String? itemIdpk;
   @override
-  final String barcode;
+  final String? barcode;
   @override
-  final String itemCode;
+  final String? itemCode;
   @override
-  final String itemName;
+  final String? itemName;
   @override
-  final String description;
+  final String? description;
   @override
-  final String unit;
+  final String? unit;
   @override
-  final int actualQty;
+  final double? actualQty;
   @override
-  final int billedQty;
+  final double? billedQty;
   @override
-  final int cost;
+  final double? cost;
   @override
-  final int sellingPrice;
+  final double? sellingPrice;
   @override
-  final int discount;
+  final double? discount;
   @override
-  final int grossTotal;
+  final double? grossTotal;
   @override
-  final int taxAmount;
+  final double? taxAmount;
   @override
-  final int taxPercentage;
+  final double? taxPercentage;
   @override
-  final int netTotal;
+  final double? netTotal;
   @override
-  final int currentStock;
+  final double? currentStock;
   @override
-  final int profit;
+  final double? profit;
   @override
-  final int profitPercentage;
+  final double? profitPercentage;
   @override
-  final bool isSent;
+  final bool? isSent;
   @override
-  final DateTime expiryDate;
+  final DateTime? expiryDate;
   @override
-  final String storeIdfk;
+  final String? storeIdfk;
   @override
-  final String projectIdpk;
+  final String? projectIdpk;
   @override
-  final String quotationIdpk;
+  final String? quotationIdpk;
   @override
-  final String salesOrderIdpk;
+  final String? salesOrderIdpk;
   @override
-  final String deliveryNoteIdpk;
+  final String? deliveryNoteIdpk;
   @override
-  final String importId;
+  final String? importId;
   @override
-  final String rowguid;
+  final String? rowguid;
 
   @override
   String toString() {
@@ -1922,94 +1923,94 @@ class _$SoldItemImpl implements _SoldItem {
 
 abstract class _SoldItem implements SoldItem {
   const factory _SoldItem(
-      {required final String saleIdpk,
-      required final String itemIdpk,
-      required final String barcode,
-      required final String itemCode,
-      required final String itemName,
-      required final String description,
-      required final String unit,
-      required final int actualQty,
-      required final int billedQty,
-      required final int cost,
-      required final int sellingPrice,
-      required final int discount,
-      required final int grossTotal,
-      required final int taxAmount,
-      required final int taxPercentage,
-      required final int netTotal,
-      required final int currentStock,
-      required final int profit,
-      required final int profitPercentage,
-      required final bool isSent,
-      required final DateTime expiryDate,
-      required final String storeIdfk,
-      required final String projectIdpk,
-      required final String quotationIdpk,
-      required final String salesOrderIdpk,
-      required final String deliveryNoteIdpk,
-      required final String importId,
-      required final String rowguid}) = _$SoldItemImpl;
+      {final String? saleIdpk,
+      final String? itemIdpk,
+      final String? barcode,
+      final String? itemCode,
+      final String? itemName,
+      final String? description,
+      final String? unit,
+      final double? actualQty,
+      final double? billedQty,
+      final double? cost,
+      final double? sellingPrice,
+      final double? discount,
+      final double? grossTotal,
+      final double? taxAmount,
+      final double? taxPercentage,
+      final double? netTotal,
+      final double? currentStock,
+      final double? profit,
+      final double? profitPercentage,
+      final bool? isSent,
+      final DateTime? expiryDate,
+      final String? storeIdfk,
+      final String? projectIdpk,
+      final String? quotationIdpk,
+      final String? salesOrderIdpk,
+      final String? deliveryNoteIdpk,
+      final String? importId,
+      final String? rowguid}) = _$SoldItemImpl;
 
   factory _SoldItem.fromJson(Map<String, dynamic> json) =
       _$SoldItemImpl.fromJson;
 
   @override
-  String get saleIdpk;
+  String? get saleIdpk;
   @override
-  String get itemIdpk;
+  String? get itemIdpk;
   @override
-  String get barcode;
+  String? get barcode;
   @override
-  String get itemCode;
+  String? get itemCode;
   @override
-  String get itemName;
+  String? get itemName;
   @override
-  String get description;
+  String? get description;
   @override
-  String get unit;
+  String? get unit;
   @override
-  int get actualQty;
+  double? get actualQty;
   @override
-  int get billedQty;
+  double? get billedQty;
   @override
-  int get cost;
+  double? get cost;
   @override
-  int get sellingPrice;
+  double? get sellingPrice;
   @override
-  int get discount;
+  double? get discount;
   @override
-  int get grossTotal;
+  double? get grossTotal;
   @override
-  int get taxAmount;
+  double? get taxAmount;
   @override
-  int get taxPercentage;
+  double? get taxPercentage;
   @override
-  int get netTotal;
+  double? get netTotal;
   @override
-  int get currentStock;
+  double? get currentStock;
   @override
-  int get profit;
+  double? get profit;
   @override
-  int get profitPercentage;
+  double? get profitPercentage;
   @override
-  bool get isSent;
+  bool? get isSent;
   @override
-  DateTime get expiryDate;
+  DateTime? get expiryDate;
   @override
-  String get storeIdfk;
+  String? get storeIdfk;
   @override
-  String get projectIdpk;
+  String? get projectIdpk;
   @override
-  String get quotationIdpk;
+  String? get quotationIdpk;
   @override
-  String get salesOrderIdpk;
+  String? get salesOrderIdpk;
   @override
-  String get deliveryNoteIdpk;
+  String? get deliveryNoteIdpk;
   @override
-  String get importId;
+  String? get importId;
   @override
-  String get rowguid;
+  String? get rowguid;
 
   /// Create a copy of SoldItem
   /// with the given fields replaced by the non-null parameter values.

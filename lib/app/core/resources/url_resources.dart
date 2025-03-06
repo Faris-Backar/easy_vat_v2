@@ -8,6 +8,7 @@ class UrlResources {
 
   //sales
   static const String getSalesInvoice = "Sales/Select/BetweenDate";
+  static const String createSalesInvoice = "Sales/Insert";
 
   //customer
   static const String getCustomers = "Customer/Select/LoadCustomer";
