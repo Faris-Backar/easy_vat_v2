@@ -3,6 +3,7 @@ import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_invoice_state.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_notifiers.dart';
@@ -117,7 +118,7 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                       color: context.defaultTextColor.withValues(alpha: 0.32)),
                 ),
                 Text(
-                  "\$ 1434",
+                  ref.watch(cartProvider).totalAmount.toStringAsFixed(2),
                   style: context.textTheme.bodyLarge
                       ?.copyWith(fontSize: 17, fontWeight: FontWeight.w600),
                 )

@@ -116,7 +116,7 @@ class _AddNewSalesScreenState extends State<AddNewSalesScreen> {
             onPressed: () => context.router.pushNamed(AppRouter.cart),
             icon: Badge.count(
               backgroundColor: CustomColors.inActiveRedColor(context),
-              textColor: context.defaultTextColor,
+              textColor: Colors.white,
               count: ref.watch(cartProvider).itemList?.length ?? 0,
               child: SvgIcon(
                 icon: Assets.icons.cart,
