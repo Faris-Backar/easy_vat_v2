@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
@@ -19,6 +17,7 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/customer_address_info.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/customer_info_tab_content.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class CustomerInfoWidget extends ConsumerStatefulWidget {
   const CustomerInfoWidget({super.key});
@@ -31,6 +30,10 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
   final _searchController = TextEditingController();
   final _expansionNotifier = ValueNotifier<int?>(null);
   late CustomerState customerState;
+  final TextEditingController shippingAddressController =
+      TextEditingController();
+  final TextEditingController billingAddressController =
+      TextEditingController();
 
   @override
   void initState() {
@@ -42,20 +45,12 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
 
   Future<void> _fetchAndSelectCustomer() async {
     await ref.read(customerNotifierProvider.notifier).getCustomer();
-
-    final customerState = ref.read(customerNotifierProvider);
-
-    if (customerState.status == CustomerStateStatus.success) {
-      final selectedCustomer = customerState.customerList?.firstWhere(
-        (customer) =>
-            customer.ledgerName?.toLowerCase() == 'cash' ||
-            customer.ledgerName?.toLowerCase() == 'cash customer',
-      );
-
-      if (selectedCustomer != null) {
-        ref.read(cartProvider.notifier).setCustomer(selectedCustomer);
-      }
-    }
+    final cashCustomer = CustomerEntity(ledgerName: "Cash", isActive: true);
+    ref.read(cartProvider.notifier).setCustomer(cashCustomer);
+    billingAddressController.text =
+        ref.read(cartProvider).selectedCustomer?.billingAddress ?? "";
+    shippingAddressController.text =
+        ref.read(cartProvider).selectedCustomer?.shippingAddress ?? "";
   }
 
   @override
@@ -115,12 +110,6 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                   itemCount: state.customerList?.length ?? 0,
                   itemBuilder: (_, index) {
                     final customer = state.customerList![index];
-                    if (customer.ledgerName?.toLowerCase() == 'cash' ||
-                        customer.ledgerName?.toLowerCase() == 'cash customer') {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        ref.read(cartProvider.notifier).setCustomer(customer);
-                      });
-                    }
                     return InkWell(
                         onTap: () {},
                         child:
@@ -188,7 +177,6 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                                     final selectedCustomer =
                                         state.customerList![
                                             _expansionNotifier.value!];
-                                    log("selected Customer => ${_expansionNotifier.value} || \n $selectedCustomer");
                                     ref
                                         .read(cartProvider.notifier)
                                         .setCustomer(selectedCustomer);
@@ -217,7 +205,6 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
 
   Widget _buildCustomerTabView(BuildContext context) {
     final selectedCustomer = ref.watch(cartProvider).selectedCustomer;
-    log("selected customer from => $selectedCustomer");
     if (customerState.status == CustomerStateStatus.loading) {
       return Center(
         child: CircularProgressIndicator.adaptive(),
@@ -260,9 +247,44 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                         isActive: selectedCustomer?.isActive ?? false,
                       ),
                       CustomerAddressInfo(
-                          address: selectedCustomer?.billingAddress ?? "-"),
+                        address: selectedCustomer?.billingAddress ?? "-",
+                        textEditingController: billingAddressController,
+                        hint: AppStrings.address,
+                        label: AppStrings.enterBillingAddress,
+                        onSubmitted: () async {
+                          if (selectedCustomer != null) {
+                            final updatedCustomer = selectedCustomer.copyWith(
+                                billingAddress: billingAddressController.text);
+                            ref
+                                .read(cartProvider.notifier)
+                                .setCustomer(updatedCustomer);
+                            context.router.popForced();
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: AppStrings.pleaseSelectACustomer);
+                          }
+                        },
+                      ),
                       CustomerAddressInfo(
-                          address: selectedCustomer?.billingAddress ?? "-"),
+                        address: selectedCustomer?.billingAddress ?? "-",
+                        textEditingController: shippingAddressController,
+                        hint: AppStrings.address,
+                        label: AppStrings.enterShippingAddress,
+                        onSubmitted: () {
+                          if (selectedCustomer != null) {
+                            final updatedCustomer = selectedCustomer.copyWith(
+                                shippingAddress:
+                                    shippingAddressController.text);
+                            ref
+                                .read(cartProvider.notifier)
+                                .setCustomer(updatedCustomer);
+                            context.router.popForced();
+                          } else {
+                            Fluttertoast.showToast(
+                                msg: AppStrings.pleaseSelectACustomer);
+                          }
+                        },
+                      ),
                     ],
                   ),
                 ),

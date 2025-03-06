@@ -1,4 +1,4 @@
-class SalesLedgerEntity {
+class LedgerAccountEntity {
   String? ledgerIdpk;
   String? underIdfk;
   String? ledgerName;
@@ -23,7 +23,7 @@ class SalesLedgerEntity {
   bool? isEdit;
   double? currentBalanceTran;
 
-  SalesLedgerEntity({
+  LedgerAccountEntity({
     this.ledgerIdpk,
     this.underIdfk,
     this.ledgerName,

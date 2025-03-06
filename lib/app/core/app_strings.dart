@@ -135,4 +135,8 @@ class AppStrings {
   static const String sellingPrice = "Selling Price";
   static const String priceWithOutTax = "Price with out tax";
   static const String description = "Description";
+  static const String subTotal = "Sub total";
+  static const String enterShippingAddress = "Enter Shipping Address";
+  static const String enterBillingAddress = "Enter Billing Address";
+  static const String pleaseSelectACustomer = "Please select a customer";
 }

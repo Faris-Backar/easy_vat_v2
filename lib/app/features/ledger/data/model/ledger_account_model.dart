@@ -1,7 +1,7 @@
-import 'package:easy_vat_v2/app/features/ledger/domain/entities/sales_ledger_entity.dart';
+import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 
-class SalesLedgerModel extends SalesLedgerEntity {
-  SalesLedgerModel({
+class LedgerAccountModel extends LedgerAccountEntity {
+  LedgerAccountModel({
     super.ledgerIdpk,
     super.underIdfk,
     super.ledgerName,
@@ -27,8 +27,8 @@ class SalesLedgerModel extends SalesLedgerEntity {
     super.currentBalanceTran,
   });
 
-  factory SalesLedgerModel.fromJson(Map<String, dynamic> json) =>
-      SalesLedgerModel(
+  factory LedgerAccountModel.fromJson(Map<String, dynamic> json) =>
+      LedgerAccountModel(
         ledgerIdpk: json["ledgerIDPK"],
         underIdfk: json["underIDFK"],
         ledgerName: json["ledgerName"],

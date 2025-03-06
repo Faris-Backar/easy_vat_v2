@@ -3,8 +3,9 @@ import 'dart:developer';
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_state.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
-import 'package:easy_vat_v2/app/features/employees/domain/entities/employee_entity.dart';
+import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/data/model/sales_invoice_request_model.dart';
+import 'package:easy_vat_v2/app/features/salesman/domain/entity/sales_man_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
@@ -24,11 +25,11 @@ class CartNotifier extends StateNotifier<CartState> {
   String salesNo = "";
   DateTime salesDate = DateTime.now();
   String refNo = "";
-  String cashAccount = "";
+  LedgerAccountEntity? cashAccount;
   String salesAccount = "";
   String notes = "";
   String salesMode = "";
-  EmployeeEntity? soldBy;
+  SalesManEntity? soldBy;
   String description = "";
   CustomerEntity? selectedCustomer;
   double totalItemGrossAmont = 0.0;
@@ -73,11 +74,11 @@ class CartNotifier extends StateNotifier<CartState> {
     this.refNo = refNo;
   }
 
-  setSoldBy(EmployeeEntity soldBy) {
+  setSoldBy(SalesManEntity soldBy) {
     this.soldBy = soldBy;
   }
 
-  setCashAccount(String cashAccount) {
+  setCashAccount(LedgerAccountEntity cashAccount) {
     this.cashAccount = cashAccount;
   }
 
@@ -180,11 +181,12 @@ class CartNotifier extends StateNotifier<CartState> {
       remarks: notes,
       saleMode: salesMode,
       tax: itemTotalTax,
-      soldBy: soldBy?.firstName,
+      soldBy: soldBy?.empName,
       crLedgerIdfk: '00000000-0000-0000-0000-000000000000',
       drLedgerIdfk: '00000000-0000-0000-0000-000000000000',
-      customerName: selectedCustomer?.ledgerName,
+      customerName: selectedCustomer?.ledgerName ?? "cash",
       custemerIdfk: selectedCustomer?.ledgerIdpk ??
+          cashAccount?.ledgerIdpk ??
           '00000000-0000-0000-0000-000000000000',
       cashAmount: totalAmount,
       creditAccount: "0",
@@ -213,7 +215,7 @@ class CartNotifier extends StateNotifier<CartState> {
     salesNo = "";
     salesDate = DateTime.now();
     refNo = "";
-    cashAccount = "";
+    cashAccount = null;
     salesAccount = "";
     notes = "";
     salesMode = "";

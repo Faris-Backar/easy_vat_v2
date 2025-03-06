@@ -1,9 +1,9 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
-// import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioService {
   late final Dio _dio;
@@ -32,15 +32,15 @@ class DioService {
         return handler.next(error);
       },
     ));
-    // if (kDebugMode) {
-    //   _dio.interceptors.add(PrettyDioLogger(
-    //     requestHeader: true,
-    //     requestBody: true,
-    //     responseBody: true,
-    //     responseHeader: false,
-    //     compact: true,
-    //   ));
-    // }
+    if (kDebugMode) {
+      _dio.interceptors.add(PrettyDioLogger(
+        requestHeader: true,
+        requestBody: true,
+        responseBody: true,
+        responseHeader: false,
+        compact: true,
+      ));
+    }
   }
 
   Dio get dio => _dio;

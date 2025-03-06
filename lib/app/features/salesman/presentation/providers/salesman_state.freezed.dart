@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'cash_ledger_state.dart';
+part of 'salesman_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,12 +15,12 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$CashLedgerState {
+mixin _$SalesManState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<LedgerAccountEntity> ledgers) loaded,
+    required TResult Function(List<SalesManEntity> salesManList) loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$CashLedgerState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<LedgerAccountEntity> ledgers)? loaded,
+    TResult? Function(List<SalesManEntity> salesManList)? loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$CashLedgerState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<LedgerAccountEntity> ledgers)? loaded,
+    TResult Function(List<SalesManEntity> salesManList)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -69,23 +69,23 @@ mixin _$CashLedgerState {
 }
 
 /// @nodoc
-abstract class $CashLedgerStateCopyWith<$Res> {
-  factory $CashLedgerStateCopyWith(
-          CashLedgerState value, $Res Function(CashLedgerState) then) =
-      _$CashLedgerStateCopyWithImpl<$Res, CashLedgerState>;
+abstract class $SalesManStateCopyWith<$Res> {
+  factory $SalesManStateCopyWith(
+          SalesManState value, $Res Function(SalesManState) then) =
+      _$SalesManStateCopyWithImpl<$Res, SalesManState>;
 }
 
 /// @nodoc
-class _$CashLedgerStateCopyWithImpl<$Res, $Val extends CashLedgerState>
-    implements $CashLedgerStateCopyWith<$Res> {
-  _$CashLedgerStateCopyWithImpl(this._value, this._then);
+class _$SalesManStateCopyWithImpl<$Res, $Val extends SalesManState>
+    implements $SalesManStateCopyWith<$Res> {
+  _$SalesManStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CashLedgerState
+  /// Create a copy of SalesManState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -98,13 +98,13 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$CashLedgerStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$SalesManStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CashLedgerState
+  /// Create a copy of SalesManState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -115,7 +115,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'CashLedgerState.initial()';
+    return 'SalesManState.initial()';
   }
 
   @override
@@ -132,7 +132,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<LedgerAccountEntity> ledgers) loaded,
+    required TResult Function(List<SalesManEntity> salesManList) loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -143,7 +143,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<LedgerAccountEntity> ledgers)? loaded,
+    TResult? Function(List<SalesManEntity> salesManList)? loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -154,7 +154,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<LedgerAccountEntity> ledgers)? loaded,
+    TResult Function(List<SalesManEntity> salesManList)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -202,7 +202,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements CashLedgerState {
+abstract class _Initial implements SalesManState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -215,13 +215,13 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$CashLedgerStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$SalesManStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CashLedgerState
+  /// Create a copy of SalesManState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -232,7 +232,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'CashLedgerState.loading()';
+    return 'SalesManState.loading()';
   }
 
   @override
@@ -249,7 +249,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<LedgerAccountEntity> ledgers) loaded,
+    required TResult Function(List<SalesManEntity> salesManList) loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -260,7 +260,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<LedgerAccountEntity> ledgers)? loaded,
+    TResult? Function(List<SalesManEntity> salesManList)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -271,7 +271,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<LedgerAccountEntity> ledgers)? loaded,
+    TResult Function(List<SalesManEntity> salesManList)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -319,7 +319,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements CashLedgerState {
+abstract class _Loading implements SalesManState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -329,29 +329,29 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<LedgerAccountEntity> ledgers});
+  $Res call({List<SalesManEntity> salesManList});
 }
 
 /// @nodoc
 class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$CashLedgerStateCopyWithImpl<$Res, _$LoadedImpl>
+    extends _$SalesManStateCopyWithImpl<$Res, _$LoadedImpl>
     implements _$$LoadedImplCopyWith<$Res> {
   __$$LoadedImplCopyWithImpl(
       _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CashLedgerState
+  /// Create a copy of SalesManState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? ledgers = null,
+    Object? salesManList = null,
   }) {
     return _then(_$LoadedImpl(
-      ledgers: null == ledgers
-          ? _value._ledgers
-          : ledgers // ignore: cast_nullable_to_non_nullable
-              as List<LedgerAccountEntity>,
+      salesManList: null == salesManList
+          ? _value._salesManList
+          : salesManList // ignore: cast_nullable_to_non_nullable
+              as List<SalesManEntity>,
     ));
   }
 }
@@ -359,20 +359,20 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl({required final List<LedgerAccountEntity> ledgers})
-      : _ledgers = ledgers;
+  const _$LoadedImpl({required final List<SalesManEntity> salesManList})
+      : _salesManList = salesManList;
 
-  final List<LedgerAccountEntity> _ledgers;
+  final List<SalesManEntity> _salesManList;
   @override
-  List<LedgerAccountEntity> get ledgers {
-    if (_ledgers is EqualUnmodifiableListView) return _ledgers;
+  List<SalesManEntity> get salesManList {
+    if (_salesManList is EqualUnmodifiableListView) return _salesManList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_ledgers);
+    return EqualUnmodifiableListView(_salesManList);
   }
 
   @override
   String toString() {
-    return 'CashLedgerState.loaded(ledgers: $ledgers)';
+    return 'SalesManState.loaded(salesManList: $salesManList)';
   }
 
   @override
@@ -380,14 +380,15 @@ class _$LoadedImpl implements _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
-            const DeepCollectionEquality().equals(other._ledgers, _ledgers));
+            const DeepCollectionEquality()
+                .equals(other._salesManList, _salesManList));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_ledgers));
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_salesManList));
 
-  /// Create a copy of CashLedgerState
+  /// Create a copy of SalesManState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -400,10 +401,10 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<LedgerAccountEntity> ledgers) loaded,
+    required TResult Function(List<SalesManEntity> salesManList) loaded,
     required TResult Function(String message) error,
   }) {
-    return loaded(ledgers);
+    return loaded(salesManList);
   }
 
   @override
@@ -411,10 +412,10 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<LedgerAccountEntity> ledgers)? loaded,
+    TResult? Function(List<SalesManEntity> salesManList)? loaded,
     TResult? Function(String message)? error,
   }) {
-    return loaded?.call(ledgers);
+    return loaded?.call(salesManList);
   }
 
   @override
@@ -422,12 +423,12 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<LedgerAccountEntity> ledgers)? loaded,
+    TResult Function(List<SalesManEntity> salesManList)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(ledgers);
+      return loaded(salesManList);
     }
     return orElse();
   }
@@ -470,13 +471,13 @@ class _$LoadedImpl implements _Loaded {
   }
 }
 
-abstract class _Loaded implements CashLedgerState {
-  const factory _Loaded({required final List<LedgerAccountEntity> ledgers}) =
+abstract class _Loaded implements SalesManState {
+  const factory _Loaded({required final List<SalesManEntity> salesManList}) =
       _$LoadedImpl;
 
-  List<LedgerAccountEntity> get ledgers;
+  List<SalesManEntity> get salesManList;
 
-  /// Create a copy of CashLedgerState
+  /// Create a copy of SalesManState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
@@ -494,13 +495,13 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$CashLedgerStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$SalesManStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CashLedgerState
+  /// Create a copy of SalesManState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -526,7 +527,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'CashLedgerState.error(message: $message)';
+    return 'SalesManState.error(message: $message)';
   }
 
   @override
@@ -540,7 +541,7 @@ class _$ErrorImpl implements _Error {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of CashLedgerState
+  /// Create a copy of SalesManState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -553,7 +554,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<LedgerAccountEntity> ledgers) loaded,
+    required TResult Function(List<SalesManEntity> salesManList) loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -564,7 +565,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<LedgerAccountEntity> ledgers)? loaded,
+    TResult? Function(List<SalesManEntity> salesManList)? loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -575,7 +576,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<LedgerAccountEntity> ledgers)? loaded,
+    TResult Function(List<SalesManEntity> salesManList)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -623,12 +624,12 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements CashLedgerState {
+abstract class _Error implements SalesManState {
   const factory _Error(final String message) = _$ErrorImpl;
 
   String get message;
 
-  /// Create a copy of CashLedgerState
+  /// Create a copy of SalesManState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>

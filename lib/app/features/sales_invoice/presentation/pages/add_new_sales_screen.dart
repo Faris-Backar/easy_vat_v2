@@ -4,6 +4,7 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+import 'package:easy_vat_v2/app/features/items/presentation/providers/item_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/add_new_sales_form.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/add_sales_footer_widget.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/rate_splitup_widget.dart';
@@ -16,14 +17,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 @RoutePage()
-class AddNewSalesScreen extends StatefulWidget {
+class AddNewSalesScreen extends ConsumerStatefulWidget {
   const AddNewSalesScreen({super.key});
 
   @override
-  State<AddNewSalesScreen> createState() => _AddNewSalesScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _AddNewSalesScreenState();
 }
 
-class _AddNewSalesScreenState extends State<AddNewSalesScreen> {
+class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
   final saleNoController = TextEditingController();
   final refNoController = TextEditingController();
   final _noteController = TextEditingController();
@@ -31,6 +33,14 @@ class _AddNewSalesScreenState extends State<AddNewSalesScreen> {
   final ValueNotifier<String?> soldByNotifier = ValueNotifier(null);
   final ValueNotifier<String?> cashAccountNotifier = ValueNotifier(null);
   final ValueNotifier<String?> salesAccountNotifier = ValueNotifier(null);
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref.read(itemProvider.notifier).fetchItems();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

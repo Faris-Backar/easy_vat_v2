@@ -1,15 +1,13 @@
-import 'dart:developer';
-
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
-import 'package:easy_vat_v2/app/features/employees/presentation/providers/employee_notifiers.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/data/model/payment_mode_model.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/customer_info_widget.dart';
+import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
@@ -45,7 +43,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(employeeProvider.notifier).getEmployees();
+      ref.read(salesManProvider.notifier).getSalesMans();
       ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
       ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
       ref.read(salesLedgerNotifierProvider.notifier).fetchSalesLedgers();
@@ -54,12 +52,10 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
 
   @override
   Widget build(BuildContext context) {
-    final employeeState = ref.watch(employeeProvider);
+    final salesManState = ref.watch(salesManProvider);
     final paymentModeState = ref.watch(paymentModeNotifierProvider);
     final cashLedgerState = ref.watch(cashLedgerNotifierProvider);
     final salesLedgerState = ref.watch(salesLedgerNotifierProvider);
-
-    log("State=> $employeeState");
     return Column(
       children: [
         Row(
@@ -119,22 +115,21 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
         Row(
           children: [
             Expanded(
-                child: paymentModeState.when(
-              initial: () => const SizedBox.shrink(),
-              loading: () =>
-                  Center(child: CircularProgressIndicator.adaptive()),
-              error: (message) => Text('Error: $message'),
-              loaded: (paymentModes, selectedPaymentMode) {
-                if (paymentModes.isNotEmpty &&
-                    widget.salesModeNotifier.value == null) {
-                  final defaultSelection = _getDefaultSelection(paymentModes);
+              child: paymentModeState.when(
+                initial: () => const SizedBox.shrink(),
+                loading: () =>
+                    Center(child: CircularProgressIndicator.adaptive()),
+                error: (message) => Text('Error: $message'),
+                loaded: (paymentModes, selectedPaymentMode) {
+                  if (paymentModes.isNotEmpty &&
+                      widget.salesModeNotifier.value == null) {
+                    final defaultSelection = _getDefaultSelection(paymentModes);
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      widget.salesModeNotifier.value = defaultSelection;
+                    });
+                  }
 
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    widget.salesModeNotifier.value = defaultSelection;
-                  });
-                }
-
-                return DropdownField(
+                  return DropdownField(
                     label: AppStrings.salesMode,
                     valueNotifier: widget.salesModeNotifier,
                     items:
@@ -144,22 +139,36 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                         : context.surfaceColor,
                     onChanged: (newValue) {
                       widget.salesModeNotifier.value = newValue;
-                      if (newValue != null) {
-                        ref.read(cartProvider.notifier).setSalesMode(newValue);
+                      final shouldFetchCash = newValue?.toLowerCase() == "cash";
+
+                      final shouldFetchBank =
+                          (newValue?.toLowerCase() == "bank" ||
+                              newValue?.toLowerCase() == "card");
+
+                      if (shouldFetchCash) {
+                        widget.cashAccountNotifier.value = null;
+                        ref
+                            .read(cashLedgerNotifierProvider.notifier)
+                            .fetchCashLedgers();
+                      } else if (shouldFetchBank) {
+                        widget.cashAccountNotifier.value = null;
+                        ref
+                            .read(cashLedgerNotifierProvider.notifier)
+                            .fetchBankLedgers();
                       }
-                    });
-              },
-            )),
+                    },
+                  );
+                },
+              ),
+            ),
             SizedBox(
               width: 10.w,
             ),
             Expanded(
-              child: employeeState.maybeWhen(
+              child: salesManState.maybeWhen(
                 loaded: (employeeList) {
                   final List<String> employeeNames = employeeList
-                      .map((employee) =>
-                          '${employee.firstName ?? ''} ${employee.lastName ?? ''}'
-                              .trim())
+                      .map((employee) => employee.empName ?? "")
                       .where((name) => name.isNotEmpty)
                       .toList();
 
@@ -181,9 +190,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                       if (newValue != null) {
                         final selectedEmployee = employeeList.firstWhere(
                           (employee) =>
-                              '${employee.firstName ?? ''} ${employee.lastName ?? ''}'
-                                  .trim()
-                                  .toLowerCase() ==
+                              employee.empName?.trim().toLowerCase() ==
                               newValue.toLowerCase(),
                         );
                         ref
@@ -225,14 +232,11 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                             child: CircularProgressIndicator.adaptive(),
                           ),
                           loaded: (ledgers) {
-                            if (ledgers.isEmpty) {
-                              return Text('No cash ledger data available');
-                            }
+                            List<String> ledgerNames = [];
 
-                            final List<String> ledgerNames = ledgers
+                            ledgerNames = ledgers
                                 .map((ledger) => ledger.ledgerName ?? "")
                                 .toList();
-
                             if (ledgerNames.isNotEmpty &&
                                 widget.cashAccountNotifier.value == null) {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -240,7 +244,6 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                     ledgerNames.first;
                               });
                             }
-
                             return DropdownField(
                                 height: 38.h,
                                 labelAndTextFieldGap: 2,
@@ -253,9 +256,15 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                 onChanged: (newValue) {
                                   widget.cashAccountNotifier.value = newValue;
                                   if (newValue != null) {
+                                    final cashLedger = ledgers.firstWhere(
+                                      (cashLedger) =>
+                                          cashLedger.ledgerName
+                                              ?.toLowerCase() ==
+                                          newValue.toLowerCase(),
+                                    );
                                     ref
                                         .read(cartProvider.notifier)
-                                        .setCashAccount(newValue);
+                                        .setCashAccount(cashLedger);
                                   }
                                 });
                           },

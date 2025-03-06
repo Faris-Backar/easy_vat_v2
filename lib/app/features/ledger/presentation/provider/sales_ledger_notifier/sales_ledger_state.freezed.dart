@@ -20,7 +20,7 @@ mixin _$SalesLedgerState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesLedgerEntity> ledgers) loaded,
+    required TResult Function(List<LedgerAccountEntity> ledgers) loaded,
     required TResult Function(String message) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$SalesLedgerState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesLedgerEntity> ledgers)? loaded,
+    TResult? Function(List<LedgerAccountEntity> ledgers)? loaded,
     TResult? Function(String message)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$SalesLedgerState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesLedgerEntity> ledgers)? loaded,
+    TResult Function(List<LedgerAccountEntity> ledgers)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) =>
@@ -132,7 +132,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesLedgerEntity> ledgers) loaded,
+    required TResult Function(List<LedgerAccountEntity> ledgers) loaded,
     required TResult Function(String message) error,
   }) {
     return initial();
@@ -143,7 +143,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesLedgerEntity> ledgers)? loaded,
+    TResult? Function(List<LedgerAccountEntity> ledgers)? loaded,
     TResult? Function(String message)? error,
   }) {
     return initial?.call();
@@ -154,7 +154,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesLedgerEntity> ledgers)? loaded,
+    TResult Function(List<LedgerAccountEntity> ledgers)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -249,7 +249,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesLedgerEntity> ledgers) loaded,
+    required TResult Function(List<LedgerAccountEntity> ledgers) loaded,
     required TResult Function(String message) error,
   }) {
     return loading();
@@ -260,7 +260,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesLedgerEntity> ledgers)? loaded,
+    TResult? Function(List<LedgerAccountEntity> ledgers)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loading?.call();
@@ -271,7 +271,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesLedgerEntity> ledgers)? loaded,
+    TResult Function(List<LedgerAccountEntity> ledgers)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -329,7 +329,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<SalesLedgerEntity> ledgers});
+  $Res call({List<LedgerAccountEntity> ledgers});
 }
 
 /// @nodoc
@@ -351,7 +351,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
       null == ledgers
           ? _value._ledgers
           : ledgers // ignore: cast_nullable_to_non_nullable
-              as List<SalesLedgerEntity>,
+              as List<LedgerAccountEntity>,
     ));
   }
 }
@@ -359,12 +359,12 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(final List<SalesLedgerEntity> ledgers)
+  const _$LoadedImpl(final List<LedgerAccountEntity> ledgers)
       : _ledgers = ledgers;
 
-  final List<SalesLedgerEntity> _ledgers;
+  final List<LedgerAccountEntity> _ledgers;
   @override
-  List<SalesLedgerEntity> get ledgers {
+  List<LedgerAccountEntity> get ledgers {
     if (_ledgers is EqualUnmodifiableListView) return _ledgers;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_ledgers);
@@ -400,7 +400,7 @@ class _$LoadedImpl implements _Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesLedgerEntity> ledgers) loaded,
+    required TResult Function(List<LedgerAccountEntity> ledgers) loaded,
     required TResult Function(String message) error,
   }) {
     return loaded(ledgers);
@@ -411,7 +411,7 @@ class _$LoadedImpl implements _Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesLedgerEntity> ledgers)? loaded,
+    TResult? Function(List<LedgerAccountEntity> ledgers)? loaded,
     TResult? Function(String message)? error,
   }) {
     return loaded?.call(ledgers);
@@ -422,7 +422,7 @@ class _$LoadedImpl implements _Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesLedgerEntity> ledgers)? loaded,
+    TResult Function(List<LedgerAccountEntity> ledgers)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
@@ -471,9 +471,9 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements SalesLedgerState {
-  const factory _Loaded(final List<SalesLedgerEntity> ledgers) = _$LoadedImpl;
+  const factory _Loaded(final List<LedgerAccountEntity> ledgers) = _$LoadedImpl;
 
-  List<SalesLedgerEntity> get ledgers;
+  List<LedgerAccountEntity> get ledgers;
 
   /// Create a copy of SalesLedgerState
   /// with the given fields replaced by the non-null parameter values.
@@ -552,7 +552,7 @@ class _$ErrorImpl implements _Error {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesLedgerEntity> ledgers) loaded,
+    required TResult Function(List<LedgerAccountEntity> ledgers) loaded,
     required TResult Function(String message) error,
   }) {
     return error(message);
@@ -563,7 +563,7 @@ class _$ErrorImpl implements _Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesLedgerEntity> ledgers)? loaded,
+    TResult? Function(List<LedgerAccountEntity> ledgers)? loaded,
     TResult? Function(String message)? error,
   }) {
     return error?.call(message);
@@ -574,7 +574,7 @@ class _$ErrorImpl implements _Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesLedgerEntity> ledgers)? loaded,
+    TResult Function(List<LedgerAccountEntity> ledgers)? loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {

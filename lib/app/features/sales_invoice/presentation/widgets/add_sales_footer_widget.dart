@@ -4,7 +4,6 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/items_bottom_modal_sheet.dart';
-import 'package:easy_vat_v2/app/features/items/presentation/providers/item_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/create_sales_inovice/create_sales_invoice_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
@@ -91,20 +90,26 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                         label: AppStrings.save,
                         isLoading: false,
                         onPressed: () {
-                          ref
-                              .read(cartProvider.notifier)
-                              .setSalesNo(widget.saleNoController.text);
-                          ref.read(cartProvider.notifier).setSalesMode(
+                          final cartPrvd = ref.read(cartProvider.notifier);
+                          cartPrvd.setSalesNo(widget.saleNoController.text);
+                          cartPrvd.setSalesMode(
                               widget.salesModeNotifier.value ?? "");
-                          ref
-                              .read(cartProvider.notifier)
-                              .setRefNo(widget.refNoController.text);
-
-                          final newSale =
-                              ref.read(cartProvider.notifier).createNewSale();
-                          ref
-                              .read(createSalesNotifierProvider.notifier)
-                              .createSalesOrder(request: newSale);
+                          cartPrvd.setRefNo(widget.refNoController.text);
+                          final newSale = cartPrvd.createNewSale();
+                          if (cartPrvd.salesMode.toLowerCase() == "credit") {
+                            if (cartPrvd.selectedCustomer != null) {
+                              Fluttertoast.showToast(
+                                  msg: AppStrings.pleaseSelectACustomer);
+                            } else {
+                              ref
+                                  .read(createSalesNotifierProvider.notifier)
+                                  .createSalesOrder(request: newSale);
+                            }
+                          } else {
+                            ref
+                                .read(createSalesNotifierProvider.notifier)
+                                .createSalesOrder(request: newSale);
+                          }
                         },
                       ),
                       loading: () => PrimaryButton(
@@ -132,7 +137,6 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
             Icons.add_circle_outline_rounded,
             AppStrings.addItem,
             () {
-              ref.read(itemProvider.notifier).fetchItems();
               showItemsBottomSheet(context);
             },
           );
