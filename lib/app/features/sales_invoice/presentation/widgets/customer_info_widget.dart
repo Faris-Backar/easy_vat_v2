@@ -266,7 +266,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                         },
                       ),
                       CustomerAddressInfo(
-                        address: selectedCustomer?.billingAddress ?? "-",
+                        address: selectedCustomer?.shippingAddress ?? "-",
                         textEditingController: shippingAddressController,
                         hint: AppStrings.address,
                         label: AppStrings.enterShippingAddress,

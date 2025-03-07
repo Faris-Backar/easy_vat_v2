@@ -50,8 +50,8 @@ class _RateSplitupWidgetState extends ConsumerState<RateSplitupWidget> {
               ),
             ),
             SizedBox(
-              width: 69.w,
-              height: 29,
+              width: 110.w,
+              height: 32.h,
               child: TextInputFormField(
                 controller: _discountController,
                 hint: "00.00",

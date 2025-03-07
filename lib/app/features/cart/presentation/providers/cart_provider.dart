@@ -58,6 +58,41 @@ class CartNotifier extends StateNotifier<CartState> {
     }
   }
 
+  void updateCartItem({required CartEntity cartItem}) {
+    final index =
+        itemsList.indexWhere((item) => cartItem.cartItemId == item.cartItemId);
+
+    if (index != -1) {
+      final oldItem = itemsList[index];
+
+      _decreaseRateSplitUp(
+        retailRate: oldItem.item.retailRate ?? 0.0,
+        qty: oldItem.qty.toInt(),
+        taxPercentage: oldItem.item.taxPercentage ?? 0.0,
+      );
+
+      final updatedItem = CartEntity(
+        cartItemId: cartItem.cartItemId,
+        item: cartItem.item,
+        qty: cartItem.qty,
+        total: cartItem.qty * cartItem.price,
+        price: cartItem.price,
+        cost: oldItem.cost,
+        unit: oldItem.unit,
+        description: oldItem.description,
+        discount: cartItem.discount,
+        tax: 0.0,
+      );
+      itemsList[index] = updatedItem;
+      _getRateSplitUp(
+        retailRate: updatedItem.item.retailRate ?? 0.0,
+        qty: updatedItem.qty.toInt(),
+        taxPercentage: updatedItem.item.taxPercentage ?? 0.0,
+      );
+      state = state.copyWith(itemList: itemsList);
+    }
+  }
+
   setSalesNo(String salesNo) {
     this.salesNo = salesNo;
   }
@@ -97,6 +132,15 @@ class CartNotifier extends StateNotifier<CartState> {
 
   setShippingAddress(String shippingAddress) {
     this.shippingAddress = shippingAddress;
+  }
+
+  double applyIndividualItemDiscount({
+    required double total,
+    required double discAmount,
+  }) {
+    double discountedTotal = total - discAmount;
+    discountedTotal = discountedTotal < 0 ? 0 : discountedTotal;
+    return discountedTotal;
   }
 
   void applyDiscount(double discountAmount) {
@@ -253,12 +297,21 @@ class CartNotifier extends StateNotifier<CartState> {
     return totalTax;
   }
 
-  void _getRateSplitUp(
-      {required double retailRate,
-      required int qty,
-      required double taxPercentage}) {
+  void _getRateSplitUp({
+    required double retailRate,
+    required int qty,
+    required double taxPercentage,
+    double discountAmount = 0.0,
+  }) {
+    double totalBeforeDiscount = retailRate * qty;
+
+    double totalAfterDiscount = applyIndividualItemDiscount(
+      total: totalBeforeDiscount,
+      discAmount: discountAmount,
+    );
+
     _calculateBeforeTax(retailRate: retailRate, qty: qty);
-    _calculateTotalAmount(amount: retailRate * qty);
+    _calculateTotalAmount(amount: totalAfterDiscount);
     _calculateTotalTax(
         retailRate: retailRate, qty: qty, taxPercentage: taxPercentage);
 

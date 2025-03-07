@@ -1,16 +1,18 @@
-import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 
 class CartItemCardWidget extends StatelessWidget {
   final CartEntity items;
+  final int index;
   const CartItemCardWidget({
     super.key,
     required this.items,
+    required this.index,
   });
 
   @override
@@ -58,15 +60,15 @@ class CartItemCardWidget extends StatelessWidget {
               Expanded(
                 child: _buildContents(
                   context,
-                  AppStrings.itemcode,
-                  items.item.itemCode ?? "",
+                  AppStrings.no,
+                  "${index + 1}",
                 ),
               ),
               Expanded(
                 child: _buildContents(
                   context,
-                  AppStrings.price,
-                  items.item.retailRate?.toStringAsFixed(2) ?? "",
+                  AppStrings.unit,
+                  items.item.unit ?? "",
                 ),
               ),
               Expanded(
@@ -84,8 +86,8 @@ class CartItemCardWidget extends StatelessWidget {
                   alignment: Alignment.center,
                   child: _buildContents(
                     context,
-                    AppStrings.total,
-                    items.total.toStringAsFixed(2),
+                    AppStrings.rate,
+                    items.price.toStringAsFixed(2),
                   ),
                 ),
               ),
@@ -94,8 +96,18 @@ class CartItemCardWidget extends StatelessWidget {
                   alignment: Alignment.center,
                   child: _buildContents(
                     context,
-                    AppStrings.unit,
-                    items.item.unit ?? "",
+                    AppStrings.tax,
+                    items.tax.toStringAsFixed(2),
+                  ),
+                ),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: _buildContents(
+                    context,
+                    AppStrings.total,
+                    items.total.toStringAsFixed(2),
                   ),
                 ),
               ),
@@ -106,10 +118,11 @@ class CartItemCardWidget extends StatelessWidget {
     );
   }
 
-  Widget _buildContents(BuildContext context, String label, String content) {
+  Widget _buildContents(BuildContext context, String label, String content,
+      {CrossAxisAlignment? crossAxisAlignment}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+      crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
       children: [
         Text(
           label,

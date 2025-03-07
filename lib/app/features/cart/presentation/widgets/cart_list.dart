@@ -5,6 +5,7 @@ import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/widgets/cart_item_add_dialog.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/cart_item_card_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
@@ -55,8 +56,18 @@ class CartList extends StatelessWidget {
           ),
         ],
       ),
-      child: CartItemCardWidget(
-        items: itemList[index],
+      child: InkWell(
+        onTap: () => showDialog(
+          context: context,
+          builder: (context) => CartItemAddDialog(
+            item: itemList[index].item,
+            cartItem: itemList[index],
+          ),
+        ),
+        child: CartItemCardWidget(
+          items: itemList[index],
+          index: index,
+        ),
       ),
     );
   }
