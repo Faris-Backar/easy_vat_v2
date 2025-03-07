@@ -56,12 +56,14 @@ class _RateSplitupWidgetState extends ConsumerState<RateSplitupWidget> {
                 controller: _discountController,
                 hint: "00.00",
                 maxLines: 1,
+                textInputType: TextInputType.number,
+                textInputAction: TextInputAction.done,
                 onChanged: (disc) {
-                  final discountAmount = double.tryParse(disc);
-                  if ((discountAmount ?? 0.0) > 0) {
+                  final discountAmount = double.tryParse(disc) ?? 0.0;
+                  if (discountAmount >= 0) {
                     ref
                         .read(cartProvider.notifier)
-                        .applyDiscount(discountAmount!);
+                        .applyDiscount(discountAmount);
                   }
                 },
                 hintDecoration: context.textTheme.bodySmall?.copyWith(
