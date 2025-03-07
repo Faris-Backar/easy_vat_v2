@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/error/failure.dart';
@@ -36,7 +34,6 @@ class ItemRepositoryImpl extends ItemRepository {
   Future<Either<Failure, List<ItemEntity>>> searchItems(
       {required String query}) async {
     try {
-      log("query $query");
       final response = await client
           .get(UrlResources.searchItems, queryParameters: {"KeyWord": query});
       if (response.statusCode == 200) {

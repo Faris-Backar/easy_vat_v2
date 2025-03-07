@@ -2,6 +2,7 @@ import 'package:easy_vat_v2/app/core/usecase/no_params.dart';
 import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/items/data/repository/item_repository_impl.dart';
 import 'package:easy_vat_v2/app/features/items/domain/respository/item_repository.dart';
+import 'package:easy_vat_v2/app/features/items/domain/usecase/search_items_usecase.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:easy_vat_v2/app/features/items/domain/usecase/get_items_usecase.dart';
@@ -15,13 +16,22 @@ final getItemUsecaseProvider = Provider<GetItemsUsecase>((ref) {
   return GetItemsUsecase(itemRepository: ref.read(itemRepositoryProvider));
 });
 
+final searchItemUsecaseProvider = Provider<SearchItemsUsecase>((ref) {
+  return SearchItemsUsecase(itemRepository: ref.read(itemRepositoryProvider));
+});
+
 final itemProvider = StateNotifierProvider<ItemNotifier, ItemState>((ref) {
-  return ItemNotifier(getItemsUsecase: ref.read(getItemUsecaseProvider));
+  return ItemNotifier(
+      getItemsUsecase: ref.read(getItemUsecaseProvider),
+      searchItemsUsecase: ref.read(searchItemUsecaseProvider));
 });
 
 class ItemNotifier extends StateNotifier<ItemState> {
   final GetItemsUsecase getItemsUsecase;
-  ItemNotifier({required this.getItemsUsecase}) : super(ItemState.initial());
+  final SearchItemsUsecase searchItemsUsecase;
+  ItemNotifier(
+      {required this.getItemsUsecase, required this.searchItemsUsecase})
+      : super(ItemState.initial());
 
   fetchItems() async {
     state = ItemState.loading();
@@ -34,7 +44,7 @@ class ItemNotifier extends StateNotifier<ItemState> {
 
   searchItems({required String query}) async {
     state = ItemState.loading();
-    final result = await getItemsUsecase.call(params: NoParams());
+    final result = await searchItemsUsecase.call(params: query);
     result.fold(
       (l) => state = ItemState.failure(error: l.message),
       (r) => state = ItemState.loaded(itemsList: r),

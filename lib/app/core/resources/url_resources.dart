@@ -12,6 +12,7 @@ class UrlResources {
 
   //customer
   static const String getCustomers = "Customer/Select/LoadCustomer";
+  static const String searchCustomers = "Customer/Select/SearchCustomer";
 
   // items
   static const String getItems = "Item/Select/SelectAll";

@@ -4,4 +4,6 @@ import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entit
 
 abstract class CustomerRepository {
   Future<Either<Failure, List<CustomerEntity>>> getCustomers();
+  Future<Either<Failure, List<CustomerEntity>>> searchCustomer(
+      {required String query});
 }

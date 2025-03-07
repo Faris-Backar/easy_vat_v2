@@ -32,4 +32,26 @@ class CustomerRepositoryImpl extends CustomerRepository {
       );
     }
   }
+
+  @override
+  Future<Either<Failure, List<CustomerEntity>>> searchCustomer(
+      {required String query}) async {
+    try {
+      final response = await dio.get(UrlResources.searchCustomers,
+          queryParameters: {"KeyWord": query});
+      if (response.statusCode == 200) {
+        List<CustomerModel> customersList = (response.data as List)
+            .map((json) => CustomerModel.fromJson(json))
+            .toList();
+        return Right(customersList);
+      }
+      return Left(ServerFailure(message: "Something went wrong."));
+    } on DioException catch (e) {
+      return Left(ServerFailure(message: e.response?.data ?? e.error ?? ""));
+    } catch (e) {
+      return Left(
+        ServerFailure(message: e.toString()),
+      );
+    }
+  }
 }

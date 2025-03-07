@@ -1,7 +1,6 @@
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
@@ -16,7 +15,6 @@ class ItemDetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 88.h,
       width: double.infinity,
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -30,10 +28,12 @@ class ItemDetailsCard extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                items.itemName ?? "",
-                style: context.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Text(
+                  items.itemName ?? "",
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               Text(

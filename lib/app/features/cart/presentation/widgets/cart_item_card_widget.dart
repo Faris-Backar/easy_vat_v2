@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
@@ -18,7 +17,6 @@ class CartItemCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 88.h,
       width: double.infinity,
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
@@ -32,10 +30,12 @@ class CartItemCardWidget extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                items.item.itemName ?? "",
-                style: context.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
+              Expanded(
+                child: Text(
+                  items.item.itemName ?? "",
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
                 ),
               ),
               Text(

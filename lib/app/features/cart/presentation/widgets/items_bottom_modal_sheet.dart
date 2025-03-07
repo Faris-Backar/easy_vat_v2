@@ -7,6 +7,8 @@ import 'package:easy_vat_v2/app/features/cart/presentation/widgets/item_details_
 import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
 import 'package:easy_vat_v2/app/features/items/presentation/providers/item_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
+import 'package:easy_vat_v2/app/features/widgets/refresh_button.dart';
+import 'package:easy_vat_v2/app/features/widgets/search_debouncer.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
@@ -54,38 +56,60 @@ class _ItemsBottomModalSheetState extends ConsumerState<ItemsBottomModalSheet> {
   }
 
   Widget _buildSearchField(BuildContext context, WidgetRef ref) {
-    return TextInputFormField(
-      controller: searchController,
-      fillColor: AppUtils.isDarkMode(context) ? context.surfaceColor : null,
-      onChanged: (value) {
-        if (value.isEmpty) {
-          ref.read(itemProvider.notifier).fetchItems();
-        } else if (value.length > 3) {
-          ref.read(itemProvider.notifier).searchItems(query: value);
-        }
-      },
-      prefixIcon: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SvgIcon(icon: Assets.icons.search),
-      ),
-      suffixIcon: SizedBox(
-        width: 20.w,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            const VerticalDivider(width: 0, endIndent: 5, indent: 5),
-            Padding(
+    final searchDebouncer = SearchDebouncer();
+
+    return Row(
+      children: [
+        Expanded(
+          child: TextInputFormField(
+            controller: searchController,
+            fillColor:
+                AppUtils.isDarkMode(context) ? context.surfaceColor : null,
+            onChanged: (value) {
+              searchDebouncer.run(() {
+                if (value.isEmpty) {
+                  ref.read(itemProvider.notifier).fetchItems();
+                } else if (value.length > 3) {
+                  ref.read(itemProvider.notifier).searchItems(query: value);
+                }
+              });
+            },
+            prefixIcon: Padding(
               padding: const EdgeInsets.all(10.0),
-              child: SvgIcon(
-                icon: Assets.icons.barcode,
-                color: context.defaultTextColor,
+              child: SvgIcon(icon: Assets.icons.search),
+            ),
+            suffixIcon: SizedBox(
+              width: 20.w,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  const VerticalDivider(width: 0, endIndent: 5, indent: 5),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: SvgIcon(
+                      icon: Assets.icons.barcode,
+                      color: AppUtils.isDarkMode(context)
+                          ? context.defaultTextColor
+                          : null,
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
+            hint: AppStrings.search,
+            height: 36.h,
+          ),
         ),
-      ),
-      hint: AppStrings.search,
-      height: 36.h,
+        SizedBox(
+          width: 5.w,
+        ),
+        RefreshButton(
+          onTap: () {
+            searchController.text = "";
+            ref.read(itemProvider.notifier).fetchItems();
+          },
+        )
+      ],
     );
   }
 
