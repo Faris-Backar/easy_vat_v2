@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
@@ -5,9 +7,9 @@ import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
-import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
+import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -23,40 +25,77 @@ class CartItemAddDialog extends ConsumerStatefulWidget {
 }
 
 class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
+  CartEntity? cart;
+  late ItemEntity item;
   final _quantityController = TextEditingController();
   final _sellingPriceController = TextEditingController();
   final _costPriceController = TextEditingController();
-  final _priceWithoutTaxController = TextEditingController();
+  final _priceWithTaxController = TextEditingController();
   final _unitController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _discountController = TextEditingController();
+  final _taxController = TextEditingController();
 
   final _passwordVisibilityNotifier = ValueNotifier(true);
 
   @override
   void initState() {
     super.initState();
-    if (widget.cartItem != null) {
-      _quantityController.text = widget.cartItem?.qty.toStringAsFixed(2) ?? "";
-      _sellingPriceController.text =
-          widget.cartItem?.price.toStringAsFixed(2) ?? "0.0";
-      _priceWithoutTaxController.text =
-          widget.cartItem?.cost.toStringAsFixed(2) ?? "0.0";
-      _unitController.text = widget.cartItem?.unit ?? "";
-      _descriptionController.text = widget.cartItem?.description ?? "";
-      _costPriceController.text =
-          widget.cartItem?.cost.toStringAsFixed(2) ?? "0.00";
-    } else {
-      _quantityController.text = "1.00";
-      _sellingPriceController.text =
-          widget.item.retailRate?.toStringAsFixed(2) ?? "0.00";
-      _priceWithoutTaxController.text =
-          widget.item.cost?.toStringAsFixed(2) ?? "0.00";
-      _unitController.text = widget.item.unit ?? "";
-      _descriptionController.text = widget.item.description ?? "";
-      _costPriceController.text =
-          widget.item.cost?.toStringAsFixed(2) ?? "0.00";
-    }
+    cart = widget.cartItem;
+    item = widget.item;
+    final sellingPrice =
+        (((cart?.rate ?? item.retailRate) ?? 0.0) * (cart?.qty ?? 1.00));
+    final priceWithTax =
+        (sellingPrice + (sellingPrice * (item.taxPercentage ?? 1) / 100));
+    log("selling price => $sellingPrice || $priceWithTax");
+    _quantityController.text = cart?.qty.toStringAsFixed(2) ?? "1.00";
+    _sellingPriceController.text = cart?.rate.toStringAsFixed(2) ??
+        item.retailRate?.toStringAsFixed(2) ??
+        "0.00";
+    _costPriceController.text = cart?.cost.toStringAsFixed(2) ??
+        item.cost?.toStringAsFixed(2) ??
+        "0.00";
+    _priceWithTaxController.text = priceWithTax.toStringAsFixed(2);
+    _unitController.text = cart?.unit ?? item.unit ?? "";
+    _descriptionController.text = cart?.description ?? item.description ?? "";
+    _discountController.text = cart?.discount.toStringAsFixed(2) ?? "0.00";
+    _taxController.text = cart?.item.taxPercentage?.toStringAsFixed(2) ??
+        item.taxPercentage?.toStringAsFixed(2) ??
+        "0.0";
+  }
+
+  // @override
+  // void dispose() {
+  //   _quantityController.dispose();
+  //   _sellingPriceController.dispose();
+  //   _priceWithTaxController.dispose();
+  //   _quantityController.dispose();
+  //   _costPriceController.dispose();
+  //   super.dispose();
+  // }
+
+  void _updatePricesOnQtyChange() {
+    final qty = double.tryParse(_quantityController.text) ?? 1;
+    final basePrice = cart?.rate ?? item.retailRate ?? 1.0;
+    final sellingPrice = basePrice * qty;
+    final taxPercentage = cart?.item.taxPercentage ?? item.taxPercentage ?? 1.0;
+    final priceWithTax = sellingPrice + (sellingPrice * taxPercentage / 100);
+    _sellingPriceController.text = sellingPrice.toStringAsFixed(2);
+    _priceWithTaxController.text = priceWithTax.toStringAsFixed(2);
+  }
+
+  void _updatePriceWithTax() {
+    final sellingPrice = double.tryParse(_sellingPriceController.text) ?? 0.0;
+    final taxPercentage = cart?.item.taxPercentage ?? item.taxPercentage ?? 1.0;
+    final priceWithTax = sellingPrice + (sellingPrice * taxPercentage / 100);
+    _priceWithTaxController.text = priceWithTax.toStringAsFixed(2);
+  }
+
+  void _updateSellingPrice() {
+    final priceWithTax = double.tryParse(_priceWithTaxController.text) ?? 0.0;
+    final taxPercentage = cart?.item.taxPercentage ?? item.taxPercentage ?? 1.0;
+    final sellingPrice = priceWithTax / (1 + taxPercentage / 100);
+    _sellingPriceController.text = sellingPrice.toStringAsFixed(2);
   }
 
   @override
@@ -64,9 +103,9 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     return AlertDialog(
       backgroundColor: context.colorScheme.tertiaryContainer,
       title: Text(widget.item.itemName ?? ""),
-      titleTextStyle: context.textTheme.titleMedium?.copyWith(
+      titleTextStyle: context.textTheme.titleSmall?.copyWith(
         fontWeight: FontWeight.w600,
-        fontSize: 18,
+        fontSize: 16,
       ),
       content: SingleChildScrollView(
         child: Column(
@@ -75,24 +114,44 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
             Row(
               children: [
                 Expanded(
-                  child: CustomTextField(
+                  child: TextInputFormField(
                     height: 36.h,
                     label: AppStrings.quantity,
                     controller: _quantityController,
                     fillColor: context.colorScheme.tertiaryContainer,
                     textInputAction: TextInputAction.next,
                     textInputType: TextInputType.number,
+                    maxLines: 1,
+                    onTap: () => _quantityController.selection = TextSelection(
+                        baseOffset: 0,
+                        extentOffset: _quantityController.value.text.length),
+                    onChanged: (value) => _updatePricesOnQtyChange(),
+                    validator: (value) {
+                      if (value?.isEmpty == true) {
+                        return "Please enter a valid amount";
+                      }
+                      return null;
+                    },
                   ),
                 ),
                 SizedBox(
                   width: 5.w,
                 ),
                 Expanded(
-                  child: CustomTextField(
+                  child: TextInputFormField(
                     height: 36.h,
                     label: AppStrings.sellingPrice,
                     controller: _sellingPriceController,
                     fillColor: context.colorScheme.tertiaryContainer,
+                    onChanged: (value) => _updatePriceWithTax(),
+                    onTap: () => _sellingPriceController.selection =
+                        TextSelection(
+                            baseOffset: 0,
+                            extentOffset:
+                                _sellingPriceController.value.text.length),
+                    textInputAction: TextInputAction.next,
+                    textInputType: TextInputType.number,
+                    maxLines: 1,
                   ),
                 ),
               ],
@@ -106,13 +165,16 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                   child: ValueListenableBuilder(
                     valueListenable: _passwordVisibilityNotifier,
                     builder: (context, bool isPasswordVisible, child) {
-                      return CustomTextField(
+                      return TextInputFormField(
                         height: 36.h,
+                        textInputAction: TextInputAction.next,
+                        textInputType: TextInputType.number,
+                        maxLines: 1,
                         label: AppStrings.cost,
                         enabled: false,
                         controller: _costPriceController,
                         fillColor: context.colorScheme.tertiaryContainer,
-                        passwordvisibility: _passwordVisibilityNotifier.value,
+                        isPasswordVisible: _passwordVisibilityNotifier.value,
                         suffixIcon: IconButton(
                           onPressed: () {
                             _passwordVisibilityNotifier.value =
@@ -132,11 +194,20 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                   width: 5.w,
                 ),
                 Expanded(
-                  child: CustomTextField(
+                  child: TextInputFormField(
                     height: 36.h,
-                    label: AppStrings.priceWithOutTax,
-                    controller: _priceWithoutTaxController,
+                    label: AppStrings.priceWithTax,
+                    controller: _priceWithTaxController,
                     fillColor: context.colorScheme.tertiaryContainer,
+                    onTap: () => _priceWithTaxController.selection =
+                        TextSelection(
+                            baseOffset: 0,
+                            extentOffset:
+                                _priceWithTaxController.value.text.length),
+                    onChanged: (value) => _updateSellingPrice(),
+                    textInputAction: TextInputAction.next,
+                    textInputType: TextInputType.number,
+                    maxLines: 1,
                   ),
                 )
               ],
@@ -144,18 +215,48 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
             SizedBox(
               height: 10,
             ),
-            CustomTextField(
-              height: 36.h,
-              label: AppStrings.discount,
-              enabled: false,
-              hint: AppStrings.discount,
-              controller: _discountController,
-              fillColor: context.colorScheme.tertiaryContainer,
+            Row(
+              children: [
+                Expanded(
+                  child: TextInputFormField(
+                    height: 36.h,
+                    label: AppStrings.discount,
+                    hint: AppStrings.discount,
+                    controller: _discountController,
+                    onTap: () => _discountController.selection = TextSelection(
+                        baseOffset: 0,
+                        extentOffset: _discountController.value.text.length),
+                    textInputType: TextInputType.number,
+                    fillColor: context.colorScheme.tertiaryContainer,
+                    textInputAction: TextInputAction.next,
+                    maxLines: 1,
+                  ),
+                ),
+                SizedBox(
+                  width: 5.w,
+                ),
+                Expanded(
+                  child: TextInputFormField(
+                    height: 36.h,
+                    label: AppStrings.tax,
+                    hint: AppStrings.tax,
+                    controller: _taxController,
+                    enabled: false,
+                    textInputType: TextInputType.number,
+                    fillColor: context.colorScheme.tertiaryContainer,
+                    onTap: () => _taxController.selection = TextSelection(
+                        baseOffset: 0,
+                        extentOffset: _taxController.value.text.length),
+                    textInputAction: TextInputAction.next,
+                    maxLines: 1,
+                  ),
+                ),
+              ],
             ),
             SizedBox(
               height: 10,
             ),
-            CustomTextField(
+            TextInputFormField(
               height: 36.h,
               label: AppStrings.unit,
               enabled: false,
@@ -165,12 +266,12 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
             SizedBox(
               height: 10,
             ),
-            CustomTextField(
-              height: 36.h,
+            TextInputFormField(
               label: AppStrings.description,
               controller: _descriptionController,
               fillColor: context.colorScheme.tertiaryContainer,
               hint: AppStrings.description,
+              maxLines: 3,
             )
           ],
         ),
@@ -193,48 +294,54 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
         ),
         SizedBox(width: 5.w),
         PrimaryButton(
-          label: widget.cartItem != null
-              ? AppStrings.updateItem
-              : AppStrings.addToCart,
-          onPressed: () {
-            if (widget.cartItem == null) {
-              final qty = double.tryParse(_quantityController.text);
-              final total = (widget.item.retailRate ?? 0.0) * (qty ?? 0);
-              final CartEntity cartEntity = CartEntity(
-                  cartItemId:
-                      (ref.read(cartProvider).itemList?.length ?? 0) + 1,
-                  item: widget.item,
-                  qty: qty ?? 0.0,
-                  cost: double.tryParse(_priceWithoutTaxController.text) ?? 0.0,
-                  price: double.tryParse(_sellingPriceController.text) ?? 0.0,
-                  description: _descriptionController.text,
-                  discount: double.tryParse(_discountController.text) ?? 0.0,
-                  unit: _unitController.text,
-                  total: total,
-                  tax: 0.0);
-              ref
-                  .read(cartProvider.notifier)
-                  .addItemsIntoCart(item: cartEntity);
-              context.router.popForced();
-            } else {
-              final qty = double.tryParse(_quantityController.text);
-              final total = (widget.item.retailRate ?? 0.0) * (qty ?? 0);
-              final cartEntity = widget.cartItem!.copyWith(
-                qty: qty,
-                cost: double.tryParse(_priceWithoutTaxController.text),
-                price: double.tryParse(_priceWithoutTaxController.text),
-                description: _descriptionController.text,
-                total: total,
-                unit: _unitController.text,
-              );
-              ref
-                  .read(cartProvider.notifier)
-                  .updateCartItem(cartItem: cartEntity);
-              context.router.popForced();
-            }
-          },
-        ),
+            label: widget.cartItem != null
+                ? AppStrings.updateItem
+                : AppStrings.addToCart,
+            onPressed: _handleCartAction),
       ],
     );
+  }
+
+  void _handleCartAction() {
+    final cartNotifier = ref.read(cartProvider.notifier);
+    final qty = double.tryParse(_quantityController.text) ?? 0.0;
+    final discount = double.tryParse(_discountController.text) ?? 0.0;
+    final rate = double.tryParse(_sellingPriceController.text) ?? 0.0;
+    final cost = double.tryParse(_priceWithTaxController.text) ?? 0.0;
+
+    final gross = cartNotifier.calculateGross(
+        retailRate: rate, qty: qty, discount: discount);
+    final tax = cartNotifier.calculateTotalTax(
+        retailRate: rate,
+        qty: qty,
+        taxPercentage: widget.item.taxPercentage ?? 1);
+    final priceBeforeTax =
+        cartNotifier.calculateBeforeTax(retailRate: rate, qty: qty);
+    final netTotal = gross + tax;
+
+    final cartEntity = CartEntity(
+      cartItemId: widget.cartItem != null
+          ? ref.read(cartProvider).itemList?.length ?? 0
+          : (ref.read(cartProvider).itemList?.length ?? 0) + 1,
+      item: widget.item,
+      qty: qty,
+      cost: cost,
+      rate: rate,
+      description: _descriptionController.text,
+      discount: discount,
+      unit: _unitController.text,
+      netTotal: netTotal,
+      gross: gross,
+      priceBeforeTax: priceBeforeTax,
+      tax: tax,
+    );
+    log("rate split up => \n $cartEntity\n ${widget.item.taxPercentage}");
+    if (widget.cartItem == null) {
+      cartNotifier.addItemsIntoCart(item: cartEntity);
+    } else {
+      cartNotifier.updateCartItem(cartItem: cartEntity);
+    }
+
+    context.router.popForced();
   }
 }

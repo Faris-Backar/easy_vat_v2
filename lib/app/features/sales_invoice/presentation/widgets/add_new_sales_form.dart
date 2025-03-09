@@ -243,6 +243,9 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                 widget.cashAccountNotifier.value =
                                     ledgerNames.first;
                               });
+                              ref
+                                  .read(cartProvider.notifier)
+                                  .setSalesAccount(ledgers.first);
                             }
                             return DropdownField(
                                 height: 38.h,
@@ -291,9 +294,10 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                 .toList();
 
                             if (ledgerNames.isNotEmpty &&
-                                widget.soldByNotifier.value == null) {
+                                widget.salesAccountNotifier.value == null) {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
-                                widget.soldByNotifier.value = ledgerNames.first;
+                                widget.salesAccountNotifier.value =
+                                    ledgerNames.first;
                               });
                             }
 
@@ -309,9 +313,15 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                 onChanged: (newValue) {
                                   widget.salesAccountNotifier.value = newValue;
                                   if (newValue != null) {
+                                    final salesLedger = ledgers.firstWhere(
+                                      (cashLedger) =>
+                                          cashLedger.ledgerName
+                                              ?.toLowerCase() ==
+                                          newValue.toLowerCase(),
+                                    );
                                     ref
                                         .read(cartProvider.notifier)
-                                        .setSalesAccount(newValue);
+                                        .setSalesAccount(salesLedger);
                                   }
                                 });
                           },

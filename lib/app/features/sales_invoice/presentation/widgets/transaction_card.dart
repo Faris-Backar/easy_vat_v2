@@ -3,6 +3,7 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/core/utils/date_format_utils.dart';
+import 'package:easy_vat_v2/app/features/sales_invoice/domain/entities/sales_invoice_entity.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -14,17 +15,18 @@ class TransactionCard extends StatelessWidget {
   final double netTotal;
   final String status;
   final String refNo;
+  final List<SoldItemEntity> soldItems;
 
-  const TransactionCard({
-    super.key,
-    required this.salesOrderNumber,
-    required this.salesDate,
-    required this.customerName,
-    required this.soldBy,
-    required this.netTotal,
-    required this.status,
-    required this.refNo,
-  });
+  const TransactionCard(
+      {super.key,
+      required this.salesOrderNumber,
+      required this.salesDate,
+      required this.customerName,
+      required this.soldBy,
+      required this.netTotal,
+      required this.status,
+      required this.refNo,
+      required this.soldItems});
 
   @override
   Widget build(BuildContext context) {

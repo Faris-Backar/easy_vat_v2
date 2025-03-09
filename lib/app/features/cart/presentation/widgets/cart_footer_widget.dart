@@ -7,19 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CartFooterWidget extends ConsumerStatefulWidget {
+class CartFooterWidget extends ConsumerWidget {
   const CartFooterWidget({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() =>
-      _CartFooterWidgetState();
-}
-
-class _CartFooterWidgetState extends ConsumerState<CartFooterWidget> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      height: 110.h,
+      // height: 110.h,
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       decoration: BoxDecoration(boxShadow: [
         BoxShadow(
@@ -41,7 +35,32 @@ class _CartFooterWidgetState extends ConsumerState<CartFooterWidget> {
                     color: context.defaultTextColor.withValues(alpha: 0.32),
                   ),
                 ),
-                Text(ref.watch(cartProvider).totalAmount.toStringAsFixed(2),
+                Text(
+                    ref
+                        .watch(cartProvider.notifier)
+                        .subTotal
+                        .toStringAsFixed(2),
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: context.defaultTextColor.withValues(alpha: 0.32),
+                    )),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  AppStrings.tax,
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: context.defaultTextColor.withValues(alpha: 0.32),
+                  ),
+                ),
+                Text(
+                    ref
+                        .watch(cartProvider.notifier)
+                        .totalTax
+                        .toStringAsFixed(2),
                     style: context.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w700,
                       color: context.defaultTextColor.withValues(alpha: 0.32),

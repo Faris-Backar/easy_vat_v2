@@ -1,16 +1,27 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TransactionSlidableActionWidget extends StatelessWidget {
-  const TransactionSlidableActionWidget({super.key});
+  final VoidCallback onEditTap;
+  final VoidCallback onPrintTap;
+  final VoidCallback onDeleteTap;
+  const TransactionSlidableActionWidget({
+    super.key,
+    required this.onEditTap,
+    required this.onPrintTap,
+    required this.onDeleteTap,
+  });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+  ) {
     return SizedBox(
       height: double.infinity,
       width: 44.w,
@@ -46,7 +57,7 @@ class TransactionSlidableActionWidget extends StatelessWidget {
                     iconColor: AppUtils.isDarkMode(context)
                         ? context.onPrimaryColor
                         : null,
-                    ontap: () {}),
+                    ontap: onEditTap),
               ),
               Expanded(
                 child: _buildSlidableAction(

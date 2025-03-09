@@ -33,7 +33,7 @@ class LedgerRepositoryImpl extends LedgerRepository {
   @override
   Future<Either<Failure, List<LedgerAccountEntity>>> fetchSalesLedger() async {
     try {
-      final response = await client.get(UrlResources.getCAshAccount);
+      final response = await client.get(UrlResources.getSalesAccount);
       if (response.statusCode == 200) {
         List<LedgerAccountModel> salesLedgerList = (response.data as List)
             .map((json) => LedgerAccountModel.fromJson(json))

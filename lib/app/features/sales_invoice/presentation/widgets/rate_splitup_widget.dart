@@ -25,7 +25,7 @@ class _RateSplitupWidgetState extends ConsumerState<RateSplitupWidget> {
       children: [
         _buildRateSplitup(
           context,
-          content: state.totalBeforeTax.toStringAsFixed(2),
+          content: state.subtotal.toStringAsFixed(2),
           label: AppStrings.totalBeforeTax,
         ),
         SizedBox(
@@ -56,6 +56,7 @@ class _RateSplitupWidgetState extends ConsumerState<RateSplitupWidget> {
                 controller: _discountController,
                 hint: "00.00",
                 maxLines: 1,
+                textAlign: TextAlign.right,
                 textInputType: TextInputType.number,
                 textInputAction: TextInputAction.done,
                 onChanged: (disc) {

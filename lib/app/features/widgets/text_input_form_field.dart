@@ -24,7 +24,10 @@ class TextInputFormField extends StatelessWidget {
       this.onFieldSubmitted,
       this.enabled = true,
       this.height,
-      this.width});
+      this.onTap,
+      this.width,
+      this.label,
+      this.textAlign});
   final String? hint;
   final TextEditingController controller;
   final Widget? prefixIcon;
@@ -46,6 +49,9 @@ class TextInputFormField extends StatelessWidget {
   final bool enabled;
   final double? height;
   final double? width;
+  final VoidCallback? onTap;
+  final String? label;
+  final TextAlign? textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +60,7 @@ class TextInputFormField extends StatelessWidget {
       width: width,
       child: TextFormField(
         enabled: enabled,
+        onTap: onTap,
         obscureText: isPasswordVisible ?? false,
         controller: controller,
         textInputAction: textInputAction,
@@ -61,8 +68,10 @@ class TextInputFormField extends StatelessWidget {
         obscuringCharacter: '*',
         onChanged: onChanged,
         validator: validator,
+        textAlign: textAlign ?? TextAlign.start,
         autovalidateMode: autovalidateMode,
         decoration: InputDecoration(
+            labelText: label,
             contentPadding:
                 contentPadding ?? const EdgeInsets.symmetric(horizontal: 16.0),
             prefixIcon: prefixIcon,

@@ -133,7 +133,7 @@ class AppStrings {
   static const String save = "Save";
   static const String quantity = "Quantity";
   static const String sellingPrice = "Selling Price";
-  static const String priceWithOutTax = "Price with out tax";
+  static const String priceWithTax = "Price tax";
   static const String description = "Description";
   static const String subTotal = "Sub total";
   static const String enterShippingAddress = "Enter Shipping Address";

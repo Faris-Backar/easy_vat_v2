@@ -46,9 +46,9 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
   }
 
   Future<void> _fetchAndSelectCustomer() async {
-    await ref.read(customerNotifierProvider.notifier).getCustomer();
     final cashCustomer = CustomerEntity(ledgerName: "Cash", isActive: true);
     ref.read(cartProvider.notifier).setCustomer(cashCustomer);
+    await ref.read(customerNotifierProvider.notifier).getCustomer();
     billingAddressController.text =
         ref.read(cartProvider).selectedCustomer?.billingAddress ?? "";
     shippingAddressController.text =

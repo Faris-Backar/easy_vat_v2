@@ -56,7 +56,7 @@ class CustomerAddressInfo extends StatelessWidget {
                         bottom: MediaQuery.of(context).viewInsets.bottom,
                       ),
                       child: Container(
-                        height: 150.h,
+                        height: 200.h,
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(
                             horizontal: 16.0, vertical: 16.0),
@@ -66,6 +66,7 @@ class CustomerAddressInfo extends StatelessWidget {
                               label: AppStrings.enterShippingAddress,
                               controller: textEditingController,
                               hint: AppStrings.address,
+                              maxLines: 4,
                               fillColor: AppUtils.isDarkMode(context)
                                   ? context.surfaceColor
                                   : null,

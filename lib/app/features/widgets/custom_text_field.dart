@@ -17,6 +17,8 @@ class CustomTextField extends StatelessWidget {
   final double? width;
   final double? labelAndTextfieldGap;
   final Color? fillColor;
+  final Function(String value)? onChanged;
+  final VoidCallback? onTap;
   const CustomTextField(
       {super.key,
       required this.label,
@@ -32,7 +34,9 @@ class CustomTextField extends StatelessWidget {
       this.height,
       this.width,
       this.labelAndTextfieldGap,
-      this.fillColor});
+      this.fillColor,
+      this.onChanged,
+      this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +53,7 @@ class CustomTextField extends StatelessWidget {
           height: height,
           width: width,
           child: TextInputFormField(
+            onTap: onTap,
             enabled: enabled,
             controller: controller,
             fillColor: fillColor,
@@ -67,6 +72,7 @@ class CustomTextField extends StatelessWidget {
             style: context.textTheme.bodyMedium
                 ?.copyWith(color: context.colorScheme.onSurface),
             textInputType: textInputType,
+            onChanged: onChanged,
           ),
         ),
       ],

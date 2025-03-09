@@ -119,13 +119,62 @@ abstract class SalesListEntity {
 }
 
 abstract class SoldItemEntity {
+  final String? saleIdpk;
   final String? itemIdpk;
+  final String? barcode;
+  final String? itemCode;
   final String? itemName;
+  final String? description;
+  final String? unit;
+  final int? actualQty;
+  final int? billedQty;
+  final int? cost;
   final int? sellingPrice;
-
+  final int? discount;
+  final int? grossTotal;
+  final int? taxAmount;
+  final int? taxPercentage;
+  final int? netTotal;
+  final int? currentStock;
+  final int? profit;
+  final int? profitPercentage;
+  final bool? isSent;
+  final DateTime? expiryDate;
+  final String? storeIdfk;
+  final String? projectIdpk;
+  final String? quotationIdpk;
+  final String? salesOrderIdpk;
+  final String? deliveryNoteIdpk;
+  final String? importId;
+  final String? rowguid;
   const SoldItemEntity({
+    this.saleIdpk,
     this.itemIdpk,
+    this.barcode,
+    this.itemCode,
     this.itemName,
+    this.description,
+    this.unit,
+    this.actualQty,
+    this.billedQty,
+    this.cost,
     this.sellingPrice,
+    this.discount,
+    this.grossTotal,
+    this.taxAmount,
+    this.taxPercentage,
+    this.netTotal,
+    this.currentStock,
+    this.profit,
+    this.profitPercentage,
+    this.isSent,
+    this.expiryDate,
+    this.storeIdfk,
+    this.projectIdpk,
+    this.quotationIdpk,
+    this.salesOrderIdpk,
+    this.deliveryNoteIdpk,
+    this.importId,
+    this.rowguid,
   });
 }

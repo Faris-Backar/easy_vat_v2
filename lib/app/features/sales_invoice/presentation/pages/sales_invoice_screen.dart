@@ -73,12 +73,24 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: Slidable(
-                    endActionPane: const ActionPane(
+                    endActionPane: ActionPane(
                       extentRatio: .15,
                       motion: ScrollMotion(),
-                      children: [TransactionSlidableActionWidget()],
+                      children: [
+                        TransactionSlidableActionWidget(
+                          onDeleteTap: () {},
+                          onEditTap: () {
+                            if (salesInvoice?.soldItems?.isEmpty == true) {
+                              ref.read(cartProvider.notifier).reinsertSalesForm(
+                                  salesInvoice?.soldItems ?? []);
+                            }
+                          },
+                          onPrintTap: () {},
+                        )
+                      ],
                     ),
                     child: TransactionCard(
+                      soldItems: salesInvoice?.soldItems ?? [],
                       salesOrderNumber: salesInvoice?.salesOrderNo ?? "",
                       salesDate: salesInvoice?.saleDate ?? DateTime.now(),
                       customerName: salesInvoice?.customerName ?? "",

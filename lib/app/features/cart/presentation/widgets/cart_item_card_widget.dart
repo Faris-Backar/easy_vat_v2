@@ -87,7 +87,7 @@ class CartItemCardWidget extends StatelessWidget {
                   child: _buildContents(
                     context,
                     AppStrings.rate,
-                    items.price.toStringAsFixed(2),
+                    items.rate.toStringAsFixed(2),
                   ),
                 ),
               ),
@@ -107,7 +107,7 @@ class CartItemCardWidget extends StatelessWidget {
                   child: _buildContents(
                     context,
                     AppStrings.total,
-                    items.total.toStringAsFixed(2),
+                    items.netTotal.toStringAsFixed(2),
                   ),
                 ),
               ),

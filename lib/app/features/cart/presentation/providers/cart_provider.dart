@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_state.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
+import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/data/model/sales_invoice_request_model.dart';
+import 'package:easy_vat_v2/app/features/sales_invoice/domain/entities/sales_invoice_entity.dart';
 import 'package:easy_vat_v2/app/features/salesman/domain/entity/sales_man_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
@@ -19,6 +21,7 @@ class CartNotifier extends StateNotifier<CartState> {
   List<CartEntity> itemsList = [];
   double totalAmount = 0.0;
   double totalBeforeTax = 0.0;
+  double subTotal = 0.0;
   double totalTax = 0.0;
   double discount = 0.0;
   double roundOf = 0.0;
@@ -26,7 +29,7 @@ class CartNotifier extends StateNotifier<CartState> {
   DateTime salesDate = DateTime.now();
   String refNo = "";
   LedgerAccountEntity? cashAccount;
-  String salesAccount = "";
+  LedgerAccountEntity? salesAccount;
   String notes = "";
   String salesMode = "";
   SalesManEntity? soldBy;
@@ -37,22 +40,14 @@ class CartNotifier extends StateNotifier<CartState> {
 
   void addItemsIntoCart({required CartEntity item}) {
     itemsList.add(item);
-    _getRateSplitUp(
-      retailRate: item.item.retailRate ?? 0.0,
-      qty: item.qty.toInt(),
-      taxPercentage: item.item.taxPercentage ?? 0.0,
-    );
+    _getRateSplitUp(item: item);
     state = state.copyWith(itemList: itemsList);
   }
 
   void removeItemFromCart({required int index}) {
     if (index >= 0 && index < itemsList.length) {
       final CartEntity removedItem = itemsList[index];
-      _decreaseRateSplitUp(
-        retailRate: removedItem.item.retailRate ?? 0.0,
-        qty: removedItem.qty.toInt(),
-        taxPercentage: removedItem.item.taxPercentage ?? 0.0,
-      );
+      _decreaseRateSplitUp(item: removedItem);
       itemsList.removeAt(index);
       state = state.copyWith(itemList: itemsList);
     }
@@ -61,33 +56,26 @@ class CartNotifier extends StateNotifier<CartState> {
   void updateCartItem({required CartEntity cartItem}) {
     final index =
         itemsList.indexWhere((item) => cartItem.cartItemId == item.cartItemId);
-
+    log("items list => $itemsList \n ${cartItem.cartItemId}");
     if (index != -1) {
       final oldItem = itemsList[index];
-
-      _decreaseRateSplitUp(
-        retailRate: oldItem.item.retailRate ?? 0.0,
-        qty: oldItem.qty.toInt(),
-        taxPercentage: oldItem.item.taxPercentage ?? 0.0,
-      );
-
+      _decreaseRateSplitUp(item: oldItem);
       final updatedItem = CartEntity(
-        cartItemId: cartItem.cartItemId,
-        item: cartItem.item,
-        qty: cartItem.qty,
-        total: cartItem.qty * cartItem.price,
-        price: cartItem.price,
-        cost: oldItem.cost,
-        unit: oldItem.unit,
-        description: oldItem.description,
-        discount: cartItem.discount,
-        tax: 0.0,
-      );
+          cartItemId: cartItem.cartItemId,
+          item: cartItem.item,
+          qty: cartItem.qty,
+          netTotal: cartItem.qty * cartItem.rate,
+          rate: cartItem.rate,
+          cost: oldItem.cost,
+          unit: oldItem.unit,
+          description: oldItem.description,
+          discount: cartItem.discount,
+          tax: cartItem.tax,
+          gross: cartItem.gross,
+          priceBeforeTax: cartItem.priceBeforeTax);
       itemsList[index] = updatedItem;
       _getRateSplitUp(
-        retailRate: updatedItem.item.retailRate ?? 0.0,
-        qty: updatedItem.qty.toInt(),
-        taxPercentage: updatedItem.item.taxPercentage ?? 0.0,
+        item: updatedItem,
       );
       state = state.copyWith(itemList: itemsList);
     }
@@ -117,7 +105,7 @@ class CartNotifier extends StateNotifier<CartState> {
     this.cashAccount = cashAccount;
   }
 
-  setSalesAccount(String salesAccount) {
+  setSalesAccount(LedgerAccountEntity salesAccount) {
     this.salesAccount = salesAccount;
   }
 
@@ -134,19 +122,10 @@ class CartNotifier extends StateNotifier<CartState> {
     this.shippingAddress = shippingAddress;
   }
 
-  double applyIndividualItemDiscount({
-    required double total,
-    required double discAmount,
-  }) {
-    double discountedTotal = total - discAmount;
-    discountedTotal = discountedTotal < 0 ? 0 : discountedTotal;
-    return discountedTotal;
-  }
-
   void applyDiscount(double discountAmount) {
     discount = discountAmount;
     double newTotal =
-        itemsList.fold(0.0, (sum, item) => sum + (item.qty * item.price));
+        itemsList.fold(0.0, (sum, item) => sum + (item.qty * item.rate));
 
     totalAmount = newTotal - discount;
     totalAmount = totalAmount < 0 ? 0 : totalAmount;
@@ -166,13 +145,12 @@ class CartNotifier extends StateNotifier<CartState> {
     for (var i = 0; i < itemsList.length; i++) {
       final grossTotal =
           (itemsList[i].item.retailRate ?? 0.0 * itemsList[i].qty);
-      final taxAmount = ((itemsList[i].qty * itemsList[i].price) *
+      final taxAmount = ((itemsList[i].qty * itemsList[i].rate) *
               (itemsList[i].item.taxPercentage ?? 0.0)) /
           100;
       totalItemGrossAmont += grossTotal;
       itemTotalTax += taxAmount;
       netTotal += (grossTotal + taxAmount);
-      log("item idpk => ${itemsList[i].item.itemIdpk}");
       final item = SoldItem(
           saleIdpk: uid,
           itemIdpk: itemsList[i].item.itemIdpk ?? "",
@@ -184,7 +162,7 @@ class CartNotifier extends StateNotifier<CartState> {
           actualQty: itemsList[i].qty,
           billedQty: itemsList[i].qty,
           cost: itemsList[i].cost,
-          sellingPrice: itemsList[i].price,
+          sellingPrice: itemsList[i].rate,
           discount: discount,
           grossTotal: grossTotal,
           taxAmount: taxAmount,
@@ -263,7 +241,7 @@ class CartNotifier extends StateNotifier<CartState> {
     salesDate = DateTime.now();
     refNo = "";
     cashAccount = null;
-    salesAccount = "";
+    salesAccount = null;
     notes = "";
     salesMode = "";
     soldBy = null;
@@ -280,63 +258,123 @@ class CartNotifier extends StateNotifier<CartState> {
     );
   }
 
-  double _calculateTotalAmount({required double amount}) {
-    totalAmount += amount;
-    return totalAmount;
-  }
-
-  double _calculateBeforeTax({required double retailRate, required int qty}) {
+  double calculateBeforeTax({required double retailRate, required double qty}) {
     final priceBeforeTax = qty * retailRate;
-    totalBeforeTax += priceBeforeTax;
-    return totalBeforeTax;
+    return priceBeforeTax;
   }
 
-  double _calculateTotalTax(
+  double calculateTotalTax(
       {required double retailRate,
-      required int qty,
+      required double qty,
       required double taxPercentage}) {
     double taxAmount = ((qty * retailRate) * taxPercentage) / 100;
-    totalTax += taxAmount;
-    return totalTax;
+    return taxAmount;
   }
 
-  void _getRateSplitUp({
-    required double retailRate,
-    required int qty,
-    required double taxPercentage,
-    double discountAmount = 0.0,
-  }) {
-    double totalBeforeDiscount = retailRate * qty;
-
-    double totalAfterDiscount = applyIndividualItemDiscount(
-      total: totalBeforeDiscount,
-      discAmount: discountAmount,
-    );
-
-    _calculateBeforeTax(retailRate: retailRate, qty: qty);
-    _calculateTotalAmount(amount: totalAfterDiscount);
-    _calculateTotalTax(
-        retailRate: retailRate, qty: qty, taxPercentage: taxPercentage);
-
-    state = state.copyWith(
-      totalAmount: totalAmount,
-      totalBeforeTax: totalBeforeTax,
-      totalTax: totalTax,
-    );
-  }
-
-  void _decreaseRateSplitUp(
+  double calculateGross(
       {required double retailRate,
-      required int qty,
-      required double taxPercentage}) {
-    totalBeforeTax -= qty * retailRate;
-    totalAmount -= qty * retailRate;
-    totalTax -= ((qty * retailRate) * taxPercentage) / 100;
+      required double qty,
+      required double discount}) {
+    double grossAmount = ((qty * retailRate) - discount);
+    return grossAmount;
+  }
 
+  double calculateNetTotal({required double grossTotal, required double tax}) {
+    return grossTotal + tax;
+  }
+
+  ItemEntity convertSoldItemToItem(SoldItemEntity soldItem) {
+    return ItemEntity(
+      itemIdpk: soldItem.itemIdpk,
+      barcode: soldItem.barcode,
+      itemCode: soldItem.itemCode,
+      itemName: soldItem.itemName,
+      description: soldItem.description,
+      unit: soldItem.unit,
+      cost: soldItem.cost?.toDouble(),
+      retailRate: soldItem.sellingPrice?.toDouble(),
+      taxPercentage: soldItem.taxPercentage?.toDouble(),
+      currentStock: soldItem.currentStock?.toDouble(),
+    );
+  }
+
+  void reinsertSalesForm(List<SoldItemEntity> soldItems) {
+    clearCart(); // Reset the cart before reinserting
+
+    List<CartEntity> updatedItemsList =
+        []; // To hold updated items for state change
+
+    for (var index = 0; index < soldItems.length; index++) {
+      final soldItem = soldItems[index];
+
+      // Convert SoldItemEntity to ItemEntity
+      final itemEntity = convertSoldItemToItem(soldItem);
+
+      // Calculate values
+      final priceBeforeTax = calculateBeforeTax(
+          retailRate: itemEntity.retailRate ?? 0.0,
+          qty: soldItem.actualQty?.toDouble() ?? 0.0);
+      final totalTax = calculateTotalTax(
+          retailRate: itemEntity.retailRate ?? 0.0,
+          qty: soldItem.actualQty?.toDouble() ?? 0.0,
+          taxPercentage: itemEntity.taxPercentage ?? 0.0);
+      final grossTotal = calculateGross(
+          retailRate: itemEntity.retailRate ?? 0.0,
+          qty: soldItem.actualQty?.toDouble() ?? 0.0,
+          discount: soldItem.discount?.toDouble() ?? 0.0);
+      final netTotal = calculateNetTotal(grossTotal: grossTotal, tax: totalTax);
+
+      final cartItem = CartEntity(
+        cartItemId: (index + 1),
+        item: itemEntity,
+        qty: soldItem.actualQty?.toDouble() ?? 0.0,
+        rate: itemEntity.retailRate ?? 0.0,
+        cost: itemEntity.cost ?? 0.0,
+        unit: itemEntity.unit ?? "",
+        description: soldItem.description ?? "",
+        discount: soldItem.discount?.toDouble() ?? 0.0,
+        gross: grossTotal,
+        tax: totalTax,
+        priceBeforeTax: priceBeforeTax,
+        netTotal: netTotal,
+      );
+
+      updatedItemsList.add(cartItem);
+      _getRateSplitUp(item: cartItem);
+    }
     state = state.copyWith(
+      itemList: updatedItemsList,
       totalAmount: totalAmount,
       totalBeforeTax: totalBeforeTax,
       totalTax: totalTax,
+      subtotal: subTotal,
+      discount: discount,
     );
+  }
+
+  void _getRateSplitUp({required CartEntity item}) {
+    totalBeforeTax += item.priceBeforeTax;
+    totalTax += item.tax;
+    totalAmount += item.netTotal;
+    subTotal += item.gross;
+
+    state = state.copyWith(
+        totalAmount: totalAmount,
+        totalBeforeTax: totalBeforeTax,
+        totalTax: totalTax,
+        subtotal: subTotal);
+  }
+
+  void _decreaseRateSplitUp({required CartEntity item}) {
+    totalBeforeTax -= item.priceBeforeTax;
+    totalTax -= item.tax;
+    totalAmount -= item.netTotal;
+    subTotal -= item.gross;
+
+    state = state.copyWith(
+        totalAmount: totalAmount,
+        totalBeforeTax: totalBeforeTax,
+        totalTax: totalTax,
+        subtotal: subTotal);
   }
 }
