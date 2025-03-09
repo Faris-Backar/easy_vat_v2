@@ -42,12 +42,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(salesManProvider.notifier).getSalesMans();
-      ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
-      ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
-      ref.read(salesLedgerNotifierProvider.notifier).fetchSalesLedgers();
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
   }
 
   @override

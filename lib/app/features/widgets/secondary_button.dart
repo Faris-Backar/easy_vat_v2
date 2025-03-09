@@ -9,6 +9,8 @@ class SecondaryButton extends StatelessWidget {
   final VoidCallback onPressed;
   final BorderSide? border;
   final Color? labelColor;
+  final double? height;
+  final double? width;
   const SecondaryButton(
       {super.key,
       this.backgroundColor,
@@ -16,34 +18,41 @@ class SecondaryButton extends StatelessWidget {
       required this.onPressed,
       this.border,
       this.labelColor,
+      this.height,
+      this.width,
       required this.label});
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        side: border ??
-            BorderSide(
-              color: context.colorScheme.primary.withValues(alpha: 0.1),
+    return SizedBox(
+      width: width,
+      height: height,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          side: border ??
+              BorderSide(
+                color: context.colorScheme.primary.withValues(alpha: 0.1),
+              ),
+          backgroundColor: backgroundColor ??
+              (AppUtils.isDarkMode(context)
+                  ? Color(0xFF414141)
+                  : Color(0xFFF9F9F9)),
+          shadowColor: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(8),
             ),
-        backgroundColor: backgroundColor ??
-            (AppUtils.isDarkMode(context)
-                ? Color(0xFF414141)
-                : Color(0xFFF9F9F9)),
-        shadowColor: Colors.transparent,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(8),
           ),
         ),
+        onPressed: onPressed,
+        child: child ??
+            Text(
+              label,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: labelColor ?? Colors.white,
+                  fontWeight: FontWeight.w600),
+            ),
       ),
-      onPressed: onPressed,
-      child: child ??
-          Text(
-            label,
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: labelColor ?? Colors.white, fontWeight: FontWeight.w600),
-          ),
     );
   }
 }

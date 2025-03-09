@@ -21,7 +21,6 @@ mixin _$CartState {
   double get discount => throw _privateConstructorUsedError;
   double get roundOf => throw _privateConstructorUsedError;
   double get totalTax => throw _privateConstructorUsedError;
-  double get totalBeforeTax => throw _privateConstructorUsedError;
   double get subtotal => throw _privateConstructorUsedError;
   CustomerEntity? get selectedCustomer => throw _privateConstructorUsedError;
 
@@ -43,7 +42,6 @@ abstract class $CartStateCopyWith<$Res> {
       double discount,
       double roundOf,
       double totalTax,
-      double totalBeforeTax,
       double subtotal,
       CustomerEntity? selectedCustomer});
 }
@@ -68,7 +66,6 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
     Object? discount = null,
     Object? roundOf = null,
     Object? totalTax = null,
-    Object? totalBeforeTax = null,
     Object? subtotal = null,
     Object? selectedCustomer = freezed,
   }) {
@@ -92,10 +89,6 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
       totalTax: null == totalTax
           ? _value.totalTax
           : totalTax // ignore: cast_nullable_to_non_nullable
-              as double,
-      totalBeforeTax: null == totalBeforeTax
-          ? _value.totalBeforeTax
-          : totalBeforeTax // ignore: cast_nullable_to_non_nullable
               as double,
       subtotal: null == subtotal
           ? _value.subtotal
@@ -123,7 +116,6 @@ abstract class _$$CartStateImplCopyWith<$Res>
       double discount,
       double roundOf,
       double totalTax,
-      double totalBeforeTax,
       double subtotal,
       CustomerEntity? selectedCustomer});
 }
@@ -146,7 +138,6 @@ class __$$CartStateImplCopyWithImpl<$Res>
     Object? discount = null,
     Object? roundOf = null,
     Object? totalTax = null,
-    Object? totalBeforeTax = null,
     Object? subtotal = null,
     Object? selectedCustomer = freezed,
   }) {
@@ -171,10 +162,6 @@ class __$$CartStateImplCopyWithImpl<$Res>
           ? _value.totalTax
           : totalTax // ignore: cast_nullable_to_non_nullable
               as double,
-      totalBeforeTax: null == totalBeforeTax
-          ? _value.totalBeforeTax
-          : totalBeforeTax // ignore: cast_nullable_to_non_nullable
-              as double,
       subtotal: null == subtotal
           ? _value.subtotal
           : subtotal // ignore: cast_nullable_to_non_nullable
@@ -196,7 +183,6 @@ class _$CartStateImpl implements _CartState {
       required this.discount,
       required this.roundOf,
       required this.totalTax,
-      required this.totalBeforeTax,
       required this.subtotal,
       this.selectedCustomer})
       : _itemList = itemList;
@@ -220,15 +206,13 @@ class _$CartStateImpl implements _CartState {
   @override
   final double totalTax;
   @override
-  final double totalBeforeTax;
-  @override
   final double subtotal;
   @override
   final CustomerEntity? selectedCustomer;
 
   @override
   String toString() {
-    return 'CartState(itemList: $itemList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, totalTax: $totalTax, totalBeforeTax: $totalBeforeTax, subtotal: $subtotal, selectedCustomer: $selectedCustomer)';
+    return 'CartState(itemList: $itemList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, totalTax: $totalTax, subtotal: $subtotal, selectedCustomer: $selectedCustomer)';
   }
 
   @override
@@ -244,8 +228,6 @@ class _$CartStateImpl implements _CartState {
             (identical(other.roundOf, roundOf) || other.roundOf == roundOf) &&
             (identical(other.totalTax, totalTax) ||
                 other.totalTax == totalTax) &&
-            (identical(other.totalBeforeTax, totalBeforeTax) ||
-                other.totalBeforeTax == totalBeforeTax) &&
             (identical(other.subtotal, subtotal) ||
                 other.subtotal == subtotal) &&
             (identical(other.selectedCustomer, selectedCustomer) ||
@@ -260,7 +242,6 @@ class _$CartStateImpl implements _CartState {
       discount,
       roundOf,
       totalTax,
-      totalBeforeTax,
       subtotal,
       selectedCustomer);
 
@@ -280,7 +261,6 @@ abstract class _CartState implements CartState {
       required final double discount,
       required final double roundOf,
       required final double totalTax,
-      required final double totalBeforeTax,
       required final double subtotal,
       final CustomerEntity? selectedCustomer}) = _$CartStateImpl;
 
@@ -294,8 +274,6 @@ abstract class _CartState implements CartState {
   double get roundOf;
   @override
   double get totalTax;
-  @override
-  double get totalBeforeTax;
   @override
   double get subtotal;
   @override

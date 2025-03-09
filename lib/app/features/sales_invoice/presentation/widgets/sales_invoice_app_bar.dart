@@ -290,7 +290,6 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
           ),
         ),
         Container(
-          color: AppUtils.isDarkMode(context) ? context.surfaceColor : null,
           padding: const EdgeInsets.all(5),
           child: FilterWidget(
             onTap: () => _buildFilterBottomSheet(context),

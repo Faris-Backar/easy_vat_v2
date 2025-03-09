@@ -12,7 +12,6 @@ class CartState with _$CartState {
     required double discount,
     required double roundOf,
     required double totalTax,
-    required double totalBeforeTax,
     required double subtotal,
     CustomerEntity? selectedCustomer,
   }) = _CartState;
@@ -22,7 +21,6 @@ class CartState with _$CartState {
       totalAmount: 0.00,
       discount: 0.0,
       roundOf: 0.0,
-      totalBeforeTax: 0.0,
       totalTax: 0.0,
       subtotal: 0.0,
       selectedCustomer: null);

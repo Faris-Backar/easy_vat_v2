@@ -20,7 +20,6 @@ class CartNotifier extends StateNotifier<CartState> {
 
   List<CartEntity> itemsList = [];
   double totalAmount = 0.0;
-  double totalBeforeTax = 0.0;
   double subTotal = 0.0;
   double totalTax = 0.0;
   double discount = 0.0;
@@ -233,7 +232,7 @@ class CartNotifier extends StateNotifier<CartState> {
   void clearCart() {
     itemsList.clear();
     totalAmount = 0.0;
-    totalBeforeTax = 0.0;
+    subTotal = 0.0;
     totalTax = 0.0;
     discount = 0.0;
     roundOf = 0.0;
@@ -248,14 +247,7 @@ class CartNotifier extends StateNotifier<CartState> {
     selectedCustomer = null;
     description = "";
 
-    state = state.copyWith(
-      itemList: itemsList,
-      totalAmount: totalAmount,
-      totalBeforeTax: totalBeforeTax,
-      totalTax: totalTax,
-      discount: discount,
-      roundOf: roundOf,
-    );
+    state = CartState.initial();
   }
 
   double calculateBeforeTax({required double retailRate, required double qty}) {
@@ -345,7 +337,6 @@ class CartNotifier extends StateNotifier<CartState> {
     state = state.copyWith(
       itemList: updatedItemsList,
       totalAmount: totalAmount,
-      totalBeforeTax: totalBeforeTax,
       totalTax: totalTax,
       subtotal: subTotal,
       discount: discount,
@@ -353,28 +344,25 @@ class CartNotifier extends StateNotifier<CartState> {
   }
 
   void _getRateSplitUp({required CartEntity item}) {
-    totalBeforeTax += item.priceBeforeTax;
+    subTotal += item.priceBeforeTax;
     totalTax += item.tax;
     totalAmount += item.netTotal;
     subTotal += item.gross;
 
     state = state.copyWith(
-        totalAmount: totalAmount,
-        totalBeforeTax: totalBeforeTax,
-        totalTax: totalTax,
-        subtotal: subTotal);
+      totalAmount: totalAmount,
+      subtotal: subTotal,
+      totalTax: totalTax,
+    );
   }
 
   void _decreaseRateSplitUp({required CartEntity item}) {
-    totalBeforeTax -= item.priceBeforeTax;
+    subTotal -= item.priceBeforeTax;
     totalTax -= item.tax;
     totalAmount -= item.netTotal;
     subTotal -= item.gross;
 
     state = state.copyWith(
-        totalAmount: totalAmount,
-        totalBeforeTax: totalBeforeTax,
-        totalTax: totalTax,
-        subtotal: subTotal);
+        totalAmount: totalAmount, totalTax: totalTax, subtotal: subTotal);
   }
 }

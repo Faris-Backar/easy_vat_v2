@@ -76,7 +76,7 @@ class CartList extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        backgroundColor: context.colorScheme.surfaceContainerLowest,
+        backgroundColor: context.surfaceColor,
         title: Text(AppStrings.delete),
         titleTextStyle: context.textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.w600,
@@ -88,28 +88,40 @@ class CartList extends StatelessWidget {
         contentPadding:
             const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
         actions: [
-          SecondaryButton(
-            onPressed: () => context.router.popForced(),
-            label: AppStrings.cancel,
-            labelColor: Colors.black,
-            backgroundColor: context.colorScheme.surfaceContainerLowest,
-            border: BorderSide(
-              color: context.colorScheme.primary.withValues(alpha: 0.2),
-            ),
-          ),
-          SizedBox(width: 5.w),
-          Consumer(builder: (context, WidgetRef ref, child) {
-            return PrimaryButton(
-              label: AppStrings.delete,
-              bgColor: CustomColors.getTransactionCardRedColor(context),
-              onPressed: () {
-                ref
-                    .read(cartProvider.notifier)
-                    .removeItemFromCart(index: index);
-                context.router.popForced();
-              },
-            );
-          }),
+          Row(
+            children: [
+              Expanded(
+                child: SecondaryButton(
+                  width: double.infinity,
+                  onPressed: () => context.router.popForced(),
+                  label: AppStrings.cancel,
+                  labelColor: context.defaultTextColor,
+                  backgroundColor: AppUtils.isDarkMode(context)
+                      ? context.colorScheme.tertiaryContainer
+                      : null,
+                  border: BorderSide(
+                    color: context.colorScheme.primary.withValues(alpha: 0.2),
+                  ),
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: Consumer(builder: (context, WidgetRef ref, child) {
+                  return PrimaryButton(
+                    width: double.infinity,
+                    label: AppStrings.delete,
+                    bgColor: CustomColors.getTransactionCardRedColor(context),
+                    onPressed: () {
+                      ref
+                          .read(cartProvider.notifier)
+                          .removeItemFromCart(index: index);
+                      context.router.popForced();
+                    },
+                  );
+                }),
+              ),
+            ],
+          )
         ],
       ),
     );

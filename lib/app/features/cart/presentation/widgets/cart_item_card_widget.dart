@@ -18,7 +18,7 @@ class CartItemCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
         color: AppUtils.isDarkMode(context)
@@ -75,40 +75,32 @@ class CartItemCardWidget extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.center,
                   child: _buildContents(
-                    context,
-                    AppStrings.qty,
-                    items.qty.toStringAsFixed(2),
-                  ),
+                      context, AppStrings.qty, items.qty.toStringAsFixed(2),
+                      textAlign: TextAlign.right),
                 ),
               ),
               Expanded(
                 child: Align(
                   alignment: Alignment.center,
                   child: _buildContents(
-                    context,
-                    AppStrings.rate,
-                    items.rate.toStringAsFixed(2),
-                  ),
+                      context, AppStrings.rate, items.rate.toStringAsFixed(2),
+                      textAlign: TextAlign.right),
                 ),
               ),
               Expanded(
                 child: Align(
                   alignment: Alignment.center,
                   child: _buildContents(
-                    context,
-                    AppStrings.tax,
-                    items.tax.toStringAsFixed(2),
-                  ),
+                      context, AppStrings.tax, items.tax.toStringAsFixed(2),
+                      textAlign: TextAlign.right),
                 ),
               ),
               Expanded(
                 child: Align(
                   alignment: Alignment.center,
-                  child: _buildContents(
-                    context,
-                    AppStrings.total,
-                    items.netTotal.toStringAsFixed(2),
-                  ),
+                  child: _buildContents(context, AppStrings.total,
+                      items.netTotal.toStringAsFixed(2),
+                      textAlign: TextAlign.right),
                 ),
               ),
             ],
@@ -119,7 +111,7 @@ class CartItemCardWidget extends StatelessWidget {
   }
 
   Widget _buildContents(BuildContext context, String label, String content,
-      {CrossAxisAlignment? crossAxisAlignment}) {
+      {CrossAxisAlignment? crossAxisAlignment, TextAlign? textAlign}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
@@ -129,14 +121,17 @@ class CartItemCardWidget extends StatelessWidget {
           style: context.textTheme.bodySmall?.copyWith(
             color: context.defaultTextColor.withValues(alpha: 0.32),
           ),
+          textAlign: textAlign,
         ),
         SizedBox(height: 3),
         Text(
           content,
           style: context.textTheme.bodySmall?.copyWith(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: context.defaultTextColor.withValues(alpha: 0.75)),
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: context.defaultTextColor.withValues(alpha: 0.75),
+          ),
+          textAlign: textAlign,
         )
       ],
     );
