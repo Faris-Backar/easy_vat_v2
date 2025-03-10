@@ -228,7 +228,6 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                           ),
                           loaded: (ledgers) {
                             List<String> ledgerNames = [];
-
                             ledgerNames = ledgers
                                 .map((ledger) => ledger.ledgerName ?? "")
                                 .toList();
@@ -245,7 +244,11 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                             return DropdownField(
                                 height: 38.h,
                                 labelAndTextFieldGap: 2,
-                                label: AppStrings.cashAccount,
+                                label: (widget
+                                            .salesModeNotifier.value?.isEmpty ==
+                                        true)
+                                    ? AppStrings.cashAccount
+                                    : "${widget.salesModeNotifier.value!} Account",
                                 valueNotifier: widget.cashAccountNotifier,
                                 backgroundColor: AppUtils.isDarkMode(context)
                                     ? context.colorScheme.tertiaryContainer
@@ -255,11 +258,10 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                   widget.cashAccountNotifier.value = newValue;
                                   if (newValue != null) {
                                     final cashLedger = ledgers.firstWhere(
-                                      (cashLedger) =>
-                                          cashLedger.ledgerName
-                                              ?.toLowerCase() ==
-                                          newValue.toLowerCase(),
-                                    );
+                                        (cashLedger) =>
+                                            cashLedger.ledgerName
+                                                ?.toLowerCase() ==
+                                            newValue.toLowerCase());
                                     ref
                                         .read(cartProvider.notifier)
                                         .setCashAccount(cashLedger);
