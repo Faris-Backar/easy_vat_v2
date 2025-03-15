@@ -8,8 +8,8 @@ import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledge
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/domain/usecase/params/sales_invoice_params.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_invoice_state.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_notifiers.dart';
+import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_invoice/sales_invoice_state.dart';
+import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_invoice/sales_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/sales_invoice_app_bar.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/transaction_card.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/transaction_slidable_widget.dart';
@@ -64,17 +64,17 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         child: salesInvoiceState.maybeWhen(
           success: (salesInvoiceData) {
-            if (salesInvoiceData.salesList?.isEmpty == true) {
+            if (salesInvoiceData.isEmpty == true) {
               return Center(
                 child: Text(AppStrings.noDataIsFound),
               );
             }
             return ListView.builder(
-              itemCount: salesInvoiceData.salesList?.length ?? 0,
+              itemCount: salesInvoiceData.length,
               itemBuilder: (context, index) {
-                final salesInvoice = salesInvoiceData.salesList?[index];
+                final salesInvoice = salesInvoiceData[index];
 
-                if (salesInvoiceData.salesList?.isEmpty == true) {
+                if (salesInvoiceData.isEmpty == true) {
                   return Center(
                     child: Text(AppStrings.noDataIsFound),
                   );
@@ -89,23 +89,23 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                         TransactionSlidableActionWidget(
                           onDeleteTap: () {},
                           onEditTap: () {
-                            if (salesInvoice?.soldItems?.isEmpty == true) {
-                              ref.read(cartProvider.notifier).reinsertSalesForm(
-                                  salesInvoice?.soldItems ?? []);
-                            }
+                            ref
+                                .read(cartProvider.notifier)
+                                .reinsertSalesForm(salesInvoice, ref);
+                            context.router.pushNamed(AppRouter.addNewSales);
                           },
                           onPrintTap: () {},
                         )
                       ],
                     ),
                     child: TransactionCard(
-                      soldItems: salesInvoice?.soldItems ?? [],
-                      salesOrderNumber: salesInvoice?.salesOrderNo ?? "",
-                      salesDate: salesInvoice?.saleDate ?? DateTime.now(),
-                      customerName: salesInvoice?.customerName ?? "",
-                      soldBy: salesInvoice?.soldBy ?? "",
-                      netTotal: salesInvoice?.netTotal ?? 0.0,
-                      refNo: salesInvoice?.referenceNo ?? "",
+                      soldItems: salesInvoice.soldItems ?? [],
+                      salesOrderNumber: salesInvoice.salesOrderNo ?? "",
+                      salesDate: salesInvoice.saleDate ?? DateTime.now(),
+                      customerName: salesInvoice.customerName ?? "",
+                      soldBy: salesInvoice.soldBy ?? "",
+                      netTotal: salesInvoice.netTotal ?? 0.0,
+                      refNo: salesInvoice.referenceNo ?? "",
                       status: "Unpaid",
                     ),
                   ),

@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_state.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
+import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_notifier.dart';
 import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/data/model/sales_invoice_request_model.dart';
@@ -36,6 +37,7 @@ class CartNotifier extends StateNotifier<CartState> {
   CustomerEntity? selectedCustomer;
   double totalItemGrossAmont = 0.0;
   String shippingAddress = "";
+  bool isViewOnly = false;
 
   void addItemsIntoCart({required CartEntity item}) {
     itemsList.add(item);
@@ -82,30 +84,37 @@ class CartNotifier extends StateNotifier<CartState> {
 
   setSalesNo(String salesNo) {
     this.salesNo = salesNo;
+    state = state.copyWith(salesNo: salesNo);
   }
 
   setSalesDate(DateTime salesDate) {
     this.salesDate = salesDate;
+    state = state.copyWith(saleDate: salesDate);
   }
 
   setSalesMode(String salesMode) {
     this.salesMode = salesMode;
+    // state = state.copyWith(salesMode: salesMode);
   }
 
   setRefNo(String refNo) {
     this.refNo = refNo;
+    state = state.copyWith(refNo: refNo);
   }
 
   setSoldBy(SalesManEntity soldBy) {
     this.soldBy = soldBy;
+    state = state.copyWith(soldBy: soldBy);
   }
 
   setCashAccount(LedgerAccountEntity cashAccount) {
     this.cashAccount = cashAccount;
+    state = state.copyWith(cashAccount: cashAccount);
   }
 
   setSalesAccount(LedgerAccountEntity salesAccount) {
     this.salesAccount = salesAccount;
+    state = state.copyWith(salesAccount: salesAccount);
   }
 
   setDiscription(String description) {
@@ -119,6 +128,11 @@ class CartNotifier extends StateNotifier<CartState> {
 
   setShippingAddress(String shippingAddress) {
     this.shippingAddress = shippingAddress;
+  }
+
+  setViewOnlyMode(bool enableViewOnlySale) {
+    isViewOnly = enableViewOnlySale;
+    state = state.copyWith(isViewOnly: isViewOnly);
   }
 
   void applyDiscount(double discountAmount) {
@@ -290,49 +304,72 @@ class CartNotifier extends StateNotifier<CartState> {
     );
   }
 
-  void reinsertSalesForm(List<SoldItemEntity> soldItems) {
-    clearCart(); // Reset the cart before reinserting
+  void reinsertSalesForm(SalesListEntity salesInvoice, WidgetRef ref) {
+    //setting bool for View Sale
+    setViewOnlyMode(true);
 
-    List<CartEntity> updatedItemsList =
-        []; // To hold updated items for state change
+    clearCart();
 
-    for (var index = 0; index < soldItems.length; index++) {
-      final soldItem = soldItems[index];
+    List<CartEntity> updatedItemsList = [];
 
-      // Convert SoldItemEntity to ItemEntity
-      final itemEntity = convertSoldItemToItem(soldItem);
+    // update customer
+    ref.read(customerNotifierProvider.notifier).getCustomer();
+    final customerList = ref.read(customerNotifierProvider).customerList;
+    final selectedCustomer = customerList != null
+        ? customerList.firstWhere((customer) =>
+            customer.ledgerIdpk?.toLowerCase() ==
+            salesInvoice.custemerIdfk?.toLowerCase())
+        : CustomerEntity(
+            ledgerName: salesInvoice.customerName,
+            ledgerIdpk: salesInvoice.custemerIdfk);
+    setCustomer(selectedCustomer);
 
-      // Calculate values
-      final priceBeforeTax = calculateBeforeTax(
-          retailRate: itemEntity.retailRate ?? 0.0,
-          qty: soldItem.actualQty?.toDouble() ?? 0.0);
-      final totalTax = calculateTotalTax(
-          retailRate: itemEntity.retailRate ?? 0.0,
+    // salesNo
+    setSalesNo(salesInvoice.saleNo?.toString() ?? "");
+
+    //ref no
+    setRefNo(salesInvoice.referenceNo ?? "");
+
+    //salesDate
+    setSalesDate(salesInvoice.saleDate ?? DateTime.now());
+
+    // adding items to cart.
+    if (salesInvoice.soldItems?.isNotEmpty == true) {
+      for (var index = 0; index < salesInvoice.soldItems!.length; index++) {
+        final soldItem = salesInvoice.soldItems![index];
+        final itemEntity = convertSoldItemToItem(soldItem);
+        final priceBeforeTax = calculateBeforeTax(
+            retailRate: itemEntity.retailRate ?? 0.0,
+            qty: soldItem.actualQty?.toDouble() ?? 0.0);
+        final totalTax = calculateTotalTax(
+            retailRate: itemEntity.retailRate ?? 0.0,
+            qty: soldItem.actualQty?.toDouble() ?? 0.0,
+            taxPercentage: itemEntity.taxPercentage ?? 0.0);
+        final grossTotal = calculateGross(
+            retailRate: itemEntity.retailRate ?? 0.0,
+            qty: soldItem.actualQty?.toDouble() ?? 0.0,
+            discount: soldItem.discount?.toDouble() ?? 0.0);
+        final netTotal =
+            calculateNetTotal(grossTotal: grossTotal, tax: totalTax);
+
+        final cartItem = CartEntity(
+          cartItemId: (index + 1),
+          item: itemEntity,
           qty: soldItem.actualQty?.toDouble() ?? 0.0,
-          taxPercentage: itemEntity.taxPercentage ?? 0.0);
-      final grossTotal = calculateGross(
-          retailRate: itemEntity.retailRate ?? 0.0,
-          qty: soldItem.actualQty?.toDouble() ?? 0.0,
-          discount: soldItem.discount?.toDouble() ?? 0.0);
-      final netTotal = calculateNetTotal(grossTotal: grossTotal, tax: totalTax);
+          rate: itemEntity.retailRate ?? 0.0,
+          cost: itemEntity.cost ?? 0.0,
+          unit: itemEntity.unit ?? "",
+          description: soldItem.description ?? "",
+          discount: soldItem.discount?.toDouble() ?? 0.0,
+          gross: grossTotal,
+          tax: totalTax,
+          priceBeforeTax: priceBeforeTax,
+          netTotal: netTotal,
+        );
 
-      final cartItem = CartEntity(
-        cartItemId: (index + 1),
-        item: itemEntity,
-        qty: soldItem.actualQty?.toDouble() ?? 0.0,
-        rate: itemEntity.retailRate ?? 0.0,
-        cost: itemEntity.cost ?? 0.0,
-        unit: itemEntity.unit ?? "",
-        description: soldItem.description ?? "",
-        discount: soldItem.discount?.toDouble() ?? 0.0,
-        gross: grossTotal,
-        tax: totalTax,
-        priceBeforeTax: priceBeforeTax,
-        netTotal: netTotal,
-      );
-
-      updatedItemsList.add(cartItem);
-      _getRateSplitUp(item: cartItem);
+        updatedItemsList.add(cartItem);
+        _getRateSplitUp(item: cartItem);
+      }
     }
     state = state.copyWith(
       itemList: updatedItemsList,

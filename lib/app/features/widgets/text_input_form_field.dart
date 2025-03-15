@@ -71,34 +71,42 @@ class TextInputFormField extends StatelessWidget {
         textAlign: textAlign ?? TextAlign.start,
         autovalidateMode: autovalidateMode,
         decoration: InputDecoration(
-            labelText: label,
-            contentPadding:
-                contentPadding ?? const EdgeInsets.symmetric(horizontal: 16.0),
-            prefixIcon: prefixIcon,
-            suffixIcon: suffixIcon,
-            fillColor: fillColor ?? context.colorScheme.tertiaryContainer,
-            filled: true,
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius ?? 8),
-                borderSide: BorderSide(color: context.primaryColor)),
-            focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius ?? 8),
-                borderSide: BorderSide(color: context.primaryColor)),
-            focusedErrorBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius ?? 8),
-                borderSide: BorderSide(color: context.primaryColor)),
-            enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(borderRadius ?? 8),
-                borderSide: BorderSide(
-                    color: context.colorScheme.outline.withValues(alpha: .4))),
-            hintText: hint,
-            hintStyle: hintDecoration ??
-                TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: context.defaultTextColor.withValues(alpha: .32)),
-            errorStyle: context.textTheme.labelSmall?.copyWith(
-                color: context.colorScheme.error, fontWeight: FontWeight.w400)),
+          labelText: label,
+          contentPadding:
+              contentPadding ?? const EdgeInsets.symmetric(horizontal: 16.0),
+          prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
+          fillColor: enabled
+              ? (fillColor ?? context.colorScheme.tertiaryContainer)
+              : context.colorScheme.secondaryContainer.withValues(alpha: 0.5),
+          filled: true,
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(borderRadius ?? 8),
+              borderSide: BorderSide(color: context.primaryColor)),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(borderRadius ?? 8),
+              borderSide: BorderSide(color: context.primaryColor)),
+          focusedErrorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(borderRadius ?? 8),
+              borderSide: BorderSide(color: context.primaryColor)),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(borderRadius ?? 8),
+            borderSide: BorderSide(
+                color: context.colorScheme.outline.withValues(alpha: .4)),
+          ),
+          disabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(borderRadius ?? 8),
+              borderSide: BorderSide(
+                  color: context.colorScheme.outline.withValues(alpha: .4))),
+          hintText: hint,
+          hintStyle: hintDecoration ??
+              TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: context.defaultTextColor.withValues(alpha: .32)),
+          errorStyle: context.textTheme.labelSmall?.copyWith(
+              color: context.colorScheme.error, fontWeight: FontWeight.w400),
+        ),
         maxLines: maxLines,
         style: style,
         cursorColor: cursorColor,

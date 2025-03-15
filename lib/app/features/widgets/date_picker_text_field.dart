@@ -14,6 +14,7 @@ class DatePickerTextField extends StatefulWidget {
   final double? width;
   final double? labelAndTextfieldGap;
   final Color? backgroundColor;
+  final DateTime? initialValue;
   const DatePickerTextField(
       {super.key,
       required this.onDateSelected,
@@ -22,7 +23,8 @@ class DatePickerTextField extends StatefulWidget {
       this.height,
       this.width,
       this.labelAndTextfieldGap,
-      this.backgroundColor});
+      this.backgroundColor,
+      this.initialValue});
 
   @override
   State<DatePickerTextField> createState() => _DatePickerTextFieldState();
@@ -41,6 +43,14 @@ class _DatePickerTextFieldState extends State<DatePickerTextField> {
     if (pickedDate != null) {
       _selectedDate.value = pickedDate;
       widget.onDateSelected(_selectedDate.value);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialValue != null) {
+      _selectedDate.value = widget.initialValue!;
     }
   }
 

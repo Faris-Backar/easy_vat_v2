@@ -1,7 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
+import 'package:easy_vat_v2/app/features/sales_invoice/domain/usecase/params/sales_invoice_filter_params.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/domain/usecase/params/sales_invoice_params.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_notifiers.dart';
+import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_invoice/sales_notifiers.dart';
+import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
 import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
@@ -38,6 +42,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
   DateTime? selectedSaleDate;
   final ValueNotifier<String?> salesModeNotifer = ValueNotifier(null);
   final ValueNotifier<String?> soldByNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> paymentMethodNotifier = ValueNotifier(null);
 
   void _updateFromDate(DateTime selectedDate) {
     setState(() {
@@ -155,6 +160,8 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
   }
 
   _buildFilterBottomSheet(BuildContext context) {
+    final salesManState = ref.read(salesManProvider);
+    final paymentModeState = ref.read(paymentModeNotifierProvider);
     return showModalBottomSheet(
       backgroundColor: context.colorScheme.tertiaryContainer,
       context: context,
@@ -172,14 +179,24 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                Text(
-                  AppStrings.clearAll,
-                  style: context.textTheme.bodySmall?.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: AppUtils.isDarkMode(context)
-                        ? Color(0xFF8B62F1)
-                        : context.colorScheme.primary,
-                    decoration: TextDecoration.underline,
+                InkWell(
+                  onTap: () {
+                    ref
+                        .read(salesInvoiceNotifierProvider.notifier)
+                        .filterSalesInvoice(
+                            params:
+                                SalesInvoiceFilterParams(clearAllFilter: true));
+                    context.router.popForced();
+                  },
+                  child: Text(
+                    AppStrings.clearAll,
+                    style: context.textTheme.bodySmall?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: AppUtils.isDarkMode(context)
+                          ? Color(0xFF8B62F1)
+                          : context.colorScheme.primary,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
                 ),
               ],
@@ -198,14 +215,26 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
                 ),
                 SizedBox(width: 12.w),
                 Expanded(
-                  child: DropdownField(
-                    label: AppStrings.salesMode,
-                    valueNotifier: salesModeNotifer,
-                    items: ["Cash", "Card", "Online"],
-                    backgroundColor: AppUtils.isDarkMode(context)
-                        ? context.colorScheme.tertiaryContainer
-                        : context.surfaceColor,
-                    onChanged: (newValue) => salesModeNotifer.value = newValue,
+                  child: paymentModeState.when(
+                    initial: () => const SizedBox.shrink(),
+                    loading: () =>
+                        Center(child: CircularProgressIndicator.adaptive()),
+                    error: (message) => Text('Error: $message'),
+                    loaded: (paymentModes, selectedPaymentMode) {
+                      return DropdownField(
+                        label: AppStrings.salesMode,
+                        valueNotifier: paymentMethodNotifier,
+                        items: paymentModes
+                            .map((mode) => mode.paymentModes)
+                            .toList(),
+                        backgroundColor: AppUtils.isDarkMode(context)
+                            ? context.colorScheme.tertiaryContainer
+                            : context.surfaceColor,
+                        onChanged: (newValue) {
+                          paymentMethodNotifier.value = newValue;
+                        },
+                      );
+                    },
                   ),
                 ),
               ],
@@ -214,12 +243,32 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
             Row(
               children: [
                 Expanded(
-                  child: DropdownField(
-                    label: AppStrings.soldBy,
-                    hint: AppStrings.selectSaleMode,
-                    valueNotifier: soldByNotifier,
-                    items: ["Faris", "Salih", "Adhil"],
-                    onChanged: (newValue) => soldByNotifier.value = newValue,
+                  child: salesManState.maybeWhen(
+                    loaded: (employeeList) {
+                      final List<String> employeeNames = employeeList
+                          .map((employee) => employee.empName ?? "")
+                          .where((name) => name.isNotEmpty)
+                          .toList();
+
+                      return DropdownField(
+                        height: 38.h,
+                        labelAndTextFieldGap: 2,
+                        label: AppStrings.soldBy,
+                        valueNotifier: soldByNotifier,
+                        onChanged: (newValue) {
+                          soldByNotifier.value = newValue;
+                        },
+                        items: employeeNames,
+                        backgroundColor: AppUtils.isDarkMode(context)
+                            ? context.colorScheme.tertiaryContainer
+                            : context.surfaceColor,
+                      );
+                    },
+                    loading: () => const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
+                    error: (message) => Text(message),
+                    orElse: () => const SizedBox.shrink(),
                   ),
                 ),
                 SizedBox(width: 12.w),
@@ -231,7 +280,17 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
               width: double.infinity,
               child: PrimaryButton(
                 label: AppStrings.filter,
-                onPressed: () {},
+                onPressed: () {
+                  final params = SalesInvoiceFilterParams(
+                      clearAllFilter: false,
+                      salesDate: selectedSaleDate,
+                      salesMode: salesModeNotifer.value,
+                      soldBy: soldByNotifier.value);
+                  ref
+                      .read(salesInvoiceNotifierProvider.notifier)
+                      .filterSalesInvoice(params: params);
+                  context.router.popForced();
+                },
               ),
             ),
           ],

@@ -56,12 +56,10 @@ class CustomerInfoTabContent extends StatelessWidget {
         SizedBox(
           height: 40.h,
           width: double.infinity,
-          child: Expanded(
-            child: Text(
-              customerName,
-              style: context.textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w500, overflow: TextOverflow.clip),
-            ),
+          child: Text(
+            customerName,
+            style: context.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500, overflow: TextOverflow.clip),
           ),
         ),
         _buildTransactionsHeaders(

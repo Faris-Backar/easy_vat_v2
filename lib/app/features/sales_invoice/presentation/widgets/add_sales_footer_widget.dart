@@ -89,28 +89,35 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                       orElse: () => PrimaryButton(
                         label: AppStrings.save,
                         isLoading: false,
-                        onPressed: () {
-                          final cartPrvd = ref.read(cartProvider.notifier);
-                          cartPrvd.setSalesNo(widget.saleNoController.text);
-                          cartPrvd.setSalesMode(
-                              widget.salesModeNotifier.value ?? "");
-                          cartPrvd.setRefNo(widget.refNoController.text);
-                          final newSale = cartPrvd.createNewSale();
-                          if (cartPrvd.salesMode.toLowerCase() == "credit") {
-                            if (cartPrvd.selectedCustomer != null) {
-                              Fluttertoast.showToast(
-                                  msg: AppStrings.pleaseSelectACustomer);
-                            } else {
-                              ref
-                                  .read(createSalesNotifierProvider.notifier)
-                                  .createSalesOrder(request: newSale);
-                            }
-                          } else {
-                            ref
-                                .read(createSalesNotifierProvider.notifier)
-                                .createSalesOrder(request: newSale);
-                          }
-                        },
+                        onPressed: ref.watch(cartProvider).isViewOnly == false
+                            ? () {}
+                            : () {
+                                final cartPrvd =
+                                    ref.read(cartProvider.notifier);
+                                cartPrvd
+                                    .setSalesNo(widget.saleNoController.text);
+                                cartPrvd.setSalesMode(
+                                    widget.salesModeNotifier.value ?? "");
+                                cartPrvd.setRefNo(widget.refNoController.text);
+                                final newSale = cartPrvd.createNewSale();
+                                if (cartPrvd.salesMode.toLowerCase() ==
+                                    "credit") {
+                                  if (cartPrvd.selectedCustomer != null) {
+                                    Fluttertoast.showToast(
+                                        msg: AppStrings.pleaseSelectACustomer);
+                                  } else {
+                                    ref
+                                        .read(createSalesNotifierProvider
+                                            .notifier)
+                                        .createSalesOrder(request: newSale);
+                                  }
+                                } else {
+                                  ref
+                                      .read(
+                                          createSalesNotifierProvider.notifier)
+                                      .createSalesOrder(request: newSale);
+                                }
+                              },
                       ),
                       loading: () => PrimaryButton(
                         label: AppStrings.save,

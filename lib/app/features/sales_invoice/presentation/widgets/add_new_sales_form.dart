@@ -42,7 +42,6 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
   }
 
   @override
@@ -51,6 +50,9 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
     final paymentModeState = ref.watch(paymentModeNotifierProvider);
     final cashLedgerState = ref.watch(cashLedgerNotifierProvider);
     final salesLedgerState = ref.watch(salesLedgerNotifierProvider);
+    widget.saleNoController.text = ref.watch(cartProvider).salesNo ?? "";
+    widget.refNoController.text = ref.watch(cartProvider).refNo ?? "";
+
     return Column(
       children: [
         Row(
@@ -90,6 +92,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                   Consumer(builder: (context, WidgetRef ref, child) {
                     return DatePickerTextField(
                       label: AppStrings.date,
+                      initialValue: ref.watch(cartProvider).saleDate,
                       onDateSelected: (data) {
                         ref.read(cartProvider.notifier).setSalesDate(data);
                       },
@@ -236,10 +239,10 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
                                 widget.cashAccountNotifier.value =
                                     ledgerNames.first;
+                                ref
+                                    .read(cartProvider.notifier)
+                                    .setSalesAccount(ledgers.first);
                               });
-                              ref
-                                  .read(cartProvider.notifier)
-                                  .setSalesAccount(ledgers.first);
                             }
                             return DropdownField(
                                 height: 38.h,
@@ -248,7 +251,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                             .salesModeNotifier.value?.isEmpty ==
                                         true)
                                     ? AppStrings.cashAccount
-                                    : "${widget.salesModeNotifier.value!} Account",
+                                    : "${widget.salesModeNotifier.value ?? "Cash"} Account",
                                 valueNotifier: widget.cashAccountNotifier,
                                 backgroundColor: AppUtils.isDarkMode(context)
                                     ? context.colorScheme.tertiaryContainer

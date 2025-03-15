@@ -22,7 +22,15 @@ mixin _$CartState {
   double get roundOf => throw _privateConstructorUsedError;
   double get totalTax => throw _privateConstructorUsedError;
   double get subtotal => throw _privateConstructorUsedError;
+  String? get salesNo => throw _privateConstructorUsedError;
+  String? get refNo => throw _privateConstructorUsedError;
+  DateTime? get saleDate => throw _privateConstructorUsedError;
   CustomerEntity? get selectedCustomer => throw _privateConstructorUsedError;
+  String? get salesMode => throw _privateConstructorUsedError;
+  SalesManEntity? get soldBy => throw _privateConstructorUsedError;
+  LedgerAccountEntity? get cashAccount => throw _privateConstructorUsedError;
+  LedgerAccountEntity? get salesAccount => throw _privateConstructorUsedError;
+  bool? get isViewOnly => throw _privateConstructorUsedError;
 
   /// Create a copy of CartState
   /// with the given fields replaced by the non-null parameter values.
@@ -43,7 +51,15 @@ abstract class $CartStateCopyWith<$Res> {
       double roundOf,
       double totalTax,
       double subtotal,
-      CustomerEntity? selectedCustomer});
+      String? salesNo,
+      String? refNo,
+      DateTime? saleDate,
+      CustomerEntity? selectedCustomer,
+      String? salesMode,
+      SalesManEntity? soldBy,
+      LedgerAccountEntity? cashAccount,
+      LedgerAccountEntity? salesAccount,
+      bool? isViewOnly});
 }
 
 /// @nodoc
@@ -67,7 +83,15 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
     Object? roundOf = null,
     Object? totalTax = null,
     Object? subtotal = null,
+    Object? salesNo = freezed,
+    Object? refNo = freezed,
+    Object? saleDate = freezed,
     Object? selectedCustomer = freezed,
+    Object? salesMode = freezed,
+    Object? soldBy = freezed,
+    Object? cashAccount = freezed,
+    Object? salesAccount = freezed,
+    Object? isViewOnly = freezed,
   }) {
     return _then(_value.copyWith(
       itemList: freezed == itemList
@@ -94,10 +118,42 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
           ? _value.subtotal
           : subtotal // ignore: cast_nullable_to_non_nullable
               as double,
+      salesNo: freezed == salesNo
+          ? _value.salesNo
+          : salesNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      refNo: freezed == refNo
+          ? _value.refNo
+          : refNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      saleDate: freezed == saleDate
+          ? _value.saleDate
+          : saleDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       selectedCustomer: freezed == selectedCustomer
           ? _value.selectedCustomer
           : selectedCustomer // ignore: cast_nullable_to_non_nullable
               as CustomerEntity?,
+      salesMode: freezed == salesMode
+          ? _value.salesMode
+          : salesMode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      soldBy: freezed == soldBy
+          ? _value.soldBy
+          : soldBy // ignore: cast_nullable_to_non_nullable
+              as SalesManEntity?,
+      cashAccount: freezed == cashAccount
+          ? _value.cashAccount
+          : cashAccount // ignore: cast_nullable_to_non_nullable
+              as LedgerAccountEntity?,
+      salesAccount: freezed == salesAccount
+          ? _value.salesAccount
+          : salesAccount // ignore: cast_nullable_to_non_nullable
+              as LedgerAccountEntity?,
+      isViewOnly: freezed == isViewOnly
+          ? _value.isViewOnly
+          : isViewOnly // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -117,7 +173,15 @@ abstract class _$$CartStateImplCopyWith<$Res>
       double roundOf,
       double totalTax,
       double subtotal,
-      CustomerEntity? selectedCustomer});
+      String? salesNo,
+      String? refNo,
+      DateTime? saleDate,
+      CustomerEntity? selectedCustomer,
+      String? salesMode,
+      SalesManEntity? soldBy,
+      LedgerAccountEntity? cashAccount,
+      LedgerAccountEntity? salesAccount,
+      bool? isViewOnly});
 }
 
 /// @nodoc
@@ -139,7 +203,15 @@ class __$$CartStateImplCopyWithImpl<$Res>
     Object? roundOf = null,
     Object? totalTax = null,
     Object? subtotal = null,
+    Object? salesNo = freezed,
+    Object? refNo = freezed,
+    Object? saleDate = freezed,
     Object? selectedCustomer = freezed,
+    Object? salesMode = freezed,
+    Object? soldBy = freezed,
+    Object? cashAccount = freezed,
+    Object? salesAccount = freezed,
+    Object? isViewOnly = freezed,
   }) {
     return _then(_$CartStateImpl(
       itemList: freezed == itemList
@@ -166,10 +238,42 @@ class __$$CartStateImplCopyWithImpl<$Res>
           ? _value.subtotal
           : subtotal // ignore: cast_nullable_to_non_nullable
               as double,
+      salesNo: freezed == salesNo
+          ? _value.salesNo
+          : salesNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      refNo: freezed == refNo
+          ? _value.refNo
+          : refNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      saleDate: freezed == saleDate
+          ? _value.saleDate
+          : saleDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
       selectedCustomer: freezed == selectedCustomer
           ? _value.selectedCustomer
           : selectedCustomer // ignore: cast_nullable_to_non_nullable
               as CustomerEntity?,
+      salesMode: freezed == salesMode
+          ? _value.salesMode
+          : salesMode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      soldBy: freezed == soldBy
+          ? _value.soldBy
+          : soldBy // ignore: cast_nullable_to_non_nullable
+              as SalesManEntity?,
+      cashAccount: freezed == cashAccount
+          ? _value.cashAccount
+          : cashAccount // ignore: cast_nullable_to_non_nullable
+              as LedgerAccountEntity?,
+      salesAccount: freezed == salesAccount
+          ? _value.salesAccount
+          : salesAccount // ignore: cast_nullable_to_non_nullable
+              as LedgerAccountEntity?,
+      isViewOnly: freezed == isViewOnly
+          ? _value.isViewOnly
+          : isViewOnly // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -184,7 +288,15 @@ class _$CartStateImpl implements _CartState {
       required this.roundOf,
       required this.totalTax,
       required this.subtotal,
-      this.selectedCustomer})
+      this.salesNo,
+      this.refNo,
+      this.saleDate,
+      this.selectedCustomer,
+      this.salesMode,
+      this.soldBy,
+      this.cashAccount,
+      this.salesAccount,
+      this.isViewOnly})
       : _itemList = itemList;
 
   final List<CartEntity>? _itemList;
@@ -208,11 +320,27 @@ class _$CartStateImpl implements _CartState {
   @override
   final double subtotal;
   @override
+  final String? salesNo;
+  @override
+  final String? refNo;
+  @override
+  final DateTime? saleDate;
+  @override
   final CustomerEntity? selectedCustomer;
+  @override
+  final String? salesMode;
+  @override
+  final SalesManEntity? soldBy;
+  @override
+  final LedgerAccountEntity? cashAccount;
+  @override
+  final LedgerAccountEntity? salesAccount;
+  @override
+  final bool? isViewOnly;
 
   @override
   String toString() {
-    return 'CartState(itemList: $itemList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, totalTax: $totalTax, subtotal: $subtotal, selectedCustomer: $selectedCustomer)';
+    return 'CartState(itemList: $itemList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, totalTax: $totalTax, subtotal: $subtotal, salesNo: $salesNo, refNo: $refNo, saleDate: $saleDate, selectedCustomer: $selectedCustomer, salesMode: $salesMode, soldBy: $soldBy, cashAccount: $cashAccount, salesAccount: $salesAccount, isViewOnly: $isViewOnly)';
   }
 
   @override
@@ -230,8 +358,21 @@ class _$CartStateImpl implements _CartState {
                 other.totalTax == totalTax) &&
             (identical(other.subtotal, subtotal) ||
                 other.subtotal == subtotal) &&
+            (identical(other.salesNo, salesNo) || other.salesNo == salesNo) &&
+            (identical(other.refNo, refNo) || other.refNo == refNo) &&
+            (identical(other.saleDate, saleDate) ||
+                other.saleDate == saleDate) &&
             (identical(other.selectedCustomer, selectedCustomer) ||
-                other.selectedCustomer == selectedCustomer));
+                other.selectedCustomer == selectedCustomer) &&
+            (identical(other.salesMode, salesMode) ||
+                other.salesMode == salesMode) &&
+            (identical(other.soldBy, soldBy) || other.soldBy == soldBy) &&
+            (identical(other.cashAccount, cashAccount) ||
+                other.cashAccount == cashAccount) &&
+            (identical(other.salesAccount, salesAccount) ||
+                other.salesAccount == salesAccount) &&
+            (identical(other.isViewOnly, isViewOnly) ||
+                other.isViewOnly == isViewOnly));
   }
 
   @override
@@ -243,7 +384,15 @@ class _$CartStateImpl implements _CartState {
       roundOf,
       totalTax,
       subtotal,
-      selectedCustomer);
+      salesNo,
+      refNo,
+      saleDate,
+      selectedCustomer,
+      salesMode,
+      soldBy,
+      cashAccount,
+      salesAccount,
+      isViewOnly);
 
   /// Create a copy of CartState
   /// with the given fields replaced by the non-null parameter values.
@@ -262,7 +411,15 @@ abstract class _CartState implements CartState {
       required final double roundOf,
       required final double totalTax,
       required final double subtotal,
-      final CustomerEntity? selectedCustomer}) = _$CartStateImpl;
+      final String? salesNo,
+      final String? refNo,
+      final DateTime? saleDate,
+      final CustomerEntity? selectedCustomer,
+      final String? salesMode,
+      final SalesManEntity? soldBy,
+      final LedgerAccountEntity? cashAccount,
+      final LedgerAccountEntity? salesAccount,
+      final bool? isViewOnly}) = _$CartStateImpl;
 
   @override
   List<CartEntity>? get itemList;
@@ -277,7 +434,23 @@ abstract class _CartState implements CartState {
   @override
   double get subtotal;
   @override
+  String? get salesNo;
+  @override
+  String? get refNo;
+  @override
+  DateTime? get saleDate;
+  @override
   CustomerEntity? get selectedCustomer;
+  @override
+  String? get salesMode;
+  @override
+  SalesManEntity? get soldBy;
+  @override
+  LedgerAccountEntity? get cashAccount;
+  @override
+  LedgerAccountEntity? get salesAccount;
+  @override
+  bool? get isViewOnly;
 
   /// Create a copy of CartState
   /// with the given fields replaced by the non-null parameter values.
