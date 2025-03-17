@@ -22,6 +22,7 @@ class AddNewSalesForm extends ConsumerStatefulWidget {
   final ValueNotifier<String?> soldByNotifier;
   final ValueNotifier<String?> cashAccountNotifier;
   final ValueNotifier<String?> salesAccountNotifier;
+  final TextEditingController? purchaseNoController;
   const AddNewSalesForm(
       {super.key,
       required this.saleNoController,
@@ -29,7 +30,8 @@ class AddNewSalesForm extends ConsumerStatefulWidget {
       required this.salesModeNotifier,
       required this.soldByNotifier,
       required this.cashAccountNotifier,
-      required this.salesAccountNotifier});
+      required this.salesAccountNotifier,
+      this.purchaseNoController});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -67,7 +69,9 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                 children: [
                   SizedBox(
                     child: CustomTextField(
-                      label: AppStrings.salesNo,
+                      label: widget.purchaseNoController == null
+                          ? AppStrings.salesNo
+                          : AppStrings.purchaseNo,
                       controller: widget.saleNoController,
                       height: 38.h,
                       labelAndTextfieldGap: 2,

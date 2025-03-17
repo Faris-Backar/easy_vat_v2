@@ -77,6 +77,7 @@ class AppStrings {
   static const String selectDate = "Select date";
   static const String filter = "Filter";
   static const String addNewSales = "Add New Sales";
+  static const String addNewPurchase = "Add New Purchase";
   static const String addItem = "Add Item";
   static const String scan = "Scan";
   static const String itemName = "Item Name";
@@ -143,4 +144,7 @@ class AppStrings {
   static const String no = "No.";
   static const String rate = "Rate";
   static const String tax = "Tax";
+  static const String purchaseNo = "Purchase No";
+  static const String purchaseDate = "Purchase Date";
+  static const String purchasedBy = "Purchase By";
 }

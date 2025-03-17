@@ -23,7 +23,7 @@ class HomeCategoryData {
         label: AppStrings.purchaseInvoice,
         icon: Assets.icons.purchaseInvoice,
         darkIcon: Assets.icons.dark.purchaseInvoiceDark,
-        pagePath: ""),
+        pagePath: AppRouter.purchaseInvoice),
     HomeDataModel(
         category: AppStrings.quickItems,
         label: AppStrings.ledger,

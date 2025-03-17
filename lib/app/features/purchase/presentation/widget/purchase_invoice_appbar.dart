@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
+import 'package:easy_vat_v2/app/features/purchase/presentation/providers/fetch_purchase_invoice/fetch_purchase_invoice_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/domain/usecase/params/sales_invoice_filter_params.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_invoice/sales_notifiers.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
@@ -20,28 +20,28 @@ import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/filter_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 
-class SalesInvoiceAppBar extends ConsumerStatefulWidget
+class PurchaseInvoiceAppbar extends ConsumerStatefulWidget
     implements PreferredSizeWidget {
   final TextEditingController searchController;
 
-  const SalesInvoiceAppBar({
+  const PurchaseInvoiceAppbar({
     super.key,
     required this.searchController,
   });
 
   @override
-  ConsumerState<SalesInvoiceAppBar> createState() => _PosAppBarState();
+  ConsumerState<PurchaseInvoiceAppbar> createState() => _PosAppBarState();
 
   @override
   Size get preferredSize => Size.fromHeight(110.h + kToolbarHeight);
 }
 
-class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
+class _PosAppBarState extends ConsumerState<PurchaseInvoiceAppbar> {
   DateTime fromDate = DateTime.now();
   DateTime toDate = DateTime.now();
   DateTime? selectedSaleDate;
-  final ValueNotifier<String?> salesModeNotifer = ValueNotifier(null);
-  final ValueNotifier<String?> soldByNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> purchaseModeModeNotifer = ValueNotifier(null);
+  final ValueNotifier<String?> purchasedByNotifier = ValueNotifier(null);
   final ValueNotifier<String?> paymentMethodNotifier = ValueNotifier(null);
 
   void _updateFromDate(DateTime selectedDate) {
@@ -56,23 +56,15 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
     });
   }
 
-  void _fetchPurchaseInvoice() {
-    final params = SalesInvoiceParams(
-      salesIDPK: "00000000-0000-0000-0000-000000000000",
-      fromDate: fromDate,
-      toDate: toDate,
-      customerID: "00000000-0000-0000-0000-000000000000",
-    );
-    ref
-        .read(salesInvoiceNotifierProvider.notifier)
-        .fetchSalesInvoice(params: params);
+  void _fetchSalesInvoice() {
+    ref.read(fetchPurchaseInvoiceProvider.notifier).fetchPurchaseInvoice();
   }
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       surfaceTintColor: context.colorScheme.onPrimary,
-      title: Text(AppStrings.salesInvoice),
+      title: Text(AppStrings.purchaseInvoice),
       actions: [
         PopupMenuButton<String>(
           shape: RoundedRectangleBorder(
@@ -125,7 +117,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
                   ),
                   InkWell(
                     onTap: () {
-                      _fetchPurchaseInvoice();
+                      _fetchSalesInvoice();
                     },
                     child: Container(
                       height: 36.h,
@@ -254,9 +246,9 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
                         height: 38.h,
                         labelAndTextFieldGap: 2,
                         label: AppStrings.soldBy,
-                        valueNotifier: soldByNotifier,
+                        valueNotifier: purchasedByNotifier,
                         onChanged: (newValue) {
-                          soldByNotifier.value = newValue;
+                          purchasedByNotifier.value = newValue;
                         },
                         items: employeeNames,
                         backgroundColor: AppUtils.isDarkMode(context)
@@ -284,8 +276,8 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
                   final params = SalesInvoiceFilterParams(
                       clearAllFilter: false,
                       salesDate: selectedSaleDate,
-                      salesMode: salesModeNotifer.value,
-                      soldBy: soldByNotifier.value);
+                      salesMode: purchaseModeModeNotifer.value,
+                      soldBy: purchasedByNotifier.value);
                   ref
                       .read(salesInvoiceNotifierProvider.notifier)
                       .filterSalesInvoice(params: params);

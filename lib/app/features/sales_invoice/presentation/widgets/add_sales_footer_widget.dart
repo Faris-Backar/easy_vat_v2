@@ -19,12 +19,14 @@ class AddSalesFooterWidget extends StatefulWidget {
   final TextEditingController refNoController;
   final ValueNotifier<String?> salesModeNotifier;
   final ValueNotifier<String?> soldByNotifier;
+  final bool isForPurchase;
   const AddSalesFooterWidget(
       {super.key,
       required this.saleNoController,
       required this.refNoController,
       required this.salesModeNotifier,
-      required this.soldByNotifier});
+      required this.soldByNotifier,
+      this.isForPurchase = false});
 
   @override
   State<AddSalesFooterWidget> createState() => _AddSalesFooterWidgetState();
@@ -69,7 +71,9 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                       next.mapOrNull(
                         success: (success) {
                           Fluttertoast.showToast(
-                            msg: "Sales order successfully created!",
+                            msg: widget.isForPurchase
+                                ? "Purchase order successfully created!"
+                                : "Sales order successfully created!",
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.BOTTOM,
                           );
@@ -92,30 +96,37 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                         onPressed: ref.watch(cartProvider).isViewOnly == false
                             ? () {}
                             : () {
-                                final cartPrvd =
-                                    ref.read(cartProvider.notifier);
-                                cartPrvd
-                                    .setSalesNo(widget.saleNoController.text);
-                                cartPrvd.setSalesMode(
-                                    widget.salesModeNotifier.value ?? "");
-                                cartPrvd.setRefNo(widget.refNoController.text);
-                                final newSale = cartPrvd.createNewSale();
-                                if (cartPrvd.salesMode.toLowerCase() ==
-                                    "credit") {
-                                  if (cartPrvd.selectedCustomer != null) {
-                                    Fluttertoast.showToast(
-                                        msg: AppStrings.pleaseSelectACustomer);
+                                if (widget.isForPurchase) {
+                                  Fluttertoast.showToast(
+                                      msg: AppStrings.somethingWentWrong);
+                                } else {
+                                  final cartPrvd =
+                                      ref.read(cartProvider.notifier);
+                                  cartPrvd
+                                      .setSalesNo(widget.saleNoController.text);
+                                  cartPrvd.setSalesMode(
+                                      widget.salesModeNotifier.value ?? "");
+                                  cartPrvd
+                                      .setRefNo(widget.refNoController.text);
+                                  final newSale = cartPrvd.createNewSale();
+                                  if (cartPrvd.salesMode.toLowerCase() ==
+                                      "credit") {
+                                    if (cartPrvd.selectedCustomer != null) {
+                                      Fluttertoast.showToast(
+                                          msg:
+                                              AppStrings.pleaseSelectACustomer);
+                                    } else {
+                                      ref
+                                          .read(createSalesNotifierProvider
+                                              .notifier)
+                                          .createSalesOrder(request: newSale);
+                                    }
                                   } else {
                                     ref
                                         .read(createSalesNotifierProvider
                                             .notifier)
                                         .createSalesOrder(request: newSale);
                                   }
-                                } else {
-                                  ref
-                                      .read(
-                                          createSalesNotifierProvider.notifier)
-                                      .createSalesOrder(request: newSale);
                                 }
                               },
                       ),

@@ -31,4 +31,7 @@ class UrlResources {
 
   //salesman
   static const String getSalesMan = "Salesman/Select/SelectAll";
+
+  //purchase
+  static const String getPurchaseInvoice = "Purchase/Select/SelectAll";
 }

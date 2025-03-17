@@ -16,6 +16,7 @@ class TransactionCard extends StatelessWidget {
   final String status;
   final String refNo;
   final List<SoldItemEntity> soldItems;
+  final bool isForPurchase;
 
   const TransactionCard(
       {super.key,
@@ -26,7 +27,8 @@ class TransactionCard extends StatelessWidget {
       required this.netTotal,
       required this.status,
       required this.refNo,
-      required this.soldItems});
+      required this.soldItems,
+      this.isForPurchase = false});
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +38,14 @@ class TransactionCard extends StatelessWidget {
 
     return Column(
       children: [
-        _buildCell(context, AppStrings.saleNo, AppStrings.salesDate,
-            context.colorScheme.tertiary, context.colorScheme.tertiary,
-            isBold: true, isHeader: true),
+        _buildCell(
+            context,
+            isForPurchase ? AppStrings.purchaseNo : AppStrings.saleNo,
+            isForPurchase ? AppStrings.purchaseDate : AppStrings.salesDate,
+            context.colorScheme.tertiary,
+            context.colorScheme.tertiary,
+            isBold: true,
+            isHeader: true),
         _buildCell(
           context,
           salesOrderNumber,
@@ -51,7 +58,11 @@ class TransactionCard extends StatelessWidget {
         _buildThreeColumnRow(
             context, AppStrings.refNo, refNo, AppStrings.netTotal, ""),
         _buildThreeColumnRow(
-            context, AppStrings.soldBy, soldBy, "", "\$ $netTotal"),
+            context,
+            isForPurchase ? AppStrings.purchasedBy : AppStrings.soldBy,
+            soldBy,
+            "",
+            "\$ $netTotal"),
         _buildFooter(context),
       ],
     );

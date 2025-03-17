@@ -1,4 +1,8 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.dart';
@@ -12,13 +16,13 @@ import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 @RoutePage()
 class AddNewSalesScreen extends ConsumerStatefulWidget {
-  const AddNewSalesScreen({super.key});
+  final bool isForPurchase;
+  const AddNewSalesScreen({
+    super.key,
+    this.isForPurchase = false,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -29,6 +33,7 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
   final saleNoController = TextEditingController();
   final refNoController = TextEditingController();
   final _noteController = TextEditingController();
+  final purchaseNoController = TextEditingController();
   final ValueNotifier<String?> salesModeNotifier = ValueNotifier(null);
   final ValueNotifier<String?> soldByNotifier = ValueNotifier(null);
   final ValueNotifier<String?> cashAccountNotifier = ValueNotifier(null);
@@ -59,6 +64,8 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
                 soldByNotifier: soldByNotifier,
                 cashAccountNotifier: cashAccountNotifier,
                 salesAccountNotifier: salesAccountNotifier,
+                purchaseNoController:
+                    widget.isForPurchase ? purchaseNoController : null,
               ),
               SizedBox(
                 height: 10,
@@ -119,7 +126,9 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
           icon: Icon(Icons.adaptive.arrow_back),
         );
       }),
-      title: Text(AppStrings.addNewSales),
+      title: Text(widget.isForPurchase
+          ? AppStrings.addNewPurchase
+          : AppStrings.addNewSales),
       actions: [
         Consumer(builder: (context, ref, child) {
           return IconButton(
