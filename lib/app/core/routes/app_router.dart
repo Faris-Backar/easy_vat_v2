@@ -10,8 +10,11 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: SplashRoute.page, path: splash),
-        AutoRoute(page: MainRoute.page, path: main, initial: true, children: [
+        AutoRoute(
+          page: SplashRoute.page,
+          path: splash,
+        ),
+        AutoRoute(page: MainRoute.page, path: main, children: [
           AutoRoute(page: DashBoardRoute.page, path: dashboard),
           AutoRoute(page: DayBookRoute.page, path: daybook),
           AutoRoute(page: HomeRoute.page, path: home, initial: true),
@@ -23,13 +26,13 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: SalesInvoiceRoute.page, path: salesInvoice),
         AutoRoute(page: CartRoute.page, path: cart),
         AutoRoute(page: PurchaseInvoiceRoute.page, path: purchaseInvoice),
-        // AutoRoute(page: CreatePurchaseInvoiceRoute.page, path: addNewPurchase),
+        AutoRoute(page: LoginRoute.page, path: login, initial: true),
       ];
 
-  @override
-  List<AutoRouteGuard> get guards => [];
+  // @override
+  // List<AutoRouteGuard> get guards => [AuthGuard()];
 
-  //pages
+  // Routes constants
   static const String splash = "/splash";
   static const String main = "/";
   static const String dashboard = "dashboard";
@@ -43,6 +46,7 @@ class AppRouter extends RootStackRouter {
   static const String cart = "/cart";
   static const String purchaseInvoice = "/purchase-invoice";
   static const String addNewPurchase = "/add-new-purchase";
+  static const String login = "/login";
 }
 
 class AuthGuard extends AutoRouteGuard {
@@ -54,7 +58,7 @@ class AuthGuard extends AutoRouteGuard {
     if (isAuthenticated) {
       resolver.next();
     } else {
-      // router.replaceNamed(AppRouter.loginScreen);
+      router.pushNamed(AppRouter.login);
     }
   }
 }

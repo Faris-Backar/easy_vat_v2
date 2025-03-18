@@ -19,6 +19,8 @@ class CustomTextField extends StatelessWidget {
   final Color? fillColor;
   final Function(String value)? onChanged;
   final VoidCallback? onTap;
+  final TextStyle? style;
+  final Widget? prefixIcon;
   const CustomTextField(
       {super.key,
       required this.label,
@@ -36,6 +38,8 @@ class CustomTextField extends StatelessWidget {
       this.labelAndTextfieldGap,
       this.fillColor,
       this.onChanged,
+      this.prefixIcon,
+      this.style,
       this.onTap});
 
   @override
@@ -49,31 +53,31 @@ class CustomTextField extends StatelessWidget {
               ?.copyWith(fontWeight: FontWeight.w500),
         ),
         SizedBox(height: labelAndTextfieldGap ?? 5),
-        SizedBox(
+        TextInputFormField(
           height: height,
           width: width,
-          child: TextInputFormField(
-            onTap: onTap,
-            enabled: enabled,
-            controller: controller,
-            fillColor: fillColor,
-            suffixIcon: suffixIcon,
-            isPasswordVisible: passwordvisibility,
-            hintDecoration: context.textTheme.bodyMedium
-                ?.copyWith(color: context.colorScheme.outline),
-            hint: hint,
-            textInputAction: textInputAction,
-            validator: validator,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            maxLines: maxLines,
-            contentPadding: maxLines != 1
-                ? EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0)
-                : null,
-            style: context.textTheme.bodyMedium
-                ?.copyWith(color: context.colorScheme.onSurface),
-            textInputType: textInputType,
-            onChanged: onChanged,
-          ),
+          onTap: onTap,
+          enabled: enabled,
+          controller: controller,
+          fillColor: fillColor,
+          suffixIcon: suffixIcon,
+          isPasswordVisible: passwordvisibility,
+          hintDecoration: context.textTheme.bodyMedium
+              ?.copyWith(color: context.colorScheme.outline),
+          hint: hint,
+          prefixIcon: prefixIcon,
+          textInputAction: textInputAction,
+          validator: validator,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          maxLines: maxLines,
+          contentPadding: maxLines != 1
+              ? EdgeInsets.symmetric(vertical: 16.0, horizontal: 16.0)
+              : null,
+          style: style ??
+              context.textTheme.bodyMedium
+                  ?.copyWith(color: context.colorScheme.onSurface),
+          textInputType: textInputType,
+          onChanged: onChanged,
         ),
       ],
     );

@@ -34,4 +34,7 @@ class UrlResources {
 
   //purchase
   static const String getPurchaseInvoice = "Purchase/Select/SelectAll";
+
+  //login
+  static const String login = "LogIn/authentication/verifyuserlogin";
 }

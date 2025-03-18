@@ -147,4 +147,11 @@ class AppStrings {
   static const String purchaseNo = "Purchase No";
   static const String purchaseDate = "Purchase Date";
   static const String purchasedBy = "Purchase By";
+  static const String loginToEasyVat = "Login to Easy Vat";
+  static const String logicnSubtitle =
+      "Log in to Easy VAT and manage your business effortlessly.";
+  static const String username = "Username";
+  static const String password = "Password";
+  static const String continueKey = "Continue";
+  static const String loginSuccess = "Login Success";
 }
