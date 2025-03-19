@@ -6,27 +6,25 @@ import 'package:shared_preferences/shared_preferences.dart';
 @AutoRouterConfig(replaceInRouteName: 'Screen|Page,Route')
 class AppRouter extends RootStackRouter {
   @override
-  RouteType get defaultRouteType => RouteType.material();
+  RouteType get defaultRouteType => RouteType.adaptive();
 
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(
-          page: SplashRoute.page,
-          path: splash,
-        ),
-        AutoRoute(page: MainRoute.page, path: main, children: [
-          AutoRoute(page: DashBoardRoute.page, path: dashboard),
-          AutoRoute(page: DayBookRoute.page, path: daybook),
-          AutoRoute(page: HomeRoute.page, path: home, initial: true),
-          AutoRoute(page: ReportRoute.page, path: report),
-          AutoRoute(page: SettingsRoute.page, path: settings),
-        ]),
+        AutoRoute(page: SplashRoute.page, path: splash),
+        AutoRoute(page: LoginRoute.page, path: login, initial: true),
+        // AutoRoute(page: MainRoute.page, path: main, children: [
+        //   AutoRoute(page: DashBoardRoute.page, path: dashboard),
+        //   AutoRoute(page: DayBookRoute.page, path: daybook),
+        //   AutoRoute(page: HomeRoute.page, path: home),
+        //   AutoRoute(page: ReportRoute.page, path: report),
+        //   AutoRoute(page: SettingsRoute.page, path: settings),
+        // ]),
         AutoRoute(page: PosRoute.page, path: pos),
         AutoRoute(page: AddNewSalesRoute.page, path: addNewSales),
         AutoRoute(page: SalesInvoiceRoute.page, path: salesInvoice),
         AutoRoute(page: CartRoute.page, path: cart),
         AutoRoute(page: PurchaseInvoiceRoute.page, path: purchaseInvoice),
-        AutoRoute(page: LoginRoute.page, path: login, initial: true),
+        AutoRoute(page: PinRoute.page, path: pin),
       ];
 
   // @override
@@ -47,6 +45,7 @@ class AppRouter extends RootStackRouter {
   static const String purchaseInvoice = "/purchase-invoice";
   static const String addNewPurchase = "/add-new-purchase";
   static const String login = "/login";
+  static const String pin = "/pin";
 }
 
 class AuthGuard extends AutoRouteGuard {

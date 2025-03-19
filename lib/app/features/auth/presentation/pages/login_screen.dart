@@ -1,10 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/utils/form_utils.dart';
 import 'package:easy_vat_v2/app/features/auth/domain/usecase/params/login_params.dart';
-import 'package:easy_vat_v2/app/features/auth/presentation/providers/login_notifier.dart';
-import 'package:easy_vat_v2/app/features/auth/presentation/providers/login_state.dart';
+import 'package:easy_vat_v2/app/features/auth/presentation/providers/user_login/login_notifier.dart';
+import 'package:easy_vat_v2/app/features/auth/presentation/providers/user_login/login_state.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -163,6 +164,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 next.mapOrNull(
                   success: (loginDate) {
                     Fluttertoast.showToast(msg: AppStrings.loginSuccess);
+                    context.router.pushNamed(AppRouter.pin);
                   },
                   failed: (error) {
                     Fluttertoast.showToast(msg: error.error);

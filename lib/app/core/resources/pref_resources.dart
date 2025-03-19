@@ -3,4 +3,5 @@ class PrefResources {
 
   static const String isAuthenticated = "IS_AUTHENTICATED";
   static const String isDarkMode = "IS_DARKMODE";
+  static const String token = "TOKEN";
 }

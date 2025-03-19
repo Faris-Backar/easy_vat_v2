@@ -154,4 +154,5 @@ class AppStrings {
   static const String password = "Password";
   static const String continueKey = "Continue";
   static const String loginSuccess = "Login Success";
+  static const String enterYouEmployeeCode = "Enter your employee code";
 }

@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class DioService {
   late final Dio _dio;
@@ -9,17 +11,18 @@ class DioService {
   DioService() {
     _dio = Dio(
       BaseOptions(
-          baseUrl: UrlResources.baseUrl,
-          connectTimeout: const Duration(seconds: 30),
-          receiveTimeout: const Duration(seconds: 30),
-          headers: {
-            "Authorization":
-                "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwidXNlcmlkIjoiZTY2NTgwZmQtMjNlNC1lYzExLTk4MjUtMDA2OGViY2EwMjQ4IiwibmJmIjoxNzQwNTg4OTQyLCJleHAiOjE3NDMxODA5NDIsImlhdCI6MTc0MDU4ODk0Mn0.Js8fjXHygPJv91xroVsMASJGmd-oKXipSICKn3kxTIQ"
-          }),
+        baseUrl: UrlResources.baseUrl,
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+      ),
     );
 
     _dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) async {
+        String? accessToken = await _getAccessToken();
+        if (accessToken != null) {
+          options.headers["Authorization"] = "Bearer $accessToken";
+        }
         return handler.next(options);
       },
       onResponse: (response, handler) {
@@ -30,18 +33,14 @@ class DioService {
         return handler.next(error);
       },
     ));
-    // if (kDebugMode) {
-    //   _dio.interceptors.add(PrettyDioLogger(
-    //     requestHeader: true,
-    //     requestBody: true,
-    //     responseBody: true,
-    //     responseHeader: false,
-    //     compact: true,
-    //   ));
-    // }
   }
 
   Dio get dio => _dio;
+
+  Future<String?> _getAccessToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(PrefResources.token);
+  }
 }
 
 final dioProvider = Provider<Dio>((ref) {
