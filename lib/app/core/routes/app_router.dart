@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
@@ -12,13 +14,17 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
         AutoRoute(page: SplashRoute.page, path: splash),
         AutoRoute(page: LoginRoute.page, path: login, initial: true),
-        // AutoRoute(page: MainRoute.page, path: main, children: [
-        //   AutoRoute(page: DashBoardRoute.page, path: dashboard),
-        //   AutoRoute(page: DayBookRoute.page, path: daybook),
-        //   AutoRoute(page: HomeRoute.page, path: home),
-        //   AutoRoute(page: ReportRoute.page, path: report),
-        //   AutoRoute(page: SettingsRoute.page, path: settings),
-        // ]),
+        AutoRoute(
+            // guards: [AuthGuard()],
+            page: MainRoute.page,
+            path: main,
+            children: [
+              AutoRoute(page: DashBoardRoute.page, path: dashboard),
+              AutoRoute(page: DayBookRoute.page, path: daybook),
+              AutoRoute(page: HomeRoute.page, path: home, initial: true),
+              AutoRoute(page: ReportRoute.page, path: report),
+              AutoRoute(page: SettingsRoute.page, path: settings),
+            ]),
         AutoRoute(page: PosRoute.page, path: pos),
         AutoRoute(page: AddNewSalesRoute.page, path: addNewSales),
         AutoRoute(page: SalesInvoiceRoute.page, path: salesInvoice),
@@ -26,9 +32,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: PurchaseInvoiceRoute.page, path: purchaseInvoice),
         AutoRoute(page: PinRoute.page, path: pin),
       ];
-
-  // @override
-  // List<AutoRouteGuard> get guards => [AuthGuard()];
 
   // Routes constants
   static const String splash = "/splash";
@@ -54,10 +57,11 @@ class AuthGuard extends AutoRouteGuard {
     final prefs = await SharedPreferences.getInstance();
     final isAuthenticated =
         prefs.getBool(PrefResources.isAuthenticated) ?? false;
+    log("is Authenticated => $isAuthenticated");
     if (isAuthenticated) {
       resolver.next();
     } else {
-      router.pushNamed(AppRouter.login);
+      router.replace(LoginRoute());
     }
   }
 }

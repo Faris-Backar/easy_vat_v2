@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/features/auth/presentation/providers/pin_login/pin_login_notifier.dart';
 import 'package:easy_vat_v2/app/features/auth/presentation/providers/pin_login/pin_login_state.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -23,7 +24,10 @@ class _PinScreenState extends State<PinScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      backgroundColor: context.colorScheme.surfaceContainerLowest,
+      appBar: AppBar(
+        backgroundColor: context.colorScheme.surfaceContainerLowest,
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
         child: Column(
@@ -97,12 +101,19 @@ class _PinScreenState extends State<PinScreen> {
 
           ref.listen<PinLoginState>(pinLoginProvider, (previous, next) {
             next.mapOrNull(
-              success: (loginDate) {
+              success: (loginData) {
                 Fluttertoast.showToast(msg: AppStrings.loginSuccess);
-                // context.router.pushNamed(AppRouter.pin);
+                context.router.pushAndPopUntil(
+                  const MainRoute(),
+                  predicate: (_) => false,
+                );
               },
               failed: (error) {
                 Fluttertoast.showToast(msg: error.error);
+                context.router.pushAndPopUntil(
+                  const MainRoute(),
+                  predicate: (_) => false,
+                );
               },
             );
           });

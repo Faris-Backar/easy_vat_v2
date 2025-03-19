@@ -46,7 +46,7 @@ class AuthRepositoryImpl extends AuthRepository {
       }
       return left(ServerFailure(message: AppStrings.somethingWentWrong));
     } on DioException catch (e) {
-      log("pin login error => ${e.requestOptions.headers}");
+      log("pin login error => ${e.requestOptions.headers}\n ${e.requestOptions.path}");
       return left(ServerFailure(
           message:
               e.message ?? e.response?.data ?? AppStrings.somethingWentWrong));
