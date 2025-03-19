@@ -32,6 +32,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
   final _costPriceController = TextEditingController();
   final _priceWithTaxController = TextEditingController();
   final _unitController = TextEditingController();
+  final _netTotalController = TextEditingController();
   final _descriptionController = TextEditingController();
   final _discountController = TextEditingController();
   final _taxController = TextEditingController();
@@ -96,6 +97,16 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     final taxPercentage = cart?.item.taxPercentage ?? item.taxPercentage ?? 1.0;
     final sellingPrice = priceWithTax / (1 + taxPercentage / 100);
     _sellingPriceController.text = sellingPrice.toStringAsFixed(2);
+  }
+
+  void _updateNetTotal() {
+    final qty = double.tryParse(_quantityController.text) ?? 1.0;
+    final sellingPrice = double.tryParse(_sellingPriceController.text) ?? 0.0;
+    final taxPercentage = cart?.item.taxPercentage ?? item.taxPercentage ?? 1.0;
+    final gross = sellingPrice * qty;
+    final tax = gross * (taxPercentage / 100);
+    final netTotal = gross + tax;
+    _netTotalController.text = netTotal.toStringAsFixed(2);
   }
 
   @override
@@ -256,12 +267,31 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
             SizedBox(
               height: 10,
             ),
-            TextInputFormField(
-              height: 36.h,
-              label: AppStrings.unit,
-              enabled: false,
-              controller: _unitController,
-              fillColor: context.colorScheme.tertiaryContainer,
+            Row(
+              children: [
+                Expanded(
+                  child: TextInputFormField(
+                    height: 36.h,
+                    label: AppStrings.unit,
+                    enabled: false,
+                    controller: _unitController,
+                    fillColor: context.colorScheme.tertiaryContainer,
+                  ),
+                ),
+                SizedBox(
+                  width: 5.w,
+                ),
+                Expanded(
+                  child: TextInputFormField(
+                    height: 36.h,
+                    label: AppStrings.netTotal,
+                    onChanged: (value) => _updateNetTotal(),
+                    enabled: false,
+                    controller: _netTotalController,
+                    fillColor: context.colorScheme.tertiaryContainer,
+                  ),
+                )
+              ],
             ),
             SizedBox(
               height: 10,

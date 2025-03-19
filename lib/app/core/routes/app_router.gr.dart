@@ -30,9 +30,9 @@ import 'package:easy_vat_v2/app/features/purchase/presentation/pages/purchase_in
     as _i10;
 import 'package:easy_vat_v2/app/features/report/presentation/pages/report_screen.dart'
     as _i11;
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/pages/add_new_sales_screen.dart'
+import 'package:easy_vat_v2/app/features/sales/presentation/pages/add_new_sales_screen.dart'
     as _i1;
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/pages/sales_invoice_screen.dart'
+import 'package:easy_vat_v2/app/features/sales/presentation/pages/sales_invoice_screen.dart'
     as _i12;
 import 'package:easy_vat_v2/app/features/settings/presentation/pages/settings_screen.dart'
     as _i13;
@@ -48,10 +48,10 @@ class AddNewSalesRoute extends _i15.PageRouteInfo<AddNewSalesRouteArgs> {
     bool isForPurchase = false,
     List<_i15.PageRouteInfo>? children,
   }) : super(
-         AddNewSalesRoute.name,
-         args: AddNewSalesRouteArgs(key: key, isForPurchase: isForPurchase),
-         initialChildren: children,
-       );
+          AddNewSalesRoute.name,
+          args: AddNewSalesRouteArgs(key: key, isForPurchase: isForPurchase),
+          initialChildren: children,
+        );
 
   static const String name = 'AddNewSalesRoute';
 
@@ -86,7 +86,7 @@ class AddNewSalesRouteArgs {
 /// [_i2.CartScreen]
 class CartRoute extends _i15.PageRouteInfo<void> {
   const CartRoute({List<_i15.PageRouteInfo>? children})
-    : super(CartRoute.name, initialChildren: children);
+      : super(CartRoute.name, initialChildren: children);
 
   static const String name = 'CartRoute';
 
@@ -102,7 +102,7 @@ class CartRoute extends _i15.PageRouteInfo<void> {
 /// [_i3.DashBoardScreen]
 class DashBoardRoute extends _i15.PageRouteInfo<void> {
   const DashBoardRoute({List<_i15.PageRouteInfo>? children})
-    : super(DashBoardRoute.name, initialChildren: children);
+      : super(DashBoardRoute.name, initialChildren: children);
 
   static const String name = 'DashBoardRoute';
 
@@ -118,7 +118,7 @@ class DashBoardRoute extends _i15.PageRouteInfo<void> {
 /// [_i4.DayBookScreen]
 class DayBookRoute extends _i15.PageRouteInfo<void> {
   const DayBookRoute({List<_i15.PageRouteInfo>? children})
-    : super(DayBookRoute.name, initialChildren: children);
+      : super(DayBookRoute.name, initialChildren: children);
 
   static const String name = 'DayBookRoute';
 
@@ -134,7 +134,7 @@ class DayBookRoute extends _i15.PageRouteInfo<void> {
 /// [_i5.HomeScreen]
 class HomeRoute extends _i15.PageRouteInfo<void> {
   const HomeRoute({List<_i15.PageRouteInfo>? children})
-    : super(HomeRoute.name, initialChildren: children);
+      : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
@@ -150,7 +150,7 @@ class HomeRoute extends _i15.PageRouteInfo<void> {
 /// [_i6.LoginScreen]
 class LoginRoute extends _i15.PageRouteInfo<void> {
   const LoginRoute({List<_i15.PageRouteInfo>? children})
-    : super(LoginRoute.name, initialChildren: children);
+      : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
@@ -166,7 +166,7 @@ class LoginRoute extends _i15.PageRouteInfo<void> {
 /// [_i7.MainScreen]
 class MainRoute extends _i15.PageRouteInfo<void> {
   const MainRoute({List<_i15.PageRouteInfo>? children})
-    : super(MainRoute.name, initialChildren: children);
+      : super(MainRoute.name, initialChildren: children);
 
   static const String name = 'MainRoute';
 
@@ -182,7 +182,7 @@ class MainRoute extends _i15.PageRouteInfo<void> {
 /// [_i8.PinScreen]
 class PinRoute extends _i15.PageRouteInfo<void> {
   const PinRoute({List<_i15.PageRouteInfo>? children})
-    : super(PinRoute.name, initialChildren: children);
+      : super(PinRoute.name, initialChildren: children);
 
   static const String name = 'PinRoute';
 
@@ -198,7 +198,7 @@ class PinRoute extends _i15.PageRouteInfo<void> {
 /// [_i9.PosScreen]
 class PosRoute extends _i15.PageRouteInfo<void> {
   const PosRoute({List<_i15.PageRouteInfo>? children})
-    : super(PosRoute.name, initialChildren: children);
+      : super(PosRoute.name, initialChildren: children);
 
   static const String name = 'PosRoute';
 
@@ -214,7 +214,7 @@ class PosRoute extends _i15.PageRouteInfo<void> {
 /// [_i10.PurchaseInvoiceScreen]
 class PurchaseInvoiceRoute extends _i15.PageRouteInfo<void> {
   const PurchaseInvoiceRoute({List<_i15.PageRouteInfo>? children})
-    : super(PurchaseInvoiceRoute.name, initialChildren: children);
+      : super(PurchaseInvoiceRoute.name, initialChildren: children);
 
   static const String name = 'PurchaseInvoiceRoute';
 
@@ -230,7 +230,7 @@ class PurchaseInvoiceRoute extends _i15.PageRouteInfo<void> {
 /// [_i11.ReportScreen]
 class ReportRoute extends _i15.PageRouteInfo<void> {
   const ReportRoute({List<_i15.PageRouteInfo>? children})
-    : super(ReportRoute.name, initialChildren: children);
+      : super(ReportRoute.name, initialChildren: children);
 
   static const String name = 'ReportRoute';
 
@@ -246,7 +246,7 @@ class ReportRoute extends _i15.PageRouteInfo<void> {
 /// [_i12.SalesInvoiceScreen]
 class SalesInvoiceRoute extends _i15.PageRouteInfo<void> {
   const SalesInvoiceRoute({List<_i15.PageRouteInfo>? children})
-    : super(SalesInvoiceRoute.name, initialChildren: children);
+      : super(SalesInvoiceRoute.name, initialChildren: children);
 
   static const String name = 'SalesInvoiceRoute';
 
@@ -262,7 +262,7 @@ class SalesInvoiceRoute extends _i15.PageRouteInfo<void> {
 /// [_i13.SettingsScreen]
 class SettingsRoute extends _i15.PageRouteInfo<void> {
   const SettingsRoute({List<_i15.PageRouteInfo>? children})
-    : super(SettingsRoute.name, initialChildren: children);
+      : super(SettingsRoute.name, initialChildren: children);
 
   static const String name = 'SettingsRoute';
 
@@ -278,7 +278,7 @@ class SettingsRoute extends _i15.PageRouteInfo<void> {
 /// [_i14.SplashScreen]
 class SplashRoute extends _i15.PageRouteInfo<void> {
   const SplashRoute({List<_i15.PageRouteInfo>? children})
-    : super(SplashRoute.name, initialChildren: children);
+      : super(SplashRoute.name, initialChildren: children);
 
   static const String name = 'SplashRoute';
 

@@ -11,6 +11,7 @@ class CustomerInfoTabContent extends StatelessWidget {
   final String creditLimit;
   final String trn;
   final bool isActive;
+  final bool isPurchase;
   const CustomerInfoTabContent(
       {super.key,
       required this.customerName,
@@ -18,6 +19,7 @@ class CustomerInfoTabContent extends StatelessWidget {
       required this.creditDays,
       required this.creditLimit,
       required this.trn,
+      this.isPurchase = false,
       this.isActive = true});
 
   @override
@@ -29,7 +31,7 @@ class CustomerInfoTabContent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              AppStrings.customer,
+              isPurchase ? AppStrings.supplier : AppStrings.customer,
               style: context.textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w500,
                 color: context.defaultTextColor.withValues(alpha: 0.50),

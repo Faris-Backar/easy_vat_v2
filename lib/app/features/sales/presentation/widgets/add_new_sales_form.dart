@@ -6,7 +6,7 @@ import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledge
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/data/model/payment_mode_model.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/customer_info_widget.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_info_widget.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
@@ -132,7 +132,9 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                   }
 
                   return DropdownField(
-                    label: AppStrings.salesMode,
+                    label: widget.purchaseNoController == null
+                        ? AppStrings.purchaseMode
+                        : AppStrings.salesMode,
                     valueNotifier: widget.salesModeNotifier,
                     items:
                         paymentModes.map((mode) => mode.paymentModes).toList(),
@@ -185,7 +187,9 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                   return DropdownField(
                     height: 38.h,
                     labelAndTextFieldGap: 2,
-                    label: AppStrings.soldBy,
+                    label: widget.purchaseNoController != null
+                        ? AppStrings.purchasedBy
+                        : AppStrings.soldBy,
                     valueNotifier: widget.soldByNotifier,
                     onChanged: (newValue) {
                       widget.soldByNotifier.value = newValue;
@@ -308,7 +312,9 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                             return DropdownField(
                                 height: 38.h,
                                 labelAndTextFieldGap: 2,
-                                label: AppStrings.salesAccount,
+                                label: widget.purchaseNoController != null
+                                    ? AppStrings.purchaseAccount
+                                    : AppStrings.salesAccount,
                                 valueNotifier: widget.salesAccountNotifier,
                                 items: ledgerNames,
                                 backgroundColor: AppUtils.isDarkMode(context)

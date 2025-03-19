@@ -1,7 +1,7 @@
-import 'package:easy_vat_v2/app/features/sales_invoice/data/model/sales_invoice_request_model.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/domain/usecase/create_sales_invoice_usecase.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/create_sales_inovice/create_sales_invoice_state.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_invoice/sales_notifiers.dart';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_invoice_request_model.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/usecase/create_sales_invoice_usecase.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/create_sales_inovice/create_sales_invoice_state.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final createSalesInvoiceUsecaseProvider =

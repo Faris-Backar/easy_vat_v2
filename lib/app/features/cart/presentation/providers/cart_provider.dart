@@ -6,8 +6,8 @@ import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entit
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_notifier.dart';
 import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/data/model/sales_invoice_request_model.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/domain/entities/sales_invoice_entity.dart';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_invoice_request_model.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
 import 'package:easy_vat_v2/app/features/salesman/domain/entity/sales_man_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';

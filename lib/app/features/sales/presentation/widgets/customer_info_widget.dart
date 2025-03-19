@@ -4,7 +4,7 @@ import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provid
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_notifier.dart';
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_state.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/customer_details_card.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_details_card.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/refresh_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/search_debouncer.dart';
@@ -16,8 +16,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:easy_vat_v2/app/core/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/customer_address_info.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/customer_info_tab_content.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_address_info.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_info_tab_content.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

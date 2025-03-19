@@ -1,4 +1,4 @@
-import 'package:easy_vat_v2/app/features/sales_invoice/domain/entities/sales_invoice_entity.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'sales_invoice_state.freezed.dart';

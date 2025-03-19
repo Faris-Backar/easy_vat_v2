@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/domain/entities/sales_invoice_entity.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
 
 part 'sales_invoice_model.freezed.dart';
 part 'sales_invoice_model.g.dart';

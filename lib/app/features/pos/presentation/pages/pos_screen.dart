@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/sales_invoice_app_bar.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_invoice_app_bar.dart';
 
 @RoutePage()
 class PosScreen extends StatefulWidget {

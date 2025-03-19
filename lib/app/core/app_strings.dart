@@ -155,4 +155,6 @@ class AppStrings {
   static const String continueKey = "Continue";
   static const String loginSuccess = "Login Success";
   static const String enterYouEmployeeCode = "Enter your employee code";
+  static const String purchaseMode = "Purchase Mode";
+  static const String purchaseAccount = "Purchase Account";
 }

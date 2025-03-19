@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/domain/usecase/params/sales_invoice_filter_params.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/domain/usecase/params/sales_invoice_params.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/providers/sales_invoice/sales_notifiers.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
@@ -17,7 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:easy_vat_v2/app/core/app_strings.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/filter_widget.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/filter_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 
 class SalesInvoiceAppBar extends ConsumerStatefulWidget

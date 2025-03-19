@@ -4,10 +4,14 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
+import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/fetch_purchase_invoice/fetch_purchase_invoice_notifier.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/widget/purchase_invoice_appbar.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/transaction_card.dart';
-import 'package:easy_vat_v2/app/features/sales_invoice/presentation/widgets/transaction_slidable_widget.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_card.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_slidable_widget.dart';
+import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,6 +29,21 @@ class PurchaseInvoiceScreen extends ConsumerStatefulWidget {
 
 class _PurchaseInvoiceScreenState extends ConsumerState<PurchaseInvoiceScreen> {
   final _searchTextController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        ref.read(cashLedgerNotifierProvider.notifier).fetchBankLedgers();
+        ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
+        ref.read(salesLedgerNotifierProvider.notifier).fetchSalesLedgers();
+        ref.read(salesManProvider.notifier).getSalesMans();
+        ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
+        ref.read(fetchPurchaseInvoiceProvider.notifier).fetchPurchaseInvoice();
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,12 +64,6 @@ class _PurchaseInvoiceScreenState extends ConsumerState<PurchaseInvoiceScreen> {
               itemCount: purchaseInvoiceData.length,
               itemBuilder: (context, index) {
                 final purchaseInvoice = purchaseInvoiceData[index];
-
-                if (purchaseInvoiceData.isEmpty == true) {
-                  return Center(
-                    child: Text(AppStrings.noDataIsFound),
-                  );
-                }
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: Slidable(
