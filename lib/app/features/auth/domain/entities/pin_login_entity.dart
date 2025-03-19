@@ -75,7 +75,7 @@ class UserDetailsEntity {
 class CashAccountDetailsEntity {
   String? ledgerIdpk;
   String? ledgerName;
-  int? currentBalance;
+  double? currentBalance;
   String? currentBalanceType;
 
   CashAccountDetailsEntity({

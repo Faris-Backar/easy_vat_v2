@@ -39,7 +39,7 @@ class AuthRepositoryImpl extends AuthRepository {
       {required String pin}) async {
     try {
       final body = {"userPin": pin};
-      final response = await client.post(UrlResources.login, data: body);
+      final response = await client.post(UrlResources.pinLogin, data: body);
       if (response.statusCode == 200) {
         final loginData = PinLoginModel.fromJson(response.data);
         return right(loginData);
@@ -50,6 +50,8 @@ class AuthRepositoryImpl extends AuthRepository {
       return left(ServerFailure(
           message:
               e.message ?? e.response?.data ?? AppStrings.somethingWentWrong));
+    } catch (e) {
+      return left(ServerFailure(message: AppStrings.somethingWentWrong));
     }
   }
 }

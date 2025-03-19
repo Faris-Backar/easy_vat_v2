@@ -9,10 +9,15 @@ class PinLoginModel extends PinLoginEntity {
   });
 
   factory PinLoginModel.fromJson(Map<String, dynamic> json) => PinLoginModel(
-        isAuthenticated: json["isAuthenticated"],
-        message: json["message"],
-        userDetails: UserDetailsModel.fromJson(json["userDetails"]),
-        ledgerBookInfo: LedgerBookInfoModel.fromJson(json["ledgerBookInfo"]),
+        isAuthenticated:
+            json["isAuthenticated"] ?? false, // Default to false if null
+        message: json["message"] ?? "", // Default to empty string if null
+        userDetails: json["userDetails"] != null
+            ? UserDetailsModel.fromJson(json["userDetails"])
+            : null, // Check if userDetails is not null before calling fromJson
+        ledgerBookInfo: json["ledgerBookInfo"] != null
+            ? LedgerBookInfoModel.fromJson(json["ledgerBookInfo"])
+            : null, // Check if ledgerBookInfo is not null before calling fromJson
       );
 }
 
@@ -26,10 +31,18 @@ class LedgerBookInfoModel extends LedgerBookInfoEntity {
 
   factory LedgerBookInfoModel.fromJson(Map<String, dynamic> json) =>
       LedgerBookInfoModel(
-        cashBook: BookModel.fromJson(json["cashBook"]),
-        bankBook: BookModel.fromJson(json["bankBook"]),
-        customerBook: BookModel.fromJson(json["customerBook"]),
-        supplierBook: BookModel.fromJson(json["supplierBook"]),
+        cashBook: json["cashBook"] != null
+            ? BookModel.fromJson(json["cashBook"])
+            : null, // Null check before calling fromJson
+        bankBook: json["bankBook"] != null
+            ? BookModel.fromJson(json["bankBook"])
+            : null, // Null check before calling fromJson
+        customerBook: json["customerBook"] != null
+            ? BookModel.fromJson(json["customerBook"])
+            : null, // Null check before calling fromJson
+        supplierBook: json["supplierBook"] != null
+            ? BookModel.fromJson(json["supplierBook"])
+            : null, // Null check before calling fromJson
       );
 }
 
@@ -43,11 +56,11 @@ class BookModel extends BookEntity {
   });
 
   factory BookModel.fromJson(Map<String, dynamic> json) => BookModel(
-        groupIdpk: json["groupIDPK"],
-        groupName: json["groupName"],
-        underGroup: json["underGroup"],
-        underId: json["underID"],
-        currentBalance: json["currentBalance"],
+        groupIdpk: json["groupIDPK"] ?? "", // Default to empty string if null
+        groupName: json["groupName"] ?? "", // Default to empty string if null
+        underGroup: json["underGroup"] ?? "", // Default to empty string if null
+        underId: json["underID"] ?? "", // Default to empty string if null
+        currentBalance: json["currentBalance"] ?? 0.0, // Default to 0.0 if null
       );
 
   Map<String, dynamic> toJson() => {
@@ -77,20 +90,26 @@ class UserDetailsModel extends UserDetailsEntity {
 
   factory UserDetailsModel.fromJson(Map<String, dynamic> json) =>
       UserDetailsModel(
-        userIdpk: json["userIDPK"],
-        username: json["username"],
-        password: json["password"],
-        empName: json["empName"],
-        userRoleIdpk: json["userRoleIDPK"],
-        userRole: json["userRole"],
-        userPin: json["userPin"],
-        isActive: json["isActive"],
-        isEdit: json["isEdit"],
-        storeDetails: StoreDetailsModel.fromJson(json["storeDetails"]),
-        cashAccountDetails:
-            CashAccountDetailsModel.fromJson(json["cashAccountDetails"]),
-        userPermissions: List<UserPermissionModel>.from(json["userPermissions"]
-            .map((x) => UserPermissionModel.fromJson(x))),
+        userIdpk: json["userIDPK"] ?? "", // Default to empty string if null
+        username: json["username"] ?? "", // Default to empty string if null
+        password: json["password"] ?? "", // Default to empty string if null
+        empName: json["empName"] ?? "", // Default to empty string if null
+        userRoleIdpk:
+            json["userRoleIDPK"] ?? "", // Default to empty string if null
+        userRole: json["userRole"] ?? "", // Default to empty string if null
+        userPin: json["userPin"] ?? "", // Default to empty string if null
+        isActive: json["isActive"] ?? false, // Default to false if null
+        isEdit: json["isEdit"] ?? false, // Default to false if null
+        storeDetails: json["storeDetails"] != null
+            ? StoreDetailsModel.fromJson(json["storeDetails"])
+            : null, // Check if storeDetails is not null before calling fromJson
+        cashAccountDetails: json["cashAccountDetails"] != null
+            ? CashAccountDetailsModel.fromJson(json["cashAccountDetails"])
+            : null, // Check if cashAccountDetails is not null before calling fromJson
+        userPermissions: json["userPermissions"] != null
+            ? List<UserPermissionModel>.from(json["userPermissions"]
+                .map((x) => UserPermissionModel.fromJson(x)))
+            : [], // Default to an empty list if null
       );
 }
 
@@ -104,10 +123,11 @@ class CashAccountDetailsModel extends CashAccountDetailsEntity {
 
   factory CashAccountDetailsModel.fromJson(Map<String, dynamic> json) =>
       CashAccountDetailsModel(
-        ledgerIdpk: json["ledgerIDPK"],
-        ledgerName: json["ledgerName"],
-        currentBalance: json["currentBalance"],
-        currentBalanceType: json["currentBalanceType"],
+        ledgerIdpk: json["ledgerIDPK"] ?? "", // Default to empty string if null
+        ledgerName: json["ledgerName"] ?? "", // Default to empty string if null
+        currentBalance: json["currentBalance"] ?? 0.0, // Default to 0.0 if null
+        currentBalanceType:
+            json["currentBalanceType"] ?? "", // Default to empty string if null
       );
 
   Map<String, dynamic> toJson() => {
@@ -138,20 +158,27 @@ class StoreDetailsModel extends StoreDetailsEntity {
 
   factory StoreDetailsModel.fromJson(Map<String, dynamic> json) =>
       StoreDetailsModel(
-        storeIdpk: json["storeIDPK"],
-        storeType: json["storeType"],
-        storeId: json["storeID"],
-        storeName: json["storeName"],
-        storeLocation: json["storeLocation"],
-        storeAddress: json["storeAddress"],
-        isActive: json["isActive"],
-        isEdit: json["isEdit"],
-        isDefaultStore: json["isDefaultStore"],
-        createdBy: json["createdBy"],
-        createdDate: DateTime.parse(json["createdDate"]),
-        modifiedBy: json["modifiedBy"],
-        modifiedDate: DateTime.parse(json["modifiedDate"]),
-        rowguid: json["rowguid"],
+        storeIdpk: json["storeIDPK"] ?? "", // Default to empty string if null
+        storeType: json["storeType"] ?? "", // Default to empty string if null
+        storeId: json["storeID"] ?? "", // Default to empty string if null
+        storeName: json["storeName"] ?? "", // Default to empty string if null
+        storeLocation:
+            json["storeLocation"] ?? "", // Default to empty string if null
+        storeAddress:
+            json["storeAddress"] ?? "", // Default to empty string if null
+        isActive: json["isActive"] ?? false, // Default to false if null
+        isEdit: json["isEdit"] ?? false, // Default to false if null
+        isDefaultStore:
+            json["isDefaultStore"] ?? false, // Default to false if null
+        createdBy: json["createdBy"] ?? "", // Default to empty string if null
+        createdDate: json["createdDate"] != null
+            ? DateTime.parse(json["createdDate"])
+            : null, // Parse DateTime if present, else null
+        modifiedBy: json["modifiedBy"] ?? "", // Default to empty string if null
+        modifiedDate: json["modifiedDate"] != null
+            ? DateTime.parse(json["modifiedDate"])
+            : null, // Parse DateTime if present, else null
+        rowguid: json["rowguid"] ?? "", // Default to empty string if null
       );
 
   Map<String, dynamic> toJson() => {
@@ -190,18 +217,20 @@ class UserPermissionModel extends UserPermissionEntity {
 
   factory UserPermissionModel.fromJson(Map<String, dynamic> json) =>
       UserPermissionModel(
-        userIdpk: json["userIDPK"],
-        formNameId: json["formNameID"],
-        formName: json["formName"],
-        pView: json["pView"],
-        pInsert: json["pInsert"],
-        pUpdate: json["pUpdate"],
-        pDelete: json["pDelete"],
-        pPrint: json["pPrint"],
-        pRePrint: json["pRePrint"],
-        pAutherization: json["pAutherization"],
-        isEdit: json["isEdit"],
-        companyIdpk: json["companyIDPK"],
+        userIdpk: json["userIDPK"] ?? "", // Default to empty string if null
+        formNameId: json["formNameID"] ?? "", // Default to empty string if null
+        formName: json["formName"] ?? "", // Default to empty string if null
+        pView: json["pView"] ?? false, // Default to false if null
+        pInsert: json["pInsert"] ?? false, // Default to false if null
+        pUpdate: json["pUpdate"] ?? false, // Default to false if null
+        pDelete: json["pDelete"] ?? false, // Default to false if null
+        pPrint: json["pPrint"] ?? false, // Default to false if null
+        pRePrint: json["pRePrint"] ?? false, // Default to false if null
+        pAutherization:
+            json["pAutherization"] ?? false, // Default to false if null
+        isEdit: json["isEdit"] ?? false, // Default to false if null
+        companyIdpk:
+            json["companyIDPK"] ?? "", // Default to empty string if null
       );
 
   Map<String, dynamic> toJson() => {

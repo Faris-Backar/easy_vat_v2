@@ -37,4 +37,5 @@ class UrlResources {
 
   //login
   static const String login = "LogIn/authentication/verifyuserlogin";
+  static const String pinLogin = "LogIn/authentication/verifyuserPin";
 }

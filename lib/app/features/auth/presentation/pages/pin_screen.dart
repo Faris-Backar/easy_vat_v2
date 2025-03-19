@@ -43,6 +43,7 @@ class _PinScreenState extends State<PinScreen> {
             Pinput(
               controller: _pinController,
               enabled: true,
+              length: 6,
               defaultPinTheme: PinTheme(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.r),
@@ -110,10 +111,6 @@ class _PinScreenState extends State<PinScreen> {
               },
               failed: (error) {
                 Fluttertoast.showToast(msg: error.error);
-                context.router.pushAndPopUntil(
-                  const MainRoute(),
-                  predicate: (_) => false,
-                );
               },
             );
           });
@@ -129,7 +126,7 @@ class _PinScreenState extends State<PinScreen> {
               width: double.infinity,
               height: 38.h,
               onPressed: () {
-                if (_pinController.text.length == 4) {
+                if (_pinController.text.length == 6) {
                   ref
                       .read(pinLoginProvider.notifier)
                       .pinLogin(params: _pinController.text);
