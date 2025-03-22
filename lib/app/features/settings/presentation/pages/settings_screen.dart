@@ -18,7 +18,7 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          AppStrings.settings,
+          context.translate(AppStrings.settings),
         ),
         titleTextStyle: TextStyle(
             color: context.colorScheme.primaryContainer.withValues(alpha: .5),
@@ -37,29 +37,23 @@ class SettingsScreen extends StatelessWidget {
         ],
       ),
       body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: ListView.separated(
-            itemCount: SettingsData().settingsData(context).length +
-                1, // Added 1 for language option
-            separatorBuilder: (context, index) => SizedBox(
-              height: 12,
-            ),
-            itemBuilder: (context, index) {
-              if (index == SettingsData().settingsData(context).length) {
-                return SettingsListWidget(
-                  name: 'Language',
-                  onTap: () {
-                    _showLanguageBottomSheet(context);
-                  },
-                );
-              } else {
-                return SettingsListWidget(
-                  name: SettingsData().settingsData(context)[index].name,
-                  onTap: SettingsData().settingsData(context)[index].onTap,
-                );
-              }
-            },
-          )),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+        child: ListView.separated(
+          itemCount: SettingsData().settingsData(context).length,
+          separatorBuilder: (context, index) => SizedBox(
+            height: 12,
+          ),
+          itemBuilder: (context, index) {
+            return SettingsListWidget(
+              name: SettingsData().settingsData(context)[index].name,
+              onTap: context.translate(AppStrings.language) ==
+                      SettingsData().settingsData(context)[index].name
+                  ? () => _showLanguageBottomSheet(context)
+                  : SettingsData().settingsData(context)[index].onTap,
+            );
+          },
+        ),
+      ),
     );
   }
 
@@ -115,11 +109,10 @@ class SettingsScreen extends StatelessWidget {
                         title: Text(
                           'English',
                           style: context.textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: selectedLanguage.languageCode == 'en'
-                                ? context.colorScheme.primary
-                                : Colors.black,
-                          ),
+                              fontWeight: FontWeight.w600,
+                              color: selectedLanguage.languageCode == 'en'
+                                  ? context.colorScheme.primary
+                                  : context.defaultTextColor),
                         ),
                         onTap: () {
                           ref.read(localeProvider.notifier).setLocale('en');
@@ -131,20 +124,17 @@ class SettingsScreen extends StatelessWidget {
                     Directionality(
                       textDirection: TextDirection.ltr,
                       child: ListTile(
-                        leading: Icon(
-                          Icons.language,
-                          color: selectedLanguage.languageCode == 'ar'
-                              ? context.colorScheme.primary
-                              : Colors.grey,
-                        ),
+                        leading: Icon(Icons.language,
+                            color: selectedLanguage.languageCode == 'ar'
+                                ? context.colorScheme.primary
+                                : Colors.grey),
                         title: Text(
                           'العربية',
                           style: context.textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: selectedLanguage.languageCode == 'ar'
-                                ? context.colorScheme.primary
-                                : Colors.black,
-                          ),
+                              fontWeight: FontWeight.w600,
+                              color: selectedLanguage.languageCode == 'ar'
+                                  ? context.colorScheme.primary
+                                  : context.defaultTextColor),
                         ),
                         onTap: () {
                           ref.read(localeProvider.notifier).setLocale('ar');
@@ -176,6 +166,7 @@ class SettingsListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isRtl = Directionality.of(context) == TextDirection.rtl;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(10.0),
@@ -195,7 +186,8 @@ class SettingsListWidget extends StatelessWidget {
           children: [
             Text(name),
             SvgIcon(
-                icon: Assets.icons.arrowForward,
+                icon:
+                    isRtl ? Assets.icons.arrowBack : Assets.icons.arrowForward,
                 color: context.colorScheme.onPrimary)
           ],
         ),

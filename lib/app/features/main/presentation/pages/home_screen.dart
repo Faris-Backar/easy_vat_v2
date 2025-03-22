@@ -53,17 +53,18 @@ class HomeScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         HomeCategoryMenu(
-                            title: AppStrings.masterData,
+                            title: context.translate(AppStrings.masterData),
                             dataList: HomeCategoryData.masterData(context)),
                         HomeCategoryMenu(
-                            title: AppStrings.inventoryVoucher,
+                            title:
+                                context.translate(AppStrings.inventoryVoucher),
                             dataList:
                                 HomeCategoryData.inventoryVoucher(context)),
                         HomeCategoryMenu(
-                            title: AppStrings.accountVoucher,
+                            title: context.translate(AppStrings.accountVoucher),
                             dataList: HomeCategoryData.accountVoucher(context)),
                         HomeCategoryMenu(
-                            title: AppStrings.hrm,
+                            title: context.translate(AppStrings.hrm),
                             dataList: HomeCategoryData.hrmData(context)),
                       ],
                     ),

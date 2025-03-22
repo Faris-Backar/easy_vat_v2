@@ -12,6 +12,8 @@ class SettingsData {
         _SettingsData(
             name: context.translate(AppStrings.generalSettings), onTap: () {}),
         _SettingsData(
+            name: context.translate(AppStrings.language), onTap: () {}),
+        _SettingsData(
             name: context.translate(AppStrings.lpoSettings), onTap: () {}),
         _SettingsData(
             name: context.translate(AppStrings.salesSettings), onTap: () {}),
@@ -23,7 +25,7 @@ class SettingsData {
         _SettingsData(
             name: context.translate(AppStrings.appFeatures), onTap: () {}),
         _SettingsData(
-            name: AppStrings.logout,
+            name: context.translate(AppStrings.logout),
             onTap: () async {
               final prefs = await SharedPreferences.getInstance();
               await prefs.clear().whenComplete(

@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_text_theme.dart';
 import 'package:easy_vat_v2/app/features/main/presentation/widgets/category_item_card.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class QuickItemWidget extends StatelessWidget {
             ),
             child: _CategoryMenu(
               dataList: HomeCategoryData.quickItemsData(context),
-              label: AppStrings.quickItems,
+              label: context.translate(AppStrings.quickItems),
             ),
           ),
         ),

@@ -153,6 +153,7 @@
     "purchaseMode": "وضع الشراء",
     "purchaseAccount": "حساب الشراء",
     "selectLanguage" : "اختيار اللغة",
-      "logout": "تسجيل الخروج"
+      "logout": "تسجيل الخروج",
+      "language":"لغة "
   }
   

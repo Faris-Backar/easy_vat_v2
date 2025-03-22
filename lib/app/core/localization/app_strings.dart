@@ -157,4 +157,5 @@ class AppStrings {
   static const String purchaseAccount = "purchaseAccount";
   static const String selectLanguage = "selectLanguage";
   static const String logout = "logout";
+  static const String language = "language";
 }

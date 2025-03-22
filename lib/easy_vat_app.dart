@@ -23,7 +23,7 @@ class EasyVatApp extends StatelessWidget {
         return Consumer(
           builder: (context, ref, child) {
             final themeMode = ref.watch(themeNotifierProvider);
-            final currentLocale = ref.watch(localeProvider); // Watch locale
+            final currentLocale = ref.watch(localeProvider);
 
             return MaterialApp.router(
               debugShowCheckedModeBanner: false,
@@ -60,7 +60,6 @@ class EasyVatApp extends StatelessWidget {
     );
   }
 
-  // Method to set text direction based on language code
   TextDirection _getTextDirection(Locale locale) {
     if (locale.languageCode == 'ar') {
       return TextDirection.rtl; // For Arabic

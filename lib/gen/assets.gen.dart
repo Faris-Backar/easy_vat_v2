@@ -12,6 +12,9 @@ import 'package:flutter/widgets.dart';
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/arrow_back.svg
+  String get arrowBack => 'assets/icons/arrow_back.svg';
+
   /// File path: assets/icons/arrow_forward.svg
   String get arrowForward => 'assets/icons/arrow_forward.svg';
 
@@ -173,6 +176,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<String> get values => [
+    arrowBack,
     arrowForward,
     bank,
     barcode,
@@ -241,14 +245,14 @@ class $AssetsImagesGen {
 class $AssetsLocaleGen {
   const $AssetsLocaleGen();
 
-  /// File path: assets/locale/intl_arb.json
-  String get intlArb => 'assets/locale/intl_arb.json';
+  /// File path: assets/locale/intl_ar.json
+  String get intlAr => 'assets/locale/intl_ar.json';
 
   /// File path: assets/locale/intl_en.json
   String get intlEn => 'assets/locale/intl_en.json';
 
   /// List of all assets
-  List<String> get values => [intlArb, intlEn];
+  List<String> get values => [intlAr, intlEn];
 }
 
 class $AssetsIconsDarkGen {

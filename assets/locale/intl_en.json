@@ -154,6 +154,7 @@
     "purchaseMode": "Purchase Mode",
     "purchaseAccount": "Purchase Account",
     "selectLanguage":"Select Language",
-      "logout": "Logout"
+      "logout": "Logout",
+      "language":"Language"
   }
   

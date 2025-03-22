@@ -44,7 +44,7 @@ class MainScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: _buildNavItem(context,
-                          label: AppStrings.dashboard,
+                          label: context.translate(AppStrings.dashboard),
                           icon: Assets.icons.dashboard,
                           index: 0,
                           tabsRouter: tabsRouter,
@@ -53,7 +53,7 @@ class MainScreen extends StatelessWidget {
                     ),
                     Expanded(
                       child: _buildNavItem(context,
-                          label: AppStrings.daybook,
+                          label: context.translate(AppStrings.daybook),
                           icon: Assets.icons.book,
                           index: 1,
                           tabsRouter: tabsRouter,
@@ -63,7 +63,7 @@ class MainScreen extends StatelessWidget {
                     const SizedBox(width: 40),
                     Expanded(
                       child: _buildNavItem(context,
-                          label: AppStrings.report,
+                          label: context.translate(AppStrings.report),
                           icon: Assets.icons.report,
                           index: 3,
                           tabsRouter: tabsRouter,
@@ -72,7 +72,7 @@ class MainScreen extends StatelessWidget {
                     ),
                     Expanded(
                       child: _buildNavItem(context,
-                          label: AppStrings.settings,
+                          label: context.translate(AppStrings.settings),
                           icon: Assets.icons.settings,
                           index: 4,
                           tabsRouter: tabsRouter,
