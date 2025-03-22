@@ -188,7 +188,7 @@ class SettingsListWidget extends StatelessWidget {
             SvgIcon(
                 icon:
                     isRtl ? Assets.icons.arrowBack : Assets.icons.arrowForward,
-                color: context.colorScheme.onPrimary)
+                color: context.defaultTextColor)
           ],
         ),
       ),
