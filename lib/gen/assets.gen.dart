@@ -238,6 +238,19 @@ class $AssetsImagesGen {
   List<AssetGenImage> get values => [logo];
 }
 
+class $AssetsLocaleGen {
+  const $AssetsLocaleGen();
+
+  /// File path: assets/locale/intl_arb.json
+  String get intlArb => 'assets/locale/intl_arb.json';
+
+  /// File path: assets/locale/intl_en.json
+  String get intlEn => 'assets/locale/intl_en.json';
+
+  /// List of all assets
+  List<String> get values => [intlArb, intlEn];
+}
+
 class $AssetsIconsDarkGen {
   const $AssetsIconsDarkGen();
 
@@ -391,6 +404,7 @@ class Assets {
 
   static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsLocaleGen locale = $AssetsLocaleGen();
 }
 
 class AssetGenImage {

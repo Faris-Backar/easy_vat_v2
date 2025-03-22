@@ -1,4 +1,4 @@
-import 'package:easy_vat_v2/app/core/app_strings.dart';
+import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';

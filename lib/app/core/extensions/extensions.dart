@@ -1,3 +1,4 @@
+import 'package:easy_vat_v2/app/core/localization/app_localization.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:flutter/material.dart';
 
@@ -25,4 +26,10 @@ extension DefaultScreenPadding on BuildContext {
         horizontal: 16.0,
         vertical: 8.0,
       );
+}
+
+extension LocalizationExtension on BuildContext {
+  String translate(String key) {
+    return AppLocalizations.of(this).translate(key);
+  }
 }

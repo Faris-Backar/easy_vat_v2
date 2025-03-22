@@ -1,4 +1,4 @@
-import 'package:easy_vat_v2/app/core/app_strings.dart';
+import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:flutter/material.dart';

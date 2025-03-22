@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:easy_vat_v2/app/core/app_strings.dart';
+import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/features/auth/presentation/providers/pin_login/pin_login_notifier.dart';
@@ -33,7 +33,7 @@ class _PinScreenState extends State<PinScreen> {
         child: Column(
           children: [
             Text(
-              AppStrings.enterYouEmployeeCode,
+              context.translate(AppStrings.enterYouEmployeeCode),
               style: context.textTheme.displaySmall
                   ?.copyWith(fontSize: 22.sp, fontWeight: FontWeight.w700),
             ),
@@ -103,7 +103,8 @@ class _PinScreenState extends State<PinScreen> {
           ref.listen<PinLoginState>(pinLoginProvider, (previous, next) {
             next.mapOrNull(
               success: (loginData) {
-                Fluttertoast.showToast(msg: AppStrings.loginSuccess);
+                Fluttertoast.showToast(
+                    msg: context.translate(AppStrings.loginSuccess));
                 context.router.pushAndPopUntil(
                   const MainRoute(),
                   predicate: (_) => false,
@@ -136,7 +137,7 @@ class _PinScreenState extends State<PinScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    AppStrings.continueKey,
+                    context.translate(AppStrings.continueKey),
                     style: context.textTheme.bodyMedium?.copyWith(
                         fontWeight: FontWeight.w600, color: Colors.white),
                   ),

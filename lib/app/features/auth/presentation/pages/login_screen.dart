@@ -39,7 +39,6 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: SingleChildScrollView(
-            // Makes the screen scrollable when the keyboard is up
             child: Form(
               key: _formKey,
               child: Column(
@@ -57,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 32.h,
                   ),
                   Text(
-                    AppStrings.loginToEasyVat,
+                    context.translate(AppStrings.loginToEasyVat),
                     style: context.textTheme.displaySmall?.copyWith(
                         fontSize: 28.sp, fontWeight: FontWeight.w700),
                   ),
@@ -65,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 16.h,
                   ),
                   Text(
-                    AppStrings.logicnSubtitle,
+                    context.translate(AppStrings.logicnSubtitle),
                     style: context.textTheme.bodyMedium
                         ?.copyWith(fontWeight: FontWeight.w400),
                   ),
@@ -106,9 +105,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     builder:
                         (BuildContext context, bool isVisible, Widget? child) {
                       return CustomTextField(
-                        label: AppStrings.password,
+                        label: context.translate(AppStrings.password),
                         controller: _passwordController,
-                        hint: AppStrings.password,
+                        hint: context.translate(AppStrings.password),
                         textInputAction: TextInputAction.done,
                         validator: FormUtils.passWordValidator,
                         fillColor: context.colorScheme.surface,
@@ -163,7 +162,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ref.listen<LoginState>(loginProvider, (previous, next) {
                 next.mapOrNull(
                   success: (loginDate) {
-                    Fluttertoast.showToast(msg: AppStrings.loginSuccess);
+                    Fluttertoast.showToast(
+                        msg: context.translate(AppStrings.loginSuccess));
                     context.router.pushNamed(AppRouter.pin);
                   },
                   failed: (error) {
@@ -194,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        AppStrings.continueKey,
+                        context.translate(AppStrings.continueKey),
                         style: context.textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600, color: Colors.white),
                       ),

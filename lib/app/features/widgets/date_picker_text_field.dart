@@ -1,4 +1,4 @@
-import 'package:easy_vat_v2/app/core/app_strings.dart';
+import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/date_format_utils.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';

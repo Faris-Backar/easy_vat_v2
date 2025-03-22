@@ -16,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import 'package:easy_vat_v2/app/core/app_strings.dart';
+import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/filter_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 

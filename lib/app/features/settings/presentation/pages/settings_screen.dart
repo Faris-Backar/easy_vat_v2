@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/features/settings/data/settings_data.dart';
+import 'package:easy_vat_v2/app/features/settings/presentation/notifiers/locale_notifiers.dart';
 import 'package:easy_vat_v2/app/features/settings/presentation/notifiers/theme_notifier.dart';
 import 'package:flutter/material.dart';
-
-import 'package:easy_vat_v2/app/core/app_strings.dart';
+import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,14 +39,27 @@ class SettingsScreen extends StatelessWidget {
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: ListView.separated(
-            itemCount: SettingsData().settingsData.length,
+            itemCount: SettingsData().settingsData.length +
+                1, // Added 1 for language option
             separatorBuilder: (context, index) => SizedBox(
               height: 12,
             ),
-            itemBuilder: (context, index) => SettingsListWidget(
-              name: SettingsData().settingsData[index].name,
-              onTap: SettingsData().settingsData[index].onTap,
-            ),
+            itemBuilder: (context, index) {
+              if (index == SettingsData().settingsData.length) {
+                return SettingsListWidget(
+                  name: 'Language', // Language option
+                  onTap: () {
+                    // Open Bottom Sheet for language selection
+                    _showLanguageBottomSheet(context);
+                  },
+                );
+              } else {
+                return SettingsListWidget(
+                  name: SettingsData().settingsData[index].name,
+                  onTap: SettingsData().settingsData[index].onTap,
+                );
+              }
+            },
           )),
     );
   }
@@ -62,6 +75,40 @@ class SettingsScreen extends StatelessWidget {
     } else {
       return Icon(Icons.dark_mode_rounded);
     }
+  }
+
+  // Show Bottom Modal Sheet for Language Selection
+  void _showLanguageBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return Consumer(
+          builder: (context, ref, child) {
+            final selectedLanguage = ref.watch(localeProvider);
+            return ListView(
+              children: [
+                ListTile(
+                  title: Text('English'),
+                  onTap: () {
+                    ref.read(localeProvider.notifier).setLocale('en');
+                    Navigator.pop(context);
+                  },
+                  selected: selectedLanguage.languageCode == 'en',
+                ),
+                ListTile(
+                  title: Text('Arabic'),
+                  onTap: () {
+                    ref.read(localeProvider.notifier).setLocale('ar');
+                    context.router.popForced();
+                  },
+                  selected: selectedLanguage.languageCode == 'ar',
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
   }
 }
 

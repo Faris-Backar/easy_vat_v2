@@ -2,7 +2,7 @@ import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
 import 'package:flutter/material.dart';
 
-import 'package:easy_vat_v2/app/core/app_strings.dart';
+import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 
 class ItemDetailsCard extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:easy_vat_v2/app/core/app_strings.dart';
+import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 
 class SettingsData {
   final settingsData = [

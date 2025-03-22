@@ -14,7 +14,7 @@ import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:easy_vat_v2/app/core/app_strings.dart';
+import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_address_info.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_info_tab_content.dart';

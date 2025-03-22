@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:easy_vat_v2/app/core/app_strings.dart';
+import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/features/main/data/home_category_data.dart';
 import 'package:easy_vat_v2/app/features/main/presentation/widgets/home_category_menu.dart';
