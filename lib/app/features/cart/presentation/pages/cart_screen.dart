@@ -35,7 +35,7 @@ class _CartScreenState extends ConsumerState<CartScreen> {
   Widget _buildEmptyState() {
     return Center(
       child: Text(
-        AppStrings.addNewItems,
+        context.translate(AppStrings.addNewItems),
         style: context.textTheme.bodyMedium?.copyWith(
           fontWeight: FontWeight.w600,
           color: context.colorScheme.outline,

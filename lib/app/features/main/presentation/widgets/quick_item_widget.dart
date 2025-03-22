@@ -27,7 +27,7 @@ class QuickItemWidget extends StatelessWidget {
               horizontal: 16.0,
             ),
             child: _CategoryMenu(
-              dataList: HomeCategoryData.quickItemsData,
+              dataList: HomeCategoryData.quickItemsData(context),
               label: AppStrings.quickItems,
             ),
           ),

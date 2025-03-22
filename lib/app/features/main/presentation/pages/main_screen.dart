@@ -24,63 +24,66 @@ class MainScreen extends StatelessWidget {
         SettingsRoute(),
       ],
       bottomNavigationBuilder: (context, tabsRouter) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Divider(
-              height: 0,
-            ),
-            BottomAppBar(
-              shape: const CircularNotchedRectangle(),
-              notchMargin: 8.0,
-              height: 80,
-              shadowColor: Colors.black.withValues(alpha: 0.2),
-              color: context.colorScheme.surfaceBright,
-              elevation: 5.0,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Expanded(
-                    child: _buildNavItem(context,
-                        label: AppStrings.dashboard,
-                        icon: Assets.icons.dashboard,
-                        index: 0,
-                        tabsRouter: tabsRouter,
-                        isSelected: tabsRouter.activeIndex == 0,
-                        selectedIcon: Assets.icons.dashboard),
-                  ),
-                  Expanded(
-                    child: _buildNavItem(context,
-                        label: AppStrings.daybook,
-                        icon: Assets.icons.book,
-                        index: 1,
-                        tabsRouter: tabsRouter,
-                        isSelected: tabsRouter.activeIndex == 1,
-                        selectedIcon: Assets.icons.book),
-                  ),
-                  const SizedBox(width: 40),
-                  Expanded(
-                    child: _buildNavItem(context,
-                        label: AppStrings.report,
-                        icon: Assets.icons.report,
-                        index: 3,
-                        tabsRouter: tabsRouter,
-                        isSelected: tabsRouter.activeIndex == 3,
-                        selectedIcon: Assets.icons.report),
-                  ),
-                  Expanded(
-                    child: _buildNavItem(context,
-                        label: AppStrings.settings,
-                        icon: Assets.icons.settings,
-                        index: 4,
-                        tabsRouter: tabsRouter,
-                        isSelected: tabsRouter.activeIndex == 4,
-                        selectedIcon: Assets.icons.settingsSelected),
-                  ),
-                ],
+        return Directionality(
+          textDirection: TextDirection.ltr,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Divider(
+                height: 0,
               ),
-            ),
-          ],
+              BottomAppBar(
+                shape: const CircularNotchedRectangle(),
+                notchMargin: 8.0,
+                height: 80,
+                shadowColor: Colors.black.withValues(alpha: 0.2),
+                color: context.colorScheme.surfaceBright,
+                elevation: 5.0,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Expanded(
+                      child: _buildNavItem(context,
+                          label: AppStrings.dashboard,
+                          icon: Assets.icons.dashboard,
+                          index: 0,
+                          tabsRouter: tabsRouter,
+                          isSelected: tabsRouter.activeIndex == 0,
+                          selectedIcon: Assets.icons.dashboard),
+                    ),
+                    Expanded(
+                      child: _buildNavItem(context,
+                          label: AppStrings.daybook,
+                          icon: Assets.icons.book,
+                          index: 1,
+                          tabsRouter: tabsRouter,
+                          isSelected: tabsRouter.activeIndex == 1,
+                          selectedIcon: Assets.icons.book),
+                    ),
+                    const SizedBox(width: 40),
+                    Expanded(
+                      child: _buildNavItem(context,
+                          label: AppStrings.report,
+                          icon: Assets.icons.report,
+                          index: 3,
+                          tabsRouter: tabsRouter,
+                          isSelected: tabsRouter.activeIndex == 3,
+                          selectedIcon: Assets.icons.report),
+                    ),
+                    Expanded(
+                      child: _buildNavItem(context,
+                          label: AppStrings.settings,
+                          icon: Assets.icons.settings,
+                          index: 4,
+                          tabsRouter: tabsRouter,
+                          isSelected: tabsRouter.activeIndex == 4,
+                          selectedIcon: Assets.icons.settingsSelected),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         );
       },
       floatingActionButtonBuilder: (context, tabsRouter) => GestureDetector(

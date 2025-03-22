@@ -151,6 +151,8 @@
     "loginSuccess": "تم تسجيل الدخول بنجاح",
     "enterYouEmployeeCode": "أدخل رمز الموظف الخاص بك",
     "purchaseMode": "وضع الشراء",
-    "purchaseAccount": "حساب الشراء"
+    "purchaseAccount": "حساب الشراء",
+    "selectLanguage" : "اختيار اللغة",
+      "logout": "تسجيل الخروج"
   }
   

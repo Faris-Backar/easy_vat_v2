@@ -152,6 +152,8 @@
     "loginSuccess": "Login Success",
     "enterYouEmployeeCode": "Enter your employee code",
     "purchaseMode": "Purchase Mode",
-    "purchaseAccount": "Purchase Account"
+    "purchaseAccount": "Purchase Account",
+    "selectLanguage":"Select Language",
+      "logout": "Logout"
   }
   

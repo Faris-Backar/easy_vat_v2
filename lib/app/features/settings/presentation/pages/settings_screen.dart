@@ -39,24 +39,23 @@ class SettingsScreen extends StatelessWidget {
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: ListView.separated(
-            itemCount: SettingsData().settingsData.length +
+            itemCount: SettingsData().settingsData(context).length +
                 1, // Added 1 for language option
             separatorBuilder: (context, index) => SizedBox(
               height: 12,
             ),
             itemBuilder: (context, index) {
-              if (index == SettingsData().settingsData.length) {
+              if (index == SettingsData().settingsData(context).length) {
                 return SettingsListWidget(
-                  name: 'Language', // Language option
+                  name: 'Language',
                   onTap: () {
-                    // Open Bottom Sheet for language selection
                     _showLanguageBottomSheet(context);
                   },
                 );
               } else {
                 return SettingsListWidget(
-                  name: SettingsData().settingsData[index].name,
-                  onTap: SettingsData().settingsData[index].onTap,
+                  name: SettingsData().settingsData(context)[index].name,
+                  onTap: SettingsData().settingsData(context)[index].onTap,
                 );
               }
             },
@@ -77,33 +76,87 @@ class SettingsScreen extends StatelessWidget {
     }
   }
 
-  // Show Bottom Modal Sheet for Language Selection
   void _showLanguageBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
+      backgroundColor: Colors.transparent,
       builder: (context) {
         return Consumer(
           builder: (context, ref, child) {
             final selectedLanguage = ref.watch(localeProvider);
-            return ListView(
-              children: [
-                ListTile(
-                  title: Text('English'),
-                  onTap: () {
-                    ref.read(localeProvider.notifier).setLocale('en');
-                    Navigator.pop(context);
-                  },
-                  selected: selectedLanguage.languageCode == 'en',
+            return ClipRRect(
+              borderRadius: const BorderRadius.only(
+                topLeft: Radius.circular(5.0),
+                topRight: Radius.circular(5.0),
+              ),
+              child: Container(
+                color: context.colorScheme.surface,
+                padding: const EdgeInsets.all(20.0),
+                child: ListView(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 16.0),
+                      child: Text(context.translate(AppStrings.selectLanguage),
+                          style: context.textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.language,
+                          color: selectedLanguage.languageCode == 'en'
+                              ? context.colorScheme.primary
+                              : Colors.grey,
+                        ),
+                        title: Text(
+                          'English',
+                          style: context.textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: selectedLanguage.languageCode == 'en'
+                                ? context.colorScheme.primary
+                                : Colors.black,
+                          ),
+                        ),
+                        onTap: () {
+                          ref.read(localeProvider.notifier).setLocale('en');
+                          Navigator.pop(context);
+                        },
+                        selected: selectedLanguage.languageCode == 'en',
+                      ),
+                    ),
+                    Directionality(
+                      textDirection: TextDirection.ltr,
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.language,
+                          color: selectedLanguage.languageCode == 'ar'
+                              ? context.colorScheme.primary
+                              : Colors.grey,
+                        ),
+                        title: Text(
+                          'العربية',
+                          style: context.textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: selectedLanguage.languageCode == 'ar'
+                                ? context.colorScheme.primary
+                                : Colors.black,
+                          ),
+                        ),
+                        onTap: () {
+                          ref.read(localeProvider.notifier).setLocale('ar');
+                          context.router.popForced();
+                        },
+                        selected: selectedLanguage.languageCode == 'ar',
+                      ),
+                    ),
+                    const Divider(),
+                  ],
                 ),
-                ListTile(
-                  title: Text('Arabic'),
-                  onTap: () {
-                    ref.read(localeProvider.notifier).setLocale('ar');
-                    context.router.popForced();
-                  },
-                  selected: selectedLanguage.languageCode == 'ar',
-                ),
-              ],
+              ),
             );
           },
         );
