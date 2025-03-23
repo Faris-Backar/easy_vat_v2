@@ -158,5 +158,7 @@
   "privacyLoginContent": "بالنقر على 'متابعة'، فإنك تؤكد أنك قد قرأت ووافقت على",
   "privayPolicy": "سياسة الخصوصية",
   "and": "و",
-  "termsAndCondition": "الشروط والأحكام"
+  "termsAndCondition": "الشروط والأحكام",
+  "connectAdmin": "اتصال المسؤول",
+  "whatIsCode": "ما هو رمزي؟"
 }

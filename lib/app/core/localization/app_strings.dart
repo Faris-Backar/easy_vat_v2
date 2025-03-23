@@ -162,4 +162,6 @@ class AppStrings {
   static const String privacyPolicy = "privacyPolicy";
   static const String and = "and";
   static const String termsAndCondition = "termsAndCondition";
+  static const String connectAdmin = "connectAdmin";
+  static const String whatIsMyCode = "What is my code";
 }

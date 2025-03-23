@@ -23,6 +23,8 @@ class _PinScreenState extends State<PinScreen> {
   final _pinController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    bool isRtl = Directionality.of(context) == TextDirection.rtl;
+
     return Scaffold(
       backgroundColor: context.colorScheme.surfaceContainerLowest,
       appBar: AppBar(
@@ -79,13 +81,13 @@ class _PinScreenState extends State<PinScreen> {
             Row(
               children: [
                 Text(
-                  "What is my code? ",
+                  context.translate(AppStrings.whatIsMyCode),
                   style: context.textTheme.bodyMedium?.copyWith(
                       color: context.defaultTextColor.withValues(alpha: 0.5),
                       fontWeight: FontWeight.w600),
                 ),
                 Text(
-                  "Connect Admin",
+                  context.translate(AppStrings.connectAdmin),
                   style: context.textTheme.bodyMedium?.copyWith(
                       color: context.defaultTextColor,
                       fontWeight: FontWeight.w600),
@@ -136,6 +138,11 @@ class _PinScreenState extends State<PinScreen> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  if (isRtl)
+                    Icon(
+                      Icons.arrow_back_rounded,
+                      color: Colors.white,
+                    ),
                   Text(
                     context.translate(AppStrings.continueKey),
                     style: context.textTheme.bodyMedium?.copyWith(
@@ -144,10 +151,11 @@ class _PinScreenState extends State<PinScreen> {
                   SizedBox(
                     width: 10.w,
                   ),
-                  Icon(
-                    Icons.arrow_forward_rounded,
-                    color: Colors.white,
-                  )
+                  if (!isRtl)
+                    Icon(
+                      Icons.arrow_forward_rounded,
+                      color: Colors.white,
+                    )
                 ],
               ),
             ),
