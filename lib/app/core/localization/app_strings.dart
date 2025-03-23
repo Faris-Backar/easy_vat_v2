@@ -158,4 +158,8 @@ class AppStrings {
   static const String selectLanguage = "selectLanguage";
   static const String logout = "logout";
   static const String language = "language";
+  static const String privacyLoginContent = "privacyLoginContent";
+  static const String privacyPolicy = "privacyPolicy";
+  static const String and = "and";
+  static const String termsAndCondition = "termsAndCondition";
 }

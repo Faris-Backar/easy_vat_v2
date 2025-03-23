@@ -154,7 +154,11 @@
     "purchaseMode": "Purchase Mode",
     "purchaseAccount": "Purchase Account",
     "selectLanguage":"Select Language",
-      "logout": "Logout",
-      "language":"Language"
+    "logout": "Logout",
+    "language":"Language",
+    "privacyLoginContent":"By clicking 'Continue,' you confirm that you have read and agree to our",
+    "privayPolicy":"Privay Policy",
+    "and":"and"
+    ,"termsAndCondition":"Terms & Conditions"
   }
   

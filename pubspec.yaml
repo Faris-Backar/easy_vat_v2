@@ -41,6 +41,9 @@ dev_dependencies:
   build_runner: ^2.4.15
   flutter_gen: ^5.9.0
 
+swagger_parser:
+  schema_path: assets/schemas/easy_vat_swagger.json
+  output_directory: lib/api
 
 flutter:
   uses-material-design: true

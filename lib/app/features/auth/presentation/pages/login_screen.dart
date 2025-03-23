@@ -32,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    bool isRtl = Directionality.of(context) == TextDirection.rtl;
     return Scaffold(
       backgroundColor: context.colorScheme.surfaceContainerLowest,
       resizeToAvoidBottomInset: true,
@@ -72,10 +73,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 32.h,
                   ),
                   CustomTextField(
-                    label: AppStrings.username,
+                    label: context.translate(AppStrings.username),
                     controller: _usernameController,
                     fillColor: context.colorScheme.surface,
-                    hint: AppStrings.username,
+                    hint: context.translate(AppStrings.username),
                     validator: FormUtils.userNameValidator,
                     textInputAction: TextInputAction.next,
                     style: context.textTheme.bodyMedium
@@ -193,6 +194,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      if (isRtl)
+                        Icon(
+                          Icons.arrow_back_rounded,
+                          color: Colors.white,
+                        ),
                       Text(
                         context.translate(AppStrings.continueKey),
                         style: context.textTheme.bodyMedium?.copyWith(
@@ -201,10 +207,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         width: 10.w,
                       ),
-                      Icon(
-                        Icons.arrow_forward_rounded,
-                        color: Colors.white,
-                      )
+                      if (!isRtl)
+                        Icon(
+                          Icons.arrow_forward_rounded,
+                          color: Colors.white,
+                        )
                     ],
                   ),
                 ),
@@ -231,35 +238,20 @@ class TermsAndConditionsWidget extends StatelessWidget {
               color: context.defaultTextColor.withValues(alpha: 0.5)),
           children: <TextSpan>[
             TextSpan(
-              text:
-                  'By clicking "Continue," you confirm that you have read and agree to our ',
+              text: context.translate(AppStrings.privacyLoginContent),
             ),
             TextSpan(
-              text: 'Privacy Policy',
-              style: TextStyle(
-                  color: context.colorScheme
-                      .primary), // Make "Privacy Policy" clickable and use the default color with opacity
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  // Handle Privacy Policy click
-                  // print("Privacy Policy clicked");
-                  // Add your navigation code here (e.g., Navigator.push to a new page)
-                },
+              text: context.translate(AppStrings.privacyPolicy),
+              style: TextStyle(color: context.colorScheme.primary),
+              recognizer: TapGestureRecognizer()..onTap = () {},
             ),
             TextSpan(
-              text: ' and ',
+              text: " ${context.translate(AppStrings.and)} ",
             ),
             TextSpan(
-              text: 'Terms & Conditions',
-              style: TextStyle(
-                  color: context.colorScheme
-                      .primary), // Make "Terms & Conditions" clickable and use the default color with opacity
-              recognizer: TapGestureRecognizer()
-                ..onTap = () {
-                  // Handle Terms & Conditions click
-                  // print("Terms & Conditions clicked");
-                  // Add your navigation code here (e.g., Navigator.push to a new page)
-                },
+              text: context.translate(AppStrings.termsAndCondition),
+              style: TextStyle(color: context.colorScheme.primary),
+              recognizer: TapGestureRecognizer()..onTap = () {},
             ),
             TextSpan(
               text: '.',

@@ -17,4 +17,9 @@ class DateFormatUtils {
   static String getDateAndTimeFormate({required DateTime date}) {
     return DateFormat("dd-MM-yyyy hh:mm a").format(date);
   }
+
+  static String serverformatDate(DateTime? date) {
+    if (date == null) return "";
+    return DateFormat("yyyy-MM-ddTHH:mm:ss.SSSZ").format(date);
+  }
 }
