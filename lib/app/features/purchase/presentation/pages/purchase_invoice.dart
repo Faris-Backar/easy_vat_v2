@@ -57,7 +57,7 @@ class _PurchaseInvoiceScreenState extends ConsumerState<PurchaseInvoiceScreen> {
           loaded: (purchaseInvoiceData) {
             if (purchaseInvoiceData.isEmpty == true) {
               return Center(
-                child: Text(AppStrings.noDataIsFound),
+                child: Text(context.translate(AppStrings.noDataIsFound)),
               );
             }
             return ListView.builder(
@@ -106,7 +106,7 @@ class _PurchaseInvoiceScreenState extends ConsumerState<PurchaseInvoiceScreen> {
           error: (message) => Center(
             child: Text(message),
           ),
-          orElse: () => Text(AppStrings.noDataIsFound),
+          orElse: () => Text(context.translate(AppStrings.noDataIsFound)),
         ),
       ),
       bottomNavigationBar: Container(
@@ -121,7 +121,7 @@ class _PurchaseInvoiceScreenState extends ConsumerState<PurchaseInvoiceScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppStrings.netTotal,
+                  context.translate(AppStrings.netTotal),
                   style: context.textTheme.bodyMedium?.copyWith(
                       color: context.defaultTextColor.withValues(alpha: 0.32)),
                 ),
@@ -145,7 +145,7 @@ class _PurchaseInvoiceScreenState extends ConsumerState<PurchaseInvoiceScreen> {
                       color: Colors.white),
                   SizedBox(width: 5.w),
                   Text(
-                    AppStrings.addNew,
+                    context.translate(AppStrings.addNew),
                     style: context.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: Colors.white,

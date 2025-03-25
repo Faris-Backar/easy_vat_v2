@@ -72,7 +72,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
   Widget build(BuildContext context) {
     return AppBar(
       surfaceTintColor: context.colorScheme.onPrimary,
-      title: Text(AppStrings.salesInvoice),
+      title: Text(context.translate(AppStrings.salesInvoice)),
       actions: [
         PopupMenuButton<String>(
           shape: RoundedRectangleBorder(
@@ -85,15 +85,15 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
           itemBuilder: (context) => [
             PopupMenuItem(
               value: AppStrings.print,
-              child: _popupItem(AppStrings.print),
+              child: _popupItem((context.translate(AppStrings.print))),
             ),
             PopupMenuItem(
               value: AppStrings.downloadExcel,
-              child: _popupItem(AppStrings.downloadExcel),
+              child: _popupItem(context.translate(AppStrings.downloadExcel)),
             ),
             PopupMenuItem(
               value: AppStrings.showReport,
-              child: _popupItem(AppStrings.showReport),
+              child: _popupItem(context.translate(AppStrings.showReport)),
             ),
           ],
         ),
@@ -174,7 +174,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppStrings.filters,
+                  context.translate(AppStrings.filters),
                   style: context.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -189,7 +189,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
                     context.router.popForced();
                   },
                   child: Text(
-                    AppStrings.clearAll,
+                    context.translate(AppStrings.clearAll),
                     style: context.textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w500,
                       color: AppUtils.isDarkMode(context)
@@ -207,7 +207,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
               children: [
                 Expanded(
                   child: DatePickerTextField(
-                    label: AppStrings.salesDate,
+                    label: context.translate(AppStrings.salesDate),
                     onDateSelected: (DateTime selectedDate) {
                       selectedSaleDate = selectedDate;
                     },
@@ -222,7 +222,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
                     error: (message) => Text('Error: $message'),
                     loaded: (paymentModes, selectedPaymentMode) {
                       return DropdownField(
-                        label: AppStrings.salesMode,
+                        label: context.translate(AppStrings.salesMode),
                         valueNotifier: paymentMethodNotifier,
                         items: paymentModes
                             .map((mode) => mode.paymentModes)
@@ -253,7 +253,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
                       return DropdownField(
                         height: 38.h,
                         labelAndTextFieldGap: 2,
-                        label: AppStrings.soldBy,
+                        label: context.translate(AppStrings.soldBy),
                         valueNotifier: soldByNotifier,
                         onChanged: (newValue) {
                           soldByNotifier.value = newValue;
@@ -279,7 +279,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
             SizedBox(
               width: double.infinity,
               child: PrimaryButton(
-                label: AppStrings.filter,
+                label: context.translate(AppStrings.filter),
                 onPressed: () {
                   final params = SalesInvoiceFilterParams(
                       clearAllFilter: false,
@@ -330,7 +330,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
                         ? context.colorScheme.onPrimary
                         : null),
               ),
-              hint: AppStrings.search,
+              hint: context.translate(AppStrings.search),
               hintDecoration: context.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
                   color: context.defaultTextColor.withValues(alpha: .32)),

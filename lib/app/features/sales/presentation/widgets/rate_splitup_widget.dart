@@ -26,7 +26,7 @@ class _RateSplitupWidgetState extends ConsumerState<RateSplitupWidget> {
         _buildRateSplitup(
           context,
           content: state.subtotal.toStringAsFixed(2),
-          label: AppStrings.totalBeforeTax,
+          label: context.translate(AppStrings.totalBeforeTax),
         ),
         SizedBox(
           height: 5,
@@ -34,7 +34,7 @@ class _RateSplitupWidgetState extends ConsumerState<RateSplitupWidget> {
         _buildRateSplitup(
           context,
           content: state.totalTax.toStringAsFixed(2),
-          label: AppStrings.totalTax,
+          label: context.translate(AppStrings.totalTax),
         ),
         SizedBox(
           height: 5,
@@ -43,7 +43,7 @@ class _RateSplitupWidgetState extends ConsumerState<RateSplitupWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              AppStrings.discount,
+              context.translate(AppStrings.discount),
               style: context.textTheme.bodySmall?.copyWith(
                 color: context.colorScheme.outline,
                 fontWeight: FontWeight.w500,
@@ -89,7 +89,7 @@ class _RateSplitupWidgetState extends ConsumerState<RateSplitupWidget> {
         ),
         _buildRateSplitup(context,
             content: state.roundOf.toStringAsFixed(2),
-            label: AppStrings.roundOf,
+            label: context.translate(AppStrings.roundOf),
             isDottedDivider: false),
         SizedBox(
           height: 5,
@@ -98,7 +98,7 @@ class _RateSplitupWidgetState extends ConsumerState<RateSplitupWidget> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              AppStrings.totalAmount,
+              context.translate(AppStrings.totalAmount),
               style: context.textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w600,
               ),

@@ -33,27 +33,37 @@ class CustomerDetailsCard extends StatelessWidget {
           _buildHeaderRow(context, customer.ledgerName ?? "-"),
           const SizedBox(height: 10),
           _buildDetailsRow([
-            _buildCustomerDetail(context, AppStrings.outstanding,
-                customer.openingBalance?.toStringAsFixed(2) ?? "-"),
-            _buildCustomerDetail(context, AppStrings.creditLimit,
-                customer.creditLimit?.toStringAsFixed(2) ?? "0.0"),
-            _buildCustomerDetail(context, AppStrings.creditDays,
-                customer.creditDays?.toString() ?? "0"),
             _buildCustomerDetail(
-                context, AppStrings.status, customer.nature ?? "-"),
+                context,
+                context.translate(AppStrings.outstanding),
+                customer.openingBalance?.toStringAsFixed(2) ?? "-"),
+            _buildCustomerDetail(
+                context,
+                context.translate(AppStrings.creditLimit),
+                customer.creditLimit?.toStringAsFixed(2) ?? "0.0"),
+            _buildCustomerDetail(
+                context,
+                context.translate(AppStrings.creditDays),
+                customer.creditDays?.toString() ?? "0"),
+            _buildCustomerDetail(context, context.translate(AppStrings.status),
+                customer.nature ?? "-"),
           ]),
           if (isExpanded) ...[
             const SizedBox(height: 12),
             _buildDetailsRow([
               _buildCustomerDetail(
-                  context, AppStrings.address, customer.billingAddress ?? "-"),
+                  context,
+                  context.translate(AppStrings.address),
+                  customer.billingAddress ?? "-"),
               _buildCustomerDetail(
-                  context, AppStrings.phoneNumber, customer.phone ?? "-"),
+                  context,
+                  context.translate(AppStrings.phoneNumber),
+                  customer.phone ?? "-"),
             ]),
             const SizedBox(height: 12),
             _buildDetailsRow([
-              _buildCustomerDetail(
-                  context, AppStrings.trn, customer.taxRegistrationNo ?? "-"),
+              _buildCustomerDetail(context, context.translate(AppStrings.trn),
+                  customer.taxRegistrationNo ?? "-"),
               const SizedBox.shrink(),
             ]),
           ],

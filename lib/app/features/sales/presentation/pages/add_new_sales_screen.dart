@@ -95,10 +95,10 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
                 height: 16,
               ),
               CustomTextField(
-                label: AppStrings.note,
+                label: context.translate(AppStrings.note),
                 controller: _noteController,
                 maxLines: 5,
-                hint: AppStrings.writeNote,
+                hint: context.translate(AppStrings.writeNote),
               ),
               SizedBox(
                 height: 16,
@@ -127,8 +127,8 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
         );
       }),
       title: Text(widget.isForPurchase
-          ? AppStrings.addNewPurchase
-          : AppStrings.addNewSales),
+          ? context.translate(AppStrings.addNewPurchase)
+          : context.translate(AppStrings.addNewSales)),
       actions: [
         Consumer(builder: (context, ref, child) {
           return IconButton(

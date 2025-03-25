@@ -70,12 +70,12 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                   SizedBox(
                     child: CustomTextField(
                       label: widget.purchaseNoController == null
-                          ? AppStrings.salesNo
-                          : AppStrings.purchaseNo,
+                          ? context.translate(AppStrings.salesNo)
+                          : context.translate(AppStrings.purchaseNo),
                       controller: widget.saleNoController,
                       height: 38.h,
                       labelAndTextfieldGap: 2,
-                      hint: AppStrings.salesNo,
+                      hint: context.translate(AppStrings.salesNo),
                       fillColor: context.surfaceColor,
                       enabled: false,
                     ),
@@ -84,9 +84,9 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                     height: 5,
                   ),
                   CustomTextField(
-                    label: AppStrings.refNo,
+                    label: context.translate(AppStrings.refNo),
                     controller: widget.refNoController,
-                    hint: AppStrings.enterRefNumber,
+                    hint: context.translate(AppStrings.enterRefNumber),
                     labelAndTextfieldGap: 2,
                     height: 38.h,
                   ),
@@ -95,7 +95,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                   ),
                   Consumer(builder: (context, WidgetRef ref, child) {
                     return DatePickerTextField(
-                      label: AppStrings.date,
+                      label: context.translate(AppStrings.date),
                       initialValue: ref.watch(cartProvider).saleDate,
                       onDateSelected: (data) {
                         ref.read(cartProvider.notifier).setSalesDate(data);
@@ -133,8 +133,8 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
 
                   return DropdownField(
                     label: widget.purchaseNoController == null
-                        ? AppStrings.purchaseMode
-                        : AppStrings.salesMode,
+                        ? context.translate(AppStrings.purchaseMode)
+                        : context.translate(AppStrings.salesMode),
                     valueNotifier: widget.salesModeNotifier,
                     items:
                         paymentModes.map((mode) => mode.paymentModes).toList(),
@@ -188,8 +188,8 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                     height: 38.h,
                     labelAndTextFieldGap: 2,
                     label: widget.purchaseNoController != null
-                        ? AppStrings.purchasedBy
-                        : AppStrings.soldBy,
+                        ? context.translate(AppStrings.purchasedBy)
+                        : context.translate(AppStrings.soldBy),
                     valueNotifier: widget.soldByNotifier,
                     onChanged: (newValue) {
                       widget.soldByNotifier.value = newValue;
@@ -258,7 +258,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                 label: (widget
                                             .salesModeNotifier.value?.isEmpty ==
                                         true)
-                                    ? AppStrings.cashAccount
+                                    ? context.translate(AppStrings.cashAccount)
                                     : "${widget.salesModeNotifier.value ?? "Cash"} Account",
                                 valueNotifier: widget.cashAccountNotifier,
                                 backgroundColor: AppUtils.isDarkMode(context)
@@ -313,8 +313,10 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                 height: 38.h,
                                 labelAndTextFieldGap: 2,
                                 label: widget.purchaseNoController != null
-                                    ? AppStrings.purchaseAccount
-                                    : AppStrings.salesAccount,
+                                    ? context
+                                        .translate(AppStrings.purchaseAccount)
+                                    : context
+                                        .translate(AppStrings.salesAccount),
                                 valueNotifier: widget.salesAccountNotifier,
                                 items: ledgerNames,
                                 backgroundColor: AppUtils.isDarkMode(context)
@@ -370,7 +372,9 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      isExpanded ? AppStrings.viewLess : AppStrings.viewMore,
+                      isExpanded
+                          ? context.translate(AppStrings.viewLess)
+                          : context.translate(AppStrings.viewMore),
                       style: context.textTheme.bodySmall?.copyWith(
                           fontSize: 10,
                           fontWeight: FontWeight.w600,

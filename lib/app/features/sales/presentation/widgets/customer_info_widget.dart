@@ -164,7 +164,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                   Expanded(
                     child: SecondaryButton(
                       onPressed: () {},
-                      label: AppStrings.addCustomer,
+                      label: context.translate(AppStrings.addCustomer),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -176,7 +176,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                           ),
                           SizedBox(width: 6.w),
                           Text(
-                            AppStrings.addCustomer,
+                            context.translate(AppStrings.addCustomer),
                             style: context.textTheme.bodyMedium?.copyWith(
                                 fontWeight: FontWeight.w600,
                                 color: AppUtils.isDarkMode(context)
@@ -195,7 +195,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                         valueListenable: _expansionNotifier,
                         builder: (context, int? value, child) {
                           return PrimaryButton(
-                            label: AppStrings.submit,
+                            label: context.translate(AppStrings.submit),
                             bgColor: context.colorScheme.primary,
                             onPressed: value != null
                                 ? () {
@@ -273,8 +273,8 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                     CustomerAddressInfo(
                       address: selectedCustomer?.billingAddress ?? "-",
                       textEditingController: billingAddressController,
-                      hint: AppStrings.address,
-                      label: AppStrings.enterBillingAddress,
+                      hint: context.translate(AppStrings.address),
+                      label: context.translate(AppStrings.enterBillingAddress),
                       onSubmitted: () async {
                         if (selectedCustomer != null) {
                           final updatedCustomer = selectedCustomer.copyWith(
@@ -285,15 +285,16 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                           context.router.popForced();
                         } else {
                           Fluttertoast.showToast(
-                              msg: AppStrings.pleaseSelectACustomer);
+                              msg: context
+                                  .translate(AppStrings.pleaseSelectACustomer));
                         }
                       },
                     ),
                     CustomerAddressInfo(
                       address: selectedCustomer?.shippingAddress ?? "-",
                       textEditingController: shippingAddressController,
-                      hint: AppStrings.address,
-                      label: AppStrings.enterShippingAddress,
+                      hint: context.translate(AppStrings.address),
+                      label: context.translate(AppStrings.enterShippingAddress),
                       onSubmitted: () {
                         if (selectedCustomer != null) {
                           final updatedCustomer = selectedCustomer.copyWith(
@@ -304,7 +305,8 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                           context.router.popForced();
                         } else {
                           Fluttertoast.showToast(
-                              msg: AppStrings.pleaseSelectACustomer);
+                              msg: context
+                                  .translate(AppStrings.pleaseSelectACustomer));
                         }
                       },
                     ),
@@ -342,18 +344,18 @@ Widget _buildTabBar(BuildContext context) {
     tabAlignment: TabAlignment.fill,
     indicatorSize: TabBarIndicatorSize.label,
     labelPadding: EdgeInsets.zero,
-    tabs: const [
+    tabs: [
       Padding(
         padding: EdgeInsets.all(4.0),
-        child: Text(AppStrings.info),
+        child: Text(context.translate(AppStrings.info)),
       ),
       Padding(
         padding: EdgeInsets.all(4.0),
-        child: Text(AppStrings.billing),
+        child: Text(context.translate(AppStrings.billing)),
       ),
       Padding(
         padding: EdgeInsets.all(4.0),
-        child: Text(AppStrings.shipping),
+        child: Text(context.translate(AppStrings.shipping)),
       )
     ],
   );

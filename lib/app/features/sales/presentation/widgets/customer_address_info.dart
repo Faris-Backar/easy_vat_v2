@@ -28,7 +28,7 @@ class CustomerAddressInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          AppStrings.address,
+          context.translate(AppStrings.address),
           style: context.textTheme.bodyMedium?.copyWith(
             fontWeight: FontWeight.w500,
             color: context.colorScheme.outline,
@@ -63,9 +63,10 @@ class CustomerAddressInfo extends StatelessWidget {
                         child: Column(
                           children: [
                             CustomTextField(
-                              label: AppStrings.enterShippingAddress,
+                              label: context
+                                  .translate(AppStrings.enterShippingAddress),
                               controller: textEditingController,
-                              hint: AppStrings.address,
+                              hint: context.translate(AppStrings.address),
                               maxLines: 4,
                               fillColor: AppUtils.isDarkMode(context)
                                   ? context.surfaceColor
@@ -85,7 +86,7 @@ class CustomerAddressInfo extends StatelessWidget {
                               height: 40.h,
                               width: double.infinity,
                               child: PrimaryButton(
-                                label: AppStrings.submit,
+                                label: context.translate(AppStrings.submit),
                                 onPressed: onSubmitted,
                               ),
                             )

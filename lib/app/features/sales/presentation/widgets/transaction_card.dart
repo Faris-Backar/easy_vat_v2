@@ -40,8 +40,12 @@ class TransactionCard extends StatelessWidget {
       children: [
         _buildCell(
             context,
-            isForPurchase ? AppStrings.purchaseNo : AppStrings.saleNo,
-            isForPurchase ? AppStrings.purchaseDate : AppStrings.salesDate,
+            isForPurchase
+                ? context.translate(AppStrings.purchaseNo)
+                : context.translate(AppStrings.saleNo),
+            isForPurchase
+                ? context.translate(AppStrings.purchaseDate)
+                : context.translate(AppStrings.salesDate),
             context.colorScheme.tertiary,
             context.colorScheme.tertiary,
             isBold: true,
@@ -53,13 +57,15 @@ class TransactionCard extends StatelessWidget {
           greyColor,
           greyColor,
         ),
-        _buildCell(context, AppStrings.customer, customerName, darkGreyColor,
-            greyColor),
-        _buildThreeColumnRow(
-            context, AppStrings.refNo, refNo, AppStrings.netTotal, ""),
+        _buildCell(context, context.translate(AppStrings.customer),
+            customerName, darkGreyColor, greyColor),
+        _buildThreeColumnRow(context, context.translate(AppStrings.refNo),
+            refNo, context.translate(AppStrings.netTotal), ""),
         _buildThreeColumnRow(
             context,
-            isForPurchase ? AppStrings.purchasedBy : AppStrings.soldBy,
+            isForPurchase
+                ? context.translate(AppStrings.purchasedBy)
+                : context.translate(AppStrings.soldBy),
             soldBy,
             "",
             "\$ $netTotal"),

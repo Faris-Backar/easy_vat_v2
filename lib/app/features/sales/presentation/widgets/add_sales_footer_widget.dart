@@ -91,14 +91,15 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
 
                     return state.maybeWhen(
                       orElse: () => PrimaryButton(
-                        label: AppStrings.save,
+                        label: context.translate(AppStrings.save),
                         isLoading: false,
                         onPressed: ref.watch(cartProvider).isViewOnly == false
                             ? () {}
                             : () {
                                 if (widget.isForPurchase) {
                                   Fluttertoast.showToast(
-                                      msg: AppStrings.somethingWentWrong);
+                                      msg: context.translate(
+                                          AppStrings.somethingWentWrong));
                                 } else {
                                   final cartPrvd =
                                       ref.read(cartProvider.notifier);
@@ -113,8 +114,8 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                                       "credit") {
                                     if (cartPrvd.selectedCustomer != null) {
                                       Fluttertoast.showToast(
-                                          msg:
-                                              AppStrings.pleaseSelectACustomer);
+                                          msg: context.translate(AppStrings
+                                              .pleaseSelectACustomer));
                                     } else {
                                       ref
                                           .read(createSalesNotifierProvider
@@ -131,7 +132,7 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                               },
                       ),
                       loading: () => PrimaryButton(
-                        label: AppStrings.save,
+                        label: context.translate(AppStrings.save),
                         isLoading: true,
                         onPressed: () {},
                       ),
@@ -153,7 +154,7 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
           return _buildActionButton(
             context,
             Icons.add_circle_outline_rounded,
-            AppStrings.addItem,
+            context.translate(AppStrings.addItem),
             () {
               showItemsBottomSheet(context);
             },
@@ -161,8 +162,8 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
         })),
         SizedBox(width: 8.w),
         Expanded(
-          child: _buildActionButton(
-              context, Assets.icons.barcode, AppStrings.scanBarCode, () {},
+          child: _buildActionButton(context, Assets.icons.barcode,
+              context.translate(AppStrings.scanBarCode), () {},
               isSvg: true),
         ),
       ],

@@ -31,7 +31,9 @@ class CustomerInfoTabContent extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              isPurchase ? AppStrings.supplier : AppStrings.customer,
+              isPurchase
+                  ? context.translate(AppStrings.supplier)
+                  : context.translate(AppStrings.customer),
               style: context.textTheme.bodySmall?.copyWith(
                 fontWeight: FontWeight.w500,
                 color: context.defaultTextColor.withValues(alpha: 0.50),
@@ -45,7 +47,9 @@ class CustomerInfoTabContent extends StatelessWidget {
                       ? CustomColors.activeGreenColor(context)
                       : CustomColors.inActiveRedColor(context)),
               child: Text(
-                isActive ? AppStrings.active : AppStrings.overdue,
+                isActive
+                    ? context.translate(AppStrings.active)
+                    : context.translate(AppStrings.overdue),
                 style: context.textTheme.bodySmall?.copyWith(
                   fontSize: 10.0,
                   fontWeight: FontWeight.w500,
@@ -67,22 +71,22 @@ class CustomerInfoTabContent extends StatelessWidget {
         _buildTransactionsHeaders(
           context,
           content: outstandingAmount,
-          label: AppStrings.outstanding,
+          label: context.translate(AppStrings.outstanding),
         ),
         _buildTransactionsHeaders(
           context,
           content: creditLimit,
-          label: AppStrings.creditLimit,
+          label: context.translate(AppStrings.creditLimit),
         ),
         _buildTransactionsHeaders(
           context,
           content: creditDays,
-          label: AppStrings.creditDays,
+          label: context.translate(AppStrings.creditDays),
         ),
         _buildTransactionsHeaders(
           context,
           content: trn,
-          label: AppStrings.trn,
+          label: context.translate(AppStrings.trn),
         ),
       ],
     );

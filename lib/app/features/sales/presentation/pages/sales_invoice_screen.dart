@@ -66,7 +66,7 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
           success: (salesInvoiceData) {
             if (salesInvoiceData.isEmpty == true) {
               return Center(
-                child: Text(AppStrings.noDataIsFound),
+                child: Text(context.translate(AppStrings.noDataIsFound)),
               );
             }
             return ListView.builder(
@@ -76,7 +76,7 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
 
                 if (salesInvoiceData.isEmpty == true) {
                   return Center(
-                    child: Text(AppStrings.noDataIsFound),
+                    child: Text(context.translate(AppStrings.noDataIsFound)),
                   );
                 }
                 return Padding(
@@ -119,7 +119,7 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
           failure: (message) => Center(
             child: Text(message),
           ),
-          orElse: () => Text(AppStrings.noDataIsFound),
+          orElse: () => Text(context.translate(AppStrings.noDataIsFound)),
         ),
       ),
       bottomNavigationBar: Container(
@@ -157,7 +157,7 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                       color: Colors.white),
                   SizedBox(width: 5.w),
                   Text(
-                    AppStrings.addNew,
+                    context.translate(AppStrings.addNew),
                     style: context.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
