@@ -163,13 +163,13 @@ class HomeCategoryData {
             label: context.translate(AppStrings.salesQuatation),
             icon: Assets.icons.sales,
             darkIcon: Assets.icons.dark.salesOrdersDark,
-            pagePath: ""),
+            pagePath: AppRouter.salesQuatation),
         HomeDataModel(
             category: AppStrings.inventoryVoucher,
             label: context.translate(AppStrings.salesOrder),
             icon: Assets.icons.salesOrders,
             darkIcon: Assets.icons.dark.salesOrdersDark,
-            pagePath: ""),
+            pagePath: AppRouter.salesOrder),
         HomeDataModel(
             category: AppStrings.inventoryVoucher,
             label: context.translate(AppStrings.purchaseOrder),

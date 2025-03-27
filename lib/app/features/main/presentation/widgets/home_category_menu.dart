@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_text_theme.dart';
 import 'package:easy_vat_v2/app/features/main/data/home_category_data.dart';
 import 'package:easy_vat_v2/app/features/main/presentation/widgets/category_item_card.dart';
@@ -32,8 +33,9 @@ class HomeCategoryMenu extends StatelessWidget {
             mainAxisSpacing: 15,
             crossAxisSpacing: 15,
           ),
-          itemBuilder: (_, index) =>
-              CategoryItemCard(homeData: dataList[index]),
+          itemBuilder: (_, index) => InkWell(
+              onTap: () => context.router.pushNamed(dataList[index].pagePath),
+              child: CategoryItemCard(homeData: dataList[index])),
         ),
         if (isDividerRequired) SizedBox(height: 20.h),
         if (isDividerRequired) const Divider(),
