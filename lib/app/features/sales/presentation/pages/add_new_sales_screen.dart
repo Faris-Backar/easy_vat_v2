@@ -19,10 +19,8 @@ import 'package:easy_vat_v2/gen/assets.gen.dart';
 @RoutePage()
 class AddNewSalesScreen extends ConsumerStatefulWidget {
   final bool isForPurchase;
-  const AddNewSalesScreen({
-    super.key,
-    this.isForPurchase = false,
-  });
+  final String? title;
+  const AddNewSalesScreen({super.key, this.isForPurchase = false, this.title});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -126,9 +124,10 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
           icon: Icon(Icons.adaptive.arrow_back),
         );
       }),
-      title: Text(widget.isForPurchase
-          ? context.translate(AppStrings.addNewPurchase)
-          : context.translate(AppStrings.addNewSales)),
+      title: Text(widget.title ??
+          (widget.isForPurchase
+              ? context.translate(AppStrings.addNewPurchase)
+              : context.translate(AppStrings.addNewSales))),
       actions: [
         Consumer(builder: (context, ref, child) {
           return IconButton(

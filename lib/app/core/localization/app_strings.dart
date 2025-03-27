@@ -78,6 +78,7 @@ class AppStrings {
   static const String filter = "filter";
   static const String addNewSales = "addNewSales";
   static const String addNewPurchase = "addNewPurchase";
+  static const String addNewPurchaseReturn = "addNewPurchaseReturn";
   static const String addItem = "addItem";
   static const String scan = "scan";
   static const String itemName = "itemName";

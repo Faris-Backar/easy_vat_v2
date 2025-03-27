@@ -32,6 +32,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: PurchaseInvoiceRoute.page, path: purchaseInvoice),
         AutoRoute(page: PinRoute.page, path: pin),
         AutoRoute(page: SalesReturnRoute.page, path: salesReturn),
+        AutoRoute(page: PurchaseReturnRoute.page, path: purchaseReturn),
       ];
 
   // Routes constants
@@ -51,6 +52,7 @@ class AppRouter extends RootStackRouter {
   static const String login = "/login";
   static const String pin = "/pin";
   static const String salesReturn = "/salesReturn";
+  static const String purchaseReturn = "/purchaseReturn";
 }
 
 class AuthGuard extends AutoRouteGuard {

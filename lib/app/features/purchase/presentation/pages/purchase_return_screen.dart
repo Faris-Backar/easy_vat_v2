@@ -22,15 +22,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 @RoutePage()
-class SalesReturnScreen extends ConsumerStatefulWidget {
-  const SalesReturnScreen({super.key});
+class PurchaseReturnScreen extends ConsumerStatefulWidget {
+  const PurchaseReturnScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _SalesReturnScreenState();
+      _PurchaseReturnScreenState();
 }
 
-class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
+class _PurchaseReturnScreenState extends ConsumerState<PurchaseReturnScreen> {
   final _searchTextController = TextEditingController();
   late SalesInvoiceState salesInvoiceState;
 
@@ -62,8 +62,7 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
       appBar: SalesAppBar(
         searchController: _searchTextController,
         config: SalesAppBarConfig(
-          title: context.translate(AppStrings.salesReturn),
-          enableBarcodeScanning: true,
+          title: context.translate(AppStrings.purchaseReturn),
         ),
       ),
       backgroundColor: context.surfaceColor,
@@ -155,8 +154,9 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
               height: 10,
             ),
             PrimaryButton(
-              onPressed: () =>
-                  context.router.push(AddNewSalesRoute(isForPurchase: false)),
+              onPressed: () => context.router.push(AddNewSalesRoute(
+                  isForPurchase: true,
+                  title: context.translate(AppStrings.addNewPurchaseReturn))),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

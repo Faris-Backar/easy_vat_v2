@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -85,31 +86,20 @@ class SalesAppBarConfig {
 }
 
 class _SalesAppBarState extends ConsumerState<SalesAppBar> {
-  DateTime fromDate = DateTime.now();
-  DateTime toDate = DateTime.now();
-  DateTime? selectedSaleDate;
   final ValueNotifier<String?> salesModeNotifier = ValueNotifier(null);
   final ValueNotifier<String?> soldByNotifier = ValueNotifier(null);
   final ValueNotifier<String?> paymentMethodNotifier = ValueNotifier(null);
-
-  void _updateFromDate(DateTime selectedDate) {
-    setState(() {
-      fromDate = selectedDate;
-    });
-  }
-
-  void _updateToDate(DateTime selectedDate) {
-    setState(() {
-      toDate = selectedDate;
-    });
-  }
+  DateTime? selectedSaleDate;
 
   /// Default fetch function if no custom function is provided
   Future<void> _defaultFetchInvoice() async {
+    // Read current date range from provider
+    final dateRange = ref.read(dateRangeProvider);
+
     final params = SalesInvoiceParams(
       salesIDPK: "00000000-0000-0000-0000-000000000000",
-      fromDate: fromDate,
-      toDate: toDate,
+      fromDate: dateRange.fromDate,
+      toDate: dateRange.toDate,
       customerID: "00000000-0000-0000-0000-000000000000",
     );
 
@@ -121,101 +111,6 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
           .read(salesInvoiceNotifierProvider.notifier)
           .fetchSalesInvoice(params: params);
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      surfaceTintColor: context.colorScheme.onPrimary,
-      title: Text(widget.config.title.isNotEmpty
-          ? widget.config.title
-          : context.translate(AppStrings.salesInvoice)),
-      actions: [
-        PopupMenuButton<String>(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.r),
-          ),
-          color: context.colorScheme.surfaceContainerLowest,
-          offset: Offset(-10.w, 30.h),
-          onSelected: (value) {},
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          itemBuilder: (context) => [
-            ...widget.config.additionalPopupMenuItems ??
-                [
-                  PopupMenuItem(
-                    value: AppStrings.print,
-                    child: _popupItem((context.translate(AppStrings.print))),
-                  ),
-                  PopupMenuItem(
-                    value: AppStrings.downloadExcel,
-                    child:
-                        _popupItem(context.translate(AppStrings.downloadExcel)),
-                  ),
-                  PopupMenuItem(
-                    value: AppStrings.showReport,
-                    child: _popupItem(context.translate(AppStrings.showReport)),
-                  ),
-                ],
-          ],
-        ),
-      ],
-      bottom: PreferredSize(
-        preferredSize: widget.preferredSize,
-        child: Column(
-          children: [
-            if (widget.config.showSearchBar) _buildSearchAndFilter(context),
-            const Divider(height: 0),
-            if (widget.config.showDateRangePicker)
-              Container(
-                color: AppUtils.isDarkMode(context)
-                    ? Theme.of(context).scaffoldBackgroundColor
-                    : context.colorScheme.surfaceContainerLowest,
-                padding: const EdgeInsets.only(
-                    left: 16.0, top: 3.0, bottom: 3.0, right: 8.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      flex: 5,
-                      child: DateRangePicker(
-                        onFromDateSelected: _updateFromDate,
-                        onToDateSelected: _updateToDate,
-                      ),
-                    ),
-                    SizedBox(width: 10.w),
-                    InkWell(
-                      onTap: _defaultFetchInvoice,
-                      child: Container(
-                        height: 36.h,
-                        width: 41.w,
-                        decoration: BoxDecoration(
-                          color: AppUtils.isDarkMode(context)
-                              ? context.colorScheme.surfaceBright
-                              : context.colorScheme.surfaceContainerLowest,
-                          border: Border.all(
-                            color: context.colorScheme.outline.withValues(
-                              alpha: 0.5,
-                            ),
-                          ),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        padding: const EdgeInsets.all(10),
-                        child: SvgIcon(
-                          icon: Assets.icons.search,
-                          color: AppUtils.isDarkMode(context)
-                              ? context.onPrimaryColor
-                              : null,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            const Divider(thickness: 4, height: 0),
-          ],
-        ),
-      ),
-    );
   }
 
   _buildFilterBottomSheet(BuildContext context) {
@@ -430,6 +325,109 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
             ),
           ),
       ],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AppBar(
+      surfaceTintColor: context.colorScheme.onPrimary,
+      title: Text(widget.config.title.isNotEmpty
+          ? widget.config.title
+          : context.translate(AppStrings.salesInvoice)),
+      actions: [
+        PopupMenuButton<String>(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16.r),
+          ),
+          color: context.colorScheme.surfaceContainerLowest,
+          offset: Offset(-10.w, 30.h),
+          onSelected: (value) {},
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          itemBuilder: (context) => [
+            ...widget.config.additionalPopupMenuItems ??
+                [
+                  PopupMenuItem(
+                    value: AppStrings.print,
+                    child: _popupItem((context.translate(AppStrings.print))),
+                  ),
+                  PopupMenuItem(
+                    value: AppStrings.downloadExcel,
+                    child:
+                        _popupItem(context.translate(AppStrings.downloadExcel)),
+                  ),
+                  PopupMenuItem(
+                    value: AppStrings.showReport,
+                    child: _popupItem(context.translate(AppStrings.showReport)),
+                  ),
+                ],
+          ],
+        ),
+      ],
+      bottom: PreferredSize(
+        preferredSize: widget.preferredSize,
+        child: Column(
+          children: [
+            if (widget.config.showSearchBar) _buildSearchAndFilter(context),
+            const Divider(height: 0),
+            if (widget.config.showDateRangePicker)
+              Container(
+                color: AppUtils.isDarkMode(context)
+                    ? Theme.of(context).scaffoldBackgroundColor
+                    : context.colorScheme.surfaceContainerLowest,
+                padding: const EdgeInsets.only(
+                    left: 16.0, top: 3.0, bottom: 3.0, right: 8.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: DateRangePicker(
+                        onFromDateSelected: (selectedDate) {
+                          ref
+                              .read(dateRangeProvider.notifier)
+                              .updateFromDate(selectedDate);
+                        },
+                        onToDateSelected: (selectedDate) {
+                          ref
+                              .read(dateRangeProvider.notifier)
+                              .updateToDate(selectedDate);
+                        },
+                      ),
+                    ),
+                    SizedBox(width: 10.w),
+                    InkWell(
+                      onTap: _defaultFetchInvoice,
+                      child: Container(
+                        height: 36.h,
+                        width: 41.w,
+                        decoration: BoxDecoration(
+                          color: AppUtils.isDarkMode(context)
+                              ? context.colorScheme.surfaceBright
+                              : context.colorScheme.surfaceContainerLowest,
+                          border: Border.all(
+                            color: context.colorScheme.outline.withValues(
+                              alpha: 0.5,
+                            ),
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: SvgIcon(
+                          icon: Assets.icons.search,
+                          color: AppUtils.isDarkMode(context)
+                              ? context.onPrimaryColor
+                              : null,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            const Divider(thickness: 4, height: 0),
+          ],
+        ),
+      ),
     );
   }
 }

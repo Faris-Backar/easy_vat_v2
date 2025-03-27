@@ -61,7 +61,7 @@ class HomeCategoryData {
             label: context.translate(AppStrings.purchaseReturn),
             icon: Assets.icons.purchaseReturn,
             darkIcon: Assets.icons.dark.purchaseReturnDark,
-            pagePath: ""),
+            pagePath: AppRouter.purchaseReturn),
         HomeDataModel(
             category: AppStrings.quickItems,
             label: context.translate(AppStrings.items),
@@ -250,7 +250,7 @@ class HomeCategoryData {
             label: context.translate(AppStrings.purchaseReturn),
             icon: Assets.icons.purchaseReturn,
             darkIcon: Assets.icons.dark.purchaseReturnDark,
-            pagePath: ""),
+            pagePath: AppRouter.purchaseReturn),
         HomeDataModel(
             category: AppStrings.accountVoucher,
             label: context.translate(AppStrings.debitNote),
