@@ -21,6 +21,9 @@ final salesInvoiceNotifierProvider =
 class SalesInoiveNotifiers extends StateNotifier<SalesInvoiceState> {
   final SalesInvoiceRepository salesInvoiceRepository;
   List<SalesListEntity>? salesList;
+  DateTime? fromDate;
+  DateTime? toDate;
+
   SalesInoiveNotifiers({required this.salesInvoiceRepository})
       : super(SalesInvoiceState.initial());
 
@@ -60,5 +63,10 @@ class SalesInoiveNotifiers extends StateNotifier<SalesInvoiceState> {
 
       state = SalesInvoiceState.success(filteredSales ?? []);
     }
+  }
+
+  clearDates() {
+    fromDate = null;
+    toDate = null;
   }
 }

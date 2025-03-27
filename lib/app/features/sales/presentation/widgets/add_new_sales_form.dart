@@ -132,7 +132,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                   }
 
                   return DropdownField(
-                    label: widget.purchaseNoController == null
+                    label: widget.purchaseNoController != null
                         ? context.translate(AppStrings.purchaseMode)
                         : context.translate(AppStrings.salesMode),
                     valueNotifier: widget.salesModeNotifier,

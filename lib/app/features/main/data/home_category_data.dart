@@ -55,7 +55,7 @@ class HomeCategoryData {
             label: context.translate(AppStrings.salesReturn),
             icon: Assets.icons.salesReturn,
             darkIcon: Assets.icons.dark.salesReturnDark,
-            pagePath: ""),
+            pagePath: AppRouter.salesReturn),
         HomeDataModel(
             category: AppStrings.quickItems,
             label: context.translate(AppStrings.purchaseReturn),
@@ -226,7 +226,7 @@ class HomeCategoryData {
             label: context.translate(AppStrings.salesReturn),
             icon: Assets.icons.salesReturn,
             darkIcon: Assets.icons.dark.salesReturnDark,
-            pagePath: ""),
+            pagePath: AppRouter.salesReturn),
         HomeDataModel(
             category: AppStrings.accountVoucher,
             label: context.translate(AppStrings.creditNote),
