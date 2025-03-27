@@ -22,15 +22,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 @RoutePage()
-class SalesOrderScreen extends ConsumerStatefulWidget {
-  const SalesOrderScreen({super.key});
+class ExpenseInvoiceScreen extends ConsumerStatefulWidget {
+  const ExpenseInvoiceScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _SalesOrderScreenState();
+      _ExpenseInvoiceScreenState();
 }
 
-class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
+class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseInvoiceScreen> {
   final _searchTextController = TextEditingController();
   late SalesInvoiceState salesInvoiceState;
 
@@ -62,8 +62,7 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
       appBar: SalesAppBar(
         searchController: _searchTextController,
         config: SalesAppBarConfig(
-          title: context.translate(AppStrings.salesOrder),
-          enableBarcodeScanning: true,
+          title: context.translate(AppStrings.purchaseReturn),
         ),
       ),
       backgroundColor: context.surfaceColor,
@@ -156,9 +155,8 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
             ),
             PrimaryButton(
               onPressed: () => context.router.push(AddNewSalesRoute(
-                isForPurchase: false,
-                title: context.translate(AppStrings.addNewSalesOrder),
-              )),
+                  isForPurchase: true,
+                  title: context.translate(AppStrings.addNewExpense))),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

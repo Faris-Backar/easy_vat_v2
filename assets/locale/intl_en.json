@@ -162,5 +162,8 @@
   "termsAndCondition": "Terms & Conditions",
   "connectAdmin": "Connect Admin",
   "whatIsCode": "What is my code",
-  "addNewPurchaseReturn":"Add New Purchase Return"
+  "addNewPurchaseReturn":"Add New Purchase Return", 
+  "addNewPurchaseOrder": "Add New Purchase Order",
+  "addNewSalesOrder": "Add New Sales Order",
+  "addNewSalesQuatation": "Add New Sales Quatation"
 }

@@ -35,6 +35,8 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: SalesOrderRoute.page, path: salesOrder),
         AutoRoute(page: SalesQuatationRoute.page, path: salesQuatation),
         AutoRoute(page: PurchaseReturnRoute.page, path: purchaseReturn),
+        AutoRoute(page: PurchaseOrderRoute.page, path: purchaseOrder),
+        AutoRoute(page: ExpenseInvoiceRoute.page, path: expenseInvoice),
       ];
 
   // Routes constants
@@ -57,6 +59,8 @@ class AppRouter extends RootStackRouter {
   static const String salesQuatation = "/salesQuatation";
   static const String salesOrder = "/salesOrder";
   static const String purchaseReturn = "/purchaseReturn";
+  static const String purchaseOrder = "/purchaseOrder";
+  static const String expenseInvoice = "/expenseInvoice";
 }
 
 class AuthGuard extends AutoRouteGuard {

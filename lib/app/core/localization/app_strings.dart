@@ -77,8 +77,12 @@ class AppStrings {
   static const String selectDate = "selectDate";
   static const String filter = "filter";
   static const String addNewSales = "addNewSales";
+  static const String addNewSalesOrder = "addNewSalesOrder";
+  static const String addNewSalesQuatation = "addNewSalesQuatation";
   static const String addNewPurchase = "addNewPurchase";
   static const String addNewPurchaseReturn = "addNewPurchaseReturn";
+  static const String addNewPurchaseOrder = "addNewPurchaseOrder";
+  static const String addNewExpense = "addNewExpense";
   static const String addItem = "addItem";
   static const String scan = "scan";
   static const String itemName = "itemName";

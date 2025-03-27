@@ -72,17 +72,20 @@ class SalesAppBarConfig {
   /// Callback for barcode scanning
   final VoidCallback? onBarcodeScan;
 
-  const SalesAppBarConfig({
-    this.title = '',
-    this.fetchFunction,
-    this.filterFunction,
-    this.additionalPopupMenuItems,
-    this.showDateRangePicker = true,
-    this.showSearchBar = true,
-    this.showFilterButton = true,
-    this.enableBarcodeScanning = false,
-    this.onBarcodeScan,
-  });
+  /// Flag to indicate if this is for purchase instead of sales
+  final bool isForPurchase;
+
+  const SalesAppBarConfig(
+      {this.title = '',
+      this.fetchFunction,
+      this.filterFunction,
+      this.additionalPopupMenuItems,
+      this.showDateRangePicker = true,
+      this.showSearchBar = true,
+      this.showFilterButton = true,
+      this.enableBarcodeScanning = false,
+      this.onBarcodeScan,
+      this.isForPurchase = false});
 }
 
 class _SalesAppBarState extends ConsumerState<SalesAppBar> {
@@ -167,7 +170,9 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
               children: [
                 Expanded(
                   child: DatePickerTextField(
-                    label: context.translate(AppStrings.salesDate),
+                    label: context.translate(widget.config.isForPurchase
+                        ? AppStrings.purchaseDate
+                        : AppStrings.salesDate),
                     onDateSelected: (DateTime selectedDate) {
                       selectedSaleDate = selectedDate;
                     },
@@ -182,7 +187,9 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
                     error: (message) => Text('Error: $message'),
                     loaded: (paymentModes, selectedPaymentMode) {
                       return DropdownField(
-                        label: context.translate(AppStrings.salesMode),
+                        label: context.translate(widget.config.isForPurchase
+                            ? AppStrings.purchaseMode
+                            : AppStrings.salesMode),
                         valueNotifier: paymentMethodNotifier,
                         items: paymentModes
                             .map((mode) => mode.paymentModes)
@@ -213,7 +220,9 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
                       return DropdownField(
                         height: 38.h,
                         labelAndTextFieldGap: 2,
-                        label: context.translate(AppStrings.soldBy),
+                        label: context.translate(widget.config.isForPurchase
+                            ? AppStrings.purchasedBy
+                            : AppStrings.soldBy),
                         valueNotifier: soldByNotifier,
                         onChanged: (newValue) {
                           soldByNotifier.value = newValue;

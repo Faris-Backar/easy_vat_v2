@@ -175,7 +175,7 @@ class HomeCategoryData {
             label: context.translate(AppStrings.purchaseOrder),
             icon: Assets.icons.purchaseOrder,
             darkIcon: Assets.icons.dark.purchaseOrderDark,
-            pagePath: ""),
+            pagePath: AppRouter.purchaseOrder),
         HomeDataModel(
             category: AppStrings.inventoryVoucher,
             label: context.translate(AppStrings.goodsReciept),
@@ -238,13 +238,13 @@ class HomeCategoryData {
             label: context.translate(AppStrings.purchaseInvoice),
             icon: Assets.icons.purchaseInvoice,
             darkIcon: Assets.icons.dark.purchaseInvoiceDark,
-            pagePath: ""),
+            pagePath: AppRouter.purchaseInvoice),
         HomeDataModel(
             category: AppStrings.accountVoucher,
             label: context.translate(AppStrings.expenseInvoice),
             icon: Assets.icons.expenses,
             darkIcon: Assets.icons.dark.expansesDark,
-            pagePath: ""),
+            pagePath: AppRouter.expenseInvoice),
         HomeDataModel(
             category: AppStrings.accountVoucher,
             label: context.translate(AppStrings.purchaseReturn),

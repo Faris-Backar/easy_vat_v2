@@ -62,8 +62,8 @@ class _PurchaseReturnScreenState extends ConsumerState<PurchaseReturnScreen> {
       appBar: SalesAppBar(
         searchController: _searchTextController,
         config: SalesAppBarConfig(
-          title: context.translate(AppStrings.purchaseReturn),
-        ),
+            title: context.translate(AppStrings.purchaseReturn),
+            isForPurchase: true),
       ),
       backgroundColor: context.surfaceColor,
       body: Padding(
