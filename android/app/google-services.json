@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "978160887844",
+    "project_id": "easy-vat-v2",
+    "storage_bucket": "easy-vat-v2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:978160887844:android:aacc8408e26f0b8fee90b1",
+        "android_client_info": {
+          "package_name": "com.example.easy_vat_v2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB319Kp3TrdGC8RMwQMmjW24zfRYYxddAs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

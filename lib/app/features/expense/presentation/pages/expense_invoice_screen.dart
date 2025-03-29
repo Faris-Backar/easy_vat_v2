@@ -155,7 +155,7 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseInvoiceScreen> {
             ),
             PrimaryButton(
               onPressed: () => context.router.push(AddNewSalesRoute(
-                  isForPurchase: true,
+                  // isForPurchase: true,
                   title: context.translate(AppStrings.addNewExpense))),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

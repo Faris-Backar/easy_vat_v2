@@ -86,7 +86,7 @@ class _CategoryMenu extends StatelessWidget {
         ),
         Align(
           alignment: Alignment.centerLeft,
-          child: Text(AppStrings.quickItems,
+          child: Text(context.translate(AppStrings.quickItems),
               style: CustomTextTheme.header(context)),
         ),
         SizedBox(
