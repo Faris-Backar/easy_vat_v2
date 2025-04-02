@@ -168,6 +168,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/supplier.svg
   String get supplier => 'assets/icons/supplier.svg';
 
+  /// File path: assets/icons/transaction.svg
+  String get transaction => 'assets/icons/transaction.svg';
+
   /// File path: assets/icons/vehicle_registration.svg
   String get vehicleRegistration => 'assets/icons/vehicle_registration.svg';
 
@@ -227,6 +230,7 @@ class $AssetsIconsGen {
     stockTransfer,
     store,
     supplier,
+    transaction,
     vehicleRegistration,
     view,
   ];

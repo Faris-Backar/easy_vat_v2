@@ -147,42 +147,30 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     _isUpdatingFromDiscount = false;
   }
 
-  // New method to update quantity based on net total
-  void _updateQuantityFromNetTotal() {
-    if (_isUpdatingFromQuantity || _isUpdatingFromDiscount) {
-      return; // Prevent circular updates
-    }
+  // New method to update calculations when net total changes
+  void _updateSellingPriceFromNetTotal() {
+    if (_isUpdatingFromQuantity || _isUpdatingFromDiscount) return;
+
     _isUpdatingFromNetTotal = true;
 
+    // Fetch current values
     final netTotal = double.tryParse(_netTotalController.text) ?? 0.0;
-    final sellingPrice = double.tryParse(_sellingPriceController.text) ?? 0.0;
+    final qty = double.tryParse(_quantityController.text) ?? 1.0;
     final discount = double.tryParse(_discountController.text) ?? 0.0;
     final taxPercentage = double.tryParse(_taxController.text) ?? 0.0;
 
-    if (sellingPrice <= 0) {
-      // Avoid division by zero
-      _isUpdatingFromNetTotal = false;
-      return;
-    }
+    // Calculate gross total from net total using the provided formula
+    double grossTotal = (netTotal * 100) / (100 + taxPercentage);
 
-    // Calculate quantity based on the formula:
-    // netTotal = (qty * sellingPrice - discount) * (1 + taxPercentage/100)
-    // Solve for qty:
-    double qty;
+    // Calculate rate (selling price without tax) and sell price with tax
+    double rate = (grossTotal + discount) / qty;
+    double sellPriceWithTax = netTotal / qty;
 
-    if (discount > 0) {
-      // With discount
-      qty = ((netTotal / (1 + taxPercentage / 100)) + discount) / sellingPrice;
-    } else {
-      // Without discount (simplified)
-      qty = netTotal / (sellingPrice * (1 + taxPercentage / 100));
-    }
+    // Update the fields with new calculated values
+    _sellingPriceController.text = rate.toStringAsFixed(2);
+    _priceWithTaxController.text = sellPriceWithTax.toStringAsFixed(2);
 
-    // Update quantity field
-    _quantityController.text = qty.toStringAsFixed(2);
-
-    // Update gross total based on the new quantity
-    final grossTotal = (qty * sellingPrice) - discount;
+    // Also update the gross total and net total if needed (to keep things in sync)
     _grossTotalController.text = grossTotal.toStringAsFixed(2);
 
     _isUpdatingFromNetTotal = false;
@@ -236,6 +224,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                       }
                       return null;
                     },
+                    textAlign: TextAlign.right,
                   ),
                 ),
                 SizedBox(
@@ -274,6 +263,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                                     !_passwordVisibilityNotifier.value;
                               },
                               icon: Icon(Icons.visibility_rounded)),
+                          textAlign: TextAlign.right,
                         );
                       }),
                 ),
@@ -297,6 +287,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                         const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [_decimalInputFormatter],
                     maxLines: 1,
+                    textAlign: TextAlign.right,
                   ),
                 )
               ],
@@ -322,6 +313,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                     fillColor: context.colorScheme.tertiaryContainer,
                     textInputAction: TextInputAction.next,
                     maxLines: 1,
+                    textAlign: TextAlign.right,
                   ),
                 ),
                 SizedBox(
@@ -334,6 +326,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                     enabled: false,
                     controller: _grossTotalController,
                     fillColor: context.colorScheme.tertiaryContainer,
+                    textAlign: TextAlign.right,
                   ),
                 ),
               ],
@@ -358,6 +351,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                         extentOffset: _taxController.value.text.length),
                     textInputAction: TextInputAction.next,
                     maxLines: 1,
+                    textAlign: TextAlign.right,
                   ),
                 ),
                 SizedBox(
@@ -372,11 +366,12 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                     onTap: () => _netTotalController.selection = TextSelection(
                         baseOffset: 0,
                         extentOffset: _netTotalController.value.text.length),
-                    onChanged: (value) => _updateQuantityFromNetTotal(),
+                    onChanged: (value) => _updateSellingPriceFromNetTotal(),
                     textInputAction: TextInputAction.next,
                     textInputType:
                         const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [_decimalInputFormatter],
+                    textAlign: TextAlign.right,
                   ),
                 )
               ],

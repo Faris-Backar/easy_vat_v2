@@ -33,7 +33,7 @@ class CartList extends StatelessWidget {
 
   Widget _buildSlidableItem(BuildContext context, int index) {
     return Slidable(
-      endActionPane: ActionPane(
+      startActionPane: ActionPane(
         motion: const ScrollMotion(),
         extentRatio: 0.15,
         children: [
@@ -49,6 +49,46 @@ class CartList extends StatelessWidget {
               padding: const EdgeInsets.all(12.0),
               child: SvgIcon(
                   icon: Assets.icons.delete,
+                  color: AppUtils.isDarkMode(context)
+                      ? context.onPrimaryColor
+                      : null),
+            ),
+          ),
+        ],
+      ),
+      endActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        extentRatio: 0.15,
+        children: [
+          InkWell(
+            onTap: () => _showDeleteDialog(context, index),
+            child: Container(
+              height: 88.h,
+              width: 43.w,
+              color: AppUtils.isDarkMode(context)
+                  ? CustomColors.getTransactionCardGreenColor(context)
+                  : CustomColors.getTransactionCardGreenColor(context)
+                      .withValues(alpha: 0.15),
+              padding: const EdgeInsets.all(12.0),
+              child: SvgIcon(
+                  icon: Assets.icons.edit,
+                  color: AppUtils.isDarkMode(context)
+                      ? context.onPrimaryColor
+                      : null),
+            ),
+          ),
+          InkWell(
+            onTap: () => _showDeleteDialog(context, index),
+            child: Container(
+              height: 88.h,
+              width: 43.w,
+              color: AppUtils.isDarkMode(context)
+                  ? CustomColors.getTransactionCardGreenColor(context)
+                  : CustomColors.getTransactionCardGreenColor(context)
+                      .withValues(alpha: 0.15),
+              padding: const EdgeInsets.all(12.0),
+              child: SvgIcon(
+                  icon: Assets.icons.transaction,
                   color: AppUtils.isDarkMode(context)
                       ? context.onPrimaryColor
                       : null),
