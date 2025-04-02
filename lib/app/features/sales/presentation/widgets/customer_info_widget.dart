@@ -5,6 +5,7 @@ import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entit
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_notifier.dart';
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_state.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_details_card.dart';
+import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/refresh_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/search_debouncer.dart';
@@ -57,22 +58,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        showModalBottomSheet(
-                context: context,
-                useSafeArea: true,
-                isScrollControlled: true,
-                backgroundColor: AppUtils.isDarkMode(context)
-                    ? context.colorScheme.tertiaryContainer
-                    : context.colorScheme.surfaceContainerLowest,
-                builder: (context) => _buildCustomerBottomSheet(context))
-            .whenComplete(() {
-          _expansionNotifier.value = null;
-        });
-      },
-      child: _buildCustomerTabView(context),
-    );
+    return _buildCustomerTabView(context);
   }
 
   Widget _buildCustomerBottomSheet(
@@ -257,58 +243,179 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                 padding: const EdgeInsets.all(8.0),
                 child: TabBarView(
                   children: [
-                    CustomerInfoTabContent(
-                      creditDays:
-                          selectedCustomer?.creditDays?.toString() ?? "0",
-                      creditLimit:
-                          selectedCustomer?.creditLimit?.toStringAsFixed(2) ??
-                              "0.0",
-                      customerName: selectedCustomer?.ledgerName ?? "",
-                      outstandingAmount:
-                          selectedCustomer?.creditLimit?.toStringAsFixed(2) ??
-                              "0.0",
-                      trn: selectedCustomer?.taxRegistrationNo ?? "",
-                      isActive: selectedCustomer?.isActive ?? false,
-                    ),
-                    CustomerAddressInfo(
-                      address: selectedCustomer?.billingAddress ?? "-",
-                      textEditingController: billingAddressController,
-                      hint: context.translate(AppStrings.address),
-                      label: context.translate(AppStrings.enterBillingAddress),
-                      onSubmitted: () async {
-                        if (selectedCustomer != null) {
-                          final updatedCustomer = selectedCustomer.copyWith(
-                              billingAddress: billingAddressController.text);
-                          ref
-                              .read(cartProvider.notifier)
-                              .setCustomer(updatedCustomer);
-                          context.router.popForced();
-                        } else {
-                          Fluttertoast.showToast(
-                              msg: context
-                                  .translate(AppStrings.pleaseSelectACustomer));
-                        }
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            useSafeArea: true,
+                            isScrollControlled: true,
+                            backgroundColor: AppUtils.isDarkMode(context)
+                                ? context.colorScheme.tertiaryContainer
+                                : context.colorScheme.surfaceContainerLowest,
+                            builder: (context) => _buildCustomerBottomSheet(
+                                context)).whenComplete(() {
+                          _expansionNotifier.value = null;
+                        });
                       },
+                      child: CustomerInfoTabContent(
+                        creditDays:
+                            selectedCustomer?.creditDays?.toString() ?? "0",
+                        creditLimit:
+                            selectedCustomer?.creditLimit?.toStringAsFixed(2) ??
+                                "0.0",
+                        customerName: selectedCustomer?.ledgerName ?? "",
+                        outstandingAmount:
+                            selectedCustomer?.creditLimit?.toStringAsFixed(2) ??
+                                "0.0",
+                        trn: selectedCustomer?.taxRegistrationNo ?? "",
+                        isActive: selectedCustomer?.isActive ?? false,
+                      ),
                     ),
-                    CustomerAddressInfo(
-                      address: selectedCustomer?.shippingAddress ?? "-",
-                      textEditingController: shippingAddressController,
-                      hint: context.translate(AppStrings.address),
-                      label: context.translate(AppStrings.enterShippingAddress),
-                      onSubmitted: () {
-                        if (selectedCustomer != null) {
-                          final updatedCustomer = selectedCustomer.copyWith(
-                              shippingAddress: shippingAddressController.text);
-                          ref
-                              .read(cartProvider.notifier)
-                              .setCustomer(updatedCustomer);
-                          context.router.popForced();
-                        } else {
-                          Fluttertoast.showToast(
-                              msg: context
-                                  .translate(AppStrings.pleaseSelectACustomer));
-                        }
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                            ),
+                            child: Container(
+                              height: 200.h,
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 16.0),
+                              child: Column(
+                                children: [
+                                  CustomTextField(
+                                    label: context.translate(
+                                        AppStrings.enterShippingAddress),
+                                    controller: billingAddressController,
+                                    hint: context.translate(AppStrings.address),
+                                    maxLines: 4,
+                                    fillColor: AppUtils.isDarkMode(context)
+                                        ? context.surfaceColor
+                                        : null,
+                                    validator: (value) {
+                                      if (value?.isEmpty == true ||
+                                          (value?.length ?? 0) < 5) {
+                                        return "Please enter a valid address";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  SizedBox(
+                                    height: 40.h,
+                                    width: double.infinity,
+                                    child: PrimaryButton(
+                                      label:
+                                          context.translate(AppStrings.submit),
+                                      onPressed: () async {
+                                        if (selectedCustomer != null) {
+                                          final updatedCustomer =
+                                              selectedCustomer.copyWith(
+                                                  billingAddress:
+                                                      billingAddressController
+                                                          .text);
+                                          ref
+                                              .read(cartProvider.notifier)
+                                              .setCustomer(updatedCustomer);
+                                          context.router.popForced();
+                                        } else {
+                                          Fluttertoast.showToast(
+                                              msg: context.translate(AppStrings
+                                                  .pleaseSelectACustomer));
+                                        }
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
                       },
+                      child: CustomerAddressInfo(
+                        address: selectedCustomer?.billingAddress ?? "-",
+                        hint: context.translate(AppStrings.address),
+                        label:
+                            context.translate(AppStrings.enterBillingAddress),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                            ),
+                            child: Container(
+                              height: 200.h,
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 16.0, vertical: 16.0),
+                              child: Column(
+                                children: [
+                                  CustomTextField(
+                                    label: context.translate(
+                                        AppStrings.enterShippingAddress),
+                                    controller: shippingAddressController,
+                                    hint: context.translate(AppStrings.address),
+                                    maxLines: 4,
+                                    fillColor: AppUtils.isDarkMode(context)
+                                        ? context.surfaceColor
+                                        : null,
+                                    validator: (value) {
+                                      if (value?.isEmpty == true ||
+                                          (value?.length ?? 0) < 5) {
+                                        return "Please enter a valid address";
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                  SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  SizedBox(
+                                    height: 40.h,
+                                    width: double.infinity,
+                                    child: PrimaryButton(
+                                      label:
+                                          context.translate(AppStrings.submit),
+                                      onPressed: () {
+                                        if (selectedCustomer != null) {
+                                          final updatedCustomer =
+                                              selectedCustomer.copyWith(
+                                                  shippingAddress:
+                                                      shippingAddressController
+                                                          .text);
+                                          ref
+                                              .read(cartProvider.notifier)
+                                              .setCustomer(updatedCustomer);
+                                          context.router.popForced();
+                                        } else {
+                                          Fluttertoast.showToast(
+                                              msg: context.translate(AppStrings
+                                                  .pleaseSelectACustomer));
+                                        }
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      child: CustomerAddressInfo(
+                        address: selectedCustomer?.shippingAddress ?? "-",
+                        hint: context.translate(AppStrings.address),
+                        label:
+                            context.translate(AppStrings.enterShippingAddress),
+                      ),
                     ),
                   ],
                 ),
