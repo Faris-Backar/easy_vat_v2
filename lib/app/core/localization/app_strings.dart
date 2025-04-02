@@ -171,4 +171,6 @@ class AppStrings {
   static const String whatIsMyCode = "whatIsMyCode";
   static const String clearCart = "clearCart";
   static const String clearCartMessage = "clearCartMessage";
+  static const String barcodeFound = "barcodeFound";
+  static const String barcodePositionMessage = "barcodePositionMessage";
 }

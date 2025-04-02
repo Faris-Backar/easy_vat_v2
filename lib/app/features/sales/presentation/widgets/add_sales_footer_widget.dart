@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/items_bottom_modal_sheet.dart';
@@ -150,20 +151,27 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
   Widget _buildButtonsRow(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: Consumer(builder: (context, WidgetRef ref, child) {
-          return _buildActionButton(
-            context,
-            Icons.add_circle_outline_rounded,
-            context.translate(AppStrings.addItem),
-            () {
-              showItemsBottomSheet(context);
+        Expanded(
+          child: Consumer(
+            builder: (context, WidgetRef ref, child) {
+              return _buildActionButton(
+                context,
+                Icons.add_circle_outline_rounded,
+                context.translate(AppStrings.addItem),
+                () {
+                  showItemsBottomSheet(context);
+                },
+              );
             },
-          );
-        })),
+          ),
+        ),
         SizedBox(width: 8.w),
         Expanded(
-          child: _buildActionButton(context, Assets.icons.barcode,
-              context.translate(AppStrings.scanBarCode), () {},
+          child: _buildActionButton(
+              context,
+              Assets.icons.barcode,
+              context.translate(AppStrings.scanBarCode),
+              () => context.router.pushNamed(AppRouter.barcodeScanner),
               isSvg: true),
         ),
       ],

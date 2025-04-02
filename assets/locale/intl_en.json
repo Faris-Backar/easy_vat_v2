@@ -167,5 +167,6 @@
   "addNewSalesOrder": "Add New Sales Order",
   "addNewSalesQuatation": "Add New Sales Quatation",
   "clearCart":"Clear Cart",
-  "clearCartMessage":"Are you sure you want to clear the cart?"
+  "clearCartMessage":"Are you sure you want to clear the cart?",
+  "barcodePostionMessage":"Position the barcode within the frame to scan"
 }
