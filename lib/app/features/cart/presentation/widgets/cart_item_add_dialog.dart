@@ -336,7 +336,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     final cartNotifier = ref.read(cartProvider.notifier);
     final qty = double.tryParse(_quantityController.text) ?? 0.0;
     final discount = double.tryParse(_discountController.text) ?? 0.0;
-    final rate = double.tryParse(_sellingPriceController.text) ?? 0.0;
+    final rate = cart?.rate ?? item.retailRate ?? 0.0;
     final cost = double.tryParse(_priceWithTaxController.text) ?? 0.0;
 
     final gross = cartNotifier.calculateGross(

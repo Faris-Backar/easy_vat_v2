@@ -137,8 +137,7 @@ class CartNotifier extends StateNotifier<CartState> {
 
   void applyDiscount(double discountAmount) {
     discount = discountAmount;
-    double newTotal =
-        itemsList.fold(0.0, (sum, item) => sum + (item.qty * item.rate));
+    double newTotal = itemsList.fold(0.0, (sum, item) => sum + (item.netTotal));
 
     totalAmount = newTotal - discount;
     totalAmount = totalAmount < 0 ? 0 : totalAmount;
