@@ -148,6 +148,7 @@ class AppStrings {
   static const String no = "no";
   static const String rate = "rate";
   static const String tax = "tax";
+  static const String taxPercentage = "taxPercentage";
   static const String purchaseNo = "purchaseNo";
   static const String purchaseDate = "purchaseDate";
   static const String purchasedBy = "purchasedBy";
@@ -173,4 +174,5 @@ class AppStrings {
   static const String clearCartMessage = "clearCartMessage";
   static const String barcodeFound = "barcodeFound";
   static const String barcodePositionMessage = "barcodePositionMessage";
+  static const String gross = "gross";
 }

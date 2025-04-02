@@ -168,5 +168,7 @@
   "addNewExpense": "إضافة مصروف جديد",
   "clearCart": "مسح السلة",
   "clearCartMessage": "هل أنت متأكد أنك تريد مسح السلة؟",
-  "barcodePostionMessage":"ضع الباركود داخل الإطار للمسح"
+  "barcodePostionMessage":"ضع الباركود داخل الإطار للمسح",
+  "gross":"إجمالي",
+  "taxPercentage":"نسبة الضريبة"
 }

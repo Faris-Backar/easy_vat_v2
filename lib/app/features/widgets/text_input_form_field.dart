@@ -1,5 +1,6 @@
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TextInputFormField extends StatelessWidget {
   const TextInputFormField(
@@ -27,7 +28,8 @@ class TextInputFormField extends StatelessWidget {
       this.onTap,
       this.width,
       this.label,
-      this.textAlign});
+      this.textAlign,
+      this.inputFormatters});
   final String? hint;
   final TextEditingController controller;
   final Widget? prefixIcon;
@@ -52,6 +54,7 @@ class TextInputFormField extends StatelessWidget {
   final VoidCallback? onTap;
   final String? label;
   final TextAlign? textAlign;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +62,7 @@ class TextInputFormField extends StatelessWidget {
       height: height,
       width: width,
       child: TextFormField(
+        inputFormatters: inputFormatters,
         enabled: enabled,
         onTap: onTap,
         obscureText: isPasswordVisible ?? false,
