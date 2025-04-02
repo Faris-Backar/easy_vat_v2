@@ -165,5 +165,7 @@
   "addNewPurchaseOrder": "إضافة أمر شراء جديد",
   "addNewSalesOrder": "إضافة طلب بيع جديد",
   "addNewSalesQuatation": "إضافة عرض سعر جديد",
-  "addNewExpense": "إضافة مصروف جديد"
+  "addNewExpense": "إضافة مصروف جديد",
+  "clearCart": "مسح السلة",
+  "clearCartMessage": "هل أنت متأكد أنك تريد مسح السلة؟"
 }

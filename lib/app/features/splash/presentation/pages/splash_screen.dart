@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
+import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,10 @@ class _SplashScreenState extends State<SplashScreen> {
     final prefs = await SharedPreferences.getInstance();
     final isAuthenticated =
         prefs.getBool(PrefResources.isAuthenticated) ?? false;
+    final newBaseUrl = prefs.getString(PrefResources.baseUrl);
+    if (newBaseUrl != null) {
+      baseUrl = newBaseUrl;
+    }
 
     if (mounted) {
       if (isAuthenticated) {

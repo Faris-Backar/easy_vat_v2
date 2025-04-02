@@ -23,6 +23,7 @@ class DioService {
         if (accessToken != null) {
           options.headers["Authorization"] = "Bearer $accessToken";
         }
+        log("connection url => ${options.baseUrl}${options.path}");
         return handler.next(options);
       },
       onResponse: (response, handler) {

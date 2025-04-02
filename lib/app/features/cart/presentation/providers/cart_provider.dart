@@ -67,9 +67,9 @@ class CartNotifier extends StateNotifier<CartState> {
           qty: cartItem.qty,
           netTotal: cartItem.qty * cartItem.rate,
           rate: cartItem.rate,
-          cost: oldItem.cost,
-          unit: oldItem.unit,
-          description: oldItem.description,
+          cost: cartItem.cost,
+          unit: cartItem.unit,
+          description: cartItem.description,
           discount: cartItem.discount,
           tax: cartItem.tax,
           gross: cartItem.gross,
@@ -258,7 +258,7 @@ class CartNotifier extends StateNotifier<CartState> {
     notes = "";
     salesMode = "";
     soldBy = null;
-    selectedCustomer = null;
+    selectedCustomer = CustomerEntity(ledgerName: "Cash", isActive: true);
     description = "";
 
     state = CartState.initial();
@@ -381,9 +381,8 @@ class CartNotifier extends StateNotifier<CartState> {
   }
 
   void _getRateSplitUp({required CartEntity item}) {
-    subTotal += item.priceBeforeTax;
     totalTax += item.tax;
-    totalAmount += item.netTotal;
+    totalAmount += (item.gross + item.tax);
     subTotal += item.gross;
 
     state = state.copyWith(
@@ -394,9 +393,8 @@ class CartNotifier extends StateNotifier<CartState> {
   }
 
   void _decreaseRateSplitUp({required CartEntity item}) {
-    subTotal -= item.priceBeforeTax;
     totalTax -= item.tax;
-    totalAmount -= item.netTotal;
+    totalAmount -= (item.gross + item.tax);
     subTotal -= item.gross;
 
     state = state.copyWith(

@@ -168,5 +168,7 @@ class AppStrings {
   static const String and = "and";
   static const String termsAndCondition = "termsAndCondition";
   static const String connectAdmin = "connectAdmin";
-  static const String whatIsMyCode = "What is my code";
+  static const String whatIsMyCode = "whatIsMyCode";
+  static const String clearCart = "clearCart";
+  static const String clearCartMessage = "clearCartMessage";
 }

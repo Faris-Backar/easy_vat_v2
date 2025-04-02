@@ -77,12 +77,12 @@ class CartList extends StatelessWidget {
       context: context,
       builder: (context) => AlertDialog(
         backgroundColor: context.surfaceColor,
-        title: Text(AppStrings.delete),
+        title: Text(context.translate(AppStrings.delete)),
         titleTextStyle: context.textTheme.titleMedium?.copyWith(
           fontWeight: FontWeight.w600,
           fontSize: 18,
         ),
-        content: Text(AppStrings.deleteConfirmationInCart),
+        content: Text(context.translate(AppStrings.deleteConfirmationInCart)),
         contentTextStyle:
             context.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w400),
         contentPadding:
@@ -109,7 +109,7 @@ class CartList extends StatelessWidget {
                 child: Consumer(builder: (context, WidgetRef ref, child) {
                   return PrimaryButton(
                     width: double.infinity,
-                    label: AppStrings.delete,
+                    label: context.translate(AppStrings.delete),
                     bgColor: CustomColors.getTransactionCardRedColor(context),
                     onPressed: () {
                       ref

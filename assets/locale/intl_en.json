@@ -165,5 +165,7 @@
   "addNewPurchaseReturn":"Add New Purchase Return", 
   "addNewPurchaseOrder": "Add New Purchase Order",
   "addNewSalesOrder": "Add New Sales Order",
-  "addNewSalesQuatation": "Add New Sales Quatation"
+  "addNewSalesQuatation": "Add New Sales Quatation",
+  "clearCart":"Clear Cart",
+  "clearCartMessage":"Are you sure you want to clear the cart?"
 }

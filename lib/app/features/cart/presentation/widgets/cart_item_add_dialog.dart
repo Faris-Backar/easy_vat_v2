@@ -127,7 +127,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                 Expanded(
                   child: TextInputFormField(
                     height: 36.h,
-                    label: AppStrings.quantity,
+                    label: context.translate(AppStrings.quantity),
                     controller: _quantityController,
                     fillColor: context.colorScheme.tertiaryContainer,
                     textInputAction: TextInputAction.next,
@@ -151,7 +151,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                 Expanded(
                   child: TextInputFormField(
                     height: 36.h,
-                    label: AppStrings.sellingPrice,
+                    label: context.translate(AppStrings.sellingPrice),
                     controller: _sellingPriceController,
                     fillColor: context.colorScheme.tertiaryContainer,
                     onChanged: (value) => _updatePriceWithTax(),
@@ -181,7 +181,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                         textInputAction: TextInputAction.next,
                         textInputType: TextInputType.number,
                         maxLines: 1,
-                        label: AppStrings.cost,
+                        label: context.translate(AppStrings.cost),
                         enabled: false,
                         controller: _costPriceController,
                         fillColor: context.colorScheme.tertiaryContainer,
@@ -207,7 +207,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                 Expanded(
                   child: TextInputFormField(
                     height: 36.h,
-                    label: AppStrings.priceWithTax,
+                    label: context.translate(AppStrings.priceWithTax),
                     controller: _priceWithTaxController,
                     fillColor: context.colorScheme.tertiaryContainer,
                     onTap: () => _priceWithTaxController.selection =
@@ -231,8 +231,8 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                 Expanded(
                   child: TextInputFormField(
                     height: 36.h,
-                    label: AppStrings.discount,
-                    hint: AppStrings.discount,
+                    label: context.translate(AppStrings.discount),
+                    hint: context.translate(AppStrings.discount),
                     controller: _discountController,
                     onTap: () => _discountController.selection = TextSelection(
                         baseOffset: 0,
@@ -249,8 +249,8 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                 Expanded(
                   child: TextInputFormField(
                     height: 36.h,
-                    label: AppStrings.tax,
-                    hint: AppStrings.tax,
+                    label: context.translate(AppStrings.tax),
+                    hint: context.translate(AppStrings.tax),
                     controller: _taxController,
                     enabled: false,
                     textInputType: TextInputType.number,
@@ -272,7 +272,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                 Expanded(
                   child: TextInputFormField(
                     height: 36.h,
-                    label: AppStrings.unit,
+                    label: context.translate(AppStrings.unit),
                     enabled: false,
                     controller: _unitController,
                     fillColor: context.colorScheme.tertiaryContainer,
@@ -284,7 +284,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                 Expanded(
                   child: TextInputFormField(
                     height: 36.h,
-                    label: AppStrings.netTotal,
+                    label: context.translate(AppStrings.netTotal),
                     onChanged: (value) => _updateNetTotal(),
                     enabled: false,
                     controller: _netTotalController,
@@ -297,10 +297,10 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
               height: 10,
             ),
             TextInputFormField(
-              label: AppStrings.description,
+              label: context.translate(AppStrings.description),
               controller: _descriptionController,
               fillColor: context.colorScheme.tertiaryContainer,
-              hint: AppStrings.description,
+              hint: context.translate(AppStrings.description),
               maxLines: 3,
             )
           ],
@@ -313,7 +313,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
       actions: [
         SecondaryButton(
           onPressed: () => context.router.popForced(),
-          label: AppStrings.cancel,
+          label: context.translate(AppStrings.cancel),
           labelColor: context.defaultTextColor,
           backgroundColor: AppUtils.isDarkMode(context)
               ? context.colorScheme.tertiary
@@ -325,8 +325,8 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
         SizedBox(width: 5.w),
         PrimaryButton(
             label: widget.cartItem != null
-                ? AppStrings.updateItem
-                : AppStrings.addToCart,
+                ? context.translate(AppStrings.updateItem)
+                : context.translate(AppStrings.addToCart),
             onPressed: _handleCartAction),
       ],
     );

@@ -34,7 +34,7 @@ class CartFooterWidget extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppStrings.subTotal,
+                  context.translate(AppStrings.subTotal),
                   style: context.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: context.defaultTextColor.withValues(alpha: 0.32),
@@ -51,7 +51,7 @@ class CartFooterWidget extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppStrings.tax,
+                  context.translate(AppStrings.tax),
                   style: context.textTheme.bodyMedium?.copyWith(
                     fontWeight: FontWeight.w600,
                     color: context.defaultTextColor.withValues(alpha: 0.32),
@@ -68,7 +68,7 @@ class CartFooterWidget extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppStrings.total,
+                  context.translate(AppStrings.total),
                   style: context.textTheme.bodyLarge
                       ?.copyWith(fontWeight: FontWeight.w600),
                 ),
@@ -95,7 +95,7 @@ class CartFooterWidget extends ConsumerWidget {
                   ),
                   SizedBox(width: 3.w),
                   Text(
-                    AppStrings.addItem,
+                    context.translate(AppStrings.addItem),
                     style: context.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: context.onPrimaryColor,

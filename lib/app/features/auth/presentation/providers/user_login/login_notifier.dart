@@ -31,8 +31,6 @@ class LoginNotifier extends StateNotifier<LoginState> {
     result.fold((l) => state = LoginState.failed(l.message), (r) async {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString(PrefResources.token, r.accessTokens ?? "");
-      prefs.setString(
-          PrefResources.baseUrl, r.companyDetails?.first.connectionInfo ?? "");
       baseUrl = r.companyDetails?.first.connectionInfo ?? "";
       baseUrl = r.companyDetails?.first.connectionInfo ?? "";
 
@@ -40,6 +38,8 @@ class LoginNotifier extends StateNotifier<LoginState> {
       if (!baseUrl.startsWith("http://") && !baseUrl.startsWith("https://")) {
         baseUrl = "https://$baseUrl/";
       }
+      prefs.setString(PrefResources.baseUrl, baseUrl);
+
       state = LoginState.success(loginResponse: r);
     });
   }

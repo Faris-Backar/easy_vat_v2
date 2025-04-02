@@ -139,7 +139,7 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseInvoiceScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  AppStrings.netTotal,
+                  context.translate(AppStrings.netTotal),
                   style: context.textTheme.bodyMedium?.copyWith(
                       color: context.defaultTextColor.withValues(alpha: 0.32)),
                 ),

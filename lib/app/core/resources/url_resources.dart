@@ -5,6 +5,7 @@ String baseUrl = "https://activationserver.ddns.net/";
 
 class UrlResources {
   UrlResources._();
+  static const String serverBaseUrl = "https://activationserver.ddns.net/";
 
   static Future<String> getBaseUrl() async {
     final prefs = await SharedPreferences.getInstance();
