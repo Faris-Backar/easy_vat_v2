@@ -18,12 +18,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(const Duration(seconds: 3), () async {
+      await _checkAuthStatus();
+    });
     _checkAuthStatus();
   }
 
   Future<void> _checkAuthStatus() async {
-    await Future.delayed(Duration(seconds: 3));
-
     final prefs = await SharedPreferences.getInstance();
     final isAuthenticated =
         prefs.getBool(PrefResources.isAuthenticated) ?? false;
@@ -45,7 +46,11 @@ class _SplashScreenState extends State<SplashScreen> {
           height: 250.h,
           width: 250.w,
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-          child: Image.asset(Assets.images.logo.path),
+          child: Image(
+            image: AssetImage(Assets.images.logo.path), // Asset image
+            fit: BoxFit.contain,
+            filterQuality: FilterQuality.high,
+          ),
         ),
       ),
     );

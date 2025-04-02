@@ -1,6 +1,5 @@
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/usecase/no_params.dart';
-import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/salesman/data/repository/salesman_repository_impl.dart';
 import 'package:easy_vat_v2/app/features/salesman/domain/entity/sales_man_entity.dart';
 import 'package:easy_vat_v2/app/features/salesman/domain/repository/sales_man_repository.dart';
@@ -9,7 +8,7 @@ import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesma
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final salesManRepositoryProvider = Provider<SalesManRepository>((ref) {
-  return SalesmanRepositoryImpl(client: ref.read(dioProvider));
+  return SalesmanRepositoryImpl();
 });
 
 final getSalesManUsecaseProvider = Provider<GetSalesManUsecase>((ref) {

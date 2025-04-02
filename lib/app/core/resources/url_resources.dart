@@ -1,7 +1,16 @@
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+String baseUrl = "https://activationserver.ddns.net/";
+
 class UrlResources {
   UrlResources._();
 
-  static const String baseUrl = "https://devp.ddns.net/";
+  static Future<String> getBaseUrl() async {
+    final prefs = await SharedPreferences.getInstance();
+    final baseUrl = prefs.getString(PrefResources.baseUrl);
+    return baseUrl ?? "";
+  }
 
   //orders
   static const String getSalesOrders = "Order/Select/SelectAll";
@@ -39,4 +48,6 @@ class UrlResources {
   //login
   static const String login = "LogIn/authentication/verifyuserlogin";
   static const String pinLogin = "LogIn/authentication/verifyuserPin";
+  static const String serverLogin =
+      "ServerLogIn/authentication/verifyuserlogin";
 }

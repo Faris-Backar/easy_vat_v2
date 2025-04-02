@@ -1,5 +1,4 @@
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
-import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:easy_vat_v2/app/features/auth/domain/repository/auth_repository.dart';
 import 'package:easy_vat_v2/app/features/auth/domain/usecase/pin_login_usecase.dart';
@@ -8,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepositoryImpl(client: ref.read(dioProvider));
+  return AuthRepositoryImpl();
 });
 
 final pinLoginUsecaseProvider = Provider<PinLoginUsecase>((ref) {

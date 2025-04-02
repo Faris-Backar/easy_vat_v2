@@ -24,7 +24,6 @@ class EasyVatApp extends StatelessWidget {
           builder: (context, ref, child) {
             final themeMode = ref.watch(themeNotifierProvider);
             final currentLocale = ref.watch(localeProvider);
-
             return MaterialApp.router(
               debugShowCheckedModeBanner: false,
               routerConfig: _appRouter.config(),

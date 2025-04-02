@@ -2,14 +2,15 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/error/failure.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
+import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/salesman/data/model/sales_man_model.dart';
 import 'package:easy_vat_v2/app/features/salesman/domain/entity/sales_man_entity.dart';
 import 'package:easy_vat_v2/app/features/salesman/domain/repository/sales_man_repository.dart';
 
 class SalesmanRepositoryImpl extends SalesManRepository {
-  final Dio client;
+  SalesmanRepositoryImpl();
 
-  SalesmanRepositoryImpl({required this.client});
+  final client = DioService().dio;
   @override
   Future<Either<Failure, List<SalesManEntity>>> getSalesMan() async {
     try {

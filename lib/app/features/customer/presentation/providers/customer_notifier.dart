@@ -1,4 +1,3 @@
-import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/customer/data/repository/customer_repository_impl.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/repository/customer_repository.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/usecase/get_customer_usecase.dart';
@@ -7,7 +6,7 @@ import 'package:easy_vat_v2/app/features/customer/presentation/providers/custome
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final customerRepositoryProvider = Provider<CustomerRepository>((ref) {
-  return CustomerRepositoryImpl(dio: ref.read(dioProvider));
+  return CustomerRepositoryImpl();
 });
 
 final getCustomerUsecaseProvider = Provider<GetCustomerUsecase>((ref) {

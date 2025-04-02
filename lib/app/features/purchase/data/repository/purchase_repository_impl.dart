@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/error/failure.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
+import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_invoice_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_request_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_success_model.dart';
@@ -10,9 +11,9 @@ import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_invoi
 import 'package:easy_vat_v2/app/features/purchase/domain/repository/purchase_repository.dart';
 
 class PurchaseRepositoryImpl extends PurchaseRepository {
-  final Dio client;
+  PurchaseRepositoryImpl();
 
-  PurchaseRepositoryImpl({required this.client});
+  final client = DioService().dio;
 
   @override
   Future<Either<Failure, List<PurchaseInvoiceEntity>>>

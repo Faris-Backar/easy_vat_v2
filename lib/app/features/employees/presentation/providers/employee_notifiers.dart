@@ -1,6 +1,5 @@
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/usecase/no_params.dart';
-import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/employees/data/repository/employee_repository_impl.dart';
 import 'package:easy_vat_v2/app/features/employees/domain/repository/employee_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +8,7 @@ import 'package:easy_vat_v2/app/features/employees/domain/usecase/get_employees_
 import 'package:easy_vat_v2/app/features/employees/presentation/providers/employee_state.dart';
 
 final employeeRepositoryProvider = Provider<EmployeeRepository>((ref) {
-  return EmployeeRepositoryImpl(client: ref.read(dioProvider));
+  return EmployeeRepositoryImpl();
 });
 
 final getEmployeeUsecaseProvider = Provider<GetEmployeesUsecase>((ref) {

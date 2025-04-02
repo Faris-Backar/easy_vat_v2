@@ -4,13 +4,14 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/error/failure.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
+import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/data/model/payment_mode_model.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/domain/repository/payment_mode_repository.dart';
 
 class PaymentModeRepositoryImpl extends PaymentModeRepository {
-  final Dio client;
+  PaymentModeRepositoryImpl();
 
-  PaymentModeRepositoryImpl({required this.client});
+  final client = DioService().dio;
 
   @override
   Future<Either<Failure, List<PaymentModeModel>>> getPaymentMode() async {

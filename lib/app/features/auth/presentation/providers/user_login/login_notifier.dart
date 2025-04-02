@@ -1,5 +1,5 @@
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
-import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
+import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:easy_vat_v2/app/features/auth/domain/repository/auth_repository.dart';
 import 'package:easy_vat_v2/app/features/auth/domain/usecase/params/login_params.dart';
@@ -10,7 +10,7 @@ import 'package:easy_vat_v2/app/features/auth/presentation/providers/user_login/
 import 'package:shared_preferences/shared_preferences.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  return AuthRepositoryImpl(client: ref.read(dioProvider));
+  return AuthRepositoryImpl();
 });
 
 final loginUsecaseProvider = Provider<LoginUsecase>((ref) {
@@ -31,7 +31,15 @@ class LoginNotifier extends StateNotifier<LoginState> {
     result.fold((l) => state = LoginState.failed(l.message), (r) async {
       final prefs = await SharedPreferences.getInstance();
       prefs.setString(PrefResources.token, r.accessTokens ?? "");
+      prefs.setString(
+          PrefResources.baseUrl, r.companyDetails?.first.connectionInfo ?? "");
+      baseUrl = r.companyDetails?.first.connectionInfo ?? "";
+      baseUrl = r.companyDetails?.first.connectionInfo ?? "";
 
+      // Ensure the URL starts with "https://"
+      if (!baseUrl.startsWith("http://") && !baseUrl.startsWith("https://")) {
+        baseUrl = "https://$baseUrl/";
+      }
       state = LoginState.success(loginResponse: r);
     });
   }

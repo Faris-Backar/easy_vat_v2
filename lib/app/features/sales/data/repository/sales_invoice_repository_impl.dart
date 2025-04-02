@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/error/failure.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
+import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_invoice_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_invoice_request_model.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
@@ -9,9 +10,9 @@ import 'package:easy_vat_v2/app/features/sales/domain/repositories/sales_order_r
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 
 class SalesInvoiceRepositoryImpl extends SalesInvoiceRepository {
-  final Dio client;
+  SalesInvoiceRepositoryImpl();
 
-  SalesInvoiceRepositoryImpl({required this.client});
+  final client = DioService().dio;
   @override
   Future<Either<Failure, SalesInvoiceEntity>> getSalesInvoices(
       {required SalesInvoiceParams salesInvoiceRequestParams}) async {

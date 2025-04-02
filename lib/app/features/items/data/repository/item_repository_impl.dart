@@ -2,14 +2,15 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/error/failure.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
+import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/items/data/model/item_model.dart';
 import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
 import 'package:easy_vat_v2/app/features/items/domain/respository/item_repository.dart';
 
 class ItemRepositoryImpl extends ItemRepository {
-  final Dio client;
+  ItemRepositoryImpl();
 
-  ItemRepositoryImpl({required this.client});
+  final client = DioService().dio;
   @override
   Future<Either<Failure, List<ItemEntity>>> getItems() async {
     try {

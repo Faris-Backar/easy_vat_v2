@@ -2,14 +2,15 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/error/failure.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
+import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/employees/data/models/employee_model.dart';
 import 'package:easy_vat_v2/app/features/employees/domain/entities/employee_entity.dart';
 import 'package:easy_vat_v2/app/features/employees/domain/repository/employee_repository.dart';
 
 class EmployeeRepositoryImpl extends EmployeeRepository {
-  final Dio client;
+  EmployeeRepositoryImpl();
 
-  EmployeeRepositoryImpl({required this.client});
+  final client = DioService().dio;
   @override
   Future<Either<Failure, List<EmployeeEntity>>> getEmployees() async {
     try {

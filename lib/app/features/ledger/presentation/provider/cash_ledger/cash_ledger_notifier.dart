@@ -1,5 +1,4 @@
 import 'package:easy_vat_v2/app/core/usecase/no_params.dart';
-import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/ledger/data/repository/ledger_repository_impl.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/usecase/get_bank_ledger_usecase.dart';
@@ -10,7 +9,7 @@ import 'package:easy_vat_v2/app/features/ledger/domain/repositories/ledger_repos
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_state.dart';
 
 final ledgerRepositoryProvider = Provider<LedgerRepository>((ref) {
-  return LedgerRepositoryImpl(client: ref.read(dioProvider));
+  return LedgerRepositoryImpl();
 });
 
 final getCashLedgerUsercaseProvider = Provider<GetCashLedgerUsecase>((ref) {

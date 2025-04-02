@@ -2,14 +2,15 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/error/failure.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
+import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/ledger/data/model/ledger_account_model.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/repositories/ledger_repository.dart';
 
 class LedgerRepositoryImpl extends LedgerRepository {
-  final Dio client;
+  LedgerRepositoryImpl();
 
-  LedgerRepositoryImpl({required this.client});
+  final client = DioService().dio;
   @override
   Future<Either<Failure, List<LedgerAccountEntity>>> fetchCashLedger() async {
     try {

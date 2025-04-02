@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
@@ -12,8 +10,8 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: SplashRoute.page, path: splash),
-        AutoRoute(page: LoginRoute.page, path: login, initial: true),
+        AutoRoute(page: SplashRoute.page, path: splash, initial: true),
+        AutoRoute(page: LoginRoute.page, path: login),
         AutoRoute(
             guards: [AuthGuard()],
             page: MainRoute.page,
@@ -41,7 +39,7 @@ class AppRouter extends RootStackRouter {
 
   // Routes constants
   static const String splash = "/splash";
-  static const String main = "/";
+  static const String main = "/main";
   static const String dashboard = "dashboard";
   static const String daybook = "daybook";
   static const String report = "report";
@@ -69,7 +67,6 @@ class AuthGuard extends AutoRouteGuard {
     final prefs = await SharedPreferences.getInstance();
     final isAuthenticated =
         prefs.getBool(PrefResources.isAuthenticated) ?? false;
-    log("is Authenticated => $isAuthenticated");
     if (isAuthenticated) {
       resolver.next();
     } else {
