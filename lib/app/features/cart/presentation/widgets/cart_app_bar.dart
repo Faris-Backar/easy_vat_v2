@@ -7,22 +7,55 @@ import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provid
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
+import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class CartAppBar extends ConsumerWidget implements PreferredSizeWidget {
+class CartAppBar extends ConsumerStatefulWidget implements PreferredSizeWidget {
   const CartAppBar({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<CartAppBar> createState() => _CartAppBarState();
+
+  @override
+  Size get preferredSize => Size.fromHeight(kToolbarHeight);
+}
+
+class _CartAppBarState extends ConsumerState<CartAppBar> {
+  bool _isSearching = false;
+  final TextEditingController _searchController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
     return AppBar(
-      title: Text(context.translate(AppStrings.cart)),
+      title: _isSearching
+          ? SizedBox(
+              height: 36.h,
+              child: TextInputFormField(
+                controller: _searchController,
+                autoFocus: true,
+                hint: context.translate(AppStrings.search),
+                onChanged: (value) =>
+                    ref.read(cartProvider.notifier).filterCartItems(value),
+              ),
+            )
+          : Text(context.translate(AppStrings.cart)),
       actions: [
+        IconButton(
+          onPressed: () {
+            setState(() {
+              _isSearching = !_isSearching;
+              if (!_isSearching) {
+                _searchController.clear();
+              }
+            });
+          },
+          icon: Icon(_isSearching ? Icons.close : Icons.search_rounded),
+        ),
         PopupMenuButton<String>(
           onSelected: (value) {
             if (value == 'print') {
-              // Handle print
             } else if (value == 'clear') {
               _showDeleteDialog(context);
             }
@@ -96,7 +129,4 @@ class CartAppBar extends ConsumerWidget implements PreferredSizeWidget {
       ),
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(kToolbarHeight);
 }

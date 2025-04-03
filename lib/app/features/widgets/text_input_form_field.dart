@@ -29,7 +29,8 @@ class TextInputFormField extends StatelessWidget {
       this.width,
       this.label,
       this.textAlign,
-      this.inputFormatters});
+      this.inputFormatters,
+      this.autoFocus = false});
   final String? hint;
   final TextEditingController controller;
   final Widget? prefixIcon;
@@ -37,10 +38,10 @@ class TextInputFormField extends StatelessWidget {
   final bool? isPasswordVisible;
   final TextInputAction? textInputAction;
   final TextInputType? textInputType;
-  final Function(String)? onChanged;
+  final Function(String value)? onChanged;
   final Color? fillColor;
   final double? borderRadius;
-  final String? Function(String?)? validator;
+  final String? Function(String? value)? validator;
   final EdgeInsetsGeometry? contentPadding;
   final TextStyle? hintDecoration;
   final TextStyle? style;
@@ -55,6 +56,7 @@ class TextInputFormField extends StatelessWidget {
   final String? label;
   final TextAlign? textAlign;
   final List<TextInputFormatter>? inputFormatters;
+  final bool autoFocus;
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +64,7 @@ class TextInputFormField extends StatelessWidget {
       height: height,
       width: width,
       child: TextFormField(
+        autofocus: autoFocus,
         inputFormatters: inputFormatters,
         enabled: enabled,
         onTap: onTap,

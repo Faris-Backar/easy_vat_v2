@@ -399,4 +399,17 @@ class CartNotifier extends StateNotifier<CartState> {
     state = state.copyWith(
         totalAmount: totalAmount, totalTax: totalTax, subtotal: subTotal);
   }
+
+  void filterCartItems(String query) {
+    if (query.isNotEmpty) {
+      state = state.copyWith(
+        itemList: itemsList
+            .where((item) =>
+                item.item.itemName!.toLowerCase().contains(query.toLowerCase()))
+            .toList(),
+      );
+    } else {
+      state = state.copyWith(itemList: itemsList);
+    }
+  }
 }
