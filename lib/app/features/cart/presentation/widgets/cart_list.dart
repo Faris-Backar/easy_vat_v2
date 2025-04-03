@@ -10,6 +10,7 @@ import 'package:easy_vat_v2/app/features/cart/presentation/widgets/cart_item_car
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
+import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -58,16 +59,16 @@ class CartList extends StatelessWidget {
       ),
       endActionPane: ActionPane(
         motion: const ScrollMotion(),
-        extentRatio: 0.15,
+        extentRatio: 0.30,
         children: [
           InkWell(
-            onTap: () => _showDeleteDialog(context, index),
+            onTap: () => _showEditDialog(context, index),
             child: Container(
               height: 88.h,
               width: 43.w,
               color: AppUtils.isDarkMode(context)
-                  ? CustomColors.getTransactionCardGreenColor(context)
-                  : CustomColors.getTransactionCardGreenColor(context)
+                  ? CustomColors.getTransactionCardBlueColor(context)
+                  : CustomColors.getTransactionCardBlueColor(context)
                       .withValues(alpha: 0.15),
               padding: const EdgeInsets.all(12.0),
               child: SvgIcon(
@@ -155,6 +156,74 @@ class CartList extends StatelessWidget {
                       ref
                           .read(cartProvider.notifier)
                           .removeItemFromCart(index: index);
+                      context.router.popForced();
+                    },
+                  );
+                }),
+              ),
+            ],
+          )
+        ],
+      ),
+    );
+  }
+
+  void _showEditDialog(BuildContext context, int index) {
+    TextEditingController descriptionController = TextEditingController();
+    descriptionController.text = itemList[index].description;
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        backgroundColor: context.surfaceColor,
+        title: Text(context.translate(AppStrings.description)),
+        titleTextStyle: context.textTheme.titleMedium?.copyWith(
+          fontWeight: FontWeight.w600,
+          fontSize: 18,
+        ),
+        content: SizedBox(
+          width: 1.sw,
+          child: TextInputFormField(
+            controller: descriptionController,
+            maxLines: 6,
+            hint: AppStrings.description,
+          ),
+        ),
+        contentPadding:
+            const EdgeInsets.symmetric(horizontal: 24.0, vertical: 8.0),
+        actions: [
+          Row(
+            children: [
+              Expanded(
+                child: SecondaryButton(
+                  width: double.infinity,
+                  onPressed: () => context.router.popForced(),
+                  label: AppStrings.cancel,
+                  labelColor: context.defaultTextColor,
+                  backgroundColor: AppUtils.isDarkMode(context)
+                      ? context.colorScheme.tertiaryContainer
+                      : null,
+                  border: BorderSide(
+                    color: context.colorScheme.primary.withValues(alpha: 0.2),
+                  ),
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: Consumer(builder: (context, WidgetRef ref, child) {
+                  return PrimaryButton(
+                    width: double.infinity,
+                    label: context.translate(AppStrings.submit),
+                    bgColor: CustomColors.getTransactionCardBlueColor(context),
+                    onPressed: () {
+                      final updatedItem = itemList[index]
+                          .copyWith(description: descriptionController.text);
+                      ref
+                          .read(cartProvider.notifier)
+                          .updateCartItem(cartItem: updatedItem);
+                      ref
+                          .read(cartProvider.notifier)
+                          .setDiscription(descriptionController.text);
+
                       context.router.popForced();
                     },
                   );
