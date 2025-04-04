@@ -8,23 +8,23 @@ part 'cart_state.freezed.dart';
 
 @freezed
 class CartState with _$CartState {
-  const factory CartState({
-    List<CartEntity>? itemList,
-    required double totalAmount,
-    required double discount,
-    required double roundOf,
-    required double totalTax,
-    required double subtotal,
-    String? salesNo,
-    String? refNo,
-    DateTime? saleDate,
-    CustomerEntity? selectedCustomer,
-    String? salesMode,
-    SalesManEntity? soldBy,
-    LedgerAccountEntity? cashAccount,
-    LedgerAccountEntity? salesAccount,
-    bool? isViewOnly,
-  }) = _CartState;
+  const factory CartState(
+      {List<CartEntity>? itemList,
+      required double totalAmount,
+      required double discount,
+      required double roundOf,
+      required double totalTax,
+      required double subtotal,
+      String? salesNo,
+      String? refNo,
+      DateTime? saleDate,
+      CustomerEntity? selectedCustomer,
+      String? salesMode,
+      SalesManEntity? soldBy,
+      LedgerAccountEntity? cashAccount,
+      LedgerAccountEntity? salesAccount,
+      bool? isViewOnly,
+      required bool isTaxEnabled}) = _CartState;
 
   factory CartState.initial() => CartState(
       itemList: null,
@@ -41,5 +41,6 @@ class CartState with _$CartState {
       soldBy: null,
       saleDate: DateTime.now(),
       isViewOnly: false,
+      isTaxEnabled: false,
       selectedCustomer: null);
 }

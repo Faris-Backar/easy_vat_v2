@@ -19,10 +19,11 @@ class AuthRepositoryImpl extends AuthRepository {
   Future<Either<Failure, ServerLoginEntity>> login(
       {required LoginParams params}) async {
     try {
-      final dio = Dio();
+      final dio = DioService().dio;
       final body = params.toMap();
-      final response =
-          await dio.post(baseUrl + UrlResources.serverLogin, data: body);
+      final response = await dio.post(
+          UrlResources.serverBaseUrl + UrlResources.serverLogin,
+          data: body);
       if (response.statusCode == 200) {
         final loginData = ServerLoginModel.fromJson(response.data);
         return right(loginData);

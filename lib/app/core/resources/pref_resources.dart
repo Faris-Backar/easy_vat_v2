@@ -8,6 +8,8 @@ class PrefResources {
   static const String token = "TOKEN";
   static const String languageCodeSelected = "LANGUAGE_CODE";
   static const String baseUrl = "BASE_URL";
+  static const String isTaxEnabled = "IS_TAX_ENABLED";
+  static const String comapnyPermissions = "COMPANY_PERMISSIONS";
 
   static Future<void> setBaseUrl({required String newBaseUrl}) async {
     final prefs = await SharedPreferences.getInstance();

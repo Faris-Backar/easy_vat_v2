@@ -52,6 +52,7 @@ class CompanyDetailEntity {
   DateTime? expairyDate;
   String? serverType;
   bool? isOnline;
+  List<CompanyPermissionEntity>? companyPermission;
 
   CompanyDetailEntity({
     this.companyIdpk,
@@ -89,6 +90,25 @@ class CompanyDetailEntity {
     this.expairyDate,
     this.serverType,
     this.isOnline,
+    this.companyPermission,
+  });
+}
+
+class CompanyPermissionEntity {
+  String? companyIdpk;
+  String? formIdpk;
+  String? formId;
+  String? formName;
+  String? formGroup;
+  bool? isAuthorized;
+
+  CompanyPermissionEntity({
+    this.companyIdpk,
+    this.formIdpk,
+    this.formId,
+    this.formName,
+    this.formGroup,
+    this.isAuthorized,
   });
 }
 

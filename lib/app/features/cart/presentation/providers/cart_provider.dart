@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_state.dart';
@@ -17,7 +18,10 @@ final cartProvider = StateNotifierProvider<CartNotifier, CartState>((ref) {
 });
 
 class CartNotifier extends StateNotifier<CartState> {
-  CartNotifier() : super(CartState.initial());
+  CartNotifier() : super(CartState.initial()) {
+    // Initialize by loading tax preference
+    _loadTaxPreference();
+  }
 
   List<CartEntity> itemsList = [];
   double totalAmount = 0.0;
@@ -38,6 +42,49 @@ class CartNotifier extends StateNotifier<CartState> {
   double totalItemGrossAmont = 0.0;
   String shippingAddress = "";
   bool isViewOnly = false;
+  bool isTaxEnabled =
+      true; // Default value, will be updated from SharedPreferences
+
+  // Load tax preference from SharedPreferences
+  Future<void> _loadTaxPreference() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      isTaxEnabled = prefs.getBool('isTaxEnabled') ?? true;
+      // Update state to reflect the loaded preference
+      state = state.copyWith(isTaxEnabled: isTaxEnabled);
+    } catch (e) {
+      log("Error loading tax preference: $e");
+      // Default to true if there's an error
+      isTaxEnabled = true;
+    }
+  }
+
+  // Set tax enabled/disabled and save to SharedPreferences
+  Future<void> setTaxEnabled(bool enabled) async {
+    isTaxEnabled = enabled;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setBool('isTaxEnabled', enabled);
+    } catch (e) {
+      log("Error saving tax preference: $e");
+    }
+    // Update state
+    state = state.copyWith(isTaxEnabled: isTaxEnabled);
+
+    // Recalculate all items to update totals based on new tax setting
+    _recalculateTotals();
+  }
+
+  // Recalculate all totals when tax setting changes
+  void _recalculateTotals() {
+    totalAmount = 0.0;
+    subTotal = 0.0;
+    totalTax = 0.0;
+
+    for (final item in itemsList) {
+      _getRateSplitUp(item: item, isInitial: true);
+    }
+  }
 
   void addItemsIntoCart({required CartEntity item}) {
     itemsList.add(item);
@@ -61,19 +108,26 @@ class CartNotifier extends StateNotifier<CartState> {
     if (index != -1) {
       final oldItem = itemsList[index];
       _decreaseRateSplitUp(item: oldItem);
+
+      // Calculate tax based on tax setting
+      final tax = isTaxEnabled ? cartItem.tax : 0.0;
+      final netTotal =
+          cartItem.qty * cartItem.rate + (isTaxEnabled ? tax : 0.0);
+
       final updatedItem = CartEntity(
           cartItemId: cartItem.cartItemId,
           item: cartItem.item,
           qty: cartItem.qty,
-          netTotal: cartItem.qty * cartItem.rate,
+          netTotal: netTotal,
           rate: cartItem.rate,
           cost: cartItem.cost,
           unit: cartItem.unit,
           description: cartItem.description,
           discount: cartItem.discount,
-          tax: cartItem.tax,
+          tax: isTaxEnabled ? cartItem.tax : 0.0,
           gross: cartItem.gross,
           priceBeforeTax: cartItem.priceBeforeTax);
+
       itemsList[index] = updatedItem;
       _getRateSplitUp(
         item: updatedItem,
@@ -137,7 +191,17 @@ class CartNotifier extends StateNotifier<CartState> {
 
   void applyDiscount(double discountAmount) {
     discount = discountAmount;
-    double newTotal = itemsList.fold(0.0, (sum, item) => sum + (item.netTotal));
+
+    // Calculate new total based on whether tax is enabled
+    double newTotal = 0.0;
+    if (isTaxEnabled) {
+      // Include tax in total calculation
+      newTotal =
+          itemsList.fold(0.0, (sum, item) => sum + item.gross + item.tax);
+    } else {
+      // Exclude tax from total calculation
+      newTotal = itemsList.fold(0.0, (sum, item) => sum + item.gross);
+    }
 
     totalAmount = newTotal - discount;
     totalAmount = totalAmount < 0 ? 0 : totalAmount;
@@ -157,12 +221,18 @@ class CartNotifier extends StateNotifier<CartState> {
     for (var i = 0; i < itemsList.length; i++) {
       final grossTotal =
           (itemsList[i].item.retailRate ?? 0.0 * itemsList[i].qty);
-      final taxAmount = ((itemsList[i].qty * itemsList[i].rate) *
-              (itemsList[i].item.taxPercentage ?? 0.0)) /
-          100;
+
+      // Apply tax calculation only if tax is enabled
+      final taxAmount = isTaxEnabled
+          ? ((itemsList[i].qty * itemsList[i].rate) *
+                  (itemsList[i].item.taxPercentage ?? 0.0)) /
+              100
+          : 0.0;
+
       totalItemGrossAmont += grossTotal;
       itemTotalTax += taxAmount;
       netTotal += (grossTotal + taxAmount);
+
       final item = SoldItem(
           saleIdpk: uid,
           itemIdpk: itemsList[i].item.itemIdpk ?? "",
@@ -178,8 +248,9 @@ class CartNotifier extends StateNotifier<CartState> {
           discount: discount,
           grossTotal: grossTotal,
           taxAmount: taxAmount,
-          taxPercentage: itemsList[i].item.taxPercentage ?? 0.0,
-          netTotal: grossTotal,
+          taxPercentage:
+              isTaxEnabled ? (itemsList[i].item.taxPercentage ?? 0.0) : 0.0,
+          netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
           currentStock: itemsList[i].item.currentStock ?? 0.0,
           profit: 0.0,
           profitPercentage: 0.0,
@@ -217,7 +288,9 @@ class CartNotifier extends StateNotifier<CartState> {
       soldItems: items,
       remarks: notes,
       saleMode: salesMode,
-      tax: itemTotalTax,
+      tax: isTaxEnabled
+          ? itemTotalTax
+          : 0.0, // Only include tax if tax is enabled
       soldBy: soldBy?.empName,
       crLedgerIdfk: '00000000-0000-0000-0000-000000000000',
       drLedgerIdfk: '00000000-0000-0000-0000-000000000000',
@@ -260,7 +333,7 @@ class CartNotifier extends StateNotifier<CartState> {
     selectedCustomer = CustomerEntity(ledgerName: "Cash", isActive: true);
     description = "";
 
-    state = CartState.initial();
+    state = CartState.initial().copyWith(isTaxEnabled: isTaxEnabled);
   }
 
   double calculateBeforeTax({required double retailRate, required double qty}) {
@@ -272,6 +345,9 @@ class CartNotifier extends StateNotifier<CartState> {
       {required double retailRate,
       required double qty,
       required double taxPercentage}) {
+    // Return 0 tax if tax is disabled
+    if (!isTaxEnabled) return 0.0;
+
     double taxAmount = ((qty * retailRate) * taxPercentage) / 100;
     return taxAmount;
   }
@@ -285,7 +361,8 @@ class CartNotifier extends StateNotifier<CartState> {
   }
 
   double calculateNetTotal({required double grossTotal, required double tax}) {
-    return grossTotal + tax;
+    // Include tax in net total only if tax is enabled
+    return grossTotal + (isTaxEnabled ? tax : 0.0);
   }
 
   ItemEntity convertSoldItemToItem(SoldItemEntity soldItem) {
@@ -308,9 +385,7 @@ class CartNotifier extends StateNotifier<CartState> {
     setViewOnlyMode(true);
 
     clearCart();
-
     List<CartEntity> updatedItemsList = [];
-
     // update customer
     ref.read(customerNotifierProvider.notifier).getCustomer();
     final customerList = ref.read(customerNotifierProvider).customerList;
@@ -340,14 +415,20 @@ class CartNotifier extends StateNotifier<CartState> {
         final priceBeforeTax = calculateBeforeTax(
             retailRate: itemEntity.retailRate ?? 0.0,
             qty: soldItem.actualQty?.toDouble() ?? 0.0);
-        final totalTax = calculateTotalTax(
-            retailRate: itemEntity.retailRate ?? 0.0,
-            qty: soldItem.actualQty?.toDouble() ?? 0.0,
-            taxPercentage: itemEntity.taxPercentage ?? 0.0);
+
+        // Calculate tax based on tax setting
+        final totalTax = isTaxEnabled
+            ? calculateTotalTax(
+                retailRate: itemEntity.retailRate ?? 0.0,
+                qty: soldItem.actualQty?.toDouble() ?? 0.0,
+                taxPercentage: itemEntity.taxPercentage ?? 0.0)
+            : 0.0;
+
         final grossTotal = calculateGross(
             retailRate: itemEntity.retailRate ?? 0.0,
             qty: soldItem.actualQty?.toDouble() ?? 0.0,
             discount: soldItem.discount?.toDouble() ?? 0.0);
+
         final netTotal =
             calculateNetTotal(grossTotal: grossTotal, tax: totalTax);
 
@@ -376,28 +457,47 @@ class CartNotifier extends StateNotifier<CartState> {
       totalTax: totalTax,
       subtotal: subTotal,
       discount: discount,
+      isTaxEnabled: isTaxEnabled,
     );
   }
 
-  void _getRateSplitUp({required CartEntity item}) {
-    totalTax += item.tax;
-    totalAmount += (item.gross + item.tax);
+  void _getRateSplitUp({required CartEntity item, bool isInitial = false}) {
+    if (isTaxEnabled) {
+      totalTax += item.tax;
+      totalAmount += (item.gross + item.tax);
+    } else {
+      totalAmount += item.gross;
+    }
+
     subTotal += item.gross;
 
-    state = state.copyWith(
-      totalAmount: totalAmount,
-      subtotal: subTotal,
-      totalTax: totalTax,
-    );
+    if (!isInitial) {
+      state = state.copyWith(
+        totalAmount: totalAmount,
+        subtotal: subTotal,
+        totalTax: totalTax,
+        isTaxEnabled: isTaxEnabled,
+      );
+    }
   }
 
   void _decreaseRateSplitUp({required CartEntity item}) {
-    totalTax -= item.tax;
-    totalAmount -= (item.gross + item.tax);
+    // Only subtract tax if tax is enabled
+    if (isTaxEnabled) {
+      totalTax -= item.tax;
+      totalAmount -= (item.gross + item.tax);
+    } else {
+      totalAmount -= item.gross; // No tax included in total amount
+    }
+
     subTotal -= item.gross;
 
     state = state.copyWith(
-        totalAmount: totalAmount, totalTax: totalTax, subtotal: subTotal);
+      totalAmount: totalAmount,
+      totalTax: totalTax,
+      subtotal: subTotal,
+      isTaxEnabled: isTaxEnabled,
+    );
   }
 
   void filterCartItems(String query) {
@@ -407,9 +507,13 @@ class CartNotifier extends StateNotifier<CartState> {
             .where((item) =>
                 item.item.itemName!.toLowerCase().contains(query.toLowerCase()))
             .toList(),
+        isTaxEnabled: isTaxEnabled,
       );
     } else {
-      state = state.copyWith(itemList: itemsList);
+      state = state.copyWith(
+        itemList: itemsList,
+        isTaxEnabled: isTaxEnabled,
+      );
     }
   }
 }

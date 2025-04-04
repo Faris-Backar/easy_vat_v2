@@ -31,6 +31,7 @@ mixin _$CartState {
   LedgerAccountEntity? get cashAccount => throw _privateConstructorUsedError;
   LedgerAccountEntity? get salesAccount => throw _privateConstructorUsedError;
   bool? get isViewOnly => throw _privateConstructorUsedError;
+  bool get isTaxEnabled => throw _privateConstructorUsedError;
 
   /// Create a copy of CartState
   /// with the given fields replaced by the non-null parameter values.
@@ -59,7 +60,8 @@ abstract class $CartStateCopyWith<$Res> {
       SalesManEntity? soldBy,
       LedgerAccountEntity? cashAccount,
       LedgerAccountEntity? salesAccount,
-      bool? isViewOnly});
+      bool? isViewOnly,
+      bool isTaxEnabled});
 }
 
 /// @nodoc
@@ -92,6 +94,7 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
     Object? cashAccount = freezed,
     Object? salesAccount = freezed,
     Object? isViewOnly = freezed,
+    Object? isTaxEnabled = null,
   }) {
     return _then(_value.copyWith(
       itemList: freezed == itemList
@@ -154,6 +157,10 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
           ? _value.isViewOnly
           : isViewOnly // ignore: cast_nullable_to_non_nullable
               as bool?,
+      isTaxEnabled: null == isTaxEnabled
+          ? _value.isTaxEnabled
+          : isTaxEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -181,7 +188,8 @@ abstract class _$$CartStateImplCopyWith<$Res>
       SalesManEntity? soldBy,
       LedgerAccountEntity? cashAccount,
       LedgerAccountEntity? salesAccount,
-      bool? isViewOnly});
+      bool? isViewOnly,
+      bool isTaxEnabled});
 }
 
 /// @nodoc
@@ -212,6 +220,7 @@ class __$$CartStateImplCopyWithImpl<$Res>
     Object? cashAccount = freezed,
     Object? salesAccount = freezed,
     Object? isViewOnly = freezed,
+    Object? isTaxEnabled = null,
   }) {
     return _then(_$CartStateImpl(
       itemList: freezed == itemList
@@ -274,6 +283,10 @@ class __$$CartStateImplCopyWithImpl<$Res>
           ? _value.isViewOnly
           : isViewOnly // ignore: cast_nullable_to_non_nullable
               as bool?,
+      isTaxEnabled: null == isTaxEnabled
+          ? _value.isTaxEnabled
+          : isTaxEnabled // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -296,7 +309,8 @@ class _$CartStateImpl implements _CartState {
       this.soldBy,
       this.cashAccount,
       this.salesAccount,
-      this.isViewOnly})
+      this.isViewOnly,
+      required this.isTaxEnabled})
       : _itemList = itemList;
 
   final List<CartEntity>? _itemList;
@@ -337,10 +351,12 @@ class _$CartStateImpl implements _CartState {
   final LedgerAccountEntity? salesAccount;
   @override
   final bool? isViewOnly;
+  @override
+  final bool isTaxEnabled;
 
   @override
   String toString() {
-    return 'CartState(itemList: $itemList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, totalTax: $totalTax, subtotal: $subtotal, salesNo: $salesNo, refNo: $refNo, saleDate: $saleDate, selectedCustomer: $selectedCustomer, salesMode: $salesMode, soldBy: $soldBy, cashAccount: $cashAccount, salesAccount: $salesAccount, isViewOnly: $isViewOnly)';
+    return 'CartState(itemList: $itemList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, totalTax: $totalTax, subtotal: $subtotal, salesNo: $salesNo, refNo: $refNo, saleDate: $saleDate, selectedCustomer: $selectedCustomer, salesMode: $salesMode, soldBy: $soldBy, cashAccount: $cashAccount, salesAccount: $salesAccount, isViewOnly: $isViewOnly, isTaxEnabled: $isTaxEnabled)';
   }
 
   @override
@@ -372,7 +388,9 @@ class _$CartStateImpl implements _CartState {
             (identical(other.salesAccount, salesAccount) ||
                 other.salesAccount == salesAccount) &&
             (identical(other.isViewOnly, isViewOnly) ||
-                other.isViewOnly == isViewOnly));
+                other.isViewOnly == isViewOnly) &&
+            (identical(other.isTaxEnabled, isTaxEnabled) ||
+                other.isTaxEnabled == isTaxEnabled));
   }
 
   @override
@@ -392,7 +410,8 @@ class _$CartStateImpl implements _CartState {
       soldBy,
       cashAccount,
       salesAccount,
-      isViewOnly);
+      isViewOnly,
+      isTaxEnabled);
 
   /// Create a copy of CartState
   /// with the given fields replaced by the non-null parameter values.
@@ -419,7 +438,8 @@ abstract class _CartState implements CartState {
       final SalesManEntity? soldBy,
       final LedgerAccountEntity? cashAccount,
       final LedgerAccountEntity? salesAccount,
-      final bool? isViewOnly}) = _$CartStateImpl;
+      final bool? isViewOnly,
+      required final bool isTaxEnabled}) = _$CartStateImpl;
 
   @override
   List<CartEntity>? get itemList;
@@ -451,6 +471,8 @@ abstract class _CartState implements CartState {
   LedgerAccountEntity? get salesAccount;
   @override
   bool? get isViewOnly;
+  @override
+  bool get isTaxEnabled;
 
   /// Create a copy of CartState
   /// with the given fields replaced by the non-null parameter values.

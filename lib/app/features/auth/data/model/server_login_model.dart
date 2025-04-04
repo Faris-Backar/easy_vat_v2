@@ -27,8 +27,8 @@ class ServerLoginModel extends ServerLoginEntity {
         "accessTokens": accessTokens,
         "expairyTime": expairyTime?.toIso8601String(),
         // "userInfo": userInfo.toJson(),
-        // "companyDetails":
-        //     List<dynamic>.from(companyDetails.map((x) => x.toJson())),
+        "companyDetails":
+            List<UserInfoModel>.from(companyDetails?.map((x) => x) ?? []),
       };
 }
 
@@ -69,6 +69,7 @@ class CompanyDetailModel extends CompanyDetailEntity {
     super.expairyDate,
     super.serverType,
     super.isOnline,
+    super.companyPermission,
   });
 
   factory CompanyDetailModel.fromJson(Map<String, dynamic> json) =>
@@ -108,6 +109,9 @@ class CompanyDetailModel extends CompanyDetailEntity {
         expairyDate: DateTime.parse(json["expairyDate"]),
         serverType: json["serverType"],
         isOnline: json["isOnline"],
+        companyPermission: List<CompanyPermissionModel>.from(
+            json["companyPermission"]
+                .map((x) => CompanyPermissionModel.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
@@ -146,6 +150,38 @@ class CompanyDetailModel extends CompanyDetailEntity {
         "expairyDate": expairyDate?.toIso8601String(),
         "serverType": serverType,
         "isOnline": isOnline,
+        "companyPermission":
+            List<dynamic>.from(companyPermission?.map((x) => x) ?? []),
+      };
+}
+
+class CompanyPermissionModel extends CompanyPermissionEntity {
+  CompanyPermissionModel({
+    super.companyIdpk,
+    super.formIdpk,
+    super.formId,
+    super.formName,
+    super.formGroup,
+    super.isAuthorized,
+  });
+
+  factory CompanyPermissionModel.fromJson(Map<String, dynamic> json) =>
+      CompanyPermissionModel(
+        companyIdpk: json["companyIDPK"],
+        formIdpk: json["formIDPK"],
+        formId: json["formID"],
+        formName: json["formName"],
+        formGroup: json["formGroup"],
+        isAuthorized: json["isAuthorized"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "companyIDPK": companyIdpk,
+        "formIDPK": formIdpk,
+        "formID": formId,
+        "formName": formName,
+        "formGroup": formGroup,
+        "isAuthorized": isAuthorized,
       };
 }
 
