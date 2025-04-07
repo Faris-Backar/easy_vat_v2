@@ -1,5 +1,5 @@
 class PinLoginEntity {
-  bool isAuthenticated;
+  bool? isAuthenticated;
   String message;
   UserDetailsEntity? userDetails;
   LedgerBookInfoEntity? ledgerBookInfo;
@@ -47,14 +47,16 @@ class UserDetailsEntity {
   String? username;
   String? password;
   String? empName;
-  int? userRoleIdpk;
+  double? userRoleIdpk;
   String? userRole;
-  int? userPin;
+  double? userPin;
   bool? isActive;
   bool? isEdit;
   StoreDetailsEntity? storeDetails;
   CashAccountDetailsEntity? cashAccountDetails;
-  List<UserPermissionEntity>? userPermissions;
+  List<dynamic>? userPermissions;
+  AppSettingsEntity? appSettings;
+  CompanyInfoEntity? companyInfo;
 
   UserDetailsEntity({
     this.userIdpk,
@@ -69,6 +71,86 @@ class UserDetailsEntity {
     this.storeDetails,
     this.cashAccountDetails,
     this.userPermissions,
+    this.appSettings,
+    this.companyInfo,
+  });
+}
+
+class AppSettingsEntity {
+  String? primaryCurrency;
+  double? primaryDecimal;
+  String? secondaryCurrency;
+  double? secondaryDecimal;
+  bool? enableTaxCalculation;
+  double? defaultCountryId;
+  double? defaultCountryStateId;
+  double? defaultCurrencyId;
+  double? defaultNumberOfDecimal;
+  bool? enableEmployeeBiometricFingerprint;
+  String? defaultSalesAccount;
+  String? defaultCashAccount;
+  String? defaultCustomer;
+  double? nextBarcodeNumber;
+  double? salesPromotionType;
+  double? salesPromotionValueType;
+  double? salesPromationValue;
+  String? defaultCardAccount;
+  String? defaultBankAccount;
+  String? discountAllowed;
+  String? discountReceived;
+  DateTime? dbLastUpdate;
+  double? nextItemCodeNumber;
+  bool? enableWeightScale;
+  double? weightScaleReserve;
+  String? customReportCustomer;
+  bool? enableVoucherLock;
+  bool? enableAutomaticDayShift;
+  String? dayShiftTiming;
+  bool? isEnableBiometrics;
+  String? profitCalculationModel;
+  String? invoiceFooter;
+  String? companyIdpk;
+  bool? blockBelowCostSale;
+  bool? enableMultiLanguage;
+  String? languageType;
+
+  AppSettingsEntity({
+    this.primaryCurrency,
+    this.primaryDecimal,
+    this.secondaryCurrency,
+    this.secondaryDecimal,
+    this.enableTaxCalculation,
+    this.defaultCountryId,
+    this.defaultCountryStateId,
+    this.defaultCurrencyId,
+    this.defaultNumberOfDecimal,
+    this.enableEmployeeBiometricFingerprint,
+    this.defaultSalesAccount,
+    this.defaultCashAccount,
+    this.defaultCustomer,
+    this.nextBarcodeNumber,
+    this.salesPromotionType,
+    this.salesPromotionValueType,
+    this.salesPromationValue,
+    this.defaultCardAccount,
+    this.defaultBankAccount,
+    this.discountAllowed,
+    this.discountReceived,
+    this.dbLastUpdate,
+    this.nextItemCodeNumber,
+    this.enableWeightScale,
+    this.weightScaleReserve,
+    this.customReportCustomer,
+    this.enableVoucherLock,
+    this.enableAutomaticDayShift,
+    this.dayShiftTiming,
+    this.isEnableBiometrics,
+    this.profitCalculationModel,
+    this.invoiceFooter,
+    this.companyIdpk,
+    this.blockBelowCostSale,
+    this.enableMultiLanguage,
+    this.languageType,
   });
 }
 
@@ -83,6 +165,74 @@ class CashAccountDetailsEntity {
     this.ledgerName,
     this.currentBalance,
     this.currentBalanceType,
+  });
+}
+
+class CompanyInfoEntity {
+  String? companyGuid;
+  String? companyId;
+  String? companyName;
+  String? companyNameArabic;
+  String? tradeLicenceNo;
+  DateTime? licenceExpiryDate;
+  DateTime? bookBeginningDate;
+  bool? isActive;
+  String? mailingName;
+  String? authorisedPerson;
+  String? address;
+  String? phone;
+  String? mobile;
+  String? email;
+  String? fax;
+  String? website;
+  double? countryId;
+  double? stateIdPk;
+  String? taxRegistrationType;
+  bool? enableTaxCalculation;
+  String? taxRegNo;
+  DateTime? dateofTaxRegistration;
+  String? taxReturnPeriod;
+  DateTime? startDate;
+  DateTime? endDate;
+  String? incomeTaxNo;
+  String? description;
+  dynamic logo;
+  String? softwareType;
+  String? companyIdpk;
+  bool? isSelected;
+
+  CompanyInfoEntity({
+    this.companyGuid,
+    this.companyId,
+    this.companyName,
+    this.companyNameArabic,
+    this.tradeLicenceNo,
+    this.licenceExpiryDate,
+    this.bookBeginningDate,
+    this.isActive,
+    this.mailingName,
+    this.authorisedPerson,
+    this.address,
+    this.phone,
+    this.mobile,
+    this.email,
+    this.fax,
+    this.website,
+    this.countryId,
+    this.stateIdPk,
+    this.taxRegistrationType,
+    this.enableTaxCalculation,
+    this.taxRegNo,
+    this.dateofTaxRegistration,
+    this.taxReturnPeriod,
+    this.startDate,
+    this.endDate,
+    this.incomeTaxNo,
+    this.description,
+    this.logo,
+    this.softwareType,
+    this.companyIdpk,
+    this.isSelected,
   });
 }
 
@@ -117,35 +267,5 @@ class StoreDetailsEntity {
     this.modifiedBy,
     this.modifiedDate,
     this.rowguid,
-  });
-}
-
-class UserPermissionEntity {
-  String? userIdpk;
-  String? formNameId;
-  String? formName;
-  bool? pView;
-  bool? pInsert;
-  bool? pUpdate;
-  bool? pDelete;
-  bool? pPrint;
-  bool? pRePrint;
-  bool? pAutherization;
-  bool? isEdit;
-  String? companyIdpk;
-
-  UserPermissionEntity({
-    this.userIdpk,
-    this.formNameId,
-    this.formName,
-    this.pView,
-    this.pInsert,
-    this.pUpdate,
-    this.pDelete,
-    this.pPrint,
-    this.pRePrint,
-    this.pAutherization,
-    this.isEdit,
-    this.companyIdpk,
   });
 }

@@ -30,6 +30,8 @@ class PinLoginNotifier extends StateNotifier<PinLoginState> {
     result.fold((l) => state = PinLoginState.failed(l.message), (r) async {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setBool(PrefResources.isAuthenticated, true);
+      await prefs.setBool(PrefResources.isTaxEnabled,
+          r.userDetails?.appSettings?.enableTaxCalculation ?? false);
       state = PinLoginState.success(loginResponse: r);
     });
   }

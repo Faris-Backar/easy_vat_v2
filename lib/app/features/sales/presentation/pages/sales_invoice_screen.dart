@@ -11,6 +11,7 @@ import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoi
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_invoice_state.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_invoice_app_bar.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_tansaction_card.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_card.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_slidable_widget.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
@@ -98,15 +99,18 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                         )
                       ],
                     ),
-                    child: TransactionCard(
-                      soldItems: salesInvoice.soldItems ?? [],
-                      salesOrderNumber: salesInvoice.salesOrderNo ?? "",
-                      salesDate: salesInvoice.saleDate ?? DateTime.now(),
-                      customerName: salesInvoice.customerName ?? "",
-                      soldBy: salesInvoice.soldBy ?? "",
-                      netTotal: salesInvoice.netTotal ?? 0.0,
-                      refNo: salesInvoice.referenceNo ?? "",
-                      status: "Unpaid",
+                    // child: TransactionCard(
+                    //   soldItems: salesInvoice.soldItems ?? [],
+                    //   salesOrderNumber: salesInvoice.salesOrderNo ?? "",
+                    //   salesDate: salesInvoice.saleDate ?? DateTime.now(),
+                    //   customerName: salesInvoice.customerName ?? "",
+                    //   soldBy: salesInvoice.soldBy ?? "",
+                    //   netTotal: salesInvoice.netTotal ?? 0.0,
+                    //   refNo: salesInvoice.referenceNo ?? "",
+                    //   status: "Unpaid",
+                    // ),
+                    child: SalesTransactionCard(
+                      salesInvoice: salesInvoice,
                     ),
                   ),
                 );
