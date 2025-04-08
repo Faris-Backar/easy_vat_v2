@@ -159,6 +159,60 @@ class _CartItemCardWidgetState extends State<CartItemCardWidget> {
                       ],
                     ),
                   ),
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.translate(AppStrings.qty),
+                          style: context.textTheme.bodySmall?.copyWith(
+                            color: context.defaultTextColor
+                                .withValues(alpha: 0.32),
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                        SizedBox(height: 3),
+                        Text(
+                          widget.items.qty.toString(),
+                          style: context.textTheme.bodySmall?.copyWith(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: context.defaultTextColor
+                                .withValues(alpha: 0.75),
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.translate(AppStrings.netTotal),
+                          style: context.textTheme.bodySmall?.copyWith(
+                            color: context.defaultTextColor
+                                .withValues(alpha: 0.32),
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                        SizedBox(height: 3),
+                        Text(
+                          widget.items.netTotal.toStringAsFixed(2),
+                          style: context.textTheme.bodySmall?.copyWith(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: context.defaultTextColor
+                                .withValues(alpha: 0.75),
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
               AnimatedContainer(
@@ -225,6 +279,64 @@ class _CartItemCardWidgetState extends State<CartItemCardWidget> {
                                       color: context.defaultTextColor
                                           .withValues(alpha: 0.75),
                                     ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    context.translate(AppStrings.discount),
+                                    style:
+                                        context.textTheme.bodySmall?.copyWith(
+                                      color: context.defaultTextColor
+                                          .withValues(alpha: 0.32),
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                  SizedBox(height: 3),
+                                  Text(
+                                    widget.items.discount.toStringAsFixed(2),
+                                    style:
+                                        context.textTheme.bodySmall?.copyWith(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                      color: context.defaultTextColor
+                                          .withValues(alpha: 0.75),
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              flex: 1,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    context.translate(AppStrings.gross),
+                                    style:
+                                        context.textTheme.bodySmall?.copyWith(
+                                      color: context.defaultTextColor
+                                          .withValues(alpha: 0.32),
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                  SizedBox(height: 3),
+                                  Text(
+                                    widget.items.gross.toStringAsFixed(2),
+                                    style:
+                                        context.textTheme.bodySmall?.copyWith(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600,
+                                      color: context.defaultTextColor
+                                          .withValues(alpha: 0.75),
+                                    ),
+                                    textAlign: TextAlign.right,
                                   ),
                                 ],
                               ),
