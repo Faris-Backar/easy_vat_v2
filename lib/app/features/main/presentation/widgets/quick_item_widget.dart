@@ -3,17 +3,28 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_text_theme.dart';
 import 'package:easy_vat_v2/app/features/main/presentation/widgets/category_item_card.dart';
 import 'package:flutter/material.dart';
-
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/features/main/data/home_category_data.dart';
 
 class QuickItemWidget extends StatelessWidget {
+  final List<String> allowedFormIds;
+
   const QuickItemWidget({
     super.key,
+    required this.allowedFormIds,
   });
 
   @override
   Widget build(BuildContext context) {
+    final quickItems = HomeCategoryData.quickItemsData(context);
+
+    // Apply filtering using toLowerCase
+    final filteredQuickItems = quickItems
+        .where((item) => allowedFormIds
+            .map((id) => id.toLowerCase())
+            .contains(item.formId.toLowerCase()))
+        .toList();
+
     return SliverPersistentHeader(
       pinned: true,
       floating: true,
@@ -24,11 +35,9 @@ class QuickItemWidget extends StatelessWidget {
           child: Container(
             width: double.infinity,
             color: Theme.of(context).scaffoldBackgroundColor,
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16.0,
-            ),
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: _CategoryMenu(
-              dataList: HomeCategoryData.quickItemsData(context),
+              dataList: filteredQuickItems,
               label: context.translate(AppStrings.quickItems),
             ),
           ),
@@ -71,6 +80,7 @@ class _SliverHeaderDelegate extends SliverPersistentHeaderDelegate {
 class _CategoryMenu extends StatelessWidget {
   final String label;
   final List<HomeDataModel> dataList;
+
   const _CategoryMenu({
     required this.label,
     required this.dataList,
@@ -81,36 +91,49 @@ class _CategoryMenu extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(
-          height: 20,
-        ),
+        const SizedBox(height: 20),
         Align(
           alignment: Alignment.centerLeft,
-          child: Text(context.translate(AppStrings.quickItems),
-              style: CustomTextTheme.header(context)),
-        ),
-        SizedBox(
-          height: 20,
-        ),
-        Expanded(
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              childAspectRatio: .7,
-              mainAxisSpacing: 15,
-              crossAxisSpacing: 15,
-            ),
-            itemCount: dataList.length,
-            itemBuilder: (context, index) {
-              final homeData = dataList[index];
-              return InkWell(
-                  onTap: () => context.router.pushNamed(homeData.pagePath),
-                  child: CategoryItemCard(homeData: homeData));
-            },
+          child: Text(
+            label,
+            style: CustomTextTheme.header(context),
           ),
         ),
+        const SizedBox(height: 20),
+        if (dataList.isEmpty)
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 40),
+              child: Text(
+                "No permissions given to this user. Please contact admin.",
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+              ),
+            ),
+          )
+        else
+          Expanded(
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 4,
+                childAspectRatio: .7,
+                mainAxisSpacing: 15,
+                crossAxisSpacing: 15,
+              ),
+              itemCount: dataList.length,
+              itemBuilder: (context, index) {
+                final homeData = dataList[index];
+                return InkWell(
+                  onTap: () => context.router.pushNamed(homeData.pagePath),
+                  child: CategoryItemCard(homeData: homeData),
+                );
+              },
+            ),
+          ),
       ],
     );
   }

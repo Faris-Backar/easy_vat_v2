@@ -38,11 +38,11 @@ class AppStrings {
   static const String store = "store";
   static const String serviceJob = "serviceJob";
   static const String vehicleRegistration = "vehicleRegistration";
-  static const String salesQuatation = "salesQuatation";
+  static const String salesQuotation = "salesQuotation";
   static const String salesOrder = "salesOrder";
   static const String deliveryNote = "deliveryNote";
   static const String purchaseOrder = "purchaseOrder";
-  static const String goodsReciept = "goodsReciept";
+  static const String goodsReceipt = "goodsReciept";
   static const String production = "production";
   static const String replaceStockItems = "replaceStockItems";
   static const String repacking = "repacking";

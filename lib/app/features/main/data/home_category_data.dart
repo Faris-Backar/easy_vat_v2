@@ -184,11 +184,11 @@ class HomeCategoryData {
   static List<HomeDataModel> inventoryVoucher(BuildContext context) => [
         HomeDataModel(
             category: AppStrings.inventoryVoucher,
-            label: context.translate(AppStrings.salesQuatation),
+            label: context.translate(AppStrings.salesQuotation),
             icon: Assets.icons.sales,
             darkIcon: Assets.icons.dark.salesOrdersDark,
             pagePath: AppRouter.salesQuatation,
-            formId: AppStrings.salesQuatation),
+            formId: AppStrings.salesQuotation),
         HomeDataModel(
             category: AppStrings.inventoryVoucher,
             label: context.translate(AppStrings.salesOrder),
@@ -205,11 +205,11 @@ class HomeCategoryData {
             formId: AppStrings.purchaseOrder),
         HomeDataModel(
             category: AppStrings.inventoryVoucher,
-            label: context.translate(AppStrings.goodsReciept),
+            label: context.translate(AppStrings.goodsReceipt),
             icon: Assets.icons.reciept,
             darkIcon: Assets.icons.dark.recieptDark,
             pagePath: "",
-            formId: AppStrings.goodsReciept),
+            formId: AppStrings.goodsReceipt),
         HomeDataModel(
             category: AppStrings.inventoryVoucher,
             label: context.translate(AppStrings.production),

@@ -18,13 +18,31 @@ class HomeScreen extends ConsumerWidget {
     final allowedFormIdsAsync = ref.watch(allowedHomeFormIdsProvider);
 
     return allowedFormIdsAsync.when(
-      loading: () =>
-          const Scaffold(body: Center(child: CircularProgressIndicator())),
-      error: (err, stack) => Scaffold(body: Center(child: Text('Error: $err'))),
+      loading: () => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      error: (err, stack) => Scaffold(
+        body: Center(child: Text('Error: $err')),
+      ),
       data: (allowedFormIds) {
         List<HomeDataModel> filter(List<HomeDataModel> original) => original
-            .where((item) => allowedFormIds.contains(item.formId))
+            .where((item) => allowedFormIds
+                .map((id) => id.toLowerCase())
+                .contains(item.formId.toLowerCase()))
             .toList();
+
+        // Apply filtering
+        final masterData = filter(HomeCategoryData.masterData(context));
+        final inventoryVoucher =
+            filter(HomeCategoryData.inventoryVoucher(context));
+        final accountVoucher = filter(HomeCategoryData.accountVoucher(context));
+        final hrmData = filter(HomeCategoryData.hrmData(context));
+
+        // If all are empty, hide the bottom sheet section
+        final allMenusEmpty = masterData.isEmpty &&
+            inventoryVoucher.isEmpty &&
+            accountVoucher.isEmpty &&
+            hrmData.isEmpty;
 
         return Scaffold(
           appBar: PreferredSize(
@@ -33,68 +51,75 @@ class HomeScreen extends ConsumerWidget {
             child: Container(color: Theme.of(context).scaffoldBackgroundColor),
           ),
           body: NestedScrollView(
-            headerSliverBuilder: (_, __) => [const QuickItemWidget()],
-            body: ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: context.colorScheme.tertiaryContainer,
-                  boxShadow: [
-                    BoxShadow(
-                      color: context.colorScheme.outline,
-                      blurRadius: 5,
-                      spreadRadius: 2,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                child: Column(
-                  children: [
-                    SizedBox(height: 10.h),
-                    Container(
-                      height: 6.h,
-                      width: 60.w,
+            headerSliverBuilder: (_, __) => [
+              QuickItemWidget(allowedFormIds: allowedFormIds),
+            ],
+            body: allMenusEmpty
+                ? const SizedBox.shrink()
+                : ClipRRect(
+                    borderRadius:
+                        BorderRadius.vertical(top: Radius.circular(20.r)),
+                    child: Container(
                       decoration: BoxDecoration(
-                        color: context.colorScheme.secondaryContainer,
-                        borderRadius: BorderRadius.circular(10.r),
+                        color: context.colorScheme.tertiaryContainer,
+                        boxShadow: [
+                          BoxShadow(
+                            color: context.colorScheme.outline,
+                            blurRadius: 5,
+                            spreadRadius: 2,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                      child: Column(
+                        children: [
+                          SizedBox(height: 10.h),
+                          Container(
+                            height: 6.h,
+                            width: 60.w,
+                            decoration: BoxDecoration(
+                              color: context.colorScheme.secondaryContainer,
+                              borderRadius: BorderRadius.circular(10.r),
+                            ),
+                          ),
+                          SizedBox(height: 10.h),
+                          Expanded(
+                            child: SingleChildScrollView(
+                              child: Column(
+                                children: [
+                                  if (masterData.isNotEmpty)
+                                    HomeCategoryMenu(
+                                      title: context
+                                          .translate(AppStrings.masterData),
+                                      dataList: masterData,
+                                    ),
+                                  if (inventoryVoucher.isNotEmpty)
+                                    HomeCategoryMenu(
+                                      title: context.translate(
+                                          AppStrings.inventoryVoucher),
+                                      dataList: inventoryVoucher,
+                                    ),
+                                  if (accountVoucher.isNotEmpty)
+                                    HomeCategoryMenu(
+                                      title: context
+                                          .translate(AppStrings.accountVoucher),
+                                      dataList: accountVoucher,
+                                    ),
+                                  if (hrmData.isNotEmpty)
+                                    HomeCategoryMenu(
+                                      title: context.translate(AppStrings.hrm),
+                                      dataList: hrmData,
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    SizedBox(height: 10.h),
-                    Expanded(
-                      child: SingleChildScrollView(
-                        child: Column(
-                          children: [
-                            HomeCategoryMenu(
-                              title: context.translate(AppStrings.masterData),
-                              dataList:
-                                  filter(HomeCategoryData.masterData(context)),
-                            ),
-                            HomeCategoryMenu(
-                              title: context
-                                  .translate(AppStrings.inventoryVoucher),
-                              dataList: filter(
-                                  HomeCategoryData.inventoryVoucher(context)),
-                            ),
-                            HomeCategoryMenu(
-                              title:
-                                  context.translate(AppStrings.accountVoucher),
-                              dataList: filter(
-                                  HomeCategoryData.accountVoucher(context)),
-                            ),
-                            HomeCategoryMenu(
-                              title: context.translate(AppStrings.hrm),
-                              dataList:
-                                  filter(HomeCategoryData.hrmData(context)),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                  ),
           ),
         );
       },

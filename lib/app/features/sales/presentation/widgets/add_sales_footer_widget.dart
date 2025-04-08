@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
@@ -89,12 +91,12 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                     });
 
                     final state = ref.watch(createSalesNotifierProvider);
-
+                    log("save button state => $state");
                     return state.maybeWhen(
                       orElse: () => PrimaryButton(
                         label: context.translate(AppStrings.save),
                         isLoading: false,
-                        onPressed: ref.watch(cartProvider).isViewOnly == false
+                        onPressed: ref.watch(cartProvider).isViewOnly == true
                             ? () {}
                             : () {
                                 if (widget.isForPurchase) {

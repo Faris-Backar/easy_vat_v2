@@ -63,6 +63,8 @@ class _ItemsBottomModalSheetState extends ConsumerState<ItemsBottomModalSheet> {
         Expanded(
           child: TextInputFormField(
             controller: searchController,
+            maxLines: 1,
+            textInputAction: TextInputAction.done,
             fillColor:
                 AppUtils.isDarkMode(context) ? context.surfaceColor : null,
             onChanged: (value) {

@@ -62,7 +62,7 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
       appBar: SalesAppBar(
         searchController: _searchTextController,
         config: SalesAppBarConfig(
-          title: context.translate(AppStrings.salesQuatation),
+          title: context.translate(AppStrings.salesQuotation),
           enableBarcodeScanning: true,
         ),
       ),
