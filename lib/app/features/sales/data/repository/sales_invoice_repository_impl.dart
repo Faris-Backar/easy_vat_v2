@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/error/failure.dart';
@@ -18,6 +20,7 @@ class SalesInvoiceRepositoryImpl extends SalesInvoiceRepository {
       {required SalesInvoiceParams salesInvoiceRequestParams}) async {
     try {
       final data = salesInvoiceRequestParams.toJson();
+      log("Date time => $data");
       final response = await client.post(
         UrlResources.getSalesInvoice,
         data: data,
