@@ -1,45 +1,45 @@
 import 'package:easy_vat_v2/app/features/sales/data/repository/sales_invoice_repository_impl.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/repositories/sales_order_repository.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/usecase/fetch_sales_order_usecase.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_invoice_state.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_order/sales_order_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final salesRepositoryProvider = Provider<SalesRepository>((ref) {
-  return SalesRepositoryImpl();
+final fetchSalesOrderUsecaseProvider = Provider<FetchSalesOrderUsecase>((ref) {
+  return FetchSalesOrderUsecase(salesRepository: SalesRepositoryImpl());
 });
 
-final salesInvoiceNotifierProvider =
-    StateNotifierProvider<SalesInoiveNotifiers, SalesInvoiceState>((ref) {
-  return SalesInoiveNotifiers(
-    salesInvoiceRepository: ref.read(salesRepositoryProvider),
+final salesOrderNotifierProvider =
+    StateNotifierProvider<SalesOrderNotifiers, SalesOrderState>((ref) {
+  return SalesOrderNotifiers(
+    fetchSalesOrderUsecase: ref.read(fetchSalesOrderUsecaseProvider),
   );
 });
 
-class SalesInoiveNotifiers extends StateNotifier<SalesInvoiceState> {
-  final SalesRepository salesInvoiceRepository;
+class SalesOrderNotifiers extends StateNotifier<SalesOrderState> {
+  final FetchSalesOrderUsecase fetchSalesOrderUsecase;
   List<SalesListEntity>? salesList;
   DateTime? fromDate;
   DateTime? toDate;
 
-  SalesInoiveNotifiers({required this.salesInvoiceRepository})
-      : super(SalesInvoiceState.initial());
+  SalesOrderNotifiers({required this.fetchSalesOrderUsecase})
+      : super(SalesOrderState.initial());
 
-  fetchSalesInvoice({required SalesParams params}) async {
-    state = const SalesInvoiceState.loading();
-    final result = await salesInvoiceRepository.getSalesInvoices(
-        salesInvoiceRequestParams: params);
-    result.fold((failure) => state = SalesInvoiceState.failure(failure.message),
+  fetchSalesOrder({required SalesParams params}) async {
+    state = const SalesOrderState.loading();
+    final result = await fetchSalesOrderUsecase.call(params: params);
+    result.fold((failure) => state = SalesOrderState.failure(failure.message),
         (salesInvoice) {
       salesList = salesInvoice.salesList;
-      return state = SalesInvoiceState.success(salesInvoice.salesList ?? []);
+      return state = SalesOrderState.success(salesInvoice.salesList ?? []);
     });
   }
 
   void filterSalesInvoice({required SalesInvoiceFilterParams params}) {
     if (params.clearAllFilter) {
-      state = SalesInvoiceState.success(salesList ?? []);
+      state = SalesOrderState.success(salesList ?? []);
     } else {
       if (salesList == null) return;
 
@@ -60,7 +60,7 @@ class SalesInoiveNotifiers extends StateNotifier<SalesInvoiceState> {
         return matchesDate && matchesMode && matchesSoldBy;
       }).toList();
 
-      state = SalesInvoiceState.success(filteredSales ?? []);
+      state = SalesOrderState.success(filteredSales ?? []);
     }
   }
 

@@ -212,7 +212,7 @@ class CartNotifier extends StateNotifier<CartState> {
     );
   }
 
-  SalesInvoiceRequestModel createNewSale() {
+  SalesRequestModel createNewSale() {
     double itemTotalTax = 0.0;
     double netTotal = 0.0;
 
@@ -268,7 +268,7 @@ class CartNotifier extends StateNotifier<CartState> {
       items.add(item);
     }
 
-    final newSale = SalesInvoiceRequestModel(
+    final newSale = SalesRequestModel(
       saleIdpk: uid,
       actualSalesDate: salesDate,
       createdDate: DateTime.now(),

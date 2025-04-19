@@ -1,9 +1,9 @@
-abstract class SalesInvoiceEntity {
+abstract class SalesEntity {
   final bool? status;
   final String? message;
   final List<SalesListEntity>? salesList;
 
-  const SalesInvoiceEntity({
+  const SalesEntity({
     this.status,
     this.message,
     this.salesList,

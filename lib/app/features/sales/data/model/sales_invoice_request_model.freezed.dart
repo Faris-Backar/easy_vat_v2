@@ -14,13 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-SalesInvoiceRequestModel _$SalesInvoiceRequestModelFromJson(
-    Map<String, dynamic> json) {
+SalesRequestModel _$SalesRequestModelFromJson(Map<String, dynamic> json) {
   return _SalesInvoiceRequestModel.fromJson(json);
 }
 
 /// @nodoc
-mixin _$SalesInvoiceRequestModel {
+mixin _$SalesRequestModel {
   String? get saleIdpk => throw _privateConstructorUsedError;
   int? get saleNo => throw _privateConstructorUsedError;
   String? get saleMode => throw _privateConstructorUsedError;
@@ -73,21 +72,21 @@ mixin _$SalesInvoiceRequestModel {
   int? get deliveryCharge => throw _privateConstructorUsedError;
   List<SoldItem>? get soldItems => throw _privateConstructorUsedError;
 
-  /// Serializes this SalesInvoiceRequestModel to a JSON map.
+  /// Serializes this SalesRequestModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of SalesInvoiceRequestModel
+  /// Create a copy of SalesRequestModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $SalesInvoiceRequestModelCopyWith<SalesInvoiceRequestModel> get copyWith =>
+  $SalesRequestModelCopyWith<SalesRequestModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SalesInvoiceRequestModelCopyWith<$Res> {
-  factory $SalesInvoiceRequestModelCopyWith(SalesInvoiceRequestModel value,
-          $Res Function(SalesInvoiceRequestModel) then) =
-      _$SalesInvoiceRequestModelCopyWithImpl<$Res, SalesInvoiceRequestModel>;
+abstract class $SalesRequestModelCopyWith<$Res> {
+  factory $SalesRequestModelCopyWith(
+          SalesRequestModel value, $Res Function(SalesRequestModel) then) =
+      _$SalesRequestModelCopyWithImpl<$Res, SalesRequestModel>;
   @useResult
   $Res call(
       {String? saleIdpk,
@@ -144,17 +143,16 @@ abstract class $SalesInvoiceRequestModelCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$SalesInvoiceRequestModelCopyWithImpl<$Res,
-        $Val extends SalesInvoiceRequestModel>
-    implements $SalesInvoiceRequestModelCopyWith<$Res> {
-  _$SalesInvoiceRequestModelCopyWithImpl(this._value, this._then);
+class _$SalesRequestModelCopyWithImpl<$Res, $Val extends SalesRequestModel>
+    implements $SalesRequestModelCopyWith<$Res> {
+  _$SalesRequestModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SalesInvoiceRequestModel
+  /// Create a copy of SalesRequestModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -422,7 +420,7 @@ class _$SalesInvoiceRequestModelCopyWithImpl<$Res,
 
 /// @nodoc
 abstract class _$$SalesInvoiceRequestModelImplCopyWith<$Res>
-    implements $SalesInvoiceRequestModelCopyWith<$Res> {
+    implements $SalesRequestModelCopyWith<$Res> {
   factory _$$SalesInvoiceRequestModelImplCopyWith(
           _$SalesInvoiceRequestModelImpl value,
           $Res Function(_$SalesInvoiceRequestModelImpl) then) =
@@ -485,7 +483,7 @@ abstract class _$$SalesInvoiceRequestModelImplCopyWith<$Res>
 
 /// @nodoc
 class __$$SalesInvoiceRequestModelImplCopyWithImpl<$Res>
-    extends _$SalesInvoiceRequestModelCopyWithImpl<$Res,
+    extends _$SalesRequestModelCopyWithImpl<$Res,
         _$SalesInvoiceRequestModelImpl>
     implements _$$SalesInvoiceRequestModelImplCopyWith<$Res> {
   __$$SalesInvoiceRequestModelImplCopyWithImpl(
@@ -493,7 +491,7 @@ class __$$SalesInvoiceRequestModelImplCopyWithImpl<$Res>
       $Res Function(_$SalesInvoiceRequestModelImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SalesInvoiceRequestModel
+  /// Create a copy of SalesRequestModel
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -931,7 +929,7 @@ class _$SalesInvoiceRequestModelImpl implements _SalesInvoiceRequestModel {
 
   @override
   String toString() {
-    return 'SalesInvoiceRequestModel(saleIdpk: $saleIdpk, saleNo: $saleNo, saleMode: $saleMode, crLedgerIdfk: $crLedgerIdfk, drLedgerIdfk: $drLedgerIdfk, custemerIdfk: $custemerIdfk, creditAccount: $creditAccount, debitAccount: $debitAccount, referenceNo: $referenceNo, saleDate: $saleDate, cashTrn: $cashTrn, cashCustomerAddress: $cashCustomerAddress, shippingAddress: $shippingAddress, customerName: $customerName, remarks: $remarks, lpoNo: $lpoNo, doNo: $doNo, diningArea: $diningArea, diningTable: $diningTable, quotationNo: $quotationNo, requestNo: $requestNo, cashAmount: $cashAmount, creditCardAmount: $creditCardAmount, actualSalesDate: $actualSalesDate, vehicleNo: $vehicleNo, genaralNotes: $genaralNotes, salesOrderNo: $salesOrderNo, soldBy: $soldBy, grossAmount: $grossAmount, tax: $tax, discount: $discount, netTotal: $netTotal, roundOff: $roundOff, amountTendered: $amountTendered, deliveryBoy: $deliveryBoy, isEditable: $isEditable, isCanceled: $isCanceled, isLockVoucher: $isLockVoucher, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, isPos: $isPos, deliveryBoyIdpk: $deliveryBoyIdpk, notesAndInstructions: $notesAndInstructions, drLedgerCashAccount: $drLedgerCashAccount, drLedgerBankAccount: $drLedgerBankAccount, orderType: $orderType, deliveryCharge: $deliveryCharge, soldItems: $soldItems)';
+    return 'SalesRequestModel(saleIdpk: $saleIdpk, saleNo: $saleNo, saleMode: $saleMode, crLedgerIdfk: $crLedgerIdfk, drLedgerIdfk: $drLedgerIdfk, custemerIdfk: $custemerIdfk, creditAccount: $creditAccount, debitAccount: $debitAccount, referenceNo: $referenceNo, saleDate: $saleDate, cashTrn: $cashTrn, cashCustomerAddress: $cashCustomerAddress, shippingAddress: $shippingAddress, customerName: $customerName, remarks: $remarks, lpoNo: $lpoNo, doNo: $doNo, diningArea: $diningArea, diningTable: $diningTable, quotationNo: $quotationNo, requestNo: $requestNo, cashAmount: $cashAmount, creditCardAmount: $creditCardAmount, actualSalesDate: $actualSalesDate, vehicleNo: $vehicleNo, genaralNotes: $genaralNotes, salesOrderNo: $salesOrderNo, soldBy: $soldBy, grossAmount: $grossAmount, tax: $tax, discount: $discount, netTotal: $netTotal, roundOff: $roundOff, amountTendered: $amountTendered, deliveryBoy: $deliveryBoy, isEditable: $isEditable, isCanceled: $isCanceled, isLockVoucher: $isLockVoucher, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, isPos: $isPos, deliveryBoyIdpk: $deliveryBoyIdpk, notesAndInstructions: $notesAndInstructions, drLedgerCashAccount: $drLedgerCashAccount, drLedgerBankAccount: $drLedgerBankAccount, orderType: $orderType, deliveryCharge: $deliveryCharge, soldItems: $soldItems)';
   }
 
   @override
@@ -1091,7 +1089,7 @@ class _$SalesInvoiceRequestModelImpl implements _SalesInvoiceRequestModel {
         const DeepCollectionEquality().hash(_soldItems)
       ]);
 
-  /// Create a copy of SalesInvoiceRequestModel
+  /// Create a copy of SalesRequestModel
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -1108,7 +1106,7 @@ class _$SalesInvoiceRequestModelImpl implements _SalesInvoiceRequestModel {
   }
 }
 
-abstract class _SalesInvoiceRequestModel implements SalesInvoiceRequestModel {
+abstract class _SalesInvoiceRequestModel implements SalesRequestModel {
   const factory _SalesInvoiceRequestModel(
       {final String? saleIdpk,
       final int? saleNo,
@@ -1268,7 +1266,7 @@ abstract class _SalesInvoiceRequestModel implements SalesInvoiceRequestModel {
   @override
   List<SoldItem>? get soldItems;
 
-  /// Create a copy of SalesInvoiceRequestModel
+  /// Create a copy of SalesRequestModel
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)

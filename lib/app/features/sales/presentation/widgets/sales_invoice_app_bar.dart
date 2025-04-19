@@ -58,7 +58,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
   }
 
   void _fetchPurchaseInvoice() {
-    final params = SalesInvoiceParams(
+    final params = SalesParams(
       salesIDPK: "00000000-0000-0000-0000-000000000000",
       fromDate: fromDate,
       toDate: toDate,

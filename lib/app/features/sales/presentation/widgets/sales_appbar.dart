@@ -49,7 +49,7 @@ class SalesAppBarConfig {
   final String title;
 
   /// Custom fetch function for retrieving data
-  final Future<void> Function(SalesInvoiceParams params)? fetchFunction;
+  final Future<void> Function(SalesParams params)? fetchFunction;
 
   /// Custom filter function for applying filters
   final Future<void> Function(SalesInvoiceFilterParams params)? filterFunction;
@@ -99,7 +99,7 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
     // Read current date range from provider
     final dateRange = ref.read(dateRangeProvider);
 
-    final params = SalesInvoiceParams(
+    final params = SalesParams(
       salesIDPK: "00000000-0000-0000-0000-000000000000",
       fromDate: dateRange.fromDate,
       toDate: dateRange.toDate,

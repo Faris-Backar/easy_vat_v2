@@ -79,6 +79,7 @@ class AppStrings {
   static const String addNewSales = "addNewSales";
   static const String addNewSalesOrder = "addNewSalesOrder";
   static const String addNewSalesQuatation = "addNewSalesQuatation";
+  static const String addNewSalesReturn = "addNewSalesReturn";
   static const String addNewPurchase = "addNewPurchase";
   static const String addNewPurchaseReturn = "addNewPurchaseReturn";
   static const String addNewPurchaseOrder = "addNewPurchaseOrder";

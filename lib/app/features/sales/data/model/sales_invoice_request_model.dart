@@ -6,8 +6,8 @@ part 'sales_invoice_request_model.freezed.dart';
 part 'sales_invoice_request_model.g.dart';
 
 @freezed
-class SalesInvoiceRequestModel with _$SalesInvoiceRequestModel {
-  const factory SalesInvoiceRequestModel({
+class SalesRequestModel with _$SalesRequestModel {
+  const factory SalesRequestModel({
     String? saleIdpk,
     int? saleNo,
     String? saleMode,
@@ -61,8 +61,8 @@ class SalesInvoiceRequestModel with _$SalesInvoiceRequestModel {
     List<SoldItem>? soldItems,
   }) = _SalesInvoiceRequestModel;
 
-  factory SalesInvoiceRequestModel.fromJson(Map<String, dynamic> json) =>
-      _$SalesInvoiceRequestModelFromJson(json);
+  factory SalesRequestModel.fromJson(Map<String, dynamic> json) =>
+      _$SalesRequestModelFromJson(json);
 }
 
 @freezed

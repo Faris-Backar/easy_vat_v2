@@ -45,7 +45,7 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
       ref.read(salesManProvider.notifier).getSalesMans();
       ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
       ref.read(salesInvoiceNotifierProvider.notifier).fetchSalesInvoice(
-            params: SalesInvoiceParams(
+            params: SalesParams(
               salesIDPK: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
               fromDate: DateTime.now(),
               toDate: DateTime.now(),

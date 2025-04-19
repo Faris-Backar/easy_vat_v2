@@ -13,12 +13,17 @@ class UrlResources {
     return baseUrl ?? "";
   }
 
-  //orders
-  static const String getSalesOrders = "Order/Select/SelectAll";
-
-  //sales
+  //salesInvoice
   static const String getSalesInvoice = "Sales/Select/BetweenDate";
   static const String createSalesInvoice = "Sales/Insert";
+
+  //salesOrder
+  static const String getSalesOrder = "SalesOrder/Select/BetweenDate";
+  static const String createSalesOrder = "SalesOrder/Insert";
+
+  //salesReturn
+  static const String getSalesReturn = "SalesReturn/Select/BetweenDate";
+  static const String createSalesReturn = "SalesReturn/Insert";
 
   //customer
   static const String getCustomers = "Customer/Select/LoadCustomer";

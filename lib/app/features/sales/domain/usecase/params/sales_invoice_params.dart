@@ -1,13 +1,13 @@
 import 'dart:convert';
 import 'package:intl/intl.dart';
 
-class SalesInvoiceParams {
+class SalesParams {
   final String salesIDPK;
   final DateTime fromDate;
   final DateTime toDate;
   final String customerID;
 
-  SalesInvoiceParams({
+  SalesParams({
     required this.salesIDPK,
     required this.fromDate,
     required this.toDate,

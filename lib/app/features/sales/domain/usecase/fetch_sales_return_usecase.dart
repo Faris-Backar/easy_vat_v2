@@ -5,15 +5,15 @@ import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_ent
 import 'package:easy_vat_v2/app/features/sales/domain/repositories/sales_order_repository.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 
-class FetchSalesInvoiceUsecase
+class FetchSalesReturnUsecase
     extends UseCase<Either<Failure, SalesEntity>, SalesParams> {
-  final SalesRepository salesInoviceRepository;
-  FetchSalesInvoiceUsecase({required this.salesInoviceRepository});
+  final SalesRepository salesRepository;
+  FetchSalesReturnUsecase({required this.salesRepository});
 
   @override
   Future<Either<Failure, SalesEntity>> call(
       {required SalesParams params}) async {
-    return await salesInoviceRepository.getSalesInvoices(
-        salesInvoiceRequestParams: params);
+    return await salesRepository.getSalesreturn(
+        salesReturnRequestParams: params);
   }
 }

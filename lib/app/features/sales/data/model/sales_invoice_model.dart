@@ -5,7 +5,7 @@ part 'sales_invoice_model.freezed.dart';
 part 'sales_invoice_model.g.dart';
 
 @freezed
-class SalesInvoiceModel extends SalesInvoiceEntity with _$SalesInvoiceModel {
+class SalesInvoiceModel extends SalesEntity with _$SalesInvoiceModel {
   const factory SalesInvoiceModel({
     bool? status,
     String? message,

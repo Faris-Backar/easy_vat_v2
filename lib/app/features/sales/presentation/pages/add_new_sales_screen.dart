@@ -109,7 +109,8 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
           saleNoController: saleNoController,
           refNoController: refNoController,
           salesModeNotifier: salesModeNotifier,
-          soldByNotifier: soldByNotifier),
+          soldByNotifier: soldByNotifier,
+          salesType: widget.title),
     );
   }
 

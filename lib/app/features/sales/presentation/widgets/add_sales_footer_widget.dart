@@ -23,12 +23,14 @@ class AddSalesFooterWidget extends StatefulWidget {
   final ValueNotifier<String?> salesModeNotifier;
   final ValueNotifier<String?> soldByNotifier;
   final bool isForPurchase;
+  final String? salesType;
   const AddSalesFooterWidget(
       {super.key,
       required this.saleNoController,
       required this.refNoController,
       required this.salesModeNotifier,
       required this.soldByNotifier,
+      this.salesType,
       this.isForPurchase = false});
 
   @override
@@ -73,10 +75,32 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                     ref.listen(createSalesNotifierProvider, (previous, next) {
                       next.mapOrNull(
                         success: (success) {
+                          String successMessage;
+                          switch (
+                              widget.salesType?.toLowerCase() ?? "salesorder") {
+                            case AppStrings.addNewSales:
+                              successMessage =
+                                  "Sales invoice successfully created!";
+                              break;
+                            case AppStrings.addNewSalesQuatation:
+                              successMessage =
+                                  "Sales quotation successfully created!";
+                              break;
+                            case AppStrings.addNewSalesReturn:
+                              successMessage =
+                                  "Sales return successfully created!";
+                              break;
+                            case AppStrings.addNewSalesOrder:
+                            default:
+                              successMessage =
+                                  "Sales order successfully created!";
+                              break;
+                          }
+
                           Fluttertoast.showToast(
                             msg: widget.isForPurchase
                                 ? "Purchase order successfully created!"
-                                : "Sales order successfully created!",
+                                : successMessage,
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.BOTTOM,
                           );
@@ -113,23 +137,55 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                                   cartPrvd
                                       .setRefNo(widget.refNoController.text);
                                   final newSale = cartPrvd.createNewSale();
+
+                                  final salesType =
+                                      widget.salesType?.toLowerCase() ??
+                                          "salesorder";
+
                                   if (cartPrvd.salesMode.toLowerCase() ==
-                                      "credit") {
-                                    if (cartPrvd.selectedCustomer != null) {
-                                      Fluttertoast.showToast(
-                                          msg: context.translate(AppStrings
-                                              .pleaseSelectACustomer));
-                                    } else {
-                                      ref
-                                          .read(createSalesNotifierProvider
-                                              .notifier)
-                                          .createSalesOrder(request: newSale);
-                                    }
+                                          "credit" &&
+                                      cartPrvd.selectedCustomer == null) {
+                                    Fluttertoast.showToast(
+                                        msg: context.translate(
+                                            AppStrings.pleaseSelectACustomer));
                                   } else {
-                                    ref
-                                        .read(createSalesNotifierProvider
-                                            .notifier)
-                                        .createSalesOrder(request: newSale);
+                                    switch (salesType) {
+                                      case AppStrings.addNewSalesOrder:
+                                        ref
+                                            .read(createSalesNotifierProvider
+                                                .notifier)
+                                            .createSalesOrder(request: newSale);
+                                        break;
+                                      case AppStrings.addNewSales:
+                                        ref
+                                            .read(createSalesNotifierProvider
+                                                .notifier)
+                                            .createSalesInvoice(
+                                                request: newSale);
+                                        break;
+                                      case AppStrings.addNewSalesQuatation:
+                                        ref
+                                            .read(createSalesNotifierProvider
+                                                .notifier)
+                                            .createSalesQuotation(
+                                                request: newSale);
+                                        break;
+                                      case AppStrings.addNewSalesReturn:
+                                        ref
+                                            .read(createSalesNotifierProvider
+                                                .notifier)
+                                            .createSalesReturn(
+                                                request: newSale);
+                                        break;
+                                      default:
+                                        ref
+                                            .read(createSalesNotifierProvider
+                                                .notifier)
+                                            .createSalesOrder(
+                                                request:
+                                                    newSale); // Default case
+                                        break;
+                                    }
                                   }
                                 }
                               },
