@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +5,76 @@ import 'package:shared_preferences/shared_preferences.dart';
 final allowedHomeFormIdsProvider = FutureProvider<List<String>>((ref) async {
   final prefs = await SharedPreferences.getInstance();
   final homeList = prefs.getStringList(PrefResources.comapnyPermissions) ?? [];
-  log("HomeList => $homeList");
+  final allList = {
+    "salesInvoice",
+    "SalesReturn",
+    "SalesQuotation",
+    "SalesOrder",
+    "purchaseInvoice",
+    "purchaseOrder",
+    "purchaseReturn",
+    "expenses",
+    "DebitNote",
+    "Backup",
+    "ItemTransactionReport",
+    "VehicleRegistration",
+    "TaxReport",
+    "UserPermission",
+    "DayOpen",
+    "PurchaseReport",
+    "GymPaymentCollection",
+    "GoodsReceipt",
+    "DayClose",
+    "CounterOpen",
+    "Settings",
+    "Sales",
+    "Supplier",
+    "SalesPromotion",
+    "CompanySettings",
+    "PurchasePayment",
+    "Group",
+    "SalesReport",
+    "User",
+    "Customer",
+    "GymDashboard",
+    "Expense",
+    "LedgerReport",
+    "PurchaseOrder",
+    "StockTransfer",
+    "Ledger",
+    "GymSubscriptionRenew",
+    "StockReport",
+    "SalaryProcessing",
+    "GymReports",
+    "Production",
+    "Purchase",
+    "GymCategoryReg",
+    "CustomerReport",
+    "SalesReceipt",
+    "CreditNote",
+    "Bank",
+    "Store",
+    "Employee",
+    "PurchaseReturn",
+    "GymSubscriptionStartAndStop",
+    "GymSubscriptionManage",
+    "DeliveryNote",
+    "Item",
+    "Repacking",
+    "ReplaceStockItems",
+    "Dividend",
+    "SalaryPayment",
+    "Journal",
+    "POS",
+    "Restore",
+    "BalanceSheet",
+    "ServiceJob",
+    "CounterClose",
+    "GymCustomerManage",
+    "Contra",
+    "ExpenseInvoice",
+    "Expenses"
+  }.toList();
+  homeList.addAll(allList);
   return homeList;
 });

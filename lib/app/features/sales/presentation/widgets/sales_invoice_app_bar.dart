@@ -5,7 +5,7 @@ import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/pay
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
-import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_selector_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
 import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
@@ -42,6 +42,7 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
   DateTime? selectedSaleDate;
   final ValueNotifier<String?> salesModeNotifer = ValueNotifier(null);
   final ValueNotifier<String?> soldByNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> customerName = ValueNotifier(null);
   final ValueNotifier<String?> paymentMethodNotifier = ValueNotifier(null);
 
   void _updateFromDate(DateTime selectedDate) {
@@ -160,7 +161,6 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
   }
 
   _buildFilterBottomSheet(BuildContext context) {
-    final salesManState = ref.read(salesManProvider);
     final paymentModeState = ref.read(paymentModeNotifierProvider);
     return showModalBottomSheet(
       backgroundColor: context.colorScheme.tertiaryContainer,
@@ -242,35 +242,36 @@ class _PosAppBarState extends ConsumerState<SalesInvoiceAppBar> {
             SizedBox(height: 12.h),
             Row(
               children: [
-                Expanded(
-                  child: salesManState.maybeWhen(
-                    loaded: (employeeList) {
-                      final List<String> employeeNames = employeeList
-                          .map((employee) => employee.empName ?? "")
-                          .where((name) => name.isNotEmpty)
-                          .toList();
+                // Expanded(
+                //   child: salesManState.maybeWhen(
+                //     loaded: (employeeList) {
+                //       final List<String> employeeNames = employeeList
+                //           .map((employee) => employee.empName ?? "")
+                //           .where((name) => name.isNotEmpty)
+                //           .toList();
 
-                      return DropdownField(
-                        height: 38.h,
-                        labelAndTextFieldGap: 2,
-                        label: context.translate(AppStrings.soldBy),
-                        valueNotifier: soldByNotifier,
-                        onChanged: (newValue) {
-                          soldByNotifier.value = newValue;
-                        },
-                        items: employeeNames,
-                        backgroundColor: AppUtils.isDarkMode(context)
-                            ? context.colorScheme.tertiaryContainer
-                            : context.surfaceColor,
-                      );
-                    },
-                    loading: () => const Center(
-                      child: CircularProgressIndicator.adaptive(),
-                    ),
-                    error: (message) => Text(message),
-                    orElse: () => const SizedBox.shrink(),
-                  ),
-                ),
+                //       return DropdownField(
+                //         height: 38.h,
+                //         labelAndTextFieldGap: 2,
+                //         label: context.translate(AppStrings.soldBy),
+                //         valueNotifier: soldByNotifier,
+                //         onChanged: (newValue) {
+                //           soldByNotifier.value = newValue;
+                //         },
+                //         items: employeeNames,
+                //         backgroundColor: AppUtils.isDarkMode(context)
+                //             ? context.colorScheme.tertiaryContainer
+                //             : context.surfaceColor,
+                //       );
+                //     },
+                //     loading: () => const Center(
+                //       child: CircularProgressIndicator.adaptive(),
+                //     ),
+                //     error: (message) => Text(message),
+                //     orElse: () => const SizedBox.shrink(),
+                //   ),
+                // ),
+                Expanded(child: CustomerSelectorWidget()),
                 SizedBox(width: 12.w),
                 const Expanded(child: SizedBox()),
               ],
