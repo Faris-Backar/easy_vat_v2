@@ -9,8 +9,8 @@ import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledge
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_invoice_state.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_return/sales_return_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_card.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_slidable_widget.dart';
@@ -32,19 +32,17 @@ class SalesReturnScreen extends ConsumerStatefulWidget {
 
 class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
   final _searchTextController = TextEditingController();
-  late SalesInvoiceState salesInvoiceState;
 
   @override
   void initState() {
     super.initState();
-    salesInvoiceState = ref.read(salesInvoiceNotifierProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(cashLedgerNotifierProvider.notifier).fetchBankLedgers();
       ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
       ref.read(salesLedgerNotifierProvider.notifier).fetchSalesLedgers();
       ref.read(salesManProvider.notifier).getSalesMans();
       ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
-      ref.read(salesInvoiceNotifierProvider.notifier).fetchSalesInvoice(
+      ref.read(salesReturnNotifierProvider.notifier).fetchSalesReturn(
             params: SalesParams(
               salesIDPK: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
               fromDate: DateTime.now(),
@@ -57,7 +55,7 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final salesInvoiceState = ref.watch(salesInvoiceNotifierProvider);
+    final salesReturnState = ref.watch(salesInvoiceNotifierProvider);
     return Scaffold(
       appBar: SalesAppBar(
         searchController: _searchTextController,
@@ -69,7 +67,7 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
       backgroundColor: context.surfaceColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        child: salesInvoiceState.maybeWhen(
+        child: salesReturnState.maybeWhen(
           success: (salesInvoiceData) {
             if (salesInvoiceData.isEmpty == true) {
               return Center(
