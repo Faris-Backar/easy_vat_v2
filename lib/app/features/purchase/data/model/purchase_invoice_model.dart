@@ -1,6 +1,6 @@
 import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_invoice_entity.dart';
 
-class PurchaseInvoiceModel extends PurchaseInvoiceEntity {
+class PurchaseInvoiceModel extends PurchaseEntity {
   PurchaseInvoiceModel({
     super.purchaseIdpk,
     super.purchaseNo,

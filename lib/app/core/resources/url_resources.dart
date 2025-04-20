@@ -48,8 +48,22 @@ class UrlResources {
   static const String getSalesMan = "Salesman/Select/SelectAll";
 
   //purchase
-  static const String getPurchaseInvoice = "Purchase/Select/SelectAll";
+  static const String getPurchaseInvoice = "Purchase/Select/BetweenDate";
   static const String createPurchaseInvoice = "Purchase/Insert";
+  static const String updatePurchaseInvoice = "Purchase/Update";
+  static const String deletePurchaseInvoice = "Purchase/Delete";
+
+  //purchaseOrder
+  static const String getPurchaseOrder = "PurchaseOrder/Select/SelectAll";
+  static const String createPurchaseOrder = "PurchaseOrder/Insert";
+  static const String updatePurchaseOrder = "PurchaseOrder/Update";
+  static const String deletePurchaseOrder = "PurchaseOrder/Delete";
+
+  //purchaseReturn
+  static const String getPurchaseReturn = "PurchaseReturn/Select/SelectAll";
+  static const String createPurchaseReturn = "PurchaseReturn/Insert";
+  static const String updatePurchaseReturn = "PurchaseReturn/Update";
+  static const String deletePurchaseReturn = "PurchaseReturn/Delete";
 
   //login
   static const String login = "LogIn/authentication/verifyuserlogin";

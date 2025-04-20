@@ -1,4 +1,4 @@
-class PurchaseInvoiceEntity {
+class PurchaseEntity {
   String? purchaseIdpk;
   int? purchaseNo;
   String? purchaseMode;
@@ -32,7 +32,7 @@ class PurchaseInvoiceEntity {
   bool? isLockVoucher;
   List<PurchasedItemEntity>? purchasedItems;
 
-  PurchaseInvoiceEntity({
+  PurchaseEntity({
     this.purchaseIdpk,
     this.purchaseNo,
     this.purchaseMode,

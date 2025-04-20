@@ -8,7 +8,7 @@ class FetchPurchaseInvoiceState with _$FetchPurchaseInvoiceState {
   const factory FetchPurchaseInvoiceState.initial() = _Initial;
 
   const factory FetchPurchaseInvoiceState.loaded(
-      {required List<PurchaseInvoiceEntity> purchaseInvoiceList}) = _Loaded;
+      {required List<PurchaseEntity> purchaseInvoiceList}) = _Loaded;
 
   const factory FetchPurchaseInvoiceState.loading() = _Loading;
 

@@ -5,14 +5,14 @@ import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_request_mo
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_success_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/repository/purchase_repository.dart';
 
-class CreatePurchaseUsecase extends UseCase<
-    Either<Failure, PurchaseResponseModel>, PurchaseRequestModel> {
+class UpdatePurchaseReturnUsecase extends UseCase<
+    Either<Failure, PurchaseEntityModel>, PurchaseRequestModel> {
   final PurchaseRepository purchaseRepository;
 
-  CreatePurchaseUsecase({required this.purchaseRepository});
+  UpdatePurchaseReturnUsecase({required this.purchaseRepository});
   @override
-  Future<Either<Failure, PurchaseResponseModel>> call(
+  Future<Either<Failure, PurchaseEntityModel>> call(
       {required PurchaseRequestModel params}) {
-    return purchaseRepository.createPurchaseInvoices(params: params);
+    return purchaseRepository.updatePurchaseOrders(params: params);
   }
 }

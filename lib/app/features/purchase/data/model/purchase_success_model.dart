@@ -2,15 +2,15 @@ import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/core/utils/date_format_utils.dart';
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_invoice_model.dart';
 
-class PurchaseResponseModel {
+class PurchaseEntityModel {
   bool? status;
   String? message;
   List<PurchaseModel>? purchase;
 
-  PurchaseResponseModel({this.status, this.message, this.purchase});
+  PurchaseEntityModel({this.status, this.message, this.purchase});
 
-  factory PurchaseResponseModel.fromJson(Map<String, dynamic> json) {
-    return PurchaseResponseModel(
+  factory PurchaseEntityModel.fromJson(Map<String, dynamic> json) {
+    return PurchaseEntityModel(
       status: json["status"],
       message: json["message"],
       purchase: List<PurchaseModel>.from(
