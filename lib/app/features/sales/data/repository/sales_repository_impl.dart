@@ -161,4 +161,148 @@ class SalesRepositoryImpl extends SalesRepository {
       return Left(ServerFailure(message: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, SalesEntity>> deleteSalesInvoices(
+      {required SalesRequestModel salesInvoiceRequestParams}) async {
+    try {
+      final data = salesInvoiceRequestParams.toJson();
+      final response = await client.post(
+        UrlResources.deleteSalesInvoice,
+        data: data,
+      );
+      if (response.statusCode == 200) {
+        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
+        return right(salesInvoiceList);
+      }
+      return left(ServerFailure(message: ""));
+    } on DioException catch (e) {
+      return left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.error?.toString() ??
+              ""));
+    } catch (e) {
+      return left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, SalesEntity>> updateSalesInvoices(
+      {required SalesRequestModel salesInvoiceRequestParams}) async {
+    try {
+      final data = salesInvoiceRequestParams.toJson();
+      final response = await client.post(
+        UrlResources.updateSalesInvoice,
+        data: data,
+      );
+      if (response.statusCode == 200) {
+        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
+        return right(salesInvoiceList);
+      }
+      return left(ServerFailure(message: ""));
+    } on DioException catch (e) {
+      return left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.error?.toString() ??
+              ""));
+    } catch (e) {
+      return left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, SalesEntity>> deleteSalesOrders(
+      {required SalesRequestModel salesOrderRequestParams}) async {
+    try {
+      final data = salesOrderRequestParams.toJson();
+      final response = await client.post(
+        UrlResources.deleteSalesOrder,
+        data: data,
+      );
+      if (response.statusCode == 200) {
+        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
+        return right(salesInvoiceList);
+      }
+      return left(ServerFailure(message: ""));
+    } on DioException catch (e) {
+      return left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.error?.toString() ??
+              ""));
+    } catch (e) {
+      return left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, SalesEntity>> updateSalesOrders(
+      {required SalesRequestModel salesOrderRequestParams}) async {
+    try {
+      final data = salesOrderRequestParams.toJson();
+      final response = await client.post(
+        UrlResources.updateSalesOrder,
+        data: data,
+      );
+      if (response.statusCode == 200) {
+        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
+        return right(salesInvoiceList);
+      }
+      return left(ServerFailure(message: ""));
+    } on DioException catch (e) {
+      return left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.error?.toString() ??
+              ""));
+    } catch (e) {
+      return left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, SalesEntity>> deleteSalesreturn(
+      {required SalesRequestModel salesReturnRequestParams}) async {
+    try {
+      final data = salesReturnRequestParams.toJson();
+      final response = await client.post(
+        UrlResources.deleteSalesReturn,
+        data: data,
+      );
+      if (response.statusCode == 200) {
+        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
+        return right(salesInvoiceList);
+      }
+      return left(ServerFailure(message: ""));
+    } on DioException catch (e) {
+      return left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.error?.toString() ??
+              ""));
+    } catch (e) {
+      return left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, SalesEntity>> updateSalesreturn(
+      {required SalesRequestModel salesReturnRequestParams}) async {
+    try {
+      final data = salesReturnRequestParams.toJson();
+      final response = await client.post(
+        UrlResources.updateSalesReturn,
+        data: data,
+      );
+      if (response.statusCode == 200) {
+        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
+        return right(salesInvoiceList);
+      }
+      return left(ServerFailure(message: ""));
+    } on DioException catch (e) {
+      return left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.error?.toString() ??
+              ""));
+    } catch (e) {
+      return left(ServerFailure(message: e.toString()));
+    }
+  }
 }

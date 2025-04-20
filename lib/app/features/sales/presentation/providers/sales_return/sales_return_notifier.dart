@@ -3,7 +3,6 @@ import 'package:easy_vat_v2/app/features/sales/domain/usecase/fetch_sales_return
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_order/sales_order_state.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_return/sales_return_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

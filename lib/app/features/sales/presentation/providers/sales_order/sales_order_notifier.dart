@@ -1,7 +1,6 @@
-import 'package:easy_vat_v2/app/features/sales/data/repository/sales_invoice_repository_impl.dart';
+import 'package:easy_vat_v2/app/features/sales/data/repository/sales_repository_impl.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
-import 'package:easy_vat_v2/app/features/sales/domain/repositories/sales_order_repository.dart';
-import 'package:easy_vat_v2/app/features/sales/domain/usecase/fetch_sales_order_usecase.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/usecase/sales_order/fetch_sales_order_usecase.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_order/sales_order_state.dart';

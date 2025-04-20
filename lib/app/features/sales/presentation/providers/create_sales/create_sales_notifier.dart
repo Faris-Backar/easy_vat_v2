@@ -1,12 +1,11 @@
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_invoice_request_model.dart';
-import 'package:easy_vat_v2/app/features/sales/domain/usecase/create_sales_invoice_usecase.dart';
-import 'package:easy_vat_v2/app/features/sales/domain/usecase/create_sales_order_usecase.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/providers/create_sales_inovice/create_sales_invoice_state.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/usecase/sales_invoice/create_sales_invoice_usecase.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/usecase/sales_order/create_sales_order_usecase.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/create_sales/create_sales_state.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final createSalesInvoiceUsecaseProvider =
-    Provider<CreateSalesInvoiceUsecase>((ref) {
+final createSalesUsecaseProvider = Provider<CreateSalesInvoiceUsecase>((ref) {
   return CreateSalesInvoiceUsecase(
       salesInvoiceRepository: ref.read(salesRepositoryProvider));
 });
@@ -18,17 +17,17 @@ final createSalesOrderUsecaseProvider =
 });
 
 final createSalesNotifierProvider =
-    StateNotifierProvider<CreateSalesInvoiceNotifier, CreateSalesState>((ref) {
-  return CreateSalesInvoiceNotifier(
-      createSalesInvoiceUsecase: ref.read(createSalesInvoiceUsecaseProvider),
+    StateNotifierProvider<CreateSalesNotifier, CreateSalesState>((ref) {
+  return CreateSalesNotifier(
+      createSalesInvoiceUsecase: ref.read(createSalesUsecaseProvider),
       createSalesOrderUsecase: ref.read(createSalesOrderUsecaseProvider));
 });
 
-class CreateSalesInvoiceNotifier extends StateNotifier<CreateSalesState> {
+class CreateSalesNotifier extends StateNotifier<CreateSalesState> {
   final CreateSalesInvoiceUsecase createSalesInvoiceUsecase;
   final CreateSalesOrderUsecase createSalesOrderUsecase;
 
-  CreateSalesInvoiceNotifier({
+  CreateSalesNotifier({
     required this.createSalesInvoiceUsecase,
     required this.createSalesOrderUsecase,
   }) : super(CreateSalesState.initial());

@@ -1,4 +1,4 @@
-import 'package:easy_vat_v2/app/features/sales/data/repository/sales_invoice_repository_impl.dart';
+import 'package:easy_vat_v2/app/features/sales/data/repository/sales_repository_impl.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/repositories/sales_order_repository.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';

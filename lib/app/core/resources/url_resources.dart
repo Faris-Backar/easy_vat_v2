@@ -16,14 +16,20 @@ class UrlResources {
   //salesInvoice
   static const String getSalesInvoice = "Sales/Select/BetweenDate";
   static const String createSalesInvoice = "Sales/Insert";
+  static const String updateSalesInvoice = "Sales/Update";
+  static const String deleteSalesInvoice = "Sales/Delete";
 
   //salesOrder
   static const String getSalesOrder = "SalesOrder/Select/BetweenDate";
   static const String createSalesOrder = "SalesOrder/Insert";
+  static const String updateSalesOrder = "SalesOrder/Update";
+  static const String deleteSalesOrder = "SalesOrder/Delete";
 
   //salesReturn
   static const String getSalesReturn = "SalesReturn/Select/BetweenDate";
   static const String createSalesReturn = "SalesReturn/Insert";
+  static const String updateSalesReturn = "SalesReturn/Update";
+  static const String deleteSalesReturn = "SalesReturn/Delete";
 
   //customer
   static const String getCustomers = "Customer/Select/LoadCustomer";

@@ -10,16 +10,28 @@ abstract class SalesRepository {
       {required SalesParams salesInvoiceRequestParams});
   Future<Either<Failure, SalesEntity>> createSalesInvoices(
       {required SalesRequestModel salesInvoiceRequestParams});
+  Future<Either<Failure, SalesEntity>> updateSalesInvoices(
+      {required SalesRequestModel salesInvoiceRequestParams});
+  Future<Either<Failure, SalesEntity>> deleteSalesInvoices(
+      {required SalesRequestModel salesInvoiceRequestParams});
 
   //salesOrder
   Future<Either<Failure, SalesEntity>> getSalesOrders(
       {required SalesParams salesOrderRequestParams});
   Future<Either<Failure, SalesEntity>> createSalesOrders(
       {required SalesRequestModel salesOrderRequestParams});
+  Future<Either<Failure, SalesEntity>> updateSalesOrders(
+      {required SalesRequestModel salesOrderRequestParams});
+  Future<Either<Failure, SalesEntity>> deleteSalesOrders(
+      {required SalesRequestModel salesOrderRequestParams});
 
 //salesReturn
   Future<Either<Failure, SalesEntity>> getSalesreturn(
       {required SalesParams salesReturnRequestParams});
   Future<Either<Failure, SalesEntity>> createSalesreturn(
+      {required SalesRequestModel salesReturnRequestParams});
+  Future<Either<Failure, SalesEntity>> updateSalesreturn(
+      {required SalesRequestModel salesReturnRequestParams});
+  Future<Either<Failure, SalesEntity>> deleteSalesreturn(
       {required SalesRequestModel salesReturnRequestParams});
 }
