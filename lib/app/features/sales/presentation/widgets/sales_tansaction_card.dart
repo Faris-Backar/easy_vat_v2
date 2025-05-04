@@ -6,13 +6,13 @@ import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_ent
 import 'package:flutter/material.dart';
 
 class SalesTransactionCard extends StatelessWidget {
-  final SalesListEntity salesInvoice;
+  final SalesInvoiceListEntity salesInvoice;
 
   const SalesTransactionCard({super.key, required this.salesInvoice});
 
   // Get status color based on sales invoice status
   Color _getStatusColor(BuildContext context) {
-    // Replace this with your actual status field from SalesListEntity
+    // Replace this with your actual status field from SalesInvoiceListEntity
     final status = "paid";
 
     // Define your color mappings based on status

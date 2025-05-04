@@ -1,16 +1,16 @@
-abstract class SalesEntity {
+abstract class SalesInvoiceEntity {
   final bool? status;
   final String? message;
-  final List<SalesListEntity>? salesList;
+  final List<SalesInvoiceListEntity>? salesList;
 
-  const SalesEntity({
+  SalesInvoiceEntity({
     this.status,
     this.message,
     this.salesList,
   });
 }
 
-abstract class SalesListEntity {
+abstract class SalesInvoiceListEntity {
   final String? saleIdpk;
   final int? saleNo;
   final String? saleMode;
@@ -63,7 +63,7 @@ abstract class SalesListEntity {
   final int? deliveryCharge;
   final List<SoldItemEntity>? soldItems;
 
-  const SalesListEntity({
+  SalesInvoiceListEntity({
     this.saleIdpk,
     this.saleNo,
     this.saleMode,
@@ -147,6 +147,7 @@ abstract class SoldItemEntity {
   final String? deliveryNoteIdpk;
   final String? importId;
   final String? rowguid;
+  final List<SubItemEntity>? subItems;
   const SoldItemEntity({
     this.saleIdpk,
     this.itemIdpk,
@@ -176,5 +177,50 @@ abstract class SoldItemEntity {
     this.deliveryNoteIdpk,
     this.importId,
     this.rowguid,
+    this.subItems,
+  });
+}
+
+abstract class SubItemEntity {
+  final String? itemIdpk;
+  final String? barcode;
+  final String? itemCode;
+  final String? itemName;
+  final String? description;
+  final int? convention;
+  final String? unit;
+  final double? cost;
+  final double? retailRate;
+  final double? retailRateWithTax;
+  final double? retailPriceLock;
+  final double? wholeSaleRate;
+  final double? wholeSalePriceLock;
+  final double? taxPercentage;
+  final double? currentStock;
+  final String? itemNameArabic;
+  final String? accessLetter;
+  final String? supplierIdfk;
+  final bool? isEditable;
+
+  SubItemEntity({
+    this.itemIdpk,
+    this.barcode,
+    this.itemCode,
+    this.itemName,
+    this.description,
+    this.convention,
+    this.unit,
+    this.cost,
+    this.retailRate,
+    this.retailRateWithTax,
+    this.retailPriceLock,
+    this.wholeSaleRate,
+    this.wholeSalePriceLock,
+    this.taxPercentage,
+    this.currentStock,
+    this.itemNameArabic,
+    this.accessLetter,
+    this.supplierIdfk,
+    this.isEditable,
   });
 }

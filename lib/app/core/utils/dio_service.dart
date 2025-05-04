@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
-import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
+// import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,7 +11,8 @@ class DioService {
   DioService() {
     _dio = Dio(
       BaseOptions(
-        baseUrl: baseUrl,
+        // baseUrl: baseUrl,
+        baseUrl: "https://easyvatapi.microzys.in/",
         connectTimeout: const Duration(seconds: 30),
         receiveTimeout: const Duration(seconds: 30),
       ),
@@ -21,6 +22,7 @@ class DioService {
       onRequest: (options, handler) async {
         String? accessToken = await _getAccessToken();
         if (accessToken != null) {
+          log("accessToken => $accessToken");
           options.headers["Authorization"] = "Bearer $accessToken";
         }
         log("connection url => ${options.baseUrl}${options.path}");

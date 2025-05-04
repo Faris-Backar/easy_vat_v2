@@ -28,7 +28,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
       context: context,
       initialDate: _selectedFromDate.value,
       firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
+      lastDate: DateTime.now(),
     );
 
     if (pickedDate != null) {
@@ -44,7 +44,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
       context: context,
       initialDate: _selectedToDate.value,
       firstDate: _selectedFromDate.value,
-      lastDate: DateTime(2100),
+      lastDate: DateTime.now(),
     );
 
     if (pickedDate != null) {

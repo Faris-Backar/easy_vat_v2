@@ -19,7 +19,7 @@ final salesOrderNotifierProvider =
 
 class SalesOrderNotifiers extends StateNotifier<SalesOrderState> {
   final FetchSalesOrderUsecase fetchSalesOrderUsecase;
-  List<SalesListEntity>? salesList;
+  List<SalesInvoiceListEntity>? salesList;
   DateTime? fromDate;
   DateTime? toDate;
 

@@ -1,31 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'sales_invoice_model.dart';
+part of 'sales_request_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$SalesInvoiceModelImpl _$$SalesInvoiceModelImplFromJson(
+_$SalesInvoiceRequestModelImpl _$$SalesInvoiceRequestModelImplFromJson(
         Map<String, dynamic> json) =>
-    _$SalesInvoiceModelImpl(
-      status: json['status'] as bool?,
-      message: json['message'] as String?,
-      salesList: (json['salesList'] as List<dynamic>?)
-          ?.map((e) => SalesListModel.fromJson(e as Map<String, dynamic>))
-          .toList(),
-    );
-
-Map<String, dynamic> _$$SalesInvoiceModelImplToJson(
-        _$SalesInvoiceModelImpl instance) =>
-    <String, dynamic>{
-      'status': instance.status,
-      'message': instance.message,
-      'salesList': instance.salesList,
-    };
-
-_$SalesListModelImpl _$$SalesListModelImplFromJson(Map<String, dynamic> json) =>
-    _$SalesListModelImpl(
+    _$SalesInvoiceRequestModelImpl(
       saleIdpk: json['saleIdpk'] as String?,
       saleNo: (json['saleNo'] as num?)?.toInt(),
       saleMode: json['saleMode'] as String?,
@@ -85,12 +68,12 @@ _$SalesListModelImpl _$$SalesListModelImplFromJson(Map<String, dynamic> json) =>
       orderType: json['orderType'] as String?,
       deliveryCharge: (json['deliveryCharge'] as num?)?.toInt(),
       soldItems: (json['soldItems'] as List<dynamic>?)
-          ?.map((e) => SoldItemModel.fromJson(e as Map<String, dynamic>))
+          ?.map((e) => SoldItem.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
-Map<String, dynamic> _$$SalesListModelImplToJson(
-        _$SalesListModelImpl instance) =>
+Map<String, dynamic> _$$SalesInvoiceRequestModelImplToJson(
+        _$SalesInvoiceRequestModelImpl instance) =>
     <String, dynamic>{
       'saleIdpk': instance.saleIdpk,
       'saleNo': instance.saleNo,
@@ -145,8 +128,8 @@ Map<String, dynamic> _$$SalesListModelImplToJson(
       'soldItems': instance.soldItems,
     };
 
-_$SoldItemModelImpl _$$SoldItemModelImplFromJson(Map<String, dynamic> json) =>
-    _$SoldItemModelImpl(
+_$SoldItemImpl _$$SoldItemImplFromJson(Map<String, dynamic> json) =>
+    _$SoldItemImpl(
       saleIdpk: json['saleIdpk'] as String?,
       itemIdpk: json['itemIdpk'] as String?,
       barcode: json['barcode'] as String?,
@@ -154,18 +137,18 @@ _$SoldItemModelImpl _$$SoldItemModelImplFromJson(Map<String, dynamic> json) =>
       itemName: json['itemName'] as String?,
       description: json['description'] as String?,
       unit: json['unit'] as String?,
-      actualQty: (json['actualQty'] as num?)?.toInt(),
-      billedQty: (json['billedQty'] as num?)?.toInt(),
-      cost: (json['cost'] as num?)?.toInt(),
-      sellingPrice: (json['sellingPrice'] as num?)?.toInt(),
-      discount: (json['discount'] as num?)?.toInt(),
-      grossTotal: (json['grossTotal'] as num?)?.toInt(),
-      taxAmount: (json['taxAmount'] as num?)?.toInt(),
-      taxPercentage: (json['taxPercentage'] as num?)?.toInt(),
-      netTotal: (json['netTotal'] as num?)?.toInt(),
-      currentStock: (json['currentStock'] as num?)?.toInt(),
-      profit: (json['profit'] as num?)?.toInt(),
-      profitPercentage: (json['profitPercentage'] as num?)?.toInt(),
+      actualQty: (json['actualQty'] as num?)?.toDouble(),
+      billedQty: (json['billedQty'] as num?)?.toDouble(),
+      cost: (json['cost'] as num?)?.toDouble(),
+      sellingPrice: (json['sellingPrice'] as num?)?.toDouble(),
+      discount: (json['discount'] as num?)?.toDouble(),
+      grossTotal: (json['grossTotal'] as num?)?.toDouble(),
+      taxAmount: (json['taxAmount'] as num?)?.toDouble(),
+      taxPercentage: (json['taxPercentage'] as num?)?.toDouble(),
+      netTotal: (json['netTotal'] as num?)?.toDouble(),
+      currentStock: (json['currentStock'] as num?)?.toDouble(),
+      profit: (json['profit'] as num?)?.toDouble(),
+      profitPercentage: (json['profitPercentage'] as num?)?.toDouble(),
       isSent: json['isSent'] as bool?,
       expiryDate: json['expiryDate'] == null
           ? null
@@ -179,7 +162,7 @@ _$SoldItemModelImpl _$$SoldItemModelImplFromJson(Map<String, dynamic> json) =>
       rowguid: json['rowguid'] as String?,
     );
 
-Map<String, dynamic> _$$SoldItemModelImplToJson(_$SoldItemModelImpl instance) =>
+Map<String, dynamic> _$$SoldItemImplToJson(_$SoldItemImpl instance) =>
     <String, dynamic>{
       'saleIdpk': instance.saleIdpk,
       'itemIdpk': instance.itemIdpk,

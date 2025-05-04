@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
@@ -152,7 +153,12 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
               height: 10,
             ),
             PrimaryButton(
-              onPressed: () => context.router.pushNamed(AppRouter.addNewSales),
+              onPressed: () => context.router.push(
+                AddNewSalesRoute(
+                  title: context.translate(AppStrings.addNewSales),
+                  isForPurchase: false,
+                ),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

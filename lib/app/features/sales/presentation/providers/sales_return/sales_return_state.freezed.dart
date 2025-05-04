@@ -20,7 +20,7 @@ mixin _$SalesReturnState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesListEntity> salesInvoice) success,
+    required TResult Function(List<SalesReturnEntity> salesInvoice) success,
     required TResult Function(String message) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$SalesReturnState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesListEntity> salesInvoice)? success,
+    TResult? Function(List<SalesReturnEntity> salesInvoice)? success,
     TResult? Function(String message)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$SalesReturnState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesListEntity> salesInvoice)? success,
+    TResult Function(List<SalesReturnEntity> salesInvoice)? success,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) =>
@@ -132,7 +132,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesListEntity> salesInvoice) success,
+    required TResult Function(List<SalesReturnEntity> salesInvoice) success,
     required TResult Function(String message) failure,
   }) {
     return initial();
@@ -143,7 +143,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesListEntity> salesInvoice)? success,
+    TResult? Function(List<SalesReturnEntity> salesInvoice)? success,
     TResult? Function(String message)? failure,
   }) {
     return initial?.call();
@@ -154,7 +154,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesListEntity> salesInvoice)? success,
+    TResult Function(List<SalesReturnEntity> salesInvoice)? success,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -249,7 +249,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesListEntity> salesInvoice) success,
+    required TResult Function(List<SalesReturnEntity> salesInvoice) success,
     required TResult Function(String message) failure,
   }) {
     return loading();
@@ -260,7 +260,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesListEntity> salesInvoice)? success,
+    TResult? Function(List<SalesReturnEntity> salesInvoice)? success,
     TResult? Function(String message)? failure,
   }) {
     return loading?.call();
@@ -271,7 +271,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesListEntity> salesInvoice)? success,
+    TResult Function(List<SalesReturnEntity> salesInvoice)? success,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -329,7 +329,7 @@ abstract class _$$SuccessImplCopyWith<$Res> {
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<SalesListEntity> salesInvoice});
+  $Res call({List<SalesReturnEntity> salesInvoice});
 }
 
 /// @nodoc
@@ -351,7 +351,7 @@ class __$$SuccessImplCopyWithImpl<$Res>
       null == salesInvoice
           ? _value._salesInvoice
           : salesInvoice // ignore: cast_nullable_to_non_nullable
-              as List<SalesListEntity>,
+              as List<SalesReturnEntity>,
     ));
   }
 }
@@ -359,12 +359,12 @@ class __$$SuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SuccessImpl implements _Success {
-  const _$SuccessImpl(final List<SalesListEntity> salesInvoice)
+  const _$SuccessImpl(final List<SalesReturnEntity> salesInvoice)
       : _salesInvoice = salesInvoice;
 
-  final List<SalesListEntity> _salesInvoice;
+  final List<SalesReturnEntity> _salesInvoice;
   @override
-  List<SalesListEntity> get salesInvoice {
+  List<SalesReturnEntity> get salesInvoice {
     if (_salesInvoice is EqualUnmodifiableListView) return _salesInvoice;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_salesInvoice);
@@ -401,7 +401,7 @@ class _$SuccessImpl implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesListEntity> salesInvoice) success,
+    required TResult Function(List<SalesReturnEntity> salesInvoice) success,
     required TResult Function(String message) failure,
   }) {
     return success(salesInvoice);
@@ -412,7 +412,7 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesListEntity> salesInvoice)? success,
+    TResult? Function(List<SalesReturnEntity> salesInvoice)? success,
     TResult? Function(String message)? failure,
   }) {
     return success?.call(salesInvoice);
@@ -423,7 +423,7 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesListEntity> salesInvoice)? success,
+    TResult Function(List<SalesReturnEntity> salesInvoice)? success,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -472,10 +472,10 @@ class _$SuccessImpl implements _Success {
 }
 
 abstract class _Success implements SalesReturnState {
-  const factory _Success(final List<SalesListEntity> salesInvoice) =
+  const factory _Success(final List<SalesReturnEntity> salesInvoice) =
       _$SuccessImpl;
 
-  List<SalesListEntity> get salesInvoice;
+  List<SalesReturnEntity> get salesInvoice;
 
   /// Create a copy of SalesReturnState
   /// with the given fields replaced by the non-null parameter values.
@@ -554,7 +554,7 @@ class _$FailureImpl implements _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesListEntity> salesInvoice) success,
+    required TResult Function(List<SalesReturnEntity> salesInvoice) success,
     required TResult Function(String message) failure,
   }) {
     return failure(message);
@@ -565,7 +565,7 @@ class _$FailureImpl implements _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesListEntity> salesInvoice)? success,
+    TResult? Function(List<SalesReturnEntity> salesInvoice)? success,
     TResult? Function(String message)? failure,
   }) {
     return failure?.call(message);
@@ -576,7 +576,7 @@ class _$FailureImpl implements _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesListEntity> salesInvoice)? success,
+    TResult Function(List<SalesReturnEntity> salesInvoice)? success,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {

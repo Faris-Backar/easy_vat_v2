@@ -2,8 +2,8 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'sales_invoice_request_model.freezed.dart';
-part 'sales_invoice_request_model.g.dart';
+part 'sales_request_model.freezed.dart';
+part 'sales_request_model.g.dart';
 
 @freezed
 class SalesRequestModel with _$SalesRequestModel {

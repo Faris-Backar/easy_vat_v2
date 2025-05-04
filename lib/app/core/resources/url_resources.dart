@@ -1,11 +1,11 @@
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-String baseUrl = "https://activationserver.ddns.net/";
+String baseUrl = "https://easyvatapi.microzys.in/";
 
 class UrlResources {
   UrlResources._();
-  static const String serverBaseUrl = "https://activationserver.ddns.net/";
+  static const String serverBaseUrl = "https://easyvatserverapi.microzys.in/";
 
   static Future<String> getBaseUrl() async {
     final prefs = await SharedPreferences.getInstance();

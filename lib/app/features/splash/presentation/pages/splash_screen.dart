@@ -4,7 +4,6 @@ import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
@@ -45,14 +44,24 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Using size to ensure a perfect square
+    final size = MediaQuery.of(context).size;
+    final squareSize =
+        size.width < size.height ? size.width * 0.6 : size.height * 0.6;
+
     return Scaffold(
       body: Center(
         child: Container(
-          height: 250.h,
-          width: 250.w,
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+          height: squareSize,
+          width: squareSize,
+          decoration: BoxDecoration(
+              // Optional: Add a border or background to visualize the square frame
+              // border: Border.all(color: Colors.grey.withOpacity(0.3), width: 1),
+              // color: Colors.white,
+              ),
+          padding: EdgeInsets.all(16),
           child: Image(
-            image: AssetImage(Assets.images.logo.path), // Asset image
+            image: AssetImage(Assets.images.logo.path),
             fit: BoxFit.contain,
             filterQuality: FilterQuality.high,
           ),

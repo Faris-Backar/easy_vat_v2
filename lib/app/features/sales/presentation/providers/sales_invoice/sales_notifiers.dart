@@ -1,6 +1,6 @@
 import 'package:easy_vat_v2/app/features/sales/data/repository/sales_repository_impl.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
-import 'package:easy_vat_v2/app/features/sales/domain/repositories/sales_order_repository.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/repositories/sales_repository.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_invoice_state.dart';
@@ -19,7 +19,7 @@ final salesInvoiceNotifierProvider =
 
 class SalesInoiveNotifiers extends StateNotifier<SalesInvoiceState> {
   final SalesRepository salesInvoiceRepository;
-  List<SalesListEntity>? salesList;
+  List<SalesInvoiceListEntity>? salesList;
   DateTime? fromDate;
   DateTime? toDate;
 

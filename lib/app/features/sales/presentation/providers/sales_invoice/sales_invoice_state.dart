@@ -7,7 +7,7 @@ part 'sales_invoice_state.freezed.dart';
 class SalesInvoiceState with _$SalesInvoiceState {
   const factory SalesInvoiceState.initial() = _Initial;
   const factory SalesInvoiceState.loading() = _Loading;
-  const factory SalesInvoiceState.success(List<SalesListEntity> salesInvoice) =
-      _Success;
+  const factory SalesInvoiceState.success(
+      List<SalesInvoiceListEntity> salesInvoice) = _Success;
   const factory SalesInvoiceState.failure(String message) = _Failure;
 }

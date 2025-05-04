@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_request_model.dart';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
@@ -7,7 +9,7 @@ import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entit
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_notifier.dart';
 import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
-import 'package:easy_vat_v2/app/features/sales/data/model/sales_invoice_request_model.dart';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_request_model.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
 import 'package:easy_vat_v2/app/features/salesman/domain/entity/sales_man_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -315,6 +317,173 @@ class CartNotifier extends StateNotifier<CartState> {
     return newSale;
   }
 
+  SalesOrderRequestModel createNewSaleOrder() {
+    double itemTotalTax = 0.0;
+    double netTotal = 0.0;
+
+    final uid = Uuid().v8();
+    final List<SalesOrderDetail> items = [];
+    for (var i = 0; i < itemsList.length; i++) {
+      final grossTotal =
+          (itemsList[i].item.retailRate ?? 0.0 * itemsList[i].qty);
+
+      final taxAmount = isTaxEnabled
+          ? ((itemsList[i].qty * itemsList[i].rate) *
+                  (itemsList[i].item.taxPercentage ?? 0.0)) /
+              100
+          : 0.0;
+
+      totalItemGrossAmont += grossTotal;
+      itemTotalTax += taxAmount;
+      netTotal += (grossTotal + taxAmount);
+
+      final item = SalesOrderDetail(
+        itemIdpk: itemsList[i].item.itemIdpk ?? "",
+        barcode: itemsList[i].item.barcode ?? "",
+        itemCode: itemsList[i].item.itemCode ?? "",
+        itemName: itemsList[i].item.itemName ?? "",
+        description: description,
+        unit: itemsList[i].unit,
+        cost: itemsList[i].cost,
+        sellingPrice: itemsList[i].rate,
+        taxAmount: taxAmount,
+        taxPercentage:
+            isTaxEnabled ? (itemsList[i].item.taxPercentage ?? 0.0) : 0.0,
+        netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
+        projectIdpk: "00000000-0000-0000-0000-000000000000",
+        quotationIdpk: "00000000-0000-0000-0000-000000000000",
+        salesOrderIdpk: "00000000-0000-0000-0000-000000000000",
+        importId: "00000000-0000-0000-0000-000000000000",
+        rowguid: '00000000-0000-0000-0000-000000000000',
+        subItems: [],
+        companyIdpk: "00000000-0000-0000-0000-000000000000",
+        grossAmount: grossTotal,
+        quantity: itemsList[i].qty,
+        suppliersIdpk: itemsList[i].item.supplierIdfk ??
+            "00000000-0000-0000-0000-000000000000",
+      );
+      items.add(item);
+    }
+
+    final newSale = SalesOrderRequestModel(
+      lpoNo: "0",
+      quotationNo: "0",
+      requestNo: "0",
+      salesOrderIdpk: uid,
+      companyIdpk: "00000000-0000-0000-0000-000000000000",
+      customerIdpk: selectedCustomer?.ledgerIdpk ??
+          "00000000-0000-0000-0000-000000000000",
+      salesOrderDate: DateTime.now(),
+      createdDate: DateTime.now(),
+      createdBy: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      modifiedBy: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      rowguid: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      grossTotal: totalItemGrossAmont,
+      dsicount: discount,
+      netTotal: netTotal,
+      generalNote: notes,
+      salesOrderNo: 0,
+      deliveryMethod: "00000000-0000-0000-0000-000000000000",
+      destination: shippingAddress,
+      vehicleNo: "",
+      salesmanIdpk: soldBy?.userIdpk ?? "00000000-0000-0000-0000-000000000000",
+      projectIdpk: "00000000-0000-0000-0000-000000000000",
+      invoiceAddress: shippingAddress,
+      deliveryTerms: "",
+      paymentTerms: "",
+      referenceNo: "0",
+      remarks: notes,
+      tax: isTaxEnabled
+          ? itemTotalTax
+          : 0.0, // Only include tax if tax is enabled
+      isEditable: true,
+      isCanceled: true,
+      salesOrderDetails: items,
+      shippingAddress: shippingAddress,
+      modifiedDate: DateTime.now(),
+    );
+    return newSale;
+  }
+
+  SalesReturnModel createNewSaleReturn() {
+    double itemTotalTax = 0.0;
+    double netTotal = 0.0;
+
+    final uid = Uuid().v8();
+    final List<ReturnedItemModel> items = [];
+    for (var i = 0; i < itemsList.length; i++) {
+      final grossTotal =
+          (itemsList[i].item.retailRate ?? 0.0 * itemsList[i].qty);
+
+      final taxAmount = isTaxEnabled
+          ? ((itemsList[i].qty * itemsList[i].rate) *
+                  (itemsList[i].item.taxPercentage ?? 0.0)) /
+              100
+          : 0.0;
+
+      totalItemGrossAmont += grossTotal;
+      itemTotalTax += taxAmount;
+      netTotal += (grossTotal + taxAmount);
+
+      final item = ReturnedItemModel(
+        salesReturnIdpk: "00000000-0000-0000-0000-000000000000",
+        actualQty: itemsList[i].qty,
+        billedQty: itemsList[i].qty,
+        itemIdpk: itemsList[i].item.itemIdpk ?? "",
+        barcode: itemsList[i].item.barcode ?? "",
+        itemCode: itemsList[i].item.itemCode ?? "",
+        itemName: itemsList[i].item.itemName ?? "",
+        description: description,
+        unit: itemsList[i].unit,
+        cost: itemsList[i].cost,
+        sellingPrice: itemsList[i].rate,
+        taxAmount: taxAmount,
+        taxPercentage:
+            isTaxEnabled ? (itemsList[i].item.taxPercentage ?? 0.0) : 0.0,
+        netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
+        storeIdfk:
+            itemsList[i].item.storeCurrentStock?.firstOrNull?.storeIdpk ??
+                "00000000-0000-0000-0000-000000000000",
+        subItems: [],
+        discount: discount,
+        grossTotal: grossTotal,
+      );
+      items.add(item);
+    }
+
+    final newSaleReturn = SalesReturnModel(
+      authorizedById: "",
+      crLedgerIdfk: "",
+      createdById: soldBy?.userIdpk ?? "00000000-0000-0000-0000-000000000000",
+      customerName: selectedCustomer?.ledgerName ?? "",
+      customerIdfk: selectedCustomer?.ledgerIdpk ??
+          "00000000-0000-0000-0000-000000000000",
+      discount: discount,
+      grossAmount: totalItemGrossAmont,
+      drLedgerIdfk: "",
+      modifiedById: "",
+      salesReturnNo: 0,
+      salesReturnMode: "",
+      returnDate: DateTime.now(),
+      returnedItems: items,
+      roundOff: roundOf,
+      saleIdfk: "00000000-0000-0000-0000-000000000000",
+      saleNo: 0,
+      salesReturnIdpk: uid,
+      rowguid: "00000000-0000-0000-0000-000000000000",
+      netTotal: netTotal,
+      referenceNo: "0",
+      remarks: notes,
+      tax: isTaxEnabled
+          ? itemTotalTax
+          : 0.0, // Only include tax if tax is enabled
+      isEditable: true,
+      modifiedDate: DateTime.now(),
+      createdDate: DateTime.now(),
+    );
+    return newSaleReturn;
+  }
+
   void clearCart() {
     itemsList.clear();
     totalAmount = 0.0;
@@ -380,7 +549,7 @@ class CartNotifier extends StateNotifier<CartState> {
     );
   }
 
-  void reinsertSalesForm(SalesListEntity salesInvoice, WidgetRef ref) {
+  void reinsertSalesForm(SalesInvoiceListEntity salesInvoice, WidgetRef ref) {
     //setting bool for View Sale
     setViewOnlyMode(true);
 

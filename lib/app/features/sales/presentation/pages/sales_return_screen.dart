@@ -44,10 +44,8 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
       ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
       ref.read(salesReturnNotifierProvider.notifier).fetchSalesReturn(
             params: SalesParams(
-              salesIDPK: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
               fromDate: DateTime.now(),
               toDate: DateTime.now(),
-              customerID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
             ),
           );
     });
@@ -55,13 +53,20 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final salesReturnState = ref.watch(salesInvoiceNotifierProvider);
+    final salesReturnState = ref.watch(salesReturnNotifierProvider);
     return Scaffold(
       appBar: SalesAppBar(
         searchController: _searchTextController,
         config: SalesAppBarConfig(
           title: context.translate(AppStrings.salesReturn),
           enableBarcodeScanning: true,
+          fetchFunction: (params) =>
+              ref.read(salesReturnNotifierProvider.notifier).fetchSalesReturn(
+                    params: SalesParams(
+                      fromDate: params.fromDate,
+                      toDate: params.toDate,
+                    ),
+                  ),
         ),
       ),
       backgroundColor: context.surfaceColor,
@@ -93,25 +98,26 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                         TransactionSlidableActionWidget(
                           onDeleteTap: () {},
                           onEditTap: () {
-                            ref
-                                .read(cartProvider.notifier)
-                                .reinsertSalesForm(salesInvoice, ref);
-                            context.router.pushNamed(AppRouter.addNewSales);
+                            //   ref
+                            //       .read(cartProvider.notifier)
+                            //       .reinsertSalesForm(salesReturn, ref);
+                            //   context.router.pushNamed(AppRouter.addNewSales);
                           },
                           onPrintTap: () {},
                         )
                       ],
                     ),
-                    child: TransactionCard(
-                      soldItems: salesInvoice.soldItems ?? [],
-                      salesOrderNumber: salesInvoice.salesOrderNo ?? "",
-                      salesDate: salesInvoice.saleDate ?? DateTime.now(),
-                      customerName: salesInvoice.customerName ?? "",
-                      soldBy: salesInvoice.soldBy ?? "",
-                      netTotal: salesInvoice.netTotal ?? 0.0,
-                      refNo: salesInvoice.referenceNo ?? "",
-                      status: "Unpaid",
-                    ),
+                    // child: TransactionCard(
+                    //   soldItems: salesInvoice.returnedItems ?? [],
+                    //   salesOrderNumber: salesInvoice.salesOrderNo ?? "",
+                    //   salesDate: salesInvoice.saleDate ?? DateTime.now(),
+                    //   customerName: salesInvoice.customerName ?? "",
+                    //   soldBy: salesInvoice.soldBy ?? "",
+                    //   netTotal: salesInvoice.netTotal ?? 0.0,
+                    //   refNo: salesInvoice.referenceNo ?? "",
+                    //   status: "Unpaid",
+                    // ),
+                    child: Text(salesInvoice.salesReturnNo?.toString() ?? ""),
                   ),
                 );
               },

@@ -62,6 +62,9 @@ flutter_native_splash:
   ios: true
   web: true
   android_gravity: center
+  ios_content_mode: center
+  web_image_mode: center
+  fullscreen: false
 
 # swagger_parser:
 #   schema_path: assets/schemas/easy_vat_swagger.json

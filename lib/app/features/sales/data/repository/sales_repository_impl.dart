@@ -1,14 +1,19 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/error/failure.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
+import 'package:easy_vat_v2/app/core/utils/date_format_utils.dart';
 import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_invoice_model.dart';
-import 'package:easy_vat_v2/app/features/sales/data/model/sales_invoice_request_model.dart';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_request_model.dart';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_request_model.dart';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
-import 'package:easy_vat_v2/app/features/sales/domain/repositories/sales_order_repository.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_return_entity.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/repositories/sales_repository.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 
 class SalesRepositoryImpl extends SalesRepository {
@@ -16,11 +21,11 @@ class SalesRepositoryImpl extends SalesRepository {
 
   final client = DioService().dio;
   @override
-  Future<Either<Failure, SalesEntity>> getSalesInvoices(
+  Future<Either<Failure, SalesInvoiceEntity>> getSalesInvoices(
       {required SalesParams salesInvoiceRequestParams}) async {
     try {
       final data = salesInvoiceRequestParams.toJson();
-      log("Date time => $data");
+
       final response = await client.post(
         UrlResources.getSalesInvoice,
         data: data,
@@ -41,7 +46,7 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesEntity>> createSalesInvoices(
+  Future<Either<Failure, SalesInvoiceEntity>> createSalesInvoices(
       {required SalesRequestModel salesInvoiceRequestParams}) async {
     try {
       final data = salesInvoiceRequestParams.toJson();
@@ -65,7 +70,7 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesEntity>> getSalesOrders(
+  Future<Either<Failure, SalesInvoiceEntity>> getSalesOrders(
       {required SalesParams salesOrderRequestParams}) async {
     try {
       final data = salesOrderRequestParams.toJson();
@@ -90,17 +95,22 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesEntity>> createSalesOrders(
-      {required SalesRequestModel salesOrderRequestParams}) async {
+  Future<Either<Failure, SalesInvoiceEntity>> createSalesOrders(
+      {required SalesOrderRequestModel salesOrderRequestParams}) async {
     try {
       final data = salesOrderRequestParams.toJson();
+
+      log("salesorder request => ${jsonEncode(data)}");
       final response = await client.post(
         UrlResources.createSalesOrder,
         data: data,
       );
       if (response.statusCode == 200) {
-        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
-        return right(salesInvoiceList);
+        final salesOrderResult = SalesInvoiceModel.fromJson(response.data);
+        if (salesOrderResult.status == true) {
+          return right(salesOrderResult);
+        }
+        return left(ServerFailure(message: salesOrderResult.message));
       }
       return left(ServerFailure(message: ""));
     } on DioException catch (e) {
@@ -114,10 +124,11 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesEntity>> createSalesreturn(
-      {required SalesRequestModel salesReturnRequestParams}) async {
+  Future<Either<Failure, SalesInvoiceEntity>> createSalesreturn(
+      {required SalesReturnModel salesReturnRequestParams}) async {
     try {
       final data = salesReturnRequestParams.toJson();
+      log("salesorder request => $data");
       final response = await client.post(
         UrlResources.createSalesReturn,
         data: data,
@@ -138,32 +149,40 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesEntity>> getSalesreturn(
+  Future<Either<Failure, List<SalesReturnEntity>>> getSalesreturn(
       {required SalesParams salesReturnRequestParams}) async {
     try {
-      final data = salesReturnRequestParams.toJson();
-      log("Date time => $data");
-      final response = await client.post(
+      final response = await client.get(
         UrlResources.getSalesReturn,
-        data: data,
+        queryParameters: {
+          "fromDate": DateFormatUtils.getDateOnly(
+              date: salesReturnRequestParams.fromDate),
+          "toDate": DateFormatUtils.getDateOnly(
+              date: salesReturnRequestParams.toDate),
+        },
       );
+      log("salesreturn url => ${response.requestOptions.uri}");
       if (response.statusCode == 200) {
-        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
-        return Right(salesInvoiceList);
+        final salesReturnList = List<SalesReturnModel>.from(
+            response.data.map((x) => SalesReturnModel.fromJson(x)));
+        log("salesreturn list => $salesReturnList");
+        return Right(salesReturnList);
       }
       return Left(ServerFailure(message: ""));
     } on DioException catch (e) {
+      log("salesreturn error => ${e.toString()}");
       return Left(ServerFailure(
           message: e.response?.statusMessage?.toString() ??
               e.error?.toString() ??
               ""));
     } catch (e) {
+      log("salesreturn error => ${e.toString()}");
       return Left(ServerFailure(message: e.toString()));
     }
   }
 
   @override
-  Future<Either<Failure, SalesEntity>> deleteSalesInvoices(
+  Future<Either<Failure, SalesInvoiceEntity>> deleteSalesInvoices(
       {required SalesRequestModel salesInvoiceRequestParams}) async {
     try {
       final data = salesInvoiceRequestParams.toJson();
@@ -187,7 +206,7 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesEntity>> updateSalesInvoices(
+  Future<Either<Failure, SalesInvoiceEntity>> updateSalesInvoices(
       {required SalesRequestModel salesInvoiceRequestParams}) async {
     try {
       final data = salesInvoiceRequestParams.toJson();
@@ -211,8 +230,8 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesEntity>> deleteSalesOrders(
-      {required SalesRequestModel salesOrderRequestParams}) async {
+  Future<Either<Failure, SalesInvoiceEntity>> deleteSalesOrders(
+      {required SalesOrderRequestModel salesOrderRequestParams}) async {
     try {
       final data = salesOrderRequestParams.toJson();
       final response = await client.post(
@@ -235,8 +254,8 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesEntity>> updateSalesOrders(
-      {required SalesRequestModel salesOrderRequestParams}) async {
+  Future<Either<Failure, SalesInvoiceEntity>> updateSalesOrders(
+      {required SalesOrderRequestModel salesOrderRequestParams}) async {
     try {
       final data = salesOrderRequestParams.toJson();
       final response = await client.post(
@@ -259,8 +278,8 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesEntity>> deleteSalesreturn(
-      {required SalesRequestModel salesReturnRequestParams}) async {
+  Future<Either<Failure, SalesInvoiceEntity>> deleteSalesreturn(
+      {required SalesReturnModel salesReturnRequestParams}) async {
     try {
       final data = salesReturnRequestParams.toJson();
       final response = await client.post(
@@ -283,8 +302,8 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesEntity>> updateSalesreturn(
-      {required SalesRequestModel salesReturnRequestParams}) async {
+  Future<Either<Failure, SalesInvoiceEntity>> updateSalesreturn(
+      {required SalesReturnModel salesReturnRequestParams}) async {
     try {
       final data = salesReturnRequestParams.toJson();
       final response = await client.post(

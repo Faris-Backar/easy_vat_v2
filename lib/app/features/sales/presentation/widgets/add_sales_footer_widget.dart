@@ -76,25 +76,30 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                       next.mapOrNull(
                         success: (success) {
                           String successMessage;
-                          switch (
-                              widget.salesType?.toLowerCase() ?? "salesorder") {
-                            case AppStrings.addNewSales:
-                              successMessage =
-                                  "Sales invoice successfully created!";
-                              break;
-                            case AppStrings.addNewSalesQuatation:
-                              successMessage =
-                                  "Sales quotation successfully created!";
-                              break;
-                            case AppStrings.addNewSalesReturn:
-                              successMessage =
-                                  "Sales return successfully created!";
-                              break;
-                            case AppStrings.addNewSalesOrder:
-                            default:
-                              successMessage =
-                                  "Sales order successfully created!";
-                              break;
+                          final salesType =
+                              widget.salesType?.toLowerCase() ?? "salesorder";
+
+                          if (salesType ==
+                              context
+                                  .translate(AppStrings.addNewSales)
+                                  .toLowerCase()) {
+                            successMessage =
+                                "Sales invoice successfully created!";
+                          } else if (salesType ==
+                              context
+                                  .translate(AppStrings.addNewSalesQuatation)
+                                  .toLowerCase()) {
+                            successMessage =
+                                "Sales quotation successfully created!";
+                          } else if (salesType ==
+                              context
+                                  .translate(AppStrings.addNewSalesReturn)
+                                  .toLowerCase()) {
+                            successMessage =
+                                "Sales return successfully created!";
+                          } else {
+                            successMessage =
+                                "Sales order successfully created!";
                           }
 
                           Fluttertoast.showToast(
@@ -136,11 +141,11 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                                       widget.salesModeNotifier.value ?? "");
                                   cartPrvd
                                       .setRefNo(widget.refNoController.text);
-                                  final newSale = cartPrvd.createNewSale();
 
                                   final salesType =
                                       widget.salesType?.toLowerCase() ??
-                                          "salesorder";
+                                          context.translate(
+                                              AppStrings.addNewSalesOrder);
 
                                   if (cartPrvd.salesMode.toLowerCase() ==
                                           "credit" &&
@@ -149,42 +154,50 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                                         msg: context.translate(
                                             AppStrings.pleaseSelectACustomer));
                                   } else {
-                                    switch (salesType) {
-                                      case AppStrings.addNewSalesOrder:
-                                        ref
-                                            .read(createSalesNotifierProvider
-                                                .notifier)
-                                            .createSalesOrder(request: newSale);
-                                        break;
-                                      case AppStrings.addNewSales:
-                                        ref
-                                            .read(createSalesNotifierProvider
-                                                .notifier)
-                                            .createSalesInvoice(
-                                                request: newSale);
-                                        break;
-                                      case AppStrings.addNewSalesQuatation:
-                                        ref
-                                            .read(createSalesNotifierProvider
-                                                .notifier)
-                                            .createSalesQuotation(
-                                                request: newSale);
-                                        break;
-                                      case AppStrings.addNewSalesReturn:
-                                        ref
-                                            .read(createSalesNotifierProvider
-                                                .notifier)
-                                            .createSalesReturn(
-                                                request: newSale);
-                                        break;
-                                      default:
-                                        ref
-                                            .read(createSalesNotifierProvider
-                                                .notifier)
-                                            .createSalesOrder(
-                                                request:
-                                                    newSale); // Default case
-                                        break;
+                                    if (salesType ==
+                                        context
+                                            .translate(
+                                                AppStrings.addNewSalesOrder)
+                                            .toLowerCase()) {
+                                      final newSaleOrder =
+                                          cartPrvd.createNewSaleOrder();
+                                      ref
+                                          .read(createSalesNotifierProvider
+                                              .notifier)
+                                          .createSalesOrder(
+                                              request: newSaleOrder);
+                                    } else if (salesType ==
+                                        context
+                                            .translate(AppStrings.addNewSales)
+                                            .toLowerCase()) {
+                                      final newSale = cartPrvd.createNewSale();
+                                      ref
+                                          .read(createSalesNotifierProvider
+                                              .notifier)
+                                          .createSalesInvoice(request: newSale);
+                                    } else if (salesType ==
+                                        context
+                                            .translate(
+                                                AppStrings.addNewSalesQuatation)
+                                            .toLowerCase()) {
+                                      final newSale = cartPrvd.createNewSale();
+                                      ref
+                                          .read(createSalesNotifierProvider
+                                              .notifier)
+                                          .createSalesQuotation(
+                                              request: newSale);
+                                    } else if (salesType ==
+                                        context
+                                            .translate(
+                                                AppStrings.addNewSalesReturn)
+                                            .toLowerCase()) {
+                                      final newSaleReturn =
+                                          cartPrvd.createNewSaleReturn();
+                                      ref
+                                          .read(createSalesNotifierProvider
+                                              .notifier)
+                                          .createSalesReturn(
+                                              request: newSaleReturn);
                                     }
                                   }
                                 }
