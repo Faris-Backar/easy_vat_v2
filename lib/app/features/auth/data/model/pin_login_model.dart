@@ -32,6 +32,32 @@ class PinLoginModel extends PinLoginEntity {
             ? (ledgerBookInfo as LedgerBookInfoModel).toJson()
             : null,
       };
+  factory PinLoginModel.fromEntity(PinLoginEntity entity) {
+    return PinLoginModel(
+      isAuthenticated: entity.isAuthenticated,
+      message: entity.message,
+      userDetails: entity.userDetails != null
+          ? UserDetailsModel.fromEntity(entity.userDetails as UserDetailsEntity)
+          : null,
+      ledgerBookInfo: entity.ledgerBookInfo != null
+          ? LedgerBookInfoModel.fromEntity(
+              entity.ledgerBookInfo as LedgerBookInfoEntity)
+          : null,
+    );
+  }
+
+  PinLoginEntity toEntity() {
+    return PinLoginEntity(
+      isAuthenticated: isAuthenticated,
+      message: message,
+      userDetails: userDetails != null
+          ? (userDetails as UserDetailsModel).toEntity()
+          : null,
+      ledgerBookInfo: ledgerBookInfo != null
+          ? (ledgerBookInfo as LedgerBookInfoModel).toEntity()
+          : null,
+    );
+  }
 }
 
 class LedgerBookInfoModel extends LedgerBookInfoEntity {
@@ -62,6 +88,34 @@ class LedgerBookInfoModel extends LedgerBookInfoEntity {
         "supplierBook":
             supplierBook != null ? (supplierBook as BookModel).toJson() : null,
       };
+
+  factory LedgerBookInfoModel.fromEntity(LedgerBookInfoEntity entity) {
+    return LedgerBookInfoModel(
+      cashBook: entity.cashBook != null
+          ? BookModel.fromEntity(entity.cashBook as BookEntity)
+          : null,
+      bankBook: entity.bankBook != null
+          ? BookModel.fromEntity(entity.bankBook as BookEntity)
+          : null,
+      customerBook: entity.customerBook != null
+          ? BookModel.fromEntity(entity.customerBook as BookEntity)
+          : null,
+      supplierBook: entity.supplierBook != null
+          ? BookModel.fromEntity(entity.supplierBook as BookEntity)
+          : null,
+    );
+  }
+
+  LedgerBookInfoEntity toEntity() {
+    return LedgerBookInfoEntity(
+      cashBook: cashBook != null ? (cashBook as BookModel).toEntity() : null,
+      bankBook: bankBook != null ? (bankBook as BookModel).toEntity() : null,
+      customerBook:
+          customerBook != null ? (customerBook as BookModel).toEntity() : null,
+      supplierBook:
+          supplierBook != null ? (supplierBook as BookModel).toEntity() : null,
+    );
+  }
 }
 
 class BookModel extends BookEntity {
@@ -88,6 +142,25 @@ class BookModel extends BookEntity {
         "underID": underId,
         "currentBalance": currentBalance,
       };
+  factory BookModel.fromEntity(BookEntity entity) {
+    return BookModel(
+      groupIdpk: entity.groupIdpk,
+      groupName: entity.groupName,
+      underGroup: entity.underGroup,
+      underId: entity.underId,
+      currentBalance: entity.currentBalance,
+    );
+  }
+
+  BookEntity toEntity() {
+    return BookEntity(
+      groupIdpk: groupIdpk,
+      groupName: groupName,
+      underGroup: underGroup,
+      underId: underId,
+      currentBalance: currentBalance,
+    );
+  }
 }
 
 class UserDetailsModel extends UserDetailsEntity {
@@ -161,6 +234,62 @@ class UserDetailsModel extends UserDetailsEntity {
         "companyInfo":
             companyInfo != null ? (companyInfo as CompanyInfo).toJson() : null,
       };
+
+// For UserDetailsModel
+  factory UserDetailsModel.fromEntity(UserDetailsEntity entity) {
+    return UserDetailsModel(
+      userIdpk: entity.userIdpk,
+      username: entity.username,
+      password: entity.password,
+      empName: entity.empName,
+      userRoleIdpk: entity.userRoleIdpk,
+      userRole: entity.userRole,
+      userPin: entity.userPin,
+      isActive: entity.isActive,
+      isEdit: entity.isEdit,
+      storeDetails: entity.storeDetails != null
+          ? StoreDetailsModel.fromEntity(
+              entity.storeDetails as StoreDetailsEntity)
+          : null,
+      cashAccountDetails: entity.cashAccountDetails != null
+          ? CashAccountDetailsModel.fromEntity(
+              entity.cashAccountDetails as CashAccountDetailsEntity)
+          : null,
+      userPermissions: entity.userPermissions,
+      appSettings: entity.appSettings != null
+          ? AppSettingsModel.fromEntity(entity.appSettings as AppSettingsEntity)
+          : null,
+      companyInfo: entity.companyInfo != null
+          ? CompanyInfo.fromEntity(entity.companyInfo as CompanyInfoEntity)
+          : null,
+    );
+  }
+
+  UserDetailsEntity toEntity() {
+    return UserDetailsEntity(
+      userIdpk: userIdpk,
+      username: username,
+      password: password,
+      empName: empName,
+      userRoleIdpk: userRoleIdpk,
+      userRole: userRole,
+      userPin: userPin,
+      isActive: isActive,
+      isEdit: isEdit,
+      storeDetails: storeDetails != null
+          ? (storeDetails as StoreDetailsModel).toEntity()
+          : null,
+      cashAccountDetails: cashAccountDetails != null
+          ? (cashAccountDetails as CashAccountDetailsModel).toEntity()
+          : null,
+      userPermissions: userPermissions,
+      appSettings: appSettings != null
+          ? (appSettings as AppSettingsModel).toEntity()
+          : null,
+      companyInfo:
+          companyInfo != null ? (companyInfo as CompanyInfo).toEntity() : null,
+    );
+  }
 }
 
 class AppSettingsModel extends AppSettingsEntity {
@@ -287,6 +416,89 @@ class AppSettingsModel extends AppSettingsEntity {
         "enableMultiLanguage": enableMultiLanguage,
         "languageType": languageType,
       };
+
+  factory AppSettingsModel.fromEntity(AppSettingsEntity entity) {
+    return AppSettingsModel(
+      primaryCurrency: entity.primaryCurrency,
+      primaryDecimal: entity.primaryDecimal,
+      secondaryCurrency: entity.secondaryCurrency,
+      secondaryDecimal: entity.secondaryDecimal,
+      enableTaxCalculation: entity.enableTaxCalculation,
+      defaultCountryId: entity.defaultCountryId,
+      defaultCountryStateId: entity.defaultCountryStateId,
+      defaultCurrencyId: entity.defaultCurrencyId,
+      defaultNumberOfDecimal: entity.defaultNumberOfDecimal,
+      enableEmployeeBiometricFingerprint:
+          entity.enableEmployeeBiometricFingerprint,
+      defaultSalesAccount: entity.defaultSalesAccount,
+      defaultCashAccount: entity.defaultCashAccount,
+      defaultCustomer: entity.defaultCustomer,
+      nextBarcodeNumber: entity.nextBarcodeNumber,
+      salesPromotionType: entity.salesPromotionType,
+      salesPromotionValueType: entity.salesPromotionValueType,
+      salesPromationValue: entity.salesPromationValue,
+      defaultCardAccount: entity.defaultCardAccount,
+      defaultBankAccount: entity.defaultBankAccount,
+      discountAllowed: entity.discountAllowed,
+      discountReceived: entity.discountReceived,
+      dbLastUpdate: entity.dbLastUpdate,
+      nextItemCodeNumber: entity.nextItemCodeNumber,
+      enableWeightScale: entity.enableWeightScale,
+      weightScaleReserve: entity.weightScaleReserve,
+      customReportCustomer: entity.customReportCustomer,
+      enableVoucherLock: entity.enableVoucherLock,
+      enableAutomaticDayShift: entity.enableAutomaticDayShift,
+      dayShiftTiming: entity.dayShiftTiming,
+      isEnableBiometrics: entity.isEnableBiometrics,
+      profitCalculationModel: entity.profitCalculationModel,
+      invoiceFooter: entity.invoiceFooter,
+      companyIdpk: entity.companyIdpk,
+      blockBelowCostSale: entity.blockBelowCostSale,
+      enableMultiLanguage: entity.enableMultiLanguage,
+      languageType: entity.languageType,
+    );
+  }
+
+  AppSettingsEntity toEntity() {
+    return AppSettingsEntity(
+      primaryCurrency: primaryCurrency,
+      primaryDecimal: primaryDecimal,
+      secondaryCurrency: secondaryCurrency,
+      secondaryDecimal: secondaryDecimal,
+      enableTaxCalculation: enableTaxCalculation,
+      defaultCountryId: defaultCountryId,
+      defaultCountryStateId: defaultCountryStateId,
+      defaultCurrencyId: defaultCurrencyId,
+      defaultNumberOfDecimal: defaultNumberOfDecimal,
+      enableEmployeeBiometricFingerprint: enableEmployeeBiometricFingerprint,
+      defaultSalesAccount: defaultSalesAccount,
+      defaultCashAccount: defaultCashAccount,
+      defaultCustomer: defaultCustomer,
+      nextBarcodeNumber: nextBarcodeNumber,
+      salesPromotionType: salesPromotionType,
+      salesPromotionValueType: salesPromotionValueType,
+      salesPromationValue: salesPromationValue,
+      defaultCardAccount: defaultCardAccount,
+      defaultBankAccount: defaultBankAccount,
+      discountAllowed: discountAllowed,
+      discountReceived: discountReceived,
+      dbLastUpdate: dbLastUpdate,
+      nextItemCodeNumber: nextItemCodeNumber,
+      enableWeightScale: enableWeightScale,
+      weightScaleReserve: weightScaleReserve,
+      customReportCustomer: customReportCustomer,
+      enableVoucherLock: enableVoucherLock,
+      enableAutomaticDayShift: enableAutomaticDayShift,
+      dayShiftTiming: dayShiftTiming,
+      isEnableBiometrics: isEnableBiometrics,
+      profitCalculationModel: profitCalculationModel,
+      invoiceFooter: invoiceFooter,
+      companyIdpk: companyIdpk,
+      blockBelowCostSale: blockBelowCostSale,
+      enableMultiLanguage: enableMultiLanguage,
+      languageType: languageType,
+    );
+  }
 }
 
 class CashAccountDetailsModel extends CashAccountDetailsEntity {
@@ -315,6 +527,24 @@ class CashAccountDetailsModel extends CashAccountDetailsEntity {
         "currentBalance": currentBalance,
         "currentBalanceType": currentBalanceType,
       };
+
+  factory CashAccountDetailsModel.fromEntity(CashAccountDetailsEntity entity) {
+    return CashAccountDetailsModel(
+      ledgerIdpk: entity.ledgerIdpk,
+      ledgerName: entity.ledgerName,
+      currentBalance: entity.currentBalance,
+      currentBalanceType: entity.currentBalanceType,
+    );
+  }
+
+  CashAccountDetailsEntity toEntity() {
+    return CashAccountDetailsEntity(
+      ledgerIdpk: ledgerIdpk,
+      ledgerName: ledgerName,
+      currentBalance: currentBalance,
+      currentBalanceType: currentBalanceType,
+    );
+  }
 }
 
 class CompanyInfo extends CompanyInfoEntity {
@@ -431,6 +661,78 @@ class CompanyInfo extends CompanyInfoEntity {
         "companyIDPK": companyIdpk,
         "isSelected": isSelected,
       };
+
+  factory CompanyInfo.fromEntity(CompanyInfoEntity entity) {
+    return CompanyInfo(
+      companyGuid: entity.companyGuid,
+      companyId: entity.companyId,
+      companyName: entity.companyName,
+      companyNameArabic: entity.companyNameArabic,
+      tradeLicenceNo: entity.tradeLicenceNo,
+      licenceExpiryDate: entity.licenceExpiryDate,
+      bookBeginningDate: entity.bookBeginningDate,
+      isActive: entity.isActive,
+      mailingName: entity.mailingName,
+      authorisedPerson: entity.authorisedPerson,
+      address: entity.address,
+      phone: entity.phone,
+      mobile: entity.mobile,
+      email: entity.email,
+      fax: entity.fax,
+      website: entity.website,
+      countryId: entity.countryId,
+      stateIdPk: entity.stateIdPk,
+      taxRegistrationType: entity.taxRegistrationType,
+      enableTaxCalculation: entity.enableTaxCalculation,
+      taxRegNo: entity.taxRegNo,
+      dateofTaxRegistration: entity.dateofTaxRegistration,
+      taxReturnPeriod: entity.taxReturnPeriod,
+      startDate: entity.startDate,
+      endDate: entity.endDate,
+      incomeTaxNo: entity.incomeTaxNo,
+      description: entity.description,
+      logo: entity.logo,
+      softwareType: entity.softwareType,
+      companyIdpk: entity.companyIdpk,
+      isSelected: entity.isSelected,
+    );
+  }
+
+  CompanyInfoEntity toEntity() {
+    return CompanyInfoEntity(
+      companyGuid: companyGuid,
+      companyId: companyId,
+      companyName: companyName,
+      companyNameArabic: companyNameArabic,
+      tradeLicenceNo: tradeLicenceNo,
+      licenceExpiryDate: licenceExpiryDate,
+      bookBeginningDate: bookBeginningDate,
+      isActive: isActive,
+      mailingName: mailingName,
+      authorisedPerson: authorisedPerson,
+      address: address,
+      phone: phone,
+      mobile: mobile,
+      email: email,
+      fax: fax,
+      website: website,
+      countryId: countryId,
+      stateIdPk: stateIdPk,
+      taxRegistrationType: taxRegistrationType,
+      enableTaxCalculation: enableTaxCalculation,
+      taxRegNo: taxRegNo,
+      dateofTaxRegistration: dateofTaxRegistration,
+      taxReturnPeriod: taxReturnPeriod,
+      startDate: startDate,
+      endDate: endDate,
+      incomeTaxNo: incomeTaxNo,
+      description: description,
+      logo: logo,
+      softwareType: softwareType,
+      companyIdpk: companyIdpk,
+      isSelected: isSelected,
+    );
+  }
 }
 
 class StoreDetailsModel extends StoreDetailsEntity {
@@ -489,6 +791,44 @@ class StoreDetailsModel extends StoreDetailsEntity {
         "modifiedDate": modifiedDate?.toIso8601String(),
         "rowguid": rowguid,
       };
+
+  factory StoreDetailsModel.fromEntity(StoreDetailsEntity entity) {
+    return StoreDetailsModel(
+      storeIdpk: entity.storeIdpk,
+      storeType: entity.storeType,
+      storeId: entity.storeId,
+      storeName: entity.storeName,
+      storeLocation: entity.storeLocation,
+      storeAddress: entity.storeAddress,
+      isActive: entity.isActive,
+      isEdit: entity.isEdit,
+      isDefaultStore: entity.isDefaultStore,
+      createdBy: entity.createdBy,
+      createdDate: entity.createdDate,
+      modifiedBy: entity.modifiedBy,
+      modifiedDate: entity.modifiedDate,
+      rowguid: entity.rowguid,
+    );
+  }
+
+  StoreDetailsEntity toEntity() {
+    return StoreDetailsEntity(
+      storeIdpk: storeIdpk,
+      storeType: storeType,
+      storeId: storeId,
+      storeName: storeName,
+      storeLocation: storeLocation,
+      storeAddress: storeAddress,
+      isActive: isActive,
+      isEdit: isEdit,
+      isDefaultStore: isDefaultStore,
+      createdBy: createdBy,
+      createdDate: createdDate,
+      modifiedBy: modifiedBy,
+      modifiedDate: modifiedDate,
+      rowguid: rowguid,
+    );
+  }
 }
 
 double? _convertToDouble(dynamic value) {

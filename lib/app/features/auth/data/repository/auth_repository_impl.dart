@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
@@ -24,6 +25,7 @@ class AuthRepositoryImpl extends AuthRepository {
       final response = await dio.post(
           UrlResources.serverBaseUrl + UrlResources.serverLogin,
           data: body);
+      log("server login => ${json.encode(response.data)}");
       if (response.statusCode == 200) {
         final loginData = ServerLoginModel.fromJson(response.data);
         return right(loginData);
@@ -44,6 +46,7 @@ class AuthRepositoryImpl extends AuthRepository {
       final client = DioService().dio;
       final body = {"userPin": pin};
       final response = await client.post(UrlResources.pinLogin, data: body);
+      log("pin login => ${json.encode(response.data)}");
       if (response.statusCode == 200) {
         final loginData = PinLoginModel.fromJson(response.data);
         return right(loginData);

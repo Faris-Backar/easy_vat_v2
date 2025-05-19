@@ -1,4 +1,4 @@
-import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_request_model.dart';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_request_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/sales_invoice/create_sales_invoice_usecase.dart';
@@ -60,7 +60,7 @@ class CreateSalesNotifier extends StateNotifier<CreateSalesState> {
     }
   }
 
-  createSalesOrder({required SalesOrderRequestModel request}) async {
+  createSalesOrder({required SalesOrderModel request}) async {
     state = CreateSalesState.initial();
     state = CreateSalesState.loading();
     try {

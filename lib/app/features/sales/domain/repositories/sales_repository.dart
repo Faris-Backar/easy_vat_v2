@@ -1,6 +1,6 @@
 import "package:dartz/dartz.dart";
 import "package:easy_vat_v2/app/core/error/failure.dart";
-import "package:easy_vat_v2/app/features/sales/data/model/sales_order_request_model.dart";
+import "package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart";
 import "package:easy_vat_v2/app/features/sales/data/model/sales_request_model.dart";
 import "package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart";
 import "package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart";
@@ -22,11 +22,11 @@ abstract class SalesRepository {
   Future<Either<Failure, SalesInvoiceEntity>> getSalesOrders(
       {required SalesParams salesOrderRequestParams});
   Future<Either<Failure, SalesInvoiceEntity>> createSalesOrders(
-      {required SalesOrderRequestModel salesOrderRequestParams});
+      {required SalesOrderModel salesOrderRequestParams});
   Future<Either<Failure, SalesInvoiceEntity>> updateSalesOrders(
-      {required SalesOrderRequestModel salesOrderRequestParams});
+      {required SalesOrderModel salesOrderRequestParams});
   Future<Either<Failure, SalesInvoiceEntity>> deleteSalesOrders(
-      {required SalesOrderRequestModel salesOrderRequestParams});
+      {required SalesOrderModel salesOrderRequestParams});
 
 //salesReturn
   Future<Either<Failure, List<SalesReturnEntity>>> getSalesreturn(

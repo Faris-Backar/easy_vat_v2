@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
-import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
@@ -9,10 +8,9 @@ import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledge
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_return/sales_return_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_card.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_return_transaction_card_widget.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_slidable_widget.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -73,17 +71,17 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         child: salesReturnState.maybeWhen(
-          success: (salesInvoiceData) {
-            if (salesInvoiceData.isEmpty == true) {
+          success: (salesReturnData) {
+            if (salesReturnData.isEmpty == true) {
               return Center(
                 child: Text(context.translate(AppStrings.noDataIsFound)),
               );
             }
             return ListView.builder(
-              itemCount: salesInvoiceData.length,
+              itemCount: salesReturnData.length,
               itemBuilder: (context, index) {
-                final salesInvoice = salesInvoiceData[index];
-                if (salesInvoiceData.isEmpty == true) {
+                final salesReturn = salesReturnData[index];
+                if (salesReturnData.isEmpty == true) {
                   return Center(
                     child: Text(context.translate(AppStrings.noDataIsFound)),
                   );
@@ -107,17 +105,9 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                         )
                       ],
                     ),
-                    // child: TransactionCard(
-                    //   soldItems: salesInvoice.returnedItems ?? [],
-                    //   salesOrderNumber: salesInvoice.salesOrderNo ?? "",
-                    //   salesDate: salesInvoice.saleDate ?? DateTime.now(),
-                    //   customerName: salesInvoice.customerName ?? "",
-                    //   soldBy: salesInvoice.soldBy ?? "",
-                    //   netTotal: salesInvoice.netTotal ?? 0.0,
-                    //   refNo: salesInvoice.referenceNo ?? "",
-                    //   status: "Unpaid",
-                    // ),
-                    child: Text(salesInvoice.salesReturnNo?.toString() ?? ""),
+                    child: SalesReturnTransactionCard(
+                      salesreturn: salesReturn,
+                    ),
                   ),
                 );
               },

@@ -25,6 +25,7 @@ class EasyVatApp extends StatelessWidget {
             final themeMode = ref.watch(themeNotifierProvider);
             final currentLocale = ref.watch(localeProvider);
             return MaterialApp.router(
+              title: "Easy Vat",
               debugShowCheckedModeBanner: false,
               routerConfig: _appRouter.config(),
               theme: AppTheme.light,

@@ -196,7 +196,7 @@ class CompanyInfoEntity {
   DateTime? endDate;
   String? incomeTaxNo;
   String? description;
-  dynamic logo;
+  String? logo;
   String? softwareType;
   String? companyIdpk;
   bool? isSelected;

@@ -34,6 +34,7 @@ class LoginNotifier extends StateNotifier<LoginState> {
       log("company detials => $r");
       final prefs = await SharedPreferences.getInstance();
       prefs.setString(PrefResources.token, r.accessTokens ?? "");
+
       baseUrl = r.companyDetails?.first.connectionInfo ?? "";
       List<String> companyPermissions = [];
       for (var i = 0;

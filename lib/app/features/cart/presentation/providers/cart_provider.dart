@@ -1,5 +1,6 @@
 import 'dart:developer';
-import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_request_model.dart';
+import 'package:easy_vat_v2/app/features/auth/presentation/functions/app_credential_preference_helper.dart';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -254,19 +255,21 @@ class CartNotifier extends StateNotifier<CartState> {
               isTaxEnabled ? (itemsList[i].item.taxPercentage ?? 0.0) : 0.0,
           netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
           currentStock: itemsList[i].item.currentStock ?? 0.0,
-          profit: 0.0,
-          profitPercentage: 0.0,
+          profit: items[i].profit,
+          profitPercentage: items[i].profitPercentage,
           isSent: false,
           expiryDate: DateTime.now(),
           storeIdfk:
               itemsList[i].item.storeCurrentStock?.firstOrNull?.storeIdpk ??
                   "00000000-0000-0000-0000-000000000000",
-          projectIdpk: "00000000-0000-0000-0000-000000000000",
-          quotationIdpk: "00000000-0000-0000-0000-000000000000",
+          projectIdpk:
+              items[i].projectIdpk ?? "00000000-0000-0000-0000-000000000000",
+          quotationIdpk:
+              items[i].quotationIdpk ?? "00000000-0000-0000-0000-000000000000",
           deliveryNoteIdpk: "00000000-0000-0000-0000-000000000000",
           salesOrderIdpk: "00000000-0000-0000-0000-000000000000",
-          importId: "00000000-0000-0000-0000-000000000000",
-          rowguid: '00000000-0000-0000-0000-000000000000');
+          importId: items[i].importId,
+          rowguid: items[i].rowguid);
       items.add(item);
     }
 
@@ -290,9 +293,7 @@ class CartNotifier extends StateNotifier<CartState> {
       soldItems: items,
       remarks: notes,
       saleMode: salesMode,
-      tax: isTaxEnabled
-          ? itemTotalTax
-          : 0.0, // Only include tax if tax is enabled
+      tax: isTaxEnabled ? itemTotalTax : 0.0,
       soldBy: soldBy?.empName,
       crLedgerIdfk: '00000000-0000-0000-0000-000000000000',
       drLedgerIdfk: '00000000-0000-0000-0000-000000000000',
@@ -317,12 +318,14 @@ class CartNotifier extends StateNotifier<CartState> {
     return newSale;
   }
 
-  SalesOrderRequestModel createNewSaleOrder() {
+  Future<SalesOrderModel> createNewSaleOrder() async {
+    final companyDetails =
+        await AppCredentialPreferenceHelper().getCompanyInfo();
     double itemTotalTax = 0.0;
     double netTotal = 0.0;
 
     final uid = Uuid().v8();
-    final List<SalesOrderDetail> items = [];
+    final List<SalesOrderDetailModel> items = [];
     for (var i = 0; i < itemsList.length; i++) {
       final grossTotal =
           (itemsList[i].item.retailRate ?? 0.0 * itemsList[i].qty);
@@ -337,7 +340,7 @@ class CartNotifier extends StateNotifier<CartState> {
       itemTotalTax += taxAmount;
       netTotal += (grossTotal + taxAmount);
 
-      final item = SalesOrderDetail(
+      final item = SalesOrderDetailModel(
         itemIdpk: itemsList[i].item.itemIdpk ?? "",
         barcode: itemsList[i].item.barcode ?? "",
         itemCode: itemsList[i].item.itemCode ?? "",
@@ -356,7 +359,8 @@ class CartNotifier extends StateNotifier<CartState> {
         importId: "00000000-0000-0000-0000-000000000000",
         rowguid: '00000000-0000-0000-0000-000000000000',
         subItems: [],
-        companyIdpk: "00000000-0000-0000-0000-000000000000",
+        companyIdpk: companyDetails?.companyIdpk ??
+            '00000000-0000-0000-0000-000000000000',
         grossAmount: grossTotal,
         quantity: itemsList[i].qty,
         suppliersIdpk: itemsList[i].item.supplierIdfk ??
@@ -365,12 +369,13 @@ class CartNotifier extends StateNotifier<CartState> {
       items.add(item);
     }
 
-    final newSale = SalesOrderRequestModel(
+    final newSale = SalesOrderModel(
       lpoNo: "0",
       quotationNo: "0",
       requestNo: "0",
       salesOrderIdpk: uid,
-      companyIdpk: "00000000-0000-0000-0000-000000000000",
+      companyIdpk:
+          companyDetails?.companyIdpk ?? '00000000-0000-0000-0000-000000000000',
       customerIdpk: selectedCustomer?.ledgerIdpk ??
           "00000000-0000-0000-0000-000000000000",
       salesOrderDate: DateTime.now(),

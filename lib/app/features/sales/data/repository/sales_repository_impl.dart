@@ -8,7 +8,7 @@ import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/date_format_utils.dart';
 import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_invoice_model.dart';
-import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_request_model.dart';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_request_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
@@ -96,7 +96,7 @@ class SalesRepositoryImpl extends SalesRepository {
 
   @override
   Future<Either<Failure, SalesInvoiceEntity>> createSalesOrders(
-      {required SalesOrderRequestModel salesOrderRequestParams}) async {
+      {required SalesOrderModel salesOrderRequestParams}) async {
     try {
       final data = salesOrderRequestParams.toJson();
 
@@ -110,7 +110,7 @@ class SalesRepositoryImpl extends SalesRepository {
         if (salesOrderResult.status == true) {
           return right(salesOrderResult);
         }
-        return left(ServerFailure(message: salesOrderResult.message));
+        return left(ServerFailure(message: salesOrderResult.message ?? ""));
       }
       return left(ServerFailure(message: ""));
     } on DioException catch (e) {
@@ -231,7 +231,7 @@ class SalesRepositoryImpl extends SalesRepository {
 
   @override
   Future<Either<Failure, SalesInvoiceEntity>> deleteSalesOrders(
-      {required SalesOrderRequestModel salesOrderRequestParams}) async {
+      {required SalesOrderModel salesOrderRequestParams}) async {
     try {
       final data = salesOrderRequestParams.toJson();
       final response = await client.post(
@@ -255,7 +255,7 @@ class SalesRepositoryImpl extends SalesRepository {
 
   @override
   Future<Either<Failure, SalesInvoiceEntity>> updateSalesOrders(
-      {required SalesOrderRequestModel salesOrderRequestParams}) async {
+      {required SalesOrderModel salesOrderRequestParams}) async {
     try {
       final data = salesOrderRequestParams.toJson();
       final response = await client.post(

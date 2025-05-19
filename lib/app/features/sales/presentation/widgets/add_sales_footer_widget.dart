@@ -127,7 +127,7 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                         isLoading: false,
                         onPressed: ref.watch(cartProvider).isViewOnly == true
                             ? () {}
-                            : () {
+                            : () async {
                                 if (widget.isForPurchase) {
                                   Fluttertoast.showToast(
                                       msg: context.translate(
@@ -160,7 +160,7 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                                                 AppStrings.addNewSalesOrder)
                                             .toLowerCase()) {
                                       final newSaleOrder =
-                                          cartPrvd.createNewSaleOrder();
+                                          await cartPrvd.createNewSaleOrder();
                                       ref
                                           .read(createSalesNotifierProvider
                                               .notifier)
