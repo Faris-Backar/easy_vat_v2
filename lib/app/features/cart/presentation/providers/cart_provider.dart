@@ -237,39 +237,38 @@ class CartNotifier extends StateNotifier<CartState> {
       netTotal += (grossTotal + taxAmount);
 
       final item = SoldItem(
-          saleIdpk: uid,
-          itemIdpk: itemsList[i].item.itemIdpk ?? "",
-          barcode: itemsList[i].item.barcode ?? "",
-          itemCode: itemsList[i].item.itemCode ?? "",
-          itemName: itemsList[i].item.itemName ?? "",
-          description: description,
-          unit: itemsList[i].unit,
-          actualQty: itemsList[i].qty,
-          billedQty: itemsList[i].qty,
-          cost: itemsList[i].cost,
-          sellingPrice: itemsList[i].rate,
-          discount: discount,
-          grossTotal: grossTotal,
-          taxAmount: taxAmount,
-          taxPercentage:
-              isTaxEnabled ? (itemsList[i].item.taxPercentage ?? 0.0) : 0.0,
-          netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
-          currentStock: itemsList[i].item.currentStock ?? 0.0,
-          profit: items[i].profit,
-          profitPercentage: items[i].profitPercentage,
-          isSent: false,
-          expiryDate: DateTime.now(),
-          storeIdfk:
-              itemsList[i].item.storeCurrentStock?.firstOrNull?.storeIdpk ??
-                  "00000000-0000-0000-0000-000000000000",
-          projectIdpk:
-              items[i].projectIdpk ?? "00000000-0000-0000-0000-000000000000",
-          quotationIdpk:
-              items[i].quotationIdpk ?? "00000000-0000-0000-0000-000000000000",
-          deliveryNoteIdpk: "00000000-0000-0000-0000-000000000000",
-          salesOrderIdpk: "00000000-0000-0000-0000-000000000000",
-          importId: items[i].importId,
-          rowguid: items[i].rowguid);
+        saleIdpk: uid,
+        itemIdpk: itemsList[i].item.itemIdpk ?? "",
+        barcode: itemsList[i].item.barcode ?? "",
+        itemCode: itemsList[i].item.itemCode ?? "",
+        itemName: itemsList[i].item.itemName ?? "",
+        description: description,
+        unit: itemsList[i].unit,
+        actualQty: itemsList[i].qty,
+        billedQty: itemsList[i].qty,
+        cost: itemsList[i].cost,
+        sellingPrice: itemsList[i].rate,
+        discount: discount,
+        grossTotal: grossTotal,
+        taxAmount: taxAmount,
+        taxPercentage:
+            isTaxEnabled ? (itemsList[i].item.taxPercentage ?? 0.0) : 0.0,
+        netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
+        currentStock: itemsList[i].item.currentStock ?? 0.0,
+        profit: 0.0,
+        profitPercentage: 0.0,
+        isSent: false,
+        expiryDate: DateTime.now(),
+        storeIdfk:
+            itemsList[i].item.storeCurrentStock?.firstOrNull?.storeIdpk ??
+                "00000000-0000-0000-0000-000000000000",
+        projectIdpk: "00000000-0000-0000-0000-000000000000",
+        quotationIdpk: "00000000-0000-0000-0000-000000000000",
+        deliveryNoteIdpk: "00000000-0000-0000-0000-000000000000",
+        salesOrderIdpk: "00000000-0000-0000-0000-000000000000",
+        importId: '00000000-0000-0000-0000-000000000000',
+        rowguid: '00000000-0000-0000-0000-000000000000',
+      );
       items.add(item);
     }
 

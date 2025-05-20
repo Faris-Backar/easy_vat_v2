@@ -60,7 +60,7 @@ abstract class SalesInvoiceListEntity {
   final String? drLedgerCashAccount;
   final String? drLedgerBankAccount;
   final String? orderType;
-  final int? deliveryCharge;
+  final double? deliveryCharge;
   final List<SoldItemEntity>? soldItems;
 
   SalesInvoiceListEntity({
@@ -126,18 +126,18 @@ abstract class SoldItemEntity {
   final String? itemName;
   final String? description;
   final String? unit;
-  final int? actualQty;
-  final int? billedQty;
-  final int? cost;
-  final int? sellingPrice;
-  final int? discount;
-  final int? grossTotal;
-  final int? taxAmount;
-  final int? taxPercentage;
-  final int? netTotal;
-  final int? currentStock;
-  final int? profit;
-  final int? profitPercentage;
+  final double? actualQty;
+  final double? billedQty;
+  final double? cost;
+  final double? sellingPrice;
+  final double? discount;
+  final double? grossTotal;
+  final double? taxAmount;
+  final double? taxPercentage;
+  final double? netTotal;
+  final double? currentStock;
+  final double? profit;
+  final double? profitPercentage;
   final bool? isSent;
   final DateTime? expiryDate;
   final String? storeIdfk;
