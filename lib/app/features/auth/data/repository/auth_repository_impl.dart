@@ -32,9 +32,11 @@ class AuthRepositoryImpl extends AuthRepository {
       }
       return left(ServerFailure(message: AppStrings.somethingWentWrong));
     } on DioException catch (e) {
+      log("server login => $e");
       return left(ServerFailure(
           message: e.message ?? e.error ?? e.response?.data ?? e.type));
     } catch (e) {
+      log("server login => $e");
       return left(ServerFailure(message: e.toString()));
     }
   }

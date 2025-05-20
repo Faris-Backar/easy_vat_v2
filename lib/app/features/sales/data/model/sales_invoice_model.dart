@@ -1,25 +1,23 @@
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
 
 class SalesInvoiceModel extends SalesInvoiceEntity {
-  final List<SalesInvoiceListModel> salesInvoiceList;
-
-  SalesInvoiceModel({
-    required this.salesInvoiceList,
-  });
+  SalesInvoiceModel({super.message, super.salesList, super.status});
 
   factory SalesInvoiceModel.fromJson(Map<String, dynamic> json) =>
       SalesInvoiceModel(
-        salesInvoiceList: json["salesInvoiceList"] != null
-            ? List<SalesInvoiceListModel>.from(json["salesInvoiceList"]
-                .map((x) => SalesInvoiceListModel.fromJson(x)))
+        salesList: json["salesList"] != null
+            ? List<SalesInvoiceListModel>.from(
+                json["salesList"].map((x) => SalesInvoiceListModel.fromJson(x)))
             : [],
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "salesInvoiceList":
-            List<dynamic>.from(salesInvoiceList.map((x) => x.toJson())),
+        "salesInvoiceList": List<SalesInvoiceListModel>.from(
+            (salesList as List<SalesInvoiceListModel>?)
+                    ?.map((x) => x.toJson()) ??
+                []),
       };
 }
 
