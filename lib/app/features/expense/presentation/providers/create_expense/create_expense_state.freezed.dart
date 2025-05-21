@@ -21,7 +21,11 @@ mixin _$CreateExpenseState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() success,
+<<<<<<< HEAD
     required TResult Function(String error) failure,
+=======
+    required TResult Function(String error) falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -29,7 +33,11 @@ mixin _$CreateExpenseState {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? success,
+<<<<<<< HEAD
     TResult? Function(String error)? failure,
+=======
+    TResult? Function(String error)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -37,7 +45,11 @@ mixin _$CreateExpenseState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? success,
+<<<<<<< HEAD
     TResult Function(String error)? failure,
+=======
+    TResult Function(String error)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -46,7 +58,11 @@ mixin _$CreateExpenseState {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
+<<<<<<< HEAD
     required TResult Function(_Failure value) failure,
+=======
+    required TResult Function(_Failure value) falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -54,7 +70,11 @@ mixin _$CreateExpenseState {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
+<<<<<<< HEAD
     TResult? Function(_Failure value)? failure,
+=======
+    TResult? Function(_Failure value)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -62,7 +82,11 @@ mixin _$CreateExpenseState {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
+<<<<<<< HEAD
     TResult Function(_Failure value)? failure,
+=======
+    TResult Function(_Failure value)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -133,7 +157,11 @@ class _$InitialImpl implements _Initial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() success,
+<<<<<<< HEAD
     required TResult Function(String error) failure,
+=======
+    required TResult Function(String error) falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) {
     return initial();
   }
@@ -144,7 +172,11 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? success,
+<<<<<<< HEAD
     TResult? Function(String error)? failure,
+=======
+    TResult? Function(String error)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) {
     return initial?.call();
   }
@@ -155,7 +187,11 @@ class _$InitialImpl implements _Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? success,
+<<<<<<< HEAD
     TResult Function(String error)? failure,
+=======
+    TResult Function(String error)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -170,7 +206,11 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
+<<<<<<< HEAD
     required TResult Function(_Failure value) failure,
+=======
+    required TResult Function(_Failure value) falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) {
     return initial(this);
   }
@@ -181,7 +221,11 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
+<<<<<<< HEAD
     TResult? Function(_Failure value)? failure,
+=======
+    TResult? Function(_Failure value)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) {
     return initial?.call(this);
   }
@@ -192,7 +236,11 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
+<<<<<<< HEAD
     TResult Function(_Failure value)? failure,
+=======
+    TResult Function(_Failure value)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -250,7 +298,11 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() success,
+<<<<<<< HEAD
     required TResult Function(String error) failure,
+=======
+    required TResult Function(String error) falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) {
     return loading();
   }
@@ -261,7 +313,11 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? success,
+<<<<<<< HEAD
     TResult? Function(String error)? failure,
+=======
+    TResult? Function(String error)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) {
     return loading?.call();
   }
@@ -272,7 +328,11 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? success,
+<<<<<<< HEAD
     TResult Function(String error)? failure,
+=======
+    TResult Function(String error)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -287,7 +347,11 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
+<<<<<<< HEAD
     required TResult Function(_Failure value) failure,
+=======
+    required TResult Function(_Failure value) falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) {
     return loading(this);
   }
@@ -298,7 +362,11 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
+<<<<<<< HEAD
     TResult? Function(_Failure value)? failure,
+=======
+    TResult? Function(_Failure value)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) {
     return loading?.call(this);
   }
@@ -309,7 +377,11 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
+<<<<<<< HEAD
     TResult Function(_Failure value)? failure,
+=======
+    TResult Function(_Failure value)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -367,7 +439,11 @@ class _$SuccessImpl implements _Success {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() success,
+<<<<<<< HEAD
     required TResult Function(String error) failure,
+=======
+    required TResult Function(String error) falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) {
     return success();
   }
@@ -378,7 +454,11 @@ class _$SuccessImpl implements _Success {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? success,
+<<<<<<< HEAD
     TResult? Function(String error)? failure,
+=======
+    TResult? Function(String error)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) {
     return success?.call();
   }
@@ -389,7 +469,11 @@ class _$SuccessImpl implements _Success {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? success,
+<<<<<<< HEAD
     TResult Function(String error)? failure,
+=======
+    TResult Function(String error)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -404,7 +488,11 @@ class _$SuccessImpl implements _Success {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
+<<<<<<< HEAD
     required TResult Function(_Failure value) failure,
+=======
+    required TResult Function(_Failure value) falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) {
     return success(this);
   }
@@ -415,7 +503,11 @@ class _$SuccessImpl implements _Success {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
+<<<<<<< HEAD
     TResult? Function(_Failure value)? failure,
+=======
+    TResult? Function(_Failure value)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }) {
     return success?.call(this);
   }
@@ -426,7 +518,11 @@ class _$SuccessImpl implements _Success {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
+<<<<<<< HEAD
     TResult Function(_Failure value)? failure,
+=======
+    TResult Function(_Failure value)? falure,
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -483,7 +579,11 @@ class _$FailureImpl implements _Failure {
 
   @override
   String toString() {
+<<<<<<< HEAD
     return 'CreateExpenseState.failure(error: $error)';
+=======
+    return 'CreateExpenseState.falure(error: $error)';
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }
 
   @override
@@ -511,9 +611,15 @@ class _$FailureImpl implements _Failure {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() success,
+<<<<<<< HEAD
     required TResult Function(String error) failure,
   }) {
     return failure(error);
+=======
+    required TResult Function(String error) falure,
+  }) {
+    return falure(error);
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }
 
   @override
@@ -522,9 +628,15 @@ class _$FailureImpl implements _Failure {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? success,
+<<<<<<< HEAD
     TResult? Function(String error)? failure,
   }) {
     return failure?.call(error);
+=======
+    TResult? Function(String error)? falure,
+  }) {
+    return falure?.call(error);
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }
 
   @override
@@ -533,11 +645,19 @@ class _$FailureImpl implements _Failure {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? success,
+<<<<<<< HEAD
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
     if (failure != null) {
       return failure(error);
+=======
+    TResult Function(String error)? falure,
+    required TResult orElse(),
+  }) {
+    if (falure != null) {
+      return falure(error);
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
     }
     return orElse();
   }
@@ -548,9 +668,15 @@ class _$FailureImpl implements _Failure {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
+<<<<<<< HEAD
     required TResult Function(_Failure value) failure,
   }) {
     return failure(this);
+=======
+    required TResult Function(_Failure value) falure,
+  }) {
+    return falure(this);
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }
 
   @override
@@ -559,9 +685,15 @@ class _$FailureImpl implements _Failure {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
+<<<<<<< HEAD
     TResult? Function(_Failure value)? failure,
   }) {
     return failure?.call(this);
+=======
+    TResult? Function(_Failure value)? falure,
+  }) {
+    return falure?.call(this);
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
   }
 
   @override
@@ -570,11 +702,19 @@ class _$FailureImpl implements _Failure {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
+<<<<<<< HEAD
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
     if (failure != null) {
       return failure(this);
+=======
+    TResult Function(_Failure value)? falure,
+    required TResult orElse(),
+  }) {
+    if (falure != null) {
+      return falure(this);
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
     }
     return orElse();
   }

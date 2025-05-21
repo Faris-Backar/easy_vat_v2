@@ -184,14 +184,7 @@
   "grossProfit": " إجمالي الربح",
   "update": "تحديث",
   "discardChanges": "هل تريد تجاهل التغييرات؟",
-<<<<<<< HEAD
   "discard":"تجاهل",
-  "deleteSalesInvoiceConfirmationMessage": "تم حذف فاتورة البيع بنجاح"
-
-=======
-  "discardChangesMessage": "لديك عناصر في سلة التسوق. هل تريد تجاهلها والعودة؟",
-  "discard": "تجاهل",
   "deleteSalesInvoiceConfirmationMessage": "تم حذف فاتورة البيع بنجاح",
    "invNo":"InvNo"
->>>>>>> d592f14 (Fixed Issues mentioned - 27-5-25)
 }

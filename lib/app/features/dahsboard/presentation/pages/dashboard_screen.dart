@@ -80,6 +80,14 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
                     SizedBox(height: 16.h),
                     FinanacialSummaryCardGrid(),
                     SizedBox(height: 16.h),
+                    // Summary card
+                    DashboardSummaryCard(),
+                    SizedBox(height: 16.h),
+
+                    FinanceReportWidget(),
+                    SizedBox(height: 16.h),
+
+                    // Income chart
                     FinanceCardWidget(
                         title: context.translate(AppStrings.totalIncome),
                         subtitle: 'Income Summary',
@@ -88,6 +96,8 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
                         color: Color(0xFF4CAF50),
                         xAxisLabels: state.xAxisLabels),
                     SizedBox(height: 16.h),
+
+                    // Expense chart
                     FinanceCardWidget(
                         title: 'Total Expense',
                         subtitle: 'Expense Summary',

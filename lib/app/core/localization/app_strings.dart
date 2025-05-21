@@ -203,4 +203,8 @@ class AppStrings {
   static const String expenseNo = "expenseNo";
   static const String expenseDate = "expenseDate";
   static const String supInvNo = "supInvNo";
+  static const String totalIncome = "totalIncome";
+  static const String totalExpense = "totalExpense";
+  static const String netBalance = "netBalance";
+  static const String financialPeriod = "financialPeriod";
 }

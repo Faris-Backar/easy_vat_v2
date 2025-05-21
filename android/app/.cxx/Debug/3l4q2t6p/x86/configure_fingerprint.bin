@@ -7,6 +7,7 @@ A
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	É‡Î«2ß ÂúøâÈ2Y
 =======
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	çı ‰2ß ÂúøâÈ2Y
@@ -15,6 +16,8 @@ A
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	Ï°”Ù2ß ÂúøâÈ2Y
 >>>>>>> e9fa262 (Added Pdf Viewer)
 =======
+=======
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	Åªﬁ∂Ò2ß ÂúøâÈ2Y
 >>>>>>> d592f14 (Fixed Issues mentioned - 27-5-25)
 W
@@ -39,6 +42,7 @@ XD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\metadata_generation_co
 M
 KD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\prefab_config.json	Çªﬁ∂Ò2( ÁŒ‰œÓ2T
 R
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -85,3 +89,32 @@ PD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\symbol_folder_index.tx
 =======
 PD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\symbol_folder_index.txt	Çªﬁ∂Ò2G ÎŒ‰œÓ2
 >>>>>>> d592f14 (Fixed Issues mentioned - 27-5-25)
+=======
+PD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\symbol_folder_index.txt	Çªﬁ∂Ò2G ÎŒ‰œÓ2
+=======
+?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	öÔúüÔ2ß ÂúøâÈ2Y
+W
+UD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\additional_project_files.txt	öÔúüÔ2 ®Œ‰œÓ2V
+T
+RD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\android_gradle_build.json	öÔúüÔ2∞ ØŒ‰œÓ2[
+Y
+WD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\android_gradle_build_mini.json	öÔúüÔ2ã ‡Œ‰œÓ2H
+F
+DD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\build.ninja	öÔúüÔ2Æ‘ ı ‰œÓ2L
+J
+HD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\build.ninja.txt	öÔúüÔ2Q
+O
+MD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\build_file_index.txt	öÔúüÔ2q ÌŒ‰œÓ2R
+P
+ND:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\compile_commands.json	öÔúüÔ2	V
+T
+RD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\compile_commands.json.bin	öÔúüÔ2
+\
+Z
+XD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\metadata_generation_command.txt	öÔúüÔ2ß „Œ‰œÓ2O
+M
+KD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\prefab_config.json	öÔúüÔ2( ÁŒ‰œÓ2T
+R
+PD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86\symbol_folder_index.txt	öÔúüÔ2G ÎŒ‰œÓ2
+>>>>>>> 1b51f7f (Added Dashboard UI with Notifiers)
+>>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
