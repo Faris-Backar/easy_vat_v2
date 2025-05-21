@@ -4,18 +4,21 @@ import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/core/utils/date_format_utils.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SalesTransactionCard extends StatelessWidget {
   final SalesInvoiceListEntity salesInvoice;
+  final ValueNotifier<bool> isSelectedNotifier;
+  final bool isTaxEnabled;
 
-  const SalesTransactionCard({super.key, required this.salesInvoice});
+  const SalesTransactionCard(
+      {super.key,
+      required this.salesInvoice,
+      required this.isSelectedNotifier,
+      this.isTaxEnabled = false});
 
-  // Get status color based on sales invoice status
   Color _getStatusColor(BuildContext context) {
-    // Replace this with your actual status field from SalesInvoiceListEntity
     final status = "paid";
-
-    // Define your color mappings based on status
     switch (status) {
       case 'paid':
         return Colors.green;
@@ -26,177 +29,200 @@ class SalesTransactionCard extends StatelessWidget {
       case 'draft':
         return Colors.blue;
       default:
-        return Colors.grey; // Default color
+        return Colors.grey;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        // Main container (your existing widget)
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.0),
-            color: AppUtils.isDarkMode(context)
-                ? Color(0xFF2B2E30)
-                : const Color(0xFFF9F9F9),
-          ),
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
+    return GestureDetector(
+      onTap: () => isSelectedNotifier.value = !isSelectedNotifier.value,
+      child: ValueListenableBuilder<bool>(
+        valueListenable: isSelectedNotifier,
+        builder: (context, isSelected, _) {
+          return Stack(
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.salesNo),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.32),
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+                padding: const EdgeInsets.all(12.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(12.0),
+                  color: AppUtils.isDarkMode(context)
+                      ? const Color(0xFF2B2E30)
+                      : const Color(0xFFF9F9F9),
+                  border: isSelected
+                      ? Border.all(
+                          color: Theme.of(context).primaryColor, width: 1.5)
+                      : null,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildTopRow(context),
+                    SizedBox(height: 10.h),
+                    _buildCustomerRow(context),
+                    if (isSelected) ...[
+                      SizedBox(height: 10.h),
+                      Divider(
+                        color: context.defaultTextColor.withValues(alpha: 0.1),
+                        thickness: 1,
+                      ),
+                      SizedBox(height: 6.h),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Column(
+                            children: [
+                              if (isTaxEnabled) ...[
+                                Text(
+                                    "${context.translate(AppStrings.subTotal)} : ",
+                                    style: context.textTheme.bodySmall),
+                                Text(
+                                  salesInvoice.grossAmount
+                                          ?.toStringAsFixed(2) ??
+                                      "0.00",
+                                  style: context.textTheme.bodySmall
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                )
+                              ],
+                              if (isTaxEnabled) ...[
+                                Text(
+                                    "${context.translate(AppStrings.totalTax)} : ",
+                                    style: context.textTheme.bodySmall),
+                                Text(
+                                  salesInvoice.tax?.toStringAsFixed(2) ??
+                                      "0.00",
+                                  style: context.textTheme.bodySmall
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                )
+                              ],
+                              Row(
+                                children: [
+                                  Text(
+                                      "${context.translate(AppStrings.discount)} : ",
+                                      style: context.textTheme.bodySmall),
+                                  Text(
+                                    salesInvoice.discount?.toStringAsFixed(2) ??
+                                        "0.00",
+                                    style: context.textTheme.bodySmall
+                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Text(
+                                      "${context.translate(AppStrings.total)} : ",
+                                      style: context.textTheme.bodySmall),
+                                  Text(
+                                    salesInvoice.netTotal?.toStringAsFixed(2) ??
+                                        "0.00",
+                                    style: context.textTheme.bodySmall
+                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                  )
+                                ],
+                              )
+                            ],
                           ),
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          salesInvoice.salesOrderNo ?? "",
-                          style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.75),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.salesDate),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.32),
-                          ),
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          DateFormatUtils.getFormettedTime(
-                              date: salesInvoice.saleDate ?? DateTime.now()),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.75),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.customer),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.32),
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          salesInvoice.customerName ?? "",
-                          style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.75),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.soldBy),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.32),
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          salesInvoice.soldBy ?? "",
-                          style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.75),
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.netTotal),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.32),
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          salesInvoice.netTotal?.toStringAsFixed(2) ?? "",
-                          style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.75),
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
+                        ],
+                      )
+                    ],
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: CustomPaint(
+                  painter:
+                      TriangleStatusPainter(color: _getStatusColor(context)),
+                  size: const Size(24, 24),
+                ),
               ),
             ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildTopRow(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildInfoColumn(
+          context,
+          label: AppStrings.salesNo,
+          value: salesInvoice.salesOrderNo ?? "",
+        ),
+        _buildInfoColumn(
+          context,
+          label: AppStrings.salesDate,
+          value: DateFormatUtils.getFormettedTime(
+            date: salesInvoice.saleDate ?? DateTime.now(),
           ),
         ),
+        _buildInfoColumn(
+          context,
+          label: AppStrings.soldBy,
+          value: salesInvoice.soldBy ?? "",
+        ),
+        _buildInfoColumn(
+          context,
+          label: AppStrings.netTotal,
+          value: salesInvoice.netTotal?.toStringAsFixed(2) ?? "",
+        ),
+      ],
+    );
+  }
 
-        // Triangle in the top-right corner
-        Positioned(
-          top: 0,
-          right: 0,
-          child: CustomPaint(
-            painter: TriangleStatusPainter(color: _getStatusColor(context)),
-            size: const Size(24, 24),
+  Widget _buildCustomerRow(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          context.translate(AppStrings.customer),
+          style: context.textTheme.bodySmall?.copyWith(
+            color: context.defaultTextColor.withValues(alpha: 0.32),
+          ),
+        ),
+        Text(
+          salesInvoice.customerName ?? "-",
+          style: context.textTheme.bodySmall?.copyWith(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: context.defaultTextColor.withValues(alpha: 0.75),
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildInfoColumn(BuildContext context,
+      {required String label, required String value}) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.translate(label),
+            style: context.textTheme.bodySmall?.copyWith(
+              color: context.defaultTextColor.withValues(alpha: 0.32),
+            ),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            value,
+            style: context.textTheme.bodySmall?.copyWith(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: context.defaultTextColor.withValues(alpha: 0.75),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
