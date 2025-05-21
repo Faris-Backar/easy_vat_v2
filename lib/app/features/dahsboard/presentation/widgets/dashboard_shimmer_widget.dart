@@ -14,7 +14,6 @@ class DashboardShimmerWidget extends StatelessWidget {
       children: [
         SizedBox(height: 10.h),
         // Finance Report Shimmer
-        _buildFinanceReportShimmer(context),
         SizedBox(height: 20.h),
         // Dashboard Summary Card Shimmer
         _buildSummaryCardShimmer(context),
@@ -23,9 +22,8 @@ class DashboardShimmerWidget extends StatelessWidget {
         _buildFinancialOverviewShimmer(context),
         SizedBox(height: 16.h),
         // Finance Cards Shimmers
-        _buildFinanceCardShimmer(context),
+        _buildSummaryCardShimmer(context),
         SizedBox(height: 16.h),
-        _buildFinanceCardShimmer(context),
       ],
     );
   }

@@ -267,4 +267,30 @@ class SalesTransactionCard extends StatelessWidget {
       ],
     );
   }
+
+  Widget _buildInfoColumn(BuildContext context,
+      {required String label, required String value}) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.translate(label),
+            style: context.textTheme.bodySmall?.copyWith(
+              color: context.defaultTextColor.withValues(alpha: 0.32),
+            ),
+          ),
+          const SizedBox(height: 3),
+          Text(
+            value,
+            style: context.textTheme.bodySmall?.copyWith(
+              fontSize: 11,
+              fontWeight: FontWeight.w600,
+              color: context.defaultTextColor.withValues(alpha: 0.75),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
