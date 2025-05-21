@@ -76,4 +76,10 @@ class UrlResources {
   static const String pinLogin = "LogIn/authentication/verifyuserPin";
   static const String serverLogin =
       "ServerLogIn/authentication/verifyuserlogin";
+
+  //expense
+  static const String getExpense = "/Expense/Select/SelectAll";
+  static const String createExpense = "/Expense/Insert";
+  static const String updateExpense = "/Expense/Update";
+  static const String deleteExpense = "/Expense/Delete";
 }

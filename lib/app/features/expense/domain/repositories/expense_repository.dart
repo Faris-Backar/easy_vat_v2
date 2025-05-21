@@ -1,0 +1,15 @@
+import 'package:dartz/dartz.dart';
+import 'package:easy_vat_v2/app/core/app_core.dart';
+import 'package:easy_vat_v2/app/features/expense/domain/entities/expense_entity.dart';
+import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
+
+abstract class ExpenseRepository {
+  Future<Either<Failure, ExpenseListEntity>> getExpense(
+      {required ExpenseParams expenseRequestParams});
+  Future<Either<Failure, ExpenseListEntity>> createExpense(
+      {required ExpenseParams expenseRequestParams});
+  Future<Either<Failure, ExpenseListEntity>> updateExpense(
+      {required ExpenseParams expenseRequestParams});
+  Future<Either<Failure, ExpenseListEntity>> deleteExpense(
+      {required ExpenseParams expenseRequestParams});
+}
