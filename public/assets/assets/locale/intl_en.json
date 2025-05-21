@@ -162,13 +162,17 @@
   "termsAndCondition": "Terms & Conditions",
   "connectAdmin": "Connect Admin",
   "whatIsCode": "What is my code",
-  "addNewPurchaseReturn":"Add New Purchase Return", 
+  "addNewPurchaseReturn": "Add New Purchase Return",
   "addNewPurchaseOrder": "Add New Purchase Order",
   "addNewSalesOrder": "Add New Sales Order",
   "addNewSalesQuatation": "Add New Sales Quatation",
-  "clearCart":"Clear Cart",
-  "clearCartMessage":"Are you sure you want to clear the cart?",
-  "barcodePostionMessage":"Position the barcode within the frame to scan",
-  "gross":"Gross",
-  "taxPercentage":"Tax Percentage"
+  "clearCart": "Clear Cart",
+  "clearCartMessage": "Are you sure you want to clear the cart?",
+  "barcodePostionMessage": "Position the barcode within the frame to scan",
+  "gross": "Gross",
+  "taxPercentage": "Tax Percentage",
+  "totalExpense": "Total Expense",
+  "totalIncome": "Total Income",
+  "netBalance":"Net Balance",
+  "financialPeriod":"Financial Period"
 }

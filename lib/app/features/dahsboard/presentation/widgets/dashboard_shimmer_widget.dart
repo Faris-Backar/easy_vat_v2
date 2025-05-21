@@ -1,3 +1,4 @@
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
@@ -55,15 +56,15 @@ class DashboardShimmerWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                _shimmerBox(80.w, 16.h),
+                _shimmerBox(context, 80.w, 16.h),
                 SizedBox(height: 8.h),
-                _shimmerBox(120.w, 24.h),
+                _shimmerBox(context, 120.w, 24.h),
                 SizedBox(height: 12.h),
                 Row(
                   children: [
-                    _balanceIndicator(),
+                    _balanceIndicator(context),
                     SizedBox(width: 20.w),
-                    _balanceIndicator(),
+                    _balanceIndicator(context),
                   ],
                 ),
               ],
@@ -92,7 +93,7 @@ class DashboardShimmerWidget extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          _shimmerBox(100.w, 18.h),
+          _shimmerBox(context, 100.w, 18.h),
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12.r, vertical: 8.r),
             decoration: BoxDecoration(
@@ -102,13 +103,13 @@ class DashboardShimmerWidget extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                _shimmerBox(16.w, 16.h, isCircle: true),
+                _shimmerBox(context, 16.w, 16.h, isCircle: true),
                 SizedBox(width: 8.w),
-                _shimmerBox(60.w, 14.h),
+                _shimmerBox(context, 60.w, 14.h),
                 SizedBox(width: 8.w),
-                _shimmerBox(8.w, 14.h),
+                _shimmerBox(context, 8.w, 14.h),
                 SizedBox(width: 8.w),
-                _shimmerBox(60.w, 14.h),
+                _shimmerBox(context, 60.w, 14.h),
               ],
             ),
           ),
@@ -141,16 +142,16 @@ class DashboardShimmerWidget extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _shimmerBox(100.w, 18.h),
+                  _shimmerBox(context, 100.w, 18.h),
                   SizedBox(height: 4.h),
-                  _shimmerBox(80.w, 14.h),
+                  _shimmerBox(context, 80.w, 14.h),
                 ],
               ),
-              _shimmerBox(36.w, 36.h, isCircle: true),
+              _shimmerBox(context, 36.w, 36.h, isCircle: true),
             ],
           ),
           SizedBox(height: 16.h),
-          _shimmerBox(120.w, 24.h),
+          _shimmerBox(context, 120.w, 24.h),
           SizedBox(height: 16.h),
           Container(
             height: 180.h,
@@ -162,7 +163,7 @@ class DashboardShimmerWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: List.generate(
                 4,
-                (_) => _shimmerBox(double.infinity, 10.h),
+                (_) => _shimmerBox(context, double.infinity, 10.h),
               ),
             ),
           ),
@@ -171,32 +172,39 @@ class DashboardShimmerWidget extends StatelessWidget {
     );
   }
 
-  Widget _balanceIndicator() {
+  Widget _balanceIndicator(BuildContext context) {
     return Row(
       children: [
-        _shimmerBox(10.w, 10.h, isCircle: true),
+        _shimmerBox(context, 10.w, 10.h, isCircle: true),
         SizedBox(width: 6.w),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _shimmerBox(40.w, 12.h),
+            _shimmerBox(context, 40.w, 12.h),
             SizedBox(height: 2.h),
-            _shimmerBox(50.w, 14.h),
+            _shimmerBox(context, 50.w, 14.h),
           ],
         ),
       ],
     );
   }
 
-  Widget _shimmerBox(double width, double height, {bool isCircle = false}) {
+  Widget _shimmerBox(BuildContext context, double width, double height,
+      {bool isCircle = false}) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey[300]!,
-      highlightColor: Colors.grey[100]!,
+      baseColor: AppUtils.isDarkMode(context)
+          ? context.colorScheme.tertiary
+          : Colors.grey[300]!,
+      highlightColor: AppUtils.isDarkMode(context)
+          ? context.colorScheme.tertiary
+          : Colors.grey[100]!,
       child: Container(
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: Colors.grey[300],
+          color: AppUtils.isDarkMode(context)
+              ? context.colorScheme.tertiary
+              : Colors.grey[300],
           borderRadius: isCircle ? null : BorderRadius.circular(4.r),
           shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
         ),

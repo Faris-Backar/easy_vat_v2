@@ -161,14 +161,18 @@
   "termsAndCondition": "الشروط والأحكام",
   "connectAdmin": "اتصال المسؤول",
   "whatIsCode": "ما هو رمزي؟",
-  "addNewPurchaseReturn":"إضافة مرتجع شراء جديد",
+  "addNewPurchaseReturn": "إضافة مرتجع شراء جديد",
   "addNewPurchaseOrder": "إضافة أمر شراء جديد",
   "addNewSalesOrder": "إضافة طلب بيع جديد",
   "addNewSalesQuatation": "إضافة عرض سعر جديد",
   "addNewExpense": "إضافة مصروف جديد",
   "clearCart": "مسح السلة",
   "clearCartMessage": "هل أنت متأكد أنك تريد مسح السلة؟",
-  "barcodePostionMessage":"ضع الباركود داخل الإطار للمسح",
-  "gross":"إجمالي",
-  "taxPercentage":"نسبة الضريبة"
+  "barcodePostionMessage": "ضع الباركود داخل الإطار للمسح",
+  "gross": "إجمالي",
+  "taxPercentage": "نسبة الضريبة",
+  "totalExpense": "إجمالي المصروفات",
+  "totalIncome": "إجمالي الدخل",
+  "netBalance": "الرصيد الصافي",
+  "financialPeriod": "الفترة المالية"
 }
