@@ -99,6 +99,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/lock.svg
   String get lock => 'assets/icons/lock.svg';
 
+  /// File path: assets/icons/menus.svg
+  String get menus => 'assets/icons/menus.svg';
+
   /// File path: assets/icons/payment.svg
   String get payment => 'assets/icons/payment.svg';
 
@@ -207,6 +210,7 @@ class $AssetsIconsGen {
     ledger,
     ledgerGroup,
     lock,
+    menus,
     payment,
     pos,
     print,

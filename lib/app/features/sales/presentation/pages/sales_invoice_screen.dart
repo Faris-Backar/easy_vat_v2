@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
@@ -20,6 +21,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
 class SalesInvoiceScreen extends ConsumerStatefulWidget {
@@ -33,12 +35,13 @@ class SalesInvoiceScreen extends ConsumerStatefulWidget {
 class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
   final _searchTextController = TextEditingController();
   late SalesInvoiceState salesInvoiceState;
+  bool isTaxRegisrationEnabled = false;
 
   @override
   void initState() {
     super.initState();
     salesInvoiceState = ref.read(salesInvoiceNotifierProvider);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       ref.read(cashLedgerNotifierProvider.notifier).fetchBankLedgers();
       ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
       ref.read(salesLedgerNotifierProvider.notifier).fetchSalesLedgers();
@@ -52,6 +55,11 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
               customerID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
             ),
           );
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final prefs = await SharedPreferences.getInstance();
+        isTaxRegisrationEnabled =
+            prefs.getBool(PrefResources.isTaxEnabled) ?? false;
+      });
     });
   }
 
@@ -74,7 +82,7 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
               itemCount: salesInvoiceData.length,
               itemBuilder: (context, index) {
                 final salesInvoice = salesInvoiceData[index];
-
+                final notifier = ValueNotifier<bool>(false);
                 if (salesInvoiceData.isEmpty == true) {
                   return Center(
                     child: Text(context.translate(AppStrings.noDataIsFound)),
@@ -111,6 +119,8 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                     // ),
                     child: SalesTransactionCard(
                       salesInvoice: salesInvoice,
+                      isSelectedNotifier: notifier,
+                      isTaxEnabled: isTaxRegisrationEnabled,
                     ),
                   ),
                 );
