@@ -63,11 +63,6 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
               itemBuilder: (context, index) {
                 final expense = expenseData[index];
 
-                if (expenseData.isEmpty == true) {
-                  return Center(
-                    child: Text(context.translate(AppStrings.noDataIsFound)),
-                  );
-                }
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: Slidable(
@@ -76,9 +71,10 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                       motion: ScrollMotion(),
                       children: [
                         ExpenseSlidableWidget(
-                            onEditTap: () {},
-                            onPrintTap: () {},
-                            onDeleteTap: () {})
+                          onEditTap: () {},
+                          onPrintTap: () {},
+                          onDeleteTap: () {},
+                        )
                       ],
                     ),
                     child: ExpenseCard(expense: expense),
@@ -87,7 +83,7 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
               },
             );
           },
-          loading: () => Center(
+          loading: () => const Center(
             child: CircularProgressIndicator.adaptive(),
           ),
           failure: (message) => Center(
