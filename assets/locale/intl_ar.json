@@ -180,5 +180,6 @@
   "searchTransactions": "ابحث عن المعاملات ...",
   "payable": "مستحق الدفع",
   "recievable": "مستحق التحصيل",
-  "transactions": "المعاملات"
+  "transactions": "المعاملات",
+  "grossProfit":" إجمالي الربح"
 }

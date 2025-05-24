@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/daybook/presentation/widgets/multi_segmented_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -183,7 +184,7 @@ class DayBookAppBar extends StatelessWidget {
                   SizedBox(height: 32),
 
                   Text(
-                    'Expenses',
+                    context.translate(AppStrings.grossProfit),
                     style: TextStyle(
                       color: Colors.white70,
                       fontSize: 16,
@@ -223,13 +224,14 @@ class DayBookAppBar extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 8),
-                  LinearProgressIndicator(
-                    value: 0.85,
-                    backgroundColor: Colors.white24,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      Color(0xFF4ECDC4),
-                    ),
-                  ),
+                  // LinearProgressIndicator(
+                  //   value: 0.85,
+                  //   backgroundColor: Colors.white24,
+                  //   valueColor: AlwaysStoppedAnimation<Color>(
+                  //     Color(0xFF4ECDC4),
+                  //   ),
+                  // ),
+                  MultiSegmentProgressBar()
                 ],
               ),
             ),

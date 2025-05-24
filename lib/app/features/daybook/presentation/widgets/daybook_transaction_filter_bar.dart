@@ -47,7 +47,6 @@ class DayBookTransactionFilterBar extends StatelessWidget {
               child: TextInputFormField(
                 controller: searchController,
                 hint: context.translate(AppStrings.searchTransactions),
-                fillColor: context.surfaceColor,
                 borderRadius: 10.r,
                 prefixIcon: Icon(
                   Icons.search,
