@@ -1,5 +1,5 @@
 name: easy_vat_v2
-description: "A new Flutter project."
+description: "Easy Vat - Loyal Accounting Services."
 publish_to: 'none'
 
 version: 1.0.0+1
@@ -64,8 +64,8 @@ flutter_native_splash:
   ios: true
   web: true
   android_gravity: center
-  ios_content_mode: center
-  web_image_mode: center
+  ios_content_mode: scaleAspectFit
+  web_image_mode: contain
   fullscreen: false
 
 # swagger_parser:

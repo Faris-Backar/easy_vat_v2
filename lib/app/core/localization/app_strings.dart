@@ -184,4 +184,8 @@ class AppStrings {
   static const String totalExpense = "totalExpense";
   static const String netBalance = "netBalance";
   static const String financialPeriod = "financialPeriod";
+  static const String searchTransactions = "searchTransactions";
+  static const String payable = "payable";
+  static const String recievable = "recievable";
+  static const String transactions = "transactions";
 }
