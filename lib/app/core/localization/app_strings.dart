@@ -211,4 +211,5 @@ class AppStrings {
   static const String payable = "payable";
   static const String recievable = "recievable";
   static const String transactions = "transactions";
+  static const String grossProfit = "grossProfit";
 }
