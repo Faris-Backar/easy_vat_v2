@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/daybook/presentation/widgets/daybook_appbar.dart';
 import 'package:easy_vat_v2/app/features/daybook/presentation/widgets/daybook_shimmer_widget.dart';
 import 'package:easy_vat_v2/app/features/daybook/presentation/widgets/daybook_transaction_card.dart';
@@ -198,7 +199,7 @@ class _DayBookScreenState extends State<DayBookScreen> {
     required Color backgroundColor,
   }) {
     return Container(
-      padding: EdgeInsets.all(16.w),
+      padding: EdgeInsets.all(13.w),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(12.r),
@@ -214,7 +215,6 @@ class _DayBookScreenState extends State<DayBookScreen> {
           Row(
             children: [
               Container(
-                padding: EdgeInsets.all(8.w),
                 decoration: BoxDecoration(
                   color: color.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8.r),
@@ -233,7 +233,7 @@ class _DayBookScreenState extends State<DayBookScreen> {
               ),
             ],
           ),
-          SizedBox(height: 12.h),
+          SizedBox(height: 5.h),
           Text(
             title,
             style: context.textTheme.bodySmall?.copyWith(
@@ -241,10 +241,9 @@ class _DayBookScreenState extends State<DayBookScreen> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          SizedBox(height: 4.h),
           Text(
             '₹${amount.toStringAsFixed(0)}',
-            style: context.textTheme.titleMedium?.copyWith(
+            style: context.textTheme.titleSmall?.copyWith(
               fontWeight: FontWeight.bold,
               color: Colors.black87,
             ),
@@ -299,9 +298,9 @@ class _DayBookScreenState extends State<DayBookScreen> {
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
                             crossAxisCount: 2,
-                            mainAxisSpacing: 12.h,
-                            crossAxisSpacing: 12.w,
-                            childAspectRatio: 1.4,
+                            mainAxisSpacing: 10.h,
+                            crossAxisSpacing: 10.w,
+                            childAspectRatio: 1.9,
                             children: [
                               _buildSummaryCard(
                                 title: 'Sales',
@@ -360,14 +359,19 @@ class _DayBookScreenState extends State<DayBookScreen> {
                                 padding: EdgeInsets.symmetric(
                                     horizontal: 8.w, vertical: 4.h),
                                 decoration: BoxDecoration(
-                                  color: context.primaryColor
-                                      .withValues(alpha: 0.1),
+                                  color: context.primaryColor.withValues(
+                                      alpha: AppUtils.isDarkMode(context)
+                                          ? 0.5
+                                          : 0.1),
                                   borderRadius: BorderRadius.circular(12),
                                 ),
                                 child: Text(
                                   "${filtered.length}",
                                   style: context.textTheme.bodySmall?.copyWith(
-                                    color: context.primaryColor,
+                                    color: AppUtils.isDarkMode(context)
+                                        ? context.onPrimaryColor
+                                            .withValues(alpha: 0.8)
+                                        : context.primaryColor,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),
@@ -495,475 +499,3 @@ class Transaction {
     required this.category,
   });
 }
-
-
-// class FinancialDashboard extends StatefulWidget {
-//   @override
-//   _FinancialDashboardState createState() => _FinancialDashboardState();
-// }
-
-// class _FinancialDashboardState extends State<FinancialDashboard> {
-  // int _selectedIndex = 0;
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     body: CustomScrollView(
-  //       slivers: [
-  //         // Custom App Bar with gradient background
-  //         SliverAppBar(
-  //           expandedHeight: 280,
-  //           floating: false,
-  //           pinned: true,
-  //           backgroundColor: Color(0xFF1A1D29),
-  //           flexibleSpace: FlexibleSpaceBar(
-  //             background: Container(
-  //               decoration: BoxDecoration(
-  //                 gradient: LinearGradient(
-  //                   begin: Alignment.topLeft,
-  //                   end: Alignment.bottomRight,
-  //                   colors: [
-  //                     Color(0xFF1A1D29),
-  //                     Color(0xFF2D3142),
-  //                   ],
-  //                 ),
-  //               ),
-  //               child: SafeArea(
-  //                 child: Padding(
-  //                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-  //                   child: Column(
-  //                     crossAxisAlignment: CrossAxisAlignment.start,
-  //                     children: [
-  //                       // Top bar
-  //                       Row(
-  //                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                         children: [
-  //                           Icon(Icons.menu, color: Colors.white, size: 24),
-  //                           Text(
-  //                             'Home',
-  //                             style: TextStyle(
-  //                               color: Colors.white,
-  //                               fontSize: 18,
-  //                               fontWeight: FontWeight.w600,
-  //                             ),
-  //                           ),
-  //                           Stack(
-  //                             children: [
-  //                               Icon(Icons.notifications_outlined, 
-  //                                    color: Colors.white, size: 24),
-  //                               Positioned(
-  //                                 right: 0,
-  //                                 top: 0,
-  //                                 child: Container(
-  //                                   width: 8,
-  //                                   height: 8,
-  //                                   decoration: BoxDecoration(
-  //                                     color: Colors.red,
-  //                                     shape: BoxShape.circle,
-  //                                   ),
-  //                                 ),
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ],
-  //                       ),
-  //                       SizedBox(height: 32),
-                        
-  //                       // Expenses section
-  //                       Text(
-  //                         'Expenses',
-  //                         style: TextStyle(
-  //                           color: Colors.white70,
-  //                           fontSize: 16,
-  //                           fontWeight: FontWeight.w500,
-  //                         ),
-  //                       ),
-  //                       SizedBox(height: 8),
-  //                       Text(
-  //                         '\$3,578',
-  //                         style: TextStyle(
-  //                           color: Colors.white,
-  //                           fontSize: 36,
-  //                           fontWeight: FontWeight.bold,
-  //                         ),
-  //                       ),
-  //                       SizedBox(height: 16),
-                        
-  //                       // Budget progress
-  //                       Row(
-  //                         children: [
-  //                           Text(
-  //                             'Monthly Budget Limit: \$4,200',
-  //                             style: TextStyle(
-  //                               color: Colors.white70,
-  //                               fontSize: 14,
-  //                             ),
-  //                           ),
-  //                           Spacer(),
-  //                           Text(
-  //                             '10%',
-  //                             style: TextStyle(
-  //                               color: Color(0xFF4ECDC4),
-  //                               fontSize: 14,
-  //                               fontWeight: FontWeight.w600,
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                       SizedBox(height: 8),
-  //                       LinearProgressIndicator(
-  //                         value: 0.85,
-  //                         backgroundColor: Colors.white24,
-  //                         valueColor: AlwaysStoppedAnimation<Color>(
-  //                           Color(0xFF4ECDC4),
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-  //                 ),
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-          
-  //         // Main content
-  //         SliverToBoxAdapter(
-  //           child: Container(
-  //             decoration: BoxDecoration(
-  //               color: Colors.white,
-  //               borderRadius: BorderRadius.only(
-  //                 topLeft: Radius.circular(24),
-  //                 topRight: Radius.circular(24),
-  //               ),
-  //             ),
-  //             child: Padding(
-  //               padding: EdgeInsets.all(24),
-  //               child: Column(
-  //                 children: [
-  //                   // Income vs Expenses cards
-  //                   Row(
-  //                     children: [
-  //                       Expanded(
-  //                         child: _buildFinanceCard(
-  //                           'Income',
-  //                           '\$8,410',
-  //                           Color(0xFF4ECDC4),
-  //                           Icons.trending_up,
-  //                         ),
-  //                       ),
-  //                       SizedBox(width: 16),
-  //                       Expanded(
-  //                         child: _buildFinanceCard(
-  //                           'Expenses',
-  //                           '\$3,578',
-  //                           Color(0xFF6C5CE7),
-  //                           Icons.trending_down,
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-                    
-  //                   SizedBox(height: 24),
-                    
-  //                   // Monthly comparison
-  //                   Container(
-  //                     padding: EdgeInsets.all(20),
-  //                     decoration: BoxDecoration(
-  //                       color: Color(0xFFF8F9FA),
-  //                       borderRadius: BorderRadius.circular(16),
-  //                     ),
-  //                     child: Row(
-  //                       children: [
-  //                         Container(
-  //                           padding: EdgeInsets.all(12),
-  //                           decoration: BoxDecoration(
-  //                             color: Color(0xFF6C5CE7).withOpacity(0.1),
-  //                             borderRadius: BorderRadius.circular(12),
-  //                           ),
-  //                           child: Icon(
-  //                             Icons.calendar_today,
-  //                             color: Color(0xFF6C5CE7),
-  //                             size: 24,
-  //                           ),
-  //                         ),
-  //                         SizedBox(width: 16),
-  //                         Expanded(
-  //                           child: Column(
-  //                             crossAxisAlignment: CrossAxisAlignment.start,
-  //                             children: [
-  //                               Text(
-  //                                 'Goal',
-  //                                 style: TextStyle(
-  //                                   color: Colors.grey[600],
-  //                                   fontSize: 14,
-  //                                 ),
-  //                               ),
-  //                               Text(
-  //                                 '\$21,490',
-  //                                 style: TextStyle(
-  //                                   fontSize: 18,
-  //                                   fontWeight: FontWeight.bold,
-  //                                   color: Color(0xFF2D3142),
-  //                                 ),
-  //                               ),
-  //                             ],
-  //                           ),
-  //                         ),
-  //                         Text(
-  //                           '68%',
-  //                           style: TextStyle(
-  //                             color: Color(0xFF6C5CE7),
-  //                             fontSize: 16,
-  //                             fontWeight: FontWeight.w600,
-  //                           ),
-  //                         ),
-  //                       ],
-  //                     ),
-  //                   ),
-                    
-  //                   SizedBox(height: 24),
-                    
-  //                   // Add Record button
-  //                   Container(
-  //                     width: double.infinity,
-  //                     child: ElevatedButton(
-  //                       onPressed: () {},
-  //                       style: ElevatedButton.styleFrom(
-  //                         backgroundColor: Color(0xFF6C5CE7),
-  //                         padding: EdgeInsets.symmetric(vertical: 16),
-  //                         shape: RoundedRectangleBorder(
-  //                           borderRadius: BorderRadius.circular(16),
-  //                         ),
-  //                         elevation: 0,
-  //                       ),
-  //                       child: Row(
-  //                         mainAxisAlignment: MainAxisAlignment.center,
-  //                         children: [
-  //                           Icon(Icons.add, color: Colors.white, size: 20),
-  //                           SizedBox(width: 8),
-  //                           Text(
-  //                             'Add Record',
-  //                             style: TextStyle(
-  //                               color: Colors.white,
-  //                               fontSize: 16,
-  //                               fontWeight: FontWeight.w600,
-  //                             ),
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     ),
-  //                   ),
-                    
-  //                   SizedBox(height: 32),
-                    
-  //                   // Action Required section
-  //                   Row(
-  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                     children: [
-  //                       Text(
-  //                         'Action Required',
-  //                         style: TextStyle(
-  //                           fontSize: 18,
-  //                           fontWeight: FontWeight.bold,
-  //                           color: Color(0xFF2D3142),
-  //                         ),
-  //                       ),
-  //                       Text(
-  //                         'See all',
-  //                         style: TextStyle(
-  //                           color: Color(0xFF6C5CE7),
-  //                           fontSize: 14,
-  //                           fontWeight: FontWeight.w600,
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-                    
-  //                   SizedBox(height: 16),
-                    
-  //                   // Action items
-  //                   _buildActionItem(
-  //                     '21 Receipts Need Review',
-  //                     Colors.orange,
-  //                     Icons.receipt_outlined,
-  //                   ),
-  //                   SizedBox(height: 12),
-  //                   _buildActionItem(
-  //                     '32 Reference Required',
-  //                     Colors.blue,
-  //                     Icons.link_outlined,
-  //                   ),
-  //                   SizedBox(height: 12),
-  //                   _buildActionItem(
-  //                     '24 Next Bill',
-  //                     Colors.green,
-  //                     Icons.schedule_outlined,
-  //                   ),
-                    
-  //                   SizedBox(height: 32),
-                    
-  //                   // Recent Receipts
-  //                   Row(
-  //                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //                     children: [
-  //                       Text(
-  //                         'Recent Receipts',
-  //                         style: TextStyle(
-  //                           fontSize: 18,
-  //                           fontWeight: FontWeight.bold,
-  //                           color: Color(0xFF2D3142),
-  //                         ),
-  //                       ),
-  //                       Text(
-  //                         'See all',
-  //                         style: TextStyle(
-  //                           color: Color(0xFF6C5CE7),
-  //                           fontSize: 14,
-  //                           fontWeight: FontWeight.w600,
-  //                         ),
-  //                       ),
-  //                     ],
-  //                   ),
-                    
-  //                   SizedBox(height: 100), // Extra space for bottom navigation
-  //                 ],
-  //               ),
-  //             ),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-      
-  //     // Bottom Navigation Bar
-  //     bottomNavigationBar: Container(
-  //       decoration: BoxDecoration(
-  //         color: Colors.white,
-  //         boxShadow: [
-  //           BoxShadow(
-  //             color: Colors.black.withOpacity(0.1),
-  //             blurRadius: 10,
-  //             offset: Offset(0, -5),
-  //           ),
-  //         ],
-  //       ),
-  //       child: SafeArea(
-  //         child: Padding(
-  //           padding: EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-  //           child: Row(
-  //             mainAxisAlignment: MainAxisAlignment.spaceAround,
-  //             children: [
-  //               _buildNavItem(Icons.home_filled, 0),
-  //               _buildNavItem(Icons.bar_chart_rounded, 1),
-  //               _buildNavItem(Icons.account_balance_wallet_outlined, 2),
-  //               _buildNavItem(Icons.person_outline, 3),
-  //             ],
-  //           ),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildFinanceCard(String title, String amount, Color color, IconData icon) {
-  //   return Container(
-  //     padding: EdgeInsets.all(20),
-  //     decoration: BoxDecoration(
-  //       color: Colors.white,
-  //       borderRadius: BorderRadius.circular(16),
-  //       boxShadow: [
-  //         BoxShadow(
-  //           color: Colors.black.withOpacity(0.05),
-  //           blurRadius: 10,
-  //           offset: Offset(0, 5),
-  //         ),
-  //       ],
-  //     ),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Row(
-  //           children: [
-  //             Icon(icon, color: color, size: 20),
-  //             SizedBox(width: 8),
-  //             Text(
-  //               title,
-  //               style: TextStyle(
-  //                 color: Colors.grey[600],
-  //                 fontSize: 14,
-  //                 fontWeight: FontWeight.w500,
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //         SizedBox(height: 12),
-  //         Text(
-  //           amount,
-  //           style: TextStyle(
-  //             fontSize: 24,
-  //             fontWeight: FontWeight.bold,
-  //             color: Color(0xFF2D3142),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildActionItem(String text, Color color, IconData icon) {
-  //   return Container(
-  //     padding: EdgeInsets.all(16),
-  //     decoration: BoxDecoration(
-  //       color: Colors.white,
-  //       borderRadius: BorderRadius.circular(12),
-  //       border: Border.all(color: Colors.grey[200]!),
-  //     ),
-  //     child: Row(
-  //       children: [
-  //         Container(
-  //           padding: EdgeInsets.all(8),
-  //           decoration: BoxDecoration(
-  //             color: color.withOpacity(0.1),
-  //             borderRadius: BorderRadius.circular(8),
-  //           ),
-  //           child: Icon(icon, color: color, size: 20),
-  //         ),
-  //         SizedBox(width: 16),
-  //         Expanded(
-  //           child: Text(
-  //             text,
-  //             style: TextStyle(
-  //               fontSize: 16,
-  //               fontWeight: FontWeight.w500,
-  //               color: Color(0xFF2D3142),
-  //             ),
-  //           ),
-  //         ),
-  //         Icon(Icons.chevron_right, color: Colors.grey[400], size: 20),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildNavItem(IconData icon, int index) {
-  //   bool isSelected = _selectedIndex == index;
-  //   return GestureDetector(
-  //     onTap: () {
-  //       setState(() {
-  //         _selectedIndex = index;
-  //       });
-  //     },
-  //     child: Container(
-  //       padding: EdgeInsets.all(12),
-  //       decoration: BoxDecoration(
-  //         color: isSelected ? Color(0xFF6C5CE7) : Colors.transparent,
-  //         borderRadius: BorderRadius.circular(12),
-  //       ),
-  //       child: Icon(
-  //         icon,
-  //         color: isSelected ? Colors.white : Colors.grey[400],
-  //         size: 24,
-  //       ),
-  //     ),
-  //   );
-  // }
-// }

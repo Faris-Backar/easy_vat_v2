@@ -178,6 +178,7 @@
   "searchTransactions": "Search transactions ...",
   "payable": "payable",
   "recievable": "recievable",
-  "transactions": "Transactions"
+  "transactions": "Transactions",
+  "grossProfit":"Gross Profit"
 
 }
