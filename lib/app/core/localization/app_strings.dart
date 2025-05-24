@@ -199,4 +199,8 @@ class AppStrings {
   static const String deleteSalesInvoiceConfirmationMessage =
       "deleteSalesInvoiceConfirmationMessage";
   static const String invNo = "invNo";
+  static const String paymentMode = "paymentMode";
+  static const String expenseNo = "expenseNo";
+  static const String expenseDate = "expenseDate";
+  static const String supInvNo = "supInvNo";
 }
