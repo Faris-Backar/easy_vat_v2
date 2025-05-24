@@ -173,6 +173,11 @@
   "taxPercentage": "Tax Percentage",
   "totalExpense": "Total Expense",
   "totalIncome": "Total Income",
-  "netBalance":"Net Balance",
-  "financialPeriod":"Financial Period"
+  "netBalance": "Net Balance",
+  "financialPeriod": "Financial Period",
+  "searchTransactions": "Search transactions ...",
+  "payable": "payable",
+  "recievable": "recievable",
+  "transactions": "Transactions"
+
 }

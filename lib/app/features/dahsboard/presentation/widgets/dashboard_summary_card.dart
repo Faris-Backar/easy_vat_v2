@@ -109,6 +109,7 @@ class DashboardSummaryCard extends StatelessWidget {
     required Color color,
   }) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           height: 10.h,
@@ -121,6 +122,7 @@ class DashboardSummaryCard extends StatelessWidget {
         SizedBox(width: 6.w),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
               label,

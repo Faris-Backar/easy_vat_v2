@@ -174,5 +174,9 @@
   "totalExpense": "إجمالي المصروفات",
   "totalIncome": "إجمالي الدخل",
   "netBalance": "الرصيد الصافي",
-  "financialPeriod": "الفترة المالية"
+  "financialPeriod": "الفترة المالية",
+  "searchTransactions": "ابحث عن المعاملات ...",
+  "payable": "مستحق الدفع",
+  "recievable": "مستحق التحصيل",
+  "transactions": "المعاملات"
 }
