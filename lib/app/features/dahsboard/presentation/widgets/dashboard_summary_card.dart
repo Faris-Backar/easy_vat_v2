@@ -9,7 +9,7 @@ class DashboardSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 150.h,
+      height: 350.h,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
@@ -79,18 +79,48 @@ class DashboardSummaryCard extends StatelessWidget {
                 SizedBox(height: 12.h),
                 Row(
                   children: [
-                    _buildBalanceIndicator(
-                      context,
-                      label: context.translate(AppStrings.income),
-                      value: '+12,000',
-                      color: Color(0xFF4CAF50),
+                    Expanded(
+                      child: _buildExpandedSummaryCard(
+                        context,
+                        title: context.translate(AppStrings.cash),
+                        amount: 1800.00,
+                        icon: Icons.account_balance_wallet,
+                        color: Colors.green,
+                      ),
                     ),
-                    SizedBox(width: 20.w),
-                    _buildBalanceIndicator(
-                      context,
-                      label: context.translate(AppStrings.expenses),
-                      value: '-8,500',
-                      color: Color(0xFFF44336),
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: _buildExpandedSummaryCard(
+                        context,
+                        title: context.translate(AppStrings.bank),
+                        amount: 3800.00,
+                        icon: Icons.account_balance,
+                        color: Colors.blue,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 12.h),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildExpandedSummaryCard(
+                        context,
+                        title: context.translate(AppStrings.payable),
+                        amount: 800.00,
+                        icon: Icons.payment,
+                        color: Colors.orange,
+                      ),
+                    ),
+                    SizedBox(width: 12.w),
+                    Expanded(
+                      child: _buildExpandedSummaryCard(
+                        context,
+                        title: context.translate(AppStrings.recievable),
+                        amount: 5800.00,
+                        icon: Icons.account_balance_wallet_outlined,
+                        color: Colors.purple,
+                      ),
                     ),
                   ],
                 ),
@@ -142,6 +172,64 @@ class DashboardSummaryCard extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+
+  Widget _buildExpandedSummaryCard(
+    BuildContext context, {
+    required String title,
+    required double amount,
+    required IconData icon,
+    required Color color,
+  }) {
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.15),
+        borderRadius: BorderRadius.circular(12.r),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.2),
+          width: 1,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(
+                padding: EdgeInsets.all(6.w),
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(6.r),
+                ),
+                child: Icon(
+                  icon,
+                  color: Colors.white,
+                  size: 16,
+                ),
+              ),
+              Spacer(),
+            ],
+          ),
+          SizedBox(height: 8.h),
+          Text(
+            title,
+            style: context.textTheme.bodySmall?.copyWith(
+              color: Colors.white.withValues(alpha: 0.8),
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          SizedBox(height: 2.h),
+          Text(
+            "₹ ${amount.toStringAsFixed(0)}",
+            style: context.textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
