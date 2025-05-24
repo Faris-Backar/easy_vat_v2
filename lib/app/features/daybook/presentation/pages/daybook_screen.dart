@@ -338,7 +338,6 @@ class _DayBookScreenState extends State<DayBookScreen> {
                     ),
                   ),
                 ),
-
                 SliverToBoxAdapter(
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 12.h),
@@ -409,7 +408,6 @@ class _DayBookScreenState extends State<DayBookScreen> {
                         );
                       }),
                 ),
-
                 ValueListenableBuilder<TransactionCategory>(
                     valueListenable: selectedCategoryNotifier,
                     builder: (context, selectedCategory, _) {
@@ -467,8 +465,6 @@ class _DayBookScreenState extends State<DayBookScreen> {
                               ),
                             );
                     }),
-
-                // Bottom padding
                 SliverToBoxAdapter(
                   child: SizedBox(height: 100.h),
                 ),

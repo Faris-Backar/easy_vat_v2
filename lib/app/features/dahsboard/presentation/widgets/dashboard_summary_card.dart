@@ -9,7 +9,7 @@ class DashboardSummaryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 350.h,
+      height: 150.h,
       width: double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
@@ -79,51 +79,12 @@ class DashboardSummaryCard extends StatelessWidget {
                 SizedBox(height: 12.h),
                 Row(
                   children: [
-                    Expanded(
-                      child: _buildExpandedSummaryCard(
-                        context,
-                        title: context.translate(AppStrings.cash),
-                        amount: 1800.00,
-                        icon: Icons.account_balance_wallet,
-                        color: Colors.green,
-                      ),
-                    ),
-                    SizedBox(width: 12.w),
-                    Expanded(
-                      child: _buildExpandedSummaryCard(
-                        context,
-                        title: context.translate(AppStrings.bank),
-                        amount: 3800.00,
-                        icon: Icons.account_balance,
-                        color: Colors.blue,
-                      ),
-                    ),
+                    _buildBalanceIndicator(context,
+                        label: "Income", value: "3500.00", color: Colors.green),
+                    _buildBalanceIndicator(context,
+                        label: "Income", value: "1500.00", color: Colors.red),
                   ],
-                ),
-                SizedBox(height: 12.h),
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildExpandedSummaryCard(
-                        context,
-                        title: context.translate(AppStrings.payable),
-                        amount: 800.00,
-                        icon: Icons.payment,
-                        color: Colors.orange,
-                      ),
-                    ),
-                    SizedBox(width: 12.w),
-                    Expanded(
-                      child: _buildExpandedSummaryCard(
-                        context,
-                        title: context.translate(AppStrings.recievable),
-                        amount: 5800.00,
-                        icon: Icons.account_balance_wallet_outlined,
-                        color: Colors.purple,
-                      ),
-                    ),
-                  ],
-                ),
+                )
               ],
             ),
           ),
