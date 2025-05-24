@@ -5,6 +5,7 @@ import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/dahsboard/presentation/providers/dashboard/dashboard_notifiers.dart';
 import 'package:easy_vat_v2/app/features/dahsboard/presentation/widgets/dashboard_shimmer_widget.dart';
 import 'package:easy_vat_v2/app/features/dahsboard/presentation/widgets/dashboard_summary_card.dart';
+import 'package:easy_vat_v2/app/features/dahsboard/presentation/widgets/finanacial_summary_section.dart';
 import 'package:easy_vat_v2/app/features/dahsboard/presentation/widgets/finance_card_widget.dart';
 import 'package:easy_vat_v2/app/features/dahsboard/presentation/widgets/finance_report_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -72,14 +73,13 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Summary card
+                    SizedBox(height: 10.h),
+                    FinanceReportWidget(),
+                    SizedBox(height: 20.h),
                     DashboardSummaryCard(),
                     SizedBox(height: 16.h),
-
-                    FinanceReportWidget(),
+                    FinanacialSummaryCardGrid(),
                     SizedBox(height: 16.h),
-
-                    // Income chart
                     FinanceCardWidget(
                         title: context.translate(AppStrings.totalIncome),
                         subtitle: 'Income Summary',
@@ -88,8 +88,6 @@ class _DashBoardScreenState extends ConsumerState<DashBoardScreen> {
                         color: Color(0xFF4CAF50),
                         xAxisLabels: state.xAxisLabels),
                     SizedBox(height: 16.h),
-
-                    // Expense chart
                     FinanceCardWidget(
                         title: 'Total Expense',
                         subtitle: 'Expense Summary',
