@@ -8,6 +8,7 @@ A
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	ŸáëÇğ2§ åœ¿‰é2\
 =======
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	ìõÊäğ2§ åœ¿‰é2\
@@ -18,6 +19,8 @@ A
 =======
 =======
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+>>>>>>> e360b6b (Added Daybook screen with transactions and filters)
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	ê½Ş¶ñ2§ åœ¿‰é2\
 >>>>>>> d592f14 (Fixed Issues mentioned - 27-5-25)
 Z
@@ -93,28 +96,38 @@ SD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\symbol_folder_index
 SD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\symbol_folder_index.txt	ë½Ş¶ñ2J ›ùäÏî2
 =======
 ?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	ßğœŸï2§ åœ¿‰é2\
+=======
+?com.android.build.gradle.internal.cxx.io.EncodedFileFingerPrint	¢œÕ–ğ2§ åœ¿‰é2\
+>>>>>>> af255f5 (Added Daybook screen with transactions and filters)
 Z
-XD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\additional_project_files.txt	ßğœŸï2 ÚøäÏî2Y
+XD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\additional_project_files.txt	¢œÕ–ğ2 ÚøäÏî2Y
 W
-UD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\android_gradle_build.json	ßğœŸï2¶ àøäÏî2^
+UD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\android_gradle_build.json	¢œÕ–ğ2¶ àøäÏî2^
 \
-ZD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\android_gradle_build_mini.json	ßğœŸï2‘ ˆùäÏî2K
+ZD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\android_gradle_build_mini.json	¢œÕ–ğ2‘ ˆùäÏî2K
 I
-GD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\build.ninja	ßğœŸï2½Ô öäÏî2O
+GD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\build.ninja	¢œÕ–ğ2½Ô öäÏî2O
 M
-KD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\build.ninja.txt	ßğœŸï2T
+KD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\build.ninja.txt	¢œÕ–ğ2T
 R
-PD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\build_file_index.txt	ßğœŸï2q ùäÏî2U
+PD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\build_file_index.txt	¢œÕ–ğ2q ùäÏî2U
 S
-QD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\compile_commands.json	ßğœŸï2	Y
+QD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\compile_commands.json	¢œÕ–ğ2	Y
 W
-UD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\compile_commands.json.bin	ßğœŸï2
+UD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\compile_commands.json.bin	¢œÕ–ğ2
 _
 ]
-[D:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\metadata_generation_command.txt	ßğœŸï2¶ ‘ùäÏî2R
+[D:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\metadata_generation_command.txt	¢œÕ–ğ2¶ ‘ùäÏî2R
 P
-ND:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\prefab_config.json	ßğœŸï2( –ùäÏî2W
+ND:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\prefab_config.json	¢œÕ–ğ2( –ùäÏî2W
 U
+<<<<<<< HEAD
 SD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\symbol_folder_index.txt	ßğœŸï2J ›ùäÏî2
 >>>>>>> 1b51f7f (Added Dashboard UI with Notifiers)
+<<<<<<< HEAD
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+=======
+SD:\Works\easy_vat_v2\android\app\.cxx\Debug\3l4q2t6p\x86_64\symbol_folder_index.txt	¢œÕ–ğ2J ›ùäÏî2
+>>>>>>> af255f5 (Added Daybook screen with transactions and filters)
+>>>>>>> e360b6b (Added Daybook screen with transactions and filters)

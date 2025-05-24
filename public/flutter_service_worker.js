@@ -107,6 +107,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "bfe61e286249ff5d10c73ca1a39b06cf
 "assets/assets/icons/vehicle_registration.svg": "7039170c141b84faa38aa624a5fc5559",
 "assets/assets/icons/view.svg": "9cd14938049ac5212fac2bb13a1c3b04",
 <<<<<<< HEAD
+<<<<<<< HEAD
 "assets/assets/images/Logo.png": "75b6fd79c7324d5482011caec874f202",
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -135,6 +136,8 @@ const RESOURCES = {"assets/AssetManifest.bin": "bfe61e286249ff5d10c73ca1a39b06cf
 >>>>>>> e8c688b (Added Delete Invoice functionality)
 "assets/NOTICES": "8b146cb7ffbe5b9308139a97528a792d",
 =======
+=======
+>>>>>>> e360b6b (Added Daybook screen with transactions and filters)
 "assets/assets/images/Logo.png": "c9141bbda076a1c4750b0ee3015efebb",
 "assets/assets/images/Logo_small.png": "e4b11a525cff12abb32d1b9922e44d98",
 "assets/assets/images/no_data_found.png": "9e278296a0b08177fb0f0db6cc7d4d53",
@@ -143,7 +146,18 @@ const RESOURCES = {"assets/AssetManifest.bin": "bfe61e286249ff5d10c73ca1a39b06cf
 "assets/FontManifest.json": "212ed8365f9174e6141c1e7603c60834",
 "assets/fonts/MaterialIcons-Regular.otf": "636e1de24a50c2da4d92080967e54daf",
 "assets/NOTICES": "4709f2a68098954c3d85f07c87b63922",
+<<<<<<< HEAD
 >>>>>>> d592f14 (Fixed Issues mentioned - 27-5-25)
+=======
+=======
+"assets/assets/images/Logo.png": "75b6fd79c7324d5482011caec874f202",
+"assets/assets/locale/intl_ar.json": "99e28bf9351d325a328a01fbf11fec1b",
+"assets/assets/locale/intl_en.json": "11ec4910c547bdfba2ffadc1707af2b6",
+"assets/FontManifest.json": "212ed8365f9174e6141c1e7603c60834",
+"assets/fonts/MaterialIcons-Regular.otf": "71e9b982e34e1228a5a95d8131c4d4c8",
+"assets/NOTICES": "8b146cb7ffbe5b9308139a97528a792d",
+>>>>>>> af255f5 (Added Daybook screen with transactions and filters)
+>>>>>>> e360b6b (Added Daybook screen with transactions and filters)
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "33b7d9392238c04c131b6ce224e13711",
 "assets/packages/fluttertoast/assets/toastify.css": "a85675050054f179444bc5ad70ffc635",
 "assets/packages/fluttertoast/assets/toastify.js": "56e2c9cedd97f10e7e5f1cebd85d53e3",
@@ -166,6 +180,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "bfe61e286249ff5d10c73ca1a39b06cf
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 "flutter_bootstrap.js": "f2cef5dfd9050e26bc1eba62d025c07d",
 =======
 "flutter_bootstrap.js": "e28bab592990b123faa14f0e0f709146",
@@ -179,12 +194,19 @@ const RESOURCES = {"assets/AssetManifest.bin": "bfe61e286249ff5d10c73ca1a39b06cf
 =======
 "flutter_bootstrap.js": "4181665edea8077604bcd774ff7b728c",
 >>>>>>> d592f14 (Fixed Issues mentioned - 27-5-25)
+=======
+"flutter_bootstrap.js": "4181665edea8077604bcd774ff7b728c",
+=======
+"flutter_bootstrap.js": "e28bab592990b123faa14f0e0f709146",
+>>>>>>> af255f5 (Added Daybook screen with transactions and filters)
+>>>>>>> e360b6b (Added Daybook screen with transactions and filters)
 "icons/Icon-192.png": "b135b553b2009e38a90d4d5d3130c910",
 "icons/Icon-512.png": "669b0bca393f76ea8d6d3e8d2620db2a",
 "icons/Icon-maskable-192.png": "b135b553b2009e38a90d4d5d3130c910",
 "icons/Icon-maskable-512.png": "669b0bca393f76ea8d6d3e8d2620db2a",
 "index.html": "3f258a5504b89646b0b79b59e29f6425",
 "/": "3f258a5504b89646b0b79b59e29f6425",
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -202,6 +224,12 @@ const RESOURCES = {"assets/AssetManifest.bin": "bfe61e286249ff5d10c73ca1a39b06cf
 =======
 "main.dart.js": "eab9db75e204e772f6c1f3aaf06b174d",
 >>>>>>> d592f14 (Fixed Issues mentioned - 27-5-25)
+=======
+"main.dart.js": "eab9db75e204e772f6c1f3aaf06b174d",
+=======
+"main.dart.js": "55d5c8c62c9082bf7c20f8e6cde738cf",
+>>>>>>> af255f5 (Added Daybook screen with transactions and filters)
+>>>>>>> e360b6b (Added Daybook screen with transactions and filters)
 "manifest.json": "bd93dfcba575bb404a932d1adcbf890b",
 "splash/img/dark-1x.png": "55b0e00c8641b7744fb086a8ae93fff3",
 "splash/img/dark-2x.png": "5676aa73cfbc4189b48c70617af1f581",
