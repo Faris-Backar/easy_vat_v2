@@ -1,8 +1,12 @@
 class ExpenseFilterParam {
+  final DateTime? expenseDate;
   final String? paymentMode;
-  final Null supplier;
+  final String? supplier;
   final bool clearAllFilter;
 
   ExpenseFilterParam(
-      {this.paymentMode, this.supplier, this.clearAllFilter = false});
+      {this.expenseDate,
+      this.paymentMode,
+      this.supplier,
+      this.clearAllFilter = false});
 }

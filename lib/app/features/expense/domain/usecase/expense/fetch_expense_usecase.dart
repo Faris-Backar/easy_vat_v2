@@ -6,12 +6,12 @@ import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_p
 import 'package:dartz/dartz.dart';
 
 class FetchExpenseUsecase
-    extends UseCase<Either<Failure, ExpenseListEntity>, ExpenseParams> {
+    extends UseCase<Either<Failure, ExpenseEntity>, ExpenseParams> {
   final ExpenseRepository expenseRepository;
   FetchExpenseUsecase({required this.expenseRepository});
 
   @override
-  Future<Either<Failure, ExpenseListEntity>> call(
+  Future<Either<Failure, ExpenseEntity>> call(
       {required ExpenseParams params}) async {
     return await expenseRepository.getExpense(expenseRequestParams: params);
   }

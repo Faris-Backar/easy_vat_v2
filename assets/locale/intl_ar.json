@@ -170,5 +170,7 @@
   "clearCartMessage": "هل أنت متأكد أنك تريد مسح السلة؟",
   "barcodePostionMessage":"ضع الباركود داخل الإطار للمسح",
   "gross":"إجمالي",
-  "taxPercentage":"نسبة الضريبة"
+  "taxPercentage":"نسبة الضريبة",
+  "expenseNo": "رقم المصاريف",
+  "supInvNo": "رقم فاتورة المورد"
 }

@@ -1,3 +1,11 @@
+abstract class ExpenseEntity {
+  final bool? status;
+  final String? message;
+  final List<ExpenseListEntity>? expenseList;
+
+  ExpenseEntity({this.status, this.message, this.expenseList});
+}
+
 abstract class ExpenseListEntity {
   final String? expenseIDPK;
   final int? expenseNo;
@@ -23,7 +31,7 @@ abstract class ExpenseListEntity {
   final DateTime? modifiedDate;
   final String? rowguid;
   final String? companyIDPK;
-  final Null supplierName;
+  final String? supplierName;
   final List<ExpenseDetailsEntity>? expenseDetails;
 
   ExpenseListEntity(
@@ -65,8 +73,8 @@ abstract class ExpenseDetailsEntity {
   final double? netTotal;
   final String? rowguid;
   final String? companyIDPK;
-  final int? currentBalance;
-  final Null ledgerName;
+  final double? currentBalance;
+  final String? ledgerName;
 
   ExpenseDetailsEntity(
       {this.expenseIDPK,

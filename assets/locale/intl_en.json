@@ -170,5 +170,8 @@
   "clearCartMessage":"Are you sure you want to clear the cart?",
   "barcodePostionMessage":"Position the barcode within the frame to scan",
   "gross":"Gross",
-  "taxPercentage":"Tax Percentage"
+  "taxPercentage":"Tax Percentage",
+  "expenseNo": "Exp No",
+  "supInvNo": "Sup Inv No"
+
 }

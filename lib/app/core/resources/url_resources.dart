@@ -78,7 +78,7 @@ class UrlResources {
       "ServerLogIn/authentication/verifyuserlogin";
 
   //expense
-  static const String getExpense = "/Expense/Select/SelectAll";
+  static const String getExpense = "/Expense/Select/BetweenDate";
   static const String createExpense = "/Expense/Insert";
   static const String updateExpense = "/Expense/Update";
   static const String deleteExpense = "/Expense/Delete";

@@ -1,5 +1,24 @@
 import 'package:easy_vat_v2/app/features/expense/domain/entities/expense_entity.dart';
 
+class ExpenseModel extends ExpenseEntity {
+  ExpenseModel({super.message, super.expenseList, super.status});
+
+  factory ExpenseModel.fromJson(Map<String, dynamic> json) => ExpenseModel(
+        expenseList: json['expense'] != null
+            ? List<ExpenseListModel>.from(
+                json['expense'].map((x) => ExpenseListModel.fromJson(x)))
+            : [],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "message": message,
+        "expense": List<ExpenseListModel>.from(
+            (expenseList as List<ExpenseListModel>?)?.map((x) => x.toJson()) ??
+                [])
+      };
+}
+
 class ExpenseListModel extends ExpenseListEntity {
   ExpenseListModel({
     super.expenseIDPK,
@@ -35,8 +54,8 @@ class ExpenseListModel extends ExpenseListEntity {
         expenseIDPK: json["expenseIDPK"],
         expenseNo: json["expenseNo"],
         referenceNo: json["referenceNo"],
-        expenseDate: json["expense Date"] != null
-            ? DateTime.parse(json["expense Date"])
+        expenseDate: json["expenseDate"] != null
+            ? DateTime.parse(json["expenseDate"])
             : null,
         paymentMode: json["paymentMode"],
         purchasedBy: json["purchasedBy"],

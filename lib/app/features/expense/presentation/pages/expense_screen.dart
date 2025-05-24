@@ -1,8 +1,20 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:easy_vat_v2/app/core/app_core.dart';
+import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_notifier.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_state.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_app_bar.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_card.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_slidable_widget.dart';
+import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+@RoutePage()
 class ExpenseScreen extends ConsumerStatefulWidget {
   const ExpenseScreen({super.key});
 
@@ -12,28 +24,76 @@ class ExpenseScreen extends ConsumerStatefulWidget {
 }
 
 class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
+  final _searchTextController = TextEditingController();
+  late ExpenseState expenseState;
+
+  @override
+  void initState() {
+    super.initState();
+    expenseState = ref.read(expenseNotifierProvider);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(expenseNotifierProvider.notifier).fetchExpenses(
+          params: ExpenseParams(
+              expenseIDPK: "00000000-0000-0000-0000-000000000000",
+              fromDate: DateTime.now(),
+              toDate: DateTime.now(),
+              supplierID: "00000000-0000-0000-0000-000000000000"));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    final expenseState = ref.watch(expenseNotifierProvider);
+
     return Scaffold(
-      appBar: AppBar(),
-      backgroundColor: Colors.white,
+      appBar: ExpenseAppBar(searchController: _searchTextController),
+      backgroundColor: context.surfaceColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        child: ListView.builder(
-          itemCount: 0,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(bottom: 16.0),
-              child: Slidable(
-                endActionPane: ActionPane(
-                  extentRatio: .15,
-                  motion: ScrollMotion(),
-                  children: [],
-                ),
-                child: Text('expense transaction card'),
-              ),
+        child: expenseState.maybeWhen(
+          success: (expenseData) {
+            if (expenseData.isEmpty == true) {
+              return Center(
+                child: Text(context.translate(AppStrings.noDataIsFound)),
+              );
+            }
+
+            return ListView.builder(
+              itemCount: expenseData.length,
+              itemBuilder: (context, index) {
+                final expense = expenseData[index];
+
+                if (expenseData.isEmpty == true) {
+                  return Center(
+                    child: Text(context.translate(AppStrings.noDataIsFound)),
+                  );
+                }
+                return Padding(
+                  padding: const EdgeInsets.only(bottom: 16.0),
+                  child: Slidable(
+                    endActionPane: ActionPane(
+                      extentRatio: .15,
+                      motion: ScrollMotion(),
+                      children: [
+                        ExpenseSlidableWidget(
+                            onEditTap: () {},
+                            onPrintTap: () {},
+                            onDeleteTap: () {})
+                      ],
+                    ),
+                    child: ExpenseCard(expense: expense),
+                  ),
+                );
+              },
             );
           },
+          loading: () => Center(
+            child: CircularProgressIndicator.adaptive(),
+          ),
+          failure: (message) => Center(
+            child: Text(message),
+          ),
+          orElse: () => Text(context.translate(AppStrings.noDataIsFound)),
         ),
       ),
       bottomNavigationBar: Container(
@@ -45,15 +105,25 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Net Total"),
-                Text("0.00"),
+                Text(
+                  context.translate(AppStrings.netTotal),
+                  style: context.textTheme.bodyMedium?.copyWith(
+                      color: context.defaultTextColor.withValues(alpha: 0.32)),
+                ),
+                Text(
+                  ref.watch(cartProvider).totalAmount.toStringAsFixed(2),
+                  style: context.textTheme.bodyLarge?.copyWith(
+                    fontSize: 17,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
               ],
             ),
-            SizedBox(
-              height: 10,
-            ),
-            ElevatedButton(
-              onPressed: () {},
+            const SizedBox(height: 10),
+            PrimaryButton(
+              onPressed: () {
+                // Add Expense Screen
+              },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -61,8 +131,8 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                       color: Colors.white),
                   SizedBox(width: 5.w),
                   Text(
-                    "Add New",
-                    style: TextStyle(
+                    context.translate(AppStrings.addNew),
+                    style: context.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: Colors.white,
                     ),

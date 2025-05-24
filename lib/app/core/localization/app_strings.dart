@@ -176,4 +176,8 @@ class AppStrings {
   static const String barcodeFound = "barcodeFound";
   static const String barcodePositionMessage = "barcodePositionMessage";
   static const String gross = "gross";
+  static const String paymentMode = "paymentMode";
+  static const String expenseNo = "expenseNo";
+  static const String expenseDate = "expenseDate";
+  static const String supInvNo = "supInvNo";
 }
