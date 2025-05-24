@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
@@ -26,7 +27,7 @@ class DioService {
           options.headers["Authorization"] = "Bearer $accessToken";
         }
         log("Connection url => ${options.baseUrl}${options.path}");
-        log("Body => ${options.data}");
+        log("Body => ${json.encode(options.data)}");
         return handler.next(options);
       },
       onResponse: (response, handler) {
