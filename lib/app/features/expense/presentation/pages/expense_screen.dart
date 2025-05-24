@@ -33,11 +33,13 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
     expenseState = ref.read(expenseNotifierProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ref.read(expenseNotifierProvider.notifier).fetchExpenses(
-          params: ExpenseParams(
+            params: ExpenseParams(
               expenseIDPK: "00000000-0000-0000-0000-000000000000",
               fromDate: DateTime.now(),
               toDate: DateTime.now(),
-              supplierID: "00000000-0000-0000-0000-000000000000"));
+              supplierID: "00000000-0000-0000-0000-000000000000",
+            ),
+          );
     });
   }
 
@@ -52,7 +54,7 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         child: expenseState.maybeWhen(
           success: (expenseData) {
-            if (expenseData.isEmpty == true) {
+            if (expenseData.isEmpty) {
               return Center(
                 child: Text(context.translate(AppStrings.noDataIsFound)),
               );
@@ -74,7 +76,7 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                           onEditTap: () {},
                           onPrintTap: () {},
                           onDeleteTap: () {},
-                        )
+                        ),
                       ],
                     ),
                     child: ExpenseCard(expense: expense),
@@ -104,7 +106,8 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                 Text(
                   context.translate(AppStrings.netTotal),
                   style: context.textTheme.bodyMedium?.copyWith(
-                      color: context.defaultTextColor.withValues(alpha: 0.32)),
+                    color: context.defaultTextColor.withValues(alpha: 0.32),
+                  ),
                 ),
                 Text(
                   ref.watch(cartProvider).totalAmount.toStringAsFixed(2),
