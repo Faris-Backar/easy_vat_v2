@@ -68,7 +68,7 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         child: salesOrderState.maybeWhen(
-          success: (salesInvoiceData) {
+          success: (salesInvoiceData, totalAmount) {
             if (salesInvoiceData.isEmpty == true) {
               return Center(
                 child: Text(context.translate(AppStrings.noDataIsFound)),

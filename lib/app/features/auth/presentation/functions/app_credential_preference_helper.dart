@@ -13,6 +13,7 @@ class AppCredentialPreferenceHelper {
   static const String _kAppSettings = 'app_settings';
   static const String _kCompanyInfo = 'company_info';
   static const String _kLedgerBookInfo = 'ledger_book_info';
+  static const String _kUserDetails = "user_details";
 
   // Private constructor to prevent direct instantiation
   AppCredentialPreferenceHelper._();
@@ -31,6 +32,12 @@ class AppCredentialPreferenceHelper {
     final prefs = await SharedPreferences.getInstance();
     final String jsonData = jsonEncode(storeDetails.toJson());
     return prefs.setString(_kStoreDetails, jsonData);
+  }
+
+  Future<bool> saveUserDetails(UserDetailsModel userDetails) async {
+    final prefs = await SharedPreferences.getInstance();
+    final String jsonData = jsonEncode(userDetails.toJson());
+    return prefs.setString(_kUserDetails, jsonData);
   }
 
   /// Save cash account details to SharedPreferences
@@ -97,6 +104,20 @@ class AppCredentialPreferenceHelper {
     try {
       final Map<String, dynamic> json = jsonDecode(jsonData);
       return CashAccountDetailsModel.fromJson(json);
+    } catch (e) {
+      debugPrint('Error parsing cash account details: $e');
+      return null;
+    }
+  }
+
+  Future<UserDetailsEntity?> getUserDetails() async {
+    final prefs = await SharedPreferences.getInstance();
+    final String? jsonData = prefs.getString(_kCashAccountDetails);
+    if (jsonData == null) return null;
+
+    try {
+      final Map<String, dynamic> json = jsonDecode(jsonData);
+      return UserDetailsModel.fromJson(json);
     } catch (e) {
       debugPrint('Error parsing cash account details: $e');
       return null;

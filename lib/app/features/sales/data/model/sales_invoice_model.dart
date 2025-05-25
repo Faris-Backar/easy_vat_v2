@@ -5,6 +5,8 @@ class SalesInvoiceModel extends SalesInvoiceEntity {
 
   factory SalesInvoiceModel.fromJson(Map<String, dynamic> json) =>
       SalesInvoiceModel(
+        status: json["status"],
+        message: json["message"],
         salesList: json["salesList"] != null
             ? List<SalesInvoiceListModel>.from(
                 json["salesList"].map((x) => SalesInvoiceListModel.fromJson(x)))

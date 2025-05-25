@@ -181,5 +181,9 @@
   "payable": "مستحق الدفع",
   "recievable": "مستحق التحصيل",
   "transactions": "المعاملات",
-  "grossProfit":" إجمالي الربح"
+  "grossProfit": " إجمالي الربح",
+  "update": "تحديث",
+  "discardChanges": "هل تريد تجاهل التغييرات؟",
+  "discardChangesMessage": "لديك عناصر في سلة التسوق. هل تريد تجاهلها والعودة؟",
+  "discard":"تجاهل"
 }

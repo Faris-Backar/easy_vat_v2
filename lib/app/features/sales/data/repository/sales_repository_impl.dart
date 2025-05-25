@@ -56,7 +56,12 @@ class SalesRepositoryImpl extends SalesRepository {
       );
       if (response.statusCode == 200) {
         final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
-        return right(salesInvoiceList);
+        if (salesInvoiceList.status == true) {
+          return right(salesInvoiceList);
+        } else {
+          return left(ServerFailure(
+              message: salesInvoiceList.message ?? "Something went wrong."));
+        }
       }
       return left(ServerFailure(message: ""));
     } on DioException catch (e) {
@@ -216,7 +221,12 @@ class SalesRepositoryImpl extends SalesRepository {
       );
       if (response.statusCode == 200) {
         final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
-        return right(salesInvoiceList);
+        if (salesInvoiceList.status == true) {
+          return right(salesInvoiceList);
+        } else {
+          return left(ServerFailure(
+              message: salesInvoiceList.message ?? "Something went wrong."));
+        }
       }
       return left(ServerFailure(message: ""));
     } on DioException catch (e) {

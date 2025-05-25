@@ -220,9 +220,6 @@ class CartList extends StatelessWidget {
                       ref
                           .read(cartProvider.notifier)
                           .updateCartItem(cartItem: updatedItem);
-                      ref
-                          .read(cartProvider.notifier)
-                          .setDiscription(descriptionController.text);
 
                       context.router.popForced();
                     },

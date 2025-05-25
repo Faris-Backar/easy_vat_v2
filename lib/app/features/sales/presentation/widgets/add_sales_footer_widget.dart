@@ -8,6 +8,8 @@ import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/items_bottom_modal_sheet.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/create_sales/create_sales_notifier.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/update_sales/update_sales_notifier.dart';
+import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -78,7 +80,6 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                           String successMessage;
                           final salesType =
                               widget.salesType?.toLowerCase() ?? "salesorder";
-
                           if (salesType ==
                               context
                                   .translate(AppStrings.addNewSales)
@@ -119,96 +120,82 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                       );
                     });
 
-                    final state = ref.watch(createSalesNotifierProvider);
-                    log("save button state => $state");
-                    return state.maybeWhen(
-                      orElse: () => PrimaryButton(
-                        label: context.translate(AppStrings.save),
-                        isLoading: false,
-                        onPressed: ref.watch(cartProvider).isViewOnly == true
-                            ? () {}
-                            : () async {
-                                if (widget.isForPurchase) {
-                                  Fluttertoast.showToast(
-                                      msg: context.translate(
-                                          AppStrings.somethingWentWrong));
-                                } else {
-                                  final cartPrvd =
-                                      ref.read(cartProvider.notifier);
-                                  cartPrvd
-                                      .setSalesNo(widget.saleNoController.text);
-                                  cartPrvd.setSalesMode(
-                                      widget.salesModeNotifier.value ?? "");
-                                  cartPrvd
-                                      .setRefNo(widget.refNoController.text);
+                    ref.listen(updateSalesNotifierProvider, (previous, next) {
+                      next.mapOrNull(
+                        success: (success) {
+                          String successMessage;
+                          final salesType =
+                              widget.salesType?.toLowerCase() ?? "salesorder";
+                          if (salesType ==
+                              context
+                                  .translate(AppStrings.addNewSales)
+                                  .toLowerCase()) {
+                            successMessage =
+                                "Sales invoice successfully updated!";
+                          } else if (salesType ==
+                              context
+                                  .translate(AppStrings.addNewSalesQuatation)
+                                  .toLowerCase()) {
+                            successMessage =
+                                "Sales quotation successfully updated!";
+                          } else if (salesType ==
+                              context
+                                  .translate(AppStrings.addNewSalesReturn)
+                                  .toLowerCase()) {
+                            successMessage =
+                                "Sales return successfully updated!";
+                          } else {
+                            successMessage =
+                                "Sales order successfully updated!";
+                          }
 
-                                  final salesType =
-                                      widget.salesType?.toLowerCase() ??
-                                          context.translate(
-                                              AppStrings.addNewSalesOrder);
-
-                                  if (cartPrvd.salesMode.toLowerCase() ==
-                                          "credit" &&
-                                      cartPrvd.selectedCustomer == null) {
-                                    Fluttertoast.showToast(
-                                        msg: context.translate(
-                                            AppStrings.pleaseSelectACustomer));
-                                  } else {
-                                    if (salesType ==
-                                        context
-                                            .translate(
-                                                AppStrings.addNewSalesOrder)
-                                            .toLowerCase()) {
-                                      final newSaleOrder =
-                                          await cartPrvd.createNewSaleOrder();
-                                      ref
-                                          .read(createSalesNotifierProvider
-                                              .notifier)
-                                          .createSalesOrder(
-                                              request: newSaleOrder);
-                                    } else if (salesType ==
-                                        context
-                                            .translate(AppStrings.addNewSales)
-                                            .toLowerCase()) {
-                                      final newSale = cartPrvd.createNewSale();
-                                      ref
-                                          .read(createSalesNotifierProvider
-                                              .notifier)
-                                          .createSalesInvoice(request: newSale);
-                                    } else if (salesType ==
-                                        context
-                                            .translate(
-                                                AppStrings.addNewSalesQuatation)
-                                            .toLowerCase()) {
-                                      final newSale = cartPrvd.createNewSale();
-                                      ref
-                                          .read(createSalesNotifierProvider
-                                              .notifier)
-                                          .createSalesQuotation(
-                                              request: newSale);
-                                    } else if (salesType ==
-                                        context
-                                            .translate(
-                                                AppStrings.addNewSalesReturn)
-                                            .toLowerCase()) {
-                                      final newSaleReturn =
-                                          cartPrvd.createNewSaleReturn();
-                                      ref
-                                          .read(createSalesNotifierProvider
-                                              .notifier)
-                                          .createSalesReturn(
-                                              request: newSaleReturn);
-                                    }
-                                  }
-                                }
-                              },
-                      ),
-                      loading: () => PrimaryButton(
-                        label: context.translate(AppStrings.save),
-                        isLoading: true,
-                        onPressed: () {},
-                      ),
-                    );
+                          Fluttertoast.showToast(
+                            msg: successMessage,
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                          );
+                          ref.read(cartProvider.notifier).clearCart();
+                          context.router.popForced();
+                        },
+                        failure: (message) =>
+                            ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text(message.error)),
+                        ),
+                      );
+                    });
+                    if (ref.read(cartProvider).isForUpdate == true) {
+                      final state = ref.watch(updateSalesNotifierProvider);
+                      return state.maybeWhen(
+                        orElse: () => PrimaryButton(
+                            label: ref.read(cartProvider).isForUpdate == true
+                                ? context.translate(AppStrings.update)
+                                : context.translate(AppStrings.save),
+                            isLoading: false,
+                            onPressed: () async =>
+                                await _createUpdateSale(ref)),
+                        loading: () => PrimaryButton(
+                          label: context.translate(AppStrings.save),
+                          isLoading: true,
+                          onPressed: () {},
+                        ),
+                      );
+                    } else {
+                      final state = ref.watch(createSalesNotifierProvider);
+                      return state.maybeWhen(
+                        orElse: () => PrimaryButton(
+                            label: ref.read(cartProvider).isForUpdate == true
+                                ? context.translate(AppStrings.update)
+                                : context.translate(AppStrings.save),
+                            isLoading: false,
+                            onPressed: () async =>
+                                await _createUpdateSale(ref)),
+                        loading: () => PrimaryButton(
+                          label: context.translate(AppStrings.save),
+                          isLoading: true,
+                          onPressed: () {},
+                        ),
+                      );
+                    }
                   },
                 ),
               )
@@ -293,5 +280,60 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                 : null),
       ),
     );
+  }
+
+  _createUpdateSale(WidgetRef ref) async {
+    final cartPrvd = ref.read(cartProvider.notifier);
+    cartPrvd.setSalesNo(widget.saleNoController.text);
+    cartPrvd.setSalesMode(widget.salesModeNotifier.value ?? "");
+    cartPrvd.setRefNo(widget.refNoController.text);
+    if (cartPrvd.soldBy == null) {
+      final salesman = ref.watch(salesManProvider.notifier).salesManList;
+      if (salesman.isNotEmpty) {
+        cartPrvd.setSoldBy(salesman.first);
+      }
+    }
+    final salesType = widget.salesType?.toLowerCase() ??
+        context.translate(AppStrings.addNewSalesOrder);
+
+    if (cartPrvd.salesMode.toLowerCase() == "credit" &&
+        cartPrvd.selectedCustomer == null) {
+      Fluttertoast.showToast(
+          msg: context.translate(AppStrings.pleaseSelectACustomer));
+    } else {
+      log("sales => $salesType");
+      if (salesType ==
+          context.translate(AppStrings.addNewSalesOrder).toLowerCase()) {
+        final newSaleOrder = await cartPrvd.createNewSaleOrder();
+        ref
+            .read(createSalesNotifierProvider.notifier)
+            .createSalesOrder(request: newSaleOrder);
+      } else if (salesType ==
+          context.translate(AppStrings.addNewSales).toLowerCase()) {
+        final newSale = await cartPrvd.createNewSale();
+        if (ref.read(cartProvider).isForUpdate == true) {
+          log("herererer");
+          ref
+              .read(updateSalesNotifierProvider.notifier)
+              .updateSalesInvoice(request: newSale);
+        } else {
+          ref
+              .read(createSalesNotifierProvider.notifier)
+              .createSalesInvoice(request: newSale);
+        }
+      } else if (salesType ==
+          context.translate(AppStrings.addNewSalesQuatation).toLowerCase()) {
+        final newSale = await cartPrvd.createNewSale();
+        ref
+            .read(createSalesNotifierProvider.notifier)
+            .createSalesQuotation(request: newSale);
+      } else if (salesType ==
+          context.translate(AppStrings.addNewSalesReturn).toLowerCase()) {
+        final newSaleReturn = cartPrvd.createNewSaleReturn();
+        ref
+            .read(createSalesNotifierProvider.notifier)
+            .createSalesReturn(request: newSaleReturn);
+      }
+    }
   }
 }

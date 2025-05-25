@@ -119,4 +119,9 @@ class CustomerEntity {
         nature: nature ?? this.nature,
         shippingAddress: shippingAddress ?? this.shippingAddress);
   }
+
+  @override
+  String toString() {
+    return 'CustomerEntity(ledgerIdpk: $ledgerIdpk, ledgerName: $ledgerName, description: $description, taxPercentage: $taxPercentage, mailingName: $mailingName, billingAddress: $billingAddress, shippingAddress: $shippingAddress, countryIdfk: $countryIdfk, taxRegistrationNo: $taxRegistrationNo, mobile: $mobile, phone: $phone, isActive: $isActive, openingBalance: $openingBalance, openingBalanceType: $openingBalanceType, currentBalance: $currentBalance, currentBalanceType: $currentBalanceType, contactPerson: $contactPerson, creditDays: $creditDays, creditLimit: $creditLimit, createdBy: $createdBy, createdDate: $createdDate, ledgerCode: $ledgerCode, modifiedBy: $modifiedBy, contactNo: $contactNo, companyIdpk: $companyIdpk, defaultPaymentMode: $defaultPaymentMode, groupName: $groupName, nature: $nature)';
+  }
 }

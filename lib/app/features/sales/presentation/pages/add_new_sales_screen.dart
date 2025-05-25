@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -96,6 +98,8 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
                 label: context.translate(AppStrings.note),
                 controller: _noteController,
                 maxLines: 5,
+                onChanged: (value) =>
+                    ref.read(cartProvider.notifier).setNotes(value),
                 hint: context.translate(AppStrings.writeNote),
               ),
               SizedBox(
@@ -118,9 +122,37 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
     return AppBar(
       leading: Consumer(builder: (context, ref, child) {
         return IconButton(
-          onPressed: () {
-            ref.read(cartProvider.notifier).clearCart();
-            context.router.popForced();
+          onPressed: () async {
+            final itemList = ref.read(cartProvider).itemList;
+            if (itemList != null && itemList.isNotEmpty) {
+              final shouldExit = await showDialog<bool>(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text(context.translate(AppStrings.discardChanges)),
+                  content:
+                      Text(context.translate(AppStrings.discardChangesMessage)),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(false),
+                      child: Text(context.translate(AppStrings.cancel)),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(context).pop(true),
+                      child: Text(context.translate(AppStrings.discard)),
+                    ),
+                  ],
+                ),
+              );
+
+              if (shouldExit == true) {
+                ref.read(cartProvider.notifier).clearCart();
+                if (mounted) {
+                  context.router.popForced();
+                }
+              }
+            } else {
+              context.router.popForced();
+            }
           },
           icon: Icon(Icons.adaptive.arrow_back),
         );

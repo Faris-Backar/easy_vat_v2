@@ -30,7 +30,7 @@ mixin _$CartState {
   SalesManEntity? get soldBy => throw _privateConstructorUsedError;
   LedgerAccountEntity? get cashAccount => throw _privateConstructorUsedError;
   LedgerAccountEntity? get salesAccount => throw _privateConstructorUsedError;
-  bool? get isViewOnly => throw _privateConstructorUsedError;
+  bool? get isForUpdate => throw _privateConstructorUsedError;
   bool get isTaxEnabled => throw _privateConstructorUsedError;
 
   /// Create a copy of CartState
@@ -60,7 +60,7 @@ abstract class $CartStateCopyWith<$Res> {
       SalesManEntity? soldBy,
       LedgerAccountEntity? cashAccount,
       LedgerAccountEntity? salesAccount,
-      bool? isViewOnly,
+      bool? isForUpdate,
       bool isTaxEnabled});
 }
 
@@ -93,7 +93,7 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
     Object? soldBy = freezed,
     Object? cashAccount = freezed,
     Object? salesAccount = freezed,
-    Object? isViewOnly = freezed,
+    Object? isForUpdate = freezed,
     Object? isTaxEnabled = null,
   }) {
     return _then(_value.copyWith(
@@ -153,9 +153,9 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
           ? _value.salesAccount
           : salesAccount // ignore: cast_nullable_to_non_nullable
               as LedgerAccountEntity?,
-      isViewOnly: freezed == isViewOnly
-          ? _value.isViewOnly
-          : isViewOnly // ignore: cast_nullable_to_non_nullable
+      isForUpdate: freezed == isForUpdate
+          ? _value.isForUpdate
+          : isForUpdate // ignore: cast_nullable_to_non_nullable
               as bool?,
       isTaxEnabled: null == isTaxEnabled
           ? _value.isTaxEnabled
@@ -188,7 +188,7 @@ abstract class _$$CartStateImplCopyWith<$Res>
       SalesManEntity? soldBy,
       LedgerAccountEntity? cashAccount,
       LedgerAccountEntity? salesAccount,
-      bool? isViewOnly,
+      bool? isForUpdate,
       bool isTaxEnabled});
 }
 
@@ -219,7 +219,7 @@ class __$$CartStateImplCopyWithImpl<$Res>
     Object? soldBy = freezed,
     Object? cashAccount = freezed,
     Object? salesAccount = freezed,
-    Object? isViewOnly = freezed,
+    Object? isForUpdate = freezed,
     Object? isTaxEnabled = null,
   }) {
     return _then(_$CartStateImpl(
@@ -279,9 +279,9 @@ class __$$CartStateImplCopyWithImpl<$Res>
           ? _value.salesAccount
           : salesAccount // ignore: cast_nullable_to_non_nullable
               as LedgerAccountEntity?,
-      isViewOnly: freezed == isViewOnly
-          ? _value.isViewOnly
-          : isViewOnly // ignore: cast_nullable_to_non_nullable
+      isForUpdate: freezed == isForUpdate
+          ? _value.isForUpdate
+          : isForUpdate // ignore: cast_nullable_to_non_nullable
               as bool?,
       isTaxEnabled: null == isTaxEnabled
           ? _value.isTaxEnabled
@@ -309,7 +309,7 @@ class _$CartStateImpl implements _CartState {
       this.soldBy,
       this.cashAccount,
       this.salesAccount,
-      this.isViewOnly,
+      this.isForUpdate,
       required this.isTaxEnabled})
       : _itemList = itemList;
 
@@ -350,13 +350,13 @@ class _$CartStateImpl implements _CartState {
   @override
   final LedgerAccountEntity? salesAccount;
   @override
-  final bool? isViewOnly;
+  final bool? isForUpdate;
   @override
   final bool isTaxEnabled;
 
   @override
   String toString() {
-    return 'CartState(itemList: $itemList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, totalTax: $totalTax, subtotal: $subtotal, salesNo: $salesNo, refNo: $refNo, saleDate: $saleDate, selectedCustomer: $selectedCustomer, salesMode: $salesMode, soldBy: $soldBy, cashAccount: $cashAccount, salesAccount: $salesAccount, isViewOnly: $isViewOnly, isTaxEnabled: $isTaxEnabled)';
+    return 'CartState(itemList: $itemList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, totalTax: $totalTax, subtotal: $subtotal, salesNo: $salesNo, refNo: $refNo, saleDate: $saleDate, selectedCustomer: $selectedCustomer, salesMode: $salesMode, soldBy: $soldBy, cashAccount: $cashAccount, salesAccount: $salesAccount, isForUpdate: $isForUpdate, isTaxEnabled: $isTaxEnabled)';
   }
 
   @override
@@ -387,8 +387,8 @@ class _$CartStateImpl implements _CartState {
                 other.cashAccount == cashAccount) &&
             (identical(other.salesAccount, salesAccount) ||
                 other.salesAccount == salesAccount) &&
-            (identical(other.isViewOnly, isViewOnly) ||
-                other.isViewOnly == isViewOnly) &&
+            (identical(other.isForUpdate, isForUpdate) ||
+                other.isForUpdate == isForUpdate) &&
             (identical(other.isTaxEnabled, isTaxEnabled) ||
                 other.isTaxEnabled == isTaxEnabled));
   }
@@ -410,7 +410,7 @@ class _$CartStateImpl implements _CartState {
       soldBy,
       cashAccount,
       salesAccount,
-      isViewOnly,
+      isForUpdate,
       isTaxEnabled);
 
   /// Create a copy of CartState
@@ -438,7 +438,7 @@ abstract class _CartState implements CartState {
       final SalesManEntity? soldBy,
       final LedgerAccountEntity? cashAccount,
       final LedgerAccountEntity? salesAccount,
-      final bool? isViewOnly,
+      final bool? isForUpdate,
       required final bool isTaxEnabled}) = _$CartStateImpl;
 
   @override
@@ -470,7 +470,7 @@ abstract class _CartState implements CartState {
   @override
   LedgerAccountEntity? get salesAccount;
   @override
-  bool? get isViewOnly;
+  bool? get isForUpdate;
   @override
   bool get isTaxEnabled;
 

@@ -17,239 +17,254 @@ class SalesTransactionCard extends StatelessWidget {
       required this.isSelectedNotifier,
       this.isTaxEnabled = false});
 
-  Color _getStatusColor(BuildContext context) {
-    final status = "paid";
-    switch (status) {
-      case 'paid':
+  Color _getPaymentMethodColor(String paymentMethod) {
+    switch (paymentMethod.toLowerCase()) {
+      case 'cash':
         return Colors.green;
-      case 'pending':
-        return Colors.orange;
-      case 'cancelled':
-        return Colors.red;
-      case 'draft':
+      case 'card':
         return Colors.blue;
+      case 'bank':
+        return Colors.purple;
+      case 'credit':
+        return Colors.orange;
       default:
         return Colors.grey;
     }
   }
 
+  IconData _getPaymentMethodIcon(String paymentMethod) {
+    switch (paymentMethod.toLowerCase()) {
+      case 'cash':
+        return Icons.account_balance_wallet;
+      case 'card':
+        return Icons.credit_card;
+      case 'bank':
+        return Icons.account_balance;
+      case 'credit':
+        return Icons.payment;
+      default:
+        return Icons.help_outline;
+    }
+  }
+
+  String _getPaymentMethodDisplayName(String paymentMethod) {
+    switch (paymentMethod.toLowerCase()) {
+      case 'cash':
+        return 'Cash';
+      case 'card':
+        return 'Card';
+      case 'bank':
+        return 'Bank';
+      case 'credit':
+        return 'Credit';
+      default:
+        return 'Unknown';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final paymentMethod = salesInvoice.saleMode?.toLowerCase() ?? "cash";
+    final color = _getPaymentMethodColor(paymentMethod);
+    final icon = _getPaymentMethodIcon(paymentMethod);
+
     return GestureDetector(
       onTap: () => isSelectedNotifier.value = !isSelectedNotifier.value,
       child: ValueListenableBuilder<bool>(
         valueListenable: isSelectedNotifier,
         builder: (context, isSelected, _) {
-          return Stack(
-            children: [
-              AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-                padding: const EdgeInsets.all(12.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  color: AppUtils.isDarkMode(context)
-                      ? const Color(0xFF2B2E30)
-                      : const Color(0xFFF9F9F9),
-                  border: isSelected
-                      ? Border.all(
-                          color: Theme.of(context).primaryColor, width: 1.5)
-                      : null,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.w),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.r),
+              color: AppUtils.isDarkMode(context)
+                  ? const Color(0xFF2B2E30)
+                  : const Color(0xFFF9F9F9),
+              border: isSelected
+                  ? Border.all(
+                      color: Theme.of(context).primaryColor, width: 1.5)
+                  : null,
+            ),
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    _buildTopRow(context),
-                    SizedBox(height: 10.h),
-                    _buildCustomerRow(context),
-                    if (isSelected) ...[
-                      SizedBox(height: 10.h),
-                      Divider(
-                        color: context.defaultTextColor.withValues(alpha: 0.1),
-                        thickness: 1,
+                    // Status Icon Container
+                    Container(
+                      padding: EdgeInsets.all(10.w),
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(10.r),
                       ),
-                      SizedBox(height: 6.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        crossAxisAlignment: CrossAxisAlignment.end,
+                      child: Icon(
+                        icon,
+                        color: color,
+                        size: 20,
+                      ),
+                    ),
+                    SizedBox(width: 12.w),
+
+                    // Main Content
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Column(
+                          Text(
+                            salesInvoice.customerName?.toString() ?? "Cash",
+                            style: context.textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(height: 2.h),
+                          Text(
+                            "${context.translate(AppStrings.saleNo)}: ${salesInvoice.saleNo ?? "-"}",
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: context.defaultTextColor
+                                  .withValues(alpha: 0.7),
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(height: 4.h),
+
+                          // Status and Date Row
+                          Row(
                             children: [
-                              if (isTaxEnabled) ...[
-                                Text(
-                                    "${context.translate(AppStrings.subTotal)} : ",
-                                    style: context.textTheme.bodySmall),
-                                Text(
-                                  salesInvoice.grossAmount
-                                          ?.toStringAsFixed(2) ??
-                                      "0.00",
-                                  style: context.textTheme.bodySmall
-                                      ?.copyWith(fontWeight: FontWeight.bold),
-                                )
-                              ],
-                              if (isTaxEnabled) ...[
-                                Text(
-                                    "${context.translate(AppStrings.totalTax)} : ",
-                                    style: context.textTheme.bodySmall),
-                                Text(
-                                  salesInvoice.tax?.toStringAsFixed(2) ??
-                                      "0.00",
-                                  style: context.textTheme.bodySmall
-                                      ?.copyWith(fontWeight: FontWeight.bold),
-                                )
-                              ],
-                              Row(
-                                children: [
-                                  Text(
-                                      "${context.translate(AppStrings.discount)} : ",
-                                      style: context.textTheme.bodySmall),
-                                  Text(
-                                    salesInvoice.discount?.toStringAsFixed(2) ??
-                                        "0.00",
-                                    style: context.textTheme.bodySmall
-                                        ?.copyWith(fontWeight: FontWeight.bold),
-                                  )
-                                ],
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w, vertical: 2.h),
+                                decoration: BoxDecoration(
+                                  color: color.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  _getPaymentMethodDisplayName(paymentMethod),
+                                  style: context.textTheme.bodySmall?.copyWith(
+                                    color: color,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
                               ),
-                              Row(
-                                children: [
-                                  Text(
-                                      "${context.translate(AppStrings.total)} : ",
-                                      style: context.textTheme.bodySmall),
-                                  Text(
-                                    salesInvoice.netTotal?.toStringAsFixed(2) ??
-                                        "0.00",
-                                    style: context.textTheme.bodySmall
-                                        ?.copyWith(fontWeight: FontWeight.bold),
-                                  )
-                                ],
-                              )
+                              SizedBox(width: 8.w),
+                              Text(
+                                DateFormatUtils.getCustomDateFormat(
+                                  formate: "dd MMM yy - hh:mm a",
+                                  date: salesInvoice.saleDate ?? DateTime.now(),
+                                ),
+                                style: context.textTheme.bodySmall?.copyWith(
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
                             ],
                           ),
                         ],
-                      )
-                    ],
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          "₹ ${salesInvoice.netTotal?.toStringAsFixed(2) ?? "0.00"}",
+                          style: context.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: color,
+                          ),
+                        ),
+                        SizedBox(height: 2.h),
+                        SizedBox(
+                          width: 85.w,
+                          child: Text(
+                            salesInvoice.soldBy ?? "",
+                            style: context.textTheme.labelSmall?.copyWith(
+                              color: Colors.grey.shade500,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
-              ),
-              Positioned(
-                top: 0,
-                right: 0,
-                child: CustomPaint(
-                  painter:
-                      TriangleStatusPainter(color: _getStatusColor(context)),
-                  size: const Size(24, 24),
-                ),
-              ),
-            ],
+
+                // Expanded Details Section (when selected)
+                if (isSelected) ...[
+                  SizedBox(height: 12.h),
+                  Divider(
+                    color: context.defaultTextColor.withValues(alpha: 0.1),
+                    thickness: 1,
+                  ),
+                  SizedBox(height: 8.h),
+                  _buildExpandedDetails(context),
+                ],
+              ],
+            ),
           );
         },
       ),
     );
   }
 
-  Widget _buildTopRow(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+  Widget _buildExpandedDetails(BuildContext context) {
+    return Column(
       children: [
-        _buildInfoColumn(
-          context,
-          label: AppStrings.salesNo,
-          value: salesInvoice.salesOrderNo ?? "",
-        ),
-        _buildInfoColumn(
-          context,
-          label: AppStrings.salesDate,
-          value: DateFormatUtils.getFormettedTime(
-            date: salesInvoice.saleDate ?? DateTime.now(),
+        // Financial Details
+        if (isTaxEnabled) ...[
+          _buildDetailRow(
+            context,
+            label: context.translate(AppStrings.subTotal),
+            value:
+                "₹ ${salesInvoice.grossAmount?.toStringAsFixed(2) ?? "0.00"}",
           ),
-        ),
-        _buildInfoColumn(
+          SizedBox(height: 4.h),
+          _buildDetailRow(
+            context,
+            label: context.translate(AppStrings.totalTax),
+            value: "₹ ${salesInvoice.tax?.toStringAsFixed(2) ?? "0.00"}",
+          ),
+          SizedBox(height: 4.h),
+        ],
+        _buildDetailRow(
           context,
-          label: AppStrings.soldBy,
-          value: salesInvoice.soldBy ?? "",
+          label: context.translate(AppStrings.discount),
+          value: "₹ ${salesInvoice.discount?.toStringAsFixed(2) ?? "0.00"}",
         ),
-        _buildInfoColumn(
+        SizedBox(height: 4.h),
+        _buildDetailRow(
           context,
-          label: AppStrings.netTotal,
-          value: salesInvoice.netTotal?.toStringAsFixed(2) ?? "",
+          label: context.translate(AppStrings.total),
+          value: "₹ ${salesInvoice.netTotal?.toStringAsFixed(2) ?? "0.00"}",
+          isTotal: true,
         ),
       ],
     );
   }
 
-  Widget _buildCustomerRow(BuildContext context) {
+  Widget _buildDetailRow(BuildContext context,
+      {required String label, required String value, bool isTotal = false}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          context.translate(AppStrings.customer),
+          "$label:",
           style: context.textTheme.bodySmall?.copyWith(
-            color: context.defaultTextColor.withValues(alpha: 0.32),
+            color: context.defaultTextColor.withValues(alpha: 0.7),
+            fontWeight: isTotal ? FontWeight.w600 : FontWeight.normal,
           ),
         ),
         Text(
-          salesInvoice.customerName ?? "-",
+          value,
           style: context.textTheme.bodySmall?.copyWith(
-            fontSize: 11,
-            fontWeight: FontWeight.w600,
-            color: context.defaultTextColor.withValues(alpha: 0.75),
+            fontWeight: FontWeight.bold,
+            color: isTotal
+                ? context.defaultTextColor
+                : context.defaultTextColor.withValues(alpha: 0.8),
           ),
         ),
       ],
     );
-  }
-
-  Widget _buildInfoColumn(BuildContext context,
-      {required String label, required String value}) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            context.translate(label),
-            style: context.textTheme.bodySmall?.copyWith(
-              color: context.defaultTextColor.withValues(alpha: 0.32),
-            ),
-          ),
-          const SizedBox(height: 3),
-          Text(
-            value,
-            style: context.textTheme.bodySmall?.copyWith(
-              fontSize: 11,
-              fontWeight: FontWeight.w600,
-              color: context.defaultTextColor.withValues(alpha: 0.75),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-// Custom painter for the triangle
-class TriangleStatusPainter extends CustomPainter {
-  final Color color;
-
-  TriangleStatusPainter({required this.color});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-
-    final Path path = Path();
-    path.moveTo(size.width, 0); // Top right corner
-    path.lineTo(0, 0); // Top left corner of the triangle
-    path.lineTo(size.width, size.height); // Bottom right corner
-    path.close();
-
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return oldDelegate is TriangleStatusPainter && oldDelegate.color != color;
   }
 }

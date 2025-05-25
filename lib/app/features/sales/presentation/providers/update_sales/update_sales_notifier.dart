@@ -1,94 +1,41 @@
-// import 'package:easy_vat_v2/app/features/sales/data/model/sales_invoice_request_model.dart';
-// import 'package:easy_vat_v2/app/features/sales/domain/usecase/create_sales_invoice_usecase.dart';
-// import 'package:easy_vat_v2/app/features/sales/domain/usecase/create_sales_order_usecase.dart';
-// import 'package:easy_vat_v2/app/features/sales/presentation/providers/create_sales/create_sales_state.dart';
-// import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_request_model.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/usecase/sales_invoice/update_sales_invoice.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/update_sales/update_sales_state.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// final updateSalesUsecaseProvider = Provider<CreateSalesInvoiceUsecase>((ref) {
-//   return CreateSalesInvoiceUsecase(
-//       salesInvoiceRepository: ref.read(salesRepositoryProvider));
-// });
+final updateSalesInvoiceUsecaseProvider =
+    Provider<UpdateSalesInvoiceUsecase>((ref) {
+  return UpdateSalesInvoiceUsecase(
+      salesInvoiceRepository: ref.read(salesRepositoryProvider));
+});
 
-// final createSalesOrderUsecaseProvider =
-//     Provider<CreateSalesOrderUsecase>((ref) {
-//   return CreateSalesOrderUsecase(
-//       salesRepository: ref.read(salesRepositoryProvider));
-// });
+final updateSalesNotifierProvider =
+    StateNotifierProvider<UpdateSalesNotifier, UpdateSalesState>((ref) {
+  return UpdateSalesNotifier(
+    updateSalesInvoiceUsecase: ref.read(updateSalesInvoiceUsecaseProvider),
+  );
+});
 
-// final createSalesNotifierProvider =
-//     StateNotifierProvider<CreateSalesNotifier, CreateSalesState>((ref) {
-//   return CreateSalesNotifier(
-//       createSalesInvoiceUsecase: ref.read(updateSalesUsecaseProvider),
-//       createSalesOrderUsecase: ref.read(createSalesOrderUsecaseProvider));
-// });
+class UpdateSalesNotifier extends StateNotifier<UpdateSalesState> {
+  final UpdateSalesInvoiceUsecase updateSalesInvoiceUsecase;
 
-// class CreateSalesNotifier extends StateNotifier<CreateSalesState> {
-//   final CreateSalesInvoiceUsecase createSalesInvoiceUsecase;
-//   final CreateSalesOrderUsecase createSalesOrderUsecase;
+  UpdateSalesNotifier({
+    required this.updateSalesInvoiceUsecase,
+  }) : super(UpdateSalesState.initial());
 
-//   CreateSalesNotifier({
-//     required this.createSalesInvoiceUsecase,
-//     required this.createSalesOrderUsecase,
-//   }) : super(CreateSalesState.initial());
+  updateSalesInvoice({required SalesRequestModel request}) async {
+    state = UpdateSalesState.initial();
+    state = UpdateSalesState.loading();
+    try {
+      final result = await updateSalesInvoiceUsecase.call(params: request);
 
-//   createSalesInvoice({required SalesRequestModel request}) async {
-//     state = CreateSalesState.initial();
-//     state = CreateSalesState.loading();
-//     try {
-//       final result = await createSalesInvoiceUsecase.call(params: request);
-
-//       result.fold(
-//         (l) => state = CreateSalesState.failure(l.message),
-//         (r) => state = CreateSalesState.success(),
-//       );
-//     } catch (e) {
-//       state = CreateSalesState.failure(e.toString());
-//     }
-//   }
-
-//   createSalesOrder({required SalesRequestModel request}) async {
-//     state = CreateSalesState.initial();
-//     state = CreateSalesState.loading();
-//     try {
-//       final result = await createSalesInvoiceUsecase.call(params: request);
-
-//       result.fold(
-//         (l) => state = CreateSalesState.failure(l.message),
-//         (r) => state = CreateSalesState.success(),
-//       );
-//     } catch (e) {
-//       state = CreateSalesState.failure(e.toString());
-//     }
-//   }
-
-//   createSalesReturn({required SalesRequestModel request}) async {
-//     state = CreateSalesState.initial();
-//     state = CreateSalesState.loading();
-//     try {
-//       final result = await createSalesInvoiceUsecase.call(params: request);
-
-//       result.fold(
-//         (l) => state = CreateSalesState.failure(l.message),
-//         (r) => state = CreateSalesState.success(),
-//       );
-//     } catch (e) {
-//       state = CreateSalesState.failure(e.toString());
-//     }
-//   }
-
-//   createSalesQuotation({required SalesRequestModel request}) async {
-//     state = CreateSalesState.initial();
-//     state = CreateSalesState.loading();
-//     try {
-//       final result = await createSalesInvoiceUsecase.call(params: request);
-
-//       result.fold(
-//         (l) => state = CreateSalesState.failure(l.message),
-//         (r) => state = CreateSalesState.success(),
-//       );
-//     } catch (e) {
-//       state = CreateSalesState.failure(e.toString());
-//     }
-//   }
-// }
+      result.fold(
+        (l) => state = UpdateSalesState.failure(l.message),
+        (r) => state = UpdateSalesState.success(),
+      );
+    } catch (e) {
+      state = UpdateSalesState.failure(e.toString());
+    }
+  }
+}
