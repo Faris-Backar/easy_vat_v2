@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 
 class DayBookShimmer extends StatelessWidget {
   const DayBookShimmer({super.key});
@@ -9,42 +8,291 @@ class DayBookShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.colorScheme.surface,
+      backgroundColor: Colors.grey.shade50,
       body: CustomScrollView(
         slivers: [
           // App Bar Shimmer
-          _buildAppBarShimmer(context),
+          SliverAppBar(
+            expandedHeight: 200.h,
+            floating: false,
+            pinned: true,
+            elevation: 0,
+            backgroundColor: Color(0xFF1A1D29),
+            leading: Shimmer.fromColors(
+              baseColor: Colors.grey.shade600,
+              highlightColor: Colors.grey.shade400,
+              child: Container(
+                margin: EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+            ),
+            title: Shimmer.fromColors(
+              baseColor: Colors.grey.shade600,
+              highlightColor: Colors.grey.shade400,
+              child: Container(
+                height: 20.h,
+                width: 120.w,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+              ),
+            ),
+            centerTitle: true,
+            actions: [
+              Shimmer.fromColors(
+                baseColor: Colors.grey.shade600,
+                highlightColor: Colors.grey.shade400,
+                child: Container(
+                  margin: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  width: 24,
+                  height: 24,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+              SizedBox(width: 8.w),
+            ],
+            flexibleSpace: FlexibleSpaceBar(
+              background: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xFF1A1D29),
+                ),
+                child: SafeArea(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 32),
+                        // Gross Profit Title Shimmer
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade600,
+                          highlightColor: Colors.grey.shade400,
+                          child: Container(
+                            height: 16.h,
+                            width: 120.w,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        // Gross Profit Amount Shimmer
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade600,
+                          highlightColor: Colors.grey.shade400,
+                          child: Container(
+                            height: 36.h,
+                            width: 100.w,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 16),
+                        // Budget Text Shimmer
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade600,
+                          highlightColor: Colors.grey.shade400,
+                          child: Container(
+                            height: 14.h,
+                            width: 200.w,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        // Progress Bar Shimmer
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade600,
+                          highlightColor: Colors.grey.shade400,
+                          child: Container(
+                            height: 5.h,
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+
+          // Summary Cards Section Shimmer
+          SliverToBoxAdapter(
+            child: Container(
+              color: Color(0xFF1A1D29),
+              child: Container(
+                padding:
+                    EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 16.0.h),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade50,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24),
+                    topRight: Radius.circular(24),
+                  ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // "Today's Summary" Title Shimmer
+                    Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      child: Container(
+                        height: 24.h,
+                        width: 150.w,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(4),
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    // Summary Cards Grid Shimmer
+                    GridView.count(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10.h,
+                      crossAxisSpacing: 10.w,
+                      childAspectRatio: 1.9,
+                      children: List.generate(
+                          4, (index) => _buildSummaryCardShimmer()),
+                    ),
+                    SizedBox(height: 24.h),
+                  ],
+                ),
+              ),
+            ),
+          ),
 
           // Transactions Header Shimmer
           SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.fromLTRB(20.w, 10.h, 20.w, 12.h),
-              child: _buildTransactionsHeaderShimmer(context),
+              child: Row(
+                children: [
+                  Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                      height: 20.h,
+                      width: 100.w,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 8.w),
+                  Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                      height: 24.h,
+                      width: 30.w,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
 
           // Filter Bar Shimmer
           SliverToBoxAdapter(
-            child: _buildFilterBarShimmer(context),
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 16.w),
+              padding: EdgeInsets.symmetric(vertical: 8.0),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10.r),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.08),
+                    blurRadius: 12,
+                    offset: Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  // Search Field Shimmer
+                  Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 4.h),
+                    child: Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.grey.shade100,
+                      child: Container(
+                        height: 48.h,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                      ),
+                    ),
+                  ),
+                  // Filter Chips Shimmer
+                  Container(
+                    height: 50.h,
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    child: Row(
+                      children: List.generate(
+                          5,
+                          (index) => Container(
+                                margin: EdgeInsets.only(
+                                    right: 8.w, top: 8.h, bottom: 8.h),
+                                child: Shimmer.fromColors(
+                                  baseColor: Colors.grey.shade300,
+                                  highlightColor: Colors.grey.shade100,
+                                  child: Container(
+                                    height: 34.h,
+                                    width: 60.w + (index * 10), // Vary widths
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(20.r),
+                                    ),
+                                  ),
+                                ),
+                              )),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
 
           // Transaction Cards Shimmer
           SliverList(
             delegate: SliverChildBuilderDelegate(
-              (context, index) {
-                return Container(
-                  margin: EdgeInsets.symmetric(
-                    horizontal: 20.w,
-                    vertical: 6.h,
-                  ),
-                  child: _buildTransactionCardShimmer(context),
-                );
-              },
-              childCount: 8, // Show 8 shimmer cards
+              (context, index) => Container(
+                margin: EdgeInsets.symmetric(horizontal: 20.w, vertical: 6.h),
+                child: _buildTransactionCardShimmer(),
+              ),
+              childCount: 6, // Show 6 shimmer transaction cards
             ),
           ),
 
-          // Bottom padding
           SliverToBoxAdapter(
             child: SizedBox(height: 100.h),
           ),
@@ -53,160 +301,49 @@ class DayBookShimmer extends StatelessWidget {
     );
   }
 
-  Widget _buildAppBarShimmer(BuildContext context) {
-    return SliverAppBar(
-      expandedHeight: 330.h,
-      floating: false,
-      pinned: true,
-      elevation: 0,
-      backgroundColor: context.primaryColor,
-      leading: Shimmer.fromColors(
-        baseColor: Colors.white.withValues(alpha: 0.6),
-        highlightColor: Colors.white.withValues(alpha: 0.8),
-        child: Container(
-          margin: EdgeInsets.all(12.w),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(4),
-          ),
-        ),
-      ),
-      actions: [
-        Shimmer.fromColors(
-          baseColor: Colors.white.withValues(alpha: 0.6),
-          highlightColor: Colors.white.withValues(alpha: 0.8),
-          child: Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-        ),
-        SizedBox(width: 16.w),
-      ],
-      flexibleSpace: FlexibleSpaceBar(
-        background: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Color(0xFF1A0B3D),
-                Color(0xFF27165D),
-                context.primaryColor,
-              ],
-            ),
-          ),
-          child: Stack(
-            children: [
-              // Decorative circles (same as original)
-              Positioned(
-                right: -50,
-                top: -50,
-                child: Container(
-                  height: 150,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withValues(alpha: 0.08),
-                  ),
-                ),
-              ),
-              Positioned(
-                left: -40,
-                bottom: 50,
-                child: Container(
-                  height: 120,
-                  width: 120,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white.withValues(alpha: 0.05),
-                  ),
-                ),
-              ),
-              Positioned(
-                bottom: 40,
-                left: 20,
-                right: 20,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Date selector shimmer
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Shimmer.fromColors(
-                        baseColor: Colors.white.withValues(alpha: 0.15),
-                        highlightColor: Colors.white.withValues(alpha: 0.25),
-                        child: Container(
-                          width: 120.w,
-                          height: 32.h,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20.h),
-
-                    // Summary cards shimmer
-                    Row(
-                      children: [
-                        Expanded(child: _buildSummaryCardShimmer(context)),
-                        SizedBox(width: 12.w),
-                        Expanded(child: _buildSummaryCardShimmer(context)),
-                      ],
-                    ),
-                    SizedBox(height: 12.h),
-                    Row(
-                      children: [
-                        Expanded(child: _buildSummaryCardShimmer(context)),
-                        SizedBox(width: 12.w),
-                        Expanded(child: _buildSummaryCardShimmer(context)),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSummaryCardShimmer(BuildContext context) {
+  Widget _buildSummaryCardShimmer() {
     return Shimmer.fromColors(
-      baseColor: Colors.white.withValues(alpha: 0.15),
-      highlightColor: Colors.white.withValues(alpha: 0.25),
+      baseColor: Colors.grey.shade300,
+      highlightColor: Colors.grey.shade100,
       child: Container(
-        padding: EdgeInsets.all(12.w),
+        padding: EdgeInsets.all(13.w),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12.r),
+          border: Border.all(
+            color: Colors.grey.shade200,
+            width: 1,
+          ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             Row(
               children: [
                 Container(
-                  width: 28.w,
-                  height: 28.h,
+                  width: 24.w,
+                  height: 24.h,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(6.r),
+                    borderRadius: BorderRadius.circular(8.r),
                   ),
                 ),
                 Spacer(),
+                Container(
+                  width: 16.w,
+                  height: 16.h,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
               ],
             ),
             SizedBox(height: 8.h),
             Container(
-              width: 60.w,
               height: 12.h,
+              width: 60.w,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(4),
@@ -214,8 +351,8 @@ class DayBookShimmer extends StatelessWidget {
             ),
             SizedBox(height: 4.h),
             Container(
-              width: 80.w,
               height: 16.h,
+              width: 80.w,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(4),
@@ -227,101 +364,19 @@ class DayBookShimmer extends StatelessWidget {
     );
   }
 
-  Widget _buildTransactionsHeaderShimmer(BuildContext context) {
-    return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
-      child: Row(
-        children: [
-          Container(
-            width: 100.w,
-            height: 20.h,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(4),
-            ),
-          ),
-          SizedBox(width: 8.w),
-          Container(
-            width: 30.w,
-            height: 24.h,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFilterBarShimmer(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20.w),
-      child: Shimmer.fromColors(
-        baseColor: Colors.grey.shade300,
-        highlightColor: Colors.grey.shade100,
-        child: Column(
-          children: [
-            // Search bar shimmer
-            Container(
-              height: 48.h,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12.r),
-              ),
-            ),
-            SizedBox(height: 12.h),
-
-            // Category filter chips shimmer
-            Row(
-              children: [
-                _buildFilterChipShimmer(60.w),
-                SizedBox(width: 8.w),
-                _buildFilterChipShimmer(50.w),
-                SizedBox(width: 8.w),
-                _buildFilterChipShimmer(70.w),
-                SizedBox(width: 8.w),
-                _buildFilterChipShimmer(80.w),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildFilterChipShimmer(double width) {
-    return Container(
-      width: width,
-      height: 32.h,
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-      ),
-    );
-  }
-
-  Widget _buildTransactionCardShimmer(BuildContext context) {
+  Widget _buildTransactionCardShimmer() {
     return Shimmer.fromColors(
       baseColor: Colors.grey.shade300,
       highlightColor: Colors.grey.shade100,
       child: Container(
-        padding: EdgeInsets.all(16.w),
+        padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16.w),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(12.r),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 4,
-              offset: Offset(0, 2),
-            ),
-          ],
         ),
         child: Row(
           children: [
-            // Icon shimmer
+            // Icon Shimmer
             Container(
               width: 40.w,
               height: 40.h,
@@ -331,24 +386,14 @@ class DayBookShimmer extends StatelessWidget {
               ),
             ),
             SizedBox(width: 12.w),
-
-            // Content shimmer
+            // Content Shimmer
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: double.infinity,
                     height: 16.h,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(4),
-                    ),
-                  ),
-                  SizedBox(height: 8.h),
-                  Container(
-                    width: 150.w,
-                    height: 14.h,
+                    width: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(4),
@@ -358,8 +403,8 @@ class DayBookShimmer extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 60.w,
                         height: 20.h,
+                        width: 60.w,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(8),
@@ -367,8 +412,8 @@ class DayBookShimmer extends StatelessWidget {
                       ),
                       SizedBox(width: 8.w),
                       Container(
-                        width: 60.w,
                         height: 12.h,
+                        width: 50.w,
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(4),
@@ -379,14 +424,13 @@ class DayBookShimmer extends StatelessWidget {
                 ],
               ),
             ),
-
-            // Amount and ID shimmer
+            // Amount and ID Shimmer
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Container(
-                  width: 80.w,
                   height: 16.h,
+                  width: 80.w,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(4),
@@ -394,8 +438,8 @@ class DayBookShimmer extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Container(
-                  width: 50.w,
                   height: 12.h,
+                  width: 60.w,
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(4),

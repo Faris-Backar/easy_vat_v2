@@ -136,61 +136,61 @@ class DashboardSummaryCard extends StatelessWidget {
     );
   }
 
-  Widget _buildExpandedSummaryCard(
-    BuildContext context, {
-    required String title,
-    required double amount,
-    required IconData icon,
-    required Color color,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(12.w),
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.15),
-        borderRadius: BorderRadius.circular(12.r),
-        border: Border.all(
-          color: Colors.white.withValues(alpha: 0.2),
-          width: 1,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(6.w),
-                decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.2),
-                  borderRadius: BorderRadius.circular(6.r),
-                ),
-                child: Icon(
-                  icon,
-                  color: Colors.white,
-                  size: 16,
-                ),
-              ),
-              Spacer(),
-            ],
-          ),
-          SizedBox(height: 8.h),
-          Text(
-            title,
-            style: context.textTheme.bodySmall?.copyWith(
-              color: Colors.white.withValues(alpha: 0.8),
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          SizedBox(height: 2.h),
-          Text(
-            "₹ ${amount.toStringAsFixed(0)}",
-            style: context.textTheme.titleMedium?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: Colors.white,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget _buildExpandedSummaryCard(
+  //   BuildContext context, {
+  //   required String title,
+  //   required double amount,
+  //   required IconData icon,
+  //   required Color color,
+  // }) {
+  //   return Container(
+  //     padding: EdgeInsets.all(12.w),
+  //     decoration: BoxDecoration(
+  //       color: Colors.white.withValues(alpha: 0.15),
+  //       borderRadius: BorderRadius.circular(12.r),
+  //       border: Border.all(
+  //         color: Colors.white.withValues(alpha: 0.2),
+  //         width: 1,
+  //       ),
+  //     ),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Row(
+  //           children: [
+  //             Container(
+  //               padding: EdgeInsets.all(6.w),
+  //               decoration: BoxDecoration(
+  //                 color: Colors.white.withValues(alpha: 0.2),
+  //                 borderRadius: BorderRadius.circular(6.r),
+  //               ),
+  //               child: Icon(
+  //                 icon,
+  //                 color: Colors.white,
+  //                 size: 16,
+  //               ),
+  //             ),
+  //             Spacer(),
+  //           ],
+  //         ),
+  //         SizedBox(height: 8.h),
+  //         Text(
+  //           title,
+  //           style: context.textTheme.bodySmall?.copyWith(
+  //             color: Colors.white.withValues(alpha: 0.8),
+  //             fontWeight: FontWeight.w500,
+  //           ),
+  //         ),
+  //         SizedBox(height: 2.h),
+  //         Text(
+  //           "₹ ${amount.toStringAsFixed(0)}",
+  //           style: context.textTheme.titleMedium?.copyWith(
+  //             fontWeight: FontWeight.bold,
+  //             color: Colors.white,
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
