@@ -70,7 +70,7 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         child: salesInvoiceState.maybeWhen(
-          success: (salesInvoiceData) {
+          success: (salesInvoiceData, totalAmount) {
             if (salesInvoiceData.isEmpty == true) {
               return Center(
                 child: Text(context.translate(AppStrings.noDataIsFound)),

@@ -47,4 +47,15 @@ class SalesManNotifier extends StateNotifier<SalesManState> {
       }
     }
   }
+
+  SalesManEntity? getSalesManByName(String name) {
+    try {
+      return salesManList.firstWhere(
+        (salesMan) => salesMan.empName?.toLowerCase() == name.toLowerCase(),
+        orElse: () => throw ("No Users Find"),
+      );
+    } catch (e) {
+      return null;
+    }
+  }
 }

@@ -185,4 +185,8 @@ class AppStrings {
   static const String recievable = "recievable";
   static const String transactions = "transactions";
   static const String grossProfit = "grossProfit";
+  static const String update = "update";
+  static const String discardChanges = 'discardChanges';
+  static const String discardChangesMessage = "discardChangesMessage";
+  static const String discard = "discard";
 }

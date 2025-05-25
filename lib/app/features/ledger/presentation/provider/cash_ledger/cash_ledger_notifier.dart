@@ -73,4 +73,24 @@ class CashLedgerNotifier extends StateNotifier<CashLedgerState> {
       }
     }
   }
+
+  LedgerAccountEntity? getLedgerById(String ledgerIDPK) {
+    try {
+      final cashLedger = cashLedgers.firstWhere(
+        (ledger) => ledger.ledgerIdpk == ledgerIDPK,
+        orElse: () => throw Exception('Ledger not found'),
+      );
+      return cashLedger;
+    } catch (_) {
+      try {
+        final bankLedger = bankLedgers.firstWhere(
+          (ledger) => ledger.ledgerIdpk == ledgerIDPK,
+          orElse: () => throw Exception('Ledger not found'),
+        );
+        return bankLedger;
+      } catch (e) {
+        return null;
+      }
+    }
+  }
 }

@@ -125,10 +125,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                 loaded: (paymentModes, selectedPaymentMode) {
                   if (paymentModes.isNotEmpty &&
                       widget.salesModeNotifier.value == null) {
-                    final defaultSelection = _getDefaultSelection(paymentModes);
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      widget.salesModeNotifier.value = defaultSelection;
-                    });
+                    _getDefaultSelection(paymentModes);
                   }
 
                   return DropdownField(
@@ -147,7 +144,8 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
 
                       final shouldFetchBank =
                           (newValue?.toLowerCase() == "bank" ||
-                              newValue?.toLowerCase() == "card");
+                              newValue?.toLowerCase() == "card" ||
+                              newValue?.toLowerCase() == "credit");
 
                       if (shouldFetchCash) {
                         widget.cashAccountNotifier.value = null;
@@ -176,14 +174,34 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                       .where((name) => name.isNotEmpty)
                       .toList();
 
+                  final providerSoldBy = ref.read(cartProvider).soldBy;
+
                   if (employeeNames.isNotEmpty) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      if (!employeeNames
-                          .contains(widget.soldByNotifier.value)) {
-                        widget.soldByNotifier.value = employeeNames.first;
+                      final fallbackSoldBy = employeeNames.first;
+                      final validProviderValue =
+                          providerSoldBy?.empName?.toLowerCase().trim();
+                      final matchedEmployee = employeeNames.firstWhere(
+                        (name) =>
+                            name.toLowerCase().trim() == validProviderValue,
+                        orElse: () => fallbackSoldBy,
+                      );
+                      if (widget.soldByNotifier.value != matchedEmployee) {
+                        widget.soldByNotifier.value = matchedEmployee;
+
+                        final selectedEmployee = employeeList.firstWhere(
+                          (emp) =>
+                              emp.empName?.toLowerCase().trim() ==
+                              matchedEmployee.toLowerCase(),
+                        );
+
+                        ref
+                            .read(cartProvider.notifier)
+                            .setSoldBy(selectedEmployee);
                       }
                     });
                   }
+
                   return DropdownField(
                     height: 38.h,
                     labelAndTextFieldGap: 2,
@@ -193,12 +211,14 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                     valueNotifier: widget.soldByNotifier,
                     onChanged: (newValue) {
                       widget.soldByNotifier.value = newValue;
+
                       if (newValue != null) {
                         final selectedEmployee = employeeList.firstWhere(
                           (employee) =>
                               employee.empName?.trim().toLowerCase() ==
                               newValue.toLowerCase(),
                         );
+
                         ref
                             .read(cartProvider.notifier)
                             .setSoldBy(selectedEmployee);
@@ -397,13 +417,30 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
     );
   }
 
-  String _getDefaultSelection(List<PaymentModeModel> paymentModes) {
-    final cashMode = paymentModes.firstWhere(
-      (mode) => mode.paymentModes.toLowerCase() == 'cash',
+  void _getDefaultSelection(List<PaymentModeModel> paymentModes) {
+    final currentSalesMode =
+        ref.read(cartProvider.notifier).salesMode.toLowerCase();
+
+    final selectedMode = paymentModes.firstWhere(
+      (mode) => currentSalesMode.isNotEmpty
+          ? mode.paymentModes.toLowerCase() == currentSalesMode
+          : mode.paymentModes.toLowerCase() == 'cash',
       orElse: () => paymentModes.first,
     );
-    ref.read(cartProvider.notifier).setSalesMode(cashMode.paymentModes);
 
-    return cashMode.paymentModes;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final selectedValue = selectedMode.paymentModes;
+      ref.read(cartProvider.notifier).setSalesMode(selectedValue);
+      widget.salesModeNotifier.value = selectedValue;
+
+      final selectedLower = selectedValue.toLowerCase();
+      if (selectedLower == 'cash') {
+        widget.cashAccountNotifier.value = null;
+        ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
+      } else {
+        widget.cashAccountNotifier.value = null;
+        ref.read(cashLedgerNotifierProvider.notifier).fetchBankLedgers();
+      }
+    });
   }
 }

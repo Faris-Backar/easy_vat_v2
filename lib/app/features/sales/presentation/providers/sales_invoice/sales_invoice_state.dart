@@ -8,6 +8,7 @@ class SalesInvoiceState with _$SalesInvoiceState {
   const factory SalesInvoiceState.initial() = _Initial;
   const factory SalesInvoiceState.loading() = _Loading;
   const factory SalesInvoiceState.success(
-      List<SalesInvoiceListEntity> salesInvoice) = _Success;
+      {required List<SalesInvoiceListEntity> salesInvoice,
+      double? totalAmount}) = _Success;
   const factory SalesInvoiceState.failure(String message) = _Failure;
 }

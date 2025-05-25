@@ -33,16 +33,20 @@ class SalesInoiveNotifiers extends StateNotifier<SalesInvoiceState> {
     result.fold((failure) => state = SalesInvoiceState.failure(failure.message),
         (salesInvoice) {
       salesList = salesInvoice.salesList;
-      return state = SalesInvoiceState.success(salesInvoice.salesList ?? []);
+      double totalAmount = 0.0;
+      for (var i = 0; i < (salesInvoice.salesList?.length ?? 0.0); i++) {
+        totalAmount += salesInvoice.salesList?[i].netTotal ?? 0.0;
+      }
+      return state = SalesInvoiceState.success(
+          salesInvoice: salesInvoice.salesList ?? [], totalAmount: totalAmount);
     });
   }
 
   void filterSalesInvoice({required SalesInvoiceFilterParams params}) {
     if (params.clearAllFilter) {
-      state = SalesInvoiceState.success(salesList ?? []);
+      state = SalesInvoiceState.success(salesInvoice: salesList ?? []);
     } else {
       if (salesList == null) return;
-
       final filteredSales = salesList?.where((sale) {
         final matchesDate = params.salesDate == null ||
             (sale.saleDate != null &&
@@ -60,7 +64,7 @@ class SalesInoiveNotifiers extends StateNotifier<SalesInvoiceState> {
         return matchesDate && matchesMode && matchesSoldBy;
       }).toList();
 
-      state = SalesInvoiceState.success(filteredSales ?? []);
+      state = SalesInvoiceState.success(salesInvoice: filteredSales ?? []);
     }
   }
 

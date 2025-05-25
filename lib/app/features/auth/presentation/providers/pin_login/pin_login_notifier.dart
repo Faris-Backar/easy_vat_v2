@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/features/auth/data/model/pin_login_model.dart';
 import 'package:easy_vat_v2/app/features/auth/data/repository/auth_repository_impl.dart';
@@ -34,6 +36,14 @@ class PinLoginNotifier extends StateNotifier<PinLoginState> {
       await prefs.setBool(PrefResources.isAuthenticated, true);
       await prefs.setBool(PrefResources.isTaxEnabled,
           r.userDetails?.appSettings?.enableTaxCalculation ?? false);
+      if (r.userDetails != null) {
+        try {
+          final userDetails = UserDetailsModel.fromEntity(r.userDetails!);
+          AppCredentialPreferenceHelper().saveUserDetails(userDetails);
+        } catch (e) {
+          log("error while inserting user details => $e");
+        }
+      }
       if (r.userDetails?.companyInfo != null) {
         final companyInfo = CompanyInfo.fromEntity(r.userDetails!.companyInfo!);
         AppCredentialPreferenceHelper().saveCompanyInfo(companyInfo);

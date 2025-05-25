@@ -1,9 +1,12 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
+import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
@@ -14,9 +17,10 @@ import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invo
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_invoice_app_bar.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_tansaction_card.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_slidable_widget.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
+import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
+import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -72,7 +76,7 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         child: salesInvoiceState.maybeWhen(
-          success: (salesInvoiceData) {
+          success: (salesInvoiceData, totalAmount) {
             if (salesInvoiceData.isEmpty == true) {
               return Center(
                 child: Text(context.translate(AppStrings.noDataIsFound)),
@@ -92,31 +96,63 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: Slidable(
                     endActionPane: ActionPane(
-                      extentRatio: .15,
                       motion: ScrollMotion(),
                       children: [
-                        TransactionSlidableActionWidget(
-                          onDeleteTap: () {},
-                          onEditTap: () {
-                            ref
-                                .read(cartProvider.notifier)
-                                .reinsertSalesForm(salesInvoice, ref);
-                            context.router.pushNamed(AppRouter.addNewSales);
-                          },
-                          onPrintTap: () {},
-                        )
+                        Expanded(
+                          child: _buildSlidingAction(
+                              color: AppUtils.isDarkMode(context)
+                                  ? CustomColors.getTransactionSkyBlueColor(
+                                      context)
+                                  : CustomColors.getTransactionSkyBlueColor(
+                                          context)
+                                      .withValues(alpha: .2),
+                              icon: Assets.icons.print,
+                              iconColor: AppUtils.isDarkMode(context)
+                                  ? context.onPrimaryColor
+                                  : null,
+                              onTap: () {}),
+                        ),
+                        Expanded(
+                          child: _buildSlidingAction(
+                              color: AppUtils.isDarkMode(context)
+                                  ? CustomColors.getTransactionCardBlueColor(
+                                      context)
+                                  : CustomColors.getTransactionCardBlueColor(
+                                          context)
+                                      .withValues(alpha: .2),
+                              icon: Assets.icons.view,
+                              iconColor: AppUtils.isDarkMode(context)
+                                  ? context.onPrimaryColor
+                                  : null,
+                              onTap: () async {
+                                await ref
+                                    .read(cartProvider.notifier)
+                                    .reinsertSalesForm(salesInvoice, ref);
+                                if (mounted) {
+                                  context.router.push(AddNewSalesRoute(
+                                    title: context
+                                        .translate(AppStrings.addNewSales),
+                                    isForPurchase: false,
+                                  ));
+                                }
+                              }),
+                        ),
+                        Expanded(
+                          child: _buildSlidingAction(
+                              color: AppUtils.isDarkMode(context)
+                                  ? CustomColors.getTransactionCardRedColor(
+                                      context)
+                                  : CustomColors.getTransactionCardRedColor(
+                                          context)
+                                      .withValues(alpha: .2),
+                              icon: Assets.icons.delete,
+                              iconColor: AppUtils.isDarkMode(context)
+                                  ? context.onPrimaryColor
+                                  : null,
+                              onTap: () {}),
+                        ),
                       ],
                     ),
-                    // child: TransactionCard(
-                    //   soldItems: salesInvoice.soldItems ?? [],
-                    //   salesOrderNumber: salesInvoice.salesOrderNo ?? "",
-                    //   salesDate: salesInvoice.saleDate ?? DateTime.now(),
-                    //   customerName: salesInvoice.customerName ?? "",
-                    //   soldBy: salesInvoice.soldBy ?? "",
-                    //   netTotal: salesInvoice.netTotal ?? 0.0,
-                    //   refNo: salesInvoice.referenceNo ?? "",
-                    //   status: "Unpaid",
-                    // ),
                     child: SalesTransactionCard(
                       salesInvoice: salesInvoice,
                       isSelectedNotifier: notifier,
@@ -152,10 +188,17 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                   style: context.textTheme.bodyMedium?.copyWith(
                       color: context.defaultTextColor.withValues(alpha: 0.32)),
                 ),
-                Text(
-                  ref.watch(cartProvider).totalAmount.toStringAsFixed(2),
-                  style: context.textTheme.bodyLarge
-                      ?.copyWith(fontSize: 17, fontWeight: FontWeight.w600),
+                salesInvoiceState.maybeWhen(
+                  success: (salesInvoice, totalAmount) => Text(
+                    totalAmount?.toStringAsFixed(2) ?? "0.0",
+                    style: context.textTheme.bodyLarge
+                        ?.copyWith(fontSize: 17, fontWeight: FontWeight.w600),
+                  ),
+                  orElse: () => Text(
+                    ref.watch(cartProvider).totalAmount.toStringAsFixed(2),
+                    style: context.textTheme.bodyLarge
+                        ?.copyWith(fontSize: 17, fontWeight: FontWeight.w600),
+                  ),
                 )
               ],
             ),
@@ -187,6 +230,23 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  _buildSlidingAction({
+    required Function()? onTap,
+    required Color? color,
+    required String icon,
+    required Color? iconColor,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: double.infinity,
+        color: color,
+        padding: const EdgeInsets.all(18.0),
+        child: SvgIcon(height: 18, width: 18, icon: icon, color: iconColor),
       ),
     );
   }

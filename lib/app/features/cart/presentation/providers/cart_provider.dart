@@ -1,7 +1,10 @@
 import 'dart:developer';
 import 'package:easy_vat_v2/app/features/auth/presentation/functions/app_credential_preference_helper.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
+import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
@@ -40,13 +43,12 @@ class CartNotifier extends StateNotifier<CartState> {
   String notes = "";
   String salesMode = "";
   SalesManEntity? soldBy;
-  String description = "";
   CustomerEntity? selectedCustomer;
   double totalItemGrossAmont = 0.0;
   String shippingAddress = "";
-  bool isViewOnly = false;
-  bool isTaxEnabled =
-      true; // Default value, will be updated from SharedPreferences
+  bool isForEdit = false;
+  bool isTaxEnabled = true;
+  String salesIdpk = '00000000-0000-0000-0000-000000000000';
 
   // Load tax preference from SharedPreferences
   Future<void> _loadTaxPreference() async {
@@ -144,6 +146,10 @@ class CartNotifier extends StateNotifier<CartState> {
     state = state.copyWith(salesNo: salesNo);
   }
 
+  setSalesIdpk(String salesIdpk) {
+    this.salesIdpk = salesIdpk;
+  }
+
   setSalesDate(DateTime salesDate) {
     this.salesDate = salesDate;
     state = state.copyWith(saleDate: salesDate);
@@ -151,7 +157,7 @@ class CartNotifier extends StateNotifier<CartState> {
 
   setSalesMode(String salesMode) {
     this.salesMode = salesMode;
-    // state = state.copyWith(salesMode: salesMode);
+    state = state.copyWith(salesMode: salesMode);
   }
 
   setRefNo(String refNo) {
@@ -174,8 +180,8 @@ class CartNotifier extends StateNotifier<CartState> {
     state = state.copyWith(salesAccount: salesAccount);
   }
 
-  setDiscription(String description) {
-    this.description = description;
+  setNotes(String notes) {
+    this.notes = notes;
   }
 
   setCustomer(CustomerEntity customer) {
@@ -187,9 +193,9 @@ class CartNotifier extends StateNotifier<CartState> {
     this.shippingAddress = shippingAddress;
   }
 
-  setViewOnlyMode(bool enableViewOnlySale) {
-    isViewOnly = enableViewOnlySale;
-    state = state.copyWith(isViewOnly: isViewOnly);
+  setEditMode(bool enableEdit) {
+    isForEdit = enableEdit;
+    state = state.copyWith(isForUpdate: isForEdit);
   }
 
   void applyDiscount(double discountAmount) {
@@ -215,17 +221,17 @@ class CartNotifier extends StateNotifier<CartState> {
     );
   }
 
-  SalesRequestModel createNewSale() {
+  Future<SalesRequestModel> createNewSale() async {
     double itemTotalTax = 0.0;
     double netTotal = 0.0;
-
-    final uid = Uuid().v8();
     final List<SoldItem> items = [];
+    final userDetailsFromPrefs =
+        await AppCredentialPreferenceHelper().getUserDetails();
+
     for (var i = 0; i < itemsList.length; i++) {
       final grossTotal =
           (itemsList[i].item.retailRate ?? 0.0 * itemsList[i].qty);
 
-      // Apply tax calculation only if tax is enabled
       final taxAmount = isTaxEnabled
           ? ((itemsList[i].qty * itemsList[i].rate) *
                   (itemsList[i].item.taxPercentage ?? 0.0)) /
@@ -237,18 +243,18 @@ class CartNotifier extends StateNotifier<CartState> {
       netTotal += (grossTotal + taxAmount);
 
       final item = SoldItem(
-        saleIdpk: uid,
+        saleIdpk: salesIdpk,
         itemIdpk: itemsList[i].item.itemIdpk ?? "",
         barcode: itemsList[i].item.barcode ?? "",
         itemCode: itemsList[i].item.itemCode ?? "",
         itemName: itemsList[i].item.itemName ?? "",
-        description: description,
+        description: itemsList[i].item.description ?? "",
         unit: itemsList[i].unit,
         actualQty: itemsList[i].qty,
         billedQty: itemsList[i].qty,
         cost: itemsList[i].cost,
         sellingPrice: itemsList[i].rate,
-        discount: discount,
+        discount: itemsList[i].discount,
         grossTotal: grossTotal,
         taxAmount: taxAmount,
         taxPercentage:
@@ -257,11 +263,10 @@ class CartNotifier extends StateNotifier<CartState> {
         currentStock: itemsList[i].item.currentStock ?? 0.0,
         profit: 0.0,
         profitPercentage: 0.0,
-        isSent: false,
-        expiryDate: DateTime.now(),
-        storeIdfk:
-            itemsList[i].item.storeCurrentStock?.firstOrNull?.storeIdpk ??
-                "00000000-0000-0000-0000-000000000000",
+        isSent: true,
+        expiryDate: salesDate,
+        storeIdfk: userDetailsFromPrefs?.storeDetails?.storeIdpk ??
+            "00000000-0000-0000-0000-000000000000",
         projectIdpk: "00000000-0000-0000-0000-000000000000",
         quotationIdpk: "00000000-0000-0000-0000-000000000000",
         deliveryNoteIdpk: "00000000-0000-0000-0000-000000000000",
@@ -273,17 +278,19 @@ class CartNotifier extends StateNotifier<CartState> {
     }
 
     final newSale = SalesRequestModel(
-      saleIdpk: uid,
+      saleIdpk: salesIdpk,
       actualSalesDate: salesDate,
-      createdDate: DateTime.now(),
-      createdBy: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-      modifiedBy: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-      rowguid: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      createdDate: salesDate,
+      createdBy: userDetailsFromPrefs?.userIdpk ??
+          '00000000-0000-0000-0000-000000000000',
+      modifiedBy: userDetailsFromPrefs?.userIdpk ??
+          '00000000-0000-0000-0000-000000000000',
+      rowguid: '00000000-0000-0000-0000-000000000000',
       isPos: false,
       deliveryBoyIdpk: '00000000-0000-0000-0000-000000000000',
       drLedgerCashAccount: '00000000-0000-0000-0000-000000000000',
       drLedgerBankAccount: '00000000-0000-0000-0000-000000000000',
-      deliveryBoy: "",
+      deliveryBoy: '00000000-0000-0000-0000-000000000000',
       deliveryCharge: 0,
       discount: discount,
       grossAmount: totalItemGrossAmont,
@@ -294,22 +301,40 @@ class CartNotifier extends StateNotifier<CartState> {
       saleMode: salesMode,
       tax: isTaxEnabled ? itemTotalTax : 0.0,
       soldBy: soldBy?.empName,
-      crLedgerIdfk: '00000000-0000-0000-0000-000000000000',
-      drLedgerIdfk: '00000000-0000-0000-0000-000000000000',
+      crLedgerIdfk:
+          salesAccount?.ledgerIdpk ?? '00000000-0000-0000-0000-000000000000',
+      drLedgerIdfk: selectedCustomer?.ledgerIdpk ??
+          cashAccount?.ledgerIdpk ??
+          '00000000-0000-0000-0000-000000000000',
       customerName: selectedCustomer?.ledgerName ?? "cash",
       custemerIdfk: selectedCustomer?.ledgerIdpk ??
           cashAccount?.ledgerIdpk ??
           '00000000-0000-0000-0000-000000000000',
-      cashAmount: totalAmount,
-      creditAccount: "0",
-      creditCardAmount: 0,
+      cashAmount:
+          salesAccount?.ledgerName?.toLowerCase() == "cash" ? totalAmount : 0.0,
+      creditAccount: "",
+      creditCardAmount:
+          salesAccount?.ledgerName?.toLowerCase() != "cash" ? totalAmount : 0.0,
+      debitAccount: "",
+      cashCustomerAddress: selectedCustomer?.billingAddress ?? "",
       salesOrderNo: "0",
       amountTendered: 0,
       isEditable: true,
-      isCanceled: true,
+      isCanceled: false,
       isLockVoucher: false,
+      cashTrn: selectedCustomer?.taxRegistrationNo ?? "",
+      diningArea: "",
+      diningTable: "",
+      doNo: "",
+      lpoNo: "",
+      genaralNotes: "",
+      notesAndInstructions: notes,
+      orderType: "",
+      quotationNo: "",
+      requestNo: "",
+      vehicleNo: "",
       saleNo: 0,
-      shippingAddress: shippingAddress,
+      shippingAddress: selectedCustomer?.shippingAddress ?? "",
       modifiedDate: DateTime.now(),
       roundOff: roundOf,
       saleDate: DateTime.now(),
@@ -344,7 +369,7 @@ class CartNotifier extends StateNotifier<CartState> {
         barcode: itemsList[i].item.barcode ?? "",
         itemCode: itemsList[i].item.itemCode ?? "",
         itemName: itemsList[i].item.itemName ?? "",
-        description: description,
+        description: itemsList[i].item.description ?? "",
         unit: itemsList[i].unit,
         cost: itemsList[i].cost,
         sellingPrice: itemsList[i].rate,
@@ -437,7 +462,7 @@ class CartNotifier extends StateNotifier<CartState> {
         barcode: itemsList[i].item.barcode ?? "",
         itemCode: itemsList[i].item.itemCode ?? "",
         itemName: itemsList[i].item.itemName ?? "",
-        description: description,
+        description: itemsList[i].item.description ?? "",
         unit: itemsList[i].unit,
         cost: itemsList[i].cost,
         sellingPrice: itemsList[i].rate,
@@ -503,9 +528,10 @@ class CartNotifier extends StateNotifier<CartState> {
     notes = "";
     salesMode = "";
     soldBy = null;
+    isForEdit = false;
     selectedCustomer = CustomerEntity(ledgerName: "Cash", isActive: true);
-    description = "";
-
+    notes = "";
+    salesIdpk = '00000000-0000-0000-0000-000000000000';
     state = CartState.initial().copyWith(isTaxEnabled: isTaxEnabled);
   }
 
@@ -553,13 +579,10 @@ class CartNotifier extends StateNotifier<CartState> {
     );
   }
 
-  void reinsertSalesForm(SalesInvoiceListEntity salesInvoice, WidgetRef ref) {
-    //setting bool for View Sale
-    setViewOnlyMode(true);
-
+  reinsertSalesForm(SalesInvoiceListEntity salesInvoice, WidgetRef ref) async {
     clearCart();
+    setEditMode(true);
     List<CartEntity> updatedItemsList = [];
-    // update customer
     ref.read(customerNotifierProvider.notifier).getCustomer();
     final customerList = ref.read(customerNotifierProvider).customerList;
     final selectedCustomer = customerList != null
@@ -569,16 +592,38 @@ class CartNotifier extends StateNotifier<CartState> {
         : CustomerEntity(
             ledgerName: salesInvoice.customerName,
             ledgerIdpk: salesInvoice.custemerIdfk);
-    setCustomer(selectedCustomer);
+    if (salesInvoice.customerName?.toLowerCase() != "cash") {
+      final cashLedger = ref
+          .read(cashLedgerNotifierProvider.notifier)
+          .getLedgerById(salesInvoice.drLedgerIdfk ?? '');
 
-    // salesNo
+      if (cashLedger != null) {
+        setCashAccount(cashLedger);
+      }
+    }
+
+    final salesLedger = ref
+        .read(salesLedgerNotifierProvider.notifier)
+        .getLedgerById(salesInvoice.crLedgerIdfk!);
+    if (salesLedger != null) {
+      setSalesAccount(salesLedger);
+    }
+
+    final soldBy = ref
+        .read(salesManProvider.notifier)
+        .getSalesManByName(salesInvoice.soldBy ?? "");
+    if (soldBy != null) {
+      setSoldBy(soldBy);
+    }
+    final updatedCustomerWithAddress = selectedCustomer.copyWith(
+        billingAddress: salesInvoice.cashCustomerAddress,
+        shippingAddress: salesInvoice.shippingAddress);
+    setSalesIdpk(salesInvoice.saleIdpk ?? "");
+    setCustomer(updatedCustomerWithAddress);
     setSalesNo(salesInvoice.saleNo?.toString() ?? "");
-
-    //ref no
     setRefNo(salesInvoice.referenceNo ?? "");
-
-    //salesDate
     setSalesDate(salesInvoice.saleDate ?? DateTime.now());
+    setSalesMode(salesInvoice.saleMode ?? "Cash");
 
     // adding items to cart.
     if (salesInvoice.soldItems?.isNotEmpty == true) {
@@ -622,10 +667,12 @@ class CartNotifier extends StateNotifier<CartState> {
 
         updatedItemsList.add(cartItem);
         _getRateSplitUp(item: cartItem);
+
+        itemsList = updatedItemsList;
       }
     }
     state = state.copyWith(
-      itemList: updatedItemsList,
+      itemList: itemsList,
       totalAmount: totalAmount,
       totalTax: totalTax,
       subtotal: subTotal,

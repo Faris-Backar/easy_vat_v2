@@ -16,7 +16,7 @@ class SalesParams {
 
   /// Converts DateTime to ISO 8601 string (e.g., "2025-02-26T14:26:31.476Z")
   String _formatDate(DateTime date) {
-    return DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(date.toUtc());
+    return DateFormat("yyyy-MM-dd").format(date);
   }
 
   Map<String, dynamic> toMap() {

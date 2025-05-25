@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'sales_invoice_state.dart';
+part of 'update_sales_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,35 +15,29 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$SalesInvoiceState {
+mixin _$UpdateSalesState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)
-        success,
-    required TResult Function(String message) failure,
+    required TResult Function() success,
+    required TResult Function(String error) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)?
-        success,
-    TResult? Function(String message)? failure,
+    TResult? Function()? success,
+    TResult? Function(String error)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)?
-        success,
-    TResult Function(String message)? failure,
+    TResult Function()? success,
+    TResult Function(String error)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -75,23 +69,23 @@ mixin _$SalesInvoiceState {
 }
 
 /// @nodoc
-abstract class $SalesInvoiceStateCopyWith<$Res> {
-  factory $SalesInvoiceStateCopyWith(
-          SalesInvoiceState value, $Res Function(SalesInvoiceState) then) =
-      _$SalesInvoiceStateCopyWithImpl<$Res, SalesInvoiceState>;
+abstract class $UpdateSalesStateCopyWith<$Res> {
+  factory $UpdateSalesStateCopyWith(
+          UpdateSalesState value, $Res Function(UpdateSalesState) then) =
+      _$UpdateSalesStateCopyWithImpl<$Res, UpdateSalesState>;
 }
 
 /// @nodoc
-class _$SalesInvoiceStateCopyWithImpl<$Res, $Val extends SalesInvoiceState>
-    implements $SalesInvoiceStateCopyWith<$Res> {
-  _$SalesInvoiceStateCopyWithImpl(this._value, this._then);
+class _$UpdateSalesStateCopyWithImpl<$Res, $Val extends UpdateSalesState>
+    implements $UpdateSalesStateCopyWith<$Res> {
+  _$UpdateSalesStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SalesInvoiceState
+  /// Create a copy of UpdateSalesState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -104,13 +98,13 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$SalesInvoiceStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$UpdateSalesStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SalesInvoiceState
+  /// Create a copy of UpdateSalesState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -121,7 +115,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'SalesInvoiceState.initial()';
+    return 'UpdateSalesState.initial()';
   }
 
   @override
@@ -138,10 +132,8 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)
-        success,
-    required TResult Function(String message) failure,
+    required TResult Function() success,
+    required TResult Function(String error) failure,
   }) {
     return initial();
   }
@@ -151,10 +143,8 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)?
-        success,
-    TResult? Function(String message)? failure,
+    TResult? Function()? success,
+    TResult? Function(String error)? failure,
   }) {
     return initial?.call();
   }
@@ -164,10 +154,8 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)?
-        success,
-    TResult Function(String message)? failure,
+    TResult Function()? success,
+    TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -214,7 +202,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements SalesInvoiceState {
+abstract class _Initial implements UpdateSalesState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -227,13 +215,13 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$SalesInvoiceStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$UpdateSalesStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SalesInvoiceState
+  /// Create a copy of UpdateSalesState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -244,7 +232,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'SalesInvoiceState.loading()';
+    return 'UpdateSalesState.loading()';
   }
 
   @override
@@ -261,10 +249,8 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)
-        success,
-    required TResult Function(String message) failure,
+    required TResult Function() success,
+    required TResult Function(String error) failure,
   }) {
     return loading();
   }
@@ -274,10 +260,8 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)?
-        success,
-    TResult? Function(String message)? failure,
+    TResult? Function()? success,
+    TResult? Function(String error)? failure,
   }) {
     return loading?.call();
   }
@@ -287,10 +271,8 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)?
-        success,
-    TResult Function(String message)? failure,
+    TResult Function()? success,
+    TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -337,7 +319,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements SalesInvoiceState {
+abstract class _Loading implements UpdateSalesState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -346,97 +328,48 @@ abstract class _$$SuccessImplCopyWith<$Res> {
   factory _$$SuccessImplCopyWith(
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({List<SalesInvoiceListEntity> salesInvoice, double? totalAmount});
 }
 
 /// @nodoc
 class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$SalesInvoiceStateCopyWithImpl<$Res, _$SuccessImpl>
+    extends _$UpdateSalesStateCopyWithImpl<$Res, _$SuccessImpl>
     implements _$$SuccessImplCopyWith<$Res> {
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SalesInvoiceState
+  /// Create a copy of UpdateSalesState
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? salesInvoice = null,
-    Object? totalAmount = freezed,
-  }) {
-    return _then(_$SuccessImpl(
-      salesInvoice: null == salesInvoice
-          ? _value._salesInvoice
-          : salesInvoice // ignore: cast_nullable_to_non_nullable
-              as List<SalesInvoiceListEntity>,
-      totalAmount: freezed == totalAmount
-          ? _value.totalAmount
-          : totalAmount // ignore: cast_nullable_to_non_nullable
-              as double?,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$SuccessImpl implements _Success {
-  const _$SuccessImpl(
-      {required final List<SalesInvoiceListEntity> salesInvoice,
-      this.totalAmount})
-      : _salesInvoice = salesInvoice;
-
-  final List<SalesInvoiceListEntity> _salesInvoice;
-  @override
-  List<SalesInvoiceListEntity> get salesInvoice {
-    if (_salesInvoice is EqualUnmodifiableListView) return _salesInvoice;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_salesInvoice);
-  }
-
-  @override
-  final double? totalAmount;
+  const _$SuccessImpl();
 
   @override
   String toString() {
-    return 'SalesInvoiceState.success(salesInvoice: $salesInvoice, totalAmount: $totalAmount)';
+    return 'UpdateSalesState.success()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SuccessImpl &&
-            const DeepCollectionEquality()
-                .equals(other._salesInvoice, _salesInvoice) &&
-            (identical(other.totalAmount, totalAmount) ||
-                other.totalAmount == totalAmount));
+        (other.runtimeType == runtimeType && other is _$SuccessImpl);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(_salesInvoice), totalAmount);
-
-  /// Create a copy of SalesInvoiceState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
-      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)
-        success,
-    required TResult Function(String message) failure,
+    required TResult Function() success,
+    required TResult Function(String error) failure,
   }) {
-    return success(salesInvoice, totalAmount);
+    return success();
   }
 
   @override
@@ -444,12 +377,10 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)?
-        success,
-    TResult? Function(String message)? failure,
+    TResult? Function()? success,
+    TResult? Function(String error)? failure,
   }) {
-    return success?.call(salesInvoice, totalAmount);
+    return success?.call();
   }
 
   @override
@@ -457,14 +388,12 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)?
-        success,
-    TResult Function(String message)? failure,
+    TResult Function()? success,
+    TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(salesInvoice, totalAmount);
+      return success();
     }
     return orElse();
   }
@@ -507,19 +436,8 @@ class _$SuccessImpl implements _Success {
   }
 }
 
-abstract class _Success implements SalesInvoiceState {
-  const factory _Success(
-      {required final List<SalesInvoiceListEntity> salesInvoice,
-      final double? totalAmount}) = _$SuccessImpl;
-
-  List<SalesInvoiceListEntity> get salesInvoice;
-  double? get totalAmount;
-
-  /// Create a copy of SalesInvoiceState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+abstract class _Success implements UpdateSalesState {
+  const factory _Success() = _$SuccessImpl;
 }
 
 /// @nodoc
@@ -528,28 +446,28 @@ abstract class _$$FailureImplCopyWith<$Res> {
           _$FailureImpl value, $Res Function(_$FailureImpl) then) =
       __$$FailureImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String message});
+  $Res call({String error});
 }
 
 /// @nodoc
 class __$$FailureImplCopyWithImpl<$Res>
-    extends _$SalesInvoiceStateCopyWithImpl<$Res, _$FailureImpl>
+    extends _$UpdateSalesStateCopyWithImpl<$Res, _$FailureImpl>
     implements _$$FailureImplCopyWith<$Res> {
   __$$FailureImplCopyWithImpl(
       _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SalesInvoiceState
+  /// Create a copy of UpdateSalesState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? message = null,
+    Object? error = null,
   }) {
     return _then(_$FailureImpl(
-      null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
+      null == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -558,14 +476,14 @@ class __$$FailureImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$FailureImpl implements _Failure {
-  const _$FailureImpl(this.message);
+  const _$FailureImpl(this.error);
 
   @override
-  final String message;
+  final String error;
 
   @override
   String toString() {
-    return 'SalesInvoiceState.failure(message: $message)';
+    return 'UpdateSalesState.failure(error: $error)';
   }
 
   @override
@@ -573,13 +491,13 @@ class _$FailureImpl implements _Failure {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$FailureImpl &&
-            (identical(other.message, message) || other.message == message));
+            (identical(other.error, error) || other.error == error));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, message);
+  int get hashCode => Object.hash(runtimeType, error);
 
-  /// Create a copy of SalesInvoiceState
+  /// Create a copy of UpdateSalesState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -592,12 +510,10 @@ class _$FailureImpl implements _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)
-        success,
-    required TResult Function(String message) failure,
+    required TResult Function() success,
+    required TResult Function(String error) failure,
   }) {
-    return failure(message);
+    return failure(error);
   }
 
   @override
@@ -605,12 +521,10 @@ class _$FailureImpl implements _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)?
-        success,
-    TResult? Function(String message)? failure,
+    TResult? Function()? success,
+    TResult? Function(String error)? failure,
   }) {
-    return failure?.call(message);
+    return failure?.call(error);
   }
 
   @override
@@ -618,14 +532,12 @@ class _$FailureImpl implements _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(
-            List<SalesInvoiceListEntity> salesInvoice, double? totalAmount)?
-        success,
-    TResult Function(String message)? failure,
+    TResult Function()? success,
+    TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
     if (failure != null) {
-      return failure(message);
+      return failure(error);
     }
     return orElse();
   }
@@ -668,12 +580,12 @@ class _$FailureImpl implements _Failure {
   }
 }
 
-abstract class _Failure implements SalesInvoiceState {
-  const factory _Failure(final String message) = _$FailureImpl;
+abstract class _Failure implements UpdateSalesState {
+  const factory _Failure(final String error) = _$FailureImpl;
 
-  String get message;
+  String get error;
 
-  /// Create a copy of SalesInvoiceState
+  /// Create a copy of UpdateSalesState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>

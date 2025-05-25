@@ -23,7 +23,7 @@ class CartState with _$CartState {
       SalesManEntity? soldBy,
       LedgerAccountEntity? cashAccount,
       LedgerAccountEntity? salesAccount,
-      bool? isViewOnly,
+      bool? isForUpdate,
       required bool isTaxEnabled}) = _CartState;
 
   factory CartState.initial() => CartState(
@@ -40,7 +40,7 @@ class CartState with _$CartState {
       salesMode: null,
       soldBy: null,
       saleDate: DateTime.now(),
-      isViewOnly: false,
+      isForUpdate: false,
       isTaxEnabled: false,
       selectedCustomer: null);
 }
