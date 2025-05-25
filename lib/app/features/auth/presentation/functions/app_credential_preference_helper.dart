@@ -128,7 +128,7 @@ class AppCredentialPreferenceHelper {
       final Map<String, dynamic> json = jsonDecode(jsonData);
       return AppSettingsModel.fromJson(json);
     } catch (e) {
-      print('Error parsing app settings: $e');
+      // print('Error parsing app settings: $e');
       return null;
     }
   }
