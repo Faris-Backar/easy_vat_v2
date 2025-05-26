@@ -179,6 +179,10 @@
   "payable": "payable",
   "recievable": "recievable",
   "transactions": "Transactions",
-  "grossProfit":"Gross Profit"
+  "grossProfit":"Gross Profit",
+  "update":"Update",
+  "discardChanges":"Discard Changes?",
+  "discardChangesMessage":"You have items in your cart. Do you want to discard them and go back?",
+  "discard":"Discard"
 
 }

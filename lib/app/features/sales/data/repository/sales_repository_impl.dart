@@ -188,9 +188,9 @@ class SalesRepositoryImpl extends SalesRepository {
 
   @override
   Future<Either<Failure, SalesInvoiceEntity>> deleteSalesInvoices(
-      {required SalesRequestModel salesInvoiceRequestParams}) async {
+      {required SalesParams salesParams}) async {
     try {
-      final data = salesInvoiceRequestParams.toJson();
+      final data = salesParams.toJson();
       final response = await client.post(
         UrlResources.deleteSalesInvoice,
         data: data,

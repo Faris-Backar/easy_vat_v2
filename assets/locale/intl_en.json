@@ -183,6 +183,7 @@
   "update":"Update",
   "discardChanges":"Discard Changes?",
   "discardChangesMessage":"You have items in your cart. Do you want to discard them and go back?",
-  "discard":"Discard"
+  "discard":"Discard",
+  "deleteSalesInvoiceConfirmationMessage":"Sales Invoice deleted Successfully"
 
 }

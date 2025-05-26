@@ -246,8 +246,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/Logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/Logo.png');
 
+  /// File path: assets/images/Logo_small.png
+  AssetGenImage get logoSmall =>
+      const AssetGenImage('assets/images/Logo_small.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [logo];
+  List<AssetGenImage> get values => [logo, logoSmall];
 }
 
 class $AssetsLocaleGen {
