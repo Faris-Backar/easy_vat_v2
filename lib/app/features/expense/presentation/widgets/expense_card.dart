@@ -1,230 +1,267 @@
-import 'package:flutter/material.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/utils/date_format_utils.dart';
+import 'package:flutter/material.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/entities/expense_entity.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ExpenseCard extends StatelessWidget {
   final ExpenseListEntity expense;
-  const ExpenseCard({super.key, required this.expense});
+  final ValueNotifier<bool> isSelectedNotifier;
+  final bool isTaxEnabled;
+  const ExpenseCard(
+      {super.key,
+      required this.expense,
+      required this.isSelectedNotifier,
+      this.isTaxEnabled = false});
 
-  Color _getStatusColor(BuildContext context) {
-    final status = "paid"; // You can replace this with expense.status
-    switch (status) {
-      case 'paid':
+  Color _getPaymentMethodColor(String paymentMethod) {
+    switch (paymentMethod.toLowerCase()) {
+      case 'cash':
         return Colors.green;
-      case 'pending':
+      case 'card':
         return Colors.orange;
-      case 'cancelled':
+      case 'bank':
         return Colors.red;
-      case 'draft':
+      case 'credit':
         return Colors.blue;
       default:
         return Colors.grey;
     }
   }
 
+  IconData _getPaymentMethodIcon(String paymentMethod) {
+    switch (paymentMethod.toLowerCase()) {
+      case "cash":
+        return Icons.account_balance_wallet;
+      case "card":
+        return Icons.credit_card;
+      case "bank":
+        return Icons.account_balance;
+      case "credit":
+        return Icons.payment;
+      default:
+        return Icons.help_outline;
+    }
+  }
+
+  String _getPaymentMethodDisplayName(String paymentMethod) {
+    switch (paymentMethod.toLowerCase()) {
+      case "cash":
+        return "Cash";
+      case "card":
+        return "Card";
+      case "bank":
+        return "Bank";
+      case "credit":
+        return "Credit";
+      default:
+        return "Unknown";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.0),
-            color: AppUtils.isDarkMode(context)
-                ? const Color(0xFF2B2E30)
-                : const Color(0xFFF9F9F9),
-          ),
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  // Expense No
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.expenseNo),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.75),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 3,
-                        ),
-                        Text(
-                          expense.expenseNo?.toStringAsFixed(2) ?? "",
-                          style: context.textTheme.bodySmall?.copyWith(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: context.defaultTextColor
-                                  .withValues(alpha: 0.75)),
-                        ),
-                      ],
+    final paymentMethod = expense.paymentMode?.toLowerCase() ?? "cash";
+    final color = _getPaymentMethodColor(paymentMethod);
+    final icon = _getPaymentMethodIcon(paymentMethod);
+    return GestureDetector(
+      onTap: () => isSelectedNotifier.value = !isSelectedNotifier.value,
+      child: ValueListenableBuilder<bool>(
+        valueListenable: isSelectedNotifier,
+        builder: (context, isSelected, _) {
+          return AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 5.w),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(12.r),
+              color: AppUtils.isDarkMode(context)
+                  ? const Color(0xFF2B2E30)
+                  : const Color(0xFFF9F9F9),
+              border: isSelected
+                  ? Border.all(
+                      color: Theme.of(context).primaryColor, width: 1.5)
+                  : null,
+            ),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(10.w),
+                      decoration: BoxDecoration(
+                        color: color.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                      child: Icon(
+                        icon,
+                        color: color,
+                        size: 20,
+                      ),
                     ),
-                  ),
-
-                  // Reference No
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.refNo),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.32),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 3,
-                        ),
-                        Text(
-                          expense.referenceNo ?? "",
-                          style: context.textTheme.bodySmall?.copyWith(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w600,
-                              color: context.defaultTextColor
-                                  .withValues(alpha: 0.75)),
-                        )
-                      ],
+                    SizedBox(
+                      width: 12.w,
                     ),
-                  ),
-                  // Supplier Invoice No
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.supInvNo),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.32),
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                        SizedBox(
-                          height: 3,
-                        ),
-                        Text(
-                          expense.supplierInvoiceNo ?? "",
-                          style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.75),
-                          ),
-                          textAlign: TextAlign.right,
-                        )
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 12,
-                  ),
-                  // Supplier
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.supplier),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.32),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 3,
-                        ),
-                        Text(
-                          expense.supplierName ?? "",
-                          style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.75),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                  // Net Total
-                  Expanded(
-                      flex: 1,
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            context.translate(AppStrings.netTotal),
-                            style: context.textTheme.bodySmall?.copyWith(
-                              color: context.defaultTextColor
-                                  .withValues(alpha: 0.32),
+                            expense.supplierName?.toString() ?? "Cash",
+                            style: context.textTheme.titleSmall?.copyWith(
+                              fontWeight: FontWeight.w600,
                             ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
                           SizedBox(
-                            height: 3,
+                            height: 2.h,
                           ),
                           Text(
-                            expense.netTotal?.toStringAsFixed(2) ?? "",
+                            "${context.translate(AppStrings.expNo)}: ${expense.expenseNo ?? "-"}",
                             style: context.textTheme.bodySmall?.copyWith(
-                                fontSize: 11,
-                                fontWeight: FontWeight.w600,
-                                color: context.defaultTextColor
-                                    .withValues(alpha: 0.75)),
+                              color: context.defaultTextColor
+                                  .withValues(alpha: 0.7),
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          SizedBox(
+                            height: 4.h,
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.w, vertical: 2.h),
+                                decoration: BoxDecoration(
+                                  color: color.withValues(alpha: 0.1),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  _getPaymentMethodDisplayName(paymentMethod),
+                                  style: context.textTheme.bodySmall?.copyWith(
+                                      color: color,
+                                      fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 8.w,
+                              ),
+                              Text(
+                                DateFormatUtils.getCustomDateFormat(
+                                  date: expense.expenseDate ?? DateTime.now(),
+                                  formate: "dd MM yy - hh:MM a",
+                                ),
+                                style: context.textTheme.bodySmall?.copyWith(
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                            ],
                           )
                         ],
-                      )),
-                ],
-              )
-            ],
+                      ),
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          "₹ ${expense.netTotal?.toStringAsFixed(2) ?? "0.00"}",
+                          style: context.textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: color,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 2.h,
+                        ),
+                        SizedBox(
+                          width: 85.w,
+                          child: Text(
+                            expense.purchasedBy ?? "",
+                            style: context.textTheme.labelSmall?.copyWith(
+                              color: Colors.grey.shade500,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+                // OnTap Expansion
+                if (isSelected) ...[
+                  SizedBox(
+                    height: 12.h,
+                  ),
+                  Divider(
+                    color: context.defaultTextColor.withValues(alpha: 0.1),
+                    thickness: 1,
+                  ),
+                  SizedBox(
+                    height: 8.h,
+                  ),
+                  _buildExpandedDetails(context),
+                ]
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildExpandedDetails(BuildContext context) {
+    return Column(
+      children: [
+        if (isTaxEnabled) ...[
+          _buildDetailRow(context,
+              label: context.translate(AppStrings.subTotal),
+              value: "₹ ${expense.grossTotal?.toStringAsFixed(2) ?? "0.00"}"),
+          SizedBox(
+            height: 4.h,
           ),
+        ],
+        _buildDetailRow(context,
+            label: context.translate(AppStrings.totalTax),
+            value: "₹ ${expense.tax?.toStringAsFixed(2) ?? "0.00"}"),
+        SizedBox(
+          height: 4.h,
         ),
-        Positioned(
-          top: 0,
-          right: 0,
-          child: CustomPaint(
-            painter: TriangleStatusPainter(color: _getStatusColor(context)),
-            size: const Size(24, 24),
-          ),
+        _buildDetailRow(
+          context,
+          label: context.translate(AppStrings.discount),
+          value: "₹ ${expense.netTotal?.toStringAsFixed(2) ?? "0.00"}",
+          isTotal: true,
         ),
       ],
     );
   }
-}
 
-class TriangleStatusPainter extends CustomPainter {
-  final Color color;
-  TriangleStatusPainter({required this.color});
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final Paint paint = Paint()
-      ..color = color
-      ..style = PaintingStyle.fill;
-
-    final Path path = Path();
-    path.moveTo(size.width, 0);
-    path.lineTo(0, 0);
-    path.lineTo(size.width, size.height);
-    path.close();
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-    return oldDelegate is TriangleStatusPainter && oldDelegate.color != color;
+  Widget _buildDetailRow(BuildContext context,
+      {required String label, required String value, bool isTotal = false}) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "$label:",
+          style: context.textTheme.bodySmall?.copyWith(
+            color: context.defaultTextColor.withValues(alpha: 0.7),
+            fontWeight: isTotal ? FontWeight.w600 : FontWeight.normal,
+          ),
+        ),
+        Text(
+          value,
+          style: context.textTheme.bodySmall?.copyWith(
+            fontWeight: FontWeight.bold,
+            color: isTotal
+                ? context.defaultTextColor
+                : context.defaultTextColor.withValues(alpha: 0.8),
+          ),
+        ),
+      ],
+    );
   }
 }

@@ -1,18 +1,21 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_notifier.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_state.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_app_bar.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_card.dart';
-import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_slidable_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
+import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
+import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 
 @RoutePage()
 class ExpenseScreen extends ConsumerStatefulWidget {
@@ -26,6 +29,7 @@ class ExpenseScreen extends ConsumerStatefulWidget {
 class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
   final _searchTextController = TextEditingController();
   late ExpenseState expenseState;
+  bool isTaxRegisrationEnabled = false;
 
   @override
   void initState() {
@@ -64,22 +68,72 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
               itemCount: expenseData.length,
               itemBuilder: (context, index) {
                 final expense = expenseData[index];
+                final notifier = ValueNotifier<bool>(false);
 
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: Slidable(
                     endActionPane: ActionPane(
-                      extentRatio: .15,
-                      motion: ScrollMotion(),
+                      motion: const ScrollMotion(),
                       children: [
-                        ExpenseSlidableWidget(
-                          onEditTap: () {},
-                          onPrintTap: () {},
-                          onDeleteTap: () {},
+                        Expanded(
+                          child: _buildSlidingAction(
+                            color: AppUtils.isDarkMode(context)
+                                ? CustomColors.getTransactionSkyBlueColor(
+                                    context)
+                                : CustomColors.getTransactionSkyBlueColor(
+                                        context)
+                                    .withValues(alpha: 0.2),
+                            icon: Assets.icons.print,
+                            iconColor: AppUtils.isDarkMode(context)
+                                ? context.onPrimaryColor
+                                : null,
+                            onTap: () {
+                              // handle print
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          child: _buildSlidingAction(
+                            color: AppUtils.isDarkMode(context)
+                                ? CustomColors.getTransactionCardBlueColor(
+                                    context)
+                                : CustomColors.getTransactionCardBlueColor(
+                                        context)
+                                    .withValues(alpha: 0.2),
+                            icon: Assets.icons.view,
+                            iconColor: AppUtils.isDarkMode(context)
+                                ? context.onPrimaryColor
+                                : null,
+                            onTap: () {
+                              // handle view
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          child: _buildSlidingAction(
+                            color: AppUtils.isDarkMode(context)
+                                ? CustomColors.getTransactionCardRedColor(
+                                    context)
+                                : CustomColors.getTransactionCardRedColor(
+                                        context)
+                                    .withValues(alpha: 0.2),
+                            icon: Assets.icons.delete,
+                            iconColor: AppUtils.isDarkMode(context)
+                                ? context.onPrimaryColor
+                                : null,
+                            onTap: () {
+                              // handle delete
+                            },
+                          ),
                         ),
                       ],
                     ),
-                    child: ExpenseCard(expense: expense),
+                    child: ExpenseCard(
+                      expense: expense,
+                      isSelectedNotifier: notifier,
+                      isTaxEnabled: isTaxRegisrationEnabled,
+                    ),
                   ),
                 );
               },
@@ -140,6 +194,28 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSlidingAction({
+    required VoidCallback? onTap,
+    required Color? color,
+    required String icon,
+    required Color? iconColor,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: double.infinity,
+        color: color,
+        padding: const EdgeInsets.all(18.0),
+        child: SvgIcon(
+          height: 18,
+          width: 18,
+          icon: icon,
+          color: iconColor,
         ),
       ),
     );
