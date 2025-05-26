@@ -16,7 +16,7 @@ abstract class SalesRepository {
   Future<Either<Failure, SalesInvoiceEntity>> updateSalesInvoices(
       {required SalesRequestModel salesInvoiceRequestParams});
   Future<Either<Failure, SalesInvoiceEntity>> deleteSalesInvoices(
-      {required SalesRequestModel salesInvoiceRequestParams});
+      {required SalesParams salesParams});
 
   //salesOrder
   Future<Either<Failure, SalesInvoiceEntity>> getSalesOrders(

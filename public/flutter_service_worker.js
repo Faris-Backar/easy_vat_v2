@@ -109,6 +109,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "510ceb2b9a53e427cc81722fbcda6af0
 "assets/assets/images/Logo.png": "75b6fd79c7324d5482011caec874f202",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 "assets/assets/locale/intl_ar.json": "6d752d275f670ad73f61164f5a657646",
 "assets/assets/locale/intl_en.json": "303835f91b19a500375cb8bd939e2f43",
 "assets/FontManifest.json": "212ed8365f9174e6141c1e7603c60834",
@@ -125,6 +126,12 @@ const RESOURCES = {"assets/AssetManifest.bin": "510ceb2b9a53e427cc81722fbcda6af0
 "assets/FontManifest.json": "212ed8365f9174e6141c1e7603c60834",
 "assets/fonts/MaterialIcons-Regular.otf": "d83631b94917157428fc37447cc53d46",
 >>>>>>> 4f76ebf (Changed Pin Login screen visibility issue in dark theme.)
+=======
+"assets/assets/locale/intl_ar.json": "7367acd0eecdb0c5751a7909f8efce2e",
+"assets/assets/locale/intl_en.json": "cb7488d31ca31c92034c225f4b146513",
+"assets/FontManifest.json": "212ed8365f9174e6141c1e7603c60834",
+"assets/fonts/MaterialIcons-Regular.otf": "1cddcb69e09c805b4c453a8f949f4c67",
+>>>>>>> e8c688b (Added Delete Invoice functionality)
 "assets/NOTICES": "8b146cb7ffbe5b9308139a97528a792d",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "33b7d9392238c04c131b6ce224e13711",
 "assets/packages/fluttertoast/assets/toastify.css": "a85675050054f179444bc5ad70ffc635",
@@ -146,6 +153,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "510ceb2b9a53e427cc81722fbcda6af0
 "flutter.js": "76f08d47ff9f5715220992f993002504",
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 "flutter_bootstrap.js": "f2cef5dfd9050e26bc1eba62d025c07d",
 =======
 "flutter_bootstrap.js": "e28bab592990b123faa14f0e0f709146",
@@ -153,12 +161,16 @@ const RESOURCES = {"assets/AssetManifest.bin": "510ceb2b9a53e427cc81722fbcda6af0
 =======
 "flutter_bootstrap.js": "1ec315aae479d96dc53862bd8634f16e",
 >>>>>>> 4f76ebf (Changed Pin Login screen visibility issue in dark theme.)
+=======
+"flutter_bootstrap.js": "0b0165dc091642468b7375d924aa2366",
+>>>>>>> e8c688b (Added Delete Invoice functionality)
 "icons/Icon-192.png": "b135b553b2009e38a90d4d5d3130c910",
 "icons/Icon-512.png": "669b0bca393f76ea8d6d3e8d2620db2a",
 "icons/Icon-maskable-192.png": "b135b553b2009e38a90d4d5d3130c910",
 "icons/Icon-maskable-512.png": "669b0bca393f76ea8d6d3e8d2620db2a",
 "index.html": "3f258a5504b89646b0b79b59e29f6425",
 "/": "3f258a5504b89646b0b79b59e29f6425",
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 "main.dart.js": "a9eba739b5c30e41acd469523e98928e",
@@ -168,6 +180,9 @@ const RESOURCES = {"assets/AssetManifest.bin": "510ceb2b9a53e427cc81722fbcda6af0
 =======
 "main.dart.js": "8bd845a8cb39e43ab6b364fbe3e230cc",
 >>>>>>> 4f76ebf (Changed Pin Login screen visibility issue in dark theme.)
+=======
+"main.dart.js": "d4e3ffe51a35a26a1d73f8f9e83f5a8f",
+>>>>>>> e8c688b (Added Delete Invoice functionality)
 "manifest.json": "bd93dfcba575bb404a932d1adcbf890b",
 "splash/img/dark-1x.png": "55b0e00c8641b7744fb086a8ae93fff3",
 "splash/img/dark-2x.png": "5676aa73cfbc4189b48c70617af1f581",

@@ -181,15 +181,10 @@
   "payable": "مستحق الدفع",
   "recievable": "مستحق التحصيل",
   "transactions": "المعاملات",
-<<<<<<< HEAD
   "grossProfit": " إجمالي الربح",
   "update": "تحديث",
   "discardChanges": "هل تريد تجاهل التغييرات؟",
-  "discardChangesMessage": "لديك عناصر في سلة التسوق. هل تريد تجاهلها والعودة؟",
-  "discard":"تجاهل"
+  "discard":"تجاهل",
+  "deleteSalesInvoiceConfirmationMessage": "تم حذف فاتورة البيع بنجاح"
 
-
-=======
-  "grossProfit":" إجمالي الربح"
->>>>>>> 4f76ebf (Changed Pin Login screen visibility issue in dark theme.)
 }

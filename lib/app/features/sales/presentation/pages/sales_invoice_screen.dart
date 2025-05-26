@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
-import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
@@ -13,11 +12,14 @@ import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledge
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sales/delete_sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_invoice_state.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_invoice_app_bar.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_tansaction_card.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
+import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
@@ -25,6 +27,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
@@ -53,10 +56,10 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
       ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
       ref.read(salesInvoiceNotifierProvider.notifier).fetchSalesInvoice(
             params: SalesParams(
-              salesIDPK: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+              salesIDPK: "00000000-0000-0000-0000-000000000000",
               fromDate: DateTime.now(),
               toDate: DateTime.now(),
-              customerID: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+              customerID: "00000000-0000-0000-0000-000000000000",
             ),
           );
       WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -71,107 +74,148 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
   Widget build(BuildContext context) {
     final salesInvoiceState = ref.watch(salesInvoiceNotifierProvider);
     return Scaffold(
-      appBar: SalesInvoiceAppBar(searchController: _searchTextController),
-      backgroundColor: context.surfaceColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        child: salesInvoiceState.maybeWhen(
-          success: (salesInvoiceData, totalAmount) {
-            if (salesInvoiceData.isEmpty == true) {
-              return Center(
-                child: Text(context.translate(AppStrings.noDataIsFound)),
-              );
-            }
-            return ListView.builder(
-              itemCount: salesInvoiceData.length,
-              itemBuilder: (context, index) {
-                final salesInvoice = salesInvoiceData[index];
-                final notifier = ValueNotifier<bool>(false);
-                if (salesInvoiceData.isEmpty == true) {
-                  return Center(
-                    child: Text(context.translate(AppStrings.noDataIsFound)),
-                  );
-                }
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: Slidable(
-                    endActionPane: ActionPane(
-                      motion: ScrollMotion(),
-                      children: [
-                        Expanded(
-                          child: _buildSlidingAction(
-                              color: AppUtils.isDarkMode(context)
-                                  ? CustomColors.getTransactionSkyBlueColor(
-                                      context)
-                                  : CustomColors.getTransactionSkyBlueColor(
-                                          context)
-                                      .withValues(alpha: .2),
-                              icon: Assets.icons.print,
-                              iconColor: AppUtils.isDarkMode(context)
-                                  ? context.onPrimaryColor
-                                  : null,
-                              onTap: () {}),
-                        ),
-                        Expanded(
-                          child: _buildSlidingAction(
-                              color: AppUtils.isDarkMode(context)
-                                  ? CustomColors.getTransactionCardBlueColor(
-                                      context)
-                                  : CustomColors.getTransactionCardBlueColor(
-                                          context)
-                                      .withValues(alpha: .2),
-                              icon: Assets.icons.view,
-                              iconColor: AppUtils.isDarkMode(context)
-                                  ? context.onPrimaryColor
-                                  : null,
-                              onTap: () async {
-                                await ref
-                                    .read(cartProvider.notifier)
-                                    .reinsertSalesForm(salesInvoice, ref);
-                                if (mounted) {
-                                  context.router.push(AddNewSalesRoute(
-                                    title: context
-                                        .translate(AppStrings.addNewSales),
-                                    isForPurchase: false,
-                                  ));
-                                }
-                              }),
-                        ),
-                        Expanded(
-                          child: _buildSlidingAction(
-                              color: AppUtils.isDarkMode(context)
-                                  ? CustomColors.getTransactionCardRedColor(
-                                      context)
-                                  : CustomColors.getTransactionCardRedColor(
-                                          context)
-                                      .withValues(alpha: .2),
-                              icon: Assets.icons.delete,
-                              iconColor: AppUtils.isDarkMode(context)
-                                  ? context.onPrimaryColor
-                                  : null,
-                              onTap: () {}),
-                        ),
-                      ],
-                    ),
-                    child: SalesTransactionCard(
-                      salesInvoice: salesInvoice,
-                      isSelectedNotifier: notifier,
-                      isTaxEnabled: isTaxRegisrationEnabled,
-                    ),
-                  ),
-                );
-              },
-            );
-          },
-          loading: () => Center(
-            child: CircularProgressIndicator.adaptive(),
-          ),
-          failure: (message) => Center(
-            child: Text(message),
-          ),
-          orElse: () => Text(context.translate(AppStrings.noDataIsFound)),
-        ),
+      appBar: SalesAppBar(
+        searchController: _searchTextController,
+        config: SalesAppBarConfig(),
       ),
+      backgroundColor: context.surfaceColor,
+      body: Consumer(builder: (context, ref, child) {
+        ref.listen(deleteSalesNotifierProvider, (previous, next) {
+          next.maybeWhen(
+            success: () {
+              Fluttertoast.showToast(
+                msg: context.translate(
+                    AppStrings.deleteSalesInvoiceConfirmationMessage),
+                backgroundColor: Colors.white,
+                textColor: Colors.black,
+              );
+              ref.read(salesInvoiceNotifierProvider.notifier).fetchSalesInvoice(
+                    params: SalesParams(
+                      salesIDPK: "00000000-0000-0000-0000-000000000000",
+                      fromDate: DateTime.now(),
+                      toDate: DateTime.now(),
+                      customerID: "00000000-0000-0000-0000-000000000000",
+                    ),
+                  );
+            },
+            failure: (error) {
+              Fluttertoast.showToast(
+                msg: error,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+              );
+            },
+            orElse: () {},
+          );
+        });
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          child: salesInvoiceState.maybeWhen(
+            success: (salesInvoiceData, totalAmount) {
+              if (salesInvoiceData.isEmpty == true) {
+                return Center(
+                  child: Text(context.translate(AppStrings.noDataIsFound)),
+                );
+              }
+              return ListView.builder(
+                itemCount: salesInvoiceData.length,
+                itemBuilder: (context, index) {
+                  final salesInvoice = salesInvoiceData[index];
+                  final notifier = ValueNotifier<bool>(false);
+                  if (salesInvoiceData.isEmpty == true) {
+                    return Center(
+                      child: Text(context.translate(AppStrings.noDataIsFound)),
+                    );
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: Slidable(
+                      endActionPane: ActionPane(
+                        extentRatio: 0.4,
+                        motion: ScrollMotion(),
+                        children: [
+                          Expanded(
+                            child: _buildSlidingAction(
+                                color: AppUtils.isDarkMode(context)
+                                    ? CustomColors.getTransactionSkyBlueColor(
+                                        context)
+                                    : CustomColors.getTransactionSkyBlueColor(
+                                            context)
+                                        .withValues(alpha: .2),
+                                icon: Assets.icons.print,
+                                iconColor: AppUtils.isDarkMode(context)
+                                    ? context.onPrimaryColor
+                                    : null,
+                                onTap: () {}),
+                          ),
+                          Expanded(
+                            child: _buildSlidingAction(
+                                color: AppUtils.isDarkMode(context)
+                                    ? CustomColors.getTransactionCardBlueColor(
+                                        context)
+                                    : CustomColors.getTransactionCardBlueColor(
+                                            context)
+                                        .withValues(alpha: .2),
+                                icon: Assets.icons.view,
+                                iconColor: AppUtils.isDarkMode(context)
+                                    ? context.onPrimaryColor
+                                    : null,
+                                onTap: () async {
+                                  await ref
+                                      .read(cartProvider.notifier)
+                                      .reinsertSalesForm(salesInvoice, ref);
+                                  if (mounted) {
+                                    context.router.push(AddNewSalesRoute(
+                                      title: context
+                                          .translate(AppStrings.addNewSales),
+                                      isForPurchase: false,
+                                    ));
+                                  }
+                                }),
+                          ),
+                        ],
+                      ),
+                      startActionPane:
+                          ActionPane(motion: ScrollMotion(), children: [
+                        Expanded(
+                          child: _buildSlidingAction(
+                            color: AppUtils.isDarkMode(context)
+                                ? CustomColors.getTransactionCardRedColor(
+                                    context)
+                                : CustomColors.getTransactionCardRedColor(
+                                        context)
+                                    .withValues(alpha: .2),
+                            icon: Assets.icons.delete,
+                            iconColor: AppUtils.isDarkMode(context)
+                                ? context.onPrimaryColor
+                                : null,
+                            onTap: () => _showDeleteDialog(context,
+                                salesIdpk: salesInvoice.saleIdpk ?? "",
+                                customerID: salesInvoice.custemerIdfk ?? ""),
+                          ),
+                        ),
+                      ]),
+                      child: SalesTransactionCard(
+                        salesInvoice: salesInvoice,
+                        isSelectedNotifier: notifier,
+                        isTaxEnabled: isTaxRegisrationEnabled,
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+            loading: () => Center(
+              child: CircularProgressIndicator.adaptive(),
+            ),
+            failure: (message) => Center(
+              child: Text(message),
+            ),
+            orElse: () => Text(context.translate(AppStrings.noDataIsFound)),
+          ),
+        );
+      }),
       bottomNavigationBar: Container(
         color: AppUtils.isDarkMode(context)
             ? context.colorScheme.tertiaryContainer
@@ -249,5 +293,31 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
         child: SvgIcon(height: 18, width: 18, icon: icon, color: iconColor),
       ),
     );
+  }
+
+  void _showDeleteDialog(BuildContext context,
+      {required String salesIdpk, required String customerID}) {
+    showDialog(
+        context: context,
+        builder: (context) => CustomConfirmationDialog(
+              title: context.translate(AppStrings.delete),
+              message: context.translate(AppStrings.deleteConfirmationInCart),
+              primaryButtonLabel: context.translate(AppStrings.delete),
+              secondaryButtonLabel: context.translate(AppStrings.cancel),
+              onPrimaryTap: () {
+                ref
+                    .read(deleteSalesNotifierProvider.notifier)
+                    .deleteSalesInvoice(
+                      request: SalesParams(
+                        fromDate: ref.read(dateRangeProvider).fromDate,
+                        toDate: ref.read(dateRangeProvider).toDate,
+                        salesIDPK: salesIdpk,
+                        customerID: customerID,
+                      ),
+                    );
+                context.router.popForced();
+              },
+              onSecondaryTap: () => context.router.popForced(),
+            ));
   }
 }

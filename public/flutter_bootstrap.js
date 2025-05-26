@@ -12,9 +12,13 @@ _flutter.buildConfig = {"engineRevision":"cf56914b326edb0ccb123ffdc60f00060bd513
 _flutter.loader.load({
   serviceWorkerSettings: {
 <<<<<<< HEAD
+<<<<<<< HEAD
     serviceWorkerVersion: "290216060"
 =======
     serviceWorkerVersion: "1816086655"
 >>>>>>> 4f76ebf (Changed Pin Login screen visibility issue in dark theme.)
+=======
+    serviceWorkerVersion: "878435313"
+>>>>>>> e8c688b (Added Delete Invoice functionality)
   }
 });
