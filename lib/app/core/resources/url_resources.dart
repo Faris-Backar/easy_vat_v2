@@ -18,6 +18,7 @@ class UrlResources {
   static const String createSalesInvoice = "Sales/Insert";
   static const String updateSalesInvoice = "Sales/Update";
   static const String deleteSalesInvoice = "Sales/Delete";
+  static const String downloadSalesInvoice = "Sales/DownloadInvoice";
 
   //salesOrder
   static const String getSalesOrder = "SalesOrder/Select/BetweenDate";
