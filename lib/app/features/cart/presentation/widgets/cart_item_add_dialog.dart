@@ -38,6 +38,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
   final _descriptionController = TextEditingController();
   final _discountController = TextEditingController();
   final _taxController = TextEditingController();
+  double taxPercentage = 0.0;
 
   final _passwordVisibilityNotifier = ValueNotifier(true);
   // Flag to prevent circular updates
@@ -55,14 +56,17 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     cart = widget.cartItem;
     item = widget.item;
 
+    taxPercentage = item.taxPercentage ?? 0.0;
+
     final double qty = cart?.qty ?? 1.00;
     final double sellingPrice = (cart?.rate ?? item.retailRate) ?? 0.0;
     final double discount = cart?.discount ?? 0.0;
 
     final double grossTotal = (qty * sellingPrice) - discount;
-    final double taxPercentage = (item.taxPercentage ?? 0.0);
     final double taxAmount = grossTotal * taxPercentage / 100;
     final double netTotal = grossTotal + taxAmount;
+
+    _taxController.text = taxAmount.toStringAsFixed(2);
 
     log("Selling Price => $sellingPrice || Quantity => $qty || Gross Total => $grossTotal || Discount => $discount || Tax => $taxAmount || Net Total => $netTotal");
 
@@ -76,7 +80,6 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     _unitController.text = cart?.unit ?? item.unit ?? "";
     _descriptionController.text = cart?.description ?? item.description ?? "";
     _discountController.text = discount.toStringAsFixed(2);
-    _taxController.text = taxPercentage.toStringAsFixed(2);
     _grossTotalController.text = grossTotal.toStringAsFixed(2);
     _netTotalController.text = netTotal.toStringAsFixed(2);
   }
@@ -90,11 +93,10 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     final qty = double.tryParse(_quantityController.text) ?? 1.0;
     final sellingPrice = double.tryParse(_sellingPriceController.text) ?? 0.0;
     final discount = double.tryParse(_discountController.text) ?? 0.0;
-    final taxPercentage = double.tryParse(_taxController.text) ?? 0.0;
-
     final grossTotal = (qty * sellingPrice) - discount;
     final taxAmount = grossTotal * (taxPercentage / 100);
     final netTotal = grossTotal + taxAmount;
+    _taxController.text = taxAmount.toStringAsFixed(2);
 
     _grossTotalController.text = grossTotal.toStringAsFixed(2);
     _netTotalController.text = netTotal.toStringAsFixed(2);
@@ -104,8 +106,9 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
 
   void _updatePriceWithTax() {
     final sellingPrice = double.tryParse(_sellingPriceController.text) ?? 0.0;
-    final taxPercentage = double.tryParse(_taxController.text) ?? 0.0;
     final priceWithTax = sellingPrice + (sellingPrice * taxPercentage / 100);
+    final taxAmount = sellingPrice * taxPercentage / 100;
+    _taxController.text = taxAmount.toStringAsFixed(2);
 
     _priceWithTaxController.text = priceWithTax.toStringAsFixed(2);
     _updatePricesOnQtyChange();
@@ -113,8 +116,9 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
 
   void _updateSellingPrice() {
     final priceWithTax = double.tryParse(_priceWithTaxController.text) ?? 0.0;
-    final taxPercentage = double.tryParse(_taxController.text) ?? 0.0;
     final sellingPrice = priceWithTax / (1 + taxPercentage / 100);
+    final taxAmount = sellingPrice * taxPercentage / 100;
+    _taxController.text = taxAmount.toStringAsFixed(2);
 
     _sellingPriceController.text = sellingPrice.toStringAsFixed(2);
     _updatePricesOnQtyChange();
@@ -129,7 +133,6 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     final qty = double.tryParse(_quantityController.text) ?? 1.0;
     final sellingPrice = double.tryParse(_sellingPriceController.text) ?? 0.0;
     final discount = double.tryParse(value ?? _discountController.text) ?? 0.0;
-    final taxPercentage = double.tryParse(_taxController.text) ?? 0.0;
 
     // Calculate new gross total with discount applied
     final grossTotal = (qty * sellingPrice) - discount;
@@ -143,7 +146,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     // Update the text fields
     _grossTotalController.text = grossTotal.toStringAsFixed(2);
     _netTotalController.text = netTotal.toStringAsFixed(2);
-
+    _taxController.text = taxAmount.toStringAsFixed(2);
     _isUpdatingFromDiscount = false;
   }
 
@@ -157,7 +160,6 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     final netTotal = double.tryParse(_netTotalController.text) ?? 0.0;
     final qty = double.tryParse(_quantityController.text) ?? 1.0;
     final discount = double.tryParse(_discountController.text) ?? 0.0;
-    final taxPercentage = double.tryParse(_taxController.text) ?? 0.0;
 
     // Calculate gross total from net total using the provided formula
     double grossTotal = (netTotal * 100) / (100 + taxPercentage);
@@ -339,7 +341,8 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
                 Expanded(
                   child: TextInputFormField(
                     height: 36.h,
-                    label: context.translate(AppStrings.taxPercentage),
+                    label:
+                        "${context.translate(AppStrings.tax)}( $taxPercentage %)",
                     hint: "0 %",
                     controller: _taxController,
                     enabled: false,
