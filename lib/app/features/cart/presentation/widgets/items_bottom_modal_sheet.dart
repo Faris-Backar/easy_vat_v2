@@ -41,7 +41,8 @@ class _ItemsBottomModalSheetState extends ConsumerState<ItemsBottomModalSheet> {
           Expanded(
             child: state.map(
               loaded: (itemsList) => itemsList.itemsList.isEmpty
-                  ? Center(child: Text(AppStrings.noDataIsFound))
+                  ? Center(
+                      child: Text(context.translate(AppStrings.noDataIsFound)))
                   : _buildItemList(itemsList.itemsList),
               loading: (_) =>
                   const Center(child: CircularProgressIndicator.adaptive()),
@@ -60,6 +61,9 @@ class _ItemsBottomModalSheetState extends ConsumerState<ItemsBottomModalSheet> {
 
     return Row(
       children: [
+        IconButton(
+            onPressed: () => context.router.popForced(),
+            icon: Icon(Icons.adaptive.arrow_back)),
         Expanded(
           child: TextInputFormField(
             controller: searchController,
@@ -71,7 +75,7 @@ class _ItemsBottomModalSheetState extends ConsumerState<ItemsBottomModalSheet> {
               searchDebouncer.run(() {
                 if (value.isEmpty) {
                   ref.read(itemProvider.notifier).fetchItems();
-                } else if (value.length > 3) {
+                } else {
                   ref.read(itemProvider.notifier).searchItems(query: value);
                 }
               });
@@ -88,12 +92,16 @@ class _ItemsBottomModalSheetState extends ConsumerState<ItemsBottomModalSheet> {
                   const VerticalDivider(width: 0, endIndent: 5, indent: 5),
                   Padding(
                     padding: const EdgeInsets.all(10.0),
-                    child: SvgIcon(
-                      icon: Assets.icons.barcode,
-                      color: AppUtils.isDarkMode(context)
-                          ? context.defaultTextColor
-                          : null,
-                    ),
+                    child: searchController.text.isNotEmpty
+                        ? InkWell(
+                            onTap: () => searchController.clear(),
+                            child: Icon(Icons.close_rounded))
+                        : SvgIcon(
+                            icon: Assets.icons.barcode,
+                            color: AppUtils.isDarkMode(context)
+                                ? context.defaultTextColor
+                                : null,
+                          ),
                   ),
                 ],
               ),

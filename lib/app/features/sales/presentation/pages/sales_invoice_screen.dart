@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
-import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
@@ -137,7 +136,13 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
             success: (salesInvoiceData, totalAmount) {
               if (salesInvoiceData.isEmpty == true) {
                 return Center(
-                  child: Text(context.translate(AppStrings.noDataIsFound)),
+                  child: Container(
+                    height: 0.5.sh,
+                    width: 0.8.sw,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage(Assets.images.noDataFound.path))),
+                  ),
                 );
               }
               return ListView.builder(
