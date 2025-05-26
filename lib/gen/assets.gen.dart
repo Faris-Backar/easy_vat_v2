@@ -250,8 +250,12 @@ class $AssetsImagesGen {
   AssetGenImage get logoSmall =>
       const AssetGenImage('assets/images/Logo_small.png');
 
+  /// File path: assets/images/no_data_found.png
+  AssetGenImage get noDataFound =>
+      const AssetGenImage('assets/images/no_data_found.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [logo, logoSmall];
+  List<AssetGenImage> get values => [logo, logoSmall, noDataFound];
 }
 
 class $AssetsLocaleGen {

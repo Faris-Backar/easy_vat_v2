@@ -7,6 +7,7 @@ import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 class CartItemCardWidget extends StatefulWidget {
   final CartEntity items;
   final int index;
+
   const CartItemCardWidget({
     super.key,
     required this.items,
@@ -26,6 +27,36 @@ class _CartItemCardWidgetState extends State<CartItemCardWidget> {
     super.dispose();
   }
 
+  Widget _buildHeaderText(String text,
+      {TextAlign textAlign = TextAlign.start, int flex = 1}) {
+    return Expanded(
+      flex: flex,
+      child: Text(
+        text,
+        style: context.textTheme.bodySmall?.copyWith(
+          color: context.defaultTextColor.withValues(alpha: 0.32),
+        ),
+        textAlign: textAlign,
+      ),
+    );
+  }
+
+  Widget _buildValueText(String value,
+      {TextAlign textAlign = TextAlign.start, int flex = 1}) {
+    return Expanded(
+      flex: flex,
+      child: Text(
+        value,
+        style: context.textTheme.bodySmall?.copyWith(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+          color: context.defaultTextColor.withValues(alpha: 0.75),
+        ),
+        textAlign: textAlign,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ValueListenableBuilder<bool>(
@@ -36,16 +67,14 @@ class _CartItemCardWidgetState extends State<CartItemCardWidget> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12.0),
             color: AppUtils.isDarkMode(context)
-                ? Color(0xFF2B2E30)
+                ? const Color(0xFF2B2E30)
                 : const Color(0xFFF9F9F9),
           ),
-          padding: const EdgeInsets.all(12.0),
+          padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Top row with title and expand/collapse button
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
                     child: Text(
@@ -55,10 +84,11 @@ class _CartItemCardWidgetState extends State<CartItemCardWidget> {
                       ),
                     ),
                   ),
+                  const SizedBox(width: 8),
                   Text(
                     widget.items.item.isActive == true
-                        ? AppStrings.inStock
-                        : AppStrings.outOfStock,
+                        ? context.translate(AppStrings.inStock)
+                        : context.translate(AppStrings.outOfStock),
                     style: context.textTheme.bodySmall?.copyWith(
                       color: widget.items.item.isActive == true
                           ? Colors.green
@@ -69,341 +99,165 @@ class _CartItemCardWidgetState extends State<CartItemCardWidget> {
                   IconButton(
                     icon: AnimatedRotation(
                       turns: isExpanded ? 0.5 : 0.0,
-                      duration: Duration(milliseconds: 300),
-                      child: Icon(Icons.keyboard_arrow_down),
+                      duration: const Duration(milliseconds: 300),
+                      child: const Icon(Icons.keyboard_arrow_down),
                     ),
                     onPressed: () => _isExpanded.value = !_isExpanded.value,
                   ),
                 ],
               ),
-
-              // Middle row that's always visible
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.barcode),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.32),
-                          ),
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          widget.items.item.barcode ?? "",
-                          style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.75),
-                          ),
-                        ),
-                      ],
-                    ),
+                  _buildHeaderText(
+                    context.translate(AppStrings.barcode),
+                    flex: 2,
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.itemcode),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.32),
-                          ),
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          widget.items.item.itemCode ?? "",
-                          style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.75),
-                          ),
-                        ),
-                      ],
-                    ),
+                  const SizedBox(width: 8),
+                  _buildHeaderText(
+                    context.translate(AppStrings.itemcode),
+                    flex: 2,
                   ),
-                  Expanded(
+                  const SizedBox(width: 8),
+                  _buildHeaderText(
+                    context.translate(AppStrings.qty),
+                    textAlign: TextAlign.center,
                     flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.unit),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.32),
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          widget.items.unit,
-                          style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.75),
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                      ],
-                    ),
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.qty),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.32),
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          widget.items.qty.toString(),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.75),
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                      ],
-                    ),
+                  const SizedBox(width: 8),
+                  _buildHeaderText(
+                    context.translate(AppStrings.rate),
+                    textAlign: TextAlign.end,
+                    flex: 2,
                   ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          context.translate(AppStrings.netTotal),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.32),
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                        SizedBox(height: 3),
-                        Text(
-                          widget.items.netTotal.toStringAsFixed(2),
-                          style: context.textTheme.bodySmall?.copyWith(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                            color: context.defaultTextColor
-                                .withValues(alpha: 0.75),
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                      ],
-                    ),
+                  const SizedBox(width: 8),
+                  _buildHeaderText(
+                    "${context.translate(AppStrings.tax)} (${widget.items.item.taxPercentage?.toStringAsFixed(2) ?? '0.00'}%)",
+                    textAlign: TextAlign.center,
+                    flex: 2,
+                  ),
+                  const SizedBox(width: 8),
+                  _buildHeaderText(
+                    context.translate(AppStrings.netTotal),
+                    textAlign: TextAlign.end,
+                    flex: 2,
                   ),
                 ],
               ),
-              AnimatedContainer(
-                duration: Duration(milliseconds: 300),
-                curve: Curves.easeInOut,
-                height: isExpanded ? 60 : 0,
-                child: ClipRect(
-                  child: SingleChildScrollView(
-                    physics: NeverScrollableScrollPhysics(),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 10),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    context.translate(AppStrings.qty),
-                                    style:
-                                        context.textTheme.bodySmall?.copyWith(
-                                      color: context.defaultTextColor
-                                          .withValues(alpha: 0.32),
-                                    ),
-                                  ),
-                                  SizedBox(height: 3),
-                                  Text(
-                                    widget.items.qty.toStringAsFixed(2),
-                                    style:
-                                        context.textTheme.bodySmall?.copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      color: context.defaultTextColor
-                                          .withValues(alpha: 0.75),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    context.translate(AppStrings.rate),
-                                    style:
-                                        context.textTheme.bodySmall?.copyWith(
-                                      color: context.defaultTextColor
-                                          .withValues(alpha: 0.32),
-                                    ),
-                                  ),
-                                  SizedBox(height: 3),
-                                  Text(
-                                    widget.items.rate.toStringAsFixed(2),
-                                    style:
-                                        context.textTheme.bodySmall?.copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      color: context.defaultTextColor
-                                          .withValues(alpha: 0.75),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    context.translate(AppStrings.discount),
-                                    style:
-                                        context.textTheme.bodySmall?.copyWith(
-                                      color: context.defaultTextColor
-                                          .withValues(alpha: 0.32),
-                                    ),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                  SizedBox(height: 3),
-                                  Text(
-                                    widget.items.discount.toStringAsFixed(2),
-                                    style:
-                                        context.textTheme.bodySmall?.copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      color: context.defaultTextColor
-                                          .withValues(alpha: 0.75),
-                                    ),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    context.translate(AppStrings.gross),
-                                    style:
-                                        context.textTheme.bodySmall?.copyWith(
-                                      color: context.defaultTextColor
-                                          .withValues(alpha: 0.32),
-                                    ),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                  SizedBox(height: 3),
-                                  Text(
-                                    widget.items.gross.toStringAsFixed(2),
-                                    style:
-                                        context.textTheme.bodySmall?.copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      color: context.defaultTextColor
-                                          .withValues(alpha: 0.75),
-                                    ),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "${context.translate(AppStrings.tax)} (${widget.items.item.taxPercentage?.toStringAsFixed(2)}%)",
-                                    style:
-                                        context.textTheme.bodySmall?.copyWith(
-                                      color: context.defaultTextColor
-                                          .withValues(alpha: 0.32),
-                                    ),
-                                    textAlign: TextAlign.center,
-                                  ),
-                                  SizedBox(height: 3),
-                                  Text(
-                                    widget.items.tax.toStringAsFixed(2),
-                                    style:
-                                        context.textTheme.bodySmall?.copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      color: context.defaultTextColor
-                                          .withValues(alpha: 0.75),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              flex: 1,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    context.translate(AppStrings.total),
-                                    style:
-                                        context.textTheme.bodySmall?.copyWith(
-                                      color: context.defaultTextColor
-                                          .withValues(alpha: 0.32),
-                                    ),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                  SizedBox(height: 3),
-                                  Text(
-                                    widget.items.netTotal.toStringAsFixed(2),
-                                    style:
-                                        context.textTheme.bodySmall?.copyWith(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w600,
-                                      color: context.defaultTextColor
-                                          .withValues(alpha: 0.75),
-                                    ),
-                                    textAlign: TextAlign.right,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+              const SizedBox(height: 6),
+              Row(
+                children: [
+                  _buildValueText(
+                    widget.items.item.barcode ?? "",
+                    flex: 2,
+                  ),
+                  const SizedBox(width: 8),
+                  _buildValueText(
+                    widget.items.item.itemCode ?? "",
+                    flex: 2,
+                  ),
+                  const SizedBox(width: 8),
+                  _buildValueText(
+                    widget.items.qty.toString(),
+                    textAlign: TextAlign.center,
+                    flex: 1,
+                  ),
+                  const SizedBox(width: 8),
+                  _buildValueText(
+                    widget.items.rate.toStringAsFixed(2),
+                    textAlign: TextAlign.end,
+                    flex: 2,
+                  ),
+                  const SizedBox(width: 8),
+                  _buildValueText(
+                    widget.items.tax.toStringAsFixed(2),
+                    textAlign: TextAlign.end,
+                    flex: 2,
+                  ),
+                  const SizedBox(width: 8),
+                  _buildValueText(
+                    widget.items.netTotal.toStringAsFixed(2),
+                    textAlign: TextAlign.end,
+                    flex: 2,
+                  ),
+                ],
+              ),
+              AnimatedCrossFade(
+                firstChild: const SizedBox.shrink(),
+                secondChild: Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Column(
+                    children: [
+                      const Divider(height: 1),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          _buildHeaderText(
+                            context.translate(AppStrings.unit),
+                            flex: 2,
+                          ),
+                          const SizedBox(width: 8),
+                          _buildHeaderText(
+                            context.translate(AppStrings.discount),
+                            textAlign: TextAlign.center,
+                            flex: 2,
+                          ),
+                          const SizedBox(width: 8),
+                          _buildHeaderText(
+                            context.translate(AppStrings.gross),
+                            textAlign: TextAlign.end,
+                            flex: 2,
+                          ),
+                          const SizedBox(width: 8),
+                          _buildHeaderText(
+                            context.translate(AppStrings.total),
+                            textAlign: TextAlign.end,
+                            flex: 2,
+                          ),
+                          const SizedBox(width: 8),
+                          const Spacer(flex: 1),
+                          const SizedBox(width: 8),
+                          const Spacer(flex: 2),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Row(
+                        children: [
+                          _buildValueText(
+                            widget.items.unit,
+                            flex: 2,
+                          ),
+                          const SizedBox(width: 8),
+                          _buildValueText(
+                            widget.items.discount.toStringAsFixed(2),
+                            textAlign: TextAlign.center,
+                            flex: 2,
+                          ),
+                          const SizedBox(width: 8),
+                          _buildValueText(
+                            widget.items.gross.toStringAsFixed(2),
+                            textAlign: TextAlign.end,
+                            flex: 2,
+                          ),
+                          const SizedBox(width: 8),
+                          _buildValueText(
+                            widget.items.netTotal.toStringAsFixed(2),
+                            textAlign: TextAlign.end,
+                            flex: 2,
+                          ),
+                          const SizedBox(width: 8),
+                          const Spacer(flex: 1),
+                          const SizedBox(width: 8),
+                          const Spacer(flex: 2),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
+                crossFadeState: isExpanded
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                duration: const Duration(milliseconds: 300),
               ),
             ],
           ),
