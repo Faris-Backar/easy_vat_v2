@@ -15,6 +15,7 @@ import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_ent
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_return_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/repositories/sales_repository.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
+import 'package:path_provider/path_provider.dart';
 
 class SalesRepositoryImpl extends SalesRepository {
   SalesRepositoryImpl();
@@ -330,6 +331,37 @@ class SalesRepositoryImpl extends SalesRepository {
           message: e.response?.statusMessage?.toString() ??
               e.error?.toString() ??
               ""));
+    } catch (e) {
+      return left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> downloadSalesInvoices({
+    required String salesIdpk,
+  }) async {
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final filePath = '${tempDir.path}/sales_invoice_$salesIdpk.pdf';
+
+      final response = await client.download(
+        UrlResources.downloadSalesInvoice,
+        filePath,
+        queryParameters: {"SaleIDPK": salesIdpk},
+      );
+
+      if (response.statusCode == 200) {
+        return right(filePath);
+      } else {
+        return left(ServerFailure(
+          message: "Download failed with status code ${response.statusCode}",
+        ));
+      }
+    } on DioException catch (e) {
+      return left(ServerFailure(
+        message:
+            e.response?.statusMessage?.toString() ?? e.message ?? "Dio error",
+      ));
     } catch (e) {
       return left(ServerFailure(message: e.toString()));
     }

@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
@@ -14,12 +15,14 @@ import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/pay
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sales/delete_sales_notifier.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/download_sales/download_sales_invoices_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_invoice_state.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_tansaction_card.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
+import 'package:easy_vat_v2/app/features/widgets/loader_dialogue.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
@@ -109,6 +112,25 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
           );
         });
 
+        ref.listen(downloadsalesInvoiceNotifierProvider, (previous, next) {
+          next.maybeWhen(
+            downloadCompleted: (pdfPath) {
+              LoaderDialog.hide(context);
+              context.router.push(PdfViewerRoute(pathUrl: pdfPath));
+            },
+            loading: () => LoaderDialog.show(context),
+            failure: (error) {
+              LoaderDialog.hide(context);
+              Fluttertoast.showToast(
+                msg: error,
+                backgroundColor: Colors.red,
+                textColor: Colors.white,
+              );
+            },
+            orElse: () {},
+          );
+        });
+
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           child: salesInvoiceState.maybeWhen(
@@ -147,7 +169,14 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                                 iconColor: AppUtils.isDarkMode(context)
                                     ? context.onPrimaryColor
                                     : null,
-                                onTap: () {}),
+                                onTap: () {
+                                  ref
+                                      .read(downloadsalesInvoiceNotifierProvider
+                                          .notifier)
+                                      .downloadSalesInvoices(
+                                          salesIDPK:
+                                              salesInvoice.saleIdpk ?? "");
+                                }),
                           ),
                           Expanded(
                             child: _buildSlidingAction(

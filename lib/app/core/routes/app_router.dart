@@ -36,8 +36,12 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: PurchaseOrderRoute.page, path: purchaseOrder),
         AutoRoute(page: ExpenseInvoiceRoute.page, path: expenseInvoice),
         AutoRoute(page: BarcodeScannerRoute.page, path: barcodeScanner),
+<<<<<<< HEAD
         AutoRoute(page: ExpenseRoute.page, path: expense),
         AutoRoute(page: AddNewExpenseRoute.page, path: addNewExpense)
+=======
+        AutoRoute(page: PdfViewerRoute.page, path: pdfViewer),
+>>>>>>> e9fa262 (Added Pdf Viewer)
       ];
 
   // Routes constants
@@ -63,8 +67,12 @@ class AppRouter extends RootStackRouter {
   static const String purchaseOrder = "/purchaseOrder";
   static const String expenseInvoice = "/expenseInvoice";
   static const String barcodeScanner = "/barcodeScanner";
+<<<<<<< HEAD
   static const String expense = "/expense";
   static const String addNewExpense = "/addNewExpense";
+=======
+  static const String pdfViewer = "/pdfViewer";
+>>>>>>> e9fa262 (Added Pdf Viewer)
 }
 
 class AuthGuard extends AutoRouteGuard {
