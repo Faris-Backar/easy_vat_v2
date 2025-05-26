@@ -82,4 +82,8 @@ class UrlResources {
   static const String createExpense = "/Expense/Insert";
   static const String updateExpense = "/Expense/Update";
   static const String deleteExpense = "/Expense/Delete";
+
+  //supplier
+  static const String getSuppliers = "/Supplier/Select/LoadSupplier";
+  static const String searchSupplier = "/Supplier/Select/SearchSupplier";
 }
