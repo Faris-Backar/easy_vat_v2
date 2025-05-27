@@ -129,7 +129,16 @@ class SalesTransactionCard extends StatelessWidget {
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                           ),
-                          SizedBox(height: 4.h),
+                          SizedBox(height: 2.h),
+                          Text(
+                            "${context.translate(AppStrings.refNo)}: ${salesInvoice.referenceNo ?? "-"}",
+                            style: context.textTheme.bodySmall?.copyWith(
+                              color: context.defaultTextColor
+                                  .withValues(alpha: 0.7),
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
 
                           // Status and Date Row
                           Row(
@@ -182,6 +191,7 @@ class SalesTransactionCard extends StatelessWidget {
                             style: context.textTheme.labelSmall?.copyWith(
                               color: Colors.grey.shade500,
                             ),
+                            textAlign: TextAlign.end,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
