@@ -181,6 +181,7 @@
   "payable": "مستحق الدفع",
   "recievable": "مستحق التحصيل",
   "transactions": "المعاملات",
+<<<<<<< HEAD
   "grossProfit": " إجمالي الربح",
   "update": "تحديث",
   "discardChanges": "هل تريد تجاهل التغييرات؟",
@@ -188,4 +189,7 @@
   "discard":"تجاهل"
 
 
+=======
+  "grossProfit":" إجمالي الربح"
+>>>>>>> 4f76ebf (Changed Pin Login screen visibility issue in dark theme.)
 }
