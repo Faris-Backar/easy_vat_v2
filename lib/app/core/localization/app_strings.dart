@@ -193,4 +193,7 @@ class AppStrings {
   static const String discardChanges = 'discardChanges';
   static const String discardChangesMessage = "discardChangesMessage";
   static const String discard = "discard";
+  static const String expNo = "expNo";
+  static const String pleaseSelectASupplier = "pleaseSelectASupplier";
+  static const String addSupplier = "addSupplier";
 }
