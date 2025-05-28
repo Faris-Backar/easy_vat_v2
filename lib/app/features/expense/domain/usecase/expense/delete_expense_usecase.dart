@@ -5,10 +5,10 @@ import 'package:easy_vat_v2/app/features/expense/domain/entities/expense_entity.
 import 'package:easy_vat_v2/app/features/expense/domain/repositories/expense_repository.dart';
 import 'package:dartz/dartz.dart';
 
-class FetchExpenseUsecase
+class DeleteExpenseUsecase
     extends UseCase<Either<Failure, ExpenseEntity>, ExpenseRequestModel> {
   final ExpenseRepository expenseRepository;
-  FetchExpenseUsecase({required this.expenseRepository});
+  DeleteExpenseUsecase({required this.expenseRepository});
 
   @override
   Future<Either<Failure, ExpenseEntity>> call(

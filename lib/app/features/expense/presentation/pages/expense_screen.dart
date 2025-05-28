@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
@@ -8,6 +10,8 @@ import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_state.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_app_bar.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_card.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
+import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
@@ -16,6 +20,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
 class ExpenseScreen extends ConsumerStatefulWidget {
@@ -35,15 +40,29 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
   void initState() {
     super.initState();
     expenseState = ref.read(expenseNotifierProvider);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ref.read(expenseNotifierProvider.notifier).fetchExpenses(
-            params: ExpenseParams(
-              expenseIDPK: "00000000-0000-0000-0000-000000000000",
-              fromDate: DateTime.now(),
-              toDate: DateTime.now(),
-              supplierID: "00000000-0000-0000-0000-000000000000",
-            ),
-          );
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _initializeData();
+    });
+  }
+
+  Future<void> _initializeData() async {
+    ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
+    ref.read(cashLedgerNotifierProvider.notifier).fetchBankLedgers();
+    ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
+    ref.read(expenseNotifierProvider.notifier).fetchExpenses(
+          params: ExpenseParams(
+            expenseIDPK: "00000000-0000-0000-0000-000000000000",
+            fromDate: DateTime.now(),
+            toDate: DateTime.now(),
+            supplierID: "00000000-0000-0000-0000-000000000000",
+          ),
+        );
+
+    final prefs = await SharedPreferences.getInstance();
+    final enabled = prefs.getBool(PrefResources.isTaxEnabled) ?? false;
+    setState(() {
+      isTaxRegisrationEnabled = enabled;
     });
   }
 
@@ -149,7 +168,9 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        color: Colors.white,
+        color: AppUtils.isDarkMode(context)
+            ? context.colorScheme.tertiaryContainer
+            : context.surfaceColor,
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -174,9 +195,11 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
             ),
             const SizedBox(height: 10),
             PrimaryButton(
-              onPressed: () {
-                // Add Expense Screen
-              },
+              onPressed: () => context.router.push(
+                AddNewExpenseRoute(
+                  tittle: context.translate(AppStrings.addNewExpense),
+                ),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

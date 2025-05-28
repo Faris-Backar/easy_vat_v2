@@ -120,10 +120,10 @@ class ExpenseCard extends StatelessWidget {
                             height: 2.h,
                           ),
                           Text(
-                            "${context.translate(AppStrings.expNo)}: ${expense.expenseNo ?? "-"}",
+                            "${context.translate(AppStrings.expNo)}: ${expense.expenseNo ?? "-"}   ${context.translate(AppStrings.supInvNo)}: ${expense.supplierInvoiceNo ?? "-"}",
                             style: context.textTheme.bodySmall?.copyWith(
                               color: context.defaultTextColor
-                                  .withValues(alpha: 0.7),
+                                  .withValues(alpha: 0.9),
                             ),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -148,17 +148,31 @@ class ExpenseCard extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(
-                                width: 8.w,
+                                width: 7.w,
                               ),
                               Text(
                                 DateFormatUtils.getCustomDateFormat(
                                   date: expense.expenseDate ?? DateTime.now(),
-                                  formate: "dd MM yy - hh:MM a",
+                                  formate: "dd-MM-yyyy - hh:MM a",
                                 ),
                                 style: context.textTheme.bodySmall?.copyWith(
-                                  color: Colors.grey.shade600,
+                                  color: Colors.grey.shade800,
                                 ),
+                                overflow: TextOverflow.ellipsis,
                               ),
+                              SizedBox(
+                                width: 9.w,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  expense.purchasedBy ?? "",
+                                  style: context.textTheme.labelSmall?.copyWith(
+                                    color: Colors.grey.shade800,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                              )
                             ],
                           )
                         ],
@@ -177,16 +191,17 @@ class ExpenseCard extends StatelessWidget {
                         SizedBox(
                           height: 2.h,
                         ),
-                        SizedBox(
-                          width: 85.w,
-                          child: Text(
-                            expense.purchasedBy ?? "",
-                            style: context.textTheme.labelSmall?.copyWith(
-                              color: Colors.grey.shade500,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
+                        // SizedBox(
+                        //   width: 85.w,
+                        //   child: Text(
+                        //     expense.purchasedBy ?? "",
+                        //     style: context.textTheme.labelSmall?.copyWith(
+                        //       color: Colors.grey.shade500,
+                        //     ),
+                        //     textAlign: TextAlign.end,
+                        //     overflow: TextOverflow.ellipsis,
+                        //   ),
+                        // ),
                       ],
                     )
                   ],

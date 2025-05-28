@@ -19,7 +19,7 @@ final searchSupplierUsecaseProvider = Provider<SearchSupplierUsecase>((ref) {
       supplierRepository: ref.read(supplierRepositoryProvider));
 });
 
-final customNotfierProvider =
+final supplierNotfierProvider =
     StateNotifierProvider<SupplierNotifier, SupplierState>((ref) {
   return SupplierNotifier(
       getSupplierUsecase: ref.read(getSupplierUsecaseProvider),
