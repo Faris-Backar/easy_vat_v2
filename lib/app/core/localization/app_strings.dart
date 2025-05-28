@@ -196,20 +196,4 @@ class AppStrings {
   static const String expNo = "expNo";
   static const String pleaseSelectASupplier = "pleaseSelectASupplier";
   static const String addSupplier = "addSupplier";
-  static const String deleteSalesInvoiceConfirmationMessage =
-      "deleteSalesInvoiceConfirmationMessage";
-  static const String invNo = "invNo";
-  static const String paymentMode = "paymentMode";
-  static const String expenseNo = "expenseNo";
-  static const String expenseDate = "expenseDate";
-  static const String supInvNo = "supInvNo";
-  static const String totalIncome = "totalIncome";
-  static const String totalExpense = "totalExpense";
-  static const String netBalance = "netBalance";
-  static const String financialPeriod = "financialPeriod";
-  static const String searchTransactions = "searchTransactions";
-  static const String payable = "payable";
-  static const String recievable = "recievable";
-  static const String transactions = "transactions";
-  static const String grossProfit = "grossProfit";
 }
