@@ -191,4 +191,5 @@ class AppStrings {
   static const String discard = "discard";
   static const String deleteSalesInvoiceConfirmationMessage =
       "deleteSalesInvoiceConfirmationMessage";
+  static const String invNo = "invNo";
 }

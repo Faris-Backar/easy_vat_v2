@@ -1,5 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
@@ -94,8 +96,8 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
               ref.read(salesInvoiceNotifierProvider.notifier).fetchSalesInvoice(
                     params: SalesParams(
                       salesIDPK: "00000000-0000-0000-0000-000000000000",
-                      fromDate: DateTime.now(),
-                      toDate: DateTime.now(),
+                      fromDate: ref.read(dateRangeProvider).fromDate,
+                      toDate: ref.read(dateRangeProvider).fromDate,
                       customerID: "00000000-0000-0000-0000-000000000000",
                     ),
                   );
@@ -145,6 +147,7 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                   ),
                 );
               }
+              log("sales idpk => ${salesInvoiceData.first.saleIdpk}");
               return ListView.builder(
                 itemCount: salesInvoiceData.length,
                 itemBuilder: (context, index) {
@@ -174,13 +177,25 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                                 iconColor: AppUtils.isDarkMode(context)
                                     ? context.onPrimaryColor
                                     : null,
-                                onTap: () {
-                                  ref
-                                      .read(downloadsalesInvoiceNotifierProvider
-                                          .notifier)
-                                      .downloadSalesInvoices(
+                                onTap: () async {
+                                  final hasPermission = await AppUtils
+                                      .requestDownloadPermission();
+                                  if (hasPermission) {
+                                    ref
+                                        .read(
+                                            downloadsalesInvoiceNotifierProvider
+                                                .notifier)
+                                        .downloadSalesInvoices(
                                           salesIDPK:
-                                              salesInvoice.saleIdpk ?? "");
+                                              salesInvoice.saleIdpk ?? "",
+                                        );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              "Permission denied. Cannot download invoice.")),
+                                    );
+                                  }
                                 }),
                           ),
                           Expanded(
@@ -192,6 +207,8 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                                             context)
                                         .withValues(alpha: .2),
                                 icon: Assets.icons.view,
+                                borderRadiusTopRight: 10.0,
+                                borderRadiusBottomRight: 10.0,
                                 iconColor: AppUtils.isDarkMode(context)
                                     ? context.onPrimaryColor
                                     : null,
@@ -214,6 +231,7 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                           ActionPane(motion: ScrollMotion(), children: [
                         Expanded(
                           child: _buildSlidingAction(
+                            width: 50.w,
                             color: AppUtils.isDarkMode(context)
                                 ? CustomColors.getTransactionCardRedColor(
                                     context)
@@ -221,9 +239,13 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                                         context)
                                     .withValues(alpha: .2),
                             icon: Assets.icons.delete,
+                            borderRadiusTopLeft: 10.0,
+                            borderRadiusBottomLeft: 10.0,
                             iconColor: AppUtils.isDarkMode(context)
                                 ? context.onPrimaryColor
                                 : null,
+                            iconHeight: 24.0,
+                            iconWidth: 24.0,
                             onTap: () => _showDeleteDialog(context,
                                 salesIdpk: salesInvoice.saleIdpk ?? "",
                                 customerID: salesInvoice.custemerIdfk ?? ""),
@@ -317,14 +339,35 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
     required Color? color,
     required String icon,
     required Color? iconColor,
+    double? borderRadiusTopLeft,
+    double? borderRadiusTopRight,
+    double? borderRadiusBottomLeft,
+    double? borderRadiusBottomRight,
+    double? width,
+    double? iconHeight, // Add this parameter
+    double? iconWidth, // Add this parameter
   }) {
     return InkWell(
       onTap: onTap,
       child: Container(
+        width: width,
         height: double.infinity,
-        color: color,
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(borderRadiusTopLeft ?? 0.0),
+            topRight: Radius.circular(borderRadiusTopRight ?? 0.0),
+            bottomLeft: Radius.circular(borderRadiusBottomLeft ?? 0.0),
+            bottomRight: Radius.circular(borderRadiusBottomRight ?? 0.0),
+          ),
+        ),
         padding: const EdgeInsets.all(18.0),
-        child: SvgIcon(height: 18, width: 18, icon: icon, color: iconColor),
+        child: SvgIcon(
+          height: iconHeight ?? 18,
+          width: iconWidth ?? 18,
+          icon: icon,
+          color: iconColor,
+        ),
       ),
     );
   }

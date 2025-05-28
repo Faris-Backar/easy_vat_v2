@@ -241,7 +241,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: _buildTabBar(context),
+              child: _buildTabBar(context, ref),
             ),
             Expanded(
               child: Padding(
@@ -433,42 +433,46 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
   }
 }
 
-Widget _buildTabBar(BuildContext context) {
-  return TabBar(
-    labelColor: AppUtils.isDarkMode(context)
-        ? Color(0xFF8B62F1)
-        : context.colorScheme.secondary,
-    unselectedLabelColor: context.colorScheme.onSurface,
-    indicatorColor: AppUtils.isDarkMode(context)
-        ? Color(0xFF8B62F1)
-        : context.colorScheme.secondary,
-    dividerColor: Colors.transparent,
-    padding: EdgeInsets.zero,
-    indicator: UnderlineTabIndicator(
-      borderSide: BorderSide(
-          width: 2.0,
-          color: AppUtils.isDarkMode(context)
-              ? Color(0xFF8B62F1)
-              : context.colorScheme.secondary),
-    ),
-    labelStyle: context.textTheme.bodySmall
-        ?.copyWith(fontSize: 11, fontWeight: FontWeight.w600),
-    tabAlignment: TabAlignment.fill,
-    indicatorSize: TabBarIndicatorSize.label,
-    labelPadding: EdgeInsets.zero,
-    tabs: [
-      Padding(
-        padding: EdgeInsets.all(4.0),
-        child: Text(context.translate(AppStrings.info)),
+Widget _buildTabBar(BuildContext context, WidgetRef ref) {
+  return Stack(
+    children: [
+      TabBar(
+        labelColor: AppUtils.isDarkMode(context)
+            ? Color(0xFF8B62F1)
+            : context.colorScheme.secondary,
+        unselectedLabelColor: context.colorScheme.onSurface,
+        indicatorColor: AppUtils.isDarkMode(context)
+            ? Color(0xFF8B62F1)
+            : context.colorScheme.secondary,
+        dividerColor: Colors.transparent,
+        padding: EdgeInsets.zero,
+        indicator: UnderlineTabIndicator(
+          borderSide: BorderSide(
+              width: 2.0,
+              color: AppUtils.isDarkMode(context)
+                  ? Color(0xFF8B62F1)
+                  : context.colorScheme.secondary),
+        ),
+        labelStyle: context.textTheme.bodySmall
+            ?.copyWith(fontSize: 11, fontWeight: FontWeight.w600),
+        tabAlignment: TabAlignment.fill,
+        indicatorSize: TabBarIndicatorSize.label,
+        labelPadding: EdgeInsets.zero,
+        tabs: [
+          Padding(
+            padding: EdgeInsets.all(4.0),
+            child: Text(context.translate(AppStrings.info)),
+          ),
+          Padding(
+            padding: EdgeInsets.all(4.0),
+            child: Text(context.translate(AppStrings.billing)),
+          ),
+          Padding(
+            padding: EdgeInsets.all(4.0),
+            child: Text(context.translate(AppStrings.shipping)),
+          ),
+        ],
       ),
-      Padding(
-        padding: EdgeInsets.all(4.0),
-        child: Text(context.translate(AppStrings.billing)),
-      ),
-      Padding(
-        padding: EdgeInsets.all(4.0),
-        child: Text(context.translate(AppStrings.shipping)),
-      )
     ],
   );
 }

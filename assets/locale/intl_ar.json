@@ -184,5 +184,6 @@
   "discardChanges": "هل تريد تجاهل التغييرات؟",
   "discardChangesMessage": "لديك عناصر في سلة التسوق. هل تريد تجاهلها والعودة؟",
   "discard": "تجاهل",
-  "deleteSalesInvoiceConfirmationMessage": "تم حذف فاتورة البيع بنجاح"
+  "deleteSalesInvoiceConfirmationMessage": "تم حذف فاتورة البيع بنجاح",
+   "invNo":"InvNo"
 }

@@ -183,5 +183,6 @@
   "update": "تحديث",
   "discardChanges": "هل تريد تجاهل التغييرات؟",
   "discardChangesMessage": "لديك عناصر في سلة التسوق. هل تريد تجاهلها والعودة؟",
-  "discard":"تجاهل"
+  "discard": "تجاهل",
+  "deleteSalesInvoiceConfirmationMessage": "تم حذف فاتورة البيع بنجاح"
 }

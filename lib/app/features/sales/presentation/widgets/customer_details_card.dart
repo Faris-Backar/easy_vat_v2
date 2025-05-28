@@ -3,7 +3,6 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomerDetailsCard extends StatelessWidget {
   final bool isExpanded;
@@ -15,7 +14,6 @@ class CustomerDetailsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      height: isExpanded ? 190.h : 89.h,
       padding: const EdgeInsets.all(10.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.0),
@@ -48,25 +46,37 @@ class CustomerDetailsCard extends StatelessWidget {
             _buildCustomerDetail(context, context.translate(AppStrings.status),
                 customer.nature ?? "-"),
           ]),
-          if (isExpanded) ...[
-            const SizedBox(height: 12),
-            _buildDetailsRow([
-              _buildCustomerDetail(
-                  context,
-                  context.translate(AppStrings.address),
-                  customer.billingAddress ?? "-"),
-              _buildCustomerDetail(
-                  context,
-                  context.translate(AppStrings.phoneNumber),
-                  customer.phone ?? "-"),
-            ]),
-            const SizedBox(height: 12),
-            _buildDetailsRow([
-              _buildCustomerDetail(context, context.translate(AppStrings.trn),
-                  customer.taxRegistrationNo ?? "-"),
-              const SizedBox.shrink(),
-            ]),
-          ],
+          AnimatedCrossFade(
+            duration: const Duration(milliseconds: 300),
+            crossFadeState: isExpanded
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
+            firstChild: const SizedBox.shrink(), // Collapsed state
+            secondChild: Column(
+              // Expanded state
+              children: [
+                const SizedBox(height: 12),
+                _buildDetailsRow([
+                  _buildCustomerDetail(
+                      context,
+                      context.translate(AppStrings.address),
+                      customer.billingAddress ?? "-"),
+                  _buildCustomerDetail(
+                      context,
+                      context.translate(AppStrings.phoneNumber),
+                      customer.phone ?? "-"),
+                ]),
+                const SizedBox(height: 12),
+                _buildDetailsRow([
+                  _buildCustomerDetail(
+                      context,
+                      context.translate(AppStrings.trn),
+                      customer.taxRegistrationNo ?? "-"),
+                  const SizedBox.shrink(),
+                ]),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -98,10 +108,16 @@ class CustomerDetailsCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(name,
-            style: context.textTheme.bodyMedium
-                ?.copyWith(fontWeight: FontWeight.w600)),
-        const Icon(Icons.keyboard_arrow_down_rounded),
+        Expanded(
+          child: Text(name,
+              style: context.textTheme.bodyMedium
+                  ?.copyWith(fontWeight: FontWeight.w600)),
+        ),
+        AnimatedRotation(
+          turns: isExpanded ? 0.5 : 0.0,
+          duration: const Duration(milliseconds: 300),
+          child: const Icon(Icons.keyboard_arrow_down_rounded),
+        ),
       ],
     );
   }
