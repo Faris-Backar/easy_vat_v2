@@ -22,10 +22,14 @@ mixin _$CreateExpenseState {
     required TResult Function() loading,
     required TResult Function() success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     required TResult Function(String error) failure,
 =======
     required TResult Function(String error) falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    required TResult Function(String error) failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -34,10 +38,14 @@ mixin _$CreateExpenseState {
     TResult? Function()? loading,
     TResult? Function()? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult? Function(String error)? failure,
 =======
     TResult? Function(String error)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult? Function(String error)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -46,10 +54,14 @@ mixin _$CreateExpenseState {
     TResult Function()? loading,
     TResult Function()? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult Function(String error)? failure,
 =======
     TResult Function(String error)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult Function(String error)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -59,10 +71,14 @@ mixin _$CreateExpenseState {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     required TResult Function(_Failure value) failure,
 =======
     required TResult Function(_Failure value) falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    required TResult Function(_Failure value) failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -71,10 +87,14 @@ mixin _$CreateExpenseState {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult? Function(_Failure value)? failure,
 =======
     TResult? Function(_Failure value)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult? Function(_Failure value)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -83,10 +103,14 @@ mixin _$CreateExpenseState {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult Function(_Failure value)? failure,
 =======
     TResult Function(_Failure value)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult Function(_Failure value)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -158,10 +182,14 @@ class _$InitialImpl implements _Initial {
     required TResult Function() loading,
     required TResult Function() success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     required TResult Function(String error) failure,
 =======
     required TResult Function(String error) falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    required TResult Function(String error) failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) {
     return initial();
   }
@@ -173,10 +201,14 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? loading,
     TResult? Function()? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult? Function(String error)? failure,
 =======
     TResult? Function(String error)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult? Function(String error)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) {
     return initial?.call();
   }
@@ -188,10 +220,14 @@ class _$InitialImpl implements _Initial {
     TResult Function()? loading,
     TResult Function()? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult Function(String error)? failure,
 =======
     TResult Function(String error)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult Function(String error)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -207,10 +243,14 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     required TResult Function(_Failure value) failure,
 =======
     required TResult Function(_Failure value) falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    required TResult Function(_Failure value) failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) {
     return initial(this);
   }
@@ -222,10 +262,14 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult? Function(_Failure value)? failure,
 =======
     TResult? Function(_Failure value)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult? Function(_Failure value)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) {
     return initial?.call(this);
   }
@@ -237,10 +281,14 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult Function(_Failure value)? failure,
 =======
     TResult Function(_Failure value)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult Function(_Failure value)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -299,10 +347,14 @@ class _$LoadingImpl implements _Loading {
     required TResult Function() loading,
     required TResult Function() success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     required TResult Function(String error) failure,
 =======
     required TResult Function(String error) falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    required TResult Function(String error) failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) {
     return loading();
   }
@@ -314,10 +366,14 @@ class _$LoadingImpl implements _Loading {
     TResult? Function()? loading,
     TResult? Function()? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult? Function(String error)? failure,
 =======
     TResult? Function(String error)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult? Function(String error)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) {
     return loading?.call();
   }
@@ -329,10 +385,14 @@ class _$LoadingImpl implements _Loading {
     TResult Function()? loading,
     TResult Function()? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult Function(String error)? failure,
 =======
     TResult Function(String error)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult Function(String error)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -348,10 +408,14 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     required TResult Function(_Failure value) failure,
 =======
     required TResult Function(_Failure value) falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    required TResult Function(_Failure value) failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) {
     return loading(this);
   }
@@ -363,10 +427,14 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult? Function(_Failure value)? failure,
 =======
     TResult? Function(_Failure value)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult? Function(_Failure value)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) {
     return loading?.call(this);
   }
@@ -378,10 +446,14 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult Function(_Failure value)? failure,
 =======
     TResult Function(_Failure value)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult Function(_Failure value)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -440,10 +512,14 @@ class _$SuccessImpl implements _Success {
     required TResult Function() loading,
     required TResult Function() success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     required TResult Function(String error) failure,
 =======
     required TResult Function(String error) falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    required TResult Function(String error) failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) {
     return success();
   }
@@ -455,10 +531,14 @@ class _$SuccessImpl implements _Success {
     TResult? Function()? loading,
     TResult? Function()? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult? Function(String error)? failure,
 =======
     TResult? Function(String error)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult? Function(String error)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) {
     return success?.call();
   }
@@ -470,10 +550,14 @@ class _$SuccessImpl implements _Success {
     TResult Function()? loading,
     TResult Function()? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult Function(String error)? failure,
 =======
     TResult Function(String error)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult Function(String error)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -489,10 +573,14 @@ class _$SuccessImpl implements _Success {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     required TResult Function(_Failure value) failure,
 =======
     required TResult Function(_Failure value) falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    required TResult Function(_Failure value) failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) {
     return success(this);
   }
@@ -504,10 +592,14 @@ class _$SuccessImpl implements _Success {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult? Function(_Failure value)? failure,
 =======
     TResult? Function(_Failure value)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult? Function(_Failure value)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }) {
     return success?.call(this);
   }
@@ -519,10 +611,14 @@ class _$SuccessImpl implements _Success {
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult Function(_Failure value)? failure,
 =======
     TResult Function(_Failure value)? falure,
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult Function(_Failure value)? failure,
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -580,10 +676,14 @@ class _$FailureImpl implements _Failure {
   @override
   String toString() {
 <<<<<<< HEAD
+<<<<<<< HEAD
     return 'CreateExpenseState.failure(error: $error)';
 =======
     return 'CreateExpenseState.falure(error: $error)';
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    return 'CreateExpenseState.failure(error: $error)';
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }
 
   @override
@@ -612,6 +712,7 @@ class _$FailureImpl implements _Failure {
     required TResult Function() loading,
     required TResult Function() success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     required TResult Function(String error) failure,
   }) {
     return failure(error);
@@ -620,6 +721,11 @@ class _$FailureImpl implements _Failure {
   }) {
     return falure(error);
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    required TResult Function(String error) failure,
+  }) {
+    return failure(error);
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }
 
   @override
@@ -629,6 +735,7 @@ class _$FailureImpl implements _Failure {
     TResult? Function()? loading,
     TResult? Function()? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult? Function(String error)? failure,
   }) {
     return failure?.call(error);
@@ -637,6 +744,11 @@ class _$FailureImpl implements _Failure {
   }) {
     return falure?.call(error);
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult? Function(String error)? failure,
+  }) {
+    return failure?.call(error);
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }
 
   @override
@@ -645,6 +757,7 @@ class _$FailureImpl implements _Failure {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? success,
+<<<<<<< HEAD
 <<<<<<< HEAD
     TResult Function(String error)? failure,
     required TResult orElse(),
@@ -658,6 +771,13 @@ class _$FailureImpl implements _Failure {
     if (falure != null) {
       return falure(error);
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult Function(String error)? failure,
+    required TResult orElse(),
+  }) {
+    if (failure != null) {
+      return failure(error);
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
     }
     return orElse();
   }
@@ -669,6 +789,7 @@ class _$FailureImpl implements _Failure {
     required TResult Function(_Loading value) loading,
     required TResult Function(_Success value) success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     required TResult Function(_Failure value) failure,
   }) {
     return failure(this);
@@ -677,6 +798,11 @@ class _$FailureImpl implements _Failure {
   }) {
     return falure(this);
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    required TResult Function(_Failure value) failure,
+  }) {
+    return failure(this);
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }
 
   @override
@@ -686,6 +812,7 @@ class _$FailureImpl implements _Failure {
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Success value)? success,
 <<<<<<< HEAD
+<<<<<<< HEAD
     TResult? Function(_Failure value)? failure,
   }) {
     return failure?.call(this);
@@ -694,6 +821,11 @@ class _$FailureImpl implements _Failure {
   }) {
     return falure?.call(this);
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult? Function(_Failure value)? failure,
+  }) {
+    return failure?.call(this);
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
   }
 
   @override
@@ -702,6 +834,7 @@ class _$FailureImpl implements _Failure {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_Success value)? success,
+<<<<<<< HEAD
 <<<<<<< HEAD
     TResult Function(_Failure value)? failure,
     required TResult orElse(),
@@ -715,6 +848,13 @@ class _$FailureImpl implements _Failure {
     if (falure != null) {
       return falure(this);
 >>>>>>> 7edd987 (Added Dashboard UI with Notifiers)
+=======
+    TResult Function(_Failure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (failure != null) {
+      return failure(this);
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
     }
     return orElse();
   }

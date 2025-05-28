@@ -37,15 +37,25 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: ExpenseInvoiceRoute.page, path: expenseInvoice),
         AutoRoute(page: BarcodeScannerRoute.page, path: barcodeScanner),
 <<<<<<< HEAD
+<<<<<<< HEAD
         AutoRoute(page: ExpenseRoute.page, path: expense),
         AutoRoute(page: AddNewExpenseRoute.page, path: addNewExpense)
 =======
+=======
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
         AutoRoute(page: PdfViewerRoute.page, path: pdfViewer),
 <<<<<<< HEAD
 >>>>>>> e9fa262 (Added Pdf Viewer)
 =======
         AutoRoute(page: ExpenseRoute.page, path: expense)
+<<<<<<< HEAD
 >>>>>>> b19db2b (expenses feat app route assigned and simple structure of expense page created.)
+=======
+=======
+        AutoRoute(page: ExpenseRoute.page, path: expense),
+        AutoRoute(page: AddNewExpenseRoute.page, path: addNewExpense)
+>>>>>>> 40e654e (create new expense UI completedand expense card UI modified)
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
       ];
 
   // Routes constants
@@ -74,6 +84,7 @@ class AppRouter extends RootStackRouter {
 <<<<<<< HEAD
   static const String expense = "/expense";
   static const String addNewExpense = "/addNewExpense";
+<<<<<<< HEAD
 =======
   static const String pdfViewer = "/pdfViewer";
 <<<<<<< HEAD
@@ -81,6 +92,8 @@ class AppRouter extends RootStackRouter {
 =======
   static const String expense = "/expense";
 >>>>>>> b19db2b (expenses feat app route assigned and simple structure of expense page created.)
+=======
+>>>>>>> eb144b2 (create new expense UI completedand expense card UI modified)
 }
 
 class AuthGuard extends AutoRouteGuard {
