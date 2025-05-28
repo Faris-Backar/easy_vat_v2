@@ -3,9 +3,9 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 
-const RESOURCES = {"assets/AssetManifest.bin": "510ceb2b9a53e427cc81722fbcda6af0",
-"assets/AssetManifest.bin.json": "b6ca72a9d045c97fe1381cd1be83d713",
-"assets/AssetManifest.json": "a071d3e5962790825b9c7930c2eb2635",
+const RESOURCES = {"assets/AssetManifest.bin": "bfe61e286249ff5d10c73ca1a39b06cf",
+"assets/AssetManifest.bin.json": "b051eddd8c2392315c82ad43ee91b192",
+"assets/AssetManifest.json": "7aed2cd56f9246a76e96eb3cdb34897b",
 "assets/assets/fonts/Inter-Black.ttf": "b797a429ef21b9b7d44b96038cdb10f2",
 "assets/assets/fonts/Inter-Bold.ttf": "7ef6f6d68c7fedc103180f2254985e8c",
 "assets/assets/fonts/Inter-BoldItalic.ttf": "66469edaf106f7a1e14f4061212a1123",
@@ -106,6 +106,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "510ceb2b9a53e427cc81722fbcda6af0
 "assets/assets/icons/transaction.svg": "af4e5f4b13e7fcdf9f49b335bccf300d",
 "assets/assets/icons/vehicle_registration.svg": "7039170c141b84faa38aa624a5fc5559",
 "assets/assets/icons/view.svg": "9cd14938049ac5212fac2bb13a1c3b04",
+<<<<<<< HEAD
 "assets/assets/images/Logo.png": "75b6fd79c7324d5482011caec874f202",
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -133,6 +134,16 @@ const RESOURCES = {"assets/AssetManifest.bin": "510ceb2b9a53e427cc81722fbcda6af0
 "assets/fonts/MaterialIcons-Regular.otf": "1cddcb69e09c805b4c453a8f949f4c67",
 >>>>>>> e8c688b (Added Delete Invoice functionality)
 "assets/NOTICES": "8b146cb7ffbe5b9308139a97528a792d",
+=======
+"assets/assets/images/Logo.png": "c9141bbda076a1c4750b0ee3015efebb",
+"assets/assets/images/Logo_small.png": "e4b11a525cff12abb32d1b9922e44d98",
+"assets/assets/images/no_data_found.png": "9e278296a0b08177fb0f0db6cc7d4d53",
+"assets/assets/locale/intl_ar.json": "58c375800517eebb50dc3a5421d54b2b",
+"assets/assets/locale/intl_en.json": "43e106a24b38ccb448fbfec0e92760e7",
+"assets/FontManifest.json": "212ed8365f9174e6141c1e7603c60834",
+"assets/fonts/MaterialIcons-Regular.otf": "636e1de24a50c2da4d92080967e54daf",
+"assets/NOTICES": "4709f2a68098954c3d85f07c87b63922",
+>>>>>>> d592f14 (Fixed Issues mentioned - 27-5-25)
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "33b7d9392238c04c131b6ce224e13711",
 "assets/packages/fluttertoast/assets/toastify.css": "a85675050054f179444bc5ad70ffc635",
 "assets/packages/fluttertoast/assets/toastify.js": "56e2c9cedd97f10e7e5f1cebd85d53e3",
@@ -154,6 +165,7 @@ const RESOURCES = {"assets/AssetManifest.bin": "510ceb2b9a53e427cc81722fbcda6af0
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 "flutter_bootstrap.js": "f2cef5dfd9050e26bc1eba62d025c07d",
 =======
 "flutter_bootstrap.js": "e28bab592990b123faa14f0e0f709146",
@@ -164,12 +176,16 @@ const RESOURCES = {"assets/AssetManifest.bin": "510ceb2b9a53e427cc81722fbcda6af0
 =======
 "flutter_bootstrap.js": "0b0165dc091642468b7375d924aa2366",
 >>>>>>> e8c688b (Added Delete Invoice functionality)
+=======
+"flutter_bootstrap.js": "4181665edea8077604bcd774ff7b728c",
+>>>>>>> d592f14 (Fixed Issues mentioned - 27-5-25)
 "icons/Icon-192.png": "b135b553b2009e38a90d4d5d3130c910",
 "icons/Icon-512.png": "669b0bca393f76ea8d6d3e8d2620db2a",
 "icons/Icon-maskable-192.png": "b135b553b2009e38a90d4d5d3130c910",
 "icons/Icon-maskable-512.png": "669b0bca393f76ea8d6d3e8d2620db2a",
 "index.html": "3f258a5504b89646b0b79b59e29f6425",
 "/": "3f258a5504b89646b0b79b59e29f6425",
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -183,6 +199,9 @@ const RESOURCES = {"assets/AssetManifest.bin": "510ceb2b9a53e427cc81722fbcda6af0
 =======
 "main.dart.js": "d4e3ffe51a35a26a1d73f8f9e83f5a8f",
 >>>>>>> e8c688b (Added Delete Invoice functionality)
+=======
+"main.dart.js": "eab9db75e204e772f6c1f3aaf06b174d",
+>>>>>>> d592f14 (Fixed Issues mentioned - 27-5-25)
 "manifest.json": "bd93dfcba575bb404a932d1adcbf890b",
 "splash/img/dark-1x.png": "55b0e00c8641b7744fb086a8ae93fff3",
 "splash/img/dark-2x.png": "5676aa73cfbc4189b48c70617af1f581",

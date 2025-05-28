@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,7 +14,6 @@ import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_selector_widget.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/filter_widget.dart';
-import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
 import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -96,11 +96,31 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
   final ValueNotifier<String?> salesModeNotifier = ValueNotifier(null);
   final ValueNotifier<String?> soldByNotifier = ValueNotifier(null);
   final ValueNotifier<String?> paymentMethodNotifier = ValueNotifier(null);
+  late final ValueNotifier<bool> isSearchNotEmpty;
+
   DateTime? selectedSaleDate;
 
-  /// Default fetch function if no custom function is provided
+  @override
+  void initState() {
+    super.initState();
+    isSearchNotEmpty = ValueNotifier(false);
+    widget.searchController.addListener(() {
+      isSearchNotEmpty.value = widget.searchController.text.trim().isNotEmpty;
+    });
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(dateRangeProvider.notifier).updateFromDate(DateTime.now());
+      ref.read(dateRangeProvider.notifier).updateToDate(DateTime.now());
+    });
+  }
+
+  @override
+  void dispose() {
+    isSearchNotEmpty.dispose();
+    super.dispose();
+  }
+
   Future<void> _defaultFetchInvoice() async {
-    // Read current date range from provider
     final dateRange = ref.read(dateRangeProvider);
 
     final params = SalesParams(
@@ -110,7 +130,6 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
       customerID: "00000000-0000-0000-0000-000000000000",
     );
 
-    // Use custom fetch function if provided, otherwise use default
     if (widget.config.fetchFunction != null) {
       await widget.config.fetchFunction!(params);
     } else {
@@ -122,6 +141,7 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
 
   _buildFilterBottomSheet(BuildContext context) {
     final paymentModeState = ref.read(paymentModeNotifierProvider);
+    final salesManState = ref.read(salesManProvider);
     return showModalBottomSheet(
       backgroundColor: context.colorScheme.tertiaryContainer,
       context: context,
@@ -141,7 +161,6 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
                 ),
                 InkWell(
                   onTap: () {
-                    // Use custom filter function if provided
                     if (widget.config.filterFunction != null) {
                       widget.config.filterFunction!(
                           SalesInvoiceFilterParams(clearAllFilter: true));
@@ -172,17 +191,6 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
             Row(
               children: [
                 Expanded(
-                  child: DatePickerTextField(
-                    label: context.translate(widget.config.isForPurchase
-                        ? AppStrings.purchaseDate
-                        : AppStrings.salesDate),
-                    onDateSelected: (DateTime selectedDate) {
-                      selectedSaleDate = selectedDate;
-                    },
-                  ),
-                ),
-                SizedBox(width: 12.w),
-                Expanded(
                   child: paymentModeState.when(
                     initial: () => const SizedBox.shrink(),
                     loading: () =>
@@ -207,44 +215,43 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
                     },
                   ),
                 ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: salesManState.maybeWhen(
+                    loaded: (employeeList) {
+                      final List<String> employeeNames = employeeList
+                          .map((employee) => employee.empName ?? "")
+                          .where((name) => name.isNotEmpty)
+                          .toList();
+
+                      return DropdownField(
+                        height: 38.h,
+                        labelAndTextFieldGap: 2,
+                        label: context.translate(widget.config.isForPurchase
+                            ? AppStrings.purchasedBy
+                            : AppStrings.soldBy),
+                        valueNotifier: soldByNotifier,
+                        onChanged: (newValue) {
+                          soldByNotifier.value = newValue;
+                        },
+                        items: employeeNames,
+                        backgroundColor: AppUtils.isDarkMode(context)
+                            ? context.colorScheme.tertiaryContainer
+                            : context.surfaceColor,
+                      );
+                    },
+                    loading: () => const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
+                    error: (message) => Text(message),
+                    orElse: () => const SizedBox.shrink(),
+                  ),
+                ),
               ],
             ),
             SizedBox(height: 12.h),
             Row(
               children: [
-                // Expanded(
-                //   child: salesManState.maybeWhen(
-                //     loaded: (employeeList) {
-                //       final List<String> employeeNames = employeeList
-                //           .map((employee) => employee.empName ?? "")
-                //           .where((name) => name.isNotEmpty)
-                //           .toList();
-
-                //       return DropdownField(
-                //         height: 38.h,
-                //         labelAndTextFieldGap: 2,
-                //         label: context.translate(widget.config.isForPurchase
-                //             ? AppStrings.purchasedBy
-                //             : AppStrings.soldBy),
-                //         valueNotifier: soldByNotifier,
-                //         onChanged: (newValue) {
-                //           soldByNotifier.value = newValue;
-                //         },
-                //         items: employeeNames,
-                //         backgroundColor: AppUtils.isDarkMode(context)
-                //             ? context.colorScheme.tertiaryContainer
-                //             : context.surfaceColor,
-                //       );
-                //     },
-                //     loading: () => const Center(
-                //       child: CircularProgressIndicator.adaptive(),
-                //     ),
-                //     error: (message) => Text(message),
-                //     orElse: () => const SizedBox.shrink(),
-                //   ),
-                // ),
-                // SizedBox(width: 12.w),
-                // const Expanded(child: SizedBox()),
                 Expanded(child: CustomerSelectorWidget()),
                 SizedBox(width: 12.w),
                 const Expanded(child: SizedBox()),
@@ -258,12 +265,10 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
                 onPressed: () {
                   final params = SalesInvoiceFilterParams(
                     clearAllFilter: false,
-                    salesDate: selectedSaleDate,
-                    salesMode: salesModeNotifier.value,
+                    salesMode: paymentMethodNotifier.value,
                     soldBy: soldByNotifier.value,
+                    // Add customer parameter if needed from CustomerSelectorWidget
                   );
-
-                  // Use custom filter function if provided
                   if (widget.config.filterFunction != null) {
                     widget.config.filterFunction!(params);
                   } else {
@@ -298,37 +303,61 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
           child: Padding(
             padding: const EdgeInsets.only(
                 left: 16.0, top: 16.0, bottom: 16.0, right: 8.0),
-            child: TextInputFormField(
-              height: 36.h,
-              controller: widget.searchController,
-              fillColor: AppUtils.isDarkMode(context)
-                  ? context.colorScheme.surfaceBright
-                  : null,
-              prefixIcon: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: SvgIcon(
+            child: ValueListenableBuilder<bool>(
+              valueListenable: isSearchNotEmpty,
+              builder: (_, hasText, __) => TextInputFormField(
+                height: 36.h,
+                controller: widget.searchController,
+                textInputAction: TextInputAction.done,
+                maxLines: 1,
+                fillColor: AppUtils.isDarkMode(context)
+                    ? context.colorScheme.surfaceBright
+                    : null,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: SvgIcon(
                     icon: Assets.icons.search,
                     color: AppUtils.isDarkMode(context)
                         ? context.colorScheme.onPrimary
-                        : null),
-              ),
-              hint: context.translate(AppStrings.search),
-              hintDecoration: context.textTheme.bodyMedium?.copyWith(
+                        : null,
+                  ),
+                ),
+                hint: context.translate(AppStrings.search),
+                hintDecoration: context.textTheme.bodyMedium?.copyWith(
                   fontWeight: FontWeight.w500,
-                  color: context.defaultTextColor.withValues(alpha: .32)),
-              suffixIcon: widget.config.enableBarcodeScanning
-                  ? Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: InkWell(
-                        onTap: widget.config.onBarcodeScan,
-                        child: SvgIcon(
-                            icon: Assets.icons.barcode,
-                            color: AppUtils.isDarkMode(context)
-                                ? context.colorScheme.onPrimary
-                                : null),
-                      ),
-                    )
-                  : null,
+                  color: context.defaultTextColor.withValues(alpha: .32),
+                ),
+                suffixIcon: hasText
+                    ? Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: InkWell(
+                          onTap: () {
+                            widget.searchController.clear();
+                            isSearchNotEmpty.value = false;
+                            FocusScope.of(context).unfocus();
+                          },
+                          child: Icon(
+                            Icons.close,
+                            size: 20,
+                            color: context.colorScheme.onSurfaceVariant,
+                          ),
+                        ),
+                      )
+                    : widget.config.enableBarcodeScanning
+                        ? Padding(
+                            padding: const EdgeInsets.all(12.0),
+                            child: InkWell(
+                              onTap: widget.config.onBarcodeScan,
+                              child: SvgIcon(
+                                icon: Assets.icons.barcode,
+                                color: AppUtils.isDarkMode(context)
+                                    ? context.colorScheme.onPrimary
+                                    : null,
+                              ),
+                            ),
+                          )
+                        : null,
+              ),
             ),
           ),
         ),
@@ -351,7 +380,7 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
         if (!didPop && widget.config.onWillPop != null) {
           final shouldPop = await widget.config.onWillPop!();
           if (shouldPop && context.mounted) {
-            context.back(); // popRoute with result
+            context.back();
           }
         }
       },

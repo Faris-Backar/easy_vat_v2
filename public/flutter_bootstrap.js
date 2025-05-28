@@ -13,6 +13,7 @@ _flutter.loader.load({
   serviceWorkerSettings: {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     serviceWorkerVersion: "290216060"
 =======
     serviceWorkerVersion: "1816086655"
@@ -20,5 +21,8 @@ _flutter.loader.load({
 =======
     serviceWorkerVersion: "878435313"
 >>>>>>> e8c688b (Added Delete Invoice functionality)
+=======
+    serviceWorkerVersion: "2480145376"
+>>>>>>> d592f14 (Fixed Issues mentioned - 27-5-25)
   }
 });

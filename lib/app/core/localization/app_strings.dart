@@ -198,4 +198,5 @@ class AppStrings {
   static const String addSupplier = "addSupplier";
   static const String deleteSalesInvoiceConfirmationMessage =
       "deleteSalesInvoiceConfirmationMessage";
+  static const String invNo = "invNo";
 }

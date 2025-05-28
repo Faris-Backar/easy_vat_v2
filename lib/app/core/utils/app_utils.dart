@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class AppUtils {
   AppUtils._();
@@ -12,5 +15,31 @@ class AppUtils {
     if (value is int) return value.toDouble();
     if (value is double) return value;
     return 0.0;
+  }
+
+  static Future<bool> requestStoragePermission() async {
+    final status = await Permission.storage.status;
+    if (status.isGranted) return true;
+
+    final result = await Permission.storage.request();
+    return result.isGranted;
+  }
+
+  static Future<bool> requestDownloadPermission() async {
+    if (Platform.isAndroid) {
+      final androidVersion =
+          int.tryParse(Platform.version.split(" ").first) ?? 30;
+
+      if (androidVersion >= 29) {
+        return true;
+      } else {
+        final status = await Permission.storage.request();
+        return status.isGranted;
+      }
+    } else if (Platform.isIOS) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

@@ -197,6 +197,11 @@ class CartNotifier extends StateNotifier<CartState> {
     state = state.copyWith(selectedCustomer: selectedCustomer);
   }
 
+  removeCustomer() {
+    selectedCustomer = CustomerEntity(ledgerName: "Cash", isActive: true);
+    state = state.copyWith(selectedCustomer: selectedCustomer);
+  }
+
   setShippingAddress(String shippingAddress) {
     this.shippingAddress = shippingAddress;
   }

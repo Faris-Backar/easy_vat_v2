@@ -1,7 +1,9 @@
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomerInfoTabContent extends StatelessWidget {
@@ -59,14 +61,55 @@ class CustomerInfoTabContent extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(
-          height: 40.h,
-          width: double.infinity,
-          child: Text(
-            customerName,
-            style: context.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w500, overflow: TextOverflow.clip),
-          ),
+        Row(
+          children: [
+            Expanded(
+              flex: 5,
+              child: SizedBox(
+                height: 40.h,
+                child: Text(
+                  customerName,
+                  style: context.textTheme.bodyMedium?.copyWith(
+                      fontWeight: FontWeight.w500, overflow: TextOverflow.clip),
+                ),
+              ),
+            ),
+            Consumer(
+              builder: (context, ref, child) {
+                if (customerName.toLowerCase() != "cash") {
+                  return Expanded(
+                    flex: 1,
+                    child: InkWell(
+                      onTap: () {
+                        ref.read(cartProvider.notifier).removeCustomer();
+                      },
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        width: 24,
+                        height: 24,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          color:
+                              context.colorScheme.error.withValues(alpha: 0.1),
+                          border: Border.all(
+                            color: context.colorScheme.error
+                                .withValues(alpha: 0.3),
+                            width: 1,
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.close_rounded,
+                          size: 16,
+                          color: context.colorScheme.error,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                return SizedBox.shrink();
+              },
+            )
+          ],
         ),
         _buildTransactionsHeaders(
           context,
