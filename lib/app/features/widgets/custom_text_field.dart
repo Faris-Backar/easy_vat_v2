@@ -21,6 +21,7 @@ class CustomTextField extends StatelessWidget {
   final VoidCallback? onTap;
   final TextStyle? style;
   final Widget? prefixIcon;
+  final Function(String)? onFieldSubmitted;
   const CustomTextField(
       {super.key,
       required this.label,
@@ -40,7 +41,8 @@ class CustomTextField extends StatelessWidget {
       this.onChanged,
       this.prefixIcon,
       this.style,
-      this.onTap});
+      this.onTap,
+      this.onFieldSubmitted});
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +80,7 @@ class CustomTextField extends StatelessWidget {
                   ?.copyWith(color: context.colorScheme.onSurface),
           textInputType: textInputType,
           onChanged: onChanged,
+          onFieldSubmitted: onFieldSubmitted,
         ),
       ],
     );

@@ -30,7 +30,8 @@ class TextInputFormField extends StatelessWidget {
       this.label,
       this.textAlign,
       this.inputFormatters,
-      this.autoFocus = false});
+      this.autoFocus = false,
+      this.maxLength});
   final String? hint;
   final TextEditingController controller;
   final Widget? prefixIcon;
@@ -57,6 +58,7 @@ class TextInputFormField extends StatelessWidget {
   final TextAlign? textAlign;
   final List<TextInputFormatter>? inputFormatters;
   final bool autoFocus;
+  final int? maxLength;
 
   @override
   Widget build(BuildContext context) {
@@ -115,6 +117,7 @@ class TextInputFormField extends StatelessWidget {
               color: context.colorScheme.error, fontWeight: FontWeight.w400),
         ),
         maxLines: maxLines,
+        maxLength: maxLength,
         style: style,
         cursorColor: cursorColor,
         onTapOutside: (event) {

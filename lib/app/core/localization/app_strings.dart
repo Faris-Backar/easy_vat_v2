@@ -192,4 +192,10 @@ class AppStrings {
   static const String deleteSalesInvoiceConfirmationMessage =
       "deleteSalesInvoiceConfirmationMessage";
   static const String invNo = "invNo";
+  static const String enterPassword = "enterPassword";
+  static const String verify = "verify";
+  static const String enterPasswordToViewCost = "enterPasswordToViewCost";
+  static const String incorrectPassword = "incorrectPassword";
+  static const String itemCurrentlyOutOfStock = "itemCurrentlyOutOfStock";
+  static const String stock = "stock";
 }

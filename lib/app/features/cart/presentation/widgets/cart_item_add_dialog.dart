@@ -40,7 +40,8 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
   final _taxController = TextEditingController();
   double taxPercentage = 0.0;
 
-  final _passwordVisibilityNotifier = ValueNotifier(true);
+  final _costVisibilityNotifier = ValueNotifier(false);
+  final _passwordVisibilityNotifier = ValueNotifier(false);
   // Flag to prevent circular updates
   bool _isUpdatingFromNetTotal = false;
   bool _isUpdatingFromQuantity = false;
@@ -241,33 +242,51 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
               children: [
                 Expanded(
                   child: ValueListenableBuilder(
-                      valueListenable: _passwordVisibilityNotifier,
-                      builder: (context, bool isPasswordVisible, child) {
-                        return TextInputFormField(
-                          height: 36.h,
-                          label: context.translate(AppStrings.sellingPrice),
-                          controller: _sellingPriceController,
-                          fillColor: context.colorScheme.tertiaryContainer,
-                          onChanged: (value) => _updatePriceWithTax(),
-                          onTap: () => _sellingPriceController.selection =
-                              TextSelection(
-                                  baseOffset: 0,
-                                  extentOffset: _sellingPriceController
-                                      .value.text.length),
-                          textInputAction: TextInputAction.next,
-                          textInputType: const TextInputType.numberWithOptions(
-                              decimal: true),
-                          inputFormatters: [_decimalInputFormatter],
-                          maxLines: 1,
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                _passwordVisibilityNotifier.value =
-                                    !_passwordVisibilityNotifier.value;
-                              },
-                              icon: Icon(Icons.visibility_rounded)),
-                          textAlign: TextAlign.right,
-                        );
-                      }),
+                    valueListenable: _costVisibilityNotifier,
+                    builder: (context, bool isCostVisibile, child) {
+                      return TextInputFormField(
+                        height: 36.h,
+                        label: context.translate(isCostVisibile
+                            ? AppStrings.cost
+                            : AppStrings.sellingPrice),
+                        controller: isCostVisibile
+                            ? _costPriceController
+                            : _sellingPriceController,
+                        fillColor: context.colorScheme.tertiaryContainer,
+                        onChanged: (value) => _updatePriceWithTax(),
+                        onTap: () {
+                          final controller = isCostVisibile
+                              ? _costPriceController
+                              : _sellingPriceController;
+                          controller.selection = TextSelection(
+                            baseOffset: 0,
+                            extentOffset: controller.value.text.length,
+                          );
+                        },
+                        textInputAction: TextInputAction.next,
+                        textInputType: const TextInputType.numberWithOptions(
+                            decimal: true),
+                        inputFormatters: [_decimalInputFormatter],
+                        maxLines: 1,
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            if (_costVisibilityNotifier.value) {
+                              _costVisibilityNotifier.value =
+                                  !_costVisibilityNotifier.value;
+                            } else {
+                              _showPasswordDialog(context);
+                            }
+                          },
+                          icon: Icon(
+                            isCostVisibile
+                                ? Icons.visibility_off_rounded
+                                : Icons.visibility_rounded,
+                          ),
+                        ),
+                        textAlign: TextAlign.right,
+                      );
+                    },
+                  ),
                 ),
                 SizedBox(
                   width: 5.w,
@@ -452,5 +471,102 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     }
 
     context.router.popForced();
+  }
+
+// Add this method to your class
+  void _showPasswordDialog(BuildContext context) {
+    final TextEditingController passwordController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(context.translate(AppStrings.enterPassword)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                context.translate(AppStrings.enterPasswordToViewCost),
+                style: context.textTheme.bodySmall,
+              ),
+              SizedBox(height: 16.h),
+              ValueListenableBuilder(
+                  valueListenable: _passwordVisibilityNotifier,
+                  builder: (BuildContext context, bool isCostVisibile,
+                      Widget? child) {
+                    return TextInputFormField(
+                      label: AppStrings.password,
+                      maxLength: 6,
+                      controller: passwordController,
+                      isPasswordVisible: !_passwordVisibilityNotifier.value,
+                      suffixIcon: IconButton(
+                        onPressed: () => _passwordVisibilityNotifier.value =
+                            !_passwordVisibilityNotifier.value,
+                        icon: Icon(
+                          isCostVisibile
+                              ? Icons.visibility_off_rounded
+                              : Icons.visibility_rounded,
+                        ),
+                      ),
+                      maxLines: 1,
+                      textInputAction: TextInputAction.done,
+                      prefixIcon: Icon(Icons.lock),
+                      hint: context.translate(AppStrings.password),
+                      onFieldSubmitted: (value) =>
+                          _verifyPassword(context, value, passwordController),
+                    );
+                  }),
+            ],
+          ),
+          actions: [
+            SecondaryButton(
+              onPressed: () => context.router.popForced(),
+              label: context.translate(AppStrings.cancel),
+              labelColor: context.defaultTextColor,
+            ),
+            PrimaryButton(
+              onPressed: () => _verifyPassword(
+                  context, passwordController.text, passwordController),
+              label: context.translate(AppStrings.verify),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _verifyPassword(BuildContext context, String enteredPassword,
+      TextEditingController controller) {
+    final String dummyPassword = "111111";
+
+    if (enteredPassword == dummyPassword) {
+      _costVisibilityNotifier.value = !_costVisibilityNotifier.value;
+      context.router.popForced();
+
+      // // Show success message (optional)
+      // ScaffoldMessenger.of(context).showSnackBar(
+      //   SnackBar(
+      //     content: Text(
+      //       _passwordVisibilityNotifier.value
+      //           ? context.translate(AppStrings.costPriceVisible)
+      //           : context.translate(AppStrings.sellingPriceVisible),
+      //     ),
+      //     backgroundColor: Colors.green,
+      //     duration: Duration(seconds: 2),
+      //   ),
+      // );
+    } else {
+      // Password incorrect - show error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(context.translate(AppStrings.incorrectPassword)),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+      // Clear the password field and keep dialog open
+      controller.clear();
+    }
   }
 }

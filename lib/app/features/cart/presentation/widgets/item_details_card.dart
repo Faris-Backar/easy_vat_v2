@@ -38,10 +38,12 @@ class ItemDetailsCard extends StatelessWidget {
               ),
               Text(
                 items.isActive == true
-                    ? AppStrings.inStock
-                    : AppStrings.outOfStock,
+                    ? context.translate(AppStrings.inStock)
+                    : context.translate(AppStrings.outOfStock),
                 style: context.textTheme.bodySmall?.copyWith(
-                  color: items.isActive == true ? Colors.green : Colors.red,
+                  color: (items.currentStock ?? 0) > 0
+                      ? Colors.green
+                      : context.errorColor,
                   fontWeight: FontWeight.w600,
                 ),
               )
@@ -73,8 +75,8 @@ class ItemDetailsCard extends StatelessWidget {
                   alignment: Alignment.center,
                   child: _buildContents(
                     context,
-                    AppStrings.cost,
-                    items.cost?.toStringAsFixed(2) ?? "0.0",
+                    AppStrings.unit,
+                    items.unit ?? "",
                   ),
                 ),
               ),
@@ -91,11 +93,11 @@ class ItemDetailsCard extends StatelessWidget {
               Expanded(
                 child: Align(
                   alignment: Alignment.center,
-                  child: _buildContents(
-                    context,
-                    AppStrings.unit,
-                    items.unit ?? "",
-                  ),
+                  child: _buildContents(context, AppStrings.stock,
+                      items.currentStock?.toStringAsFixed(2) ?? "0.0",
+                      textColor: (items.currentStock ?? 0.0) > 0
+                          ? Colors.green
+                          : context.errorColor),
                 ),
               ),
             ],
@@ -105,7 +107,8 @@ class ItemDetailsCard extends StatelessWidget {
     );
   }
 
-  Widget _buildContents(BuildContext context, String label, String content) {
+  Widget _buildContents(BuildContext context, String label, String content,
+      {Color? textColor}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +125,8 @@ class ItemDetailsCard extends StatelessWidget {
           style: context.textTheme.bodySmall?.copyWith(
               fontSize: 11,
               fontWeight: FontWeight.w600,
-              color: context.defaultTextColor.withValues(alpha: 0.75)),
+              color: textColor ??
+                  context.defaultTextColor.withValues(alpha: 0.75)),
         )
       ],
     );

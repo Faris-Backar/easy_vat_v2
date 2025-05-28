@@ -86,7 +86,7 @@ class _CartItemCardWidgetState extends State<CartItemCardWidget> {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    widget.items.item.isActive == true
+                    ((widget.items.item.currentStock ?? 0) > 0)
                         ? context.translate(AppStrings.inStock)
                         : context.translate(AppStrings.outOfStock),
                     style: context.textTheme.bodySmall?.copyWith(

@@ -1,6 +1,8 @@
 import 'dart:io';
 
+import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AppUtils {
@@ -42,4 +44,7 @@ class AppUtils {
       return false;
     }
   }
+
+  static showToast(BuildContext context, String message) =>
+      Fluttertoast.showToast(msg: context.translate(message));
 }

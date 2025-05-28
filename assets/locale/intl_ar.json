@@ -185,5 +185,12 @@
   "discardChangesMessage": "لديك عناصر في سلة التسوق. هل تريد تجاهلها والعودة؟",
   "discard": "تجاهل",
   "deleteSalesInvoiceConfirmationMessage": "تم حذف فاتورة البيع بنجاح",
-   "invNo":"InvNo"
+  "invNo": "InvNo",
+  "enterPassword": "أدخل كلمة المرور",
+  "verify": "تحقق",
+  "enterPasswordToViewCost": "أدخل كلمة المرور لعرض التكلفة.",
+  "incorrectPassword": "كلمة المرور غير صحيحة",
+  "itemCurrentlyOutOfStock": "العنصر غير متوفر حالياً",
+  "stock": "المخزون"
+
 }
