@@ -187,11 +187,7 @@
   "payable": "payable",
   "recievable": "recievable",
   "transactions": "Transactions",
-  "grossProfit": "Gross Profit",
-  "update": "Update",
-  "discardChanges": "Discard Changes?",
-  "discardChangesMessage": "You have items in your cart. Do you want to discard them and go back?",
-  "discard": "Discard",
-  "deleteSalesInvoiceConfirmationMessage": "Sales Invoice deleted Successfully",
-  "invNo": "InvNo"
+  "expNo": "ExpNo" ,
+  "addNewExpense": "Add New Expense",
+  "paymentMode": "Payment Mode"
 }

@@ -194,6 +194,7 @@
   "incorrectPassword": "كلمة المرور غير صحيحة",
   "itemCurrentlyOutOfStock": "العنصر غير متوفر حالياً",
   "stock": "المخزون",
-  "expNo":"ExpNo"
+  "expNo":"ExpNo",
+   "paymentMode": "طريقة الدفع"
 
 }

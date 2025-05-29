@@ -148,7 +148,7 @@ class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
                     Expanded(
                       child: SecondaryButton(
                         onPressed: () {},
-                        label: context.translate(AppStrings.addCustomer),
+                        label: context.translate(AppStrings.addSupplier),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -287,7 +287,7 @@ class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
                                 CustomTextField(
                                   label: context.translate(
                                       AppStrings.enterBillingAddress),
-                                  controller: shippingAddressController,
+                                  controller: billingAddressController,
                                   hint: context.translate(AppStrings.address),
                                   maxLines: 4,
                                   fillColor: AppUtils.isDarkMode(context)
@@ -353,60 +353,11 @@ class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 16.0, vertical: 16.0),
-                            child: Column(
-                              children: [
-                                CustomTextField(
-                                  label: context.translate(
-                                      AppStrings.enterShippingAddress),
-                                  controller: shippingAddressController,
-                                  hint: context.translate(AppStrings.address),
-                                  maxLines: 4,
-                                  fillColor: AppUtils.isDarkMode(context)
-                                      ? context.surfaceColor
-                                      : null,
-                                  validator: (value) {
-                                    if (value?.isEmpty == true ||
-                                        (value?.length ?? 0) < 5) {
-                                      return "Please enter a valid address";
-                                    }
-                                    return null;
-                                  },
-                                ),
-                                SizedBox(
-                                  height: 10.0,
-                                  width: double.infinity,
-                                  child: PrimaryButton(
-                                    label: context.translate(AppStrings.submit),
-                                    onPressed: () {
-                                      if (selectedSupplier != null) {
-                                        final updatedSupplier =
-                                            selectedSupplier.copyWith(
-                                                billingAddress:
-                                                    shippingAddressController // need clarity
-                                                        .text);
-                                        ref
-                                            .read(cartProvider.notifier)
-                                            .setSupplier(updatedSupplier);
-                                        context.router.popForced();
-                                      } else {
-                                        Fluttertoast.showToast(
-                                            msg: context.translate(AppStrings
-                                                .pleaseSelectASupplier));
-                                      }
-                                    },
-                                  ),
-                                )
-                              ],
-                            ),
                           ),
                         ),
                       );
                     },
-                    child: SupplierAddressInfo(
-                        address: selectedSupplier?.billingAddress ?? "",
-                        hint: context.translate(AppStrings.address),
-                        label: context.translate(AppStrings
-                            .enterShippingAddress)), // need clarification
+                    // need clarification
                   )
                 ]),
               ))
@@ -447,10 +398,6 @@ Widget _buildTabBar(BuildContext context) {
       Padding(
         padding: EdgeInsets.all(4.0),
         child: Text(context.translate(AppStrings.billing)),
-      ),
-      Padding(
-        padding: EdgeInsets.all(4.0),
-        child: Text(context.translate(AppStrings.shipping)),
       ),
     ],
   );

@@ -120,7 +120,7 @@ class ExpenseCard extends StatelessWidget {
                             height: 2.h,
                           ),
                           Text(
-                            "${context.translate(AppStrings.expNo)}: ${expense.expenseNo ?? "-"}   ${context.translate(AppStrings.supInvNo)}: ${expense.supplierInvoiceNo ?? "-"}",
+                            "${context.translate(AppStrings.expenseNo)}: ${expense.expenseNo ?? "-"}   ${context.translate(AppStrings.supInvNo)}: ${expense.supplierInvoiceNo ?? "-"}",
                             style: context.textTheme.bodySmall?.copyWith(
                               color: context.defaultTextColor
                                   .withValues(alpha: 0.9),
