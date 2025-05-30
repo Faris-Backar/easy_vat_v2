@@ -3,7 +3,7 @@ import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/widgets/items_bottom_modal_sheet.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/widgets/expense_bottom_modal_sheet.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/create_expense/create_expense_notifier.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/update_expense/update_expense_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -143,7 +143,7 @@ class _AddExpenseFooterWidgetState extends State<AddExpenseFooterWidget> {
                   context,
                   Icons.add_circle_outline_rounded,
                   context.translate(AppStrings.addLedger), () {
-                showItemsBottomSheet(context);
+                showExpenseBottomSheet(context);
               });
 
               // return FloatingActionButton.extended(

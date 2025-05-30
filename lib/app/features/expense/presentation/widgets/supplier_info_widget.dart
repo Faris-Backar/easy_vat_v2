@@ -45,7 +45,18 @@ class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
     });
   }
 
-  Future<void> _fetchAndSelectSupplier() async {}
+  Future<void> _fetchAndSelectSupplier() async {
+    final selectedSupplier = ref.read(cartProvider).selectedSupplier;
+    if (selectedSupplier != null) {
+      ref.read(cartProvider.notifier).setSupplier(selectedSupplier);
+      billingAddressController.text =
+          ref.read(cartProvider).selectedSupplier?.billingAddress ?? "";
+    } else {
+      final cashSupplier = SupplierEntity(ledgerName: "Cash", isActive: true);
+      ref.read(cartProvider.notifier).setSupplier(cashSupplier);
+    }
+    await ref.read(supplierNotfierProvider.notifier).getSupplier();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,7 +145,12 @@ class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
                       supplierState.errorMessage ?? AppStrings.noDataIsFound),
                 )
               else if (supplierState.status == SupplierStateStatus.loading)
-                Spacer(),
+                Expanded(
+                  child: Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  ),
+                ),
+              if (supplierState.status == SupplierStateStatus.loading) Spacer(),
               Container(
                 height: 67,
                 width: double.infinity,
@@ -259,11 +275,11 @@ class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
                           selectedSupplier?.creditDays?.toString() ?? "0",
                       creditLimit:
                           selectedSupplier?.creditLimit?.toStringAsFixed(2) ??
-                              "",
+                              "0.0",
                       supplierName: selectedSupplier?.ledgerName ?? "",
                       outstandingAmount:
                           selectedSupplier?.creditLimit?.toStringAsFixed(2) ??
-                              "",
+                              "0.0",
                       trn: selectedSupplier?.taxRegistrationNo ?? "",
                       isActive: selectedSupplier?.isActive ?? false,
                     ),
