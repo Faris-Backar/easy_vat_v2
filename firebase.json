@@ -1,0 +1,37 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "easy-vat-v2",
+          "appId": "1:978160887844:android:aacc8408e26f0b8fee90b1",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "easy-vat-v2",
+          "configurations": {
+            "android": "1:978160887844:android:aacc8408e26f0b8fee90b1",
+            "ios": "1:978160887844:ios:1f180c0466d8d6afee90b1",
+            "web": "1:978160887844:web:479a75ed76db00bcee90b1"
+          }
+        }
+      }
+    }
+  },
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+}
