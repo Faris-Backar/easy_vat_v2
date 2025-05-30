@@ -1,2 +1,0 @@
-D:/Works/easy_vat_v2/android/app/.cxx/RelWithDebInfo/6a2w2u1n/x86_64/CMakeFiles/edit_cache.dir
-D:/Works/easy_vat_v2/android/app/.cxx/RelWithDebInfo/6a2w2u1n/x86_64/CMakeFiles/rebuild_cache.dir

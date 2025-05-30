@@ -5,8 +5,8 @@ import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledg
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
+import 'package:easy_vat_v2/app/features/supplier/domain/entities/supplier_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_state.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
@@ -49,6 +49,14 @@ class CartNotifier extends StateNotifier<CartState> {
   bool isForEdit = false;
   bool isTaxEnabled = true;
   String salesIdpk = '00000000-0000-0000-0000-000000000000';
+  String expenseNo = "";
+  LedgerAccountEntity? drledger;
+  LedgerAccountEntity? crledger;
+  String paymentMode = "";
+  String? purchasedBy;
+  DateTime expenseDate = DateTime.now();
+  SupplierEntity? selectedSupplier;
+  String? expenseIDPK = "00000000-0000-0000-0000-000000000000";
 
   // Load tax preference from SharedPreferences
   Future<void> _loadTaxPreference() async {
@@ -201,6 +209,45 @@ class CartNotifier extends StateNotifier<CartState> {
   setEditMode(bool enableEdit) {
     isForEdit = enableEdit;
     state = state.copyWith(isForUpdate: isForEdit);
+  }
+
+  setExpNo(String expenseNo) {
+    this.expenseNo = expenseNo;
+    state = state.copyWith(expenseNo: expenseNo);
+  }
+
+  setExpenseIDPK(String expenseIDPK) {
+    this.expenseIDPK = expenseIDPK;
+  }
+
+  setExpenseDate(DateTime expenseDate) {
+    this.expenseDate = expenseDate;
+    state = state.copyWith(expenseDate: expenseDate);
+  }
+
+  setPaymentMode(String paymentMode) {
+    this.paymentMode = paymentMode;
+    state = state.copyWith(paymentMode: paymentMode);
+  }
+
+  setPurchasedBy(String purchasedBy) {
+    this.purchasedBy = purchasedBy;
+    state = state.copyWith(purchasedBy: purchasedBy);
+  }
+
+  setDrledger(LedgerAccountEntity drledger) {
+    this.drledger = drledger;
+    state = state.copyWith(drledger: drledger);
+  }
+
+  setCrledger(LedgerAccountEntity crledger) {
+    this.crledger = crledger;
+    state = state.copyWith(crledger: crledger);
+  }
+
+  setSupplier(SupplierEntity supplier) {
+    selectedSupplier = supplier;
+    state = state.copyWith(selectedSupplier: selectedSupplier);
   }
 
   void applyDiscount(double discountAmount) {

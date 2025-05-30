@@ -198,4 +198,11 @@ class AppStrings {
   static const String incorrectPassword = "incorrectPassword";
   static const String itemCurrentlyOutOfStock = "itemCurrentlyOutOfStock";
   static const String stock = "stock";
+  static const String paymentMode = "paymentMode";
+  static const String expenseNo = "expenseNo";
+  static const String expenseDate = "expenseDate";
+  static const String supInvNo = "supInvNo";
+  static const String expNo = "expNo";
+  static const String pleaseSelectASupplier = "pleaseSelectASupplier";
+  static const String addSupplier = "addSupplier";
 }

@@ -65,6 +65,8 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
       taxPercentage = isTaxEnabled ? 0.0 : item.taxPercentage ?? 0.0;
     });
 
+    taxPercentage = item.taxPercentage ?? 0.0;
+
     final double qty = cart?.qty ?? 1.00;
     final double sellingPrice = (cart?.rate ?? item.retailRate) ?? 0.0;
     final double discount = cart?.discount ?? 0.0;

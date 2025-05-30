@@ -104,7 +104,7 @@ class HomeCategoryData {
             label: context.translate(AppStrings.expenses),
             icon: Assets.icons.expenses,
             darkIcon: Assets.icons.dark.expansesDark,
-            pagePath: "",
+            pagePath: AppRouter.expense,
             formId: AppStrings.expenses),
         HomeDataModel(
             category: AppStrings.quickItems,
