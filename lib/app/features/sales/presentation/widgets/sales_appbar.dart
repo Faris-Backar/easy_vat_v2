@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,7 +41,7 @@ class SalesAppBar extends ConsumerStatefulWidget
   ConsumerState<SalesAppBar> createState() => _SalesAppBarState();
 
   @override
-  Size get preferredSize => Size.fromHeight(110.h + kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(123.h + kToolbarHeight);
 }
 
 /// Configuration class for customizing the SalesAppBar
@@ -165,11 +166,14 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
                       widget.config.filterFunction!(
                           SalesInvoiceFilterParams(clearAllFilter: true));
                     } else {
-                      ref
-                          .read(salesInvoiceNotifierProvider.notifier)
-                          .filterSalesInvoice(
-                              params: SalesInvoiceFilterParams(
-                                  clearAllFilter: true));
+                      // ref
+                      //     .read(salesInvoiceNotifierProvider.notifier)
+                      //     .filterSalesInvoice(
+                      //         params: SalesInvoiceFilterParams(
+                      //             clearAllFilter: true));
+                      salesModeNotifier.value = null;
+                      soldByNotifier.value = null;
+                      ref.read(cartProvider.notifier).selectedCustomer = null;
                     }
                     context.router.popForced();
                   },
@@ -201,7 +205,7 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
                         label: context.translate(widget.config.isForPurchase
                             ? AppStrings.purchaseMode
                             : AppStrings.salesMode),
-                        valueNotifier: paymentMethodNotifier,
+                        valueNotifier: salesModeNotifier,
                         items: paymentModes
                             .map((mode) => mode.paymentModes)
                             .toList(),
@@ -209,7 +213,7 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
                             ? context.colorScheme.tertiaryContainer
                             : context.surfaceColor,
                         onChanged: (newValue) {
-                          paymentMethodNotifier.value = newValue;
+                          salesModeNotifier.value = newValue;
                         },
                       );
                     },
@@ -263,18 +267,22 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
               child: PrimaryButton(
                 label: context.translate(AppStrings.filter),
                 onPressed: () {
-                  final params = SalesInvoiceFilterParams(
-                    clearAllFilter: false,
-                    salesMode: paymentMethodNotifier.value,
-                    soldBy: soldByNotifier.value,
-                    // Add customer parameter if needed from CustomerSelectorWidget
-                  );
+                  final params = SalesParams(
+                      fromDate: ref.read(dateRangeProvider).fromDate,
+                      toDate: ref.read(dateRangeProvider).toDate,
+                      customerID: ref
+                          .read(cartProvider.notifier)
+                          .selectedCustomer
+                          ?.ledgerIdpk,
+                      salesMode: salesModeNotifier.value,
+                      soldBy: soldByNotifier.value);
+
                   if (widget.config.filterFunction != null) {
-                    widget.config.filterFunction!(params);
+                    // widget.config.filterFunction!(params);
                   } else {
                     ref
                         .read(salesInvoiceNotifierProvider.notifier)
-                        .filterSalesInvoice(params: params);
+                        .fetchSalesInvoice(params: params);
                   }
                   context.router.popForced();
                 },
@@ -327,6 +335,9 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
                   fontWeight: FontWeight.w500,
                   color: context.defaultTextColor.withValues(alpha: .32),
                 ),
+                onChanged: (value) => ref
+                    .read(salesInvoiceNotifierProvider.notifier)
+                    .searchSalesInvoice(value),
                 suffixIcon: hasText
                     ? Padding(
                         padding: const EdgeInsets.all(12.0),

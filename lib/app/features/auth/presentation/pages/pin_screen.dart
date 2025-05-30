@@ -49,7 +49,7 @@ class _PinScreenState extends State<PinScreen> {
               defaultPinTheme: PinTheme(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.r),
-                  color: context.colorScheme.tertiary,
+                  color: context.colorScheme.tertiaryContainer,
                   border: Border.all(
                       color:
                           context.colorScheme.primary.withValues(alpha: 0.12),
@@ -66,7 +66,7 @@ class _PinScreenState extends State<PinScreen> {
               focusedPinTheme: PinTheme(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12.r),
-                  color: context.colorScheme.tertiary,
+                  color: context.colorScheme.tertiaryContainer,
                   border: Border.all(
                     color: context.colorScheme.primary,
                   ),

@@ -1,7 +1,6 @@
 import 'package:easy_vat_v2/app/features/sales/data/repository/sales_repository_impl.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/repositories/sales_repository.dart';
-import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_invoice_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,29 +41,28 @@ class SalesInoiveNotifiers extends StateNotifier<SalesInvoiceState> {
     });
   }
 
-  void filterSalesInvoice({required SalesInvoiceFilterParams params}) {
-    if (params.clearAllFilter) {
-      state = SalesInvoiceState.success(salesInvoice: salesList ?? []);
+  searchSalesInvoice(String query) {
+    double totalAmount = 0.0;
+    if (query.isEmpty) {
+      for (var i = 0; i < (salesList?.length ?? 0.0); i++) {
+        totalAmount += salesList?[i].netTotal ?? 0.0;
+      }
+      state = SalesInvoiceState.success(
+          salesInvoice: salesList ?? [], totalAmount: totalAmount);
     } else {
-      if (salesList == null) return;
-      final filteredSales = salesList?.where((sale) {
-        final matchesDate = params.salesDate == null ||
-            (sale.saleDate != null &&
-                sale.saleDate!.toLocal().isAtSameMomentAs(params.salesDate!));
-
-        final matchesMode = params.salesMode == null ||
-            (sale.saleMode != null &&
-                sale.saleMode!.toLowerCase() ==
-                    params.salesMode!.toLowerCase());
-
-        final matchesSoldBy = params.soldBy == null ||
-            (sale.soldBy != null &&
-                sale.soldBy!.toLowerCase() == params.soldBy!.toLowerCase());
-
-        return matchesDate && matchesMode && matchesSoldBy;
-      }).toList();
-
-      state = SalesInvoiceState.success(salesInvoice: filteredSales ?? []);
+      final filteredData = salesList?.where((invoice) {
+            return (invoice.referenceNo?.contains(query) ?? false) ||
+                (invoice.customerName
+                        ?.toLowerCase()
+                        .contains(query.toLowerCase()) ??
+                    false);
+          }).toList() ??
+          [];
+      for (var i = 0; i < (filteredData.length); i++) {
+        totalAmount += filteredData[i].netTotal ?? 0.0;
+      }
+      state = SalesInvoiceState.success(
+          salesInvoice: filteredData, totalAmount: totalAmount);
     }
   }
 

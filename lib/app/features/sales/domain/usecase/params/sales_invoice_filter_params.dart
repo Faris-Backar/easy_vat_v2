@@ -1,13 +1,13 @@
 class SalesInvoiceFilterParams {
-  final DateTime? salesDate;
   final String? salesMode;
   final String? soldBy;
+  final String? customerIdpk;
   final bool clearAllFilter;
 
   SalesInvoiceFilterParams({
-    this.salesDate,
     this.salesMode,
     this.soldBy,
+    this.customerIdpk,
     this.clearAllFilter = false,
   });
 }

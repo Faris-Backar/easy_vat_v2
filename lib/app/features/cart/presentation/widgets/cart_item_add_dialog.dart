@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:flutter/services.dart'; // Add this import for input filters
 
 import 'package:auto_route/auto_route.dart';
@@ -14,6 +15,7 @@ import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CartItemAddDialog extends ConsumerStatefulWidget {
   final ItemEntity item;
@@ -39,6 +41,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
   final _discountController = TextEditingController();
   final _taxController = TextEditingController();
   double taxPercentage = 0.0;
+  bool isTaxEnabled = false;
 
   final _costVisibilityNotifier = ValueNotifier(false);
   final _passwordVisibilityNotifier = ValueNotifier(false);
@@ -56,8 +59,11 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     super.initState();
     cart = widget.cartItem;
     item = widget.item;
-
-    taxPercentage = item.taxPercentage ?? 0.0;
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final prefs = await SharedPreferences.getInstance();
+      isTaxEnabled = prefs.getBool(PrefResources.isTaxEnabled) ?? false;
+      taxPercentage = isTaxEnabled ? 0.0 : item.taxPercentage ?? 0.0;
+    });
 
     final double qty = cart?.qty ?? 1.00;
     final double sellingPrice = (cart?.rate ?? item.retailRate) ?? 0.0;

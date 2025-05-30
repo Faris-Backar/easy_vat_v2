@@ -37,7 +37,7 @@ class ItemDetailsCard extends StatelessWidget {
                 ),
               ),
               Text(
-                items.isActive == true
+                (items.currentStock ?? 0.0) > 0
                     ? context.translate(AppStrings.inStock)
                     : context.translate(AppStrings.outOfStock),
                 style: context.textTheme.bodySmall?.copyWith(

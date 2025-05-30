@@ -37,6 +37,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: ExpenseInvoiceRoute.page, path: expenseInvoice),
         AutoRoute(page: BarcodeScannerRoute.page, path: barcodeScanner),
         AutoRoute(page: PdfViewerRoute.page, path: pdfViewer),
+        AutoRoute(page: NoInternetRoute.page, path: noInternet),
       ];
 
   // Routes constants
@@ -63,6 +64,7 @@ class AppRouter extends RootStackRouter {
   static const String expenseInvoice = "/expenseInvoice";
   static const String barcodeScanner = "/barcodeScanner";
   static const String pdfViewer = "/pdfViewer";
+  static const String noInternet = "/noInternet";
 }
 
 class AuthGuard extends AutoRouteGuard {

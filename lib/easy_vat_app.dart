@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/theme/app_theme.dart';
 import 'package:easy_vat_v2/app/features/settings/presentation/notifiers/locale_notifiers.dart';
 import 'package:easy_vat_v2/app/features/settings/presentation/notifiers/theme_notifier.dart';
 import 'package:easy_vat_v2/app/core/localization/app_localization.dart';
+import 'package:easy_vat_v2/app/features/no_internet/presentation/providers/network_connection_checker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -24,6 +26,16 @@ class EasyVatApp extends StatelessWidget {
           builder: (context, ref, child) {
             final themeMode = ref.watch(themeNotifierProvider);
             final currentLocale = ref.watch(localeProvider);
+
+            ref.listen<ConnectivityState>(connectionProvider, (previous, next) {
+              if (next == ConnectivityState.disconnected) {
+                context.router.pushNamed(AppRouter.noInternet);
+              } else if (previous == ConnectivityState.disconnected &&
+                  next == ConnectivityState.connected) {
+                context.router.back();
+              }
+            });
+
             return MaterialApp.router(
               title: "Easy Vat",
               debugShowCheckedModeBanner: false,
@@ -49,9 +61,8 @@ class EasyVatApp extends StatelessWidget {
               },
               builder: (context, child) {
                 return Directionality(
-                  textDirection: _getTextDirection(currentLocale),
-                  child: child!,
-                );
+                    textDirection: _getTextDirection(currentLocale),
+                    child: child!);
               },
             );
           },

@@ -9,16 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 @RoutePage()
-class CartScreen extends ConsumerStatefulWidget {
+class CartScreen extends ConsumerWidget {
   const CartScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _CartScreenState();
-}
-
-class _CartScreenState extends ConsumerState<CartScreen> {
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final state = ref.watch(cartProvider);
     return Scaffold(
       backgroundColor: context.surfaceColor,
@@ -27,12 +22,12 @@ class _CartScreenState extends ConsumerState<CartScreen> {
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: state.itemList?.isEmpty ?? true
-              ? _buildEmptyState()
+              ? _buildEmptyState(context)
               : CartList(itemList: state.itemList ?? [])),
     );
   }
 
-  Widget _buildEmptyState() {
+  Widget _buildEmptyState(BuildContext context) {
     return Center(
       child: Text(
         context.translate(AppStrings.addNewItems),

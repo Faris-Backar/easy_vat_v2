@@ -136,7 +136,7 @@ class SalesTransactionCard extends StatelessWidget {
                             children: [
                               Container(
                                 padding: EdgeInsets.symmetric(
-                                    horizontal: 8.w, vertical: 2.h),
+                                    horizontal: 5.w, vertical: 2.h),
                                 decoration: BoxDecoration(
                                   color: color.withValues(alpha: 0.1),
                                   borderRadius: BorderRadius.circular(8),
@@ -152,7 +152,7 @@ class SalesTransactionCard extends StatelessWidget {
                               SizedBox(width: 8.w),
                               Text(
                                 DateFormatUtils.getCustomDateFormat(
-                                  formate: "dd-MMM-yy - hh:mm a",
+                                  formate: "dd-MMM-yyyy-hh:mm a",
                                   date: salesInvoice.saleDate ?? DateTime.now(),
                                 ),
                                 style: context.textTheme.bodySmall?.copyWith(

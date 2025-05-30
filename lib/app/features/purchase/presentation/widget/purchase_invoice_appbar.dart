@@ -3,8 +3,6 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/fetch_purchase_invoice/fetch_purchase_invoice_notifier.dart';
-import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
@@ -173,11 +171,11 @@ class _PosAppBarState extends ConsumerState<PurchaseInvoiceAppbar> {
                 ),
                 InkWell(
                   onTap: () {
-                    ref
-                        .read(salesInvoiceNotifierProvider.notifier)
-                        .filterSalesInvoice(
-                            params:
-                                SalesInvoiceFilterParams(clearAllFilter: true));
+                    // ref
+                    //     .read(salesInvoiceNotifierProvider.notifier)
+                    //     .filterSalesInvoice(
+                    //         params:
+                    //             SalesInvoiceFilterParams(clearAllFilter: true));
                     context.router.popForced();
                   },
                   child: Text(
@@ -273,14 +271,14 @@ class _PosAppBarState extends ConsumerState<PurchaseInvoiceAppbar> {
               child: PrimaryButton(
                 label: AppStrings.filter,
                 onPressed: () {
-                  final params = SalesInvoiceFilterParams(
-                      clearAllFilter: false,
-                      salesDate: selectedSaleDate,
-                      salesMode: purchaseModeModeNotifer.value,
-                      soldBy: purchasedByNotifier.value);
-                  ref
-                      .read(salesInvoiceNotifierProvider.notifier)
-                      .filterSalesInvoice(params: params);
+                  // final params = SalesInvoiceFilterParams(
+                  //     clearAllFilter: false,
+                  //     salesDate: selectedSaleDate,
+                  //     salesMode: purchaseModeModeNotifer.value,
+                  //     soldBy: purchasedByNotifier.value);
+                  // ref
+                  //     .read(salesInvoiceNotifierProvider.notifier)
+                  //     .filterSalesInvoice(params: params);
                   context.router.popForced();
                 },
               ),
