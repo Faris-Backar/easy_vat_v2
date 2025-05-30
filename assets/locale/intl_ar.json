@@ -194,6 +194,8 @@
   "incorrectPassword": "كلمة المرور غير صحيحة",
   "itemCurrentlyOutOfStock": "العنصر غير متوفر حالياً",
   "stock": "المخزون",
-  "expNo":"ExpNo"
+  "expNo":"ExpNo",
+  "doYouWantToPrintInvoice": "هل تريد طباعة الفاتورة؟"
+
 
 }

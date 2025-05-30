@@ -193,5 +193,6 @@
   "discardChangesMessage": "You have items in your cart. Do you want to discard them and go back?",
   "discard": "Discard",
   "deleteSalesInvoiceConfirmationMessage": "Sales Invoice deleted Successfully",
-  "invNo": "InvNo"
+  "invNo": "InvNo",
+  "doYouWantToPrintInvoice":"Do you want to print invoice?"
 }

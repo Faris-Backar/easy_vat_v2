@@ -132,12 +132,6 @@ class _CartItemCardWidgetState extends State<CartItemCardWidget> {
                   ),
                   const SizedBox(width: 8),
                   _buildHeaderText(
-                    "${context.translate(AppStrings.tax)} (${widget.items.item.taxPercentage?.toStringAsFixed(2) ?? '0.00'}%)",
-                    textAlign: TextAlign.center,
-                    flex: 2,
-                  ),
-                  const SizedBox(width: 8),
-                  _buildHeaderText(
                     context.translate(AppStrings.netTotal),
                     textAlign: TextAlign.end,
                     flex: 2,
@@ -170,12 +164,6 @@ class _CartItemCardWidgetState extends State<CartItemCardWidget> {
                   ),
                   const SizedBox(width: 8),
                   _buildValueText(
-                    widget.items.tax.toStringAsFixed(2),
-                    textAlign: TextAlign.end,
-                    flex: 2,
-                  ),
-                  const SizedBox(width: 8),
-                  _buildValueText(
                     widget.items.netTotal.toStringAsFixed(2),
                     textAlign: TextAlign.end,
                     flex: 2,
@@ -192,6 +180,13 @@ class _CartItemCardWidgetState extends State<CartItemCardWidget> {
                       const SizedBox(height: 12),
                       Row(
                         children: [
+                          const SizedBox(width: 8),
+                          _buildHeaderText(
+                            "${context.translate(AppStrings.tax)} (${widget.items.item.taxPercentage?.toStringAsFixed(2) ?? '0.00'}%)",
+                            textAlign: TextAlign.center,
+                            flex: 2,
+                          ),
+                          const SizedBox(width: 8),
                           _buildHeaderText(
                             context.translate(AppStrings.unit),
                             flex: 2,
@@ -216,13 +211,17 @@ class _CartItemCardWidgetState extends State<CartItemCardWidget> {
                           ),
                           const SizedBox(width: 8),
                           const Spacer(flex: 1),
-                          const SizedBox(width: 8),
-                          const Spacer(flex: 2),
                         ],
                       ),
                       const SizedBox(height: 6),
                       Row(
                         children: [
+                          _buildValueText(
+                            widget.items.tax.toStringAsFixed(2),
+                            textAlign: TextAlign.end,
+                            flex: 2,
+                          ),
+                          const SizedBox(width: 8),
                           _buildValueText(
                             widget.items.unit,
                             flex: 2,
@@ -247,8 +246,6 @@ class _CartItemCardWidgetState extends State<CartItemCardWidget> {
                           ),
                           const SizedBox(width: 8),
                           const Spacer(flex: 1),
-                          const SizedBox(width: 8),
-                          const Spacer(flex: 2),
                         ],
                       ),
                     ],

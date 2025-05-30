@@ -8,8 +8,11 @@ import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/items_bottom_modal_sheet.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/create_sales/create_sales_notifier.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/download_sales/download_sales_invoices_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/update_sales/update_sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
+import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
+import 'package:easy_vat_v2/app/features/widgets/loader_dialogue.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -74,6 +77,28 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                 height: 40.h,
                 child: Consumer(
                   builder: (context, WidgetRef ref, child) {
+                    ref.listen(downloadsalesInvoiceNotifierProvider,
+                        (previous, next) {
+                      next.maybeWhen(
+                        downloadCompleted: (pdfPath) {
+                          LoaderDialog.hide(context);
+                          ref.read(cartProvider.notifier).clearCart();
+                          context.router.popForced();
+                          context.router.popForced();
+                        },
+                        loading: () => LoaderDialog.show(context),
+                        failure: (error) {
+                          LoaderDialog.hide(context);
+                          Fluttertoast.showToast(
+                            msg: error,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                          );
+                        },
+                        orElse: () {},
+                      );
+                    });
+
                     ref.listen(createSalesNotifierProvider, (previous, next) {
                       next.mapOrNull(
                         success: (success) {
@@ -102,7 +127,6 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                             successMessage =
                                 "Sales order successfully created!";
                           }
-
                           Fluttertoast.showToast(
                             msg: widget.isForPurchase
                                 ? "Purchase order successfully created!"
@@ -110,8 +134,43 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.BOTTOM,
                           );
-                          ref.read(cartProvider.notifier).clearCart();
-                          context.router.popForced();
+                          showDialog<bool>(
+                            context: context,
+                            builder: (context) => CustomConfirmationDialog(
+                              title: context.translate(AppStrings.print),
+                              message: context.translate(
+                                  AppStrings.doYouWantToPrintInvoice),
+                              primaryButtonLabel:
+                                  context.translate(AppStrings.print),
+                              secondaryButtonLabel:
+                                  context.translate(AppStrings.cancel),
+                              primaryButtonColor: context.colorScheme.primary,
+                              onPrimaryTap: () async {
+                                final hasPermission =
+                                    await AppUtils.requestDownloadPermission();
+                                if (hasPermission) {
+                                  ref
+                                      .read(downloadsalesInvoiceNotifierProvider
+                                          .notifier)
+                                      .downloadSalesInvoices(
+                                          salesIDPK: success.salesIDPK);
+                                } else {
+                                  if (mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                          content: Text(
+                                              "Permission denied. Cannot download invoice.")),
+                                    );
+                                  }
+                                }
+                              },
+                              onSecondaryTap: () {
+                                ref.read(cartProvider.notifier).clearCart();
+                                context.router.popForced();
+                                context.router.popForced();
+                              },
+                            ),
+                          );
                         },
                         failure: (message) =>
                             ScaffoldMessenger.of(context).showSnackBar(

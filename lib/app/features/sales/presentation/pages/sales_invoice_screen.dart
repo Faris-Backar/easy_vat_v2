@@ -1,7 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
@@ -147,7 +144,6 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                   ),
                 );
               }
-              log("sales idpk => ${salesInvoiceData.first.saleIdpk}");
               return ListView.builder(
                 itemCount: salesInvoiceData.length,
                 itemBuilder: (context, index) {
@@ -177,6 +173,8 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                                 iconColor: AppUtils.isDarkMode(context)
                                     ? context.onPrimaryColor
                                     : null,
+                                borderRadiusBottomLeft: 10,
+                                borderRadiusTopLeft: 10,
                                 onTap: () async {
                                   final hasPermission = await AppUtils
                                       .requestDownloadPermission();
@@ -241,6 +239,8 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                             icon: Assets.icons.delete,
                             borderRadiusTopLeft: 10.0,
                             borderRadiusBottomLeft: 10.0,
+                            borderRadiusTopRight: 10.0,
+                            borderRadiusBottomRight: 10.0,
                             iconColor: AppUtils.isDarkMode(context)
                                 ? context.onPrimaryColor
                                 : null,
