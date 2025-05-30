@@ -60,6 +60,7 @@ import 'package:easy_vat_v2/app/features/settings/presentation/pages/settings_sc
     as _i24;
 import 'package:easy_vat_v2/app/features/splash/presentation/pages/splash_screen.dart'
     as _i25;
+import 'package:flutter/foundation.dart' as _i28;
 import 'package:flutter/material.dart' as _i27;
 
 /// generated route for
@@ -319,12 +320,13 @@ class NoInternetRoute extends _i26.PageRouteInfo<void> {
 /// [_i13.PdfViewerScreen]
 class PdfViewerRoute extends _i26.PageRouteInfo<PdfViewerRouteArgs> {
   PdfViewerRoute({
-    _i27.Key? key,
-    required String pathUrl,
+    _i28.Key? key,
+    required String pdfUrl,
+    String? pdfName,
     List<_i26.PageRouteInfo>? children,
   }) : super(
          PdfViewerRoute.name,
-         args: PdfViewerRouteArgs(key: key, pathUrl: pathUrl),
+         args: PdfViewerRouteArgs(key: key, pdfUrl: pdfUrl, pdfName: pdfName),
          initialChildren: children,
        );
 
@@ -334,21 +336,27 @@ class PdfViewerRoute extends _i26.PageRouteInfo<PdfViewerRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<PdfViewerRouteArgs>();
-      return _i13.PdfViewerScreen(key: args.key, pathUrl: args.pathUrl);
+      return _i13.PdfViewerScreen(
+        key: args.key,
+        pdfUrl: args.pdfUrl,
+        pdfName: args.pdfName,
+      );
     },
   );
 }
 
 class PdfViewerRouteArgs {
-  const PdfViewerRouteArgs({this.key, required this.pathUrl});
+  const PdfViewerRouteArgs({this.key, required this.pdfUrl, this.pdfName});
 
-  final _i27.Key? key;
+  final _i28.Key? key;
 
-  final String pathUrl;
+  final String pdfUrl;
+
+  final String? pdfName;
 
   @override
   String toString() {
-    return 'PdfViewerRouteArgs{key: $key, pathUrl: $pathUrl}';
+    return 'PdfViewerRouteArgs{key: $key, pdfUrl: $pdfUrl, pdfName: $pdfName}';
   }
 }
 

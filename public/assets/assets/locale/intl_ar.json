@@ -168,25 +168,8 @@
   "addNewExpense": "إضافة مصروف جديد",
   "clearCart": "مسح السلة",
   "clearCartMessage": "هل أنت متأكد أنك تريد مسح السلة؟",
-  "barcodePostionMessage": "ضع الباركود داخل الإطار للمسح",
-  "gross": "إجمالي",
-  "taxPercentage": "نسبة الضريبة",
-  "expenseNo": "رقم المصاريف",
+ "expenseNo": "رقم المصاريف",
   "supInvNo": "رقم فاتورة المورد",
-  "totalExpense": "إجمالي المصروفات",
-  "totalIncome": "إجمالي الدخل",
-  "netBalance": "الرصيد الصافي",
-  "financialPeriod": "الفترة المالية",
-  "searchTransactions": "ابحث عن المعاملات ...",
-  "payable": "مستحق الدفع",
-  "recievable": "مستحق التحصيل",
-  "transactions": "المعاملات",
-  "grossProfit": " إجمالي الربح",
-  "update": "تحديث",
-  "discardChanges": "هل تريد تجاهل التغييرات؟",
-  "discard":"تجاهل",
-  "deleteSalesInvoiceConfirmationMessage": "تم حذف فاتورة البيع بنجاح",
-   "invNo":"InvNo",
   "barcodePostionMessage": "ضع الباركود داخل الإطار للمسح",
   "gross": "إجمالي",
   "taxPercentage": "نسبة الضريبة",
@@ -210,6 +193,9 @@
   "enterPasswordToViewCost": "أدخل كلمة المرور لعرض التكلفة.",
   "incorrectPassword": "كلمة المرور غير صحيحة",
   "itemCurrentlyOutOfStock": "العنصر غير متوفر حالياً",
-  "stock": "المخزون"
+  "stock": "المخزون",
+  "expNo":"ExpNo",
+  "doYouWantToPrintInvoice": "هل تريد طباعة الفاتورة؟"
+
 
 }

@@ -32,6 +32,14 @@ class _CustomerSelectorState extends ConsumerState<CustomerSelectorWidget> {
   final SearchDebouncer searchDebouncer = SearchDebouncer();
 
   @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(customerNotifierProvider.notifier).getCustomer();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final selectedCustomer =
         ref.watch(cartProvider.select((state) => state.selectedCustomer));
@@ -57,7 +65,7 @@ class _CustomerSelectorState extends ConsumerState<CustomerSelectorWidget> {
           hint: context.translate(AppStrings.customer),
           height: 36.h,
           fillColor: AppUtils.isDarkMode(context)
-              ? Theme.of(context).scaffoldBackgroundColor
+              ? context.colorScheme.tertiaryContainer
               : null,
         ),
       ),
@@ -96,7 +104,7 @@ class _CustomerSelectorState extends ConsumerState<CustomerSelectorWidget> {
                           ref
                               .read(customerNotifierProvider.notifier)
                               .getCustomer();
-                        } else if (value.length > 3) {
+                        } else {
                           ref
                               .read(customerNotifierProvider.notifier)
                               .searchCustomer(searchQuery: value);
