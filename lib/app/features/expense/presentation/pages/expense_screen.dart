@@ -114,40 +114,43 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                         ),
                         Expanded(
                           child: _buildSlidingAction(
-                            color: AppUtils.isDarkMode(context)
-                                ? CustomColors.getTransactionCardBlueColor(
-                                    context)
-                                : CustomColors.getTransactionCardBlueColor(
-                                        context)
-                                    .withValues(alpha: 0.2),
-                            icon: Assets.icons.view,
-                            iconColor: AppUtils.isDarkMode(context)
-                                ? context.onPrimaryColor
-                                : null,
-                            onTap: () {
-                              // handle view
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          child: _buildSlidingAction(
-                            color: AppUtils.isDarkMode(context)
-                                ? CustomColors.getTransactionCardRedColor(
-                                    context)
-                                : CustomColors.getTransactionCardRedColor(
-                                        context)
-                                    .withValues(alpha: 0.2),
-                            icon: Assets.icons.delete,
-                            iconColor: AppUtils.isDarkMode(context)
-                                ? context.onPrimaryColor
-                                : null,
-                            onTap: () {
-                              // handle delete
-                            },
-                          ),
+                              color: AppUtils.isDarkMode(context)
+                                  ? CustomColors.getTransactionCardBlueColor(
+                                      context)
+                                  : CustomColors.getTransactionCardBlueColor(
+                                          context)
+                                      .withValues(alpha: 0.2),
+                              icon: Assets.icons.view,
+                              iconColor: AppUtils.isDarkMode(context)
+                                  ? context.onPrimaryColor
+                                  : null,
+                              onTap: () {}),
                         ),
                       ],
                     ),
+                    startActionPane:
+                        ActionPane(motion: ScrollMotion(), children: [
+                      Expanded(
+                        child: _buildSlidingAction(
+                          width: 50.w,
+                          color: AppUtils.isDarkMode(context)
+                              ? CustomColors.getTransactionCardRedColor(context)
+                              : CustomColors.getTransactionCardRedColor(context)
+                                  .withValues(alpha: 0.2),
+                          icon: Assets.icons.delete,
+                          borderRadiusTopLeft: 10.0,
+                          borderRadiusBottomLeft: 10.0,
+                          iconColor: AppUtils.isDarkMode(context)
+                              ? context.onPrimaryColor
+                              : null,
+                          iconHeight: 24.0,
+                          iconWidth: 24.0,
+                          onTap: () {
+                            // handle delete
+                          },
+                        ),
+                      ),
+                    ]),
                     child: ExpenseCard(
                       expense: expense,
                       isSelectedNotifier: notifier,
@@ -222,21 +225,34 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
     );
   }
 
-  Widget _buildSlidingAction({
-    required VoidCallback? onTap,
-    required Color? color,
-    required String icon,
-    required Color? iconColor,
-  }) {
+  Widget _buildSlidingAction(
+      {required Function()? onTap,
+      required Color? color,
+      required String icon,
+      required Color? iconColor,
+      double? borderRadiusTopLeft,
+      double? borderRadiusTopRight,
+      double? borderRadiusBottomLeft,
+      double? borderRadiusBottomRight,
+      double? width,
+      double? iconHeight,
+      double? iconWidth}) {
     return InkWell(
       onTap: onTap,
       child: Container(
         height: double.infinity,
-        color: color,
+        width: width,
+        decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(borderRadiusTopLeft ?? 0.0),
+                topRight: Radius.circular(borderRadiusTopRight ?? 0.0),
+                bottomLeft: Radius.circular(borderRadiusBottomLeft ?? 0.0),
+                bottomRight: Radius.circular(borderRadiusBottomRight ?? 0.0))),
         padding: const EdgeInsets.all(18.0),
         child: SvgIcon(
-          height: 18,
-          width: 18,
+          height: iconHeight ?? 18,
+          width: iconWidth ?? 18,
           icon: icon,
           color: iconColor,
         ),

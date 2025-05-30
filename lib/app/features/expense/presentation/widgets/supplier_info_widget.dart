@@ -33,8 +33,6 @@ class SupplierInfoWidget extends ConsumerStatefulWidget {
 class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
   final _searchController = TextEditingController();
   final _expansionNotifier = ValueNotifier<int?>(null);
-  final TextEditingController shippingAddressController =
-      TextEditingController();
   final TextEditingController billingAddressController =
       TextEditingController();
   final searchDebouncer = SearchDebouncer();
@@ -221,7 +219,7 @@ class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
   Widget _buildSupplierTabView(BuildContext context) {
     final selectedSupplier = ref.watch(cartProvider).selectedSupplier;
     return DefaultTabController(
-        length: 3,
+        length: 2,
         child: Container(
           height: 185.h,
           decoration: BoxDecoration(
@@ -323,7 +321,7 @@ class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
                                       } else {
                                         Fluttertoast.showToast(
                                             msg: context.translate(AppStrings
-                                                .pleaseSelectACustomer));
+                                                .pleaseSelectASupplier));
                                       }
                                     },
                                   ),
@@ -340,25 +338,6 @@ class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
                         label:
                             context.translate(AppStrings.enterBillingAddress)),
                   ),
-                  InkWell(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) => Padding(
-                          padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom,
-                          ),
-                          child: Container(
-                            height: 200.h,
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16.0, vertical: 16.0),
-                          ),
-                        ),
-                      );
-                    },
-                    // need clarification
-                  )
                 ]),
               ))
             ],

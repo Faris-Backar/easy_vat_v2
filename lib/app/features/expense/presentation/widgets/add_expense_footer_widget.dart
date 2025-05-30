@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
-import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/items_bottom_modal_sheet.dart';
@@ -10,7 +9,6 @@ import 'package:easy_vat_v2/app/features/expense/presentation/providers/update_e
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
-import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -144,23 +142,36 @@ class _AddExpenseFooterWidgetState extends State<AddExpenseFooterWidget> {
               return _buildActionButton(
                   context,
                   Icons.add_circle_outline_rounded,
-                  context.translate(AppStrings.addItem), () {
+                  context.translate(AppStrings.addLedger), () {
                 showItemsBottomSheet(context);
               });
+
+              // return FloatingActionButton.extended(
+              //   onPressed: () {
+              //     showItemsBottomSheet(context);
+              //   },
+              //   icon: Icon(Icons.add_circle_outline_rounded),
+              //   label: Text(context.translate(AppStrings.addLedger)),
+              //   backgroundColor: Theme.of(context).colorScheme.primary,
+              //   foregroundColor: Theme.of(context).colorScheme.onPrimary,
+              //   shape: RoundedRectangleBorder(
+              //       borderRadius: BorderRadiusGeometry.circular(8)),
+
+              // );
             },
           ),
         ),
-        SizedBox(
-          width: 8.w,
-        ),
-        Expanded(
-          child: _buildActionButton(
-              context,
-              Assets.icons.barcode,
-              context.translate(AppStrings.scanBarCode),
-              () => context.router.pushNamed(AppRouter.barcodeScanner),
-              isSvg: true),
-        ),
+        // SizedBox(
+        //   width: 8.w,
+        // ),
+        // Expanded(
+        //   child: _buildActionButton(
+        //       context,
+        //       Assets.icons.barcode,
+        //       context.translate(AppStrings.scanBarCode),
+        //       () => context.router.pushNamed(AppRouter.barcodeScanner),
+        //       isSvg: true),
+        // ),
       ],
     );
   }

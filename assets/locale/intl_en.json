@@ -189,5 +189,14 @@
   "transactions": "Transactions",
   "expNo": "ExpNo" ,
   "addNewExpense": "Add New Expense",
-  "paymentMode": "Payment Mode"
+  "paymentMode": "Payment Mode",
+  "pleaseSelectASupplier": "Please Select A Supplier",
+  "addSupplier": "Add Supplier",
+  "addLedger": "Add Ledger"
+ 
+
+
+
+
+
 }

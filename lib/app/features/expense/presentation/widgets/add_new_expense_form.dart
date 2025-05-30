@@ -142,7 +142,8 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
                             newValue?.toLowerCase() == "cash";
                         final shouldFetchBank =
                             (newValue?.toLowerCase() == "bank" ||
-                                newValue?.toLowerCase() == "card");
+                                newValue?.toLowerCase() == "card" ||
+                                newValue?.toLowerCase() == "Credit");
 
                         if (shouldFetchCash) {
                           widget.cashAccountNotifier.value = null;
