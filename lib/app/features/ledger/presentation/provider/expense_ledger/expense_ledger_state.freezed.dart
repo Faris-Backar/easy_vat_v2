@@ -348,7 +348,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
     Object? ledgers = null,
   }) {
     return _then(_$LoadedImpl(
-      null == ledgers
+      ledgers: null == ledgers
           ? _value._ledgers
           : ledgers // ignore: cast_nullable_to_non_nullable
               as List<LedgerAccountEntity>,
@@ -359,7 +359,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl(final List<LedgerAccountEntity> ledgers)
+  const _$LoadedImpl({required final List<LedgerAccountEntity> ledgers})
       : _ledgers = ledgers;
 
   final List<LedgerAccountEntity> _ledgers;
@@ -471,7 +471,8 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements ExpenseLedgerState {
-  const factory _Loaded(final List<LedgerAccountEntity> ledgers) = _$LoadedImpl;
+  const factory _Loaded({required final List<LedgerAccountEntity> ledgers}) =
+      _$LoadedImpl;
 
   List<LedgerAccountEntity> get ledgers;
 

@@ -6,6 +6,11 @@ class LedgerAccountEntity {
   double? taxPercentage;
   String? mailingName;
   String? billingAddress;
+  int? countryIDFK;
+  int? countryStatIDFK;
+  String? taxRegistrationType;
+  DateTime? dateOfTaxRegistration;
+  String? taxRegistrationNo;
   String? taxability;
   String? mobile;
   String? phone;
@@ -16,12 +21,19 @@ class LedgerAccountEntity {
   String? currentBalanceType;
   String? contactPerson;
   int? creditDays;
+  String? nature;
   double? creditLimit;
   String? createdBy;
   DateTime? createdDate;
+  String? rowguid;
+  String? companyIDPK;
+  String? defaultPaymentMode;
+  String? ledgerCode;
+  String? groupName;
+  String? modifiedBy;
+  String? contactNo;
   DateTime? modifiedDate;
   bool? isEdit;
-  double? currentBalanceTran;
 
   LedgerAccountEntity({
     this.ledgerIdpk,
@@ -43,9 +55,21 @@ class LedgerAccountEntity {
     this.creditDays,
     this.creditLimit,
     this.createdBy,
+    this.nature,
     this.createdDate,
+    this.companyIDPK,
+    this.countryIDFK,
+    this.countryStatIDFK,
+    this.dateOfTaxRegistration,
+    this.defaultPaymentMode,
+    this.taxRegistrationNo,
+    this.rowguid,
+    this.taxRegistrationType,
+    this.groupName,
+    this.contactNo,
+    this.modifiedBy,
+    this.ledgerCode,
     this.modifiedDate,
     this.isEdit,
-    this.currentBalanceTran,
   });
 }

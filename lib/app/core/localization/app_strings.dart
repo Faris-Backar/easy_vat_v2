@@ -207,4 +207,13 @@ class AppStrings {
   static const String addSupplier = "addSupplier";
   static const String addLedger = "addLedger";
   static const String doYouWantToPrintInvoice = "doYouWantToPrintInvoice";
+  static const String grossTotal = "grossTotal";
+  static const String taxAmount = "taxAmount";
+  static const String ledgerCurrentlyNotActive = "ledgerCurrentlyNotActive";
+  static const String debit = "debit";
+  static const String ledgerCode = "LedCode";
+  static const String group = "Group";
+  static const String nature = "Nature";
+  static const String opBal = "OpenBal";
+  static const String curBal = "CurrentBal";
 }

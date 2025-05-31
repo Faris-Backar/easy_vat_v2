@@ -7,7 +7,8 @@ part 'expense_ledger_state.freezed.dart';
 class ExpenseLedgerState with _$ExpenseLedgerState {
   const factory ExpenseLedgerState.initial() = _Initial;
   const factory ExpenseLedgerState.loading() = _Loading;
-  const factory ExpenseLedgerState.loaded(List<LedgerAccountEntity> ledgers) =
-      _Loaded;
+  const factory ExpenseLedgerState.loaded({
+    required List<LedgerAccountEntity> ledgers,
+  }) = _Loaded;
   const factory ExpenseLedgerState.error(String message) = _Error;
 }

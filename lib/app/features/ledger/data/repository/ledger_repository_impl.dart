@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/error/failure.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
@@ -76,6 +77,8 @@ class LedgerRepositoryImpl extends LedgerRepository {
       fetchExpenseLedger() async {
     try {
       final response = await client.get(UrlResources.getExpenseAccount);
+      log('Response status: ${response.statusCode}', name: 'ExpenseLedger');
+      log('Response body: ${response.data}', name: 'ExpenseLedger');
       if (response.statusCode == 200) {
         List<LedgerAccountModel> expenseLedger = (response.data as List)
             .map((json) => LedgerAccountModel.fromJson(json))
@@ -84,6 +87,8 @@ class LedgerRepositoryImpl extends LedgerRepository {
       }
       return Left(ServerFailure(message: "Something went wrong."));
     } on DioException catch (e) {
+      return Left(ServerFailure(message: e.response?.data ?? e.error ?? ""));
+    } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
   }
