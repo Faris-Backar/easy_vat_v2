@@ -5,7 +5,7 @@ import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_filter_param.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_notifier.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_selector_widget.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_selector_widget.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/filter_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
 import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
@@ -216,9 +216,9 @@ class _PosAppBarState extends ConsumerState<ExpenseAppBar> {
                   ),
                 ),
                 SizedBox(width: 12.w),
+
                 Expanded(
-                  flex: 1,
-                  child: CustomerSelectorWidget(), //need to create supplier
+                  child: SupplierSelectorWidget(), //need to create supplier
                 ),
                 SizedBox(width: 12.w),
               ],

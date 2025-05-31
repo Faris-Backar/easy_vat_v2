@@ -27,6 +27,7 @@ class _AddNewExpenseScreenState extends ConsumerState<AddNewExpenseScreen> {
   final expenseNoController = TextEditingController();
   final refNoController = TextEditingController();
   final _noteController = TextEditingController();
+  final supplierInvNoController = TextEditingController();
   final purchasedByController = TextEditingController();
   final ValueNotifier<String?> paymentModeNotifier = ValueNotifier(null);
   final ValueNotifier<String?> cashAccountNotifier = ValueNotifier(null);
@@ -46,6 +47,7 @@ class _AddNewExpenseScreenState extends ConsumerState<AddNewExpenseScreen> {
                 purchasedByController: purchasedByController,
                 paymentModeNotifier: paymentModeNotifier,
                 cashAccountNotifier: cashAccountNotifier,
+                supplierInvNoController: supplierInvNoController,
               ), //AddNewExpenseForm
               SizedBox(
                 height: 10,

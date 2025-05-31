@@ -113,12 +113,18 @@ class SupplierDetailsCard extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(
-          name,
-          style: context.textTheme.bodyMedium
-              ?.copyWith(fontWeight: FontWeight.w600),
+        Expanded(
+          child: Text(
+            name,
+            style: context.textTheme.bodyMedium
+                ?.copyWith(fontWeight: FontWeight.w600),
+          ),
         ),
-        const Icon(Icons.keyboard_arrow_down_rounded)
+        AnimatedRotation(
+          turns: isExpanded ? 0.5 : 0.0,
+          duration: const Duration(milliseconds: 300),
+          child: const Icon(Icons.keyboard_arrow_down_rounded),
+        )
       ],
     );
   }
