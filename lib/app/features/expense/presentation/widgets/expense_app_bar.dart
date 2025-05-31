@@ -6,7 +6,6 @@ import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_p
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_notifier.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_selector_widget.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/filter_widget.dart';
-import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
 import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -189,13 +188,7 @@ class _PosAppBarState extends ConsumerState<ExpenseAppBar> {
             const Divider(),
             Row(
               children: [
-                Expanded(
-                  child: DatePickerTextField(
-                      label: context.translate(AppStrings.expenseDate),
-                      onDateSelected: (DateTime selectedDate) {
-                        selectedDate = selectedDate;
-                      }),
-                ),
+                // date picker field excluded
                 SizedBox(width: 12.w),
                 Expanded(
                   flex: 1,

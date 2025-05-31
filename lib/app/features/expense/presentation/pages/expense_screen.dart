@@ -11,6 +11,7 @@ import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_app_bar.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_card.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/expense_ledger/expense_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -44,6 +45,7 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
       ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
       ref.read(cashLedgerNotifierProvider.notifier).fetchBankLedgers();
       ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
+      ref.read(expenseLedgerNotifierProvider.notifier).fetchExpenseLedgers();
       ref.read(expenseNotifierProvider.notifier).fetchExpenses(
             params: ExpenseParams(
               expenseIDPK: "00000000-0000-0000-0000-000000000000",
