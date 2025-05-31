@@ -17,6 +17,7 @@ class AddNewExpenseForm extends ConsumerStatefulWidget {
   final TextEditingController expenseNoController;
   final TextEditingController refNoController;
   final TextEditingController purchasedByController;
+  final TextEditingController supplierInvNoController;
   final ValueNotifier<String?> paymentModeNotifier;
   final ValueNotifier<String?> cashAccountNotifier;
   const AddNewExpenseForm(
@@ -25,7 +26,8 @@ class AddNewExpenseForm extends ConsumerStatefulWidget {
       required this.refNoController,
       required this.purchasedByController,
       required this.paymentModeNotifier,
-      required this.cashAccountNotifier});
+      required this.cashAccountNotifier,
+      required this.supplierInvNoController});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -140,7 +142,8 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
                             newValue?.toLowerCase() == "cash";
                         final shouldFetchBank =
                             (newValue?.toLowerCase() == "bank" ||
-                                newValue?.toLowerCase() == "card");
+                                newValue?.toLowerCase() == "card" ||
+                                newValue?.toLowerCase() == "Credit");
 
                         if (shouldFetchCash) {
                           widget.cashAccountNotifier.value = null;
@@ -162,10 +165,11 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
             ),
             Expanded(
               child: CustomTextField(
-                label: context.translate(AppStrings.purchasedBy),
+                label: context.translate(AppStrings.supInvNo),
                 controller: widget.purchasedByController,
                 labelAndTextfieldGap: 2,
                 height: 38.h,
+                hint: context.translate(AppStrings.supInvNo),
                 fillColor: context.surfaceColor,
               ),
             )
@@ -183,9 +187,9 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
               child: Column(
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.45,
+                      Expanded(
                           child: cashLedgerState.maybeWhen(
                               loading: () => Center(
                                     child: CircularProgressIndicator.adaptive(),
@@ -236,7 +240,20 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
                                     });
                               },
                               error: (message) => Text(message),
-                              orElse: () => SizedBox.shrink()))
+                              orElse: () => SizedBox.shrink())),
+                      SizedBox(
+                        width: 10.w,
+                      ),
+                      Expanded(
+                        child: CustomTextField(
+                          label: context.translate(AppStrings.purchasedBy),
+                          controller: widget.purchasedByController,
+                          labelAndTextfieldGap: 2,
+                          height: 38.h,
+                          hint: context.translate(AppStrings.purchasedBy),
+                          fillColor: context.surfaceColor,
+                        ),
+                      )
                     ],
                   ),
                   SizedBox(

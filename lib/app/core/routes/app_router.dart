@@ -42,7 +42,8 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: AddNewExpenseRoute.page, path: addNewExpense),
         AutoRoute(page: PdfViewerRoute.page, path: pdfViewer),
         AutoRoute(page: ExpenseRoute.page, path: expense),
-        AutoRoute(page: AddNewExpenseRoute.page, path: addNewExpense)
+        AutoRoute(page: ExpenseRoute.page, path: expense),
+        AutoRoute(page: AddNewExpenseRoute.page, path: expense)
       ];
 
   // Routes constants
