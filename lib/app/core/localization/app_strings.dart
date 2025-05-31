@@ -207,4 +207,5 @@ class AppStrings {
   static const String addSupplier = "addSupplier";
   static const String addLedger = "addLedger";
   static const String doYouWantToPrintInvoice = "doYouWantToPrintInvoice";
+  static const String addedToCart = "addedToCart";
 }

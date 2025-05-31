@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.dart';
+import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/cart_item_add_dialog.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/item_details_card.dart';
 import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
@@ -156,19 +159,39 @@ class _ItemsBottomModalSheetState extends ConsumerState<ItemsBottomModalSheet> {
   }
 
   Widget _buildSubmitButton(BuildContext context, WidgetRef ref) {
-    return Container(
-      height: 50.h,
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: PrimaryButton(
-        label: AppStrings.submit,
-        onPressed: () {
-          final selectedIndex = itemDetailsExpansionNotifier.value;
-          if (selectedIndex != null) {
-            context.router.popForced();
-          }
-        },
-      ),
+    return Row(
+      children: [
+        Expanded(
+          flex: 5,
+          child: Container(
+            height: 50.h,
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: PrimaryButton(
+              label: AppStrings.submit,
+              onPressed: () {
+                final selectedIndex = itemDetailsExpansionNotifier.value;
+                if (selectedIndex != null) {
+                  context.router.popForced();
+                }
+              },
+            ),
+          ),
+        ),
+        Expanded(
+            flex: 1,
+            child: IconButton(
+              onPressed: () => context.router.pushNamed(AppRouter.cart),
+              icon: Badge.count(
+                backgroundColor: CustomColors.inActiveRedColor(context),
+                textColor: Colors.white,
+                count: ref.watch(cartProvider).itemList?.length ?? 0,
+                child: SvgIcon(
+                  icon: Assets.icons.cart,
+                  color: context.defaultTextColor,
+                ),
+              ),
+            )),
+      ],
     );
   }
 }

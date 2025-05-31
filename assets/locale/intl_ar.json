@@ -199,5 +199,7 @@
    "pleaseSelectASupplier": "الرجاء اختيار المورد",
    "addSupplier": "إضافة المورد",
    "addLedger": "إضافة دفتر الأستاذ",
-  "doYouWantToPrintInvoice": "هل تريد طباعة الفاتورة؟"
+  "doYouWantToPrintInvoice": "هل تريد طباعة الفاتورة؟",
+  "addedToCart": "تمت الإضافة إلى السلة"
+
 }

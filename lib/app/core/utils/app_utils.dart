@@ -45,6 +45,6 @@ class AppUtils {
     }
   }
 
-  static showToast(BuildContext context, String message) =>
+  static dynamic showToast(BuildContext context, String message) =>
       Fluttertoast.showToast(msg: context.translate(message));
 }

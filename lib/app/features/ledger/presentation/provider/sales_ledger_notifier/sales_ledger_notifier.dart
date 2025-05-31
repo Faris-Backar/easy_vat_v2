@@ -22,7 +22,7 @@ class SalesLedgerNotifier extends StateNotifier<SalesLedgerState> {
   SalesLedgerNotifier({required this.getSalesLedgerUsecase})
       : super(SalesLedgerState.initial());
 
-  fetchSalesLedgers({bool isRefresh = false}) async {
+  Future<void> fetchSalesLedgers({bool isRefresh = false}) async {
     if (salesLedgers.isNotEmpty && !isRefresh) {
       state = SalesLedgerState.loaded(salesLedgers);
     } else {

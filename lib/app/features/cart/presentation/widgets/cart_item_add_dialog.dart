@@ -62,35 +62,32 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       final prefs = await SharedPreferences.getInstance();
       isTaxEnabled = prefs.getBool(PrefResources.isTaxEnabled) ?? false;
-      taxPercentage = isTaxEnabled ? 0.0 : item.taxPercentage ?? 0.0;
+      taxPercentage = !isTaxEnabled ? 0.0 : item.taxPercentage ?? 0.0;
+      final double qty = cart?.qty ?? 1.00;
+      final double sellingPrice = (cart?.rate ?? item.retailRate) ?? 0.0;
+      final double discount = cart?.discount ?? 0.0;
+
+      final double grossTotal = (qty * sellingPrice) - discount;
+      final double taxAmount = grossTotal * taxPercentage / 100;
+      final double netTotal = grossTotal + taxAmount;
+
+      _taxController.text = taxAmount.toStringAsFixed(2);
+
+      log("Selling Price => $sellingPrice || Quantity => $qty || Gross Total => $grossTotal || Discount => $discount || Tax => $taxAmount || Net Total => $netTotal");
+
+      _quantityController.text = qty.toStringAsFixed(2);
+      _sellingPriceController.text = sellingPrice.toStringAsFixed(2);
+      _costPriceController.text = cart?.cost.toStringAsFixed(2) ??
+          item.cost?.toStringAsFixed(2) ??
+          "0.00";
+      _priceWithTaxController.text =
+          (sellingPrice * (1 + taxPercentage / 100)).toStringAsFixed(2);
+      _unitController.text = cart?.unit ?? item.unit ?? "";
+      _descriptionController.text = cart?.description ?? item.description ?? "";
+      _discountController.text = discount.toStringAsFixed(2);
+      _grossTotalController.text = grossTotal.toStringAsFixed(2);
+      _netTotalController.text = netTotal.toStringAsFixed(2);
     });
-
-    taxPercentage = item.taxPercentage ?? 0.0;
-
-    final double qty = cart?.qty ?? 1.00;
-    final double sellingPrice = (cart?.rate ?? item.retailRate) ?? 0.0;
-    final double discount = cart?.discount ?? 0.0;
-
-    final double grossTotal = (qty * sellingPrice) - discount;
-    final double taxAmount = grossTotal * taxPercentage / 100;
-    final double netTotal = grossTotal + taxAmount;
-
-    _taxController.text = taxAmount.toStringAsFixed(2);
-
-    log("Selling Price => $sellingPrice || Quantity => $qty || Gross Total => $grossTotal || Discount => $discount || Tax => $taxAmount || Net Total => $netTotal");
-
-    _quantityController.text = qty.toStringAsFixed(2);
-    _sellingPriceController.text = sellingPrice.toStringAsFixed(2);
-    _costPriceController.text = cart?.cost.toStringAsFixed(2) ??
-        item.cost?.toStringAsFixed(2) ??
-        "0.00";
-    _priceWithTaxController.text =
-        (sellingPrice * (1 + taxPercentage / 100)).toStringAsFixed(2);
-    _unitController.text = cart?.unit ?? item.unit ?? "";
-    _descriptionController.text = cart?.description ?? item.description ?? "";
-    _discountController.text = discount.toStringAsFixed(2);
-    _grossTotalController.text = grossTotal.toStringAsFixed(2);
-    _netTotalController.text = netTotal.toStringAsFixed(2);
   }
 
   void _updatePricesOnQtyChange() {
@@ -474,6 +471,8 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     log("rate split up => \n $cartEntity\n ${widget.item.taxPercentage}");
     if (widget.cartItem == null) {
       cartNotifier.addItemsIntoCart(item: cartEntity);
+      AppUtils.showToast(context,
+          "${cartEntity.item.itemName},${context.translate(AppStrings.addedToCart)}");
     } else {
       cartNotifier.updateCartItem(cartItem: cartEntity);
     }
@@ -550,29 +549,9 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     if (enteredPassword == dummyPassword) {
       _costVisibilityNotifier.value = !_costVisibilityNotifier.value;
       context.router.popForced();
-
-      // // Show success message (optional)
-      // ScaffoldMessenger.of(context).showSnackBar(
-      //   SnackBar(
-      //     content: Text(
-      //       _passwordVisibilityNotifier.value
-      //           ? context.translate(AppStrings.costPriceVisible)
-      //           : context.translate(AppStrings.sellingPriceVisible),
-      //     ),
-      //     backgroundColor: Colors.green,
-      //     duration: Duration(seconds: 2),
-      //   ),
-      // );
     } else {
-      // Password incorrect - show error
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(context.translate(AppStrings.incorrectPassword)),
-          backgroundColor: Colors.red,
-          duration: Duration(seconds: 2),
-        ),
-      );
-
+      AppUtils.showToast(
+          context, context.translate(AppStrings.incorrectPassword));
       // Clear the password field and keep dialog open
       controller.clear();
     }

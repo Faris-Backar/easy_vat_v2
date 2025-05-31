@@ -8,11 +8,11 @@ import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
-import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
@@ -187,6 +187,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         if (savedPath != null && mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("PDF saved to: $savedPath")));
+          OpenFilex.open(savedPath);
         } else if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("Failed to save PDF")));

@@ -5,7 +5,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'expense_state.freezed.dart';
 
 @freezed
-class ExpenseState with _$ExpenseState {
+abstract class ExpenseState with _$ExpenseState {
   const factory ExpenseState.initial() = _Initial;
   const factory ExpenseState.loading() = _Loading;
   const factory ExpenseState.success(List<ExpenseListEntity> expenses) =
