@@ -41,7 +41,7 @@ class SalesTransactionCard extends StatelessWidget {
       case 'bank':
         return Icons.account_balance;
       case 'credit':
-        return Icons.payment;
+        return Icons.person_rounded;
       default:
         return Icons.help_outline;
     }
@@ -131,7 +131,7 @@ class SalesTransactionCard extends StatelessWidget {
                           ),
                           SizedBox(height: 2.h),
 
-                          // Status and Date Row
+                          // Status and Date Row - FIXED FOR OVERFLOW
                           Row(
                             children: [
                               Container(
@@ -150,13 +150,18 @@ class SalesTransactionCard extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(width: 8.w),
-                              Text(
-                                DateFormatUtils.getCustomDateFormat(
-                                  formate: "dd-MMM-yyyy-hh:mm a",
-                                  date: salesInvoice.saleDate ?? DateTime.now(),
-                                ),
-                                style: context.textTheme.bodySmall?.copyWith(
-                                  color: Colors.grey.shade600,
+                              Expanded(
+                                child: Text(
+                                  DateFormatUtils.getCustomDateFormat(
+                                    formate: "dd-MMM-yyyy-hh:mm a",
+                                    date:
+                                        salesInvoice.saleDate ?? DateTime.now(),
+                                  ),
+                                  style: context.textTheme.bodySmall?.copyWith(
+                                    color: Colors.grey.shade600,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
                               ),
                             ],
@@ -268,30 +273,4 @@ class SalesTransactionCard extends StatelessWidget {
       ],
     );
   }
-
-  // Widget _buildInfoColumn(BuildContext context,
-  //     {required String label, required String value}) {
-  //   return Expanded(
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         Text(
-  //           context.translate(label),
-  //           style: context.textTheme.bodySmall?.copyWith(
-  //             color: context.defaultTextColor.withValues(alpha: 0.32),
-  //           ),
-  //         ),
-  //         const SizedBox(height: 3),
-  //         Text(
-  //           value,
-  //           style: context.textTheme.bodySmall?.copyWith(
-  //             fontSize: 11,
-  //             fontWeight: FontWeight.w600,
-  //             color: context.defaultTextColor.withValues(alpha: 0.75),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 }

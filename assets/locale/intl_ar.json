@@ -198,5 +198,6 @@
    "paymentMode": "طريقة الدفع",
    "pleaseSelectASupplier": "الرجاء اختيار المورد",
    "addSupplier": "إضافة المورد",
-   "addLedger": "إضافة دفتر الأستاذ"
+   "addLedger": "إضافة دفتر الأستاذ",
+  "doYouWantToPrintInvoice": "هل تريد طباعة الفاتورة؟"
 }

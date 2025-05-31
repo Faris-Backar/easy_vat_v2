@@ -12,6 +12,8 @@ class CustomConfirmationDialog extends StatelessWidget {
   final String message;
   final String primaryButtonLabel;
   final String secondaryButtonLabel;
+  final Color? primaryButtonColor;
+  final Color? secondaryButtonColor;
   final VoidCallback onPrimaryTap;
   final VoidCallback? onSecondaryTap;
 
@@ -23,6 +25,8 @@ class CustomConfirmationDialog extends StatelessWidget {
     required this.secondaryButtonLabel,
     required this.onPrimaryTap,
     this.onSecondaryTap,
+    this.primaryButtonColor,
+    this.secondaryButtonColor,
   });
 
   @override
@@ -48,9 +52,10 @@ class CustomConfirmationDialog extends StatelessWidget {
                 onPressed: onSecondaryTap ?? () => context.router.popForced(),
                 label: secondaryButtonLabel,
                 labelColor: context.defaultTextColor,
-                backgroundColor: AppUtils.isDarkMode(context)
-                    ? context.colorScheme.tertiaryContainer
-                    : null,
+                backgroundColor: secondaryButtonColor ??
+                    (AppUtils.isDarkMode(context)
+                        ? context.colorScheme.tertiaryContainer
+                        : null),
                 border: BorderSide(
                   color: context.colorScheme.primary.withValues(alpha: 0.2),
                 ),
@@ -61,7 +66,8 @@ class CustomConfirmationDialog extends StatelessWidget {
               child: PrimaryButton(
                 width: double.infinity,
                 label: primaryButtonLabel,
-                bgColor: CustomColors.getTransactionCardRedColor(context),
+                bgColor: primaryButtonColor ??
+                    CustomColors.getTransactionCardRedColor(context),
                 onPressed: () {
                   onPrimaryTap();
                 },

@@ -20,7 +20,7 @@ mixin _$CreateSalesState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function(String salesIDPK) success,
     required TResult Function(String error) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$CreateSalesState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function(String salesIDPK)? success,
     TResult? Function(String error)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$CreateSalesState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function(String salesIDPK)? success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) =>
@@ -132,7 +132,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function(String salesIDPK) success,
     required TResult Function(String error) failure,
   }) {
     return initial();
@@ -143,7 +143,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function(String salesIDPK)? success,
     TResult? Function(String error)? failure,
   }) {
     return initial?.call();
@@ -154,7 +154,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function(String salesIDPK)? success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
@@ -249,7 +249,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function(String salesIDPK) success,
     required TResult Function(String error) failure,
   }) {
     return loading();
@@ -260,7 +260,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function(String salesIDPK)? success,
     TResult? Function(String error)? failure,
   }) {
     return loading?.call();
@@ -271,7 +271,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function(String salesIDPK)? success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
@@ -328,6 +328,8 @@ abstract class _$$SuccessImplCopyWith<$Res> {
   factory _$$SuccessImplCopyWith(
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String salesIDPK});
 }
 
 /// @nodoc
@@ -340,36 +342,62 @@ class __$$SuccessImplCopyWithImpl<$Res>
 
   /// Create a copy of CreateSalesState
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? salesIDPK = null,
+  }) {
+    return _then(_$SuccessImpl(
+      null == salesIDPK
+          ? _value.salesIDPK
+          : salesIDPK // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
 }
 
 /// @nodoc
 
 class _$SuccessImpl implements _Success {
-  const _$SuccessImpl();
+  const _$SuccessImpl(this.salesIDPK);
+
+  @override
+  final String salesIDPK;
 
   @override
   String toString() {
-    return 'CreateSalesState.success()';
+    return 'CreateSalesState.success(salesIDPK: $salesIDPK)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$SuccessImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$SuccessImpl &&
+            (identical(other.salesIDPK, salesIDPK) ||
+                other.salesIDPK == salesIDPK));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(runtimeType, salesIDPK);
+
+  /// Create a copy of CreateSalesState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function(String salesIDPK) success,
     required TResult Function(String error) failure,
   }) {
-    return success();
+    return success(salesIDPK);
   }
 
   @override
@@ -377,10 +405,10 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function(String salesIDPK)? success,
     TResult? Function(String error)? failure,
   }) {
-    return success?.call();
+    return success?.call(salesIDPK);
   }
 
   @override
@@ -388,12 +416,12 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function(String salesIDPK)? success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success();
+      return success(salesIDPK);
     }
     return orElse();
   }
@@ -437,7 +465,15 @@ class _$SuccessImpl implements _Success {
 }
 
 abstract class _Success implements CreateSalesState {
-  const factory _Success() = _$SuccessImpl;
+  const factory _Success(final String salesIDPK) = _$SuccessImpl;
+
+  String get salesIDPK;
+
+  /// Create a copy of CreateSalesState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -510,7 +546,7 @@ class _$FailureImpl implements _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function() success,
+    required TResult Function(String salesIDPK) success,
     required TResult Function(String error) failure,
   }) {
     return failure(error);
@@ -521,7 +557,7 @@ class _$FailureImpl implements _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function()? success,
+    TResult? Function(String salesIDPK)? success,
     TResult? Function(String error)? failure,
   }) {
     return failure?.call(error);
@@ -532,7 +568,7 @@ class _$FailureImpl implements _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function()? success,
+    TResult Function(String salesIDPK)? success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) {

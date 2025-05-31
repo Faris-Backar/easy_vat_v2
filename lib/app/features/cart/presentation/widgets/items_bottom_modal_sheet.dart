@@ -130,17 +130,17 @@ class _ItemsBottomModalSheetState extends ConsumerState<ItemsBottomModalSheet> {
         padding: const EdgeInsets.only(bottom: 8.0),
         child: InkWell(
           onTap: () {
-            if ((itemsList[index].currentStock ?? 0.0) > 0) {
-              itemDetailsExpansionNotifier.value = index;
-              showDialog(
-                context: context,
-                builder: (context) => CartItemAddDialog(
-                  item: itemsList[index],
-                ),
-              );
-            } else {
-              AppUtils.showToast(context, AppStrings.itemCurrentlyOutOfStock);
-            }
+            // if ((itemsList[index].currentStock ?? 0.0) > 0) {
+            itemDetailsExpansionNotifier.value = index;
+            showDialog(
+              context: context,
+              builder: (context) => CartItemAddDialog(
+                item: itemsList[index],
+              ),
+            );
+            // } else {
+            //   AppUtils.showToast(context, AppStrings.itemCurrentlyOutOfStock);
+            // }
           },
           child: ValueListenableBuilder<int?>(
             valueListenable: itemDetailsExpansionNotifier,
