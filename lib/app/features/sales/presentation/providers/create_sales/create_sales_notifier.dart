@@ -53,7 +53,8 @@ class CreateSalesNotifier extends StateNotifier<CreateSalesState> {
 
       result.fold(
         (l) => state = CreateSalesState.failure(l.message),
-        (r) => state = CreateSalesState.success(),
+        (r) =>
+            state = CreateSalesState.success(r.salesList?.first.saleIdpk ?? ""),
       );
     } catch (e) {
       state = CreateSalesState.failure(e.toString());
@@ -68,7 +69,8 @@ class CreateSalesNotifier extends StateNotifier<CreateSalesState> {
 
       result.fold(
         (l) => state = CreateSalesState.failure(l.message),
-        (r) => state = CreateSalesState.success(),
+        (r) =>
+            state = CreateSalesState.success(r.salesList?.first.saleIdpk ?? ""),
       );
     } catch (e) {
       state = CreateSalesState.failure(e.toString());
@@ -83,7 +85,8 @@ class CreateSalesNotifier extends StateNotifier<CreateSalesState> {
 
       result.fold(
         (l) => state = CreateSalesState.failure(l.message),
-        (r) => state = CreateSalesState.success(),
+        (r) =>
+            state = CreateSalesState.success(r.salesList?.first.saleIdpk ?? ""),
       );
     } catch (e) {
       state = CreateSalesState.failure(e.toString());
@@ -98,7 +101,8 @@ class CreateSalesNotifier extends StateNotifier<CreateSalesState> {
 
       result.fold(
         (l) => state = CreateSalesState.failure(l.message),
-        (r) => state = CreateSalesState.success(),
+        (r) =>
+            state = CreateSalesState.success(r.salesList?.first.saleIdpk ?? ""),
       );
     } catch (e) {
       state = CreateSalesState.failure(e.toString());

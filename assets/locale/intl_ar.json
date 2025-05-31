@@ -194,6 +194,10 @@
   "incorrectPassword": "كلمة المرور غير صحيحة",
   "itemCurrentlyOutOfStock": "العنصر غير متوفر حالياً",
   "stock": "المخزون",
-  "expNo":"ExpNo"
-
+  "expNo":"ExpNo",
+   "paymentMode": "طريقة الدفع",
+   "pleaseSelectASupplier": "الرجاء اختيار المورد",
+   "addSupplier": "إضافة المورد",
+   "addLedger": "إضافة دفتر الأستاذ",
+  "doYouWantToPrintInvoice": "هل تريد طباعة الفاتورة؟"
 }

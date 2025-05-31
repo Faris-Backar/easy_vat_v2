@@ -1,221 +1,288 @@
-// ignore_for_file: deprecated_member_use
+// lib/app/presentation/screens/pdf_viewer_screen.dart
+
+// ignore_for_file: deprecated_member_use, depend_on_referenced_packages
 
 import 'dart:io';
-
 import 'package:auto_route/auto_route.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
+import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:pdfx/pdfx.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:printing/printing.dart';
+import 'package:pdf/pdf.dart' as pdf;
+
+import './functions/pdf_downloader_stub.dart'
+    if (dart.library.html) './functions/pdf_downloader_web.dart';
 
 @RoutePage()
 class PdfViewerScreen extends StatefulWidget {
-  final String pathUrl;
-  const PdfViewerScreen({
-    super.key,
-    required this.pathUrl,
-  });
+  final String pdfUrl;
+  final String? pdfName;
+  const PdfViewerScreen({super.key, required this.pdfUrl, this.pdfName});
 
   @override
   State<PdfViewerScreen> createState() => _PdfViewerScreenState();
 }
 
 class _PdfViewerScreenState extends State<PdfViewerScreen> {
-  static const int _initialPage = 1;
-  late PdfControllerPinch _pdfControllerPinch;
-
-  @override
-  void initState() {
-    super.initState();
-    _pdfControllerPinch = PdfControllerPinch(
-      document: PdfDocument.openFile(widget.pathUrl),
-      initialPage: _initialPage,
-    );
-  }
-
-  @override
-  void dispose() {
-    _pdfControllerPinch.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(context.translate(AppStrings.salesInvoice)),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: PdfPageNumber(
-                controller: _pdfControllerPinch,
-                builder: (_, loadingState, page, pagesCount) => Container(
-                  alignment: Alignment.center,
-                  child: Text(
-                    '$page/${pagesCount ?? 0}',
-                  ),
-                ),
-              ),
+      appBar: AppBar(
+        title: Text(context.translate(AppStrings.salesInvoice)),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: PdfPreview(
+          build: (format) => _loadPdfFromNetwork(),
+          allowPrinting: true,
+          actions: [],
+          useActions: false,
+          allowSharing: !kIsWeb,
+          canChangePageFormat: false,
+          canDebug: false,
+          maxPageWidth: 700,
+          onPrinted: _showPrintedToast,
+          onShared: kIsWeb ? null : _showSharedToast,
+          loadingWidget:
+              const Center(child: CircularProgressIndicator.adaptive()),
+          onError: (context, error) => Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                const SizedBox(height: 16),
+                Text('Failed to load PDF => $error',
+                    style: Theme.of(context).textTheme.headlineSmall),
+                const SizedBox(height: 8),
+                Text(error.toString(),
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.bodyMedium),
+              ],
             ),
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: PdfViewPinch(
-            builders: PdfViewPinchBuilders<DefaultBuilderOptions>(
-              options: const DefaultBuilderOptions(),
-              documentLoaderBuilder: (_) =>
-                  const Center(child: CircularProgressIndicator.adaptive()),
-              pageLoaderBuilder: (_) =>
-                  const Center(child: CircularProgressIndicator.adaptive()),
-              errorBuilder: (_, error) => Center(child: Text(error.toString())),
-            ),
-            controller: _pdfControllerPinch,
           ),
         ),
-        bottomNavigationBar: Container(
-          height: 55.h,
-          color: context.colorScheme.tertiaryContainer,
-          child: SafeArea(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                InkWell(
-                  onTap: _downloadPDF,
-                  borderRadius: BorderRadius.circular(8),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.download_rounded,
-                        color: Colors.blue,
-                        size: 24,
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Download',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
+      ),
+      bottomNavigationBar: Container(
+        height: 55.h,
+        color: context.colorScheme.tertiaryContainer,
+        child: SafeArea(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              InkWell(
+                onTap: _downloadPDF,
+                borderRadius: BorderRadius.circular(8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Icon(Icons.download_rounded, color: Colors.blue, size: 24),
+                    SizedBox(height: 4),
+                    Text('Download', style: TextStyle(fontSize: 12)),
+                  ],
                 ),
+              ),
+              if (!kIsWeb)
                 InkWell(
                   onTap: _sharePDF,
                   borderRadius: BorderRadius.circular(8),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.share_rounded,
-                        color: Colors.green,
-                        size: 24,
-                      ),
+                    children: const [
+                      Icon(Icons.share_rounded, color: Colors.green, size: 24),
                       SizedBox(height: 4),
-                      Text(
-                        'Share',
-                        style: TextStyle(fontSize: 12),
-                      ),
+                      Text('Share', style: TextStyle(fontSize: 12)),
                     ],
                   ),
                 ),
-                InkWell(
-                  onTap: () {},
-                  borderRadius: BorderRadius.circular(8),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.print_rounded,
-                        color: Colors.orange,
-                        size: 24,
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        'Print',
-                        style: TextStyle(fontSize: 12),
-                      ),
-                    ],
-                  ),
+              InkWell(
+                onTap: _printPDF,
+                borderRadius: BorderRadius.circular(8),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: const [
+                    Icon(Icons.print_rounded, color: Colors.orange, size: 24),
+                    SizedBox(height: 4),
+                    Text('Print', style: TextStyle(fontSize: 12)),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
+  }
+
+  Future<Uint8List> _loadPdfFromNetwork() async {
+    try {
+      final response = await DioService().dio.get<List<int>>(
+            UrlResources.downloadSalesInvoice,
+            queryParameters: {
+              'SaleIDPK': widget.pdfUrl,
+            },
+            options: Options(
+              responseType: ResponseType.bytes,
+            ),
+          );
+
+      if (response.statusCode == 200) {
+        return Uint8List.fromList(response.data!);
+      } else {
+        throw Exception('Failed to load PDF: HTTP ${response.statusCode}');
+      }
+    } catch (e) {
+      // AppUtils.showToast(context, e.toString());
+      throw Exception('Failed to load PDF: $e');
+    }
+  }
+
+  void _showPrintedToast(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Document printed successfully')),
+    );
+  }
+
+  void _showSharedToast(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Document shared successfully')),
+    );
   }
 
   Future<void> _downloadPDF() async {
-    final savedPath = await savePdfToDownloads(sourcePath: widget.pathUrl);
-    if (savedPath != null) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("PDF saved to: $savedPath")),
-        );
+    try {
+      final response = await DioService().dio.get<List<int>>(
+            UrlResources.downloadSalesInvoice,
+            queryParameters: {
+              'SaleIDPK': widget.pdfUrl,
+            },
+            options: Options(
+              responseType: ResponseType.bytes,
+            ),
+          );
+      if (response.statusCode != 200) {
+        throw Exception('Failed to download PDF: HTTP ${response.statusCode}');
       }
-    } else {
+      final bytes = Uint8List.fromList(response.data!);
+      final fileName = '${widget.pdfName} - SalesInvoice.pdf';
+
+      if (kIsWeb) {
+        downloadPdfForWeb(bytes, fileName);
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("PDF download started")),
+          );
+        }
+      } else {
+        final savedPath =
+            await _savePdfBytesToDownloads(bytes, fileName: fileName);
+        if (savedPath != null && mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("PDF saved to: $savedPath")));
+        } else if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text("Failed to save PDF")));
+        }
+      }
+    } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Failed to save PDF")),
-        );
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Download failed: $e')));
       }
     }
   }
 
   Future<void> _sharePDF() async {
+    if (kIsWeb) return;
     try {
-      final file = File(widget.pathUrl);
-      await Share.shareXFiles(
-        [XFile(file.path)],
-        text: 'Sharing SalesInvoice',
-      );
+      final response = await DioService().dio.get<List<int>>(
+            UrlResources.downloadSalesInvoice,
+            queryParameters: {
+              'SaleIDPK': widget.pdfUrl,
+            },
+            options: Options(
+              responseType: ResponseType.bytes,
+            ),
+          );
+      if (response.statusCode == 200) {
+        final tempDir = await getTemporaryDirectory();
+        // final fileName =
+        //     'temp_share_${DateTime.now().millisecondsSinceEpoch}.pdf';
+        final bytes = Uint8List.fromList(response.data!);
+        final fileName = '${widget.pdfName} - SalesInvoice.pdf';
+        final file = File('${tempDir.path}/$fileName');
+        await file.writeAsBytes(bytes);
+
+        await Share.shareXFiles([XFile(file.path)],
+            text: 'Sharing SalesInvoice');
+      } else {
+        throw Exception(
+            'Failed to load PDF for sharing: HTTP ${response.statusCode}');
+      }
     } catch (e) {
-      // _showSnackBar('Failed to share PDF: $e', Colors.red);
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Failed to share PDF: $e')));
+      }
     }
   }
 
-  // Future<void> _printPDF() async {
-  //   try {
-  //     final file = File(widget.pdfPath);
-  //     final bytes = await file.readAsBytes();
-
-  //     await Printing.layoutPdf(
-  //       onLayout: (format) async => bytes,
-  //       name: widget.fileName,
-  //     );
-  //   } catch (e) {
-  //     _showSnackBar('Failed to print PDF: $e', Colors.red);
-  //   }
-  // }
-
-  Future<String?> savePdfToDownloads({
-    required String sourcePath,
-    String? fileName,
-  }) async {
+  Future<void> _printPDF() async {
     try {
-      final sourceFile = File(sourcePath);
+      final response = await DioService().dio.get<List<int>>(
+            UrlResources.downloadSalesInvoice,
+            queryParameters: {
+              'SaleIDPK': widget.pdfUrl,
+            },
+            options: Options(
+              responseType: ResponseType.bytes,
+            ),
+          );
+      if (response.statusCode == 200) {
+        final bytes = Uint8List.fromList(response.data!);
+        final fileName = '${widget.pdfName} - SalesInvoice.pdf';
+        await Printing.layoutPdf(
+          onLayout: (pdf.PdfPageFormat format) async => bytes,
+          name: fileName,
+        );
+        if (mounted) _showPrintedToast(context);
+      } else {
+        throw Exception(
+            'Failed to load PDF for printing: HTTP ${response.statusCode}');
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('Failed to print PDF: $e')));
+      }
+    }
+  }
+
+  Future<String?> _savePdfBytesToDownloads(Uint8List pdfBytes,
+      {String? fileName}) async {
+    try {
       final name = fileName ??
           'SalesInvoice_${DateTime.now().millisecondsSinceEpoch}.pdf';
-
       late Directory downloadsDir;
 
       if (Platform.isAndroid) {
         if (await _requiresStoragePermission()) {
-          final permission = await Permission.storage.status;
-          if (!permission.isGranted) {
-            final result = await Permission.storage.request();
-            if (!result.isGranted) return null;
-          }
+          final result = await Permission.storage.request();
+          if (!result.isGranted) return null;
         }
 
-        downloadsDir = await getExternalStorageDirectory() ??
-            await getTemporaryDirectory();
-        final downloadPath = "/storage/emulated/0/Download";
-        final altDownloadDir = Directory(downloadPath);
-        if (await altDownloadDir.exists()) {
-          downloadsDir = altDownloadDir;
+        downloadsDir = Directory("/storage/emulated/0/Download");
+        if (!await downloadsDir.exists()) {
+          downloadsDir = await getExternalStorageDirectory() ??
+              await getTemporaryDirectory();
         }
       } else if (Platform.isIOS) {
         downloadsDir = await getApplicationDocumentsDirectory();
@@ -224,10 +291,11 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       }
 
       final newFilePath = "${downloadsDir.path}/$name";
-      await sourceFile.copy(newFilePath);
+      final file = File(newFilePath);
+      await file.writeAsBytes(pdfBytes);
       return newFilePath;
     } catch (e) {
-      debugPrint("Error saving PDF: $e");
+      debugPrint("Error saving PDF bytes: $e");
       return null;
     }
   }
