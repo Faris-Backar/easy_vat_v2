@@ -8,6 +8,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
+import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +18,6 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:printing/printing.dart';
 import 'package:pdf/pdf.dart' as pdf;
-import 'package:http/http.dart' as http;
 
 import './functions/pdf_downloader_stub.dart'
     if (dart.library.html) './functions/pdf_downloader_web.dart';
@@ -60,7 +60,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
               children: [
                 const Icon(Icons.error_outline, size: 64, color: Colors.red),
                 const SizedBox(height: 16),
-                Text('Failed to load PDF',
+                Text('Failed to load PDF => $error',
                     style: Theme.of(context).textTheme.headlineSmall),
                 const SizedBox(height: 8),
                 Text(error.toString(),
@@ -140,6 +140,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         throw Exception('Failed to load PDF: HTTP ${response.statusCode}');
       }
     } catch (e) {
+      // AppUtils.showToast(context, e.toString());
       throw Exception('Failed to load PDF: $e');
     }
   }
@@ -202,13 +203,23 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   Future<void> _sharePDF() async {
     if (kIsWeb) return;
     try {
-      final response = await http.get(Uri.parse(widget.pdfUrl));
+      final response = await DioService().dio.get<List<int>>(
+            UrlResources.downloadSalesInvoice,
+            queryParameters: {
+              'SaleIDPK': widget.pdfUrl,
+            },
+            options: Options(
+              responseType: ResponseType.bytes,
+            ),
+          );
       if (response.statusCode == 200) {
         final tempDir = await getTemporaryDirectory();
-        final fileName =
-            'temp_share_${DateTime.now().millisecondsSinceEpoch}.pdf';
+        // final fileName =
+        //     'temp_share_${DateTime.now().millisecondsSinceEpoch}.pdf';
+        final bytes = Uint8List.fromList(response.data!);
+        final fileName = '${widget.pdfName} - SalesInvoice.pdf';
         final file = File('${tempDir.path}/$fileName');
-        await file.writeAsBytes(response.bodyBytes);
+        await file.writeAsBytes(bytes);
 
         await Share.shareXFiles([XFile(file.path)],
             text: 'Sharing SalesInvoice');
