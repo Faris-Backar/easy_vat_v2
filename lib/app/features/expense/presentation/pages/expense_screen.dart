@@ -40,55 +40,77 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
   void initState() {
     super.initState();
     expenseState = ref.read(expenseNotifierProvider);
-
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await _initializeData();
+      ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
+      ref.read(cashLedgerNotifierProvider.notifier).fetchBankLedgers();
+      ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
+      ref.read(expenseNotifierProvider.notifier).fetchExpenses(
+            params: ExpenseParams(
+              expenseIDPK: "00000000-0000-0000-0000-000000000000",
+              fromDate: DateTime.now(),
+              toDate: DateTime.now(),
+              supplierID: "00000000-0000-0000-0000-000000000000",
+            ),
+          );
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final prefs = await SharedPreferences.getInstance();
+        isTaxRegisrationEnabled =
+            prefs.getBool(PrefResources.isTaxEnabled) ?? false;
+      });
     });
   }
 
-  Future<void> _initializeData() async {
-    ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
-    ref.read(cashLedgerNotifierProvider.notifier).fetchBankLedgers();
-    ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
-    ref.read(expenseNotifierProvider.notifier).fetchExpenses(
-          params: ExpenseParams(
-            expenseIDPK: "00000000-0000-0000-0000-000000000000",
-            fromDate: DateTime.now(),
-            toDate: DateTime.now(),
-            supplierID: "00000000-0000-0000-0000-000000000000",
-          ),
-        );
+  // Future<void> _initializeData() async {
+  //   ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
+  //   ref.read(cashLedgerNotifierProvider.notifier).fetchBankLedgers();
+  //   ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
+  //   ref.read(expenseNotifierProvider.notifier).fetchExpenses(
+  //         params: ExpenseParams(
+  //           expenseIDPK: "00000000-0000-0000-0000-000000000000",
+  //           fromDate: DateTime.now(),
+  //           toDate: DateTime.now(),
+  //           supplierID: "00000000-0000-0000-0000-000000000000",
+  //         ),
+  //       );
 
-    final prefs = await SharedPreferences.getInstance();
-    final enabled = prefs.getBool(PrefResources.isTaxEnabled) ?? false;
-    setState(() {
-      isTaxRegisrationEnabled = enabled;
-    });
-  }
+  //   final prefs = await SharedPreferences.getInstance();
+  //   final enabled = prefs.getBool(PrefResources.isTaxEnabled) ?? false;
+  //   setState(() {
+  //     isTaxRegisrationEnabled = enabled;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     final expenseState = ref.watch(expenseNotifierProvider);
-
     return Scaffold(
       appBar: ExpenseAppBar(searchController: _searchTextController),
       backgroundColor: context.surfaceColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
         child: expenseState.maybeWhen(
-          success: (expenseData) {
-            if (expenseData.isEmpty) {
+          success: (expenseData, totalAmount) {
+            if (expenseData.isEmpty == true) {
               return Center(
-                child: Text(context.translate(AppStrings.noDataIsFound)),
+                child: Container(
+                  height: 0.5.sh,
+                  width: 0.8.sw,
+                  decoration: BoxDecoration(
+                      image: DecorationImage(
+                          image: AssetImage(Assets.images.noDataFound.path))),
+                ),
               );
             }
-
             return ListView.builder(
               itemCount: expenseData.length,
               itemBuilder: (context, index) {
                 final expense = expenseData[index];
                 final notifier = ValueNotifier<bool>(false);
-
+                if (expenseData.isEmpty == true) {
+                  return Center(
+                    child: Text(context.translate(AppStrings.noDataIsFound)),
+                  );
+                }
                 return Padding(
                   padding: const EdgeInsets.only(bottom: 16.0),
                   child: Slidable(
@@ -182,18 +204,33 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  context.translate(AppStrings.netTotal),
+                  context.translate(AppStrings.total),
                   style: context.textTheme.bodyMedium?.copyWith(
                     color: context.defaultTextColor.withValues(alpha: 0.32),
                   ),
                 ),
-                Text(
-                  ref.watch(cartProvider).totalAmount.toStringAsFixed(2),
-                  style: context.textTheme.bodyLarge?.copyWith(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                expenseState.maybeWhen(
+                    success: (expense, totalAmount) => Text(
+                          totalAmount?.toStringAsFixed(2) ?? "0.0",
+                          style: context.textTheme.bodyLarge?.copyWith(
+                              fontSize: 17, fontWeight: FontWeight.w600),
+                        ),
+                    orElse: () => Text(
+                          ref
+                              .watch(cartProvider)
+                              .totalAmount
+                              .toStringAsFixed(2),
+                          style: context.textTheme.bodyLarge?.copyWith(
+                              fontSize: 17, fontWeight: FontWeight.w600),
+                        ))
+
+                // Text(
+                //   ref.watch(cartProvider).totalAmount.toStringAsFixed(2),
+                //   style: context.textTheme.bodyLarge?.copyWith(
+                //     fontSize: 17,
+                //     fontWeight: FontWeight.w600,
+                //   ),
+                // ),
               ],
             ),
             const SizedBox(height: 10),

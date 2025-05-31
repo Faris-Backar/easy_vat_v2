@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 // import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/expense_ledger/expense_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -29,7 +30,7 @@ class _ExpenseBottomModalSheetState
       ValueNotifier(null);
   @override
   Widget build(BuildContext context) {
-    //final state =
+    final state = ref.watch(expenseLedgerNotifierProvider);
     ref.watch(expenseLedgerNotifierProvider); // expense ledger provider
     return Container(
       height: 1.sh,
@@ -47,9 +48,9 @@ class _ExpenseBottomModalSheetState
           //         loading: (_) => const Center(
           //               child: CircularProgressIndicator.adaptive(),
           //             ),
-          //         loaded: (expenseList) => expenseList.expenseList.isEmpty
+          //         loaded: (expenseList) => expenseList.ledgers.isEmpty
           //             ? Center(child: Text(context.translate(AppStrings.noDataIsFound)),)
-          //             : _buildExpenseList()
+          //             : _buildExpenseList(expenseList.ledgers)
           //         error: error)),
           _buildSubmitButton(context, ref),
         ],
@@ -120,7 +121,7 @@ class _ExpenseBottomModalSheetState
   //   return ListView.builder(
   //       itemCount: ledgerList.length,
   //       itemBuilder: (context, index) {
-  //         // final ledger = ledgerList[index];
+  //         final ledger = ledgerList[index];
   //         return Padding(
   //           padding: const EdgeInsets.only(bottom: 8.0),
   //           child: InkWell(
