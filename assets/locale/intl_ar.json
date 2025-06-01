@@ -201,6 +201,9 @@
    "addLedger": "إضافة دفتر الأستاذ",
   "doYouWantToPrintInvoice": "هل تريد طباعة الفاتورة؟",
    "debit": "دَين",
-  "addedToCart": "تمت الإضافة إلى السلة"
+  "addedToCart": "تمت الإضافة إلى السلة",
+   "ledgerCurrentlyNotActive": "دفتر الأستاذ غير نشط حاليًا",
+   "taxAmount": "مبلغ الضريبة",
+   "grossTotal": "الإجمالي الإجمالي"
 
 }
