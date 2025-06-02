@@ -6,12 +6,12 @@ import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_invoi
 import 'package:easy_vat_v2/app/features/purchase/domain/repository/purchase_repository.dart';
 
 class FetchPurchaseReturnUsecase
-    extends UseCase<Either<Failure, List<PurchaseEntity>>, NoParams> {
+    extends UseCase<Either<Failure, List<PurchaseInvoiceEntity>>, NoParams> {
   final PurchaseRepository purchaseRepository;
   FetchPurchaseReturnUsecase({required this.purchaseRepository});
 
   @override
-  Future<Either<Failure, List<PurchaseEntity>>> call(
+  Future<Either<Failure, List<PurchaseInvoiceEntity>>> call(
       {required NoParams params}) async {
     return await purchaseRepository.fetchPurchaseOrders();
   }

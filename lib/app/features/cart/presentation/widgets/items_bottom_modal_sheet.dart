@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
-import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
@@ -180,7 +179,7 @@ class _ItemsBottomModalSheetState extends ConsumerState<ItemsBottomModalSheet> {
         Expanded(
             flex: 1,
             child: IconButton(
-              onPressed: () => context.router.pushNamed(AppRouter.cart),
+              onPressed: () => context.router.popForced(),
               icon: Badge.count(
                 backgroundColor: CustomColors.inActiveRedColor(context),
                 textColor: Colors.white,

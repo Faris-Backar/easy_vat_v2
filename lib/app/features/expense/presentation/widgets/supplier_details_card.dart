@@ -49,29 +49,37 @@ class SupplierDetailsCard extends StatelessWidget {
                 context.translate(AppStrings.creditDays),
                 supplier.creditDays?.toStringAsFixed(2) ?? "-"),
           ]),
-          if (isExpanded) ...[
-            const SizedBox(
-              height: 12,
-            ),
-            _buildDetailsRow([
-              _buildSupplierDetail(
-                  context,
-                  context.translate(AppStrings.address),
-                  supplier.billingAddress ?? "-"),
-              _buildSupplierDetail(
-                  context,
-                  context.translate(AppStrings.phoneNumber),
-                  supplier.phone ?? "-"),
-            ]),
-            const SizedBox(
-              height: 12,
-            ),
-            _buildDetailsRow([
-              _buildSupplierDetail(context, context.translate(AppStrings.trn),
-                  supplier.taxRegistrationNo ?? "-"),
-              const SizedBox.shrink()
-            ])
-          ]
+          AnimatedCrossFade(
+              duration: const Duration(milliseconds: 300),
+              crossFadeState: isExpanded
+                  ? CrossFadeState.showSecond
+                  : CrossFadeState.showFirst,
+              firstChild: const SizedBox.shrink(), // Collapsed state
+              secondChild: Column(children: [
+                const SizedBox(
+                  height: 12,
+                ),
+                _buildDetailsRow([
+                  _buildSupplierDetail(
+                      context,
+                      context.translate(AppStrings.address),
+                      supplier.billingAddress ?? "-"),
+                  _buildSupplierDetail(
+                      context,
+                      context.translate(AppStrings.phoneNumber),
+                      supplier.phone ?? "-"),
+                ]),
+                const SizedBox(
+                  height: 12,
+                ),
+                _buildDetailsRow([
+                  _buildSupplierDetail(
+                      context,
+                      context.translate(AppStrings.trn),
+                      supplier.taxRegistrationNo ?? "-"),
+                  const SizedBox.shrink()
+                ])
+              ]))
         ],
       ),
     );

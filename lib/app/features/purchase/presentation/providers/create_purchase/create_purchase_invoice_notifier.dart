@@ -1,7 +1,8 @@
+import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_invoice_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_request_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/usecase/purchase_invoice/create_purchase_usecase.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/usecase/purchase_return/create_purchase_return_usecase.dart';
-import 'package:easy_vat_v2/app/features/purchase/presentation/providers/create_purchase.dart/create_purchase_invoice_state.dart';
+import 'package:easy_vat_v2/app/features/purchase/presentation/providers/create_purchase/create_purchase_invoice_state.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/fetch_purchase_invoice/fetch_purchase_invoice_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -33,10 +34,11 @@ class CreatePurchaseNotifier extends StateNotifier<CreatePurchaseState> {
     required this.createPurchaseReturnUsecase,
   }) : super(CreatePurchaseState.initial());
 
-  createPurchaseInvoice({required PurchaseRequestModel params}) async {
+  createPurchaseInvoice(PurchaseInvoiceModel purchaseInvoiceRequest) async {
     try {
       state = CreatePurchaseState.loading();
-      final result = await createPurchaseUsecase.call(params: params);
+      final result =
+          await createPurchaseUsecase.call(params: purchaseInvoiceRequest);
       result.fold(
         (l) => state = CreatePurchaseState.error(message: l.message),
         (r) => state = CreatePurchaseState.loaded(purchaseRequestModel: r),
@@ -49,7 +51,7 @@ class CreatePurchaseNotifier extends StateNotifier<CreatePurchaseState> {
   createPurchaseOrder({required PurchaseRequestModel params}) async {
     try {
       state = CreatePurchaseState.loading();
-      final result = await createPurchaseUsecase.call(params: params);
+      final result = await createPurchaseReturnUsecase.call(params: params);
       result.fold(
         (l) => state = CreatePurchaseState.error(message: l.message),
         (r) => state = CreatePurchaseState.loaded(purchaseRequestModel: r),
@@ -62,7 +64,7 @@ class CreatePurchaseNotifier extends StateNotifier<CreatePurchaseState> {
   createPurchaseReturn({required PurchaseRequestModel params}) async {
     try {
       state = CreatePurchaseState.loading();
-      final result = await createPurchaseUsecase.call(params: params);
+      final result = await createPurchaseReturnUsecase.call(params: params);
       result.fold(
         (l) => state = CreatePurchaseState.error(message: l.message),
         (r) => state = CreatePurchaseState.loaded(purchaseRequestModel: r),

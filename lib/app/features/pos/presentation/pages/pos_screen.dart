@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_invoice_app_bar.dart';
 
 @RoutePage()
 class PosScreen extends StatefulWidget {
@@ -12,7 +11,7 @@ class PosScreen extends StatefulWidget {
 }
 
 class _PosScreenState extends State<PosScreen> {
-  final _searchTextController = TextEditingController();
+  // final _searchTextController = TextEditingController();
 
   final ValueNotifier<String?> selectedSalesMode = ValueNotifier<String?>(null);
   final ValueNotifier<String?> selectedSoldBy = ValueNotifier<String?>(null);
@@ -28,7 +27,7 @@ class _PosScreenState extends State<PosScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: SalesInvoiceAppBar(searchController: _searchTextController),
+      // appBar: SalesInvoiceAppBar(searchController: _searchTextController),
       backgroundColor: context.colorScheme.surfaceContainerLowest,
       // body: Padding(
       //   padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),

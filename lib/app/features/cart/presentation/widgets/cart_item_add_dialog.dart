@@ -472,7 +472,7 @@ class _CartItemAddDialogState extends ConsumerState<CartItemAddDialog> {
     if (widget.cartItem == null) {
       cartNotifier.addItemsIntoCart(item: cartEntity);
       AppUtils.showToast(context,
-          "${cartEntity.item.itemName},${context.translate(AppStrings.addedToCart)}");
+          "${cartEntity.item.itemName} - ${context.translate(AppStrings.addedToCart)}");
     } else {
       cartNotifier.updateCartItem(cartItem: cartEntity);
     }

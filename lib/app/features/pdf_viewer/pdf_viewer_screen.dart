@@ -26,7 +26,12 @@ import './functions/pdf_downloader_stub.dart'
 class PdfViewerScreen extends StatefulWidget {
   final String pdfUrl;
   final String? pdfName;
-  const PdfViewerScreen({super.key, required this.pdfUrl, this.pdfName});
+  final Map<String, dynamic> queryParameters;
+  const PdfViewerScreen(
+      {super.key,
+      required this.pdfUrl,
+      this.pdfName,
+      required this.queryParameters});
 
   @override
   State<PdfViewerScreen> createState() => _PdfViewerScreenState();
@@ -126,9 +131,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
     try {
       final response = await DioService().dio.get<List<int>>(
             UrlResources.downloadSalesInvoice,
-            queryParameters: {
-              'SaleIDPK': widget.pdfUrl,
-            },
+            queryParameters: widget.queryParameters,
             options: Options(
               responseType: ResponseType.bytes,
             ),
@@ -140,7 +143,6 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         throw Exception('Failed to load PDF: HTTP ${response.statusCode}');
       }
     } catch (e) {
-      // AppUtils.showToast(context, e.toString());
       throw Exception('Failed to load PDF: $e');
     }
   }
@@ -160,10 +162,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   Future<void> _downloadPDF() async {
     try {
       final response = await DioService().dio.get<List<int>>(
-            UrlResources.downloadSalesInvoice,
-            queryParameters: {
-              'SaleIDPK': widget.pdfUrl,
-            },
+            widget.pdfUrl,
+            queryParameters: widget.queryParameters,
             options: Options(
               responseType: ResponseType.bytes,
             ),
@@ -205,10 +205,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
     if (kIsWeb) return;
     try {
       final response = await DioService().dio.get<List<int>>(
-            UrlResources.downloadSalesInvoice,
-            queryParameters: {
-              'SaleIDPK': widget.pdfUrl,
-            },
+            widget.pdfUrl,
+            queryParameters: widget.queryParameters,
             options: Options(
               responseType: ResponseType.bytes,
             ),
@@ -239,10 +237,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   Future<void> _printPDF() async {
     try {
       final response = await DioService().dio.get<List<int>>(
-            UrlResources.downloadSalesInvoice,
-            queryParameters: {
-              'SaleIDPK': widget.pdfUrl,
-            },
+            widget.pdfUrl,
+            queryParameters: widget.queryParameters,
             options: Options(
               responseType: ResponseType.bytes,
             ),

@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
+import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
@@ -55,10 +56,8 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
       ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
       ref.read(salesInvoiceNotifierProvider.notifier).fetchSalesInvoice(
             params: SalesParams(
-              salesIDPK: "00000000-0000-0000-0000-000000000000",
               fromDate: DateTime.now(),
               toDate: DateTime.now(),
-              customerID: "00000000-0000-0000-0000-000000000000",
             ),
           );
       WidgetsBinding.instance.addPostFrameCallback((_) async {
@@ -90,10 +89,8 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
               );
               ref.read(salesInvoiceNotifierProvider.notifier).fetchSalesInvoice(
                     params: SalesParams(
-                      salesIDPK: "00000000-0000-0000-0000-000000000000",
                       fromDate: ref.read(dateRangeProvider).fromDate,
                       toDate: ref.read(dateRangeProvider).fromDate,
-                      customerID: "00000000-0000-0000-0000-000000000000",
                     ),
                   );
             },
@@ -107,25 +104,6 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
             orElse: () {},
           );
         });
-
-        // ref.listen(downloadsalesInvoiceNotifierProvider, (previous, next) {
-        //   next.maybeWhen(
-        //     downloadCompleted: (pdfPath) {
-        //       LoaderDialog.hide(context);
-        //       context.router.push(PdfViewerRoute(pathUrl: pdfPath));
-        //     },
-        //     loading: () => LoaderDialog.show(context),
-        //     failure: (error) {
-        //       LoaderDialog.hide(context);
-        //       Fluttertoast.showToast(
-        //         msg: error,
-        //         backgroundColor: Colors.red,
-        //         textColor: Colors.white,
-        //       );
-        //     },
-        //     orElse: () {},
-        //   );
-        // });
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
@@ -147,11 +125,7 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                 itemBuilder: (context, index) {
                   final salesInvoice = salesInvoiceData[index];
                   final notifier = ValueNotifier<bool>(false);
-                  if (salesInvoiceData.isEmpty == true) {
-                    return Center(
-                      child: Text(context.translate(AppStrings.noDataIsFound)),
-                    );
-                  }
+
                   return Padding(
                     padding: const EdgeInsets.only(bottom: 16.0),
                     child: Slidable(
@@ -174,26 +148,11 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                                 borderRadiusBottomLeft: 10,
                                 borderRadiusTopLeft: 10,
                                 onTap: () async {
-                                  // final hasPermission = await AppUtils
-                                  //     .requestDownloadPermission();
-                                  // if (hasPermission) {
-                                  //   ref
-                                  //       .read(
-                                  //           downloadsalesInvoiceNotifierProvider
-                                  //               .notifier)
-                                  //       .downloadSalesInvoices(
-                                  //         salesIDPK:
-                                  //             salesInvoice.saleIdpk ?? "",
-                                  //       );
-                                  // } else {
-                                  //   ScaffoldMessenger.of(context).showSnackBar(
-                                  //     const SnackBar(
-                                  //         content: Text(
-                                  //             "Permission denied. Cannot download invoice.")),
-                                  //   );
-                                  // }
                                   context.router.push(PdfViewerRoute(
-                                      pdfUrl: salesInvoice.saleIdpk ?? "",
+                                      pdfUrl: UrlResources.downloadSalesInvoice,
+                                      queryParameters: {
+                                        'SaleIDPK': salesInvoice.saleIdpk,
+                                      },
                                       pdfName: salesInvoice.customerName));
                                 }),
                           ),

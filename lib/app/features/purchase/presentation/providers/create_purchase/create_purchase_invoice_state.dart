@@ -1,4 +1,4 @@
-import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_success_model.dart';
+import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_invoice_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'create_purchase_invoice_state.freezed.dart';
@@ -8,7 +8,7 @@ class CreatePurchaseState with _$CreatePurchaseState {
   const factory CreatePurchaseState.initial() = _Initial;
 
   const factory CreatePurchaseState.loaded(
-      {required PurchaseEntityModel purchaseRequestModel}) = _Loaded;
+      {required PurchaseInvoiceEntity purchaseRequestModel}) = _Loaded;
 
   const factory CreatePurchaseState.loading() = _Loading;
 
