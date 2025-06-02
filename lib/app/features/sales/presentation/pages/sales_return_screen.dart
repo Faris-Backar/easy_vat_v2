@@ -11,7 +11,7 @@ import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoi
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_return/sales_return_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_return_transaction_card_widget.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_slidable_widget.dart';
+// import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_slidable_widget.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -93,16 +93,16 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                       extentRatio: .15,
                       motion: ScrollMotion(),
                       children: [
-                        TransactionSlidableActionWidget(
-                          onDeleteTap: () {},
-                          onEditTap: () {
-                            //   ref
-                            //       .read(cartProvider.notifier)
-                            //       .reinsertSalesForm(salesReturn, ref);
-                            //   context.router.pushNamed(AppRouter.addNewSales);
-                          },
-                          onPrintTap: () {},
-                        )
+                        // TransactionSlidableActionWidget(
+                        //   onDeleteTap: () {},
+                        //   onEditTap: () {
+                        //     //   ref
+                        //     //       .read(cartProvider.notifier)
+                        //     //       .reinsertSalesForm(salesReturn, ref);
+                        //     //   context.router.pushNamed(AppRouter.addNewSales);
+                        //   },
+                        //   onPrintTap: () {},
+                        // )
                       ],
                     ),
                     child: SalesReturnTransactionCard(

@@ -7,8 +7,9 @@ part 'fetch_purchase_invoice_state.freezed.dart';
 class FetchPurchaseInvoiceState with _$FetchPurchaseInvoiceState {
   const factory FetchPurchaseInvoiceState.initial() = _Initial;
 
-  const factory FetchPurchaseInvoiceState.loaded(
-      {required List<PurchaseEntity> purchaseInvoiceList}) = _Loaded;
+  const factory FetchPurchaseInvoiceState.success(
+      {required List<PurchaseInvoiceEntity> purchaseInvoiceList,
+      required double? total}) = _Success;
 
   const factory FetchPurchaseInvoiceState.loading() = _Loading;
 

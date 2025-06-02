@@ -32,9 +32,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
     );
 
     if (pickedDate != null) {
-      setState(() {
-        _selectedFromDate.value = pickedDate;
-      });
+      _selectedFromDate.value = pickedDate;
       widget.onFromDateSelected(_selectedFromDate.value);
     }
   }
@@ -48,9 +46,7 @@ class _DateRangePickerState extends State<DateRangePicker> {
     );
 
     if (pickedDate != null) {
-      setState(() {
-        _selectedToDate.value = pickedDate;
-      });
+      _selectedToDate.value = pickedDate;
       widget.onToDateSelected(_selectedToDate.value);
     }
   }

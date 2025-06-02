@@ -60,6 +60,7 @@ class UrlResources {
   static const String createPurchaseInvoice = "Purchase/Insert";
   static const String updatePurchaseInvoice = "Purchase/Update";
   static const String deletePurchaseInvoice = "Purchase/Delete";
+  static const String downloadPurchaseInvoice = "Purchase/DownloadInvoice";
 
   //purchaseOrder
   static const String getPurchaseOrder = "PurchaseOrder/Select/SelectAll";

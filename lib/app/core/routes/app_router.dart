@@ -34,7 +34,6 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: SalesQuatationRoute.page, path: salesQuatation),
         AutoRoute(page: PurchaseReturnRoute.page, path: purchaseReturn),
         AutoRoute(page: PurchaseOrderRoute.page, path: purchaseOrder),
-        AutoRoute(page: ExpenseInvoiceRoute.page, path: expenseInvoice),
         AutoRoute(page: BarcodeScannerRoute.page, path: barcodeScanner),
         AutoRoute(page: PdfViewerRoute.page, path: pdfViewer),
         AutoRoute(page: NoInternetRoute.page, path: noInternet),
@@ -43,7 +42,8 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: PdfViewerRoute.page, path: pdfViewer),
         AutoRoute(page: ExpenseRoute.page, path: expense),
         AutoRoute(page: ExpenseRoute.page, path: expense),
-        AutoRoute(page: AddNewExpenseRoute.page, path: expense)
+        AutoRoute(page: AddNewExpenseRoute.page, path: expense),
+        AutoRoute(page: AddNewPurchaseRoute.page, path: addNewPurchase)
       ];
 
   // Routes constants

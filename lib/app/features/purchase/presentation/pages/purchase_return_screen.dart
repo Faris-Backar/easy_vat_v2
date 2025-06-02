@@ -13,7 +13,6 @@ import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invo
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_card.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_slidable_widget.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
@@ -91,16 +90,16 @@ class _PurchaseReturnScreenState extends ConsumerState<PurchaseReturnScreen> {
                       extentRatio: .15,
                       motion: ScrollMotion(),
                       children: [
-                        TransactionSlidableActionWidget(
-                          onDeleteTap: () {},
-                          onEditTap: () {
-                            ref
-                                .read(cartProvider.notifier)
-                                .reinsertSalesForm(salesInvoice, ref);
-                            context.router.pushNamed(AppRouter.addNewSales);
-                          },
-                          onPrintTap: () {},
-                        )
+                        // TransactionSlidableActionWidget(
+                        //   onDeleteTap: () {},
+                        //   onEditTap: () {
+                        //     ref
+                        //         .read(cartProvider.notifier)
+                        //         .reinsertSalesForm(salesInvoice, ref);
+                        //     context.router.pushNamed(AppRouter.addNewSales);
+                        //   },
+                        //   onPrintTap: () {},
+                        // )
                       ],
                     ),
                     child: TransactionCard(

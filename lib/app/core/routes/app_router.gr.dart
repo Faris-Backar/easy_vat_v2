@@ -15,17 +15,15 @@ import 'package:easy_vat_v2/app/features/auth/presentation/pages/login_screen.da
 import 'package:easy_vat_v2/app/features/auth/presentation/pages/pin_screen.dart'
     as _i14;
 import 'package:easy_vat_v2/app/features/barcode_scan/presentation/pages/barcode_scanner_screen.dart'
-    as _i3;
-import 'package:easy_vat_v2/app/features/cart/presentation/pages/cart_screen.dart'
     as _i4;
-import 'package:easy_vat_v2/app/features/dahsboard/presentation/pages/dashboard_screen.dart'
+import 'package:easy_vat_v2/app/features/cart/presentation/pages/cart_screen.dart'
     as _i5;
-import 'package:easy_vat_v2/app/features/daybook/presentation/pages/daybook_screen.dart'
+import 'package:easy_vat_v2/app/features/dahsboard/presentation/pages/dashboard_screen.dart'
     as _i6;
+import 'package:easy_vat_v2/app/features/daybook/presentation/pages/daybook_screen.dart'
+    as _i7;
 import 'package:easy_vat_v2/app/features/expense/presentation/pages/add_new_expense_screen.dart'
     as _i1;
-import 'package:easy_vat_v2/app/features/expense/presentation/pages/expense_invoice_screen.dart'
-    as _i7;
 import 'package:easy_vat_v2/app/features/expense/presentation/pages/expense_screen.dart'
     as _i8;
 import 'package:easy_vat_v2/app/features/main/presentation/pages/home_screen.dart'
@@ -38,6 +36,8 @@ import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart'
     as _i13;
 import 'package:easy_vat_v2/app/features/pos/presentation/pages/pos_screen.dart'
     as _i15;
+import 'package:easy_vat_v2/app/features/purchase/presentation/pages/add_new_purchase_screen.dart'
+    as _i2;
 import 'package:easy_vat_v2/app/features/purchase/presentation/pages/purchase_invoice.dart'
     as _i16;
 import 'package:easy_vat_v2/app/features/purchase/presentation/pages/purchase_order_screen.dart'
@@ -47,7 +47,7 @@ import 'package:easy_vat_v2/app/features/purchase/presentation/pages/purchase_re
 import 'package:easy_vat_v2/app/features/report/presentation/pages/report_screen.dart'
     as _i19;
 import 'package:easy_vat_v2/app/features/sales/presentation/pages/add_new_sales_screen.dart'
-    as _i2;
+    as _i3;
 import 'package:easy_vat_v2/app/features/sales/presentation/pages/sales_invoice_screen.dart'
     as _i20;
 import 'package:easy_vat_v2/app/features/sales/presentation/pages/sales_order_screen.dart'
@@ -103,7 +103,46 @@ class AddNewExpenseRouteArgs {
 }
 
 /// generated route for
-/// [_i2.AddNewSalesScreen]
+/// [_i2.AddNewPurchaseScreen]
+class AddNewPurchaseRoute extends _i26.PageRouteInfo<AddNewPurchaseRouteArgs> {
+  AddNewPurchaseRoute({
+    _i27.Key? key,
+    String? title,
+    List<_i26.PageRouteInfo>? children,
+  }) : super(
+         AddNewPurchaseRoute.name,
+         args: AddNewPurchaseRouteArgs(key: key, title: title),
+         initialChildren: children,
+       );
+
+  static const String name = 'AddNewPurchaseRoute';
+
+  static _i26.PageInfo page = _i26.PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<AddNewPurchaseRouteArgs>(
+        orElse: () => const AddNewPurchaseRouteArgs(),
+      );
+      return _i2.AddNewPurchaseScreen(key: args.key, title: args.title);
+    },
+  );
+}
+
+class AddNewPurchaseRouteArgs {
+  const AddNewPurchaseRouteArgs({this.key, this.title});
+
+  final _i27.Key? key;
+
+  final String? title;
+
+  @override
+  String toString() {
+    return 'AddNewPurchaseRouteArgs{key: $key, title: $title}';
+  }
+}
+
+/// generated route for
+/// [_i3.AddNewSalesScreen]
 class AddNewSalesRoute extends _i26.PageRouteInfo<AddNewSalesRouteArgs> {
   AddNewSalesRoute({
     _i27.Key? key,
@@ -128,7 +167,7 @@ class AddNewSalesRoute extends _i26.PageRouteInfo<AddNewSalesRouteArgs> {
       final args = data.argsAs<AddNewSalesRouteArgs>(
         orElse: () => const AddNewSalesRouteArgs(),
       );
-      return _i2.AddNewSalesScreen(
+      return _i3.AddNewSalesScreen(
         key: args.key,
         isForPurchase: args.isForPurchase,
         title: args.title,
@@ -157,7 +196,7 @@ class AddNewSalesRouteArgs {
 }
 
 /// generated route for
-/// [_i3.BarcodeScannerScreen]
+/// [_i4.BarcodeScannerScreen]
 class BarcodeScannerRoute extends _i26.PageRouteInfo<void> {
   const BarcodeScannerRoute({List<_i26.PageRouteInfo>? children})
     : super(BarcodeScannerRoute.name, initialChildren: children);
@@ -167,13 +206,13 @@ class BarcodeScannerRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i3.BarcodeScannerScreen();
+      return const _i4.BarcodeScannerScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i4.CartScreen]
+/// [_i5.CartScreen]
 class CartRoute extends _i26.PageRouteInfo<void> {
   const CartRoute({List<_i26.PageRouteInfo>? children})
     : super(CartRoute.name, initialChildren: children);
@@ -183,13 +222,13 @@ class CartRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i4.CartScreen();
+      return const _i5.CartScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i5.DashBoardScreen]
+/// [_i6.DashBoardScreen]
 class DashBoardRoute extends _i26.PageRouteInfo<void> {
   const DashBoardRoute({List<_i26.PageRouteInfo>? children})
     : super(DashBoardRoute.name, initialChildren: children);
@@ -199,13 +238,13 @@ class DashBoardRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i5.DashBoardScreen();
+      return const _i6.DashBoardScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i6.DayBookScreen]
+/// [_i7.DayBookScreen]
 class DayBookRoute extends _i26.PageRouteInfo<void> {
   const DayBookRoute({List<_i26.PageRouteInfo>? children})
     : super(DayBookRoute.name, initialChildren: children);
@@ -215,23 +254,7 @@ class DayBookRoute extends _i26.PageRouteInfo<void> {
   static _i26.PageInfo page = _i26.PageInfo(
     name,
     builder: (data) {
-      return const _i6.DayBookScreen();
-    },
-  );
-}
-
-/// generated route for
-/// [_i7.ExpenseInvoiceScreen]
-class ExpenseInvoiceRoute extends _i26.PageRouteInfo<void> {
-  const ExpenseInvoiceRoute({List<_i26.PageRouteInfo>? children})
-    : super(ExpenseInvoiceRoute.name, initialChildren: children);
-
-  static const String name = 'ExpenseInvoiceRoute';
-
-  static _i26.PageInfo page = _i26.PageInfo(
-    name,
-    builder: (data) {
-      return const _i7.ExpenseInvoiceScreen();
+      return const _i7.DayBookScreen();
     },
   );
 }
@@ -323,10 +346,16 @@ class PdfViewerRoute extends _i26.PageRouteInfo<PdfViewerRouteArgs> {
     _i28.Key? key,
     required String pdfUrl,
     String? pdfName,
+    required Map<String, dynamic> queryParameters,
     List<_i26.PageRouteInfo>? children,
   }) : super(
          PdfViewerRoute.name,
-         args: PdfViewerRouteArgs(key: key, pdfUrl: pdfUrl, pdfName: pdfName),
+         args: PdfViewerRouteArgs(
+           key: key,
+           pdfUrl: pdfUrl,
+           pdfName: pdfName,
+           queryParameters: queryParameters,
+         ),
          initialChildren: children,
        );
 
@@ -340,13 +369,19 @@ class PdfViewerRoute extends _i26.PageRouteInfo<PdfViewerRouteArgs> {
         key: args.key,
         pdfUrl: args.pdfUrl,
         pdfName: args.pdfName,
+        queryParameters: args.queryParameters,
       );
     },
   );
 }
 
 class PdfViewerRouteArgs {
-  const PdfViewerRouteArgs({this.key, required this.pdfUrl, this.pdfName});
+  const PdfViewerRouteArgs({
+    this.key,
+    required this.pdfUrl,
+    this.pdfName,
+    required this.queryParameters,
+  });
 
   final _i28.Key? key;
 
@@ -354,9 +389,11 @@ class PdfViewerRouteArgs {
 
   final String? pdfName;
 
+  final Map<String, dynamic> queryParameters;
+
   @override
   String toString() {
-    return 'PdfViewerRouteArgs{key: $key, pdfUrl: $pdfUrl, pdfName: $pdfName}';
+    return 'PdfViewerRouteArgs{key: $key, pdfUrl: $pdfUrl, pdfName: $pdfName, queryParameters: $queryParameters}';
   }
 }
 

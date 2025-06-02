@@ -216,4 +216,5 @@ class AppStrings {
   static const String nature = "Nature";
   static const String opBal = "OpenBal";
   static const String curBal = "CurrentBal";
+  static const String addedToCart = "addedToCart";
 }
