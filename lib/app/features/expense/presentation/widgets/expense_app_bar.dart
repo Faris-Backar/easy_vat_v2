@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_filter_param.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_notifier.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_selector_widget.dart';
@@ -169,8 +168,8 @@ class _PosAppBarState extends ConsumerState<ExpenseAppBar> {
                 ),
                 InkWell(
                   onTap: () {
-                    ref.read(expenseNotifierProvider.notifier).filterExpenses(
-                        params: ExpenseFilterParam(clearAllFilter: true));
+                    // ref.read(expenseNotifierProvider.notifier).filterExpenses(
+                    //     params: ExpenseFilterParam(clearAllFilter: true));
                     context.router.popForced();
                   },
                   child: Text(
@@ -189,7 +188,7 @@ class _PosAppBarState extends ConsumerState<ExpenseAppBar> {
             const Divider(),
             Row(
               children: [
-                // Datepicker field excluded
+                // date picker field excluded
                 SizedBox(width: 12.w),
                 Expanded(
                   flex: 1,
@@ -216,7 +215,6 @@ class _PosAppBarState extends ConsumerState<ExpenseAppBar> {
                   ),
                 ),
                 SizedBox(width: 12.w),
-
                 Expanded(
                   child: SupplierSelectorWidget(), //need to create supplier
                 ),
@@ -231,15 +229,15 @@ class _PosAppBarState extends ConsumerState<ExpenseAppBar> {
               child: PrimaryButton(
                 label: context.translate(AppStrings.filter),
                 onPressed: () {
-                  final params = ExpenseFilterParam(
-                    clearAllFilter: false,
-                    expenseDate: selectedExpenseDate,
-                    paymentMode: null,
-                    supplier: null,
-                  );
-                  ref
-                      .read(expenseNotifierProvider.notifier)
-                      .filterExpenses(params: params);
+                  // final params = ExpenseFilterParam(
+                  //   clearAllFilter: false,
+                  //   expenseDate: selectedExpenseDate,
+                  //   paymentMode: null,
+                  //   supplier: null,
+                  // );
+                  // ref
+                  //     .read(expenseNotifierProvider.notifier)
+                  //     .filterExpenses(params: params);
                   context.router.popForced();
                 },
               ),

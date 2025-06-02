@@ -20,7 +20,9 @@ mixin _$ExpenseState {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ExpenseListEntity> expenses) success,
+    required TResult Function(
+            List<ExpenseListEntity> expenses, double? totalAmount)
+        success,
     required TResult Function(String error) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +30,8 @@ mixin _$ExpenseState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ExpenseListEntity> expenses)? success,
+    TResult? Function(List<ExpenseListEntity> expenses, double? totalAmount)?
+        success,
     TResult? Function(String error)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +39,8 @@ mixin _$ExpenseState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ExpenseListEntity> expenses)? success,
+    TResult Function(List<ExpenseListEntity> expenses, double? totalAmount)?
+        success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) =>
@@ -138,7 +142,9 @@ class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ExpenseListEntity> expenses) success,
+    required TResult Function(
+            List<ExpenseListEntity> expenses, double? totalAmount)
+        success,
     required TResult Function(String error) failure,
   }) {
     return initial();
@@ -149,7 +155,8 @@ class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ExpenseListEntity> expenses)? success,
+    TResult? Function(List<ExpenseListEntity> expenses, double? totalAmount)?
+        success,
     TResult? Function(String error)? failure,
   }) {
     return initial?.call();
@@ -160,7 +167,8 @@ class _$InitialImpl with DiagnosticableTreeMixin implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ExpenseListEntity> expenses)? success,
+    TResult Function(List<ExpenseListEntity> expenses, double? totalAmount)?
+        success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
@@ -261,7 +269,9 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ExpenseListEntity> expenses) success,
+    required TResult Function(
+            List<ExpenseListEntity> expenses, double? totalAmount)
+        success,
     required TResult Function(String error) failure,
   }) {
     return loading();
@@ -272,7 +282,8 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ExpenseListEntity> expenses)? success,
+    TResult? Function(List<ExpenseListEntity> expenses, double? totalAmount)?
+        success,
     TResult? Function(String error)? failure,
   }) {
     return loading?.call();
@@ -283,7 +294,8 @@ class _$LoadingImpl with DiagnosticableTreeMixin implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ExpenseListEntity> expenses)? success,
+    TResult Function(List<ExpenseListEntity> expenses, double? totalAmount)?
+        success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
@@ -341,7 +353,7 @@ abstract class _$$SuccessImplCopyWith<$Res> {
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<ExpenseListEntity> expenses});
+  $Res call({List<ExpenseListEntity> expenses, double? totalAmount});
 }
 
 /// @nodoc
@@ -358,12 +370,17 @@ class __$$SuccessImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? expenses = null,
+    Object? totalAmount = freezed,
   }) {
     return _then(_$SuccessImpl(
-      null == expenses
+      expenses: null == expenses
           ? _value._expenses
           : expenses // ignore: cast_nullable_to_non_nullable
               as List<ExpenseListEntity>,
+      totalAmount: freezed == totalAmount
+          ? _value.totalAmount
+          : totalAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -371,7 +388,8 @@ class __$$SuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
-  const _$SuccessImpl(final List<ExpenseListEntity> expenses)
+  const _$SuccessImpl(
+      {required final List<ExpenseListEntity> expenses, this.totalAmount})
       : _expenses = expenses;
 
   final List<ExpenseListEntity> _expenses;
@@ -383,8 +401,11 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
   }
 
   @override
+  final double? totalAmount;
+
+  @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'ExpenseState.success(expenses: $expenses)';
+    return 'ExpenseState.success(expenses: $expenses, totalAmount: $totalAmount)';
   }
 
   @override
@@ -392,7 +413,8 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'ExpenseState.success'))
-      ..add(DiagnosticsProperty('expenses', expenses));
+      ..add(DiagnosticsProperty('expenses', expenses))
+      ..add(DiagnosticsProperty('totalAmount', totalAmount));
   }
 
   @override
@@ -400,12 +422,14 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl &&
-            const DeepCollectionEquality().equals(other._expenses, _expenses));
+            const DeepCollectionEquality().equals(other._expenses, _expenses) &&
+            (identical(other.totalAmount, totalAmount) ||
+                other.totalAmount == totalAmount));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_expenses));
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_expenses), totalAmount);
 
   /// Create a copy of ExpenseState
   /// with the given fields replaced by the non-null parameter values.
@@ -420,10 +444,12 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ExpenseListEntity> expenses) success,
+    required TResult Function(
+            List<ExpenseListEntity> expenses, double? totalAmount)
+        success,
     required TResult Function(String error) failure,
   }) {
-    return success(expenses);
+    return success(expenses, totalAmount);
   }
 
   @override
@@ -431,10 +457,11 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ExpenseListEntity> expenses)? success,
+    TResult? Function(List<ExpenseListEntity> expenses, double? totalAmount)?
+        success,
     TResult? Function(String error)? failure,
   }) {
-    return success?.call(expenses);
+    return success?.call(expenses, totalAmount);
   }
 
   @override
@@ -442,12 +469,13 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ExpenseListEntity> expenses)? success,
+    TResult Function(List<ExpenseListEntity> expenses, double? totalAmount)?
+        success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(expenses);
+      return success(expenses, totalAmount);
     }
     return orElse();
   }
@@ -491,10 +519,12 @@ class _$SuccessImpl with DiagnosticableTreeMixin implements _Success {
 }
 
 abstract class _Success implements ExpenseState {
-  const factory _Success(final List<ExpenseListEntity> expenses) =
-      _$SuccessImpl;
+  const factory _Success(
+      {required final List<ExpenseListEntity> expenses,
+      final double? totalAmount}) = _$SuccessImpl;
 
   List<ExpenseListEntity> get expenses;
+  double? get totalAmount;
 
   /// Create a copy of ExpenseState
   /// with the given fields replaced by the non-null parameter values.
@@ -581,7 +611,9 @@ class _$FailureImpl with DiagnosticableTreeMixin implements _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<ExpenseListEntity> expenses) success,
+    required TResult Function(
+            List<ExpenseListEntity> expenses, double? totalAmount)
+        success,
     required TResult Function(String error) failure,
   }) {
     return failure(error);
@@ -592,7 +624,8 @@ class _$FailureImpl with DiagnosticableTreeMixin implements _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<ExpenseListEntity> expenses)? success,
+    TResult? Function(List<ExpenseListEntity> expenses, double? totalAmount)?
+        success,
     TResult? Function(String error)? failure,
   }) {
     return failure?.call(error);
@@ -603,7 +636,8 @@ class _$FailureImpl with DiagnosticableTreeMixin implements _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<ExpenseListEntity> expenses)? success,
+    TResult Function(List<ExpenseListEntity> expenses, double? totalAmount)?
+        success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) {

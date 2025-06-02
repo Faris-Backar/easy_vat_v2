@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
@@ -28,6 +30,7 @@ class _RateSplitupWidgetState extends ConsumerState<RateSplitupWidget> {
       final prefs = await SharedPreferences.getInstance();
       isTaxRegisrationEnabled =
           prefs.getBool(PrefResources.isTaxEnabled) ?? false;
+      log("isTaxRegisrationEnabled => $isTaxRegisrationEnabled");
     });
   }
 

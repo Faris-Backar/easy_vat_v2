@@ -1,6 +1,6 @@
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/core/utils/date_format_utils.dart';
-import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_invoice_model.dart';
+import 'package:easy_vat_v2/app/features/purchase/data/model/purchased_item_model.dart';
 
 class PurchaseRequestModel {
   String? purchaseIdpk;

@@ -40,6 +40,9 @@ class _SupplierSelectorState extends ConsumerState<SupplierSelectorWidget> {
       onTap: () {
         showModalBottomSheet(
             context: context,
+            isScrollControlled: true,
+            useSafeArea: true,
+            backgroundColor: Colors.transparent,
             builder: (context) => _buildSupplierBottomSheet(context));
       },
       child: IgnorePointer(

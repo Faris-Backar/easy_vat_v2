@@ -12,6 +12,7 @@ class PrefResources {
   static const String baseUrl = "BASE_URL";
   static const String isTaxEnabled = "IS_TAX_ENABLED";
   static const String comapnyPermissions = "COMPANY_PERMISSIONS";
+  static const String emptyGuid = '00000000-0000-0000-0000-000000000000';
 
   static Future<void> setBaseUrl({required String newBaseUrl}) async {
     final prefs = await SharedPreferences.getInstance();

@@ -1,7 +1,9 @@
 import 'dart:developer';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/features/auth/presentation/functions/app_credential_preference_helper.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
+import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_invoice_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
@@ -48,7 +50,7 @@ class CartNotifier extends StateNotifier<CartState> {
   String shippingAddress = "";
   bool isForEdit = false;
   bool isTaxEnabled = true;
-  String salesIdpk = '00000000-0000-0000-0000-000000000000';
+  String salesIdpk = PrefResources.emptyGuid;
   String expenseNo = "";
   LedgerAccountEntity? drledger;
   LedgerAccountEntity? crledger;
@@ -56,7 +58,7 @@ class CartNotifier extends StateNotifier<CartState> {
   String? purchasedBy;
   DateTime expenseDate = DateTime.now();
   SupplierEntity? selectedSupplier;
-  String? expenseIDPK = "00000000-0000-0000-0000-000000000000";
+  String? expenseIDPK = PrefResources.emptyGuid;
 
   // Load tax preference from SharedPreferences
   Future<void> _loadTaxPreference() async {
@@ -95,13 +97,13 @@ class CartNotifier extends StateNotifier<CartState> {
     totalTax = 0.0;
 
     for (final item in itemsList) {
-      _getRateSplitUp(item: item, isInitial: true);
+      getRateSplitUp(item: item, isInitial: true);
     }
   }
 
   void addItemsIntoCart({required CartEntity item}) {
     itemsList.add(item);
-    _getRateSplitUp(item: item);
+    getRateSplitUp(item: item);
     state = state.copyWith(itemList: itemsList);
   }
 
@@ -142,7 +144,7 @@ class CartNotifier extends StateNotifier<CartState> {
           priceBeforeTax: cartItem.priceBeforeTax);
 
       itemsList[index] = updatedItem;
-      _getRateSplitUp(
+      getRateSplitUp(
         item: updatedItem,
       );
       state = state.copyWith(itemList: itemsList);
@@ -318,13 +320,13 @@ class CartNotifier extends StateNotifier<CartState> {
         isSent: true,
         expiryDate: salesDate,
         storeIdfk: userDetailsFromPrefs?.storeDetails?.storeIdpk ??
-            "00000000-0000-0000-0000-000000000000",
-        projectIdpk: "00000000-0000-0000-0000-000000000000",
-        quotationIdpk: "00000000-0000-0000-0000-000000000000",
-        deliveryNoteIdpk: "00000000-0000-0000-0000-000000000000",
-        salesOrderIdpk: "00000000-0000-0000-0000-000000000000",
-        importId: '00000000-0000-0000-0000-000000000000',
-        rowguid: '00000000-0000-0000-0000-000000000000',
+            PrefResources.emptyGuid,
+        projectIdpk: PrefResources.emptyGuid,
+        quotationIdpk: PrefResources.emptyGuid,
+        deliveryNoteIdpk: PrefResources.emptyGuid,
+        salesOrderIdpk: PrefResources.emptyGuid,
+        importId: PrefResources.emptyGuid,
+        rowguid: PrefResources.emptyGuid,
       );
       items.add(item);
     }
@@ -333,16 +335,14 @@ class CartNotifier extends StateNotifier<CartState> {
       saleIdpk: salesIdpk,
       actualSalesDate: salesDate,
       createdDate: salesDate,
-      createdBy: userDetailsFromPrefs?.userIdpk ??
-          '00000000-0000-0000-0000-000000000000',
-      modifiedBy: userDetailsFromPrefs?.userIdpk ??
-          '00000000-0000-0000-0000-000000000000',
-      rowguid: '00000000-0000-0000-0000-000000000000',
+      createdBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
+      modifiedBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
+      rowguid: PrefResources.emptyGuid,
       isPos: false,
-      deliveryBoyIdpk: '00000000-0000-0000-0000-000000000000',
-      drLedgerCashAccount: '00000000-0000-0000-0000-000000000000',
-      drLedgerBankAccount: '00000000-0000-0000-0000-000000000000',
-      deliveryBoy: '00000000-0000-0000-0000-000000000000',
+      deliveryBoyIdpk: PrefResources.emptyGuid,
+      drLedgerCashAccount: PrefResources.emptyGuid,
+      drLedgerBankAccount: PrefResources.emptyGuid,
+      deliveryBoy: PrefResources.emptyGuid,
       deliveryCharge: 0,
       discount: discount,
       grossAmount: totalItemGrossAmont,
@@ -353,15 +353,14 @@ class CartNotifier extends StateNotifier<CartState> {
       saleMode: salesMode,
       tax: isTaxEnabled ? itemTotalTax : 0.0,
       soldBy: soldBy?.empName,
-      crLedgerIdfk:
-          salesAccount?.ledgerIdpk ?? '00000000-0000-0000-0000-000000000000',
+      crLedgerIdfk: salesAccount?.ledgerIdpk ?? PrefResources.emptyGuid,
       drLedgerIdfk: selectedCustomer?.ledgerIdpk ??
           cashAccount?.ledgerIdpk ??
-          '00000000-0000-0000-0000-000000000000',
+          PrefResources.emptyGuid,
       customerName: selectedCustomer?.ledgerName ?? "cash",
       custemerIdfk: selectedCustomer?.ledgerIdpk ??
           cashAccount?.ledgerIdpk ??
-          '00000000-0000-0000-0000-000000000000',
+          PrefResources.emptyGuid,
       cashAmount:
           salesAccount?.ledgerName?.toLowerCase() == "cash" ? totalAmount : 0.0,
       creditAccount: "",
@@ -429,18 +428,17 @@ class CartNotifier extends StateNotifier<CartState> {
         taxPercentage:
             isTaxEnabled ? (itemsList[i].item.taxPercentage ?? 0.0) : 0.0,
         netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
-        projectIdpk: "00000000-0000-0000-0000-000000000000",
-        quotationIdpk: "00000000-0000-0000-0000-000000000000",
-        salesOrderIdpk: "00000000-0000-0000-0000-000000000000",
-        importId: "00000000-0000-0000-0000-000000000000",
-        rowguid: '00000000-0000-0000-0000-000000000000',
+        projectIdpk: PrefResources.emptyGuid,
+        quotationIdpk: PrefResources.emptyGuid,
+        salesOrderIdpk: PrefResources.emptyGuid,
+        importId: PrefResources.emptyGuid,
+        rowguid: PrefResources.emptyGuid,
         subItems: [],
-        companyIdpk: companyDetails?.companyIdpk ??
-            '00000000-0000-0000-0000-000000000000',
+        companyIdpk: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
         grossAmount: grossTotal,
         quantity: itemsList[i].qty,
-        suppliersIdpk: itemsList[i].item.supplierIdfk ??
-            "00000000-0000-0000-0000-000000000000",
+        suppliersIdpk:
+            itemsList[i].item.supplierIdfk ?? PrefResources.emptyGuid,
       );
       items.add(item);
     }
@@ -450,10 +448,8 @@ class CartNotifier extends StateNotifier<CartState> {
       quotationNo: "0",
       requestNo: "0",
       salesOrderIdpk: uid,
-      companyIdpk:
-          companyDetails?.companyIdpk ?? '00000000-0000-0000-0000-000000000000',
-      customerIdpk: selectedCustomer?.ledgerIdpk ??
-          "00000000-0000-0000-0000-000000000000",
+      companyIdpk: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
+      customerIdpk: selectedCustomer?.ledgerIdpk ?? PrefResources.emptyGuid,
       salesOrderDate: DateTime.now(),
       createdDate: DateTime.now(),
       createdBy: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
@@ -464,11 +460,11 @@ class CartNotifier extends StateNotifier<CartState> {
       netTotal: netTotal,
       generalNote: notes,
       salesOrderNo: 0,
-      deliveryMethod: "00000000-0000-0000-0000-000000000000",
+      deliveryMethod: PrefResources.emptyGuid,
       destination: shippingAddress,
       vehicleNo: "",
-      salesmanIdpk: soldBy?.userIdpk ?? "00000000-0000-0000-0000-000000000000",
-      projectIdpk: "00000000-0000-0000-0000-000000000000",
+      salesmanIdpk: soldBy?.userIdpk ?? PrefResources.emptyGuid,
+      projectIdpk: PrefResources.emptyGuid,
       invoiceAddress: shippingAddress,
       deliveryTerms: "",
       paymentTerms: "",
@@ -507,7 +503,7 @@ class CartNotifier extends StateNotifier<CartState> {
       netTotal += (grossTotal + taxAmount);
 
       final item = ReturnedItemModel(
-        salesReturnIdpk: "00000000-0000-0000-0000-000000000000",
+        salesReturnIdpk: PrefResources.emptyGuid,
         actualQty: itemsList[i].qty,
         billedQty: itemsList[i].qty,
         itemIdpk: itemsList[i].item.itemIdpk ?? "",
@@ -524,7 +520,7 @@ class CartNotifier extends StateNotifier<CartState> {
         netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
         storeIdfk:
             itemsList[i].item.storeCurrentStock?.firstOrNull?.storeIdpk ??
-                "00000000-0000-0000-0000-000000000000",
+                PrefResources.emptyGuid,
         subItems: [],
         discount: discount,
         grossTotal: grossTotal,
@@ -535,10 +531,9 @@ class CartNotifier extends StateNotifier<CartState> {
     final newSaleReturn = SalesReturnModel(
       authorizedById: "",
       crLedgerIdfk: "",
-      createdById: soldBy?.userIdpk ?? "00000000-0000-0000-0000-000000000000",
+      createdById: soldBy?.userIdpk ?? PrefResources.emptyGuid,
       customerName: selectedCustomer?.ledgerName ?? "",
-      customerIdfk: selectedCustomer?.ledgerIdpk ??
-          "00000000-0000-0000-0000-000000000000",
+      customerIdfk: selectedCustomer?.ledgerIdpk ?? PrefResources.emptyGuid,
       discount: discount,
       grossAmount: totalItemGrossAmont,
       drLedgerIdfk: "",
@@ -548,10 +543,10 @@ class CartNotifier extends StateNotifier<CartState> {
       returnDate: DateTime.now(),
       returnedItems: items,
       roundOff: roundOf,
-      saleIdfk: "00000000-0000-0000-0000-000000000000",
+      saleIdfk: PrefResources.emptyGuid,
       saleNo: 0,
       salesReturnIdpk: uid,
-      rowguid: "00000000-0000-0000-0000-000000000000",
+      rowguid: PrefResources.emptyGuid,
       netTotal: netTotal,
       referenceNo: "0",
       remarks: notes,
@@ -583,7 +578,7 @@ class CartNotifier extends StateNotifier<CartState> {
     isForEdit = false;
     selectedCustomer = CustomerEntity(ledgerName: "Cash", isActive: true);
     notes = "";
-    salesIdpk = '00000000-0000-0000-0000-000000000000';
+    salesIdpk = PrefResources.emptyGuid;
     state = CartState.initial().copyWith(isTaxEnabled: isTaxEnabled);
   }
 
@@ -628,6 +623,21 @@ class CartNotifier extends StateNotifier<CartState> {
       retailRate: soldItem.sellingPrice?.toDouble(),
       taxPercentage: soldItem.taxPercentage?.toDouble(),
       currentStock: soldItem.currentStock?.toDouble(),
+    );
+  }
+
+  ItemEntity convertPurchasedToItem(PurchasedItemEntity purchasedItem) {
+    return ItemEntity(
+      itemIdpk: purchasedItem.itemIdpk,
+      barcode: purchasedItem.barcode,
+      itemCode: purchasedItem.itemCode,
+      itemName: purchasedItem.itemName,
+      description: purchasedItem.description,
+      unit: purchasedItem.unit,
+      cost: purchasedItem.cost?.toDouble(),
+      retailRate: purchasedItem.sellingPrice?.toDouble(),
+      taxPercentage: purchasedItem.taxPercentage?.toDouble(),
+      currentStock: purchasedItem.currentStock?.toDouble(),
     );
   }
 
@@ -718,7 +728,7 @@ class CartNotifier extends StateNotifier<CartState> {
         );
 
         updatedItemsList.add(cartItem);
-        _getRateSplitUp(item: cartItem);
+        getRateSplitUp(item: cartItem);
 
         itemsList = updatedItemsList;
       }
@@ -733,7 +743,7 @@ class CartNotifier extends StateNotifier<CartState> {
     );
   }
 
-  void _getRateSplitUp({required CartEntity item, bool isInitial = false}) {
+  void getRateSplitUp({required CartEntity item, bool isInitial = false}) {
     if (isTaxEnabled) {
       totalTax += item.tax;
       totalAmount += (item.gross + item.tax);
@@ -787,5 +797,16 @@ class CartNotifier extends StateNotifier<CartState> {
         isTaxEnabled: isTaxEnabled,
       );
     }
+  }
+
+  updateState() {
+    state = state.copyWith(
+      itemList: itemsList,
+      totalAmount: totalAmount,
+      totalTax: totalTax,
+      subtotal: subTotal,
+      discount: discount,
+      isTaxEnabled: isTaxEnabled,
+    );
   }
 }

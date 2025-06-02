@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'create_purchase_invoice_state.dart';
+part of 'download_purchase_invoices_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,77 +15,80 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$CreatePurchaseState {
+mixin _$DownloadPurchaseInvoicesState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseEntityModel purchaseRequestModel) loaded,
     required TResult Function() loading,
-    required TResult Function(String message) error,
+    required TResult Function(String pdfPath) downloadCompleted,
+    required TResult Function(String message) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseEntityModel purchaseRequestModel)? loaded,
     TResult? Function()? loading,
-    TResult? Function(String message)? error,
+    TResult? Function(String pdfPath)? downloadCompleted,
+    TResult? Function(String message)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseEntityModel purchaseRequestModel)? loaded,
     TResult Function()? loading,
-    TResult Function(String message)? error,
+    TResult Function(String pdfPath)? downloadCompleted,
+    TResult Function(String message)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loaded value) loaded,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Error value) error,
+    required TResult Function(_DownloadCompleted value) downloadCompleted,
+    required TResult Function(_Failure value) failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loaded value)? loaded,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Error value)? error,
+    TResult? Function(_DownloadCompleted value)? downloadCompleted,
+    TResult? Function(_Failure value)? failure,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loaded value)? loaded,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Error value)? error,
+    TResult Function(_DownloadCompleted value)? downloadCompleted,
+    TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CreatePurchaseStateCopyWith<$Res> {
-  factory $CreatePurchaseStateCopyWith(
-          CreatePurchaseState value, $Res Function(CreatePurchaseState) then) =
-      _$CreatePurchaseStateCopyWithImpl<$Res, CreatePurchaseState>;
+abstract class $DownloadPurchaseInvoicesStateCopyWith<$Res> {
+  factory $DownloadPurchaseInvoicesStateCopyWith(
+          DownloadPurchaseInvoicesState value,
+          $Res Function(DownloadPurchaseInvoicesState) then) =
+      _$DownloadPurchaseInvoicesStateCopyWithImpl<$Res,
+          DownloadPurchaseInvoicesState>;
 }
 
 /// @nodoc
-class _$CreatePurchaseStateCopyWithImpl<$Res, $Val extends CreatePurchaseState>
-    implements $CreatePurchaseStateCopyWith<$Res> {
-  _$CreatePurchaseStateCopyWithImpl(this._value, this._then);
+class _$DownloadPurchaseInvoicesStateCopyWithImpl<$Res,
+        $Val extends DownloadPurchaseInvoicesState>
+    implements $DownloadPurchaseInvoicesStateCopyWith<$Res> {
+  _$DownloadPurchaseInvoicesStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CreatePurchaseState
+  /// Create a copy of DownloadPurchaseInvoicesState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -98,13 +101,13 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$CreatePurchaseStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$DownloadPurchaseInvoicesStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CreatePurchaseState
+  /// Create a copy of DownloadPurchaseInvoicesState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -115,7 +118,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'CreatePurchaseState.initial()';
+    return 'DownloadPurchaseInvoicesState.initial()';
   }
 
   @override
@@ -131,9 +134,9 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseEntityModel purchaseRequestModel) loaded,
     required TResult Function() loading,
-    required TResult Function(String message) error,
+    required TResult Function(String pdfPath) downloadCompleted,
+    required TResult Function(String message) failure,
   }) {
     return initial();
   }
@@ -142,9 +145,9 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseEntityModel purchaseRequestModel)? loaded,
     TResult? Function()? loading,
-    TResult? Function(String message)? error,
+    TResult? Function(String pdfPath)? downloadCompleted,
+    TResult? Function(String message)? failure,
   }) {
     return initial?.call();
   }
@@ -153,9 +156,9 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseEntityModel purchaseRequestModel)? loaded,
     TResult Function()? loading,
-    TResult Function(String message)? error,
+    TResult Function(String pdfPath)? downloadCompleted,
+    TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -168,9 +171,9 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loaded value) loaded,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Error value) error,
+    required TResult Function(_DownloadCompleted value) downloadCompleted,
+    required TResult Function(_Failure value) failure,
   }) {
     return initial(this);
   }
@@ -179,9 +182,9 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loaded value)? loaded,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Error value)? error,
+    TResult? Function(_DownloadCompleted value)? downloadCompleted,
+    TResult? Function(_Failure value)? failure,
   }) {
     return initial?.call(this);
   }
@@ -190,9 +193,9 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loaded value)? loaded,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Error value)? error,
+    TResult Function(_DownloadCompleted value)? downloadCompleted,
+    TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -202,162 +205,8 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements CreatePurchaseState {
+abstract class _Initial implements DownloadPurchaseInvoicesState {
   const factory _Initial() = _$InitialImpl;
-}
-
-/// @nodoc
-abstract class _$$LoadedImplCopyWith<$Res> {
-  factory _$$LoadedImplCopyWith(
-          _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
-      __$$LoadedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({PurchaseEntityModel purchaseRequestModel});
-}
-
-/// @nodoc
-class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$CreatePurchaseStateCopyWithImpl<$Res, _$LoadedImpl>
-    implements _$$LoadedImplCopyWith<$Res> {
-  __$$LoadedImplCopyWithImpl(
-      _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of CreatePurchaseState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? purchaseRequestModel = null,
-  }) {
-    return _then(_$LoadedImpl(
-      purchaseRequestModel: null == purchaseRequestModel
-          ? _value.purchaseRequestModel
-          : purchaseRequestModel // ignore: cast_nullable_to_non_nullable
-              as PurchaseEntityModel,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl({required this.purchaseRequestModel});
-
-  @override
-  final PurchaseEntityModel purchaseRequestModel;
-
-  @override
-  String toString() {
-    return 'CreatePurchaseState.loaded(purchaseRequestModel: $purchaseRequestModel)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LoadedImpl &&
-            (identical(other.purchaseRequestModel, purchaseRequestModel) ||
-                other.purchaseRequestModel == purchaseRequestModel));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, purchaseRequestModel);
-
-  /// Create a copy of CreatePurchaseState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
-      __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function(PurchaseEntityModel purchaseRequestModel) loaded,
-    required TResult Function() loading,
-    required TResult Function(String message) error,
-  }) {
-    return loaded(purchaseRequestModel);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function(PurchaseEntityModel purchaseRequestModel)? loaded,
-    TResult? Function()? loading,
-    TResult? Function(String message)? error,
-  }) {
-    return loaded?.call(purchaseRequestModel);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function(PurchaseEntityModel purchaseRequestModel)? loaded,
-    TResult Function()? loading,
-    TResult Function(String message)? error,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(purchaseRequestModel);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loaded value) loaded,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_Error value) error,
-  }) {
-    return loaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loaded value)? loaded,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Error value)? error,
-  }) {
-    return loaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loaded value)? loaded,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Loaded implements CreatePurchaseState {
-  const factory _Loaded(
-      {required final PurchaseEntityModel purchaseRequestModel}) = _$LoadedImpl;
-
-  PurchaseEntityModel get purchaseRequestModel;
-
-  /// Create a copy of CreatePurchaseState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -369,13 +218,13 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$CreatePurchaseStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$DownloadPurchaseInvoicesStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CreatePurchaseState
+  /// Create a copy of DownloadPurchaseInvoicesState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -386,7 +235,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'CreatePurchaseState.loading()';
+    return 'DownloadPurchaseInvoicesState.loading()';
   }
 
   @override
@@ -402,9 +251,9 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseEntityModel purchaseRequestModel) loaded,
     required TResult Function() loading,
-    required TResult Function(String message) error,
+    required TResult Function(String pdfPath) downloadCompleted,
+    required TResult Function(String message) failure,
   }) {
     return loading();
   }
@@ -413,9 +262,9 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseEntityModel purchaseRequestModel)? loaded,
     TResult? Function()? loading,
-    TResult? Function(String message)? error,
+    TResult? Function(String pdfPath)? downloadCompleted,
+    TResult? Function(String message)? failure,
   }) {
     return loading?.call();
   }
@@ -424,9 +273,9 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseEntityModel purchaseRequestModel)? loaded,
     TResult Function()? loading,
-    TResult Function(String message)? error,
+    TResult Function(String pdfPath)? downloadCompleted,
+    TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -439,9 +288,9 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loaded value) loaded,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Error value) error,
+    required TResult Function(_DownloadCompleted value) downloadCompleted,
+    required TResult Function(_Failure value) failure,
   }) {
     return loading(this);
   }
@@ -450,9 +299,9 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loaded value)? loaded,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Error value)? error,
+    TResult? Function(_DownloadCompleted value)? downloadCompleted,
+    TResult? Function(_Failure value)? failure,
   }) {
     return loading?.call(this);
   }
@@ -461,9 +310,9 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loaded value)? loaded,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Error value)? error,
+    TResult Function(_DownloadCompleted value)? downloadCompleted,
+    TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -473,36 +322,191 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements CreatePurchaseState {
+abstract class _Loading implements DownloadPurchaseInvoicesState {
   const factory _Loading() = _$LoadingImpl;
 }
 
 /// @nodoc
-abstract class _$$ErrorImplCopyWith<$Res> {
-  factory _$$ErrorImplCopyWith(
-          _$ErrorImpl value, $Res Function(_$ErrorImpl) then) =
-      __$$ErrorImplCopyWithImpl<$Res>;
+abstract class _$$DownloadCompletedImplCopyWith<$Res> {
+  factory _$$DownloadCompletedImplCopyWith(_$DownloadCompletedImpl value,
+          $Res Function(_$DownloadCompletedImpl) then) =
+      __$$DownloadCompletedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String pdfPath});
+}
+
+/// @nodoc
+class __$$DownloadCompletedImplCopyWithImpl<$Res>
+    extends _$DownloadPurchaseInvoicesStateCopyWithImpl<$Res,
+        _$DownloadCompletedImpl>
+    implements _$$DownloadCompletedImplCopyWith<$Res> {
+  __$$DownloadCompletedImplCopyWithImpl(_$DownloadCompletedImpl _value,
+      $Res Function(_$DownloadCompletedImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of DownloadPurchaseInvoicesState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? pdfPath = null,
+  }) {
+    return _then(_$DownloadCompletedImpl(
+      null == pdfPath
+          ? _value.pdfPath
+          : pdfPath // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$DownloadCompletedImpl implements _DownloadCompleted {
+  const _$DownloadCompletedImpl(this.pdfPath);
+
+  @override
+  final String pdfPath;
+
+  @override
+  String toString() {
+    return 'DownloadPurchaseInvoicesState.downloadCompleted(pdfPath: $pdfPath)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DownloadCompletedImpl &&
+            (identical(other.pdfPath, pdfPath) || other.pdfPath == pdfPath));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, pdfPath);
+
+  /// Create a copy of DownloadPurchaseInvoicesState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DownloadCompletedImplCopyWith<_$DownloadCompletedImpl> get copyWith =>
+      __$$DownloadCompletedImplCopyWithImpl<_$DownloadCompletedImpl>(
+          this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(String pdfPath) downloadCompleted,
+    required TResult Function(String message) failure,
+  }) {
+    return downloadCompleted(pdfPath);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(String pdfPath)? downloadCompleted,
+    TResult? Function(String message)? failure,
+  }) {
+    return downloadCompleted?.call(pdfPath);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(String pdfPath)? downloadCompleted,
+    TResult Function(String message)? failure,
+    required TResult orElse(),
+  }) {
+    if (downloadCompleted != null) {
+      return downloadCompleted(pdfPath);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_DownloadCompleted value) downloadCompleted,
+    required TResult Function(_Failure value) failure,
+  }) {
+    return downloadCompleted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_DownloadCompleted value)? downloadCompleted,
+    TResult? Function(_Failure value)? failure,
+  }) {
+    return downloadCompleted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_DownloadCompleted value)? downloadCompleted,
+    TResult Function(_Failure value)? failure,
+    required TResult orElse(),
+  }) {
+    if (downloadCompleted != null) {
+      return downloadCompleted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DownloadCompleted implements DownloadPurchaseInvoicesState {
+  const factory _DownloadCompleted(final String pdfPath) =
+      _$DownloadCompletedImpl;
+
+  String get pdfPath;
+
+  /// Create a copy of DownloadPurchaseInvoicesState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DownloadCompletedImplCopyWith<_$DownloadCompletedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FailureImplCopyWith<$Res> {
+  factory _$$FailureImplCopyWith(
+          _$FailureImpl value, $Res Function(_$FailureImpl) then) =
+      __$$FailureImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String message});
 }
 
 /// @nodoc
-class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$CreatePurchaseStateCopyWithImpl<$Res, _$ErrorImpl>
-    implements _$$ErrorImplCopyWith<$Res> {
-  __$$ErrorImplCopyWithImpl(
-      _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
+class __$$FailureImplCopyWithImpl<$Res>
+    extends _$DownloadPurchaseInvoicesStateCopyWithImpl<$Res, _$FailureImpl>
+    implements _$$FailureImplCopyWith<$Res> {
+  __$$FailureImplCopyWithImpl(
+      _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CreatePurchaseState
+  /// Create a copy of DownloadPurchaseInvoicesState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? message = null,
   }) {
-    return _then(_$ErrorImpl(
-      message: null == message
+    return _then(_$FailureImpl(
+      null == message
           ? _value.message
           : message // ignore: cast_nullable_to_non_nullable
               as String,
@@ -512,69 +516,69 @@ class __$$ErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$ErrorImpl implements _Error {
-  const _$ErrorImpl({required this.message});
+class _$FailureImpl implements _Failure {
+  const _$FailureImpl(this.message);
 
   @override
   final String message;
 
   @override
   String toString() {
-    return 'CreatePurchaseState.error(message: $message)';
+    return 'DownloadPurchaseInvoicesState.failure(message: $message)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ErrorImpl &&
+            other is _$FailureImpl &&
             (identical(other.message, message) || other.message == message));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of CreatePurchaseState
+  /// Create a copy of DownloadPurchaseInvoicesState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
-      __$$ErrorImplCopyWithImpl<_$ErrorImpl>(this, _$identity);
+  _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
+      __$$FailureImplCopyWithImpl<_$FailureImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseEntityModel purchaseRequestModel) loaded,
     required TResult Function() loading,
-    required TResult Function(String message) error,
+    required TResult Function(String pdfPath) downloadCompleted,
+    required TResult Function(String message) failure,
   }) {
-    return error(message);
+    return failure(message);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseEntityModel purchaseRequestModel)? loaded,
     TResult? Function()? loading,
-    TResult? Function(String message)? error,
+    TResult? Function(String pdfPath)? downloadCompleted,
+    TResult? Function(String message)? failure,
   }) {
-    return error?.call(message);
+    return failure?.call(message);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseEntityModel purchaseRequestModel)? loaded,
     TResult Function()? loading,
-    TResult Function(String message)? error,
+    TResult Function(String pdfPath)? downloadCompleted,
+    TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
-    if (error != null) {
-      return error(message);
+    if (failure != null) {
+      return failure(message);
     }
     return orElse();
   }
@@ -583,48 +587,48 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loaded value) loaded,
     required TResult Function(_Loading value) loading,
-    required TResult Function(_Error value) error,
+    required TResult Function(_DownloadCompleted value) downloadCompleted,
+    required TResult Function(_Failure value) failure,
   }) {
-    return error(this);
+    return failure(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loaded value)? loaded,
     TResult? Function(_Loading value)? loading,
-    TResult? Function(_Error value)? error,
+    TResult? Function(_DownloadCompleted value)? downloadCompleted,
+    TResult? Function(_Failure value)? failure,
   }) {
-    return error?.call(this);
+    return failure?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loaded value)? loaded,
     TResult Function(_Loading value)? loading,
-    TResult Function(_Error value)? error,
+    TResult Function(_DownloadCompleted value)? downloadCompleted,
+    TResult Function(_Failure value)? failure,
     required TResult orElse(),
   }) {
-    if (error != null) {
-      return error(this);
+    if (failure != null) {
+      return failure(this);
     }
     return orElse();
   }
 }
 
-abstract class _Error implements CreatePurchaseState {
-  const factory _Error({required final String message}) = _$ErrorImpl;
+abstract class _Failure implements DownloadPurchaseInvoicesState {
+  const factory _Failure(final String message) = _$FailureImpl;
 
   String get message;
 
-  /// Create a copy of CreatePurchaseState
+  /// Create a copy of DownloadPurchaseInvoicesState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>
+  _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -19,7 +19,7 @@ mixin _$DeletePurchaseState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseEntityModel purchaseRequestModel) loaded,
+    required TResult Function() loaded,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) =>
@@ -27,7 +27,7 @@ mixin _$DeletePurchaseState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseEntityModel purchaseRequestModel)? loaded,
+    TResult? Function()? loaded,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) =>
@@ -35,7 +35,7 @@ mixin _$DeletePurchaseState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseEntityModel purchaseRequestModel)? loaded,
+    TResult Function()? loaded,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -131,7 +131,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseEntityModel purchaseRequestModel) loaded,
+    required TResult Function() loaded,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) {
@@ -142,7 +142,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseEntityModel purchaseRequestModel)? loaded,
+    TResult? Function()? loaded,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) {
@@ -153,7 +153,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseEntityModel purchaseRequestModel)? loaded,
+    TResult Function()? loaded,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -211,8 +211,6 @@ abstract class _$$LoadedImplCopyWith<$Res> {
   factory _$$LoadedImplCopyWith(
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({PurchaseEntityModel purchaseRequestModel});
 }
 
 /// @nodoc
@@ -225,86 +223,60 @@ class __$$LoadedImplCopyWithImpl<$Res>
 
   /// Create a copy of DeletePurchaseState
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? purchaseRequestModel = null,
-  }) {
-    return _then(_$LoadedImpl(
-      purchaseRequestModel: null == purchaseRequestModel
-          ? _value.purchaseRequestModel
-          : purchaseRequestModel // ignore: cast_nullable_to_non_nullable
-              as PurchaseEntityModel,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl({required this.purchaseRequestModel});
-
-  @override
-  final PurchaseEntityModel purchaseRequestModel;
+  const _$LoadedImpl();
 
   @override
   String toString() {
-    return 'DeletePurchaseState.loaded(purchaseRequestModel: $purchaseRequestModel)';
+    return 'DeletePurchaseState.loaded()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$LoadedImpl &&
-            (identical(other.purchaseRequestModel, purchaseRequestModel) ||
-                other.purchaseRequestModel == purchaseRequestModel));
+        (other.runtimeType == runtimeType && other is _$LoadedImpl);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, purchaseRequestModel);
-
-  /// Create a copy of DeletePurchaseState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
-      __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseEntityModel purchaseRequestModel) loaded,
+    required TResult Function() loaded,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) {
-    return loaded(purchaseRequestModel);
+    return loaded();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseEntityModel purchaseRequestModel)? loaded,
+    TResult? Function()? loaded,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) {
-    return loaded?.call(purchaseRequestModel);
+    return loaded?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseEntityModel purchaseRequestModel)? loaded,
+    TResult Function()? loaded,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(purchaseRequestModel);
+      return loaded();
     }
     return orElse();
   }
@@ -348,16 +320,7 @@ class _$LoadedImpl implements _Loaded {
 }
 
 abstract class _Loaded implements DeletePurchaseState {
-  const factory _Loaded(
-      {required final PurchaseEntityModel purchaseRequestModel}) = _$LoadedImpl;
-
-  PurchaseEntityModel get purchaseRequestModel;
-
-  /// Create a copy of DeletePurchaseState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  const factory _Loaded() = _$LoadedImpl;
 }
 
 /// @nodoc
@@ -402,7 +365,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseEntityModel purchaseRequestModel) loaded,
+    required TResult Function() loaded,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) {
@@ -413,7 +376,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseEntityModel purchaseRequestModel)? loaded,
+    TResult? Function()? loaded,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) {
@@ -424,7 +387,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseEntityModel purchaseRequestModel)? loaded,
+    TResult Function()? loaded,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -546,7 +509,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseEntityModel purchaseRequestModel) loaded,
+    required TResult Function() loaded,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) {
@@ -557,7 +520,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseEntityModel purchaseRequestModel)? loaded,
+    TResult? Function()? loaded,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) {
@@ -568,7 +531,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseEntityModel purchaseRequestModel)? loaded,
+    TResult Function()? loaded,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),

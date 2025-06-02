@@ -1,34 +1,38 @@
 import 'package:dartz/dartz.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
+import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_invoice_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_request_model.dart';
-import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_success_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_invoice_entity.dart';
+import 'package:easy_vat_v2/app/features/purchase/domain/usecase/params/purchase_params.dart';
 
 abstract class PurchaseRepository {
   //purchase invoice
-  Future<Either<Failure, List<PurchaseEntity>>> fetchPurchaseInvoices();
-  Future<Either<Failure, PurchaseEntityModel>> createPurchaseInvoices(
-      {required PurchaseRequestModel params});
-  Future<Either<Failure, PurchaseEntityModel>> updatePurchaseInvoices(
-      {required PurchaseRequestModel params});
-  Future<Either<Failure, PurchaseEntityModel>> deletePurchaseInvoices(
-      {required PurchaseRequestModel params});
+  Future<Either<Failure, List<PurchaseInvoiceEntity>>> fetchPurchaseInvoices(
+      {required PurchaseParams params});
+  Future<Either<Failure, PurchaseInvoiceEntity>> createPurchaseInvoices(
+      {required PurchaseInvoiceModel params});
+  Future<Either<Failure, PurchaseInvoiceEntity>> updatePurchaseInvoices(
+      {required PurchaseInvoiceModel params});
+  Future<Either<Failure, PurchaseInvoiceEntity>> deletePurchaseInvoices(
+      {required PurchaseParams params});
+  Future<Either<Failure, String>> downloadPurchaseInvoices(
+      {required String purchaseIDPK});
 
   //purchase order
-  Future<Either<Failure, List<PurchaseEntity>>> fetchPurchaseOrders();
-  Future<Either<Failure, PurchaseEntityModel>> createPurchaseOrders(
+  Future<Either<Failure, List<PurchaseInvoiceEntity>>> fetchPurchaseOrders();
+  Future<Either<Failure, PurchaseInvoiceEntity>> createPurchaseOrders(
       {required PurchaseRequestModel params});
-  Future<Either<Failure, PurchaseEntityModel>> updatePurchaseOrders(
+  Future<Either<Failure, PurchaseInvoiceEntity>> updatePurchaseOrders(
       {required PurchaseRequestModel params});
-  Future<Either<Failure, PurchaseEntityModel>> deletePurchaseOrders(
+  Future<Either<Failure, PurchaseInvoiceEntity>> deletePurchaseOrders(
       {required PurchaseRequestModel params});
 
   //purchase return
-  Future<Either<Failure, List<PurchaseEntity>>> fetchPurchaseReturns();
-  Future<Either<Failure, PurchaseEntityModel>> createPurchaseReturns(
+  Future<Either<Failure, List<PurchaseInvoiceEntity>>> fetchPurchaseReturns();
+  Future<Either<Failure, PurchaseInvoiceEntity>> createPurchaseReturns(
       {required PurchaseRequestModel params});
-  Future<Either<Failure, PurchaseEntityModel>> updatePurchaseReturns(
+  Future<Either<Failure, PurchaseInvoiceEntity>> updatePurchaseReturns(
       {required PurchaseRequestModel params});
-  Future<Either<Failure, PurchaseEntityModel>> deletePurchaseReturns(
+  Future<Either<Failure, PurchaseInvoiceEntity>> deletePurchaseReturns(
       {required PurchaseRequestModel params});
 }

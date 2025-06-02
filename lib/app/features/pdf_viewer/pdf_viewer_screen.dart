@@ -8,11 +8,11 @@ import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
-import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:share_plus/share_plus.dart';
@@ -26,7 +26,12 @@ import './functions/pdf_downloader_stub.dart'
 class PdfViewerScreen extends StatefulWidget {
   final String pdfUrl;
   final String? pdfName;
-  const PdfViewerScreen({super.key, required this.pdfUrl, this.pdfName});
+  final Map<String, dynamic> queryParameters;
+  const PdfViewerScreen(
+      {super.key,
+      required this.pdfUrl,
+      this.pdfName,
+      required this.queryParameters});
 
   @override
   State<PdfViewerScreen> createState() => _PdfViewerScreenState();
@@ -126,9 +131,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
     try {
       final response = await DioService().dio.get<List<int>>(
             UrlResources.downloadSalesInvoice,
-            queryParameters: {
-              'SaleIDPK': widget.pdfUrl,
-            },
+            queryParameters: widget.queryParameters,
             options: Options(
               responseType: ResponseType.bytes,
             ),
@@ -140,7 +143,6 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         throw Exception('Failed to load PDF: HTTP ${response.statusCode}');
       }
     } catch (e) {
-      // AppUtils.showToast(context, e.toString());
       throw Exception('Failed to load PDF: $e');
     }
   }
@@ -160,10 +162,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   Future<void> _downloadPDF() async {
     try {
       final response = await DioService().dio.get<List<int>>(
-            UrlResources.downloadSalesInvoice,
-            queryParameters: {
-              'SaleIDPK': widget.pdfUrl,
-            },
+            widget.pdfUrl,
+            queryParameters: widget.queryParameters,
             options: Options(
               responseType: ResponseType.bytes,
             ),
@@ -187,6 +187,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         if (savedPath != null && mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("PDF saved to: $savedPath")));
+          OpenFilex.open(savedPath);
         } else if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("Failed to save PDF")));
@@ -204,10 +205,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
     if (kIsWeb) return;
     try {
       final response = await DioService().dio.get<List<int>>(
-            UrlResources.downloadSalesInvoice,
-            queryParameters: {
-              'SaleIDPK': widget.pdfUrl,
-            },
+            widget.pdfUrl,
+            queryParameters: widget.queryParameters,
             options: Options(
               responseType: ResponseType.bytes,
             ),
@@ -238,10 +237,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   Future<void> _printPDF() async {
     try {
       final response = await DioService().dio.get<List<int>>(
-            UrlResources.downloadSalesInvoice,
-            queryParameters: {
-              'SaleIDPK': widget.pdfUrl,
-            },
+            widget.pdfUrl,
+            queryParameters: widget.queryParameters,
             options: Options(
               responseType: ResponseType.bytes,
             ),

@@ -1,4 +1,6 @@
-class PurchaseEntity {
+import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
+
+class PurchaseInvoiceEntity {
   String? purchaseIdpk;
   int? purchaseNo;
   String? purchaseMode;
@@ -32,7 +34,7 @@ class PurchaseEntity {
   bool? isLockVoucher;
   List<PurchasedItemEntity>? purchasedItems;
 
-  PurchaseEntity({
+  PurchaseInvoiceEntity({
     this.purchaseIdpk,
     this.purchaseNo,
     this.purchaseMode,
@@ -76,8 +78,8 @@ class PurchasedItemEntity {
   String? itemName;
   String? description;
   String? unit;
-  int? billedQty;
-  int? actualQty;
+  double? billedQty;
+  double? actualQty;
   double? cost;
   double? sellingPrice;
   double? discount;
@@ -85,7 +87,7 @@ class PurchasedItemEntity {
   double? taxAmount;
   double? taxPercentage;
   double? netTotal;
-  int? currentStock;
+  double? currentStock;
   double? profitPercentage;
   DateTime? expiryDate;
   String? storeIdfk;
@@ -93,6 +95,7 @@ class PurchasedItemEntity {
   String? goodsReceiptIdpk;
   String? importId;
   String? rowguid;
+  List<SubItemEntity>? subItems;
 
   PurchasedItemEntity({
     this.purchaseIdpk,
@@ -119,5 +122,6 @@ class PurchasedItemEntity {
     this.goodsReceiptIdpk,
     this.importId,
     this.rowguid,
+    this.subItems,
   });
 }

@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/error/failure.dart';
@@ -6,9 +9,10 @@ import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_invoice_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_request_model.dart';
-import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_success_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_invoice_entity.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/repository/purchase_repository.dart';
+import 'package:easy_vat_v2/app/features/purchase/domain/usecase/params/purchase_params.dart';
+import 'package:path_provider/path_provider.dart';
 
 class PurchaseRepositoryImpl extends PurchaseRepository {
   PurchaseRepositoryImpl();
@@ -16,17 +20,25 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   final client = DioService().dio;
 
   @override
-  Future<Either<Failure, List<PurchaseEntity>>> fetchPurchaseInvoices() async {
+  Future<Either<Failure, List<PurchaseInvoiceEntity>>> fetchPurchaseInvoices(
+      {required PurchaseParams params}) async {
     try {
-      final response = await client.get(UrlResources.getPurchaseInvoice);
+      final response = await client.post(UrlResources.getPurchaseInvoice,
+          data: params.toJson());
       if (response.statusCode == 200) {
-        List<PurchaseEntity> employeeList = (response.data as List)
-            .map((json) => PurchaseInvoiceModel.fromJson(json))
-            .toList();
-        return Right(employeeList);
+        if (response.data["status"] == true) {
+          List<PurchaseInvoiceEntity> purchaseInvoiceList =
+              (response.data["purchase"] as List)
+                  .map((json) => PurchaseInvoiceModel.fromJson(json))
+                  .toList();
+          return Right(purchaseInvoiceList);
+        } else {
+          return Left(ServerFailure(message: response.data["message"]));
+        }
       }
       return Left(ServerFailure(message: "Something went wrong."));
     } on DioException catch (e) {
+      log("fetch error => ${e.response?.data ?? e.error ?? ""}");
       return Left(ServerFailure(message: e.response?.data ?? e.error ?? ""));
     } catch (e) {
       return Left(
@@ -36,14 +48,16 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   }
 
   @override
-  Future<Either<Failure, PurchaseEntityModel>> createPurchaseInvoices(
-      {required PurchaseRequestModel params}) async {
+  Future<Either<Failure, PurchaseInvoiceEntity>> createPurchaseInvoices(
+      {required PurchaseInvoiceModel params}) async {
     try {
-      final response = await client.post(UrlResources.createPurchaseInvoice,
-          data: params.toJson());
+      final data = params.toJson();
+      log("purchase invoice dat => ${json.encode(data)}");
+      final response =
+          await client.post(UrlResources.createPurchaseInvoice, data: data);
       if (response.statusCode == 200) {
-        PurchaseEntityModel purchaseResponseModel =
-            PurchaseEntityModel.fromJson(response.data);
+        PurchaseInvoiceEntity purchaseResponseModel =
+            PurchaseInvoiceModel.fromJson(response.data);
         return Right(purchaseResponseModel);
       }
       return Left(ServerFailure(message: AppStrings.somethingWentWrong));
@@ -57,14 +71,14 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   }
 
   @override
-  Future<Either<Failure, PurchaseEntityModel>> updatePurchaseInvoices(
-      {required PurchaseRequestModel params}) async {
+  Future<Either<Failure, PurchaseInvoiceEntity>> updatePurchaseInvoices(
+      {required PurchaseInvoiceModel params}) async {
     try {
-      final response = await client.post(UrlResources.createPurchaseInvoice,
+      final response = await client.post(UrlResources.updatePurchaseInvoice,
           data: params.toJson());
       if (response.statusCode == 200) {
-        PurchaseEntityModel purchaseResponseModel =
-            PurchaseEntityModel.fromJson(response.data);
+        PurchaseInvoiceEntity purchaseResponseModel =
+            PurchaseInvoiceModel.fromJson(response.data);
         return Right(purchaseResponseModel);
       }
       return Left(ServerFailure(message: AppStrings.somethingWentWrong));
@@ -78,14 +92,14 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   }
 
   @override
-  Future<Either<Failure, PurchaseEntityModel>> deletePurchaseInvoices(
-      {required PurchaseRequestModel params}) async {
+  Future<Either<Failure, PurchaseInvoiceEntity>> deletePurchaseInvoices(
+      {required PurchaseParams params}) async {
     try {
       final response = await client.post(UrlResources.deletePurchaseInvoice,
           data: params.toJson());
       if (response.statusCode == 200) {
-        PurchaseEntityModel purchaseResponseModel =
-            PurchaseEntityModel.fromJson(response.data);
+        PurchaseInvoiceEntity purchaseResponseModel =
+            PurchaseInvoiceModel.fromJson(response.data);
         return Right(purchaseResponseModel);
       }
       return Left(ServerFailure(message: AppStrings.somethingWentWrong));
@@ -99,11 +113,12 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PurchaseEntity>>> fetchPurchaseOrders() async {
+  Future<Either<Failure, List<PurchaseInvoiceEntity>>>
+      fetchPurchaseOrders() async {
     try {
       final response = await client.get(UrlResources.getPurchaseInvoice);
       if (response.statusCode == 200) {
-        List<PurchaseEntity> employeeList = (response.data as List)
+        List<PurchaseInvoiceEntity> employeeList = (response.data as List)
             .map((json) => PurchaseInvoiceModel.fromJson(json))
             .toList();
         return Right(employeeList);
@@ -119,14 +134,14 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   }
 
   @override
-  Future<Either<Failure, PurchaseEntityModel>> createPurchaseOrders(
+  Future<Either<Failure, PurchaseInvoiceEntity>> createPurchaseOrders(
       {required PurchaseRequestModel params}) async {
     try {
       final response = await client.post(UrlResources.createPurchaseInvoice,
           data: params.toJson());
       if (response.statusCode == 200) {
-        PurchaseEntityModel purchaseResponseModel =
-            PurchaseEntityModel.fromJson(response.data);
+        PurchaseInvoiceEntity purchaseResponseModel =
+            PurchaseInvoiceModel.fromJson(response.data);
         return Right(purchaseResponseModel);
       }
       return Left(ServerFailure(message: AppStrings.somethingWentWrong));
@@ -140,14 +155,14 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   }
 
   @override
-  Future<Either<Failure, PurchaseEntityModel>> updatePurchaseOrders(
+  Future<Either<Failure, PurchaseInvoiceEntity>> updatePurchaseOrders(
       {required PurchaseRequestModel params}) async {
     try {
       final response = await client.post(UrlResources.createPurchaseInvoice,
           data: params.toJson());
       if (response.statusCode == 200) {
-        PurchaseEntityModel purchaseResponseModel =
-            PurchaseEntityModel.fromJson(response.data);
+        PurchaseInvoiceEntity purchaseResponseModel =
+            PurchaseInvoiceModel.fromJson(response.data);
         return Right(purchaseResponseModel);
       }
       return Left(ServerFailure(message: AppStrings.somethingWentWrong));
@@ -161,14 +176,14 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   }
 
   @override
-  Future<Either<Failure, PurchaseEntityModel>> deletePurchaseOrders(
+  Future<Either<Failure, PurchaseInvoiceEntity>> deletePurchaseOrders(
       {required PurchaseRequestModel params}) async {
     try {
       final response = await client.post(UrlResources.deletePurchaseOrder,
           data: params.toJson());
       if (response.statusCode == 200) {
-        PurchaseEntityModel purchaseResponseModel =
-            PurchaseEntityModel.fromJson(response.data);
+        PurchaseInvoiceEntity purchaseResponseModel =
+            PurchaseInvoiceModel.fromJson(response.data);
         return Right(purchaseResponseModel);
       }
       return Left(ServerFailure(message: AppStrings.somethingWentWrong));
@@ -182,11 +197,12 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   }
 
   @override
-  Future<Either<Failure, List<PurchaseEntity>>> fetchPurchaseReturns() async {
+  Future<Either<Failure, List<PurchaseInvoiceEntity>>>
+      fetchPurchaseReturns() async {
     try {
       final response = await client.get(UrlResources.getPurchaseInvoice);
       if (response.statusCode == 200) {
-        List<PurchaseEntity> employeeList = (response.data as List)
+        List<PurchaseInvoiceEntity> employeeList = (response.data as List)
             .map((json) => PurchaseInvoiceModel.fromJson(json))
             .toList();
         return Right(employeeList);
@@ -202,14 +218,14 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   }
 
   @override
-  Future<Either<Failure, PurchaseEntityModel>> createPurchaseReturns(
+  Future<Either<Failure, PurchaseInvoiceEntity>> createPurchaseReturns(
       {required PurchaseRequestModel params}) async {
     try {
       final response = await client.post(UrlResources.createPurchaseInvoice,
           data: params.toJson());
       if (response.statusCode == 200) {
-        PurchaseEntityModel purchaseResponseModel =
-            PurchaseEntityModel.fromJson(response.data);
+        PurchaseInvoiceEntity purchaseResponseModel =
+            PurchaseInvoiceModel.fromJson(response.data);
         return Right(purchaseResponseModel);
       }
       return Left(ServerFailure(message: AppStrings.somethingWentWrong));
@@ -223,14 +239,14 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   }
 
   @override
-  Future<Either<Failure, PurchaseEntityModel>> updatePurchaseReturns(
+  Future<Either<Failure, PurchaseInvoiceEntity>> updatePurchaseReturns(
       {required PurchaseRequestModel params}) async {
     try {
       final response = await client.post(UrlResources.createPurchaseInvoice,
           data: params.toJson());
       if (response.statusCode == 200) {
-        PurchaseEntityModel purchaseResponseModel =
-            PurchaseEntityModel.fromJson(response.data);
+        PurchaseInvoiceEntity purchaseResponseModel =
+            PurchaseInvoiceModel.fromJson(response.data);
         return Right(purchaseResponseModel);
       }
       return Left(ServerFailure(message: AppStrings.somethingWentWrong));
@@ -244,14 +260,14 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
   }
 
   @override
-  Future<Either<Failure, PurchaseEntityModel>> deletePurchaseReturns(
+  Future<Either<Failure, PurchaseInvoiceEntity>> deletePurchaseReturns(
       {required PurchaseRequestModel params}) async {
     try {
       final response = await client.post(UrlResources.deletePurchaseOrder,
           data: params.toJson());
       if (response.statusCode == 200) {
-        PurchaseEntityModel purchaseResponseModel =
-            PurchaseEntityModel.fromJson(response.data);
+        PurchaseInvoiceEntity purchaseResponseModel =
+            PurchaseInvoiceModel.fromJson(response.data);
         return Right(purchaseResponseModel);
       }
       return Left(ServerFailure(message: AppStrings.somethingWentWrong));
@@ -261,6 +277,36 @@ class PurchaseRepositoryImpl extends PurchaseRepository {
       return Left(
         ServerFailure(message: e.toString()),
       );
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> downloadPurchaseInvoices(
+      {required String purchaseIDPK}) async {
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final filePath = '${tempDir.path}/sales_invoice_$purchaseIDPK.pdf';
+
+      final response = await client.download(
+        UrlResources.downloadSalesInvoice,
+        filePath,
+        queryParameters: {"purchaseIDPK": purchaseIDPK},
+      );
+
+      if (response.statusCode == 200) {
+        return right(filePath);
+      } else {
+        return left(ServerFailure(
+          message: "Download failed with status code ${response.statusCode}",
+        ));
+      }
+    } on DioException catch (e) {
+      return left(ServerFailure(
+        message:
+            e.response?.statusMessage?.toString() ?? e.message ?? "Dio error",
+      ));
+    } catch (e) {
+      return left(ServerFailure(message: e.toString()));
     }
   }
 }
