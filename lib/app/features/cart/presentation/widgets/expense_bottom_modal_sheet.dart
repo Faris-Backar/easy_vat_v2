@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'dart:developer';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-// import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
+import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/expense_ledger/expense_ledger_notifier.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/widgets/ledger_add_dialog.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/widgets/ledger_details_card.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/refresh_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/search_debouncer.dart';
@@ -29,8 +32,9 @@ class _ExpenseBottomModalSheetState
       ValueNotifier(null);
   @override
   Widget build(BuildContext context) {
-    //final state =
-    ref.watch(expenseLedgerNotifierProvider); // expense ledger provider
+    final state =
+        ref.watch(expenseLedgerNotifierProvider); // expense ledger provider
+    log('Fetching data from repository...', name: 'ExpenseLedger');
     return Container(
       height: 1.sh,
       width: double.infinity,
@@ -41,16 +45,22 @@ class _ExpenseBottomModalSheetState
           const SizedBox(
             height: 16.0,
           ),
-          // Expanded(
-          //     child: state.map(
-          //         initial: (_) => const SizedBox.shrink(),
-          //         loading: (_) => const Center(
-          //               child: CircularProgressIndicator.adaptive(),
-          //             ),
-          //         loaded: (expenseList) => expenseList.expenseList.isEmpty
-          //             ? Center(child: Text(context.translate(AppStrings.noDataIsFound)),)
-          //             : _buildExpenseList()
-          //         error: error)),
+          Expanded(
+            child: state.map(
+              loaded: (expenseList) => expenseList.ledgers.isEmpty
+                  ? Center(
+                      child: Text(context.translate(AppStrings.noDataIsFound)),
+                    )
+                  : _buildExpenseList(expenseList.ledgers),
+              loading: (_) => const Center(
+                child: CircularProgressIndicator.adaptive(),
+              ),
+              error: (message) => Center(
+                child: Text(""),
+              ),
+              initial: (_) => const SizedBox.shrink(),
+            ),
+          ),
           _buildSubmitButton(context, ref),
         ],
       ),
@@ -75,7 +85,11 @@ class _ExpenseBottomModalSheetState
             onChanged: (value) {
               searchDebouncer.run(() {
                 if (value.isEmpty) {
-                  // fetch expense
+                  ref
+                      .read(expenseLedgerNotifierProvider.notifier)
+                      .fetchExpenseLedgers();
+                  log('Fetching data from repository...',
+                      name: 'ExpenseLedger');
                 } else {
                   // search expense
                 }
@@ -110,27 +124,41 @@ class _ExpenseBottomModalSheetState
         ),
         RefreshButton(onTap: () {
           searchController.text = "";
-          // fetch expense
+          ref
+              .read(expenseLedgerNotifierProvider.notifier)
+              .fetchExpenseLedgers();
+          log('Fetching data from repository...', name: 'ExpenseLedger');
         })
       ],
     );
   }
 
-  // Widget _buildExpenseList(List<LedgerAccountEntity> ledgerList) {
-  //   return ListView.builder(
-  //       itemCount: ledgerList.length,
-  //       itemBuilder: (context, index) {
-  //         // final ledger = ledgerList[index];
-  //         return Padding(
-  //           padding: const EdgeInsets.only(bottom: 8.0),
-  //           child: InkWell(
-  //             onTap: () {
-
-  //             },
-  //           ),
-  //         );
-  //       });
-  // }
+  Widget _buildExpenseList(List<LedgerAccountEntity> ledgerList) {
+    return ListView.builder(
+      itemCount: ledgerList.length,
+      itemBuilder: (context, index) => Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: InkWell(
+          onTap: () {
+            if ((ledgerList[index].currentBalance ?? 0.0) > 0) {
+              expenseDetailsExpansionNotifier.value = index;
+              showDialog(
+                  context: context,
+                  builder: (context) =>
+                      LedgerAddDialog(ledger: ledgerList[index]));
+            } else {
+              AppUtils.showToast(context, AppStrings.ledgerCurrentlyNotActive);
+            }
+          },
+          child: ValueListenableBuilder<int?>(
+              valueListenable: expenseDetailsExpansionNotifier,
+              builder: (context, value, child) {
+                return LedgerDetailsCard(ledger: ledgerList[index]);
+              }),
+        ),
+      ),
+    );
+  }
 
   Widget _buildSubmitButton(BuildContext context, WidgetRef ref) {
     return Container(
@@ -139,7 +167,12 @@ class _ExpenseBottomModalSheetState
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: PrimaryButton(
         label: AppStrings.submit,
-        onPressed: () {},
+        onPressed: () {
+          final selectedIndex = expenseDetailsExpansionNotifier.value;
+          if (selectedIndex != null) {
+            context.router.popForced();
+          }
+        },
       ),
     );
   }

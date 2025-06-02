@@ -3,7 +3,6 @@ import 'package:easy_vat_v2/app/features/expense/data/repository/expense_reposit
 import 'package:easy_vat_v2/app/features/expense/domain/entities/expense_entity.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/repositories/expense_repository.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
-import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_filter_param.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_state.dart';
 
 final expenseRepositoryProvider = Provider<ExpenseRepository>((ref) {
@@ -34,32 +33,38 @@ class ExpenseNotifiers extends StateNotifier<ExpenseState> {
       (failure) => state = ExpenseState.failure(failure.message),
       (expense) {
         expenseList = expense.expenseList;
-        return state = ExpenseState.success(expense.expenseList ?? []);
+        double totalAmount = 0.0;
+        for (var i = 0; i < (expense.expenseList?.length ?? 0.0); i++) {
+          totalAmount += expense.expenseList?[i].netTotal ?? 0.0;
+        }
+        return state = ExpenseState.success(
+            expenses: expense.expenseList ?? [], totalAmount: totalAmount);
       },
     );
   }
 
-  void filterExpenses({required ExpenseFilterParam params}) {
-    if (params.clearAllFilter) {
-      state = ExpenseState.success(expenseList ?? []);
-      return;
+  searchExpense(String query) {
+    double totalAmount = 0.0;
+    if (query.isEmpty) {
+      for (var i = 0; i < (expenseList?.length ?? 0.0); i++) {
+        totalAmount += expenseList?[i].netTotal ?? 0.0;
+      }
+      state = ExpenseState.success(
+          expenses: expenseList ?? [], totalAmount: totalAmount);
     } else {
-      if (expenseList == null) return;
-
-      final filtered = expenseList!.where((expense) {
-        final matchesPaymentMode = params.paymentMode == null ||
-            (expense.paymentMode != null &&
-                expense.paymentMode!.toLowerCase() ==
-                    params.paymentMode!.toLowerCase());
-
-        final matchesSupplier = params.supplier == null ||
-            (expense.supplierName!.toLowerCase() ==
-                params.supplier?.toLowerCase());
-
-        return matchesPaymentMode && matchesSupplier;
-      }).toList();
-
-      state = ExpenseState.success(filtered);
+      final filteredData = expenseList?.where((expense) {
+            return (expense.referenceNo?.contains(query) ?? false) ||
+                (expense.supplierName
+                        ?.toLowerCase()
+                        .contains(query.toLowerCase()) ??
+                    false);
+          }).toList() ??
+          [];
+      for (var i = 0; i < (filteredData.length); i++) {
+        totalAmount += filteredData[i].netTotal ?? 0.0;
+      }
+      state = ExpenseState.success(
+          expenses: filteredData, totalAmount: totalAmount);
     }
   }
 
@@ -68,3 +73,32 @@ class ExpenseNotifiers extends StateNotifier<ExpenseState> {
     toDate = null;
   }
 }
+//   void filterExpenses({required ExpenseFilterParam params}) {
+//     if (params.clearAllFilter) {
+//       state = ExpenseState.success(expenseList ?? []);
+//       return;
+//     } else {
+//       if (expenseList == null) return;
+
+//       final filtered = expenseList!.where((expense) {
+//         final matchesPaymentMode = params.paymentMode == null ||
+//             (expense.paymentMode != null &&
+//                 expense.paymentMode!.toLowerCase() ==
+//                     params.paymentMode!.toLowerCase());
+
+//         final matchesSupplier = params.supplier == null ||
+//             (expense.supplierName!.toLowerCase() ==
+//                 params.supplier?.toLowerCase());
+
+//         return matchesPaymentMode && matchesSupplier;
+//       }).toList();
+
+//       state = ExpenseState.success(filtered);
+//     }
+//   }
+
+//   clearDates() {
+//     fromDate = null;
+//     toDate = null;
+//   }
+// }

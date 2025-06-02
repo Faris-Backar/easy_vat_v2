@@ -201,5 +201,6 @@
   "deleteSalesInvoiceConfirmationMessage": "Sales Invoice deleted Successfully",
   "invNo": "InvNo",
   "doYouWantToPrintInvoice":"Do you want to print invoice?",
+  "debit": "Debit",
   "addedToCart":"Added to cart"
 }
