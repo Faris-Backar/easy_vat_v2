@@ -23,7 +23,7 @@ class ExpenseNotifiers extends StateNotifier<ExpenseState> {
   DateTime? toDate;
 
   ExpenseNotifiers({required this.expenseRepository})
-      : super(const ExpenseState.initial());
+      : super(ExpenseState.initial());
 
   fetchExpenses({required ExpenseParams params}) async {
     state = const ExpenseState.loading();

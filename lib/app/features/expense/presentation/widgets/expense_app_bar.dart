@@ -4,6 +4,7 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_notifier.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_appbar.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_selector_widget.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/filter_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
@@ -17,20 +18,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class ExpenseAppBar extends ConsumerStatefulWidget
+class ExpenseInvoiceAppBar extends ConsumerStatefulWidget
     implements PreferredSizeWidget {
   final TextEditingController searchController;
+  final ExpenseAppBarConfig config;
 
-  const ExpenseAppBar({super.key, required this.searchController});
+  const ExpenseInvoiceAppBar(
+      {super.key, required this.searchController, required this.config});
 
   @override
-  ConsumerState<ExpenseAppBar> createState() => _PosAppBarState();
+  ConsumerState<ExpenseInvoiceAppBar> createState() => _PosAppBarState();
 
   @override
   Size get preferredSize => Size.fromHeight(110.h + kToolbarHeight);
 }
 
-class _PosAppBarState extends ConsumerState<ExpenseAppBar> {
+class _PosAppBarState extends ConsumerState<ExpenseInvoiceAppBar> {
   DateTime fromDate = DateTime.now();
   DateTime toDate = DateTime.now();
   DateTime? selectedExpenseDate;

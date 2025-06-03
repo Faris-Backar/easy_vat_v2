@@ -166,7 +166,7 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
             Expanded(
               child: CustomTextField(
                 label: context.translate(AppStrings.supInvNo),
-                controller: widget.purchasedByController,
+                controller: widget.supplierInvNoController,
                 labelAndTextfieldGap: 2,
                 height: 38.h,
                 hint: context.translate(AppStrings.supInvNo),

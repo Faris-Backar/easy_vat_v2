@@ -8,7 +8,7 @@ import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provid
 import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_notifier.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_state.dart';
-import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_app_bar.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_appbar.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_card.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/expense_ledger/expense_ledger_notifier.dart';
@@ -86,7 +86,10 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
   Widget build(BuildContext context) {
     final expenseState = ref.watch(expenseNotifierProvider);
     return Scaffold(
-      appBar: ExpenseAppBar(searchController: _searchTextController),
+      appBar: ExpenseAppbar(
+        searchController: _searchTextController,
+        config: ExpenseAppBarConfig(),
+      ),
       backgroundColor: context.surfaceColor,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
@@ -137,19 +140,29 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                           ),
                         ),
                         Expanded(
-                          child: _buildSlidingAction(
-                              color: AppUtils.isDarkMode(context)
-                                  ? CustomColors.getTransactionCardBlueColor(
+                            child: _buildSlidingAction(
+                          color: AppUtils.isDarkMode(context)
+                              ? CustomColors.getTransactionCardBlueColor(
+                                  context)
+                              : CustomColors.getTransactionCardBlueColor(
                                       context)
-                                  : CustomColors.getTransactionCardBlueColor(
-                                          context)
-                                      .withValues(alpha: 0.2),
-                              icon: Assets.icons.view,
-                              iconColor: AppUtils.isDarkMode(context)
-                                  ? context.onPrimaryColor
-                                  : null,
-                              onTap: () {}),
-                        ),
+                                  .withValues(alpha: 0.2),
+                          icon: Assets.icons.view,
+                          iconColor: AppUtils.isDarkMode(context)
+                              ? context.onPrimaryColor
+                              : null,
+                          onTap: () async {
+                            await ref
+                                .read(cartProvider.notifier)
+                                .reinsertExpenseForm(expense, ref);
+                            if (mounted) {
+                              context.router.push(AddNewExpenseRoute(
+                                tittle:
+                                    context.translate(AppStrings.addNewExpense),
+                              ));
+                            }
+                          },
+                        )),
                       ],
                     ),
                     startActionPane:
