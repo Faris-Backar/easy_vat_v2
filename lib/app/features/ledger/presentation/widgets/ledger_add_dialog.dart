@@ -63,11 +63,28 @@ class _LedgerAddDialogState extends ConsumerState<LedgerAddDialog> {
   void _updateFromGrossTotalChange() {
     final grossTotal = double.tryParse(_grossTotalController.text) ?? 0.0;
     final taxPercentage = double.tryParse(_taxPercentController.text) ?? 0.0;
-    final taxAmount = grossTotal * taxPercentage / 100;
+
+    final bool isTaxEnabled = taxPercentage != 0;
+    final taxAmount = isTaxEnabled ? grossTotal * taxPercentage / 100 : 0.0;
     final netTotal = grossTotal + taxAmount;
 
     _taxAmountController.text = taxAmount.toStringAsFixed(2);
     _netTotalController.text = netTotal.toStringAsFixed(2);
+  }
+
+  void _updateFromNetTotalChange() {
+    final netTotal = double.tryParse(_netTotalController.text) ?? 0.0;
+    final taxPercentage = double.tryParse(_taxPercentController.text) ?? 0.0;
+
+    final bool isTaxEnabled = taxPercentage != 0;
+
+    final double grossTotal =
+        isTaxEnabled ? netTotal / (1 + taxPercentage / 100) : netTotal;
+
+    final double taxAmount = netTotal - grossTotal;
+
+    _grossTotalController.text = grossTotal.toStringAsFixed(2);
+    _taxAmountController.text = taxAmount.toStringAsFixed(2);
   }
 
   // void _updateTaxAmount() {
@@ -159,6 +176,7 @@ class _LedgerAddDialogState extends ConsumerState<LedgerAddDialog> {
                     child: TextInputFormField(
                   height: 36.h,
                   label: context.translate(AppStrings.taxAmount),
+                  maxLines: 1,
                   fillColor: context.colorScheme.tertiaryContainer,
                   enabled: false,
                   controller: _taxAmountController,
@@ -171,9 +189,16 @@ class _LedgerAddDialogState extends ConsumerState<LedgerAddDialog> {
                   height: 36.h,
                   label: context.translate(AppStrings.netTotal),
                   fillColor: context.colorScheme.tertiaryContainer,
-                  enabled: false,
+                  enabled: true,
+                  textInputType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  maxLines: 1,
+                  inputFormatters: [_decimalInputFormatter],
+                  onTap: () => _netTotalController.selection = TextSelection(
+                      baseOffset: 0,
+                      extentOffset: _netTotalController.value.text.length),
                   controller: _netTotalController,
-                  onChanged: (value) => _updateFromGrossTotalChange(),
+                  onChanged: (value) => _updateFromNetTotalChange(),
                 ))
               ],
             ),
