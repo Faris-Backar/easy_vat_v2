@@ -75,6 +75,9 @@ class _PurchaseReturnScreenState extends ConsumerState<PurchaseReturnScreen> {
         searchController: _searchTextController,
         config: PurchaseAppBarConfig(
           title: context.translate(AppStrings.purchaseReturn),
+          filterFunction: (params) => ref
+              .read(fetchPurchaseReturnProvider.notifier)
+              .fetchPurchaseReturn(params: params),
           fetchFunction: (params) => ref
               .read(fetchPurchaseReturnProvider.notifier)
               .fetchPurchaseReturn(params: params),

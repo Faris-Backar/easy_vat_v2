@@ -44,4 +44,31 @@ class FetchPurchaseReturnNotifier
       state = FetchPurchaseReturnState.error(message: e.toString());
     }
   }
+
+  searchPurchaseReturn(String query) {
+    double totalAmount = 0.0;
+    if (query.isEmpty) {
+      for (var i = 0; i < (purchaseReturnList.length); i++) {
+        totalAmount += purchaseReturnList[i].netTotal ?? 0.0;
+      }
+      state = FetchPurchaseReturnState.success(
+          purchaseReturnList: purchaseReturnList, total: totalAmount);
+    } else {
+      final filteredData = purchaseReturnList.where((invoice) {
+        return (invoice.referenceNo
+                    ?.toLowerCase()
+                    .contains(query.toLowerCase()) ??
+                false) ||
+            (invoice.supplierName
+                    ?.toLowerCase()
+                    .contains(query.toLowerCase()) ??
+                false);
+      }).toList();
+      for (var i = 0; i < (filteredData.length); i++) {
+        totalAmount += filteredData[i].netTotal ?? 0.0;
+      }
+      state = FetchPurchaseReturnState.success(
+          purchaseReturnList: filteredData, total: totalAmount);
+    }
+  }
 }

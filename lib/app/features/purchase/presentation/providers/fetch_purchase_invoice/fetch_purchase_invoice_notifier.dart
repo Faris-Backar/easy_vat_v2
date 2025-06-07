@@ -50,4 +50,28 @@ class FetchPurchaseNotifier extends StateNotifier<FetchPurchaseInvoiceState> {
       state = FetchPurchaseInvoiceState.error(message: e.toString());
     }
   }
+
+  searchPurchaseInvoice(String query) {
+    double totalAmount = 0.0;
+    if (query.isEmpty) {
+      for (var i = 0; i < (purchaseInvoiceList.length); i++) {
+        totalAmount += purchaseInvoiceList[i].netTotal ?? 0.0;
+      }
+      state = FetchPurchaseInvoiceState.success(
+          purchaseInvoiceList: purchaseInvoiceList, total: totalAmount);
+    } else {
+      final filteredData = purchaseInvoiceList.where((invoice) {
+        return (invoice.referenceNo?.contains(query) ?? false) ||
+            (invoice.supplierName
+                    ?.toLowerCase()
+                    .contains(query.toLowerCase()) ??
+                false);
+      }).toList();
+      for (var i = 0; i < (filteredData.length); i++) {
+        totalAmount += filteredData[i].netTotal ?? 0.0;
+      }
+      state = FetchPurchaseInvoiceState.success(
+          purchaseInvoiceList: filteredData, total: totalAmount);
+    }
+  }
 }

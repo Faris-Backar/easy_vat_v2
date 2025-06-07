@@ -3,6 +3,7 @@ import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provid
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_selector_widget.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/usecase/params/purchase_params.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/fetch_purchase_invoice/fetch_purchase_invoice_notifier.dart';
+import 'package:easy_vat_v2/app/features/purchase/presentation/providers/fetch_purchase_return/fetch_purchase_return_notifier.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -94,6 +95,8 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
   final ValueNotifier<String?> purchaseModeNotifier = ValueNotifier(null);
   final ValueNotifier<String?> purchasedByNotifier = ValueNotifier(null);
   final ValueNotifier<String?> paymentMethodNotifier = ValueNotifier(null);
+  final purchasedByIDPKNotifier = ValueNotifier<String?>(null);
+
   late final ValueNotifier<bool> isSearchNotEmpty;
 
   DateTime? selectedSaleDate;
@@ -156,14 +159,11 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
                 ),
                 InkWell(
                   onTap: () {
-                    if (widget.config.filterFunction != null) {
-                      // widget.config.filterFunction!(
-                      // PurchaseParams(clearAllFilter: true));
-                    } else {
-                      purchaseModeNotifier.value = null;
-                      purchasedByNotifier.value = null;
-                      ref.read(cartProvider.notifier).selectedCustomer = null;
-                    }
+                    purchaseModeNotifier.value = null;
+                    purchasedByNotifier.value = null;
+
+                    purchasedByIDPKNotifier.value = null;
+                    ref.read(cartProvider.notifier).selectedSupplier = null;
                     context.router.popForced();
                   },
                   child: Text(
@@ -210,10 +210,16 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
                 Expanded(
                   child: salesManState.maybeWhen(
                     loaded: (employeeList) {
-                      final List<String> employeeNames = employeeList
-                          .map((employee) => employee.empName ?? "")
-                          .where((name) => name.isNotEmpty)
-                          .toList();
+                      // Create a map of employee names to idpk
+                      final Map<String, String> nameToIdMap = {
+                        for (var e in employeeList)
+                          if ((e.empName ?? "").isNotEmpty &&
+                              e.userIdpk != null)
+                            e.empName!: e.userIdpk!,
+                      };
+
+                      final List<String> employeeNames =
+                          nameToIdMap.keys.toList();
 
                       return DropdownField(
                         height: 38.h,
@@ -222,6 +228,7 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
                         valueNotifier: purchasedByNotifier,
                         onChanged: (newValue) {
                           purchasedByNotifier.value = newValue;
+                          purchasedByIDPKNotifier.value = nameToIdMap[newValue];
                         },
                         items: employeeNames,
                         backgroundColor: AppUtils.isDarkMode(context)
@@ -261,7 +268,17 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
                       purchasedBy: purchasedByNotifier.value);
 
                   if (widget.config.filterFunction != null) {
-                    // widget.config.filterFunction!(params);
+                    widget.config.filterFunction!(
+                      PurchaseParams(
+                          fromDate: ref.read(dateRangeProvider).fromDate,
+                          toDate: ref.read(dateRangeProvider).toDate,
+                          purchaseMode: purchaseModeNotifier.value,
+                          purchasedBy: purchasedByIDPKNotifier.value,
+                          supplierIDPK: ref
+                              .read(cartProvider.notifier)
+                              .selectedSupplier
+                              ?.ledgerIDPK),
+                    );
                   } else {
                     ref
                         .read(fetchPurchaseInvoiceProvider.notifier)
@@ -318,9 +335,19 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
                   fontWeight: FontWeight.w500,
                   color: context.defaultTextColor.withValues(alpha: .32),
                 ),
-                // onChanged: (value) => ref
-                //     .read(fetchPurchaseInvoiceProvider.notifier)
-                //     .searchSalesInvoice(value),
+                onChanged: (value) {
+                  if (widget.config.title ==
+                      context.translate(AppStrings.addNewPurchase)) {
+                    ref
+                        .read(fetchPurchaseInvoiceProvider.notifier)
+                        .searchPurchaseInvoice(value);
+                  } else if (widget.config.title ==
+                      context.translate(AppStrings.purchaseReturn)) {
+                    ref
+                        .read(fetchPurchaseReturnProvider.notifier)
+                        .searchPurchaseReturn(value);
+                  }
+                },
                 suffixIcon: hasText
                     ? Padding(
                         padding: const EdgeInsets.all(12.0),
