@@ -61,7 +61,10 @@ class FetchPurchaseNotifier extends StateNotifier<FetchPurchaseInvoiceState> {
           purchaseInvoiceList: purchaseInvoiceList, total: totalAmount);
     } else {
       final filteredData = purchaseInvoiceList.where((invoice) {
-        return (invoice.referenceNo?.contains(query) ?? false) ||
+        return (invoice.referenceNo
+                    ?.toLowerCase()
+                    .contains(query.toLowerCase()) ??
+                false) ||
             (invoice.supplierName
                     ?.toLowerCase()
                     .contains(query.toLowerCase()) ??

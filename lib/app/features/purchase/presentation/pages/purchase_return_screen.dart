@@ -81,6 +81,9 @@ class _PurchaseReturnScreenState extends ConsumerState<PurchaseReturnScreen> {
           fetchFunction: (params) => ref
               .read(fetchPurchaseReturnProvider.notifier)
               .fetchPurchaseReturn(params: params),
+          onSearch: (value) => ref
+              .read(fetchPurchaseReturnProvider.notifier)
+              .searchPurchaseReturn(value),
         ),
       ),
       backgroundColor: context.surfaceColor,

@@ -3,7 +3,6 @@ import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provid
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_selector_widget.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/usecase/params/purchase_params.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/fetch_purchase_invoice/fetch_purchase_invoice_notifier.dart';
-import 'package:easy_vat_v2/app/features/purchase/presentation/providers/fetch_purchase_return/fetch_purchase_return_notifier.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +12,6 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
-// import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/filter_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
@@ -77,6 +75,9 @@ class PurchaseAppBarConfig {
   /// Callback for barcode scanning
   final VoidCallback? onBarcodeScan;
 
+  /// to implement search functionality
+  final void Function(String value)? onSearch;
+
   const PurchaseAppBarConfig({
     this.title = '',
     this.fetchFunction,
@@ -88,6 +89,7 @@ class PurchaseAppBarConfig {
     this.enableBarcodeScanning = false,
     this.onBarcodeScan,
     this.onWillPop,
+    this.onSearch,
   });
 }
 
@@ -260,25 +262,15 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
                   final params = PurchaseParams(
                       fromDate: ref.read(dateRangeProvider).fromDate,
                       toDate: ref.read(dateRangeProvider).toDate,
+                      purchaseMode: purchaseModeNotifier.value,
+                      purchasedBy: purchasedByIDPKNotifier.value,
                       supplierIDPK: ref
                           .read(cartProvider.notifier)
                           .selectedSupplier
-                          ?.ledgerIDPK,
-                      purchaseMode: purchaseModeNotifier.value,
-                      purchasedBy: purchasedByNotifier.value);
+                          ?.ledgerIDPK);
 
                   if (widget.config.filterFunction != null) {
-                    widget.config.filterFunction!(
-                      PurchaseParams(
-                          fromDate: ref.read(dateRangeProvider).fromDate,
-                          toDate: ref.read(dateRangeProvider).toDate,
-                          purchaseMode: purchaseModeNotifier.value,
-                          purchasedBy: purchasedByIDPKNotifier.value,
-                          supplierIDPK: ref
-                              .read(cartProvider.notifier)
-                              .selectedSupplier
-                              ?.ledgerIDPK),
-                    );
+                    widget.config.filterFunction!(params);
                   } else {
                     ref
                         .read(fetchPurchaseInvoiceProvider.notifier)
@@ -336,17 +328,7 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
                   color: context.defaultTextColor.withValues(alpha: .32),
                 ),
                 onChanged: (value) {
-                  if (widget.config.title ==
-                      context.translate(AppStrings.addNewPurchase)) {
-                    ref
-                        .read(fetchPurchaseInvoiceProvider.notifier)
-                        .searchPurchaseInvoice(value);
-                  } else if (widget.config.title ==
-                      context.translate(AppStrings.purchaseReturn)) {
-                    ref
-                        .read(fetchPurchaseReturnProvider.notifier)
-                        .searchPurchaseReturn(value);
-                  }
+                  widget.config.onSearch?.call(value);
                 },
                 suffixIcon: hasText
                     ? Padding(

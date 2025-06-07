@@ -71,7 +71,14 @@ class _PurchaseInvoiceScreenState extends ConsumerState<PurchaseInvoiceScreen> {
     return Scaffold(
       appBar: PurchaseAppBar(
         searchController: _searchTextController,
-        config: PurchaseAppBarConfig(),
+        config: PurchaseAppBarConfig(
+          filterFunction: (params) => ref
+              .read(fetchPurchaseInvoiceProvider.notifier)
+              .fetchPurchaseInvoice(params: params),
+          onSearch: (value) => ref
+              .read(fetchPurchaseInvoiceProvider.notifier)
+              .searchPurchaseInvoice(value),
+        ),
       ),
       backgroundColor: context.surfaceColor,
       body: Consumer(builder: (context, ref, child) {
