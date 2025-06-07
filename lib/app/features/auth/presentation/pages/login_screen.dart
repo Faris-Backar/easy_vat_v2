@@ -148,76 +148,78 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TermsAndConditionsWidget(),
-            SizedBox(
-              height: 15.h,
-            ),
-            Consumer(builder: (context, WidgetRef ref, child) {
-              final loginState = ref.watch(loginProvider);
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TermsAndConditionsWidget(),
+              SizedBox(
+                height: 15.h,
+              ),
+              Consumer(builder: (context, WidgetRef ref, child) {
+                final loginState = ref.watch(loginProvider);
 
-              ref.listen<LoginState>(loginProvider, (previous, next) {
-                next.mapOrNull(
-                  success: (loginDate) {
-                    Fluttertoast.showToast(
-                        msg: context.translate(AppStrings.loginSuccess));
-                    context.router.pushNamed(AppRouter.pin);
-                  },
-                  failed: (error) {
-                    Fluttertoast.showToast(msg: error.error);
-                  },
-                );
-              });
+                ref.listen<LoginState>(loginProvider, (previous, next) {
+                  next.mapOrNull(
+                    success: (loginDate) {
+                      Fluttertoast.showToast(
+                          msg: context.translate(AppStrings.loginSuccess));
+                      context.router.pushNamed(AppRouter.pin);
+                    },
+                    failed: (error) {
+                      Fluttertoast.showToast(msg: error.error);
+                    },
+                  );
+                });
 
-              return loginState.maybeWhen(
-                loading: () => PrimaryButton(
-                  width: double.infinity,
-                  height: 38.h,
-                  onPressed: () {},
-                  isLoading: true,
-                ),
-                orElse: () => PrimaryButton(
-                  width: double.infinity,
-                  height: 38.h,
-                  onPressed: () {
-                    if (_formKey.currentState?.validate() == true) {
-                      final params = LoginParams(
-                          username: _usernameController.text,
-                          password: _passwordController.text);
-                      ref.read(loginProvider.notifier).login(params: params);
-                    }
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (isRtl)
-                        Icon(
-                          Icons.arrow_back_rounded,
-                          color: Colors.white,
-                        ),
-                      Text(
-                        context.translate(AppStrings.continueKey),
-                        style: context.textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w600, color: Colors.white),
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      if (!isRtl)
-                        Icon(
-                          Icons.arrow_forward_rounded,
-                          color: Colors.white,
-                        )
-                    ],
+                return loginState.maybeWhen(
+                  loading: () => PrimaryButton(
+                    width: double.infinity,
+                    height: 38.h,
+                    onPressed: () {},
+                    isLoading: true,
                   ),
-                ),
-              );
-            }),
-          ],
+                  orElse: () => PrimaryButton(
+                    width: double.infinity,
+                    height: 38.h,
+                    onPressed: () {
+                      if (_formKey.currentState?.validate() == true) {
+                        final params = LoginParams(
+                            username: _usernameController.text,
+                            password: _passwordController.text);
+                        ref.read(loginProvider.notifier).login(params: params);
+                      }
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (isRtl)
+                          Icon(
+                            Icons.arrow_back_rounded,
+                            color: Colors.white,
+                          ),
+                        Text(
+                          context.translate(AppStrings.continueKey),
+                          style: context.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600, color: Colors.white),
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        if (!isRtl)
+                          Icon(
+                            Icons.arrow_forward_rounded,
+                            color: Colors.white,
+                          )
+                      ],
+                    ),
+                  ),
+                );
+              }),
+            ],
+          ),
         ),
       ),
     );

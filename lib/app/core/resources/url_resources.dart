@@ -69,7 +69,7 @@ class UrlResources {
   static const String deletePurchaseOrder = "PurchaseOrder/Delete";
 
   //purchaseReturn
-  static const String getPurchaseReturn = "PurchaseReturn/Select/SelectAll";
+  static const String getPurchaseReturn = "PurchaseReturn/Select/BetweenDate";
   static const String createPurchaseReturn = "PurchaseReturn/Insert";
   static const String updatePurchaseReturn = "PurchaseReturn/Update";
   static const String deletePurchaseReturn = "PurchaseReturn/Delete";

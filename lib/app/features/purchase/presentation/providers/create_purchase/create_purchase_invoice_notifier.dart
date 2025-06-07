@@ -1,5 +1,6 @@
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_invoice_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_request_model.dart';
+import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_return_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/usecase/purchase_invoice/create_purchase_usecase.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/usecase/purchase_return/create_purchase_return_usecase.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/create_purchase/create_purchase_invoice_state.dart';
@@ -41,7 +42,8 @@ class CreatePurchaseNotifier extends StateNotifier<CreatePurchaseState> {
           await createPurchaseUsecase.call(params: purchaseInvoiceRequest);
       result.fold(
         (l) => state = CreatePurchaseState.error(message: l.message),
-        (r) => state = CreatePurchaseState.loaded(purchaseRequestModel: r),
+        (r) => state = CreatePurchaseState.loaded(
+            purchaseIDPK: r.purchaseIdpk ?? "", supplierName: r.supplierName),
       );
     } catch (e) {
       state = CreatePurchaseState.error(message: e.toString());
@@ -49,25 +51,29 @@ class CreatePurchaseNotifier extends StateNotifier<CreatePurchaseState> {
   }
 
   createPurchaseOrder({required PurchaseRequestModel params}) async {
-    try {
-      state = CreatePurchaseState.loading();
-      final result = await createPurchaseReturnUsecase.call(params: params);
-      result.fold(
-        (l) => state = CreatePurchaseState.error(message: l.message),
-        (r) => state = CreatePurchaseState.loaded(purchaseRequestModel: r),
-      );
-    } catch (e) {
-      state = CreatePurchaseState.error(message: e.toString());
-    }
+    // try {
+    //   state = CreatePurchaseState.loading();
+    //   final result = await createPurchaseReturnUsecase.call(params: params);
+    //   result.fold(
+    //     (l) => state = CreatePurchaseState.error(message: l.message),
+    //     (r) => state = CreatePurchaseState.loaded(
+    //         purchaseIDPK: "", supplierName: r.supplierName),
+    //   );
+    // } catch (e) {
+    //   state = CreatePurchaseState.error(message: e.toString());
+    // }
   }
 
-  createPurchaseReturn({required PurchaseRequestModel params}) async {
+  createPurchaseReturn(PurchaseReturnModel purchaseInvoiceRequest) async {
     try {
       state = CreatePurchaseState.loading();
-      final result = await createPurchaseReturnUsecase.call(params: params);
+      final result = await createPurchaseReturnUsecase.call(
+          params: purchaseInvoiceRequest);
       result.fold(
         (l) => state = CreatePurchaseState.error(message: l.message),
-        (r) => state = CreatePurchaseState.loaded(purchaseRequestModel: r),
+        (r) => state = CreatePurchaseState.loaded(
+            purchaseIDPK: r.purchaseIDFK ?? "",
+            supplierName: r.supplierName ?? ""),
       );
     } catch (e) {
       state = CreatePurchaseState.error(message: e.toString());

@@ -27,8 +27,9 @@ final fetchPurchaseInvoiceProvider =
 class FetchPurchaseNotifier extends StateNotifier<FetchPurchaseInvoiceState> {
   final FetchPurchaseInvoiceUsecase fetchPurchaseUsecase;
   List<PurchaseInvoiceEntity> purchaseInvoiceList = [];
-  FetchPurchaseNotifier({required this.fetchPurchaseUsecase})
-      : super(FetchPurchaseInvoiceState.initial());
+  FetchPurchaseNotifier({
+    required this.fetchPurchaseUsecase,
+  }) : super(FetchPurchaseInvoiceState.initial());
 
   fetchPurchaseInvoice({required PurchaseParams params}) async {
     try {

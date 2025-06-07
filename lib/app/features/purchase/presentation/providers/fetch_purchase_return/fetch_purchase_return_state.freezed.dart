@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'update_purchase_state.dart';
+part of 'fetch_purchase_return_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,11 +15,13 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$UpdatePurchaseState {
+mixin _$FetchPurchaseReturnState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(String purchaseIDPK, String? supplierName) loaded,
+    required TResult Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)
+        success,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) =>
@@ -27,7 +29,9 @@ mixin _$UpdatePurchaseState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(String purchaseIDPK, String? supplierName)? loaded,
+    TResult? Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)?
+        success,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) =>
@@ -35,7 +39,9 @@ mixin _$UpdatePurchaseState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(String purchaseIDPK, String? supplierName)? loaded,
+    TResult Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)?
+        success,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -44,7 +50,7 @@ mixin _$UpdatePurchaseState {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Success value) success,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
   }) =>
@@ -52,7 +58,7 @@ mixin _$UpdatePurchaseState {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Success value)? success,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
   }) =>
@@ -60,7 +66,7 @@ mixin _$UpdatePurchaseState {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Success value)? success,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -69,23 +75,24 @@ mixin _$UpdatePurchaseState {
 }
 
 /// @nodoc
-abstract class $UpdatePurchaseStateCopyWith<$Res> {
-  factory $UpdatePurchaseStateCopyWith(
-          UpdatePurchaseState value, $Res Function(UpdatePurchaseState) then) =
-      _$UpdatePurchaseStateCopyWithImpl<$Res, UpdatePurchaseState>;
+abstract class $FetchPurchaseReturnStateCopyWith<$Res> {
+  factory $FetchPurchaseReturnStateCopyWith(FetchPurchaseReturnState value,
+          $Res Function(FetchPurchaseReturnState) then) =
+      _$FetchPurchaseReturnStateCopyWithImpl<$Res, FetchPurchaseReturnState>;
 }
 
 /// @nodoc
-class _$UpdatePurchaseStateCopyWithImpl<$Res, $Val extends UpdatePurchaseState>
-    implements $UpdatePurchaseStateCopyWith<$Res> {
-  _$UpdatePurchaseStateCopyWithImpl(this._value, this._then);
+class _$FetchPurchaseReturnStateCopyWithImpl<$Res,
+        $Val extends FetchPurchaseReturnState>
+    implements $FetchPurchaseReturnStateCopyWith<$Res> {
+  _$FetchPurchaseReturnStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of UpdatePurchaseState
+  /// Create a copy of FetchPurchaseReturnState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -98,13 +105,13 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$UpdatePurchaseStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$FetchPurchaseReturnStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdatePurchaseState
+  /// Create a copy of FetchPurchaseReturnState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -115,7 +122,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'UpdatePurchaseState.initial()';
+    return 'FetchPurchaseReturnState.initial()';
   }
 
   @override
@@ -131,7 +138,9 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(String purchaseIDPK, String? supplierName) loaded,
+    required TResult Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)
+        success,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) {
@@ -142,7 +151,9 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(String purchaseIDPK, String? supplierName)? loaded,
+    TResult? Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)?
+        success,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) {
@@ -153,7 +164,9 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(String purchaseIDPK, String? supplierName)? loaded,
+    TResult Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)?
+        success,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -168,7 +181,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Success value) success,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
   }) {
@@ -179,7 +192,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Success value)? success,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
   }) {
@@ -190,7 +203,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Success value)? success,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -202,118 +215,134 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements UpdatePurchaseState {
+abstract class _Initial implements FetchPurchaseReturnState {
   const factory _Initial() = _$InitialImpl;
 }
 
 /// @nodoc
-abstract class _$$LoadedImplCopyWith<$Res> {
-  factory _$$LoadedImplCopyWith(
-          _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
-      __$$LoadedImplCopyWithImpl<$Res>;
+abstract class _$$SuccessImplCopyWith<$Res> {
+  factory _$$SuccessImplCopyWith(
+          _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
+      __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String purchaseIDPK, String? supplierName});
+  $Res call({List<PurchaseReturnEntity> purchaseReturnList, double? total});
 }
 
 /// @nodoc
-class __$$LoadedImplCopyWithImpl<$Res>
-    extends _$UpdatePurchaseStateCopyWithImpl<$Res, _$LoadedImpl>
-    implements _$$LoadedImplCopyWith<$Res> {
-  __$$LoadedImplCopyWithImpl(
-      _$LoadedImpl _value, $Res Function(_$LoadedImpl) _then)
+class __$$SuccessImplCopyWithImpl<$Res>
+    extends _$FetchPurchaseReturnStateCopyWithImpl<$Res, _$SuccessImpl>
+    implements _$$SuccessImplCopyWith<$Res> {
+  __$$SuccessImplCopyWithImpl(
+      _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdatePurchaseState
+  /// Create a copy of FetchPurchaseReturnState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? purchaseIDPK = null,
-    Object? supplierName = freezed,
+    Object? purchaseReturnList = null,
+    Object? total = freezed,
   }) {
-    return _then(_$LoadedImpl(
-      purchaseIDPK: null == purchaseIDPK
-          ? _value.purchaseIDPK
-          : purchaseIDPK // ignore: cast_nullable_to_non_nullable
-              as String,
-      supplierName: freezed == supplierName
-          ? _value.supplierName
-          : supplierName // ignore: cast_nullable_to_non_nullable
-              as String?,
+    return _then(_$SuccessImpl(
+      purchaseReturnList: null == purchaseReturnList
+          ? _value._purchaseReturnList
+          : purchaseReturnList // ignore: cast_nullable_to_non_nullable
+              as List<PurchaseReturnEntity>,
+      total: freezed == total
+          ? _value.total
+          : total // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl({required this.purchaseIDPK, this.supplierName});
+class _$SuccessImpl implements _Success {
+  const _$SuccessImpl(
+      {required final List<PurchaseReturnEntity> purchaseReturnList,
+      required this.total})
+      : _purchaseReturnList = purchaseReturnList;
+
+  final List<PurchaseReturnEntity> _purchaseReturnList;
+  @override
+  List<PurchaseReturnEntity> get purchaseReturnList {
+    if (_purchaseReturnList is EqualUnmodifiableListView)
+      return _purchaseReturnList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_purchaseReturnList);
+  }
 
   @override
-  final String purchaseIDPK;
-  @override
-  final String? supplierName;
+  final double? total;
 
   @override
   String toString() {
-    return 'UpdatePurchaseState.loaded(purchaseIDPK: $purchaseIDPK, supplierName: $supplierName)';
+    return 'FetchPurchaseReturnState.success(purchaseReturnList: $purchaseReturnList, total: $total)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$LoadedImpl &&
-            (identical(other.purchaseIDPK, purchaseIDPK) ||
-                other.purchaseIDPK == purchaseIDPK) &&
-            (identical(other.supplierName, supplierName) ||
-                other.supplierName == supplierName));
+            other is _$SuccessImpl &&
+            const DeepCollectionEquality()
+                .equals(other._purchaseReturnList, _purchaseReturnList) &&
+            (identical(other.total, total) || other.total == total));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, purchaseIDPK, supplierName);
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_purchaseReturnList), total);
 
-  /// Create a copy of UpdatePurchaseState
+  /// Create a copy of FetchPurchaseReturnState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
-      __$$LoadedImplCopyWithImpl<_$LoadedImpl>(this, _$identity);
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
+      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(String purchaseIDPK, String? supplierName) loaded,
+    required TResult Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)
+        success,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) {
-    return loaded(purchaseIDPK, supplierName);
+    return success(purchaseReturnList, total);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(String purchaseIDPK, String? supplierName)? loaded,
+    TResult? Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)?
+        success,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) {
-    return loaded?.call(purchaseIDPK, supplierName);
+    return success?.call(purchaseReturnList, total);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(String purchaseIDPK, String? supplierName)? loaded,
+    TResult Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)?
+        success,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
-    if (loaded != null) {
-      return loaded(purchaseIDPK, supplierName);
+    if (success != null) {
+      return success(purchaseReturnList, total);
     }
     return orElse();
   }
@@ -322,52 +351,52 @@ class _$LoadedImpl implements _Loaded {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Success value) success,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
   }) {
-    return loaded(this);
+    return success(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Success value)? success,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
   }) {
-    return loaded?.call(this);
+    return success?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Success value)? success,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     required TResult orElse(),
   }) {
-    if (loaded != null) {
-      return loaded(this);
+    if (success != null) {
+      return success(this);
     }
     return orElse();
   }
 }
 
-abstract class _Loaded implements UpdatePurchaseState {
-  const factory _Loaded(
-      {required final String purchaseIDPK,
-      final String? supplierName}) = _$LoadedImpl;
+abstract class _Success implements FetchPurchaseReturnState {
+  const factory _Success(
+      {required final List<PurchaseReturnEntity> purchaseReturnList,
+      required final double? total}) = _$SuccessImpl;
 
-  String get purchaseIDPK;
-  String? get supplierName;
+  List<PurchaseReturnEntity> get purchaseReturnList;
+  double? get total;
 
-  /// Create a copy of UpdatePurchaseState
+  /// Create a copy of FetchPurchaseReturnState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$LoadedImplCopyWith<_$LoadedImpl> get copyWith =>
+  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -380,13 +409,13 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$UpdatePurchaseStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$FetchPurchaseReturnStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdatePurchaseState
+  /// Create a copy of FetchPurchaseReturnState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -397,7 +426,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'UpdatePurchaseState.loading()';
+    return 'FetchPurchaseReturnState.loading()';
   }
 
   @override
@@ -413,7 +442,9 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(String purchaseIDPK, String? supplierName) loaded,
+    required TResult Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)
+        success,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) {
@@ -424,7 +455,9 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(String purchaseIDPK, String? supplierName)? loaded,
+    TResult? Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)?
+        success,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) {
@@ -435,7 +468,9 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(String purchaseIDPK, String? supplierName)? loaded,
+    TResult Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)?
+        success,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -450,7 +485,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Success value) success,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
   }) {
@@ -461,7 +496,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Success value)? success,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
   }) {
@@ -472,7 +507,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Success value)? success,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -484,7 +519,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements UpdatePurchaseState {
+abstract class _Loading implements FetchPurchaseReturnState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -499,13 +534,13 @@ abstract class _$$ErrorImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$ErrorImplCopyWithImpl<$Res>
-    extends _$UpdatePurchaseStateCopyWithImpl<$Res, _$ErrorImpl>
+    extends _$FetchPurchaseReturnStateCopyWithImpl<$Res, _$ErrorImpl>
     implements _$$ErrorImplCopyWith<$Res> {
   __$$ErrorImplCopyWithImpl(
       _$ErrorImpl _value, $Res Function(_$ErrorImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UpdatePurchaseState
+  /// Create a copy of FetchPurchaseReturnState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -531,7 +566,7 @@ class _$ErrorImpl implements _Error {
 
   @override
   String toString() {
-    return 'UpdatePurchaseState.error(message: $message)';
+    return 'FetchPurchaseReturnState.error(message: $message)';
   }
 
   @override
@@ -545,7 +580,7 @@ class _$ErrorImpl implements _Error {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of UpdatePurchaseState
+  /// Create a copy of FetchPurchaseReturnState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -557,7 +592,9 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(String purchaseIDPK, String? supplierName) loaded,
+    required TResult Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)
+        success,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) {
@@ -568,7 +605,9 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(String purchaseIDPK, String? supplierName)? loaded,
+    TResult? Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)?
+        success,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) {
@@ -579,7 +618,9 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(String purchaseIDPK, String? supplierName)? loaded,
+    TResult Function(
+            List<PurchaseReturnEntity> purchaseReturnList, double? total)?
+        success,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -594,7 +635,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_Initial value) initial,
-    required TResult Function(_Loaded value) loaded,
+    required TResult Function(_Success value) success,
     required TResult Function(_Loading value) loading,
     required TResult Function(_Error value) error,
   }) {
@@ -605,7 +646,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loaded value)? loaded,
+    TResult? Function(_Success value)? success,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_Error value)? error,
   }) {
@@ -616,7 +657,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Initial value)? initial,
-    TResult Function(_Loaded value)? loaded,
+    TResult Function(_Success value)? success,
     TResult Function(_Loading value)? loading,
     TResult Function(_Error value)? error,
     required TResult orElse(),
@@ -628,12 +669,12 @@ class _$ErrorImpl implements _Error {
   }
 }
 
-abstract class _Error implements UpdatePurchaseState {
+abstract class _Error implements FetchPurchaseReturnState {
   const factory _Error({required final String message}) = _$ErrorImpl;
 
   String get message;
 
-  /// Create a copy of UpdatePurchaseState
+  /// Create a copy of FetchPurchaseReturnState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorImplCopyWith<_$ErrorImpl> get copyWith =>

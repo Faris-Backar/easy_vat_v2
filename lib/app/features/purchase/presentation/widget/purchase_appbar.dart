@@ -12,7 +12,7 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
-import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';
+// import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/filter_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
@@ -56,7 +56,7 @@ class PurchaseAppBarConfig {
   final Future<void> Function(PurchaseParams params)? fetchFunction;
 
   /// Custom filter function for applying filters
-  final Future<void> Function(SalesInvoiceFilterParams params)? filterFunction;
+  final Future<void> Function(PurchaseParams params)? filterFunction;
 
   /// Additional popup menu items
   final List<PopupMenuEntry<String>>? additionalPopupMenuItems;
@@ -157,8 +157,8 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
                 InkWell(
                   onTap: () {
                     if (widget.config.filterFunction != null) {
-                      widget.config.filterFunction!(
-                          SalesInvoiceFilterParams(clearAllFilter: true));
+                      // widget.config.filterFunction!(
+                      // PurchaseParams(clearAllFilter: true));
                     } else {
                       purchaseModeNotifier.value = null;
                       purchasedByNotifier.value = null;

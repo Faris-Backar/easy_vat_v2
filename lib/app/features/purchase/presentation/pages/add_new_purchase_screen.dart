@@ -34,10 +34,10 @@ class _AddNewPurchaseScreenState extends ConsumerState<AddNewPurchaseScreen> {
   final purchaseNoController = TextEditingController();
   final supInvNoController = TextEditingController();
   final _noteController = TextEditingController();
-  final ValueNotifier<String?> salesModeNotifier = ValueNotifier(null);
-  final ValueNotifier<String?> soldByNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> purchaseReturnModeNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> returnedByNotifier = ValueNotifier(null);
   final ValueNotifier<String?> cashAccountNotifier = ValueNotifier(null);
-  final ValueNotifier<String?> salesAccountNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> purchaseAccountNotifier = ValueNotifier(null);
 
   @override
   void initState() {
@@ -70,10 +70,10 @@ class _AddNewPurchaseScreenState extends ConsumerState<AddNewPurchaseScreen> {
                 AddNewPurchaseForm(
                   purchaseNoController: purchaseNoController,
                   supInvNoController: supInvNoController,
-                  purchaseModeNotifier: salesModeNotifier,
-                  purchasedByNotifier: soldByNotifier,
+                  purchaseModeNotifier: purchaseReturnModeNotifier,
+                  purchasedByNotifier: returnedByNotifier,
                   cashAccountNotifier: cashAccountNotifier,
-                  purchaseAccountNotifier: salesAccountNotifier,
+                  purchaseAccountNotifier: purchaseAccountNotifier,
                 ),
                 SizedBox(
                   height: 10,
@@ -121,8 +121,8 @@ class _AddNewPurchaseScreenState extends ConsumerState<AddNewPurchaseScreen> {
       bottomNavigationBar: AddPurchaseFooterWidget(
           purchaseNoController: purchaseNoController,
           supInvNoController: supInvNoController,
-          purchaseModeNotifier: salesModeNotifier,
-          purchasedByNotifier: soldByNotifier,
+          purchaseModeNotifier: purchaseReturnModeNotifier,
+          purchasedByNotifier: returnedByNotifier,
           purchaseType: widget.title),
     );
   }

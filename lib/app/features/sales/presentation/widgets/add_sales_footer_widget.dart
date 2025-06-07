@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/items_bottom_modal_sheet.dart';
@@ -146,23 +148,15 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                                   context.translate(AppStrings.cancel),
                               primaryButtonColor: context.colorScheme.primary,
                               onPrimaryTap: () async {
-                                final hasPermission =
-                                    await AppUtils.requestDownloadPermission();
-                                if (hasPermission) {
-                                  ref
-                                      .read(downloadsalesInvoiceNotifierProvider
-                                          .notifier)
-                                      .downloadSalesInvoices(
-                                          salesIDPK: success.salesIDPK);
-                                } else {
-                                  if (mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text(
-                                              "Permission denied. Cannot download invoice.")),
-                                    );
-                                  }
-                                }
+                                context.router.popForced();
+                                context.router.popForced();
+                                ref.read(cartProvider.notifier).clearCart();
+                                context.router.push(PdfViewerRoute(
+                                  pdfUrl: UrlResources.downloadSalesInvoice,
+                                  queryParameters: {
+                                    'SaleIDPK': success.salesIDPK,
+                                  },
+                                ));
                               },
                               onSecondaryTap: () {
                                 ref.read(cartProvider.notifier).clearCart();
