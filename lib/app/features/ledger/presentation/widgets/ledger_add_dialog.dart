@@ -3,7 +3,8 @@ import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
+import 'package:easy_vat_v2/app/features/expense/domain/entities/expense_cart_entity.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
@@ -16,7 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LedgerAddDialog extends ConsumerStatefulWidget {
   final LedgerAccountEntity ledger;
-  final CartEntity? ledgerEntry;
+  final ExpenseCartEntity? ledgerEntry;
   const LedgerAddDialog({super.key, required this.ledger, this.ledgerEntry});
 
   @override
@@ -25,12 +26,14 @@ class LedgerAddDialog extends ConsumerStatefulWidget {
 }
 
 class _LedgerAddDialogState extends ConsumerState<LedgerAddDialog> {
-  CartEntity? cart;
+  ExpenseCartEntity? cart;
   late LedgerAccountEntity ledger;
   final _grossTotalController = TextEditingController();
   final _taxPercentController = TextEditingController();
   final _taxAmountController = TextEditingController();
   final _netTotalController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _discountController = TextEditingController();
   double taxPercentage = 0.0;
   bool isTaxEnabled = false;
 
@@ -48,15 +51,18 @@ class _LedgerAddDialogState extends ConsumerState<LedgerAddDialog> {
       taxPercentage = isTaxEnabled ? 0.0 : ledger.taxPercentage ?? 0.0;
     });
 
-    taxPercentage = ledger.taxPercentage ?? 0.0;
+    taxPercentage = cart?.taxPercentage ?? 0.0;
 
-    final double grossTotal = 0.0;
+    final double grossTotal = cart?.grossTotal ?? 0.0;
+    final double discount = 0.0;
     final double taxAmount = grossTotal * taxPercentage / 100;
     final double netTotal = grossTotal + taxAmount;
 
+    _descriptionController.text = ledger.description ?? "";
     _grossTotalController.text = grossTotal.toStringAsFixed(2);
     _taxPercentController.text = taxPercentage.toStringAsFixed(2);
     _taxAmountController.text = taxAmount.toStringAsFixed(2);
+    _discountController.text = discount.toStringAsFixed(2);
     _netTotalController.text = netTotal.toStringAsFixed(2);
   }
 
@@ -223,14 +229,51 @@ class _LedgerAddDialogState extends ConsumerState<LedgerAddDialog> {
           border: BorderSide(
               color: context.colorScheme.primary.withValues(alpha: 0.2)),
         ),
-        SizedBox(
-          width: 5.w,
-        ),
         PrimaryButton(
-          label: context.translate(AppStrings.addToCart),
-          onPressed: () {},
+          label: widget.ledgerEntry != null
+              ? context.translate(AppStrings.updateLedger)
+              : context.translate(AppStrings.addLedger),
+          onPressed: _handleExpenseCartAction,
         )
       ],
     );
+  }
+
+  void _handleExpenseCartAction() {
+    final expenseCartNotifier = ref.read(expenseCartProvider.notifier);
+    final grossTotal = double.tryParse(_grossTotalController.text) ?? 0.0;
+    final discount = double.tryParse(_discountController.text) ?? 0.0;
+    final taxPercentage = double.tryParse(_taxPercentController.text) ?? 0.0;
+    final taxAmount = expenseCartNotifier.calculateTotalTax(
+        grossTotal: grossTotal, taxPercentage: taxPercentage);
+    final netTotal = grossTotal + taxAmount;
+
+    final expenseCartEntity = ExpenseCartEntity(
+        ledgerId: widget.ledgerEntry != null
+            ? widget.ledgerEntry!.ledgerId
+            : (ref.read(expenseCartProvider).ledgerList?.length ?? 0) + 1,
+        ledgerName: ledger.ledgerName ?? "",
+        ledgerCode: ledger.ledgerCode ?? "",
+        groupName: ledger.groupName ?? "",
+        nature: ledger.nature ?? "",
+        openingBalance: ledger.openingBalance ?? 0.0,
+        currentBalance: ledger.currentBalance ?? 0.0,
+        currentBalanceType: ledger.currentBalanceType ?? "",
+        ledger: ledger,
+        netTotal: netTotal,
+        grossTotal: grossTotal,
+        taxAmount: taxAmount,
+        taxPercentage: taxPercentage,
+        discount: discount,
+        description: _descriptionController.text,
+        tax: taxAmount);
+    if (widget.ledgerEntry == null) {
+      expenseCartNotifier.addLedgerIntoExpenseCart(ledger: expenseCartEntity);
+    } else {
+      expenseCartNotifier.updateExpenseCartLedger(
+          cartLedger: expenseCartEntity);
+    }
+
+    context.router.popForced();
   }
 }
