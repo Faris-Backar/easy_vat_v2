@@ -4,10 +4,11 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+//import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_notifier.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_state.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_appbar.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_card.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
@@ -130,6 +131,8 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                                 : CustomColors.getTransactionSkyBlueColor(
                                         context)
                                     .withValues(alpha: 0.2),
+                            borderRadiusTopLeft: 10.0,
+                            borderRadiusBottomLeft: 10.0,
                             icon: Assets.icons.print,
                             iconColor: AppUtils.isDarkMode(context)
                                 ? context.onPrimaryColor
@@ -147,13 +150,15 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                               : CustomColors.getTransactionCardBlueColor(
                                       context)
                                   .withValues(alpha: 0.2),
+                          borderRadiusBottomRight: 10.0,
+                          borderRadiusTopRight: 10.0,
                           icon: Assets.icons.view,
                           iconColor: AppUtils.isDarkMode(context)
                               ? context.onPrimaryColor
                               : null,
                           onTap: () async {
                             await ref
-                                .read(cartProvider.notifier)
+                                .read(expenseCartProvider.notifier)
                                 .reinsertExpenseForm(expense, ref);
                             if (mounted) {
                               context.router.push(AddNewExpenseRoute(
@@ -167,9 +172,9 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                     ),
                     startActionPane:
                         ActionPane(motion: ScrollMotion(), children: [
+                      Expanded(child: Container()),
                       Expanded(
                         child: _buildSlidingAction(
-                          width: 50.w,
                           color: AppUtils.isDarkMode(context)
                               ? CustomColors.getTransactionCardRedColor(context)
                               : CustomColors.getTransactionCardRedColor(context)
@@ -177,6 +182,8 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                           icon: Assets.icons.delete,
                           borderRadiusTopLeft: 10.0,
                           borderRadiusBottomLeft: 10.0,
+                          borderRadiusBottomRight: 10.0,
+                          borderRadiusTopRight: 10.0,
                           iconColor: AppUtils.isDarkMode(context)
                               ? context.onPrimaryColor
                               : null,
@@ -232,7 +239,7 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                         ),
                     orElse: () => Text(
                           ref
-                              .watch(cartProvider)
+                              .watch(expenseCartProvider)
                               .totalAmount
                               .toStringAsFixed(2),
                           style: context.textTheme.bodyLarge?.copyWith(
@@ -251,9 +258,7 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
             const SizedBox(height: 10),
             PrimaryButton(
               onPressed: () => context.router.push(
-                AddNewExpenseRoute(
-                  tittle: context.translate(AppStrings.addNewExpense),
-                ),
+                AddNewExpenseRoute(),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,

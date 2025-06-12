@@ -2,6 +2,7 @@ import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_info_widget.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/data/model/payment_mode_model.dart';
@@ -46,10 +47,11 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
   Widget build(BuildContext context) {
     final paymentModeState = ref.watch(paymentModeNotifierProvider);
     final cashLedgerState = ref.watch(cashLedgerNotifierProvider);
-    widget.expenseNoController.text = ref.watch(cartProvider).expenseNo ?? "";
-    widget.refNoController.text = ref.watch(cartProvider).refNo ?? "";
+    widget.expenseNoController.text =
+        ref.watch(expenseCartProvider).expenseNo ?? "";
+    widget.refNoController.text = ref.watch(expenseCartProvider).refNo ?? "";
     widget.purchasedByController.text =
-        ref.watch(cartProvider).purchasedBy ?? "";
+        ref.watch(expenseCartProvider).purchasedBy ?? "";
     return Column(
       children: [
         Row(
@@ -93,9 +95,12 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
                     builder: (context, ref, child) {
                       return DatePickerTextField(
                         label: context.translate(AppStrings.date),
-                        initialValue: ref.watch(cartProvider).expenseDate,
+                        initialValue:
+                            ref.watch(expenseCartProvider).expenseDate,
                         onDateSelected: (data) {
-                          ref.read(cartProvider.notifier).setExpenseDate(data);
+                          ref
+                              .read(expenseCartProvider.notifier)
+                              .setExpenseDate(data);
                         },
                         labelAndTextfieldGap: 2,
                         backgroundColor: AppUtils.isDarkMode(context)
@@ -144,7 +149,6 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
                             (newValue?.toLowerCase() == "bank" ||
                                 newValue?.toLowerCase() == "card" ||
                                 newValue?.toLowerCase() == "Credit");
-
                         if (shouldFetchCash) {
                           widget.cashAccountNotifier.value = null;
                           ref

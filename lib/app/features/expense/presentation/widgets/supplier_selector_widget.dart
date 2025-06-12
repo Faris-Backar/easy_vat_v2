@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_details_card.dart';
 import 'package:easy_vat_v2/app/features/supplier/presentation/providers/supplier_notifier.dart';
 import 'package:easy_vat_v2/app/features/supplier/presentation/providers/supplier_state.dart';
@@ -33,8 +33,8 @@ class _SupplierSelectorState extends ConsumerState<SupplierSelectorWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedSupplier =
-        ref.watch(cartProvider.select((state) => state.selectedSupplier));
+    final selectedSupplier = ref
+        .watch(expenseCartProvider.select((state) => state.selectedSupplier));
 
     return InkWell(
       onTap: () {
@@ -199,7 +199,7 @@ class _SupplierSelectorState extends ConsumerState<SupplierSelectorWidget> {
                                         final selectedSupplier = supplierState
                                             .supplierList![selectedIndex];
                                         ref
-                                            .read(cartProvider.notifier)
+                                            .read(expenseCartProvider.notifier)
                                             .setSupplier(selectedSupplier);
                                         context.router.popForced();
                                       }

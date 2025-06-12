@@ -183,7 +183,7 @@ class ExpenseDetailsModel extends ExpenseDetailsEntity {
           ledgerIDPK: json["ledgerIDPK"],
           description: json["description"],
           grossTotal: json["grossTotal"],
-          taxPercentage: json["taxpercentage"],
+          taxPercentage: json["taxPercentage"],
           netTotal: json["netTotal"],
           rowguid: json["rowguid"],
           companyIDPK: json["companyIDPK"],

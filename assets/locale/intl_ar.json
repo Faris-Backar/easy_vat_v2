@@ -204,6 +204,13 @@
   "addedToCart": "تمت الإضافة إلى السلة",
    "ledgerCurrentlyNotActive": "دفتر الأستاذ غير نشط حاليًا",
    "taxAmount": "مبلغ الضريبة",
-   "grossTotal": "الإجمالي الإجمالي"
-
+   "grossTotal": "الإجمالي الإجمالي",
+   "updateLedger": "تحديث دفتر الأستاذ",
+   "ledgerCode": "رمز دفتر الأستاذ",
+   "Group": "مجموعة",
+   "nature": "طبيعة",
+   "opBal": "الرصيد الافتتاحي",
+   "curBal": "الرصيد الحالي",
+   "addNewLedger": "إضافة دفتر أستاذ جديد",
+   "discardledgerChangesMessage": "لديك قيود دفترية غير محفوظة. هل ترغب في حذفها والرجوع؟"
 }

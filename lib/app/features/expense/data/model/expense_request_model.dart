@@ -7,7 +7,7 @@ part 'expense_request_model.g.dart';
 class ExpenseRequestModel with _$ExpenseRequestModel {
   const factory ExpenseRequestModel({
     String? expenseIDPK,
-    int? expenseno,
+    int? expenseNo,
     String? referenceNo,
     DateTime? expenseDate,
     String? paymentMode,
@@ -25,9 +25,9 @@ class ExpenseRequestModel with _$ExpenseRequestModel {
     bool? isEditable,
     bool? isCanceled,
     String? createdBy,
-    String? createdDate,
+    DateTime? createdDate,
     String? modifiedBy,
-    String? modifiedDate,
+    DateTime? modifiedDate,
     String? rowguid,
     String? companyIDPK,
     String? supplierName,
