@@ -12,5 +12,5 @@ abstract class ExpenseRepository {
   Future<Either<Failure, ExpenseEntity>> updateExpense(
       {required ExpenseRequestModel expenseRequestParams});
   Future<Either<Failure, ExpenseEntity>> deleteExpense(
-      {required ExpenseRequestModel expenseRequestParams});
+      {required ExpenseParams expenseParams});
 }

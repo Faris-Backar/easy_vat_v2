@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:intl/intl.dart';
 
 class ExpenseParams {
@@ -21,10 +22,10 @@ class ExpenseParams {
 
   Map<String, dynamic> toMap() {
     return {
-      "expenseIDPK": expenseIDPK,
+      "expenseIDPK": expenseIDPK ?? PrefResources.emptyGuid,
       "fromDate": _formatDate(fromDate),
       "toDate": _formatDate(toDate),
-      "supplierID": supplierID,
+      "supplierID": supplierID ?? PrefResources.emptyGuid,
       "paymentMode": paymentMode
     };
   }
