@@ -89,6 +89,10 @@ _$ExpenseDetailsImpl _$$ExpenseDetailsImplFromJson(Map<String, dynamic> json) =>
       companyIDPK: json['companyIDPK'] as String?,
       currentBalance: (json['currentBalance'] as num?)?.toDouble(),
       ledgerName: json['ledgerName'] as String?,
+      ledgerCode: json['ledgerCode'] as String?,
+      openingBalance: (json['openingBalance'] as num?)?.toDouble(),
+      groupName: json['groupName'] as String?,
+      nature: json['nature'] as String?,
     );
 
 Map<String, dynamic> _$$ExpenseDetailsImplToJson(
@@ -105,4 +109,8 @@ Map<String, dynamic> _$$ExpenseDetailsImplToJson(
       'companyIDPK': instance.companyIDPK,
       'currentBalance': instance.currentBalance,
       'ledgerName': instance.ledgerName,
+      'ledgerCode': instance.ledgerCode,
+      'openingBalance': instance.openingBalance,
+      'groupName': instance.groupName,
+      'nature': instance.nature,
     };

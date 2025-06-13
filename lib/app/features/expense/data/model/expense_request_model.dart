@@ -40,19 +40,22 @@ class ExpenseRequestModel with _$ExpenseRequestModel {
 
 @freezed
 class ExpenseDetails with _$ExpenseDetails {
-  const factory ExpenseDetails({
-    String? expenseIDPK,
-    String? ledgerIDPK,
-    String? description,
-    double? grossTotal,
-    double? taxAmount,
-    double? taxPercentage,
-    double? netTotal,
-    String? rowguid,
-    String? companyIDPK,
-    double? currentBalance,
-    String? ledgerName,
-  }) = _ExpenseDetails;
+  const factory ExpenseDetails(
+      {String? expenseIDPK,
+      String? ledgerIDPK,
+      String? description,
+      double? grossTotal,
+      double? taxAmount,
+      double? taxPercentage,
+      double? netTotal,
+      String? rowguid,
+      String? companyIDPK,
+      double? currentBalance,
+      String? ledgerName,
+      String? ledgerCode,
+      double? openingBalance,
+      String? groupName,
+      String? nature}) = _ExpenseDetails;
 
   factory ExpenseDetails.fromJson(Map<String, dynamic> json) =>
       _$ExpenseDetailsFromJson(json);

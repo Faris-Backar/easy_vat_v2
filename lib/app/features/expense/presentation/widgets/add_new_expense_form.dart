@@ -315,7 +315,7 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
 
   void _getdefaultSelection(List<PaymentModeModel> paymentModes) {
     final currentPaymentMode =
-        ref.read(cartProvider.notifier).paymentMode.toLowerCase();
+        ref.read(expenseCartProvider.notifier).paymentMode.toLowerCase();
     final selectedMode = paymentModes.firstWhere(
       (mode) => currentPaymentMode.isNotEmpty
           ? mode.paymentModes.toLowerCase() == currentPaymentMode
@@ -325,7 +325,7 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final selectedValue = selectedMode.paymentModes;
-      ref.read(cartProvider.notifier).setPaymentMode(selectedValue);
+      ref.read(expenseCartProvider.notifier).setPaymentMode(selectedValue);
       widget.paymentModeNotifier.value = selectedValue;
 
       final selectedLower = selectedValue.toLowerCase();

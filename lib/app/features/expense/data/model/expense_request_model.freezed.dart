@@ -745,6 +745,10 @@ mixin _$ExpenseDetails {
   String? get companyIDPK => throw _privateConstructorUsedError;
   double? get currentBalance => throw _privateConstructorUsedError;
   String? get ledgerName => throw _privateConstructorUsedError;
+  String? get ledgerCode => throw _privateConstructorUsedError;
+  double? get openingBalance => throw _privateConstructorUsedError;
+  String? get groupName => throw _privateConstructorUsedError;
+  String? get nature => throw _privateConstructorUsedError;
 
   /// Serializes this ExpenseDetails to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -773,7 +777,11 @@ abstract class $ExpenseDetailsCopyWith<$Res> {
       String? rowguid,
       String? companyIDPK,
       double? currentBalance,
-      String? ledgerName});
+      String? ledgerName,
+      String? ledgerCode,
+      double? openingBalance,
+      String? groupName,
+      String? nature});
 }
 
 /// @nodoc
@@ -802,6 +810,10 @@ class _$ExpenseDetailsCopyWithImpl<$Res, $Val extends ExpenseDetails>
     Object? companyIDPK = freezed,
     Object? currentBalance = freezed,
     Object? ledgerName = freezed,
+    Object? ledgerCode = freezed,
+    Object? openingBalance = freezed,
+    Object? groupName = freezed,
+    Object? nature = freezed,
   }) {
     return _then(_value.copyWith(
       expenseIDPK: freezed == expenseIDPK
@@ -848,6 +860,22 @@ class _$ExpenseDetailsCopyWithImpl<$Res, $Val extends ExpenseDetails>
           ? _value.ledgerName
           : ledgerName // ignore: cast_nullable_to_non_nullable
               as String?,
+      ledgerCode: freezed == ledgerCode
+          ? _value.ledgerCode
+          : ledgerCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      openingBalance: freezed == openingBalance
+          ? _value.openingBalance
+          : openingBalance // ignore: cast_nullable_to_non_nullable
+              as double?,
+      groupName: freezed == groupName
+          ? _value.groupName
+          : groupName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nature: freezed == nature
+          ? _value.nature
+          : nature // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -871,7 +899,11 @@ abstract class _$$ExpenseDetailsImplCopyWith<$Res>
       String? rowguid,
       String? companyIDPK,
       double? currentBalance,
-      String? ledgerName});
+      String? ledgerName,
+      String? ledgerCode,
+      double? openingBalance,
+      String? groupName,
+      String? nature});
 }
 
 /// @nodoc
@@ -898,6 +930,10 @@ class __$$ExpenseDetailsImplCopyWithImpl<$Res>
     Object? companyIDPK = freezed,
     Object? currentBalance = freezed,
     Object? ledgerName = freezed,
+    Object? ledgerCode = freezed,
+    Object? openingBalance = freezed,
+    Object? groupName = freezed,
+    Object? nature = freezed,
   }) {
     return _then(_$ExpenseDetailsImpl(
       expenseIDPK: freezed == expenseIDPK
@@ -944,6 +980,22 @@ class __$$ExpenseDetailsImplCopyWithImpl<$Res>
           ? _value.ledgerName
           : ledgerName // ignore: cast_nullable_to_non_nullable
               as String?,
+      ledgerCode: freezed == ledgerCode
+          ? _value.ledgerCode
+          : ledgerCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      openingBalance: freezed == openingBalance
+          ? _value.openingBalance
+          : openingBalance // ignore: cast_nullable_to_non_nullable
+              as double?,
+      groupName: freezed == groupName
+          ? _value.groupName
+          : groupName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nature: freezed == nature
+          ? _value.nature
+          : nature // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -962,7 +1014,11 @@ class _$ExpenseDetailsImpl implements _ExpenseDetails {
       this.rowguid,
       this.companyIDPK,
       this.currentBalance,
-      this.ledgerName});
+      this.ledgerName,
+      this.ledgerCode,
+      this.openingBalance,
+      this.groupName,
+      this.nature});
 
   factory _$ExpenseDetailsImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExpenseDetailsImplFromJson(json);
@@ -989,10 +1045,18 @@ class _$ExpenseDetailsImpl implements _ExpenseDetails {
   final double? currentBalance;
   @override
   final String? ledgerName;
+  @override
+  final String? ledgerCode;
+  @override
+  final double? openingBalance;
+  @override
+  final String? groupName;
+  @override
+  final String? nature;
 
   @override
   String toString() {
-    return 'ExpenseDetails(expenseIDPK: $expenseIDPK, ledgerIDPK: $ledgerIDPK, description: $description, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercentage: $taxPercentage, netTotal: $netTotal, rowguid: $rowguid, companyIDPK: $companyIDPK, currentBalance: $currentBalance, ledgerName: $ledgerName)';
+    return 'ExpenseDetails(expenseIDPK: $expenseIDPK, ledgerIDPK: $ledgerIDPK, description: $description, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercentage: $taxPercentage, netTotal: $netTotal, rowguid: $rowguid, companyIDPK: $companyIDPK, currentBalance: $currentBalance, ledgerName: $ledgerName, ledgerCode: $ledgerCode, openingBalance: $openingBalance, groupName: $groupName, nature: $nature)';
   }
 
   @override
@@ -1020,7 +1084,14 @@ class _$ExpenseDetailsImpl implements _ExpenseDetails {
             (identical(other.currentBalance, currentBalance) ||
                 other.currentBalance == currentBalance) &&
             (identical(other.ledgerName, ledgerName) ||
-                other.ledgerName == ledgerName));
+                other.ledgerName == ledgerName) &&
+            (identical(other.ledgerCode, ledgerCode) ||
+                other.ledgerCode == ledgerCode) &&
+            (identical(other.openingBalance, openingBalance) ||
+                other.openingBalance == openingBalance) &&
+            (identical(other.groupName, groupName) ||
+                other.groupName == groupName) &&
+            (identical(other.nature, nature) || other.nature == nature));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1037,7 +1108,11 @@ class _$ExpenseDetailsImpl implements _ExpenseDetails {
       rowguid,
       companyIDPK,
       currentBalance,
-      ledgerName);
+      ledgerName,
+      ledgerCode,
+      openingBalance,
+      groupName,
+      nature);
 
   /// Create a copy of ExpenseDetails
   /// with the given fields replaced by the non-null parameter values.
@@ -1068,7 +1143,11 @@ abstract class _ExpenseDetails implements ExpenseDetails {
       final String? rowguid,
       final String? companyIDPK,
       final double? currentBalance,
-      final String? ledgerName}) = _$ExpenseDetailsImpl;
+      final String? ledgerName,
+      final String? ledgerCode,
+      final double? openingBalance,
+      final String? groupName,
+      final String? nature}) = _$ExpenseDetailsImpl;
 
   factory _ExpenseDetails.fromJson(Map<String, dynamic> json) =
       _$ExpenseDetailsImpl.fromJson;
@@ -1095,6 +1174,14 @@ abstract class _ExpenseDetails implements ExpenseDetails {
   double? get currentBalance;
   @override
   String? get ledgerName;
+  @override
+  String? get ledgerCode;
+  @override
+  double? get openingBalance;
+  @override
+  String? get groupName;
+  @override
+  String? get nature;
 
   /// Create a copy of ExpenseDetails
   /// with the given fields replaced by the non-null parameter values.

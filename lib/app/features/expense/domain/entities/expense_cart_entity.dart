@@ -74,6 +74,6 @@ class ExpenseCartEntity {
 
   @override
   String toString() {
-    return "ExpenseCartEntity(ledgerId: $ledgerId,ledgerName: $ledgerName,ledgerCode: $ledgerCode,groupName: $groupName,nature: $nature,openingBalance: $openingBalance,currentBalance: $currentBalance,currentBalanceType: $currentBalanceType, ledger: $ledger, netToal: $netTotal, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercent: $taxPercentage, discount: $discount, description: $description, tax: $tax)";
+    return "ExpenseCartEntity(ledgerId: $ledgerId,ledgerName: $ledgerName,ledgerCode: $ledgerCode,groupName: $groupName,nature: $nature,openingBalance: $openingBalance,currentBalance: $currentBalance,currentBalanceType: $currentBalanceType, ledger: $ledger, netTotal: $netTotal, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercentage: $taxPercentage, discount: $discount, description: $description, tax: $tax)";
   }
 }

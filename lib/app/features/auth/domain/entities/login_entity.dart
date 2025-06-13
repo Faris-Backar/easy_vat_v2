@@ -40,6 +40,8 @@ class UserDetailsEntity {
     this.cashAccountDetails,
     // this.userPermissions,
   });
+
+  toJson() {}
 }
 
 class CashAccountDetailsEntity {

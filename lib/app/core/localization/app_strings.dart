@@ -221,4 +221,6 @@ class AppStrings {
   static const String addNewLedger = "addNewLedger";
   static const String discardledgerChangesMessage =
       "discardledgerChangesMessage";
+  static const String deleteExpenseConfirmationMessage =
+      "deleteExpenseConfirmationMessage";
 }

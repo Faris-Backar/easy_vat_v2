@@ -213,5 +213,6 @@
   "opBal": "OpenBal",
   "curBal": "CurrentBal",
   "addNewLedger": "AddNewLedger",
-  "discardledgerChangesMessage": "You have unsaved ledger entries. Do you want to discard them and go back?"
+  "discardledgerChangesMessage": "You have unsaved ledger entries. Do you want to discard them and go back?",
+  "deleteExpenseConfirmationMessage": "Expense deleted Successfully"
 }

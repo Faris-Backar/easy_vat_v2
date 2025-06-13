@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/features/auth/presentation/functions/app_credential_preference_helper.dart';
 import 'package:easy_vat_v2/app/features/expense/data/model/expense_request_model.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/entities/expense_cart_entity.dart';
@@ -32,6 +33,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
   double roundOf = 0.0;
   String expensesNo = "";
   DateTime expenseDate = DateTime.now();
+  String groupName = "";
   String refNo = "";
   LedgerAccountEntity? cashAccount;
   LedgerAccountEntity? expenseAccount;
@@ -223,9 +225,11 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
     final List<ExpenseDetails> details = [];
     final userDetailsFromPrefs =
         await AppCredentialPreferenceHelper().getUserDetails();
+    final companyDetails =
+        await AppCredentialPreferenceHelper().getCompanyInfo();
 
     for (var i = 0; i < detailList.length; i++) {
-      final grossTotal = detailList[i].grossTotal;
+      final grossTotal = detailList[i].grossTotal.toDouble();
       final taxAmount = isTaxEnabled
           ? ((detailList[i].grossTotal) * (detailList[i].taxPercentage)) / 100
           : 0.0;
@@ -235,16 +239,20 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
 
       final detail = ExpenseDetails(
           expenseIDPK: expenseIDPK,
-          ledgerIDPK: detailList[i].ledger.ledgerIdpk,
-          description: detailList[i].description,
+          ledgerIDPK: detailList[i].ledger.ledgerIdpk ?? "",
+          ledgerCode: detailList[i].ledger.ledgerCode ?? "",
+          groupName: detailList[i].ledger.groupName ?? "",
+          nature: detailList[i].ledger.nature ?? "",
+          description: detailList[i].ledger.description ?? "",
           grossTotal: detailList[i].grossTotal,
           taxAmount: taxAmount,
           taxPercentage: isTaxEnabled ? (detailList[i].taxPercentage) : 0.0,
           netTotal: (grossTotal + taxAmount),
-          rowguid: "00000000-0000-0000-0000-000000000000",
-          companyIDPK: "00000000-0000-0000-0000-000000000000",
-          currentBalance: detailList[i].currentBalance,
-          ledgerName: detailList[i].ledgerName);
+          rowguid: detailList[i].ledger.rowguid ?? PrefResources.emptyGuid,
+          companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
+          openingBalance: detailList[i].ledger.openingBalance ?? 0.0,
+          currentBalance: detailList[i].ledger.currentBalance ?? 0.0,
+          ledgerName: detailList[i].ledger.ledgerName ?? "");
       details.add(detail);
       log("details: $detail");
     }
@@ -256,9 +264,13 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
       expenseDate: expenseDate,
       paymentMode: paymentMode,
       purchasedBy: purchasedBy,
-      supplierIDFK: "00000000-0000-0000-0000-000000000000",
-      crLedgerIDFK: "00000000-0000-0000-0000-000000000000",
-      drLedgerIDFK: "00000000-0000-0000-0000-000000000000",
+      supplierIDFK: selectedSupplier?.ledgerIDPK ??
+          cashAccount?.ledgerIdpk ??
+          PrefResources.emptyGuid,
+      crLedgerIDFK: selectedSupplier?.ledgerIDPK ??
+          cashAccount?.ledgerIdpk ??
+          PrefResources.emptyGuid,
+      drLedgerIDFK: expenseAccount?.ledgerIdpk ?? PrefResources.emptyGuid,
       supplierInvoiceNo: supplierInvoiceNo,
       grossTotal: totalGross,
       discount: discount,
@@ -266,20 +278,19 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
       netTotal: (netTotal),
       roundOff: roundOf,
       expenseDetails: details,
-      remarks: "",
+      remarks: notes,
       isEditable: true,
       isCanceled: false,
-      createdBy: userDetailsFromPrefs?.userIdpk ??
-          "00000000-0000-0000-0000-000000000000",
+      createdBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
       createdDate: expenseDate,
-      modifiedBy: userDetailsFromPrefs?.userIdpk ??
-          "00000000-0000-0000-0000-000000000000",
+      modifiedBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
       modifiedDate: DateTime.now(),
-      rowguid: "00000000-0000-0000-0000-000000000000",
-      companyIDPK: "00000000-0000-0000-0000-000000000000",
+      rowguid: PrefResources.emptyGuid,
+      companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
       supplierName: selectedSupplier?.ledgerName ?? "cash",
     );
     log("Created expense model successfully: $newExpense");
+    log("Created By: ${userDetailsFromPrefs?.userIdpk}");
     return newExpense;
   }
 
@@ -315,14 +326,18 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
     return grossTotal + (isTaxEnabled ? taxAmount : 0.0);
   }
 
-  LedgerAccountEntity covertExpenseDetailsToDetails(
+  LedgerAccountEntity convertExpenseDetailsToDetails(
       ExpenseDetailsEntity expenseDetails) {
     return LedgerAccountEntity(
-      ledgerIdpk: expenseDetails.ledgerIDPK,
-      description: expenseDetails.description,
-      ledgerName: expenseDetails.ledgerName,
-      currentBalance: expenseDetails.currentBalance?.toDouble(),
-      taxPercentage: expenseDetails.taxPercentage?.toDouble(),
+      ledgerIdpk: expenseDetails.ledgerIDPK ?? "",
+      ledgerCode: expenseDetails.ledgerCode ?? "",
+      groupName: expenseDetails.groupName ?? "",
+      nature: expenseDetails.nature ?? "",
+      description: expenseDetails.description ?? "",
+      ledgerName: expenseDetails.ledgerName ?? "",
+      openingBalance: expenseDetails.openingBalance?.toDouble() ?? 0.0,
+      currentBalance: expenseDetails.currentBalance?.toDouble() ?? 0.0,
+      taxPercentage: expenseDetails.taxPercentage?.toDouble() ?? 0.0,
     );
   }
 
@@ -341,7 +356,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
     if (expense.supplierName?.toLowerCase() != "cash") {
       final cashLedger = ref
           .read(cashLedgerNotifierProvider.notifier)
-          .getLedgerById(expense.drLedgerIDFK ?? "");
+          .getLedgerById(expense.crLedgerIDFK ?? "");
 
       if (cashLedger != null) {
         setCashAccount(cashLedger);
@@ -370,7 +385,8 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
     if (expense.expenseDetails?.isNotEmpty == true) {
       for (var index = 0; index < expense.expenseDetails!.length; index++) {
         final expenseDetail = expense.expenseDetails![index];
-        final ledgerEntity = covertExpenseDetailsToDetails(expenseDetail);
+        final ledgerEntity = convertExpenseDetailsToDetails(expenseDetail);
+        log("ledgerDetails: $ledgerEntity");
         final taxPercentage = ledgerEntity.taxPercentage ?? 0.0;
         final grossTotal = expenseDetail.grossTotal ?? 0.0;
         final taxAmount = isTaxEnabled
@@ -393,10 +409,10 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
             taxAmount: taxAmount,
             taxPercentage: ledgerEntity.taxPercentage ?? 0.0,
             discount: discount,
-            openingBalance: ledgerEntity.openingBalance ?? 0.0,
+            openingBalance: ledgerEntity.openingBalance?.toDouble() ?? 0.0,
             currentBalance: ledgerEntity.currentBalance ?? 0.0,
             currentBalanceType: ledgerEntity.currentBalanceType ?? "",
-            description: expenseDetail.description ?? "",
+            description: ledgerEntity.description ?? "",
             tax: expenseDetail.taxAmount ?? 0.0);
 
         updatedLedgerList.add(cartLedger);
