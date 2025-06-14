@@ -32,7 +32,7 @@ class ExpenseAppbar extends ConsumerStatefulWidget
   ConsumerState<ExpenseAppbar> createState() => _ExpenseAppBarState();
 
   @override
-  Size get preferredSize => Size.fromHeight(123.h + kToolbarHeight);
+  Size get preferredSize => Size.fromHeight(120.h + kToolbarHeight);
 }
 
 class ExpenseAppBarConfig {
@@ -178,9 +178,38 @@ class _ExpenseAppBarState extends ConsumerState<ExpenseAppbar> {
                       SizedBox(
                         width: 12.w,
                       ),
-                      Expanded(child: SupplierSelectorWidget()),
+                      Expanded(
+                        child: paymenModeState.when(
+                          initial: () => const SizedBox.shrink(),
+                          loading: () => Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
+                          error: (message) => Text("Error: $message"),
+                          loaded: (paymenModes, selectedPaymentMode) {
+                            return DropdownField(
+                                label:
+                                    context.translate(AppStrings.purchasedBy),
+                                valueNotifier: paymentMethodNotifier,
+                                items: paymenModes
+                                    .map((mode) => mode.paymentModes)
+                                    .toList(),
+                                backgroundColor: AppUtils.isDarkMode(context)
+                                    ? context.colorScheme.tertiaryContainer
+                                    : context.surfaceColor,
+                                onChanged: (newValue) {
+                                  paymentMethodNotifier.value = newValue;
+                                });
+                          },
+                        ),
+                      ),
                     ],
                   ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  Row(children: [
+                    Expanded(child: SupplierSelectorWidget()),
+                  ]),
                   SizedBox(
                     height: 16.h,
                   ),
