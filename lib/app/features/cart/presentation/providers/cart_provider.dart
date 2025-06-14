@@ -2,15 +2,11 @@ import 'dart:developer';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/features/auth/presentation/functions/app_credential_preference_helper.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
-//import 'package:easy_vat_v2/app/features/ledger/presentation/provider/expense_ledger/expense_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_invoice_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
-import 'package:easy_vat_v2/app/features/supplier/domain/entities/supplier_entity.dart';
-//import 'package:easy_vat_v2/app/features/supplier/presentation/providers/supplier_notifier.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_state.dart';
@@ -36,10 +32,6 @@ class CartNotifier extends StateNotifier<CartState> {
 
   List<CartEntity> itemsList = [];
   double totalAmount = 0.0;
-  double netTotal = 0.0;
-  double grossTotal = 0.0;
-  double taxPercentage = 0.0;
-  double taxAmount = 0.0;
   double subTotal = 0.0;
   double totalTax = 0.0;
   double discount = 0.0;
@@ -49,7 +41,6 @@ class CartNotifier extends StateNotifier<CartState> {
   String refNo = "";
   LedgerAccountEntity? cashAccount;
   LedgerAccountEntity? salesAccount;
-  LedgerAccountEntity? expenseAccount;
   String notes = "";
   String salesMode = "";
   SalesManEntity? soldBy;
@@ -59,15 +50,6 @@ class CartNotifier extends StateNotifier<CartState> {
   bool isForEdit = false;
   bool isTaxEnabled = true;
   String salesIdpk = PrefResources.emptyGuid;
-  String expenseNo = "";
-  LedgerAccountEntity? drledger;
-  LedgerAccountEntity? crledger;
-  String paymentMode = "";
-  String purchasedBy = "";
-  String supplierInvoiceNo = "";
-  DateTime expenseDate = DateTime.now();
-  SupplierEntity? selectedSupplier;
-  String? expenseIDPK = PrefResources.emptyGuid;
 
   // Load tax preference from SharedPreferences
   Future<void> _loadTaxPreference() async {
@@ -199,11 +181,6 @@ class CartNotifier extends StateNotifier<CartState> {
     state = state.copyWith(salesAccount: salesAccount);
   }
 
-  setExpenseAccount(LedgerAccountEntity expenseAccount) {
-    this.expenseAccount = expenseAccount;
-    state = state.copyWith(expenseAccount: expenseAccount);
-  }
-
   setNotes(String notes) {
     this.notes = notes;
   }
@@ -225,50 +202,6 @@ class CartNotifier extends StateNotifier<CartState> {
   setEditMode(bool enableEdit) {
     isForEdit = enableEdit;
     state = state.copyWith(isForUpdate: isForEdit);
-  }
-
-  setExpNo(String expenseNo) {
-    this.expenseNo = expenseNo;
-    state = state.copyWith(expenseNo: expenseNo);
-  }
-
-  setExpenseIDPK(String expenseIDPK) {
-    this.expenseIDPK = expenseIDPK;
-  }
-
-  setExpenseDate(DateTime expenseDate) {
-    this.expenseDate = expenseDate;
-    state = state.copyWith(expenseDate: expenseDate);
-  }
-
-  setPaymentMode(String paymentMode) {
-    this.paymentMode = paymentMode;
-    state = state.copyWith(paymentMode: paymentMode);
-  }
-
-  setPurchasedBy(String purchasedBy) {
-    this.purchasedBy = purchasedBy;
-    state = state.copyWith(purchasedBy: purchasedBy);
-  }
-
-  setDrledger(LedgerAccountEntity drledger) {
-    this.drledger = drledger;
-    state = state.copyWith(drledger: drledger);
-  }
-
-  setCrledger(LedgerAccountEntity crledger) {
-    this.crledger = crledger;
-    state = state.copyWith(crledger: crledger);
-  }
-
-  setSupplier(SupplierEntity supplier) {
-    selectedSupplier = supplier;
-    state = state.copyWith(selectedSupplier: selectedSupplier);
-  }
-
-  setSupplierInvoiceNo(String supplierInvoiceNo) {
-    this.supplierInvoiceNo = supplierInvoiceNo;
-    state = state.copyWith(supplierInvoiceNo: supplierInvoiceNo);
   }
 
   void applyDiscount(double discountAmount) {
