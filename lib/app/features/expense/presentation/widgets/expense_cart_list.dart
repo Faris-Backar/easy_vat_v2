@@ -37,61 +37,76 @@ class ExpenseCartList extends StatelessWidget {
   Widget _buildSlidableLedger(BuildContext context, int index) {
     return Slidable(
       startActionPane: ActionPane(
+        extentRatio: 0.25,
         motion: const ScrollMotion(),
         children: [
           InkWell(
-            onTap: () => _showDeleteDialog(context, index), // delete Dialog
-            child: Container(
-              height: 88.h,
-              width: 43.w,
-              color: AppUtils.isDarkMode(context)
-                  ? CustomColors.getTransactionCardRedColor(context)
-                  : CustomColors.getTransactionCardRedColor(context)
-                      .withValues(alpha: 0.15),
-              padding: const EdgeInsets.all(12.0),
-              child: SvgIcon(
-                icon: Assets.icons.delete,
+              child: Container(
+            child: _buildSlidingAction(
+                width: 80.w,
+                onTap: () => _showDeleteDialog(context, index),
                 color: AppUtils.isDarkMode(context)
+                    ? CustomColors.getTransactionCardRedColor(context)
+                    : CustomColors.getTransactionCardRedColor(context)
+                        .withValues(alpha: 0.15),
+                icon: Assets.icons.delete,
+                borderRadiusTopLeft: 10.0,
+                borderRadiusBottomLeft: 10.0,
+                borderRadiusBottomRight: 10.0,
+                borderRadiusTopRight: 10.0,
+                iconColor: AppUtils.isDarkMode(context)
                     ? context.onPrimaryColor
                     : null,
-              ),
-            ),
-          )
+                iconHeight: 24.0,
+                iconWidth: 24.0),
+          ))
         ],
       ),
       endActionPane: ActionPane(
           motion: const ScrollMotion(),
-          extentRatio: 0.30,
+          extentRatio: 0.50,
           children: [
             InkWell(
-              onTap: () => _showEditDialog(context, index), // Edit Dialog
-              child: Container(
-                height: 88.h,
-                width: 43.h,
-                color: AppUtils.isDarkMode(context)
-                    ? CustomColors.getTransactionCardBlueColor(context)
-                    : CustomColors.getTransactionCardBlueColor(context)
-                        .withValues(alpha: 0.15),
-                padding: const EdgeInsets.all(12.0),
-                child: SvgIcon(
-                  icon: Assets.icons.edit,
+                onTap: () => _showEditDialog(context, index), // Edit Dialog
+                child: Container(
+                  child: _buildSlidingAction(
+                      width: 80.w,
+                      onTap: () => _showDeleteDialog(context, index),
+                      color: AppUtils.isDarkMode(context)
+                          ? CustomColors.getTransactionCardBlueColor(context)
+                          : CustomColors.getTransactionCardBlueColor(context)
+                              .withValues(alpha: 0.15),
+                      icon: Assets.icons.edit,
+                      borderRadiusTopLeft: 10.0,
+                      borderRadiusBottomLeft: 10.0,
+                      borderRadiusBottomRight: 0.0,
+                      borderRadiusTopRight: 0.0,
+                      iconColor: AppUtils.isDarkMode(context)
+                          ? context.onPrimaryColor
+                          : null,
+                      iconHeight: 24.0,
+                      iconWidth: 24.0),
+                )),
+            InkWell(
+                child: Container(
+              child: _buildSlidingAction(
+                  width: 80.w,
+                  onTap: () {}, //need to confirm
                   color: AppUtils.isDarkMode(context)
+                      ? CustomColors.getTransactionCardGreenColor(context)
+                      : CustomColors.getTransactionCardGreenColor(context)
+                          .withValues(alpha: 0.15),
+                  icon: Assets.icons.transaction,
+                  borderRadiusTopLeft: 0.0,
+                  borderRadiusBottomLeft: 0.0,
+                  borderRadiusBottomRight: 10.0,
+                  borderRadiusTopRight: 10.0,
+                  iconColor: AppUtils.isDarkMode(context)
                       ? context.onPrimaryColor
                       : null,
-                ),
-              ),
-            ),
-            InkWell(
-              onTap: () {}, // need to confirm
-              child: Container(
-                height: 88.h,
-                width: 43.w,
-                color: AppUtils.isDarkMode(context)
-                    ? CustomColors.getTransactionCardGreenColor(context)
-                    : CustomColors.getTransactionCardGreenColor(context)
-                        .withValues(alpha: 0.15),
-              ),
-            )
+                  iconHeight: 24.0,
+                  iconWidth: 24.0),
+            ))
           ]),
       child: InkWell(
         onTap: () => showDialog(
@@ -138,7 +153,7 @@ class ExpenseCartList extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      width: 10.w,
+                      width: 5.w,
                     ),
                     Expanded(child:
                         Consumer(builder: (context, WidgetRef ref, child) {
@@ -221,5 +236,40 @@ class ExpenseCartList extends StatelessWidget {
                 )
               ],
             ));
+  }
+
+  Widget _buildSlidingAction(
+      {required Function()? onTap,
+      required Color? color,
+      required String icon,
+      required Color? iconColor,
+      double? borderRadiusTopLeft,
+      double? borderRadiusTopRight,
+      double? borderRadiusBottomLeft,
+      double? borderRadiusBottomRight,
+      double? width,
+      double? iconHeight,
+      double? iconWidth}) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: double.infinity,
+        width: width,
+        decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(borderRadiusTopLeft ?? 0.0),
+                topRight: Radius.circular(borderRadiusTopRight ?? 0.0),
+                bottomLeft: Radius.circular(borderRadiusBottomLeft ?? 0.0),
+                bottomRight: Radius.circular(borderRadiusBottomRight ?? 0.0))),
+        padding: const EdgeInsets.all(18.0),
+        child: SvgIcon(
+          height: iconHeight ?? 18,
+          width: iconWidth ?? 18,
+          icon: icon,
+          color: iconColor,
+        ),
+      ),
+    );
   }
 }
