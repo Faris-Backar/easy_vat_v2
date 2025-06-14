@@ -56,7 +56,7 @@ class LedgerAccountModel extends LedgerAccountEntity {
         isActive: json["isActive"],
         openingBalance: json["openingBalance"],
         openingBalanceType: json["openingBalanceType"],
-        currentBalance: json["currentBalance"].toDouble(),
+        currentBalance: json["currentBalance"],
         currentBalanceType: json["currentBalanceType"],
         contactPerson: json["contactPerson"],
         creditDays: json["creditDays"],

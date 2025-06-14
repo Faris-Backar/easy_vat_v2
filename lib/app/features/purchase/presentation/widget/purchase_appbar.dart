@@ -12,7 +12,6 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
-import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/filter_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
@@ -56,7 +55,7 @@ class PurchaseAppBarConfig {
   final Future<void> Function(PurchaseParams params)? fetchFunction;
 
   /// Custom filter function for applying filters
-  final Future<void> Function(SalesInvoiceFilterParams params)? filterFunction;
+  final Future<void> Function(PurchaseParams params)? filterFunction;
 
   /// Additional popup menu items
   final List<PopupMenuEntry<String>>? additionalPopupMenuItems;
@@ -76,6 +75,9 @@ class PurchaseAppBarConfig {
   /// Callback for barcode scanning
   final VoidCallback? onBarcodeScan;
 
+  /// to implement search functionality
+  final void Function(String value)? onSearch;
+
   const PurchaseAppBarConfig({
     this.title = '',
     this.fetchFunction,
@@ -87,6 +89,7 @@ class PurchaseAppBarConfig {
     this.enableBarcodeScanning = false,
     this.onBarcodeScan,
     this.onWillPop,
+    this.onSearch,
   });
 }
 
@@ -94,6 +97,8 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
   final ValueNotifier<String?> purchaseModeNotifier = ValueNotifier(null);
   final ValueNotifier<String?> purchasedByNotifier = ValueNotifier(null);
   final ValueNotifier<String?> paymentMethodNotifier = ValueNotifier(null);
+  final purchasedByIDPKNotifier = ValueNotifier<String?>(null);
+
   late final ValueNotifier<bool> isSearchNotEmpty;
 
   DateTime? selectedSaleDate;
@@ -156,14 +161,11 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
                 ),
                 InkWell(
                   onTap: () {
-                    if (widget.config.filterFunction != null) {
-                      widget.config.filterFunction!(
-                          SalesInvoiceFilterParams(clearAllFilter: true));
-                    } else {
-                      purchaseModeNotifier.value = null;
-                      purchasedByNotifier.value = null;
-                      ref.read(cartProvider.notifier).selectedCustomer = null;
-                    }
+                    purchaseModeNotifier.value = null;
+                    purchasedByNotifier.value = null;
+
+                    purchasedByIDPKNotifier.value = null;
+                    ref.read(cartProvider.notifier).selectedSupplier = null;
                     context.router.popForced();
                   },
                   child: Text(
@@ -210,10 +212,16 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
                 Expanded(
                   child: salesManState.maybeWhen(
                     loaded: (employeeList) {
-                      final List<String> employeeNames = employeeList
-                          .map((employee) => employee.empName ?? "")
-                          .where((name) => name.isNotEmpty)
-                          .toList();
+                      // Create a map of employee names to idpk
+                      final Map<String, String> nameToIdMap = {
+                        for (var e in employeeList)
+                          if ((e.empName ?? "").isNotEmpty &&
+                              e.userIdpk != null)
+                            e.empName!: e.userIdpk!,
+                      };
+
+                      final List<String> employeeNames =
+                          nameToIdMap.keys.toList();
 
                       return DropdownField(
                         height: 38.h,
@@ -222,6 +230,7 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
                         valueNotifier: purchasedByNotifier,
                         onChanged: (newValue) {
                           purchasedByNotifier.value = newValue;
+                          purchasedByIDPKNotifier.value = nameToIdMap[newValue];
                         },
                         items: employeeNames,
                         backgroundColor: AppUtils.isDarkMode(context)
@@ -253,15 +262,15 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
                   final params = PurchaseParams(
                       fromDate: ref.read(dateRangeProvider).fromDate,
                       toDate: ref.read(dateRangeProvider).toDate,
+                      purchaseMode: purchaseModeNotifier.value,
+                      purchasedBy: purchasedByIDPKNotifier.value,
                       supplierIDPK: ref
                           .read(cartProvider.notifier)
                           .selectedSupplier
-                          ?.ledgerIDPK,
-                      purchaseMode: purchaseModeNotifier.value,
-                      purchasedBy: purchasedByNotifier.value);
+                          ?.ledgerIDPK);
 
                   if (widget.config.filterFunction != null) {
-                    // widget.config.filterFunction!(params);
+                    widget.config.filterFunction!(params);
                   } else {
                     ref
                         .read(fetchPurchaseInvoiceProvider.notifier)
@@ -318,9 +327,9 @@ class _PurchaseAppBarState extends ConsumerState<PurchaseAppBar> {
                   fontWeight: FontWeight.w500,
                   color: context.defaultTextColor.withValues(alpha: .32),
                 ),
-                // onChanged: (value) => ref
-                //     .read(fetchPurchaseInvoiceProvider.notifier)
-                //     .searchSalesInvoice(value),
+                onChanged: (value) {
+                  widget.config.onSearch?.call(value);
+                },
                 suffixIcon: hasText
                     ? Padding(
                         padding: const EdgeInsets.all(12.0),

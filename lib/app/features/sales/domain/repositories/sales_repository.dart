@@ -33,10 +33,10 @@ abstract class SalesRepository {
 //salesReturn
   Future<Either<Failure, List<SalesReturnEntity>>> getSalesreturn(
       {required SalesParams salesReturnRequestParams});
-  Future<Either<Failure, SalesInvoiceEntity>> createSalesreturn(
+  Future<Either<Failure, SalesReturnEntity>> createSalesreturn(
       {required SalesReturnModel salesReturnRequestParams});
-  Future<Either<Failure, SalesInvoiceEntity>> updateSalesreturn(
+  Future<Either<Failure, SalesReturnEntity>> updateSalesreturn(
       {required SalesReturnModel salesReturnRequestParams});
-  Future<Either<Failure, SalesInvoiceEntity>> deleteSalesreturn(
-      {required SalesReturnModel salesReturnRequestParams});
+  Future<Either<Failure, bool>> deleteSalesreturn(
+      {required SalesParams salesReturnRequestParams});
 }

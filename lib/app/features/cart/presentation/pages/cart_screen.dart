@@ -18,7 +18,7 @@ class CartScreen extends ConsumerWidget {
     return Scaffold(
       backgroundColor: context.surfaceColor,
       appBar: CartAppBar(),
-      bottomNavigationBar: CartFooterWidget(),
+      bottomNavigationBar: SafeArea(child: CartFooterWidget()),
       body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
           child: state.itemList?.isEmpty ?? true

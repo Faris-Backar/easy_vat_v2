@@ -1,18 +1,24 @@
+//import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+//import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/delete_expense/delete_expense_notifier.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_notifier.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_state.dart';
-import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_app_bar.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_appbar.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_card.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/expense_ledger/expense_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
+import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
@@ -21,6 +27,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 @RoutePage()
@@ -86,114 +93,160 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
   Widget build(BuildContext context) {
     final expenseState = ref.watch(expenseNotifierProvider);
     return Scaffold(
-      appBar: ExpenseAppBar(searchController: _searchTextController),
+      appBar: ExpenseAppbar(
+        searchController: _searchTextController,
+        config: ExpenseAppBarConfig(),
+      ),
       backgroundColor: context.surfaceColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-        child: expenseState.maybeWhen(
-          success: (expenseData, totalAmount) {
-            if (expenseData.isEmpty == true) {
-              return Center(
-                child: Container(
-                  height: 0.5.sh,
-                  width: 0.8.sw,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage(Assets.images.noDataFound.path))),
-                ),
-              );
-            }
-            return ListView.builder(
-              itemCount: expenseData.length,
-              itemBuilder: (context, index) {
-                final expense = expenseData[index];
-                final notifier = ValueNotifier<bool>(false);
-                if (expenseData.isEmpty == true) {
-                  return Center(
-                    child: Text(context.translate(AppStrings.noDataIsFound)),
-                  );
-                }
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 16.0),
-                  child: Slidable(
-                    endActionPane: ActionPane(
-                      motion: const ScrollMotion(),
-                      children: [
-                        Expanded(
-                          child: _buildSlidingAction(
-                            color: AppUtils.isDarkMode(context)
-                                ? CustomColors.getTransactionSkyBlueColor(
-                                    context)
-                                : CustomColors.getTransactionSkyBlueColor(
-                                        context)
-                                    .withValues(alpha: 0.2),
-                            icon: Assets.icons.print,
-                            iconColor: AppUtils.isDarkMode(context)
-                                ? context.onPrimaryColor
-                                : null,
-                            onTap: () {
-                              // handle print
-                            },
-                          ),
-                        ),
-                        Expanded(
-                          child: _buildSlidingAction(
+      body: Consumer(builder: (context, ref, child) {
+        ref.listen(deleteExpenseNotifierProvider, (previous, next) {
+          next.maybeWhen(
+            success: () {
+              Fluttertoast.showToast(
+                  msg: context
+                      .translate(AppStrings.deleteExpenseConfirmationMessage),
+                  backgroundColor: Colors.white,
+                  textColor: Colors.black);
+              ref.read(expenseNotifierProvider.notifier).fetchExpenses(
+                  params: ExpenseParams(
+                      fromDate: ref.read(dateRangeProvider).fromDate,
+                      toDate: ref.read(dateRangeProvider).toDate));
+            },
+            failure: (error) {
+              Fluttertoast.showToast(
+                  msg: error,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white);
+            },
+            orElse: () {},
+          );
+        });
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+          child: expenseState.maybeWhen(
+            success: (expenseData, totalAmount) {
+              if (expenseData.isEmpty == true) {
+                return Center(
+                  child: Container(
+                    height: 0.5.sh,
+                    width: 0.8.sw,
+                    decoration: BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage(Assets.images.noDataFound.path))),
+                  ),
+                );
+              }
+              return ListView.builder(
+                itemCount: expenseData.length,
+                itemBuilder: (context, index) {
+                  final expense = expenseData[index];
+                  final notifier = ValueNotifier<bool>(false);
+                  if (expenseData.isEmpty == true) {
+                    return Center(
+                      child: Text(context.translate(AppStrings.noDataIsFound)),
+                    );
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 16.0),
+                    child: Slidable(
+                      endActionPane: ActionPane(
+                        motion: const ScrollMotion(),
+                        children: [
+                          Expanded(
+                            child: _buildSlidingAction(
                               color: AppUtils.isDarkMode(context)
-                                  ? CustomColors.getTransactionCardBlueColor(
+                                  ? CustomColors.getTransactionSkyBlueColor(
                                       context)
-                                  : CustomColors.getTransactionCardBlueColor(
+                                  : CustomColors.getTransactionSkyBlueColor(
                                           context)
                                       .withValues(alpha: 0.2),
-                              icon: Assets.icons.view,
+                              borderRadiusTopLeft: 10.0,
+                              borderRadiusBottomLeft: 10.0,
+                              icon: Assets.icons.print,
                               iconColor: AppUtils.isDarkMode(context)
                                   ? context.onPrimaryColor
                                   : null,
-                              onTap: () {}),
-                        ),
-                      ],
-                    ),
-                    startActionPane:
-                        ActionPane(motion: ScrollMotion(), children: [
-                      Expanded(
-                        child: _buildSlidingAction(
-                          width: 50.w,
-                          color: AppUtils.isDarkMode(context)
-                              ? CustomColors.getTransactionCardRedColor(context)
-                              : CustomColors.getTransactionCardRedColor(context)
-                                  .withValues(alpha: 0.2),
-                          icon: Assets.icons.delete,
-                          borderRadiusTopLeft: 10.0,
-                          borderRadiusBottomLeft: 10.0,
-                          iconColor: AppUtils.isDarkMode(context)
-                              ? context.onPrimaryColor
-                              : null,
-                          iconHeight: 24.0,
-                          iconWidth: 24.0,
-                          onTap: () {
-                            // handle delete
-                          },
-                        ),
+                              onTap: () {
+                                // handle print
+                              },
+                            ),
+                          ),
+                          Expanded(
+                              child: _buildSlidingAction(
+                            color: AppUtils.isDarkMode(context)
+                                ? CustomColors.getTransactionCardBlueColor(
+                                    context)
+                                : CustomColors.getTransactionCardBlueColor(
+                                        context)
+                                    .withValues(alpha: 0.2),
+                            borderRadiusBottomRight: 10.0,
+                            borderRadiusTopRight: 10.0,
+                            icon: Assets.icons.view,
+                            iconColor: AppUtils.isDarkMode(context)
+                                ? context.onPrimaryColor
+                                : null,
+                            onTap: () async {
+                              await ref
+                                  .read(expenseCartProvider.notifier)
+                                  .reinsertExpenseForm(expense, ref);
+                              if (mounted) {
+                                context.router.push(AddNewExpenseRoute(
+                                  tittle: context
+                                      .translate(AppStrings.addNewExpense),
+                                ));
+                              }
+                            },
+                          )),
+                        ],
                       ),
-                    ]),
-                    child: ExpenseCard(
-                      expense: expense,
-                      isSelectedNotifier: notifier,
-                      isTaxEnabled: isTaxRegisrationEnabled,
+                      startActionPane:
+                          ActionPane(motion: ScrollMotion(), children: [
+                        Expanded(child: Container()),
+                        Expanded(
+                          child: _buildSlidingAction(
+                              color: AppUtils.isDarkMode(context)
+                                  ? CustomColors.getTransactionCardRedColor(
+                                      context)
+                                  : CustomColors.getTransactionCardRedColor(
+                                          context)
+                                      .withValues(alpha: 0.2),
+                              icon: Assets.icons.delete,
+                              borderRadiusTopLeft: 10.0,
+                              borderRadiusBottomLeft: 10.0,
+                              borderRadiusBottomRight: 10.0,
+                              borderRadiusTopRight: 10.0,
+                              iconColor: AppUtils.isDarkMode(context)
+                                  ? context.onPrimaryColor
+                                  : null,
+                              iconHeight: 24.0,
+                              iconWidth: 24.0,
+                              // handle Delete
+                              onTap: () => _showDeleteDialog(context,
+                                  expenseIDPK: expense.expenseIDPK ?? "",
+                                  supplierID: expense.supplierIDFK ?? "")),
+                        ),
+                      ]),
+                      child: ExpenseCard(
+                        expense: expense,
+                        isSelectedNotifier: notifier,
+                        isTaxEnabled: isTaxRegisrationEnabled,
+                      ),
                     ),
-                  ),
-                );
-              },
-            );
-          },
-          loading: () => const Center(
-            child: CircularProgressIndicator.adaptive(),
+                  );
+                },
+              );
+            },
+            loading: () => const Center(
+              child: CircularProgressIndicator.adaptive(),
+            ),
+            failure: (message) => Center(
+              child: Text(message),
+            ),
+            orElse: () => Text(context.translate(AppStrings.noDataIsFound)),
           ),
-          failure: (message) => Center(
-            child: Text(message),
-          ),
-          orElse: () => Text(context.translate(AppStrings.noDataIsFound)),
-        ),
-      ),
+        );
+      }),
       bottomNavigationBar: Container(
         color: AppUtils.isDarkMode(context)
             ? context.colorScheme.tertiaryContainer
@@ -219,7 +272,7 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                         ),
                     orElse: () => Text(
                           ref
-                              .watch(cartProvider)
+                              .watch(expenseCartProvider)
                               .totalAmount
                               .toStringAsFixed(2),
                           style: context.textTheme.bodyLarge?.copyWith(
@@ -238,9 +291,7 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
             const SizedBox(height: 10),
             PrimaryButton(
               onPressed: () => context.router.push(
-                AddNewExpenseRoute(
-                  tittle: context.translate(AppStrings.addNewExpense),
-                ),
+                AddNewExpenseRoute(),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -297,5 +348,27 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
         ),
       ),
     );
+  }
+
+  void _showDeleteDialog(BuildContext context,
+      {required String expenseIDPK, required String supplierID}) {
+    showDialog(
+        context: context,
+        builder: (context) => CustomConfirmationDialog(
+              title: context.translate(AppStrings.delete),
+              message: context.translate(AppStrings.deleteConfirmationInCart),
+              primaryButtonLabel: context.translate(AppStrings.delete),
+              secondaryButtonLabel: context.translate(AppStrings.cancel),
+              onPrimaryTap: () {
+                ref.read(deleteExpenseNotifierProvider.notifier).deleteExpense(
+                    request: ExpenseParams(
+                        fromDate: ref.read(dateRangeProvider).fromDate,
+                        toDate: ref.read(dateRangeProvider).toDate,
+                        expenseIDPK: expenseIDPK,
+                        supplierID: supplierID));
+                context.router.popForced();
+              },
+              onSecondaryTap: () => context.router.popForced(),
+            ));
   }
 }

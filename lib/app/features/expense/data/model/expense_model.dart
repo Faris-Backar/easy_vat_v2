@@ -175,7 +175,11 @@ class ExpenseDetailsModel extends ExpenseDetailsEntity {
       super.rowguid,
       super.companyIDPK,
       super.currentBalance,
-      super.ledgerName});
+      super.ledgerName,
+      super.ledgerCode,
+      super.openingBalance,
+      super.groupName,
+      super.nature});
 
   factory ExpenseDetailsModel.fromJson(Map<String, dynamic> json) =>
       ExpenseDetailsModel(
@@ -183,12 +187,17 @@ class ExpenseDetailsModel extends ExpenseDetailsEntity {
           ledgerIDPK: json["ledgerIDPK"],
           description: json["description"],
           grossTotal: json["grossTotal"],
-          taxPercentage: json["taxpercentage"],
+          taxPercentage: json["taxPercentage"],
+          taxAmount: json["taxAmount"],
           netTotal: json["netTotal"],
           rowguid: json["rowguid"],
           companyIDPK: json["companyIDPK"],
           currentBalance: json["currentBalance"],
-          ledgerName: json["ledgerName"]);
+          ledgerName: json["ledgerName"],
+          ledgerCode: json["ledgerCode"],
+          openingBalance: json["openingBalance"],
+          groupName: json["groupName"],
+          nature: json["nature"]);
 
   factory ExpenseDetailsModel.fromEntity(ExpenseDetailsEntity entity) {
     return ExpenseDetailsModel(
@@ -197,11 +206,16 @@ class ExpenseDetailsModel extends ExpenseDetailsEntity {
         description: entity.description,
         grossTotal: entity.grossTotal,
         taxPercentage: entity.taxPercentage,
+        taxAmount: entity.taxAmount,
         netTotal: entity.netTotal,
         rowguid: entity.rowguid,
         companyIDPK: entity.companyIDPK,
         currentBalance: entity.currentBalance,
-        ledgerName: entity.ledgerName);
+        ledgerName: entity.ledgerName,
+        ledgerCode: entity.ledgerCode,
+        openingBalance: entity.openingBalance,
+        groupName: entity.groupName,
+        nature: entity.nature);
   }
 
   Map<String, dynamic> toJson() => {
@@ -210,10 +224,15 @@ class ExpenseDetailsModel extends ExpenseDetailsEntity {
         "description": description,
         "grossTotal": grossTotal,
         "taxPercentage": taxPercentage,
+        "taxAmount": taxAmount,
         "netTotal": netTotal,
         "rowguid": rowguid,
         "companyIDPK": companyIDPK,
         "currentBalance": currentBalance,
-        "ledgerName": ledgerName
+        "ledgerName": ledgerName,
+        "ledgerCode": ledgerCode,
+        "openingBalance": openingBalance,
+        "groupName": groupName,
+        "nature": nature
       };
 }

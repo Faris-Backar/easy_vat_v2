@@ -211,10 +211,16 @@ class AppStrings {
   static const String taxAmount = "taxAmount";
   static const String ledgerCurrentlyNotActive = "ledgerCurrentlyNotActive";
   static const String debit = "debit";
-  static const String ledgerCode = "LedCode";
-  static const String group = "Group";
-  static const String nature = "Nature";
-  static const String opBal = "OpenBal";
-  static const String curBal = "CurrentBal";
   static const String addedToCart = "addedToCart";
+  static const String ledgerCode = "ledgerCode";
+  static const String group = "group";
+  static const String nature = "nature";
+  static const String opBal = "opBal";
+  static const String curBal = "curBal";
+  static const String updateLedger = "updateLedger";
+  static const String addNewLedger = "addNewLedger";
+  static const String discardledgerChangesMessage =
+      "discardledgerChangesMessage";
+  static const String deleteExpenseConfirmationMessage =
+      "deleteExpenseConfirmationMessage";
 }

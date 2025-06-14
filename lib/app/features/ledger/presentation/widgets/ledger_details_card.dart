@@ -52,21 +52,31 @@ class LedgerDetailsCard extends StatelessWidget {
             children: [
               Expanded(
                   child: _buildContents(
-                      context, AppStrings.ledgerCode, ledger.ledgerCode ?? "")),
+                      context,
+                      context.translate(AppStrings.ledgerCode),
+                      ledger.ledgerCode ?? "")),
               Expanded(
                   child: _buildContents(
-                      context, AppStrings.group, ledger.groupName ?? "")),
+                      context,
+                      context.translate(AppStrings.group),
+                      ledger.groupName ?? "")),
               Expanded(
                   child: _buildContents(
-                      context, AppStrings.nature, ledger.nature ?? "")),
+                      context,
+                      context.translate(AppStrings.nature),
+                      ledger.nature ?? "")),
               // SizedBox(
               //   width: 5.w,
               // ),
               Expanded(
-                  child: _buildContents(context, AppStrings.opBal,
+                  child: _buildContents(
+                      context,
+                      context.translate(AppStrings.opBal),
                       ledger.openingBalance?.toStringAsFixed(2) ?? "0.0")),
               Expanded(
-                  child: _buildContents(context, AppStrings.curBal,
+                  child: _buildContents(
+                      context,
+                      context.translate(AppStrings.curBal),
                       "${(ledger.currentBalance ?? 0.0).toStringAsFixed(2)} ${ledger.currentBalanceType ?? ""}",
                       textColor: (ledger.currentBalance ?? 0.0) >= 0
                           ? Colors.green

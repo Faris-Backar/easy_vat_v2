@@ -7,8 +7,10 @@ import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_e
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_invoice_model.dart';
+import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_return_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchased_item_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_invoice_entity.dart';
+import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_return_entity.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/purchase/purchase_state.dart';
 import 'package:easy_vat_v2/app/features/salesman/domain/entity/sales_man_entity.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
@@ -140,7 +142,7 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
           netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
           currentStock: itemsList[i].item.currentStock ?? 0.0,
           profitPercentage: 0.0,
-          expiryDate: cartPrvdr.salesDate,
+          expiryDate: purchaseDate,
           storeIdfk: userDetailsFromPrefs?.storeDetails?.storeIdpk ??
               PrefResources.emptyGuid,
           importId: PrefResources.emptyGuid,
@@ -190,6 +192,86 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
     return newPurchase;
   }
 
+  Future<PurchaseReturnModel> createNewPurchaseReturn(WidgetRef ref) async {
+    final cartPrvdr = ref.read(cartProvider.notifier);
+    double itemTotalTax = 0.0;
+    double netTotal = 0.0;
+    final List<PurchaseReturnedItemModel> items = [];
+    List<CartEntity> itemsList = cartPrvdr.itemsList;
+    bool isTaxEnabled = cartPrvdr.isTaxEnabled;
+    final userDetailsFromPrefs =
+        await AppCredentialPreferenceHelper().getUserDetails();
+    for (var i = 0; i < itemsList.length; i++) {
+      final grossTotal =
+          (itemsList[i].item.retailRate ?? 0.0 * itemsList[i].qty);
+
+      final taxAmount = isTaxEnabled
+          ? ((itemsList[i].qty * itemsList[i].rate) *
+                  (itemsList[i].item.taxPercentage ?? 0.0)) /
+              100
+          : 0.0;
+
+      cartPrvdr.totalItemGrossAmont += grossTotal;
+      itemTotalTax += taxAmount;
+      netTotal += (grossTotal + taxAmount);
+
+      final item = PurchaseReturnedItemModel(
+          purchaseReturnIDPK: purchaseIdpk,
+          itemIDPK: itemsList[i].item.itemIdpk ?? PrefResources.emptyGuid,
+          barcode: itemsList[i].item.barcode ?? "",
+          itemCode: itemsList[i].item.itemCode ?? "",
+          itemName: itemsList[i].item.itemName ?? "",
+          description: itemsList[i].item.description ?? "",
+          unit: itemsList[i].unit,
+          actualQty: itemsList[i].qty,
+          billedQty: itemsList[i].qty,
+          cost: itemsList[i].cost,
+          sellingPrice: itemsList[i].rate,
+          discount: itemsList[i].discount,
+          grossTotal: grossTotal,
+          taxAmount: taxAmount,
+          taxPercentage:
+              isTaxEnabled ? (itemsList[i].item.taxPercentage ?? 0.0) : 0.0,
+          netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
+          currentStock: itemsList[i].item.currentStock ?? 0.0,
+          storeIDFK: userDetailsFromPrefs?.storeDetails?.storeIdpk ??
+              PrefResources.emptyGuid);
+      items.add(item);
+    }
+
+    final newPurchase = PurchaseReturnModel(
+        purchaseReturnIDPK: purchaseIdpk,
+        purchaseReturnDate: purchaseDate,
+        createdDate: purchaseDate,
+        createdByID: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
+        modifiedByID: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
+        rowguid: PrefResources.emptyGuid,
+        purchaseReturnMode: purchaseMode,
+        discount: cartPrvdr.discount,
+        grossAmount: cartPrvdr.totalItemGrossAmont,
+        netTotal: netTotal,
+        referenceNo: supInvNo,
+        returnedItems: items,
+        remarks: notes,
+        tax: isTaxEnabled ? itemTotalTax : 0.0,
+        crLedgerIDFK: purchaseAccount?.ledgerIdpk ?? PrefResources.emptyGuid,
+        drLedgerIDFK: selectedSupplier?.ledgerIDPK ??
+            cashAccount?.ledgerIdpk ??
+            PrefResources.emptyGuid,
+        supplierName: selectedSupplier?.ledgerName,
+        supplierIDFK: selectedSupplier?.ledgerIDPK ??
+            cashAccount?.ledgerIdpk ??
+            PrefResources.emptyGuid,
+        purchaseNo: "0",
+        isEditable: true,
+        purchaseIDFK: purchaseIdpk,
+        purchaseReturnNo: 0,
+        modifiedDate: DateTime.now(),
+        roundOff: cartPrvdr.roundOf,
+        supplierInvoiceNo: "0");
+    return newPurchase;
+  }
+
   ItemEntity convertPurchasedToItem(PurchasedItemEntity purchasedItem) {
     return ItemEntity(
       itemIdpk: purchasedItem.itemIdpk,
@@ -205,11 +287,26 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
     );
   }
 
-  reinsertPurchaseForm(
+  ItemEntity convertPurchasedReturnedToItem(
+      PurchaseReturnedItemEntity purchasedItem) {
+    return ItemEntity(
+      itemIdpk: purchasedItem.itemIDPK,
+      barcode: purchasedItem.barcode,
+      itemCode: purchasedItem.itemCode,
+      itemName: purchasedItem.itemName,
+      description: purchasedItem.description,
+      unit: purchasedItem.unit,
+      cost: purchasedItem.cost?.toDouble(),
+      retailRate: purchasedItem.sellingPrice?.toDouble(),
+      taxPercentage: purchasedItem.taxPercentage?.toDouble(),
+      currentStock: purchasedItem.currentStock?.toDouble(),
+    );
+  }
+
+  reinsertPurchaseInvoiceForm(
       PurchaseInvoiceEntity purchaseInvoice, WidgetRef ref) async {
     final cartPrvdr = ref.read(cartProvider.notifier);
-    state = PurchaseState.initial();
-    cartPrvdr.clearCart();
+    clearPurchase(ref);
     setEditMode(true);
     List<CartEntity> updatedItemsList = [];
     ref.read(supplierNotfierProvider.notifier).getSupplier();
@@ -259,6 +356,103 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
           index++) {
         final purchasedItem = purchaseInvoice.purchasedItems![index];
         final itemEntity = convertPurchasedToItem(purchasedItem);
+        final priceBeforeTax = cartPrvdr.calculateBeforeTax(
+            retailRate: itemEntity.retailRate ?? 0.0,
+            qty: purchasedItem.actualQty?.toDouble() ?? 0.0);
+
+        // Calculate tax based on tax setting
+        final totalTax = isTaxEnabled
+            ? cartPrvdr.calculateTotalTax(
+                retailRate: itemEntity.retailRate ?? 0.0,
+                qty: purchasedItem.actualQty?.toDouble() ?? 0.0,
+                taxPercentage: itemEntity.taxPercentage ?? 0.0)
+            : 0.0;
+
+        final grossTotal = cartPrvdr.calculateGross(
+            retailRate: itemEntity.retailRate ?? 0.0,
+            qty: purchasedItem.actualQty?.toDouble() ?? 0.0,
+            discount: purchasedItem.discount?.toDouble() ?? 0.0);
+
+        final netTotal =
+            cartPrvdr.calculateNetTotal(grossTotal: grossTotal, tax: totalTax);
+
+        final cartItem = CartEntity(
+          cartItemId: (index + 1),
+          item: itemEntity,
+          qty: purchasedItem.actualQty?.toDouble() ?? 0.0,
+          rate: itemEntity.retailRate ?? 0.0,
+          cost: itemEntity.cost ?? 0.0,
+          unit: itemEntity.unit ?? "",
+          description: purchasedItem.description ?? "",
+          discount: purchasedItem.discount?.toDouble() ?? 0.0,
+          gross: grossTotal,
+          tax: totalTax,
+          priceBeforeTax: priceBeforeTax,
+          netTotal: netTotal,
+        );
+
+        updatedItemsList.add(cartItem);
+        cartPrvdr.getRateSplitUp(item: cartItem);
+
+        cartPrvdr.itemsList = updatedItemsList;
+      }
+    }
+    cartPrvdr.updateState();
+  }
+
+  reinsertPurchaseReturnForm(
+      PurchaseReturnEntity purchaseInvoice, WidgetRef ref) async {
+    final cartPrvdr = ref.read(cartProvider.notifier);
+    clearPurchase(ref);
+    setEditMode(true);
+    List<CartEntity> updatedItemsList = [];
+    ref.read(supplierNotfierProvider.notifier).getSupplier();
+    final suppliersList = ref.read(supplierNotfierProvider).supplierList;
+    final selectedSupplierUpdate = suppliersList != null
+        ? suppliersList.firstWhere((supplier) =>
+            supplier.ledgerIDPK?.toLowerCase() ==
+            purchaseInvoice.supplierIDFK?.toLowerCase())
+        : SupplierEntity(
+            ledgerName: purchaseInvoice.supplierName,
+            ledgerIDPK: purchaseInvoice.supplierIDFK);
+    if (purchaseInvoice.supplierName?.toLowerCase() != "cash") {
+      final cashLedger = ref
+          .read(cashLedgerNotifierProvider.notifier)
+          .getLedgerById(purchaseInvoice.drLedgerIDFK ?? '');
+
+      if (cashLedger != null) {
+        setCashAccount(cashLedger);
+      }
+    }
+
+    final salesLedger = ref
+        .read(salesLedgerNotifierProvider.notifier)
+        .getLedgerById(purchaseInvoice.crLedgerIDFK!);
+    if (salesLedger != null) {
+      setPurchaseAccount(salesLedger);
+    }
+
+    // final purchasedBy = ref
+    //     .read(salesManProvider.notifier)
+    //     .getSalesManByName(purchaseInvoice.purchasedBy ?? "");
+    // if (purchasedBy != null) {
+    //   setPurchasedBy(purchasedBy);
+    // }
+
+    setPurchaseIdpk(purchaseInvoice.purchaseReturnIDPK ?? "");
+    setSupplier(selectedSupplierUpdate);
+    setPurchaseNo(purchaseInvoice.purchaseNo?.toString() ?? "");
+    setSupInvNo(purchaseInvoice.referenceNo ?? "");
+    setPurchaseDate(purchaseInvoice.purchaseReturnDate ?? DateTime.now());
+    setPurchaseMode(purchaseInvoice.purchaseReturnMode ?? "Cash");
+
+    // adding items to cart.
+    if (purchaseInvoice.returnedItems?.isNotEmpty == true) {
+      for (var index = 0;
+          index < purchaseInvoice.returnedItems!.length;
+          index++) {
+        final purchasedItem = purchaseInvoice.returnedItems![index];
+        final itemEntity = convertPurchasedReturnedToItem(purchasedItem);
         final priceBeforeTax = cartPrvdr.calculateBeforeTax(
             retailRate: itemEntity.retailRate ?? 0.0,
             qty: purchasedItem.actualQty?.toDouble() ?? 0.0);

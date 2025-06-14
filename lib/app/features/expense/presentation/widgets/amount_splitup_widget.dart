@@ -1,7 +1,7 @@
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/dotted_line.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:flutter/material.dart';
@@ -33,13 +33,13 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(cartProvider);
+    final state = ref.watch(expenseCartProvider);
     return Column(
       children: [
         if (isTaxRegistrationEnabled)
           _buildAmountSplitup(
             context,
-            content: state.subtotal.toStringAsFixed(2),
+            content: state.grossTotal.toStringAsFixed(2),
             label: context.translate(AppStrings.totalBeforeTax),
           ),
         SizedBox(
@@ -48,7 +48,7 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
         if (isTaxRegistrationEnabled)
           _buildAmountSplitup(
             context,
-            content: state.totalTax.toStringAsFixed(2),
+            content: state.taxAmount.toStringAsFixed(2),
             label: context.translate(AppStrings.totalTax),
           ),
         SizedBox(
@@ -78,7 +78,7 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
                   final discountAmount = double.tryParse(disc) ?? 0.0;
                   if (discountAmount >= 0) {
                     ref
-                        .read(cartProvider.notifier)
+                        .read(expenseCartProvider.notifier)
                         .applyDiscount(discountAmount);
                   }
                 },

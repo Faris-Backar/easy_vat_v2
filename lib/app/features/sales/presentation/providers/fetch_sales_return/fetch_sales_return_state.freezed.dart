@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'sales_return_state.dart';
+part of 'fetch_sales_return_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,12 +15,14 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$SalesReturnState {
+mixin _$FetchSalesReturnState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesReturnEntity> salesInvoice) success,
+    required TResult Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)
+        success,
     required TResult Function(String message) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +30,9 @@ mixin _$SalesReturnState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesReturnEntity> salesInvoice)? success,
+    TResult? Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)?
+        success,
     TResult? Function(String message)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +40,9 @@ mixin _$SalesReturnState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesReturnEntity> salesInvoice)? success,
+    TResult Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)?
+        success,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) =>
@@ -69,23 +75,24 @@ mixin _$SalesReturnState {
 }
 
 /// @nodoc
-abstract class $SalesReturnStateCopyWith<$Res> {
-  factory $SalesReturnStateCopyWith(
-          SalesReturnState value, $Res Function(SalesReturnState) then) =
-      _$SalesReturnStateCopyWithImpl<$Res, SalesReturnState>;
+abstract class $FetchSalesReturnStateCopyWith<$Res> {
+  factory $FetchSalesReturnStateCopyWith(FetchSalesReturnState value,
+          $Res Function(FetchSalesReturnState) then) =
+      _$FetchSalesReturnStateCopyWithImpl<$Res, FetchSalesReturnState>;
 }
 
 /// @nodoc
-class _$SalesReturnStateCopyWithImpl<$Res, $Val extends SalesReturnState>
-    implements $SalesReturnStateCopyWith<$Res> {
-  _$SalesReturnStateCopyWithImpl(this._value, this._then);
+class _$FetchSalesReturnStateCopyWithImpl<$Res,
+        $Val extends FetchSalesReturnState>
+    implements $FetchSalesReturnStateCopyWith<$Res> {
+  _$FetchSalesReturnStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of SalesReturnState
+  /// Create a copy of FetchSalesReturnState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -98,13 +105,13 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$SalesReturnStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$FetchSalesReturnStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SalesReturnState
+  /// Create a copy of FetchSalesReturnState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -115,7 +122,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'SalesReturnState.initial()';
+    return 'FetchSalesReturnState.initial()';
   }
 
   @override
@@ -132,7 +139,9 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesReturnEntity> salesInvoice) success,
+    required TResult Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)
+        success,
     required TResult Function(String message) failure,
   }) {
     return initial();
@@ -143,7 +152,9 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesReturnEntity> salesInvoice)? success,
+    TResult? Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)?
+        success,
     TResult? Function(String message)? failure,
   }) {
     return initial?.call();
@@ -154,7 +165,9 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesReturnEntity> salesInvoice)? success,
+    TResult Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)?
+        success,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -202,7 +215,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements SalesReturnState {
+abstract class _Initial implements FetchSalesReturnState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -215,13 +228,13 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$SalesReturnStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$FetchSalesReturnStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SalesReturnState
+  /// Create a copy of FetchSalesReturnState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -232,7 +245,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'SalesReturnState.loading()';
+    return 'FetchSalesReturnState.loading()';
   }
 
   @override
@@ -249,7 +262,9 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesReturnEntity> salesInvoice) success,
+    required TResult Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)
+        success,
     required TResult Function(String message) failure,
   }) {
     return loading();
@@ -260,7 +275,9 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesReturnEntity> salesInvoice)? success,
+    TResult? Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)?
+        success,
     TResult? Function(String message)? failure,
   }) {
     return loading?.call();
@@ -271,7 +288,9 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesReturnEntity> salesInvoice)? success,
+    TResult Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)?
+        success,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -319,7 +338,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements SalesReturnState {
+abstract class _Loading implements FetchSalesReturnState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -329,29 +348,34 @@ abstract class _$$SuccessImplCopyWith<$Res> {
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({List<SalesReturnEntity> salesInvoice});
+  $Res call({List<SalesReturnEntity> salesReturnList, double? totalAmount});
 }
 
 /// @nodoc
 class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$SalesReturnStateCopyWithImpl<$Res, _$SuccessImpl>
+    extends _$FetchSalesReturnStateCopyWithImpl<$Res, _$SuccessImpl>
     implements _$$SuccessImplCopyWith<$Res> {
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SalesReturnState
+  /// Create a copy of FetchSalesReturnState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? salesInvoice = null,
+    Object? salesReturnList = null,
+    Object? totalAmount = freezed,
   }) {
     return _then(_$SuccessImpl(
-      null == salesInvoice
-          ? _value._salesInvoice
-          : salesInvoice // ignore: cast_nullable_to_non_nullable
+      salesReturnList: null == salesReturnList
+          ? _value._salesReturnList
+          : salesReturnList // ignore: cast_nullable_to_non_nullable
               as List<SalesReturnEntity>,
+      totalAmount: freezed == totalAmount
+          ? _value.totalAmount
+          : totalAmount // ignore: cast_nullable_to_non_nullable
+              as double?,
     ));
   }
 }
@@ -359,20 +383,25 @@ class __$$SuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SuccessImpl implements _Success {
-  const _$SuccessImpl(final List<SalesReturnEntity> salesInvoice)
-      : _salesInvoice = salesInvoice;
+  const _$SuccessImpl(
+      {required final List<SalesReturnEntity> salesReturnList,
+      this.totalAmount})
+      : _salesReturnList = salesReturnList;
 
-  final List<SalesReturnEntity> _salesInvoice;
+  final List<SalesReturnEntity> _salesReturnList;
   @override
-  List<SalesReturnEntity> get salesInvoice {
-    if (_salesInvoice is EqualUnmodifiableListView) return _salesInvoice;
+  List<SalesReturnEntity> get salesReturnList {
+    if (_salesReturnList is EqualUnmodifiableListView) return _salesReturnList;
     // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_salesInvoice);
+    return EqualUnmodifiableListView(_salesReturnList);
   }
 
   @override
+  final double? totalAmount;
+
+  @override
   String toString() {
-    return 'SalesReturnState.success(salesInvoice: $salesInvoice)';
+    return 'FetchSalesReturnState.success(salesReturnList: $salesReturnList, totalAmount: $totalAmount)';
   }
 
   @override
@@ -381,14 +410,16 @@ class _$SuccessImpl implements _Success {
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl &&
             const DeepCollectionEquality()
-                .equals(other._salesInvoice, _salesInvoice));
+                .equals(other._salesReturnList, _salesReturnList) &&
+            (identical(other.totalAmount, totalAmount) ||
+                other.totalAmount == totalAmount));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(_salesInvoice));
+  int get hashCode => Object.hash(runtimeType,
+      const DeepCollectionEquality().hash(_salesReturnList), totalAmount);
 
-  /// Create a copy of SalesReturnState
+  /// Create a copy of FetchSalesReturnState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -401,10 +432,12 @@ class _$SuccessImpl implements _Success {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesReturnEntity> salesInvoice) success,
+    required TResult Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)
+        success,
     required TResult Function(String message) failure,
   }) {
-    return success(salesInvoice);
+    return success(salesReturnList, totalAmount);
   }
 
   @override
@@ -412,10 +445,12 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesReturnEntity> salesInvoice)? success,
+    TResult? Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)?
+        success,
     TResult? Function(String message)? failure,
   }) {
-    return success?.call(salesInvoice);
+    return success?.call(salesReturnList, totalAmount);
   }
 
   @override
@@ -423,12 +458,14 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesReturnEntity> salesInvoice)? success,
+    TResult Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)?
+        success,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(salesInvoice);
+      return success(salesReturnList, totalAmount);
     }
     return orElse();
   }
@@ -471,13 +508,15 @@ class _$SuccessImpl implements _Success {
   }
 }
 
-abstract class _Success implements SalesReturnState {
-  const factory _Success(final List<SalesReturnEntity> salesInvoice) =
-      _$SuccessImpl;
+abstract class _Success implements FetchSalesReturnState {
+  const factory _Success(
+      {required final List<SalesReturnEntity> salesReturnList,
+      final double? totalAmount}) = _$SuccessImpl;
 
-  List<SalesReturnEntity> get salesInvoice;
+  List<SalesReturnEntity> get salesReturnList;
+  double? get totalAmount;
 
-  /// Create a copy of SalesReturnState
+  /// Create a copy of FetchSalesReturnState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
@@ -495,13 +534,13 @@ abstract class _$$FailureImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$FailureImplCopyWithImpl<$Res>
-    extends _$SalesReturnStateCopyWithImpl<$Res, _$FailureImpl>
+    extends _$FetchSalesReturnStateCopyWithImpl<$Res, _$FailureImpl>
     implements _$$FailureImplCopyWith<$Res> {
   __$$FailureImplCopyWithImpl(
       _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of SalesReturnState
+  /// Create a copy of FetchSalesReturnState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -527,7 +566,7 @@ class _$FailureImpl implements _Failure {
 
   @override
   String toString() {
-    return 'SalesReturnState.failure(message: $message)';
+    return 'FetchSalesReturnState.failure(message: $message)';
   }
 
   @override
@@ -541,7 +580,7 @@ class _$FailureImpl implements _Failure {
   @override
   int get hashCode => Object.hash(runtimeType, message);
 
-  /// Create a copy of SalesReturnState
+  /// Create a copy of FetchSalesReturnState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -554,7 +593,9 @@ class _$FailureImpl implements _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(List<SalesReturnEntity> salesInvoice) success,
+    required TResult Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)
+        success,
     required TResult Function(String message) failure,
   }) {
     return failure(message);
@@ -565,7 +606,9 @@ class _$FailureImpl implements _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(List<SalesReturnEntity> salesInvoice)? success,
+    TResult? Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)?
+        success,
     TResult? Function(String message)? failure,
   }) {
     return failure?.call(message);
@@ -576,7 +619,9 @@ class _$FailureImpl implements _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(List<SalesReturnEntity> salesInvoice)? success,
+    TResult Function(
+            List<SalesReturnEntity> salesReturnList, double? totalAmount)?
+        success,
     TResult Function(String message)? failure,
     required TResult orElse(),
   }) {
@@ -624,12 +669,12 @@ class _$FailureImpl implements _Failure {
   }
 }
 
-abstract class _Failure implements SalesReturnState {
+abstract class _Failure implements FetchSalesReturnState {
   const factory _Failure(final String message) = _$FailureImpl;
 
   String get message;
 
-  /// Create a copy of SalesReturnState
+  /// Create a copy of FetchSalesReturnState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>

@@ -2,7 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_address_info.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_details_card.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_info_tab_content.dart';
@@ -46,14 +46,14 @@ class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
   }
 
   Future<void> _fetchAndSelectSupplier() async {
-    final selectedSupplier = ref.read(cartProvider).selectedSupplier;
+    final selectedSupplier = ref.read(expenseCartProvider).selectedSupplier;
     if (selectedSupplier != null) {
-      ref.read(cartProvider.notifier).setSupplier(selectedSupplier);
+      ref.read(expenseCartProvider.notifier).setSupplier(selectedSupplier);
       billingAddressController.text =
-          ref.read(cartProvider).selectedSupplier?.billingAddress ?? "";
+          ref.read(expenseCartProvider).selectedSupplier?.billingAddress ?? "";
     } else {
       final cashSupplier = SupplierEntity(ledgerName: "Cash", isActive: true);
-      ref.read(cartProvider.notifier).setSupplier(cashSupplier);
+      ref.read(expenseCartProvider.notifier).setSupplier(cashSupplier);
     }
     await ref.read(supplierNotfierProvider.notifier).getSupplier();
   }
@@ -206,7 +206,8 @@ class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
                                                 supplierState.supplierList![
                                                     _expansionNotifier.value!];
                                             ref
-                                                .read(cartProvider.notifier)
+                                                .read(expenseCartProvider
+                                                    .notifier)
                                                 .setSupplier(selectedSupplier);
                                             context.router.popForced();
                                           }
@@ -233,7 +234,7 @@ class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
   }
 
   Widget _buildSupplierTabView(BuildContext context) {
-    final selectedSupplier = ref.watch(cartProvider).selectedSupplier;
+    final selectedSupplier = ref.watch(expenseCartProvider).selectedSupplier;
     return DefaultTabController(
         length: 2,
         child: Container(
@@ -331,7 +332,7 @@ class _SupplierInfoWidgetState extends ConsumerState<SupplierInfoWidget> {
                                                     billingAddressController
                                                         .text);
                                         ref
-                                            .read(cartProvider.notifier)
+                                            .read(expenseCartProvider.notifier)
                                             .setSupplier(updatedSupplier);
                                         context.router.popForced();
                                       } else {

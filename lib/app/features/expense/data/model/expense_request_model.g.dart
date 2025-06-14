@@ -10,7 +10,7 @@ _$ExpenseRequestModelImpl _$$ExpenseRequestModelImplFromJson(
         Map<String, dynamic> json) =>
     _$ExpenseRequestModelImpl(
       expenseIDPK: json['expenseIDPK'] as String?,
-      expenseno: (json['expenseno'] as num?)?.toInt(),
+      expenseNo: (json['expenseNo'] as num?)?.toInt(),
       referenceNo: json['referenceNo'] as String?,
       expenseDate: json['expenseDate'] == null
           ? null
@@ -30,9 +30,13 @@ _$ExpenseRequestModelImpl _$$ExpenseRequestModelImplFromJson(
       isEditable: json['isEditable'] as bool?,
       isCanceled: json['isCanceled'] as bool?,
       createdBy: json['createdBy'] as String?,
-      createdDate: json['createdDate'] as String?,
+      createdDate: json['createdDate'] == null
+          ? null
+          : DateTime.parse(json['createdDate'] as String),
       modifiedBy: json['modifiedBy'] as String?,
-      modifiedDate: json['modifiedDate'] as String?,
+      modifiedDate: json['modifiedDate'] == null
+          ? null
+          : DateTime.parse(json['modifiedDate'] as String),
       rowguid: json['rowguid'] as String?,
       companyIDPK: json['companyIDPK'] as String?,
       supplierName: json['supplierName'] as String?,
@@ -45,7 +49,7 @@ Map<String, dynamic> _$$ExpenseRequestModelImplToJson(
         _$ExpenseRequestModelImpl instance) =>
     <String, dynamic>{
       'expenseIDPK': instance.expenseIDPK,
-      'expenseno': instance.expenseno,
+      'expenseNo': instance.expenseNo,
       'referenceNo': instance.referenceNo,
       'expenseDate': instance.expenseDate?.toIso8601String(),
       'paymentMode': instance.paymentMode,
@@ -63,9 +67,9 @@ Map<String, dynamic> _$$ExpenseRequestModelImplToJson(
       'isEditable': instance.isEditable,
       'isCanceled': instance.isCanceled,
       'createdBy': instance.createdBy,
-      'createdDate': instance.createdDate,
+      'createdDate': instance.createdDate?.toIso8601String(),
       'modifiedBy': instance.modifiedBy,
-      'modifiedDate': instance.modifiedDate,
+      'modifiedDate': instance.modifiedDate?.toIso8601String(),
       'rowguid': instance.rowguid,
       'companyIDPK': instance.companyIDPK,
       'supplierName': instance.supplierName,
@@ -85,6 +89,10 @@ _$ExpenseDetailsImpl _$$ExpenseDetailsImplFromJson(Map<String, dynamic> json) =>
       companyIDPK: json['companyIDPK'] as String?,
       currentBalance: (json['currentBalance'] as num?)?.toDouble(),
       ledgerName: json['ledgerName'] as String?,
+      ledgerCode: json['ledgerCode'] as String?,
+      openingBalance: (json['openingBalance'] as num?)?.toDouble(),
+      groupName: json['groupName'] as String?,
+      nature: json['nature'] as String?,
     );
 
 Map<String, dynamic> _$$ExpenseDetailsImplToJson(
@@ -101,4 +109,8 @@ Map<String, dynamic> _$$ExpenseDetailsImplToJson(
       'companyIDPK': instance.companyIDPK,
       'currentBalance': instance.currentBalance,
       'ledgerName': instance.ledgerName,
+      'ledgerCode': instance.ledgerCode,
+      'openingBalance': instance.openingBalance,
+      'groupName': instance.groupName,
+      'nature': instance.nature,
     };

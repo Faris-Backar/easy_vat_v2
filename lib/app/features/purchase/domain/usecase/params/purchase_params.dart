@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 class PurchaseParams {
   final String? purchaseIDPK;
+  final String? purchaseReturnIDPK;
   final DateTime fromDate;
   final DateTime toDate;
   final String? supplierIDPK;
@@ -11,6 +12,7 @@ class PurchaseParams {
 
   PurchaseParams(
       {this.purchaseIDPK,
+      this.purchaseReturnIDPK,
       required this.fromDate,
       required this.toDate,
       this.supplierIDPK,
@@ -26,12 +28,13 @@ class PurchaseParams {
     return {
       if (purchaseIDPK != null)
         'PurchaseIDPK': purchaseIDPK ?? "00000000-0000-0000-0000-000000000000",
+      if (purchaseReturnIDPK != null) 'purchaseReturnIDPK': purchaseReturnIDPK,
       'fromDate': _formatDate(fromDate),
       'toDate': _formatDate(toDate),
       if (supplierIDPK != null)
         'ledgerId': supplierIDPK ?? "00000000-0000-0000-0000-000000000000",
       if (purchaseMode != null) "purchaseMode": purchaseMode ?? "",
-      if (purchasedBy != null) "purchasedBy": purchasedBy ?? ""
+      if (purchasedBy != null) "userId": purchasedBy ?? ""
     };
   }
 

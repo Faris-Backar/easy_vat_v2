@@ -202,5 +202,18 @@
   "invNo": "InvNo",
   "doYouWantToPrintInvoice":"Do you want to print invoice?",
   "debit": "Debit",
-  "addedToCart":"Added to cart"
+  "addedToCart":"Added to cart",
+  "ledgerCurrentlyNotActive": "ledger Currently Not Active",
+  "taxAmount": "Tax Amount",
+  "grossTotal": "Gross Total",
+  "updateLedger": "Update Ledger",
+  "ledgerCode" : "LedCode",
+  "group": "Group",
+  "nature": "Nature",
+  "opBal": "OpenBal",
+  "curBal": "CurrentBal",
+  "addNewLedger": "AddNewLedger",
+  "discardledgerChangesMessage": "You have unsaved ledger entries. Do you want to discard them and go back?",
+  "deleteExpenseConfirmationMessage": "Expense deleted Successfully",
+  "addNewSalesReturn":"Add New Sales Return"
 }

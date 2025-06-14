@@ -130,7 +130,7 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesInvoiceEntity>> createSalesreturn(
+  Future<Either<Failure, SalesReturnEntity>> createSalesreturn(
       {required SalesReturnModel salesReturnRequestParams}) async {
     try {
       final data = salesReturnRequestParams.toJson();
@@ -140,8 +140,12 @@ class SalesRepositoryImpl extends SalesRepository {
         data: data,
       );
       if (response.statusCode == 200) {
-        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
-        return right(salesInvoiceList);
+        log("create sales return response => ${response.data}");
+        if (response.data["status"] == true) {
+          final salesInvoiceList = SalesReturnModel.fromJson(
+              (response.data["saleReturnEntry"] as List).first);
+          return right(salesInvoiceList);
+        }
       }
       return left(ServerFailure(message: ""));
     } on DioException catch (e) {
@@ -161,22 +165,19 @@ class SalesRepositoryImpl extends SalesRepository {
       final response = await client.get(
         UrlResources.getSalesReturn,
         queryParameters: {
-          "fromDate": DateFormatUtils.getDateOnly(
-              date: salesReturnRequestParams.fromDate),
-          "toDate": DateFormatUtils.getDateOnly(
-              date: salesReturnRequestParams.toDate),
+          "fromDate": DateFormatUtils.serverformatDate(
+              salesReturnRequestParams.fromDate),
+          "toDate":
+              DateFormatUtils.serverformatDate(salesReturnRequestParams.toDate),
         },
       );
-      log("salesreturn url => ${response.requestOptions.uri}");
       if (response.statusCode == 200) {
         final salesReturnList = List<SalesReturnModel>.from(
             response.data.map((x) => SalesReturnModel.fromJson(x)));
-        log("salesreturn list => $salesReturnList");
         return Right(salesReturnList);
       }
       return Left(ServerFailure(message: ""));
     } on DioException catch (e) {
-      log("salesreturn error => ${e.toString()}");
       return Left(ServerFailure(
           message: e.response?.statusMessage?.toString() ??
               e.error?.toString() ??
@@ -289,8 +290,8 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesInvoiceEntity>> deleteSalesreturn(
-      {required SalesReturnModel salesReturnRequestParams}) async {
+  Future<Either<Failure, bool>> deleteSalesreturn(
+      {required SalesParams salesReturnRequestParams}) async {
     try {
       final data = salesReturnRequestParams.toJson();
       final response = await client.post(
@@ -298,8 +299,7 @@ class SalesRepositoryImpl extends SalesRepository {
         data: data,
       );
       if (response.statusCode == 200) {
-        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
-        return right(salesInvoiceList);
+        return right(true);
       }
       return left(ServerFailure(message: ""));
     } on DioException catch (e) {
@@ -313,7 +313,7 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesInvoiceEntity>> updateSalesreturn(
+  Future<Either<Failure, SalesReturnEntity>> updateSalesreturn(
       {required SalesReturnModel salesReturnRequestParams}) async {
     try {
       final data = salesReturnRequestParams.toJson();
@@ -322,7 +322,7 @@ class SalesRepositoryImpl extends SalesRepository {
         data: data,
       );
       if (response.statusCode == 200) {
-        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
+        final salesInvoiceList = SalesReturnModel.fromJson(response.data);
         return right(salesInvoiceList);
       }
       return left(ServerFailure(message: ""));

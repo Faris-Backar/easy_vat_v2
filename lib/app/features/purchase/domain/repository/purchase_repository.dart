@@ -2,7 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_invoice_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_request_model.dart';
+import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_return_model.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_invoice_entity.dart';
+import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_return_entity.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/usecase/params/purchase_params.dart';
 
 abstract class PurchaseRepository {
@@ -28,11 +30,12 @@ abstract class PurchaseRepository {
       {required PurchaseRequestModel params});
 
   //purchase return
-  Future<Either<Failure, List<PurchaseInvoiceEntity>>> fetchPurchaseReturns();
-  Future<Either<Failure, PurchaseInvoiceEntity>> createPurchaseReturns(
-      {required PurchaseRequestModel params});
-  Future<Either<Failure, PurchaseInvoiceEntity>> updatePurchaseReturns(
-      {required PurchaseRequestModel params});
-  Future<Either<Failure, PurchaseInvoiceEntity>> deletePurchaseReturns(
-      {required PurchaseRequestModel params});
+  Future<Either<Failure, List<PurchaseReturnEntity>>> fetchPurchaseReturns(
+      {required PurchaseParams params});
+  Future<Either<Failure, PurchaseReturnEntity>> createPurchaseReturns(
+      {required PurchaseReturnModel params});
+  Future<Either<Failure, PurchaseReturnEntity>> updatePurchaseReturns(
+      {required PurchaseReturnModel params});
+  Future<Either<Failure, bool>> deletePurchaseReturns(
+      {required PurchaseParams params});
 }
