@@ -26,10 +26,10 @@ class CreateExpenseNotifier extends StateNotifier<CreateExpenseState> {
     state = CreateExpenseState.loading();
     try {
       final result = await createExpenseUsecase.call(params: request);
-
       result.fold(
         (l) => state = CreateExpenseState.failure(l.message),
-        (r) => state = CreateExpenseState.success(),
+        (r) => state =
+            CreateExpenseState.success(r.expenseList?.first.expenseIDPK ?? ""),
       );
     } catch (e) {
       state = CreateExpenseState.failure(e.toString());

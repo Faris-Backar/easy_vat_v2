@@ -30,10 +30,12 @@ mixin _$CartState {
   SalesManEntity? get soldBy => throw _privateConstructorUsedError;
   LedgerAccountEntity? get cashAccount => throw _privateConstructorUsedError;
   LedgerAccountEntity? get salesAccount => throw _privateConstructorUsedError;
+  LedgerAccountEntity? get expenseAccount => throw _privateConstructorUsedError;
   String? get expenseNo => throw _privateConstructorUsedError;
   SupplierEntity? get selectedSupplier => throw _privateConstructorUsedError;
   String? get paymentMode => throw _privateConstructorUsedError;
   String? get purchasedBy => throw _privateConstructorUsedError;
+  String? get supplierInvoiceNo => throw _privateConstructorUsedError;
   LedgerAccountEntity? get drledger => throw _privateConstructorUsedError;
   LedgerAccountEntity? get crledger => throw _privateConstructorUsedError;
   DateTime? get expenseDate => throw _privateConstructorUsedError;
@@ -67,10 +69,12 @@ abstract class $CartStateCopyWith<$Res> {
       SalesManEntity? soldBy,
       LedgerAccountEntity? cashAccount,
       LedgerAccountEntity? salesAccount,
+      LedgerAccountEntity? expenseAccount,
       String? expenseNo,
       SupplierEntity? selectedSupplier,
       String? paymentMode,
       String? purchasedBy,
+      String? supplierInvoiceNo,
       LedgerAccountEntity? drledger,
       LedgerAccountEntity? crledger,
       DateTime? expenseDate,
@@ -107,10 +111,12 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
     Object? soldBy = freezed,
     Object? cashAccount = freezed,
     Object? salesAccount = freezed,
+    Object? expenseAccount = freezed,
     Object? expenseNo = freezed,
     Object? selectedSupplier = freezed,
     Object? paymentMode = freezed,
     Object? purchasedBy = freezed,
+    Object? supplierInvoiceNo = freezed,
     Object? drledger = freezed,
     Object? crledger = freezed,
     Object? expenseDate = freezed,
@@ -174,6 +180,10 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
           ? _value.salesAccount
           : salesAccount // ignore: cast_nullable_to_non_nullable
               as LedgerAccountEntity?,
+      expenseAccount: freezed == expenseAccount
+          ? _value.expenseAccount
+          : expenseAccount // ignore: cast_nullable_to_non_nullable
+              as LedgerAccountEntity?,
       expenseNo: freezed == expenseNo
           ? _value.expenseNo
           : expenseNo // ignore: cast_nullable_to_non_nullable
@@ -189,6 +199,10 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
       purchasedBy: freezed == purchasedBy
           ? _value.purchasedBy
           : purchasedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
+      supplierInvoiceNo: freezed == supplierInvoiceNo
+          ? _value.supplierInvoiceNo
+          : supplierInvoiceNo // ignore: cast_nullable_to_non_nullable
               as String?,
       drledger: freezed == drledger
           ? _value.drledger
@@ -237,10 +251,12 @@ abstract class _$$CartStateImplCopyWith<$Res>
       SalesManEntity? soldBy,
       LedgerAccountEntity? cashAccount,
       LedgerAccountEntity? salesAccount,
+      LedgerAccountEntity? expenseAccount,
       String? expenseNo,
       SupplierEntity? selectedSupplier,
       String? paymentMode,
       String? purchasedBy,
+      String? supplierInvoiceNo,
       LedgerAccountEntity? drledger,
       LedgerAccountEntity? crledger,
       DateTime? expenseDate,
@@ -275,10 +291,12 @@ class __$$CartStateImplCopyWithImpl<$Res>
     Object? soldBy = freezed,
     Object? cashAccount = freezed,
     Object? salesAccount = freezed,
+    Object? expenseAccount = freezed,
     Object? expenseNo = freezed,
     Object? selectedSupplier = freezed,
     Object? paymentMode = freezed,
     Object? purchasedBy = freezed,
+    Object? supplierInvoiceNo = freezed,
     Object? drledger = freezed,
     Object? crledger = freezed,
     Object? expenseDate = freezed,
@@ -342,6 +360,10 @@ class __$$CartStateImplCopyWithImpl<$Res>
           ? _value.salesAccount
           : salesAccount // ignore: cast_nullable_to_non_nullable
               as LedgerAccountEntity?,
+      expenseAccount: freezed == expenseAccount
+          ? _value.expenseAccount
+          : expenseAccount // ignore: cast_nullable_to_non_nullable
+              as LedgerAccountEntity?,
       expenseNo: freezed == expenseNo
           ? _value.expenseNo
           : expenseNo // ignore: cast_nullable_to_non_nullable
@@ -357,6 +379,10 @@ class __$$CartStateImplCopyWithImpl<$Res>
       purchasedBy: freezed == purchasedBy
           ? _value.purchasedBy
           : purchasedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
+      supplierInvoiceNo: freezed == supplierInvoiceNo
+          ? _value.supplierInvoiceNo
+          : supplierInvoiceNo // ignore: cast_nullable_to_non_nullable
               as String?,
       drledger: freezed == drledger
           ? _value.drledger
@@ -400,10 +426,12 @@ class _$CartStateImpl implements _CartState {
       this.soldBy,
       this.cashAccount,
       this.salesAccount,
+      this.expenseAccount,
       this.expenseNo,
       this.selectedSupplier,
       this.paymentMode,
       this.purchasedBy,
+      this.supplierInvoiceNo,
       this.drledger,
       this.crledger,
       this.expenseDate,
@@ -448,6 +476,8 @@ class _$CartStateImpl implements _CartState {
   @override
   final LedgerAccountEntity? salesAccount;
   @override
+  final LedgerAccountEntity? expenseAccount;
+  @override
   final String? expenseNo;
   @override
   final SupplierEntity? selectedSupplier;
@@ -455,6 +485,8 @@ class _$CartStateImpl implements _CartState {
   final String? paymentMode;
   @override
   final String? purchasedBy;
+  @override
+  final String? supplierInvoiceNo;
   @override
   final LedgerAccountEntity? drledger;
   @override
@@ -468,7 +500,7 @@ class _$CartStateImpl implements _CartState {
 
   @override
   String toString() {
-    return 'CartState(itemList: $itemList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, totalTax: $totalTax, subtotal: $subtotal, salesNo: $salesNo, refNo: $refNo, saleDate: $saleDate, selectedCustomer: $selectedCustomer, salesMode: $salesMode, soldBy: $soldBy, cashAccount: $cashAccount, salesAccount: $salesAccount, expenseNo: $expenseNo, selectedSupplier: $selectedSupplier, paymentMode: $paymentMode, purchasedBy: $purchasedBy, drledger: $drledger, crledger: $crledger, expenseDate: $expenseDate, isForUpdate: $isForUpdate, isTaxEnabled: $isTaxEnabled)';
+    return 'CartState(itemList: $itemList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, totalTax: $totalTax, subtotal: $subtotal, salesNo: $salesNo, refNo: $refNo, saleDate: $saleDate, selectedCustomer: $selectedCustomer, salesMode: $salesMode, soldBy: $soldBy, cashAccount: $cashAccount, salesAccount: $salesAccount, expenseAccount: $expenseAccount, expenseNo: $expenseNo, selectedSupplier: $selectedSupplier, paymentMode: $paymentMode, purchasedBy: $purchasedBy, supplierInvoiceNo: $supplierInvoiceNo, drledger: $drledger, crledger: $crledger, expenseDate: $expenseDate, isForUpdate: $isForUpdate, isTaxEnabled: $isTaxEnabled)';
   }
 
   @override
@@ -499,6 +531,8 @@ class _$CartStateImpl implements _CartState {
                 other.cashAccount == cashAccount) &&
             (identical(other.salesAccount, salesAccount) ||
                 other.salesAccount == salesAccount) &&
+            (identical(other.expenseAccount, expenseAccount) ||
+                other.expenseAccount == expenseAccount) &&
             (identical(other.expenseNo, expenseNo) ||
                 other.expenseNo == expenseNo) &&
             (identical(other.selectedSupplier, selectedSupplier) ||
@@ -507,6 +541,8 @@ class _$CartStateImpl implements _CartState {
                 other.paymentMode == paymentMode) &&
             (identical(other.purchasedBy, purchasedBy) ||
                 other.purchasedBy == purchasedBy) &&
+            (identical(other.supplierInvoiceNo, supplierInvoiceNo) ||
+                other.supplierInvoiceNo == supplierInvoiceNo) &&
             (identical(other.drledger, drledger) ||
                 other.drledger == drledger) &&
             (identical(other.crledger, crledger) ||
@@ -536,10 +572,12 @@ class _$CartStateImpl implements _CartState {
         soldBy,
         cashAccount,
         salesAccount,
+        expenseAccount,
         expenseNo,
         selectedSupplier,
         paymentMode,
         purchasedBy,
+        supplierInvoiceNo,
         drledger,
         crledger,
         expenseDate,
@@ -572,10 +610,12 @@ abstract class _CartState implements CartState {
       final SalesManEntity? soldBy,
       final LedgerAccountEntity? cashAccount,
       final LedgerAccountEntity? salesAccount,
+      final LedgerAccountEntity? expenseAccount,
       final String? expenseNo,
       final SupplierEntity? selectedSupplier,
       final String? paymentMode,
       final String? purchasedBy,
+      final String? supplierInvoiceNo,
       final LedgerAccountEntity? drledger,
       final LedgerAccountEntity? crledger,
       final DateTime? expenseDate,
@@ -611,6 +651,8 @@ abstract class _CartState implements CartState {
   @override
   LedgerAccountEntity? get salesAccount;
   @override
+  LedgerAccountEntity? get expenseAccount;
+  @override
   String? get expenseNo;
   @override
   SupplierEntity? get selectedSupplier;
@@ -618,6 +660,8 @@ abstract class _CartState implements CartState {
   String? get paymentMode;
   @override
   String? get purchasedBy;
+  @override
+  String? get supplierInvoiceNo;
   @override
   LedgerAccountEntity? get drledger;
   @override

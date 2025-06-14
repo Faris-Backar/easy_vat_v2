@@ -21,7 +21,7 @@ ExpenseRequestModel _$ExpenseRequestModelFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$ExpenseRequestModel {
   String? get expenseIDPK => throw _privateConstructorUsedError;
-  int? get expenseno => throw _privateConstructorUsedError;
+  int? get expenseNo => throw _privateConstructorUsedError;
   String? get referenceNo => throw _privateConstructorUsedError;
   DateTime? get expenseDate => throw _privateConstructorUsedError;
   String? get paymentMode => throw _privateConstructorUsedError;
@@ -39,9 +39,9 @@ mixin _$ExpenseRequestModel {
   bool? get isEditable => throw _privateConstructorUsedError;
   bool? get isCanceled => throw _privateConstructorUsedError;
   String? get createdBy => throw _privateConstructorUsedError;
-  String? get createdDate => throw _privateConstructorUsedError;
+  DateTime? get createdDate => throw _privateConstructorUsedError;
   String? get modifiedBy => throw _privateConstructorUsedError;
-  String? get modifiedDate => throw _privateConstructorUsedError;
+  DateTime? get modifiedDate => throw _privateConstructorUsedError;
   String? get rowguid => throw _privateConstructorUsedError;
   String? get companyIDPK => throw _privateConstructorUsedError;
   String? get supplierName => throw _privateConstructorUsedError;
@@ -66,7 +66,7 @@ abstract class $ExpenseRequestModelCopyWith<$Res> {
   @useResult
   $Res call(
       {String? expenseIDPK,
-      int? expenseno,
+      int? expenseNo,
       String? referenceNo,
       DateTime? expenseDate,
       String? paymentMode,
@@ -84,9 +84,9 @@ abstract class $ExpenseRequestModelCopyWith<$Res> {
       bool? isEditable,
       bool? isCanceled,
       String? createdBy,
-      String? createdDate,
+      DateTime? createdDate,
       String? modifiedBy,
-      String? modifiedDate,
+      DateTime? modifiedDate,
       String? rowguid,
       String? companyIDPK,
       String? supplierName,
@@ -109,7 +109,7 @@ class _$ExpenseRequestModelCopyWithImpl<$Res, $Val extends ExpenseRequestModel>
   @override
   $Res call({
     Object? expenseIDPK = freezed,
-    Object? expenseno = freezed,
+    Object? expenseNo = freezed,
     Object? referenceNo = freezed,
     Object? expenseDate = freezed,
     Object? paymentMode = freezed,
@@ -140,9 +140,9 @@ class _$ExpenseRequestModelCopyWithImpl<$Res, $Val extends ExpenseRequestModel>
           ? _value.expenseIDPK
           : expenseIDPK // ignore: cast_nullable_to_non_nullable
               as String?,
-      expenseno: freezed == expenseno
-          ? _value.expenseno
-          : expenseno // ignore: cast_nullable_to_non_nullable
+      expenseNo: freezed == expenseNo
+          ? _value.expenseNo
+          : expenseNo // ignore: cast_nullable_to_non_nullable
               as int?,
       referenceNo: freezed == referenceNo
           ? _value.referenceNo
@@ -215,7 +215,7 @@ class _$ExpenseRequestModelCopyWithImpl<$Res, $Val extends ExpenseRequestModel>
       createdDate: freezed == createdDate
           ? _value.createdDate
           : createdDate // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       modifiedBy: freezed == modifiedBy
           ? _value.modifiedBy
           : modifiedBy // ignore: cast_nullable_to_non_nullable
@@ -223,7 +223,7 @@ class _$ExpenseRequestModelCopyWithImpl<$Res, $Val extends ExpenseRequestModel>
       modifiedDate: freezed == modifiedDate
           ? _value.modifiedDate
           : modifiedDate // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       rowguid: freezed == rowguid
           ? _value.rowguid
           : rowguid // ignore: cast_nullable_to_non_nullable
@@ -254,7 +254,7 @@ abstract class _$$ExpenseRequestModelImplCopyWith<$Res>
   @useResult
   $Res call(
       {String? expenseIDPK,
-      int? expenseno,
+      int? expenseNo,
       String? referenceNo,
       DateTime? expenseDate,
       String? paymentMode,
@@ -272,9 +272,9 @@ abstract class _$$ExpenseRequestModelImplCopyWith<$Res>
       bool? isEditable,
       bool? isCanceled,
       String? createdBy,
-      String? createdDate,
+      DateTime? createdDate,
       String? modifiedBy,
-      String? modifiedDate,
+      DateTime? modifiedDate,
       String? rowguid,
       String? companyIDPK,
       String? supplierName,
@@ -295,7 +295,7 @@ class __$$ExpenseRequestModelImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? expenseIDPK = freezed,
-    Object? expenseno = freezed,
+    Object? expenseNo = freezed,
     Object? referenceNo = freezed,
     Object? expenseDate = freezed,
     Object? paymentMode = freezed,
@@ -326,9 +326,9 @@ class __$$ExpenseRequestModelImplCopyWithImpl<$Res>
           ? _value.expenseIDPK
           : expenseIDPK // ignore: cast_nullable_to_non_nullable
               as String?,
-      expenseno: freezed == expenseno
-          ? _value.expenseno
-          : expenseno // ignore: cast_nullable_to_non_nullable
+      expenseNo: freezed == expenseNo
+          ? _value.expenseNo
+          : expenseNo // ignore: cast_nullable_to_non_nullable
               as int?,
       referenceNo: freezed == referenceNo
           ? _value.referenceNo
@@ -401,7 +401,7 @@ class __$$ExpenseRequestModelImplCopyWithImpl<$Res>
       createdDate: freezed == createdDate
           ? _value.createdDate
           : createdDate // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       modifiedBy: freezed == modifiedBy
           ? _value.modifiedBy
           : modifiedBy // ignore: cast_nullable_to_non_nullable
@@ -409,7 +409,7 @@ class __$$ExpenseRequestModelImplCopyWithImpl<$Res>
       modifiedDate: freezed == modifiedDate
           ? _value.modifiedDate
           : modifiedDate // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as DateTime?,
       rowguid: freezed == rowguid
           ? _value.rowguid
           : rowguid // ignore: cast_nullable_to_non_nullable
@@ -435,7 +435,7 @@ class __$$ExpenseRequestModelImplCopyWithImpl<$Res>
 class _$ExpenseRequestModelImpl implements _ExpenseRequestModel {
   const _$ExpenseRequestModelImpl(
       {this.expenseIDPK,
-      this.expenseno,
+      this.expenseNo,
       this.referenceNo,
       this.expenseDate,
       this.paymentMode,
@@ -468,7 +468,7 @@ class _$ExpenseRequestModelImpl implements _ExpenseRequestModel {
   @override
   final String? expenseIDPK;
   @override
-  final int? expenseno;
+  final int? expenseNo;
   @override
   final String? referenceNo;
   @override
@@ -504,11 +504,11 @@ class _$ExpenseRequestModelImpl implements _ExpenseRequestModel {
   @override
   final String? createdBy;
   @override
-  final String? createdDate;
+  final DateTime? createdDate;
   @override
   final String? modifiedBy;
   @override
-  final String? modifiedDate;
+  final DateTime? modifiedDate;
   @override
   final String? rowguid;
   @override
@@ -527,7 +527,7 @@ class _$ExpenseRequestModelImpl implements _ExpenseRequestModel {
 
   @override
   String toString() {
-    return 'ExpenseRequestModel(expenseIDPK: $expenseIDPK, expenseno: $expenseno, referenceNo: $referenceNo, expenseDate: $expenseDate, paymentMode: $paymentMode, purchasedBy: $purchasedBy, supplierIDFK: $supplierIDFK, crLedgerIDFK: $crLedgerIDFK, drLedgerIDFK: $drLedgerIDFK, supplierInvoiceNo: $supplierInvoiceNo, grossTotal: $grossTotal, discount: $discount, tax: $tax, netTotal: $netTotal, roundOff: $roundOff, remarks: $remarks, isEditable: $isEditable, isCanceled: $isCanceled, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, companyIDPK: $companyIDPK, supplierName: $supplierName, expenseDetails: $expenseDetails)';
+    return 'ExpenseRequestModel(expenseIDPK: $expenseIDPK, expenseNo: $expenseNo, referenceNo: $referenceNo, expenseDate: $expenseDate, paymentMode: $paymentMode, purchasedBy: $purchasedBy, supplierIDFK: $supplierIDFK, crLedgerIDFK: $crLedgerIDFK, drLedgerIDFK: $drLedgerIDFK, supplierInvoiceNo: $supplierInvoiceNo, grossTotal: $grossTotal, discount: $discount, tax: $tax, netTotal: $netTotal, roundOff: $roundOff, remarks: $remarks, isEditable: $isEditable, isCanceled: $isCanceled, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, companyIDPK: $companyIDPK, supplierName: $supplierName, expenseDetails: $expenseDetails)';
   }
 
   @override
@@ -537,8 +537,8 @@ class _$ExpenseRequestModelImpl implements _ExpenseRequestModel {
             other is _$ExpenseRequestModelImpl &&
             (identical(other.expenseIDPK, expenseIDPK) ||
                 other.expenseIDPK == expenseIDPK) &&
-            (identical(other.expenseno, expenseno) ||
-                other.expenseno == expenseno) &&
+            (identical(other.expenseNo, expenseNo) ||
+                other.expenseNo == expenseNo) &&
             (identical(other.referenceNo, referenceNo) ||
                 other.referenceNo == referenceNo) &&
             (identical(other.expenseDate, expenseDate) ||
@@ -591,7 +591,7 @@ class _$ExpenseRequestModelImpl implements _ExpenseRequestModel {
   int get hashCode => Object.hashAll([
         runtimeType,
         expenseIDPK,
-        expenseno,
+        expenseNo,
         referenceNo,
         expenseDate,
         paymentMode,
@@ -638,7 +638,7 @@ class _$ExpenseRequestModelImpl implements _ExpenseRequestModel {
 abstract class _ExpenseRequestModel implements ExpenseRequestModel {
   const factory _ExpenseRequestModel(
       {final String? expenseIDPK,
-      final int? expenseno,
+      final int? expenseNo,
       final String? referenceNo,
       final DateTime? expenseDate,
       final String? paymentMode,
@@ -656,9 +656,9 @@ abstract class _ExpenseRequestModel implements ExpenseRequestModel {
       final bool? isEditable,
       final bool? isCanceled,
       final String? createdBy,
-      final String? createdDate,
+      final DateTime? createdDate,
       final String? modifiedBy,
-      final String? modifiedDate,
+      final DateTime? modifiedDate,
       final String? rowguid,
       final String? companyIDPK,
       final String? supplierName,
@@ -670,7 +670,7 @@ abstract class _ExpenseRequestModel implements ExpenseRequestModel {
   @override
   String? get expenseIDPK;
   @override
-  int? get expenseno;
+  int? get expenseNo;
   @override
   String? get referenceNo;
   @override
@@ -706,11 +706,11 @@ abstract class _ExpenseRequestModel implements ExpenseRequestModel {
   @override
   String? get createdBy;
   @override
-  String? get createdDate;
+  DateTime? get createdDate;
   @override
   String? get modifiedBy;
   @override
-  String? get modifiedDate;
+  DateTime? get modifiedDate;
   @override
   String? get rowguid;
   @override
@@ -745,6 +745,10 @@ mixin _$ExpenseDetails {
   String? get companyIDPK => throw _privateConstructorUsedError;
   double? get currentBalance => throw _privateConstructorUsedError;
   String? get ledgerName => throw _privateConstructorUsedError;
+  String? get ledgerCode => throw _privateConstructorUsedError;
+  double? get openingBalance => throw _privateConstructorUsedError;
+  String? get groupName => throw _privateConstructorUsedError;
+  String? get nature => throw _privateConstructorUsedError;
 
   /// Serializes this ExpenseDetails to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -773,7 +777,11 @@ abstract class $ExpenseDetailsCopyWith<$Res> {
       String? rowguid,
       String? companyIDPK,
       double? currentBalance,
-      String? ledgerName});
+      String? ledgerName,
+      String? ledgerCode,
+      double? openingBalance,
+      String? groupName,
+      String? nature});
 }
 
 /// @nodoc
@@ -802,6 +810,10 @@ class _$ExpenseDetailsCopyWithImpl<$Res, $Val extends ExpenseDetails>
     Object? companyIDPK = freezed,
     Object? currentBalance = freezed,
     Object? ledgerName = freezed,
+    Object? ledgerCode = freezed,
+    Object? openingBalance = freezed,
+    Object? groupName = freezed,
+    Object? nature = freezed,
   }) {
     return _then(_value.copyWith(
       expenseIDPK: freezed == expenseIDPK
@@ -848,6 +860,22 @@ class _$ExpenseDetailsCopyWithImpl<$Res, $Val extends ExpenseDetails>
           ? _value.ledgerName
           : ledgerName // ignore: cast_nullable_to_non_nullable
               as String?,
+      ledgerCode: freezed == ledgerCode
+          ? _value.ledgerCode
+          : ledgerCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      openingBalance: freezed == openingBalance
+          ? _value.openingBalance
+          : openingBalance // ignore: cast_nullable_to_non_nullable
+              as double?,
+      groupName: freezed == groupName
+          ? _value.groupName
+          : groupName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nature: freezed == nature
+          ? _value.nature
+          : nature // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -871,7 +899,11 @@ abstract class _$$ExpenseDetailsImplCopyWith<$Res>
       String? rowguid,
       String? companyIDPK,
       double? currentBalance,
-      String? ledgerName});
+      String? ledgerName,
+      String? ledgerCode,
+      double? openingBalance,
+      String? groupName,
+      String? nature});
 }
 
 /// @nodoc
@@ -898,6 +930,10 @@ class __$$ExpenseDetailsImplCopyWithImpl<$Res>
     Object? companyIDPK = freezed,
     Object? currentBalance = freezed,
     Object? ledgerName = freezed,
+    Object? ledgerCode = freezed,
+    Object? openingBalance = freezed,
+    Object? groupName = freezed,
+    Object? nature = freezed,
   }) {
     return _then(_$ExpenseDetailsImpl(
       expenseIDPK: freezed == expenseIDPK
@@ -944,6 +980,22 @@ class __$$ExpenseDetailsImplCopyWithImpl<$Res>
           ? _value.ledgerName
           : ledgerName // ignore: cast_nullable_to_non_nullable
               as String?,
+      ledgerCode: freezed == ledgerCode
+          ? _value.ledgerCode
+          : ledgerCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      openingBalance: freezed == openingBalance
+          ? _value.openingBalance
+          : openingBalance // ignore: cast_nullable_to_non_nullable
+              as double?,
+      groupName: freezed == groupName
+          ? _value.groupName
+          : groupName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      nature: freezed == nature
+          ? _value.nature
+          : nature // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -962,7 +1014,11 @@ class _$ExpenseDetailsImpl implements _ExpenseDetails {
       this.rowguid,
       this.companyIDPK,
       this.currentBalance,
-      this.ledgerName});
+      this.ledgerName,
+      this.ledgerCode,
+      this.openingBalance,
+      this.groupName,
+      this.nature});
 
   factory _$ExpenseDetailsImpl.fromJson(Map<String, dynamic> json) =>
       _$$ExpenseDetailsImplFromJson(json);
@@ -989,10 +1045,18 @@ class _$ExpenseDetailsImpl implements _ExpenseDetails {
   final double? currentBalance;
   @override
   final String? ledgerName;
+  @override
+  final String? ledgerCode;
+  @override
+  final double? openingBalance;
+  @override
+  final String? groupName;
+  @override
+  final String? nature;
 
   @override
   String toString() {
-    return 'ExpenseDetails(expenseIDPK: $expenseIDPK, ledgerIDPK: $ledgerIDPK, description: $description, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercentage: $taxPercentage, netTotal: $netTotal, rowguid: $rowguid, companyIDPK: $companyIDPK, currentBalance: $currentBalance, ledgerName: $ledgerName)';
+    return 'ExpenseDetails(expenseIDPK: $expenseIDPK, ledgerIDPK: $ledgerIDPK, description: $description, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercentage: $taxPercentage, netTotal: $netTotal, rowguid: $rowguid, companyIDPK: $companyIDPK, currentBalance: $currentBalance, ledgerName: $ledgerName, ledgerCode: $ledgerCode, openingBalance: $openingBalance, groupName: $groupName, nature: $nature)';
   }
 
   @override
@@ -1020,7 +1084,14 @@ class _$ExpenseDetailsImpl implements _ExpenseDetails {
             (identical(other.currentBalance, currentBalance) ||
                 other.currentBalance == currentBalance) &&
             (identical(other.ledgerName, ledgerName) ||
-                other.ledgerName == ledgerName));
+                other.ledgerName == ledgerName) &&
+            (identical(other.ledgerCode, ledgerCode) ||
+                other.ledgerCode == ledgerCode) &&
+            (identical(other.openingBalance, openingBalance) ||
+                other.openingBalance == openingBalance) &&
+            (identical(other.groupName, groupName) ||
+                other.groupName == groupName) &&
+            (identical(other.nature, nature) || other.nature == nature));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1037,7 +1108,11 @@ class _$ExpenseDetailsImpl implements _ExpenseDetails {
       rowguid,
       companyIDPK,
       currentBalance,
-      ledgerName);
+      ledgerName,
+      ledgerCode,
+      openingBalance,
+      groupName,
+      nature);
 
   /// Create a copy of ExpenseDetails
   /// with the given fields replaced by the non-null parameter values.
@@ -1068,7 +1143,11 @@ abstract class _ExpenseDetails implements ExpenseDetails {
       final String? rowguid,
       final String? companyIDPK,
       final double? currentBalance,
-      final String? ledgerName}) = _$ExpenseDetailsImpl;
+      final String? ledgerName,
+      final String? ledgerCode,
+      final double? openingBalance,
+      final String? groupName,
+      final String? nature}) = _$ExpenseDetailsImpl;
 
   factory _ExpenseDetails.fromJson(Map<String, dynamic> json) =
       _$ExpenseDetailsImpl.fromJson;
@@ -1095,6 +1174,14 @@ abstract class _ExpenseDetails implements ExpenseDetails {
   double? get currentBalance;
   @override
   String? get ledgerName;
+  @override
+  String? get ledgerCode;
+  @override
+  double? get openingBalance;
+  @override
+  String? get groupName;
+  @override
+  String? get nature;
 
   /// Create a copy of ExpenseDetails
   /// with the given fields replaced by the non-null parameter values.

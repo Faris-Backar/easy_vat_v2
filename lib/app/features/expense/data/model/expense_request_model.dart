@@ -7,7 +7,7 @@ part 'expense_request_model.g.dart';
 class ExpenseRequestModel with _$ExpenseRequestModel {
   const factory ExpenseRequestModel({
     String? expenseIDPK,
-    int? expenseno,
+    int? expenseNo,
     String? referenceNo,
     DateTime? expenseDate,
     String? paymentMode,
@@ -25,9 +25,9 @@ class ExpenseRequestModel with _$ExpenseRequestModel {
     bool? isEditable,
     bool? isCanceled,
     String? createdBy,
-    String? createdDate,
+    DateTime? createdDate,
     String? modifiedBy,
-    String? modifiedDate,
+    DateTime? modifiedDate,
     String? rowguid,
     String? companyIDPK,
     String? supplierName,
@@ -40,19 +40,22 @@ class ExpenseRequestModel with _$ExpenseRequestModel {
 
 @freezed
 class ExpenseDetails with _$ExpenseDetails {
-  const factory ExpenseDetails({
-    String? expenseIDPK,
-    String? ledgerIDPK,
-    String? description,
-    double? grossTotal,
-    double? taxAmount,
-    double? taxPercentage,
-    double? netTotal,
-    String? rowguid,
-    String? companyIDPK,
-    double? currentBalance,
-    String? ledgerName,
-  }) = _ExpenseDetails;
+  const factory ExpenseDetails(
+      {String? expenseIDPK,
+      String? ledgerIDPK,
+      String? description,
+      double? grossTotal,
+      double? taxAmount,
+      double? taxPercentage,
+      double? netTotal,
+      String? rowguid,
+      String? companyIDPK,
+      double? currentBalance,
+      String? ledgerName,
+      String? ledgerCode,
+      double? openingBalance,
+      String? groupName,
+      String? nature}) = _ExpenseDetails;
 
   factory ExpenseDetails.fromJson(Map<String, dynamic> json) =>
       _$ExpenseDetailsFromJson(json);

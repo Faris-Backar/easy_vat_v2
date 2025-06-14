@@ -140,7 +140,7 @@ class _ExpenseBottomModalSheetState
         padding: const EdgeInsets.only(bottom: 8.0),
         child: InkWell(
           onTap: () {
-            if ((ledgerList[index].currentBalance ?? 0.0) > 0) {
+            if ((ledgerList[index].isActive ?? false)) {
               expenseDetailsExpansionNotifier.value = index;
               showDialog(
                   context: context,

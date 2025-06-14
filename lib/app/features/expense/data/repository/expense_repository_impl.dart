@@ -88,9 +88,9 @@ class ExpenseRepositoryImpl extends ExpenseRepository {
 
   @override
   Future<Either<Failure, ExpenseEntity>> deleteExpense(
-      {required ExpenseRequestModel expenseRequestParams}) async {
+      {required ExpenseParams expenseParams}) async {
     try {
-      final data = expenseRequestParams.toJson();
+      final data = expenseParams.toJson();
 
       final response =
           await client.post(UrlResources.deleteExpense, data: data);

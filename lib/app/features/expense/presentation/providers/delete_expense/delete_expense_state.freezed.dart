@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'create_expense_state.dart';
+part of 'delete_expense_state.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,12 +15,12 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$CreateExpenseState {
+mixin _$DeleteExpenseState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String expenseIDPK) success,
+    required TResult Function() success,
     required TResult Function(String error) failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -28,7 +28,7 @@ mixin _$CreateExpenseState {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(String expenseIDPK)? success,
+    TResult? Function()? success,
     TResult? Function(String error)? failure,
   }) =>
       throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ mixin _$CreateExpenseState {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String expenseIDPK)? success,
+    TResult Function()? success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) =>
@@ -69,23 +69,23 @@ mixin _$CreateExpenseState {
 }
 
 /// @nodoc
-abstract class $CreateExpenseStateCopyWith<$Res> {
-  factory $CreateExpenseStateCopyWith(
-          CreateExpenseState value, $Res Function(CreateExpenseState) then) =
-      _$CreateExpenseStateCopyWithImpl<$Res, CreateExpenseState>;
+abstract class $DeleteExpenseStateCopyWith<$Res> {
+  factory $DeleteExpenseStateCopyWith(
+          DeleteExpenseState value, $Res Function(DeleteExpenseState) then) =
+      _$DeleteExpenseStateCopyWithImpl<$Res, DeleteExpenseState>;
 }
 
 /// @nodoc
-class _$CreateExpenseStateCopyWithImpl<$Res, $Val extends CreateExpenseState>
-    implements $CreateExpenseStateCopyWith<$Res> {
-  _$CreateExpenseStateCopyWithImpl(this._value, this._then);
+class _$DeleteExpenseStateCopyWithImpl<$Res, $Val extends DeleteExpenseState>
+    implements $DeleteExpenseStateCopyWith<$Res> {
+  _$DeleteExpenseStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of CreateExpenseState
+  /// Create a copy of DeleteExpenseState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -98,13 +98,13 @@ abstract class _$$InitialImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$InitialImplCopyWithImpl<$Res>
-    extends _$CreateExpenseStateCopyWithImpl<$Res, _$InitialImpl>
+    extends _$DeleteExpenseStateCopyWithImpl<$Res, _$InitialImpl>
     implements _$$InitialImplCopyWith<$Res> {
   __$$InitialImplCopyWithImpl(
       _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CreateExpenseState
+  /// Create a copy of DeleteExpenseState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -115,7 +115,7 @@ class _$InitialImpl implements _Initial {
 
   @override
   String toString() {
-    return 'CreateExpenseState.initial()';
+    return 'DeleteExpenseState.initial()';
   }
 
   @override
@@ -132,7 +132,7 @@ class _$InitialImpl implements _Initial {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String expenseIDPK) success,
+    required TResult Function() success,
     required TResult Function(String error) failure,
   }) {
     return initial();
@@ -143,7 +143,7 @@ class _$InitialImpl implements _Initial {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(String expenseIDPK)? success,
+    TResult? Function()? success,
     TResult? Function(String error)? failure,
   }) {
     return initial?.call();
@@ -154,7 +154,7 @@ class _$InitialImpl implements _Initial {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String expenseIDPK)? success,
+    TResult Function()? success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
@@ -202,7 +202,7 @@ class _$InitialImpl implements _Initial {
   }
 }
 
-abstract class _Initial implements CreateExpenseState {
+abstract class _Initial implements DeleteExpenseState {
   const factory _Initial() = _$InitialImpl;
 }
 
@@ -215,13 +215,13 @@ abstract class _$$LoadingImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$LoadingImplCopyWithImpl<$Res>
-    extends _$CreateExpenseStateCopyWithImpl<$Res, _$LoadingImpl>
+    extends _$DeleteExpenseStateCopyWithImpl<$Res, _$LoadingImpl>
     implements _$$LoadingImplCopyWith<$Res> {
   __$$LoadingImplCopyWithImpl(
       _$LoadingImpl _value, $Res Function(_$LoadingImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CreateExpenseState
+  /// Create a copy of DeleteExpenseState
   /// with the given fields replaced by the non-null parameter values.
 }
 
@@ -232,7 +232,7 @@ class _$LoadingImpl implements _Loading {
 
   @override
   String toString() {
-    return 'CreateExpenseState.loading()';
+    return 'DeleteExpenseState.loading()';
   }
 
   @override
@@ -249,7 +249,7 @@ class _$LoadingImpl implements _Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String expenseIDPK) success,
+    required TResult Function() success,
     required TResult Function(String error) failure,
   }) {
     return loading();
@@ -260,7 +260,7 @@ class _$LoadingImpl implements _Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(String expenseIDPK)? success,
+    TResult? Function()? success,
     TResult? Function(String error)? failure,
   }) {
     return loading?.call();
@@ -271,7 +271,7 @@ class _$LoadingImpl implements _Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String expenseIDPK)? success,
+    TResult Function()? success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
@@ -319,7 +319,7 @@ class _$LoadingImpl implements _Loading {
   }
 }
 
-abstract class _Loading implements CreateExpenseState {
+abstract class _Loading implements DeleteExpenseState {
   const factory _Loading() = _$LoadingImpl;
 }
 
@@ -328,76 +328,48 @@ abstract class _$$SuccessImplCopyWith<$Res> {
   factory _$$SuccessImplCopyWith(
           _$SuccessImpl value, $Res Function(_$SuccessImpl) then) =
       __$$SuccessImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String expenseIDPK});
 }
 
 /// @nodoc
 class __$$SuccessImplCopyWithImpl<$Res>
-    extends _$CreateExpenseStateCopyWithImpl<$Res, _$SuccessImpl>
+    extends _$DeleteExpenseStateCopyWithImpl<$Res, _$SuccessImpl>
     implements _$$SuccessImplCopyWith<$Res> {
   __$$SuccessImplCopyWithImpl(
       _$SuccessImpl _value, $Res Function(_$SuccessImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CreateExpenseState
+  /// Create a copy of DeleteExpenseState
   /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? expenseIDPK = null,
-  }) {
-    return _then(_$SuccessImpl(
-      null == expenseIDPK
-          ? _value.expenseIDPK
-          : expenseIDPK // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
 class _$SuccessImpl implements _Success {
-  const _$SuccessImpl(this.expenseIDPK);
-
-  @override
-  final String expenseIDPK;
+  const _$SuccessImpl();
 
   @override
   String toString() {
-    return 'CreateExpenseState.success(expenseIDPK: $expenseIDPK)';
+    return 'DeleteExpenseState.success()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$SuccessImpl &&
-            (identical(other.expenseIDPK, expenseIDPK) ||
-                other.expenseIDPK == expenseIDPK));
+        (other.runtimeType == runtimeType && other is _$SuccessImpl);
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, expenseIDPK);
-
-  /// Create a copy of CreateExpenseState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
-      __$$SuccessImplCopyWithImpl<_$SuccessImpl>(this, _$identity);
+  int get hashCode => runtimeType.hashCode;
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String expenseIDPK) success,
+    required TResult Function() success,
     required TResult Function(String error) failure,
   }) {
-    return success(expenseIDPK);
+    return success();
   }
 
   @override
@@ -405,10 +377,10 @@ class _$SuccessImpl implements _Success {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(String expenseIDPK)? success,
+    TResult? Function()? success,
     TResult? Function(String error)? failure,
   }) {
-    return success?.call(expenseIDPK);
+    return success?.call();
   }
 
   @override
@@ -416,12 +388,12 @@ class _$SuccessImpl implements _Success {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String expenseIDPK)? success,
+    TResult Function()? success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(expenseIDPK);
+      return success();
     }
     return orElse();
   }
@@ -464,16 +436,8 @@ class _$SuccessImpl implements _Success {
   }
 }
 
-abstract class _Success implements CreateExpenseState {
-  const factory _Success(final String expenseIDPK) = _$SuccessImpl;
-
-  String get expenseIDPK;
-
-  /// Create a copy of CreateExpenseState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SuccessImplCopyWith<_$SuccessImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+abstract class _Success implements DeleteExpenseState {
+  const factory _Success() = _$SuccessImpl;
 }
 
 /// @nodoc
@@ -487,13 +451,13 @@ abstract class _$$FailureImplCopyWith<$Res> {
 
 /// @nodoc
 class __$$FailureImplCopyWithImpl<$Res>
-    extends _$CreateExpenseStateCopyWithImpl<$Res, _$FailureImpl>
+    extends _$DeleteExpenseStateCopyWithImpl<$Res, _$FailureImpl>
     implements _$$FailureImplCopyWith<$Res> {
   __$$FailureImplCopyWithImpl(
       _$FailureImpl _value, $Res Function(_$FailureImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of CreateExpenseState
+  /// Create a copy of DeleteExpenseState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -519,7 +483,7 @@ class _$FailureImpl implements _Failure {
 
   @override
   String toString() {
-    return 'CreateExpenseState.failure(error: $error)';
+    return 'DeleteExpenseState.failure(error: $error)';
   }
 
   @override
@@ -533,7 +497,7 @@ class _$FailureImpl implements _Failure {
   @override
   int get hashCode => Object.hash(runtimeType, error);
 
-  /// Create a copy of CreateExpenseState
+  /// Create a copy of DeleteExpenseState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
@@ -546,7 +510,7 @@ class _$FailureImpl implements _Failure {
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
     required TResult Function() loading,
-    required TResult Function(String expenseIDPK) success,
+    required TResult Function() success,
     required TResult Function(String error) failure,
   }) {
     return failure(error);
@@ -557,7 +521,7 @@ class _$FailureImpl implements _Failure {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
-    TResult? Function(String expenseIDPK)? success,
+    TResult? Function()? success,
     TResult? Function(String error)? failure,
   }) {
     return failure?.call(error);
@@ -568,7 +532,7 @@ class _$FailureImpl implements _Failure {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
     TResult Function()? loading,
-    TResult Function(String expenseIDPK)? success,
+    TResult Function()? success,
     TResult Function(String error)? failure,
     required TResult orElse(),
   }) {
@@ -616,12 +580,12 @@ class _$FailureImpl implements _Failure {
   }
 }
 
-abstract class _Failure implements CreateExpenseState {
+abstract class _Failure implements DeleteExpenseState {
   const factory _Failure(final String error) = _$FailureImpl;
 
   String get error;
 
-  /// Create a copy of CreateExpenseState
+  /// Create a copy of DeleteExpenseState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FailureImplCopyWith<_$FailureImpl> get copyWith =>

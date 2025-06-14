@@ -88,7 +88,7 @@ class SupplierModel extends SupplierEntity {
 
   Map<String, dynamic> toJson() => {
         "ledgerIDPK": ledgerIDPK,
-        "underIDPK": underIDFK,
+        "underIDFK": underIDFK,
         "ledgerName": ledgerName,
         "description": description,
         "taxPercentage": taxPercentage,
@@ -118,7 +118,7 @@ class SupplierModel extends SupplierEntity {
         "ledgerCode": ledgerCode,
         "modifiedBy": modifiedBy,
         "contactNo": contactNo,
-        "comapnyIDPK": companyIDPK,
+        "companyIDPK": companyIDPK,
         "defaultPaymentMode": defaultPaymentMode,
         "groupName": groupName,
         "nature": nature

@@ -1,10 +1,12 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/expense_bottom_modal_sheet.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/create_expense/create_expense_notifier.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/update_expense/update_expense_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
@@ -15,16 +17,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class AddExpenseFooterWidget extends StatefulWidget {
-  // final TextEditingController expenseNoController;
-  // final TextEditingController refNoController;
-  // final ValueNotifier<String?> paymentModeNotifier;
-  // final ValueNotifier<String?> purchasedByNotifier;
-  const AddExpenseFooterWidget({super.key});
-
-  //     required this.expenseNoController,
-  //     required this.refNoController,
-  //     required this.paymentModeNotifier,
-  //     required this.purchasedByNotifier
+  final TextEditingController expenseNoController;
+  final TextEditingController refNoController;
+  final TextEditingController supInvNoController;
+  final TextEditingController purchasedByController;
+  final ValueNotifier<String?> paymentModeNotifier;
+  const AddExpenseFooterWidget(
+      {super.key,
+      required this.expenseNoController,
+      required this.refNoController,
+      required this.paymentModeNotifier,
+      required this.supInvNoController,
+      required this.purchasedByController});
 
   @override
   State<AddExpenseFooterWidget> createState() => _AddExpenseFooterWidgetState();
@@ -34,11 +38,11 @@ class _AddExpenseFooterWidgetState extends State<AddExpenseFooterWidget> {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      final isCartNotEmpty =
-          (ref.watch(cartProvider).itemList?.length ?? 0) > 0;
+      final isExpenseCartNotEmpty =
+          (ref.watch(expenseCartProvider).ledgerList?.length ?? 0) > 0;
       return AnimatedContainer(
         duration: Duration(milliseconds: 300),
-        height: isCartNotEmpty ? 107.h : 67.h,
+        height: isExpenseCartNotEmpty ? 107.h : 67.h,
         width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(
@@ -54,7 +58,7 @@ class _AddExpenseFooterWidgetState extends State<AddExpenseFooterWidget> {
         child: Column(
           children: [
             _buildButtonsRow(context),
-            if (isCartNotEmpty) ...[
+            if (isExpenseCartNotEmpty) ...[
               SizedBox(
                 height: 6,
               ),
@@ -72,7 +76,9 @@ class _AddExpenseFooterWidgetState extends State<AddExpenseFooterWidget> {
                               msg: successMessage,
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.BOTTOM);
-                          ref.read(cartProvider.notifier).clearCart();
+                          ref
+                              .read(expenseCartProvider.notifier)
+                              .clearExpenseCart();
                           context.router.popForced();
                         },
                         failure: (message) => ScaffoldMessenger.of(context)
@@ -84,28 +90,32 @@ class _AddExpenseFooterWidgetState extends State<AddExpenseFooterWidget> {
                     next.mapOrNull(
                         success: (success) {
                           final successMessage =
-                              "Expense successfully updates!";
+                              "Expense successfully updated!";
 
                           Fluttertoast.showToast(
                               msg: successMessage,
                               toastLength: Toast.LENGTH_SHORT,
                               gravity: ToastGravity.BOTTOM);
-                          ref.read(cartProvider.notifier).clearCart();
+                          ref
+                              .read(expenseCartProvider.notifier)
+                              .clearExpenseCart();
                           context.router.popForced();
                         },
                         failure: (message) => ScaffoldMessenger.of(context)
                             .showSnackBar(
                                 SnackBar(content: Text(message.error))));
                   });
-                  if (ref.read(cartProvider).isForUpdate == true) {
+                  if (ref.read(expenseCartProvider).isForUpdate == true) {
                     final state = ref.watch(updateExpenseNotifierProvider);
                     return state.maybeWhen(
                       orElse: () => PrimaryButton(
-                          label: ref.read(cartProvider).isForUpdate == true
-                              ? context.translate(AppStrings.update)
-                              : context.translate(AppStrings.save),
+                          label:
+                              ref.read(expenseCartProvider).isForUpdate == true
+                                  ? context.translate(AppStrings.update)
+                                  : context.translate(AppStrings.save),
                           isLoading: false,
-                          onPressed: () {}), //await _createUpdateExpense(ref),
+                          onPressed: () async => await _createUpdateExpense(
+                              ref)), //await _createUpdateExpense(ref),
                       loading: () => PrimaryButton(
                         label: context.translate(AppStrings.save),
                         isLoading: true,
@@ -114,13 +124,17 @@ class _AddExpenseFooterWidgetState extends State<AddExpenseFooterWidget> {
                     );
                   } else {
                     final state = ref.watch(createExpenseNotifierProvider);
+                    log("result: $state");
                     return state.maybeWhen(
                         orElse: () => PrimaryButton(
-                              label: ref.read(cartProvider).isForUpdate == true
-                                  ? context.translate(AppStrings.update)
-                                  : context.translate(AppStrings.save),
+                              label:
+                                  ref.read(expenseCartProvider).isForUpdate ==
+                                          true
+                                      ? context.translate(AppStrings.update)
+                                      : context.translate(AppStrings.save),
                               isLoading: false,
-                              onPressed: () {},
+                              onPressed: () async =>
+                                  await _createUpdateExpense(ref),
                               // await _createUpdateExpense(ref),
                             ));
                   }
@@ -222,5 +236,32 @@ class _AddExpenseFooterWidgetState extends State<AddExpenseFooterWidget> {
                       : context.colorScheme.primary)
                   : null)),
     );
+  }
+
+  _createUpdateExpense(WidgetRef ref) async {
+    final expCartPrvd = ref.read(expenseCartProvider.notifier);
+    expCartPrvd.setExpensesNo(widget.expenseNoController.text);
+    expCartPrvd.setPaymentMode(widget.paymentModeNotifier.value ?? "");
+    expCartPrvd.setRefNo(widget.refNoController.text);
+    expCartPrvd.setSupplierInvoiceNo(widget.supInvNoController.text);
+    expCartPrvd.setPurchasedBy(widget.purchasedByController.text);
+
+    if (expCartPrvd.paymentMode.toLowerCase() == "credit" &&
+        expCartPrvd.selectedSupplier == null) {
+      Fluttertoast.showToast(
+          msg: context.translate(AppStrings.pleaseSelectASupplier));
+    } else {
+      final newExpense = await expCartPrvd.createNewExpense();
+
+      if (ref.read(expenseCartProvider).isForUpdate == true) {
+        ref
+            .read(updateExpenseNotifierProvider.notifier)
+            .updateExpense(request: newExpense);
+      } else {
+        ref
+            .read(createExpenseNotifierProvider.notifier)
+            .createExpense(request: newExpense);
+      }
+    }
   }
 }

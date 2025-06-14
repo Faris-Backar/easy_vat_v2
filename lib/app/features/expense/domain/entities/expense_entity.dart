@@ -74,7 +74,11 @@ abstract class ExpenseDetailsEntity {
   final String? rowguid;
   final String? companyIDPK;
   final double? currentBalance;
+  final double? openingBalance;
   final String? ledgerName;
+  final String? ledgerCode;
+  final String? groupName;
+  final String? nature;
 
   ExpenseDetailsEntity(
       {this.expenseIDPK,
@@ -87,5 +91,9 @@ abstract class ExpenseDetailsEntity {
       this.rowguid,
       this.companyIDPK,
       this.currentBalance,
-      this.ledgerName});
+      this.openingBalance,
+      this.ledgerName,
+      this.ledgerCode,
+      this.groupName,
+      this.nature});
 }
