@@ -16,6 +16,7 @@ import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sales/delete_sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/fetch_sales_return/fetch_sales_return.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/fetch_sales_return/fetch_sales_return_state.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
@@ -181,15 +182,16 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                                     ? context.onPrimaryColor
                                     : null,
                                 onTap: () async {
-                                  // await ref
-                                  //     .read(salesProvider.notifier)
-                                  //     .reinsertSalesForm(salesInvoice, ref);
-                                  // if (mounted) {
-                                  //   context.router.push(AddNewSalesRoute(
-                                  //     title: context
-                                  //         .translate(AppStrings.addNewSales),
-                                  //   ));
-                                  // }
+                                  await ref
+                                      .read(salesProvider.notifier)
+                                      .reinsertSalesReturnForm(
+                                          salesReturn, ref);
+                                  if (mounted) {
+                                    context.router.push(AddNewSalesRoute(
+                                      title: context.translate(
+                                          AppStrings.addNewSalesReturn),
+                                    ));
+                                  }
                                 }),
                           ),
                         ],

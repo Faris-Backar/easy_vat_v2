@@ -4,6 +4,7 @@ import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_notifier.dart';
+import 'package:easy_vat_v2/app/features/items/domain/entities/item_entities.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
@@ -11,6 +12,7 @@ import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_request_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_return_entity.dart';
 import 'package:easy_vat_v2/app/features/salesman/domain/entity/sales_man_entity.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -327,6 +329,102 @@ class SalesNotifier extends StateNotifier<SalesState> {
     cartPrvd.updateState();
   }
 
+  reinsertSalesReturnForm(SalesReturnEntity salesReturn, WidgetRef ref) async {
+    final cartPrvd = ref.read(cartProvider.notifier);
+    cartPrvd.clearCart();
+    setEditMode(true);
+    List<CartEntity> updatedItemsList = [];
+    ref.read(customerNotifierProvider.notifier).getCustomer();
+    final customerList = ref.read(customerNotifierProvider).customerList;
+    final selectedCustomer = customerList != null
+        ? customerList.firstWhere((customer) =>
+            customer.ledgerIdpk?.toLowerCase() ==
+            salesReturn.customerIdfk?.toLowerCase())
+        : CustomerEntity(
+            ledgerName: salesReturn.customerName,
+            ledgerIdpk: salesReturn.customerIdfk);
+    if (salesReturn.customerName?.toLowerCase() != "cash") {
+      final cashLedger = ref
+          .read(cashLedgerNotifierProvider.notifier)
+          .getLedgerById(salesReturn.drLedgerIdfk ?? '');
+
+      if (cashLedger != null) {
+        setCashAccount(cashLedger);
+      }
+    }
+
+    final salesLedger = ref
+        .read(salesLedgerNotifierProvider.notifier)
+        .getLedgerById(salesReturn.crLedgerIdfk!);
+    if (salesLedger != null) {
+      setSalesAccount(salesLedger);
+    }
+
+    // final soldBy = ref
+    //     .read(salesManProvider.notifier)
+    //     .getSalesManByName(salesReturn.retu ?? "");
+    // if (soldBy != null) {
+    //   setSoldBy(soldBy);
+    // }
+    // final updatedCustomerWithAddress = selectedCustomer.copyWith(
+    //     billingAddress: salesReturn.cashCustomerAddress,
+    //     shippingAddress: salesReturn.shippingAddress);
+    setSalesIdpk(salesReturn.salesReturnIdpk ?? "");
+    setCustomer(selectedCustomer);
+    setSalesNo(salesReturn.saleNo?.toString() ?? "");
+    setRefNo(salesReturn.referenceNo ?? "");
+    setSalesDate(salesReturn.returnDate ?? DateTime.now());
+    setSalesMode(salesReturn.salesReturnMode ?? "Cash");
+
+    // adding items to cart.
+    if (salesReturn.returnedItems?.isNotEmpty == true) {
+      for (var index = 0; index < salesReturn.returnedItems!.length; index++) {
+        final soldItem = salesReturn.returnedItems![index];
+        final itemEntity = convertReturnedItemToItem(soldItem);
+        final priceBeforeTax = cartPrvd.calculateBeforeTax(
+            retailRate: itemEntity.retailRate ?? 0.0,
+            qty: soldItem.actualQty?.toDouble() ?? 0.0);
+
+        // Calculate tax based on tax setting
+        final totalTax = isTaxEnabled
+            ? cartPrvd.calculateTotalTax(
+                retailRate: itemEntity.retailRate ?? 0.0,
+                qty: soldItem.actualQty?.toDouble() ?? 0.0,
+                taxPercentage: itemEntity.taxPercentage ?? 0.0)
+            : 0.0;
+
+        final grossTotal = cartPrvd.calculateGross(
+            retailRate: itemEntity.retailRate ?? 0.0,
+            qty: soldItem.actualQty?.toDouble() ?? 0.0,
+            discount: soldItem.discount?.toDouble() ?? 0.0);
+
+        final netTotal =
+            cartPrvd.calculateNetTotal(grossTotal: grossTotal, tax: totalTax);
+
+        final cartItem = CartEntity(
+          cartItemId: (index + 1),
+          item: itemEntity,
+          qty: soldItem.actualQty?.toDouble() ?? 0.0,
+          rate: itemEntity.retailRate ?? 0.0,
+          cost: itemEntity.cost ?? 0.0,
+          unit: itemEntity.unit ?? "",
+          description: soldItem.description ?? "",
+          discount: soldItem.discount?.toDouble() ?? 0.0,
+          gross: grossTotal,
+          tax: totalTax,
+          priceBeforeTax: priceBeforeTax,
+          netTotal: netTotal,
+        );
+
+        updatedItemsList.add(cartItem);
+        cartPrvd.getRateSplitUp(item: cartItem);
+
+        cartPrvd.itemsList = updatedItemsList;
+      }
+    }
+    cartPrvd.updateState();
+  }
+
   Future<SalesOrderModel> createNewSaleOrder() async {
     // final companyDetails =
     //     await AppCredentialPreferenceHelper().getCompanyInfo();
@@ -498,5 +596,17 @@ class SalesNotifier extends StateNotifier<SalesState> {
     return newSale;
   }
 
-  //
+  ItemEntity convertReturnedItemToItem(ReturnedItemEntity returnedItem) {
+    return ItemEntity(
+      itemIdpk: returnedItem.itemIdpk,
+      barcode: returnedItem.barcode,
+      itemCode: returnedItem.itemCode,
+      itemName: returnedItem.itemName,
+      description: returnedItem.description,
+      unit: returnedItem.unit,
+      cost: returnedItem.cost?.toDouble(),
+      retailRate: returnedItem.sellingPrice?.toDouble(),
+      taxPercentage: returnedItem.taxPercentage?.toDouble(),
+    );
+  }
 }
