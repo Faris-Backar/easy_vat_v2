@@ -1,13 +1,13 @@
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_info_widget.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/data/model/payment_mode_model.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/purchase/purchase_notifier.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
@@ -172,7 +172,7 @@ class _AddNewPurchaseFormState extends ConsumerState<AddNewPurchaseForm> {
                       .where((name) => name.isNotEmpty)
                       .toList();
 
-                  final providerSoldBy = ref.read(cartProvider).soldBy;
+                  final providerSoldBy = ref.read(salesProvider).soldBy;
 
                   if (employeeNames.isNotEmpty) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -194,7 +194,7 @@ class _AddNewPurchaseFormState extends ConsumerState<AddNewPurchaseForm> {
                         );
 
                         ref
-                            .read(cartProvider.notifier)
+                            .read(salesProvider.notifier)
                             .setSoldBy(selectedEmployee);
                       }
                     });

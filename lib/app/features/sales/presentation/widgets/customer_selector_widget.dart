@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_notifier.dart';
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_state.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_details_card.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -42,7 +42,7 @@ class _CustomerSelectorState extends ConsumerState<CustomerSelectorWidget> {
   @override
   Widget build(BuildContext context) {
     final selectedCustomer =
-        ref.watch(cartProvider.select((state) => state.selectedCustomer));
+        ref.watch(salesProvider.select((state) => state.selectedCustomer));
 
     return InkWell(
       onTap: () {
@@ -206,7 +206,7 @@ class _CustomerSelectorState extends ConsumerState<CustomerSelectorWidget> {
                                   final selectedCustomer = customerState
                                       .customerList![selectedIndex];
                                   ref
-                                      .read(cartProvider.notifier)
+                                      .read(salesProvider.notifier)
                                       .setCustomer(selectedCustomer);
                                   context.router.popForced();
                                 }

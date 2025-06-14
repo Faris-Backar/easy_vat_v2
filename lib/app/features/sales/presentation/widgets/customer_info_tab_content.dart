@@ -1,7 +1,7 @@
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,7 +81,7 @@ class CustomerInfoTabContent extends StatelessWidget {
                     flex: 1,
                     child: InkWell(
                       onTap: () {
-                        ref.read(cartProvider.notifier).removeCustomer();
+                        ref.read(salesProvider.notifier).removeCustomer();
                       },
                       borderRadius: BorderRadius.circular(12),
                       child: Container(

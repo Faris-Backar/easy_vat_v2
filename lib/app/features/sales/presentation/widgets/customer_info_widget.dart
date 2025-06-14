@@ -1,9 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_notifier.dart';
 import 'package:easy_vat_v2/app/features/customer/presentation/providers/customer_state.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_details_card.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -47,16 +47,16 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
   }
 
   Future<void> _fetchAndSelectCustomer() async {
-    final selectedCustomer = ref.read(cartProvider).selectedCustomer;
+    final selectedCustomer = ref.read(salesProvider).selectedCustomer;
     if (selectedCustomer != null) {
-      ref.read(cartProvider.notifier).setCustomer(selectedCustomer);
+      ref.read(salesProvider.notifier).setCustomer(selectedCustomer);
       billingAddressController.text =
-          ref.read(cartProvider).selectedCustomer?.billingAddress ?? "";
+          ref.read(salesProvider).selectedCustomer?.billingAddress ?? "";
       shippingAddressController.text =
-          ref.read(cartProvider).selectedCustomer?.shippingAddress ?? "";
+          ref.read(salesProvider).selectedCustomer?.shippingAddress ?? "";
     } else {
       final cashCustomer = CustomerEntity(ledgerName: "Cash", isActive: true);
-      ref.read(cartProvider.notifier).setCustomer(cashCustomer);
+      ref.read(salesProvider.notifier).setCustomer(cashCustomer);
     }
     await ref.read(customerNotifierProvider.notifier).getCustomer();
   }
@@ -197,7 +197,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                                           customerState.customerList![
                                               _expansionNotifier.value!];
                                       ref
-                                          .read(cartProvider.notifier)
+                                          .read(salesProvider.notifier)
                                           .setCustomer(selectedCustomer);
                                       context.router.popForced();
                                     }
@@ -224,7 +224,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
   }
 
   Widget _buildCustomerTabView(BuildContext context) {
-    final selectedCustomer = ref.watch(cartProvider).selectedCustomer;
+    final selectedCustomer = ref.watch(salesProvider).selectedCustomer;
     return DefaultTabController(
       length: 3,
       child: Container(
@@ -325,7 +325,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                                                       billingAddressController
                                                           .text);
                                           ref
-                                              .read(cartProvider.notifier)
+                                              .read(salesProvider.notifier)
                                               .setCustomer(updatedCustomer);
                                           context.router.popForced();
                                         } else {
@@ -398,7 +398,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
                                                       shippingAddressController
                                                           .text);
                                           ref
-                                              .read(cartProvider.notifier)
+                                              .read(salesProvider.notifier)
                                               .setCustomer(updatedCustomer);
                                           context.router.popForced();
                                         } else {

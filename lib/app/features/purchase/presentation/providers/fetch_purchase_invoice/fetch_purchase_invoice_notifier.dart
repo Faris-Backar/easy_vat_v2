@@ -27,8 +27,9 @@ final fetchPurchaseInvoiceProvider =
 class FetchPurchaseNotifier extends StateNotifier<FetchPurchaseInvoiceState> {
   final FetchPurchaseInvoiceUsecase fetchPurchaseUsecase;
   List<PurchaseInvoiceEntity> purchaseInvoiceList = [];
-  FetchPurchaseNotifier({required this.fetchPurchaseUsecase})
-      : super(FetchPurchaseInvoiceState.initial());
+  FetchPurchaseNotifier({
+    required this.fetchPurchaseUsecase,
+  }) : super(FetchPurchaseInvoiceState.initial());
 
   fetchPurchaseInvoice({required PurchaseParams params}) async {
     try {
@@ -47,6 +48,33 @@ class FetchPurchaseNotifier extends StateNotifier<FetchPurchaseInvoiceState> {
       });
     } catch (e) {
       state = FetchPurchaseInvoiceState.error(message: e.toString());
+    }
+  }
+
+  searchPurchaseInvoice(String query) {
+    double totalAmount = 0.0;
+    if (query.isEmpty) {
+      for (var i = 0; i < (purchaseInvoiceList.length); i++) {
+        totalAmount += purchaseInvoiceList[i].netTotal ?? 0.0;
+      }
+      state = FetchPurchaseInvoiceState.success(
+          purchaseInvoiceList: purchaseInvoiceList, total: totalAmount);
+    } else {
+      final filteredData = purchaseInvoiceList.where((invoice) {
+        return (invoice.referenceNo
+                    ?.toLowerCase()
+                    .contains(query.toLowerCase()) ??
+                false) ||
+            (invoice.supplierName
+                    ?.toLowerCase()
+                    .contains(query.toLowerCase()) ??
+                false);
+      }).toList();
+      for (var i = 0; i < (filteredData.length); i++) {
+        totalAmount += filteredData[i].netTotal ?? 0.0;
+      }
+      state = FetchPurchaseInvoiceState.success(
+          purchaseInvoiceList: filteredData, total: totalAmount);
     }
   }
 }

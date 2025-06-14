@@ -19,8 +19,7 @@ mixin _$CreatePurchaseState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseInvoiceEntity purchaseRequestModel)
-        loaded,
+    required TResult Function(String purchaseIDPK, String? supplierName) loaded,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) =>
@@ -28,7 +27,7 @@ mixin _$CreatePurchaseState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseInvoiceEntity purchaseRequestModel)? loaded,
+    TResult? Function(String purchaseIDPK, String? supplierName)? loaded,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) =>
@@ -36,7 +35,7 @@ mixin _$CreatePurchaseState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseInvoiceEntity purchaseRequestModel)? loaded,
+    TResult Function(String purchaseIDPK, String? supplierName)? loaded,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -132,8 +131,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseInvoiceEntity purchaseRequestModel)
-        loaded,
+    required TResult Function(String purchaseIDPK, String? supplierName) loaded,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) {
@@ -144,7 +142,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseInvoiceEntity purchaseRequestModel)? loaded,
+    TResult? Function(String purchaseIDPK, String? supplierName)? loaded,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) {
@@ -155,7 +153,7 @@ class _$InitialImpl implements _Initial {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseInvoiceEntity purchaseRequestModel)? loaded,
+    TResult Function(String purchaseIDPK, String? supplierName)? loaded,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -214,7 +212,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
           _$LoadedImpl value, $Res Function(_$LoadedImpl) then) =
       __$$LoadedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({PurchaseInvoiceEntity purchaseRequestModel});
+  $Res call({String purchaseIDPK, String? supplierName});
 }
 
 /// @nodoc
@@ -230,13 +228,18 @@ class __$$LoadedImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? purchaseRequestModel = null,
+    Object? purchaseIDPK = null,
+    Object? supplierName = freezed,
   }) {
     return _then(_$LoadedImpl(
-      purchaseRequestModel: null == purchaseRequestModel
-          ? _value.purchaseRequestModel
-          : purchaseRequestModel // ignore: cast_nullable_to_non_nullable
-              as PurchaseInvoiceEntity,
+      purchaseIDPK: null == purchaseIDPK
+          ? _value.purchaseIDPK
+          : purchaseIDPK // ignore: cast_nullable_to_non_nullable
+              as String,
+      supplierName: freezed == supplierName
+          ? _value.supplierName
+          : supplierName // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -244,14 +247,16 @@ class __$$LoadedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$LoadedImpl implements _Loaded {
-  const _$LoadedImpl({required this.purchaseRequestModel});
+  const _$LoadedImpl({required this.purchaseIDPK, this.supplierName});
 
   @override
-  final PurchaseInvoiceEntity purchaseRequestModel;
+  final String purchaseIDPK;
+  @override
+  final String? supplierName;
 
   @override
   String toString() {
-    return 'CreatePurchaseState.loaded(purchaseRequestModel: $purchaseRequestModel)';
+    return 'CreatePurchaseState.loaded(purchaseIDPK: $purchaseIDPK, supplierName: $supplierName)';
   }
 
   @override
@@ -259,12 +264,14 @@ class _$LoadedImpl implements _Loaded {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LoadedImpl &&
-            (identical(other.purchaseRequestModel, purchaseRequestModel) ||
-                other.purchaseRequestModel == purchaseRequestModel));
+            (identical(other.purchaseIDPK, purchaseIDPK) ||
+                other.purchaseIDPK == purchaseIDPK) &&
+            (identical(other.supplierName, supplierName) ||
+                other.supplierName == supplierName));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, purchaseRequestModel);
+  int get hashCode => Object.hash(runtimeType, purchaseIDPK, supplierName);
 
   /// Create a copy of CreatePurchaseState
   /// with the given fields replaced by the non-null parameter values.
@@ -278,36 +285,35 @@ class _$LoadedImpl implements _Loaded {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseInvoiceEntity purchaseRequestModel)
-        loaded,
+    required TResult Function(String purchaseIDPK, String? supplierName) loaded,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) {
-    return loaded(purchaseRequestModel);
+    return loaded(purchaseIDPK, supplierName);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseInvoiceEntity purchaseRequestModel)? loaded,
+    TResult? Function(String purchaseIDPK, String? supplierName)? loaded,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) {
-    return loaded?.call(purchaseRequestModel);
+    return loaded?.call(purchaseIDPK, supplierName);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseInvoiceEntity purchaseRequestModel)? loaded,
+    TResult Function(String purchaseIDPK, String? supplierName)? loaded,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(purchaseRequestModel);
+      return loaded(purchaseIDPK, supplierName);
     }
     return orElse();
   }
@@ -352,10 +358,11 @@ class _$LoadedImpl implements _Loaded {
 
 abstract class _Loaded implements CreatePurchaseState {
   const factory _Loaded(
-          {required final PurchaseInvoiceEntity purchaseRequestModel}) =
-      _$LoadedImpl;
+      {required final String purchaseIDPK,
+      final String? supplierName}) = _$LoadedImpl;
 
-  PurchaseInvoiceEntity get purchaseRequestModel;
+  String get purchaseIDPK;
+  String? get supplierName;
 
   /// Create a copy of CreatePurchaseState
   /// with the given fields replaced by the non-null parameter values.
@@ -406,8 +413,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseInvoiceEntity purchaseRequestModel)
-        loaded,
+    required TResult Function(String purchaseIDPK, String? supplierName) loaded,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) {
@@ -418,7 +424,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseInvoiceEntity purchaseRequestModel)? loaded,
+    TResult? Function(String purchaseIDPK, String? supplierName)? loaded,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) {
@@ -429,7 +435,7 @@ class _$LoadingImpl implements _Loading {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseInvoiceEntity purchaseRequestModel)? loaded,
+    TResult Function(String purchaseIDPK, String? supplierName)? loaded,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -551,8 +557,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
-    required TResult Function(PurchaseInvoiceEntity purchaseRequestModel)
-        loaded,
+    required TResult Function(String purchaseIDPK, String? supplierName) loaded,
     required TResult Function() loading,
     required TResult Function(String message) error,
   }) {
@@ -563,7 +568,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
-    TResult? Function(PurchaseInvoiceEntity purchaseRequestModel)? loaded,
+    TResult? Function(String purchaseIDPK, String? supplierName)? loaded,
     TResult? Function()? loading,
     TResult? Function(String message)? error,
   }) {
@@ -574,7 +579,7 @@ class _$ErrorImpl implements _Error {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
-    TResult Function(PurchaseInvoiceEntity purchaseRequestModel)? loaded,
+    TResult Function(String purchaseIDPK, String? supplierName)? loaded,
     TResult Function()? loading,
     TResult Function(String message)? error,
     required TResult orElse(),

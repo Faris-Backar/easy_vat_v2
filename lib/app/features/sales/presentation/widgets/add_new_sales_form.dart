@@ -1,11 +1,11 @@
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/data/model/payment_mode_model.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_info_widget.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
@@ -22,16 +22,18 @@ class AddNewSalesForm extends ConsumerStatefulWidget {
   final ValueNotifier<String?> soldByNotifier;
   final ValueNotifier<String?> cashAccountNotifier;
   final ValueNotifier<String?> salesAccountNotifier;
-  final TextEditingController? purchaseNoController;
-  const AddNewSalesForm(
-      {super.key,
-      required this.saleNoController,
-      required this.refNoController,
-      required this.salesModeNotifier,
-      required this.soldByNotifier,
-      required this.cashAccountNotifier,
-      required this.salesAccountNotifier,
-      this.purchaseNoController});
+  final bool isSalesReturn;
+
+  const AddNewSalesForm({
+    super.key,
+    required this.saleNoController,
+    required this.refNoController,
+    required this.salesModeNotifier,
+    required this.soldByNotifier,
+    required this.cashAccountNotifier,
+    required this.salesAccountNotifier,
+    this.isSalesReturn = false,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -52,8 +54,9 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
     final paymentModeState = ref.watch(paymentModeNotifierProvider);
     final cashLedgerState = ref.watch(cashLedgerNotifierProvider);
     final salesLedgerState = ref.watch(salesLedgerNotifierProvider);
-    widget.saleNoController.text = ref.watch(cartProvider).salesNo ?? "";
-    widget.refNoController.text = ref.watch(cartProvider).refNo ?? "";
+    widget.saleNoController.text = ref.watch(salesProvider).salesNo ?? "";
+    widget.refNoController.text = ref.watch(salesProvider).refNo ?? "";
+    final salesPrvd = ref.watch(salesProvider);
 
     return Column(
       children: [
@@ -69,9 +72,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                 children: [
                   SizedBox(
                     child: CustomTextField(
-                      label: widget.purchaseNoController == null
-                          ? context.translate(AppStrings.salesNo)
-                          : context.translate(AppStrings.purchaseNo),
+                      label: context.translate(AppStrings.salesNo),
                       controller: widget.saleNoController,
                       height: 38.h,
                       labelAndTextfieldGap: 2,
@@ -96,9 +97,9 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                   Consumer(builder: (context, WidgetRef ref, child) {
                     return DatePickerTextField(
                       label: context.translate(AppStrings.date),
-                      initialValue: ref.watch(cartProvider).saleDate,
-                      onDateSelected: (data) {
-                        ref.read(cartProvider.notifier).setSalesDate(data);
+                      initialValue: salesPrvd.saleDate,
+                      onDateSelected: (date) {
+                        ref.read(salesProvider.notifier).setSalesDate(date);
                       },
                       labelAndTextfieldGap: 2,
                       backgroundColor: AppUtils.isDarkMode(context)
@@ -129,9 +130,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                   }
 
                   return DropdownField(
-                    label: widget.purchaseNoController != null
-                        ? context.translate(AppStrings.purchaseMode)
-                        : context.translate(AppStrings.salesMode),
+                    label: context.translate(AppStrings.salesMode),
                     valueNotifier: widget.salesModeNotifier,
                     items:
                         paymentModes.map((mode) => mode.paymentModes).toList(),
@@ -174,7 +173,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                       .where((name) => name.isNotEmpty)
                       .toList();
 
-                  final providerSoldBy = ref.read(cartProvider).soldBy;
+                  final providerSoldBy = ref.read(salesProvider).soldBy;
 
                   if (employeeNames.isNotEmpty) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -196,7 +195,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                         );
 
                         ref
-                            .read(cartProvider.notifier)
+                            .read(salesProvider.notifier)
                             .setSoldBy(selectedEmployee);
                       }
                     });
@@ -205,9 +204,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                   return DropdownField(
                     height: 38.h,
                     labelAndTextFieldGap: 2,
-                    label: widget.purchaseNoController != null
-                        ? context.translate(AppStrings.purchasedBy)
-                        : context.translate(AppStrings.soldBy),
+                    label: context.translate(AppStrings.soldBy),
                     valueNotifier: widget.soldByNotifier,
                     onChanged: (newValue) {
                       widget.soldByNotifier.value = newValue;
@@ -220,7 +217,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                         );
 
                         ref
-                            .read(cartProvider.notifier)
+                            .read(salesProvider.notifier)
                             .setSoldBy(selectedEmployee);
                       }
                     },
@@ -268,7 +265,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                 widget.cashAccountNotifier.value =
                                     ledgerNames.first;
                                 ref
-                                    .read(cartProvider.notifier)
+                                    .read(salesProvider.notifier)
                                     .setSalesAccount(ledgers.first);
                               });
                             }
@@ -294,7 +291,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                                 ?.toLowerCase() ==
                                             newValue.toLowerCase());
                                     ref
-                                        .read(cartProvider.notifier)
+                                        .read(salesProvider.notifier)
                                         .setCashAccount(cashLedger);
                                   }
                                 });
@@ -324,19 +321,30 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                             if (ledgerNames.isNotEmpty &&
                                 widget.salesAccountNotifier.value == null) {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
+                                final defaultLedger = widget.isSalesReturn
+                                    ? ledgers.firstWhere(
+                                        (ledger) =>
+                                            ledger.ledgerName
+                                                ?.toLowerCase()
+                                                .trim() ==
+                                            'sales return',
+                                        orElse: () => ledgers.first,
+                                      )
+                                    : ledgers.first;
+
                                 widget.salesAccountNotifier.value =
-                                    ledgerNames.first;
+                                    defaultLedger.ledgerName;
+                                ref
+                                    .read(salesProvider.notifier)
+                                    .setSalesAccount(defaultLedger);
                               });
                             }
 
                             return DropdownField(
                                 height: 38.h,
                                 labelAndTextFieldGap: 2,
-                                label: widget.purchaseNoController != null
-                                    ? context
-                                        .translate(AppStrings.purchaseAccount)
-                                    : context
-                                        .translate(AppStrings.salesAccount),
+                                label:
+                                    context.translate(AppStrings.salesAccount),
                                 valueNotifier: widget.salesAccountNotifier,
                                 items: ledgerNames,
                                 backgroundColor: AppUtils.isDarkMode(context)
@@ -352,7 +360,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                           newValue.toLowerCase(),
                                     );
                                     ref
-                                        .read(cartProvider.notifier)
+                                        .read(salesProvider.notifier)
                                         .setSalesAccount(salesLedger);
                                   }
                                 });
@@ -419,7 +427,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
 
   void _getDefaultSelection(List<PaymentModeModel> paymentModes) {
     final currentSalesMode =
-        ref.read(cartProvider.notifier).salesMode.toLowerCase();
+        ref.read(salesProvider.notifier).salesMode.toLowerCase();
 
     final selectedMode = paymentModes.firstWhere(
       (mode) => currentSalesMode.isNotEmpty
@@ -430,7 +438,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final selectedValue = selectedMode.paymentModes;
-      ref.read(cartProvider.notifier).setSalesMode(selectedValue);
+      ref.read(salesProvider.notifier).setSalesMode(selectedValue);
       widget.salesModeNotifier.value = selectedValue;
 
       final selectedLower = selectedValue.toLowerCase();

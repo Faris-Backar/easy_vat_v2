@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
+import 'package:flutter/foundation.dart';
 // import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,14 +24,21 @@ class DioService {
       onRequest: (options, handler) async {
         String? accessToken = await _getAccessToken();
         if (accessToken != null) {
-          log("accessToken => $accessToken");
+          if (kDebugMode) {
+            log("accessToken => $accessToken");
+          }
           options.headers["Authorization"] = "Bearer $accessToken";
         }
-        log("Connection url => ${options.baseUrl}${options.path}");
-        log("Body => ${json.encode(options.data)}");
+        if (kDebugMode) {
+          log("Connection url => ${options.baseUrl}${options.path}");
+          log("Body => ${json.encode(options.data)}");
+        }
         return handler.next(options);
       },
       onResponse: (response, handler) {
+        if (kDebugMode) {
+          log("API Response => ${json.encode(response.data)}");
+        }
         return handler.next(response);
       },
       onError: (DioException error, handler) {

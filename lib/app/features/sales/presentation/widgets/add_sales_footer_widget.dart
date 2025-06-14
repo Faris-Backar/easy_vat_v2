@@ -1,14 +1,15 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/items_bottom_modal_sheet.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/create_sales/create_sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/download_sales/download_sales_invoices_notifier.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/update_sales/update_sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
@@ -146,23 +147,15 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                                   context.translate(AppStrings.cancel),
                               primaryButtonColor: context.colorScheme.primary,
                               onPrimaryTap: () async {
-                                final hasPermission =
-                                    await AppUtils.requestDownloadPermission();
-                                if (hasPermission) {
-                                  ref
-                                      .read(downloadsalesInvoiceNotifierProvider
-                                          .notifier)
-                                      .downloadSalesInvoices(
-                                          salesIDPK: success.salesIDPK);
-                                } else {
-                                  if (mounted) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                          content: Text(
-                                              "Permission denied. Cannot download invoice.")),
-                                    );
-                                  }
-                                }
+                                context.router.popForced();
+                                context.router.popForced();
+                                ref.read(cartProvider.notifier).clearCart();
+                                context.router.push(PdfViewerRoute(
+                                  pdfUrl: UrlResources.downloadSalesInvoice,
+                                  queryParameters: {
+                                    'SaleIDPK': success.salesIDPK,
+                                  },
+                                ));
                               },
                               onSecondaryTap: () {
                                 ref.read(cartProvider.notifier).clearCart();
@@ -342,36 +335,34 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
   }
 
   _createUpdateSale(WidgetRef ref) async {
-    final cartPrvd = ref.read(cartProvider.notifier);
-    cartPrvd.setSalesNo(widget.saleNoController.text);
-    cartPrvd.setSalesMode(widget.salesModeNotifier.value ?? "");
-    cartPrvd.setRefNo(widget.refNoController.text);
-    if (cartPrvd.soldBy == null) {
+    final salesPrvd = ref.read(salesProvider.notifier);
+    salesPrvd.setSalesNo(widget.saleNoController.text);
+    salesPrvd.setSalesMode(widget.salesModeNotifier.value ?? "");
+    salesPrvd.setRefNo(widget.refNoController.text);
+    if (salesPrvd.soldBy == null) {
       final salesman = ref.watch(salesManProvider.notifier).salesManList;
       if (salesman.isNotEmpty) {
-        cartPrvd.setSoldBy(salesman.first);
+        salesPrvd.setSoldBy(salesman.first);
       }
     }
     final salesType = widget.salesType?.toLowerCase() ??
         context.translate(AppStrings.addNewSalesOrder);
 
-    if (cartPrvd.salesMode.toLowerCase() == "credit" &&
-        cartPrvd.selectedCustomer == null) {
+    if (salesPrvd.salesMode.toLowerCase() == "credit" &&
+        salesPrvd.selectedCustomer == null) {
       Fluttertoast.showToast(
           msg: context.translate(AppStrings.pleaseSelectACustomer));
     } else {
-      log("sales => $salesType");
       if (salesType ==
           context.translate(AppStrings.addNewSalesOrder).toLowerCase()) {
-        final newSaleOrder = await cartPrvd.createNewSaleOrder();
+        final newSaleOrder = await salesPrvd.createNewSaleOrder();
         ref
             .read(createSalesNotifierProvider.notifier)
             .createSalesOrder(request: newSaleOrder);
       } else if (salesType ==
           context.translate(AppStrings.addNewSales).toLowerCase()) {
-        final newSale = await cartPrvd.createNewSale();
+        final newSale = await salesPrvd.createNewSale(ref);
         if (ref.read(cartProvider).isForUpdate == true) {
-          log("herererer");
           ref
               .read(updateSalesNotifierProvider.notifier)
               .updateSalesInvoice(request: newSale);
@@ -382,13 +373,13 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
         }
       } else if (salesType ==
           context.translate(AppStrings.addNewSalesQuatation).toLowerCase()) {
-        final newSale = await cartPrvd.createNewSale();
+        final newSale = await salesPrvd.createNewSale(ref);
         ref
             .read(createSalesNotifierProvider.notifier)
             .createSalesQuotation(request: newSale);
       } else if (salesType ==
           context.translate(AppStrings.addNewSalesReturn).toLowerCase()) {
-        final newSaleReturn = cartPrvd.createNewSaleReturn();
+        final newSaleReturn = await salesPrvd.createNewSaleReturn(ref);
         ref
             .read(createSalesNotifierProvider.notifier)
             .createSalesReturn(request: newSaleReturn);

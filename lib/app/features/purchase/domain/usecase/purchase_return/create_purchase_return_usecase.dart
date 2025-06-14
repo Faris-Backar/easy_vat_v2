@@ -1,18 +1,18 @@
 import 'package:dartz/dartz.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/usecase/usecase.dart';
-import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_request_model.dart';
-import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_invoice_entity.dart';
+import 'package:easy_vat_v2/app/features/purchase/data/model/purchase_return_model.dart';
+import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_return_entity.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/repository/purchase_repository.dart';
 
 class CreatePurchaseReturnUsecase extends UseCase<
-    Either<Failure, PurchaseInvoiceEntity>, PurchaseRequestModel> {
+    Either<Failure, PurchaseReturnEntity>, PurchaseReturnModel> {
   final PurchaseRepository purchaseRepository;
 
   CreatePurchaseReturnUsecase({required this.purchaseRepository});
   @override
-  Future<Either<Failure, PurchaseInvoiceEntity>> call(
-      {required PurchaseRequestModel params}) {
+  Future<Either<Failure, PurchaseReturnEntity>> call(
+      {required PurchaseReturnModel params}) {
     return purchaseRepository.createPurchaseReturns(params: params);
   }
 }

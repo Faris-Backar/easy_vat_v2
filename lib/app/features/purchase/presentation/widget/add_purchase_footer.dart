@@ -143,26 +143,6 @@ class _AddSalesFooterWidgetState extends State<AddPurchaseFooterWidget> {
                                   context.translate(AppStrings.cancel),
                               primaryButtonColor: context.colorScheme.primary,
                               onPrimaryTap: () async {
-                                // final hasPermission =
-                                //     await AppUtils.requestDownloadPermission();
-                                // if (hasPermission) {
-                                //   ref
-                                //       .read(downloadsalesInvoiceNotifierProvider
-                                //           .notifier)
-                                //       .downloadSalesInvoices(
-                                //           salesIDPK: success
-                                //                   .purchaseRequestModel
-                                //                   .purchaseIdpk ??
-                                //               "");
-                                // } else {
-                                //   if (mounted) {
-                                //     ScaffoldMessenger.of(context).showSnackBar(
-                                //       const SnackBar(
-                                //           content: Text(
-                                //               "Permission denied. Cannot download invoice.")),
-                                //     );
-                                //   }
-                                // }
                                 ref
                                     .read(purchaseProvider.notifier)
                                     .clearPurchase(ref);
@@ -194,19 +174,21 @@ class _AddSalesFooterWidgetState extends State<AddPurchaseFooterWidget> {
                               widget.purchaseType?.toLowerCase();
                           if (purchaseType ==
                               context
-                                  .translate(AppStrings.addNewSales)
+                                  .translate(AppStrings.addNewPurchase)
                                   .toLowerCase()) {
                             successMessage =
                                 "Purchase invoice successfully updated!";
-                          } else if (purchaseType ==
+                          }
+                          // else if (purchaseType ==
+                          //     context
+                          //         .translate(AppStrings.addNewPurchase)
+                          //         .toLowerCase()) {
+                          //   successMessage =
+                          //       "Purchase quotation successfully updated!";
+                          // }
+                          else if (purchaseType ==
                               context
-                                  .translate(AppStrings.addNewSalesQuatation)
-                                  .toLowerCase()) {
-                            successMessage =
-                                "Purchase quotation successfully updated!";
-                          } else if (purchaseType ==
-                              context
-                                  .translate(AppStrings.addNewSalesReturn)
+                                  .translate(AppStrings.addNewPurchaseReturn)
                                   .toLowerCase()) {
                             successMessage =
                                 "Purchase return successfully updated!";
@@ -240,7 +222,7 @@ class _AddSalesFooterWidgetState extends State<AddPurchaseFooterWidget> {
                                     : context.translate(AppStrings.save),
                             isLoading: false,
                             onPressed: () async =>
-                                await _createUpdateSale(ref)),
+                                await _createUpdatePurchase(ref)),
                         loading: () => PrimaryButton(
                           label: context.translate(AppStrings.save),
                           isLoading: true,
@@ -256,7 +238,7 @@ class _AddSalesFooterWidgetState extends State<AddPurchaseFooterWidget> {
                                 : context.translate(AppStrings.save),
                             isLoading: false,
                             onPressed: () async =>
-                                await _createUpdateSale(ref)),
+                                await _createUpdatePurchase(ref)),
                         loading: () => PrimaryButton(
                           label: context.translate(AppStrings.save),
                           isLoading: true,
@@ -350,7 +332,7 @@ class _AddSalesFooterWidgetState extends State<AddPurchaseFooterWidget> {
     );
   }
 
-  _createUpdateSale(WidgetRef ref) async {
+  _createUpdatePurchase(WidgetRef ref) async {
     final purchasePrvdr = ref.read(purchaseProvider.notifier);
     purchasePrvdr.setPurchaseNo(widget.purchaseNoController.text);
     purchasePrvdr.setPurchaseMode(widget.purchaseModeNotifier.value ?? "");
@@ -390,17 +372,19 @@ class _AddSalesFooterWidgetState extends State<AddPurchaseFooterWidget> {
               .createPurchaseInvoice(newPurchaseInvoice);
         }
       } else if (purchaseType ==
-          context.translate(AppStrings.addNewSalesQuatation).toLowerCase()) {
-        // final newSale = await purchasePrvdr.createNewSale();
-        // ref
-        //     .read(createSalesNotifierProvider.notifier)
-        //     .createSalesQuotation(request: newSale);
-        // } else if (purchaseType ==
-        //     context.translate(AppStrings.addNewSalesReturn).toLowerCase()) {
-        //   final newSaleReturn = purchasePrvdr.createNewSaleReturn();
-        //   ref
-        //       .read(createSalesNotifierProvider.notifier)
-        //       .createSalesReturn(request: newSaleReturn);
+          context.translate(AppStrings.addNewPurchaseReturn).toLowerCase()) {
+        final newPurchaseInvoice = await ref
+            .read(purchaseProvider.notifier)
+            .createNewPurchaseReturn(ref);
+        if (ref.read(purchaseProvider).isForUpdate == true) {
+          ref
+              .read(updatePurchaseProvider.notifier)
+              .updatePurchaseReturn(params: newPurchaseInvoice);
+        } else {
+          ref
+              .read(createPurchaseProvider.notifier)
+              .createPurchaseReturn(newPurchaseInvoice);
+        }
       }
     }
   }

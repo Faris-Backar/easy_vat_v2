@@ -214,5 +214,6 @@
   "curBal": "CurrentBal",
   "addNewLedger": "AddNewLedger",
   "discardledgerChangesMessage": "You have unsaved ledger entries. Do you want to discard them and go back?",
-  "deleteExpenseConfirmationMessage": "Expense deleted Successfully"
+  "deleteExpenseConfirmationMessage": "Expense deleted Successfully",
+  "addNewSalesReturn":"Add New Sales Return"
 }
