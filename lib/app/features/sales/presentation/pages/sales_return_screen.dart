@@ -14,12 +14,12 @@ import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/pay
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sales/delete_sales_notifier.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_invoice_state.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/fetch_sales_return/fetch_sales_return.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/fetch_sales_return/fetch_sales_return_state.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_tansaction_card.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
+import 'package:easy_vat_v2/app/features/widgets/custom_transaction_card.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
@@ -41,20 +41,20 @@ class SalesReturnScreen extends ConsumerStatefulWidget {
 
 class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
   final _searchTextController = TextEditingController();
-  late SalesInvoiceState salesInvoiceState;
+  late FetchSalesReturnState salesReturnState;
   bool isTaxRegisrationEnabled = false;
 
   @override
   void initState() {
     super.initState();
-    salesInvoiceState = ref.read(salesInvoiceNotifierProvider);
+    salesReturnState = ref.read(salesReturnNotifierProvider);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       ref.read(cashLedgerNotifierProvider.notifier).fetchBankLedgers();
       ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
       ref.read(salesLedgerNotifierProvider.notifier).fetchSalesLedgers();
       ref.read(salesManProvider.notifier).getSalesMans();
       ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
-      ref.read(salesInvoiceNotifierProvider.notifier).fetchSalesInvoice(
+      ref.read(salesReturnNotifierProvider.notifier).fetchSalesReturn(
             params: SalesParams(
               fromDate: DateTime.now(),
               toDate: DateTime.now(),
@@ -70,11 +70,20 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final salesInvoiceState = ref.watch(salesInvoiceNotifierProvider);
+    final salesReturnState = ref.watch(salesReturnNotifierProvider);
+
     return Scaffold(
       appBar: SalesAppBar(
         searchController: _searchTextController,
-        config: SalesAppBarConfig(),
+        config: SalesAppBarConfig(
+          title: context.translate(AppStrings.salesReturn),
+          fetchFunction: (params) => ref
+              .read(salesReturnNotifierProvider.notifier)
+              .fetchSalesReturn(params: params),
+          filterFunction: (params) => ref
+              .read(salesReturnNotifierProvider.notifier)
+              .fetchSalesReturn(params: params),
+        ),
       ),
       backgroundColor: context.surfaceColor,
       body: Consumer(builder: (context, ref, child) {
@@ -87,7 +96,7 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                 backgroundColor: Colors.white,
                 textColor: Colors.black,
               );
-              ref.read(salesInvoiceNotifierProvider.notifier).fetchSalesInvoice(
+              ref.read(salesReturnNotifierProvider.notifier).fetchSalesReturn(
                     params: SalesParams(
                       fromDate: ref.read(dateRangeProvider).fromDate,
                       toDate: ref.read(dateRangeProvider).fromDate,
@@ -107,9 +116,9 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
 
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
-          child: salesInvoiceState.maybeWhen(
-            success: (salesInvoiceData, totalAmount) {
-              if (salesInvoiceData.isEmpty == true) {
+          child: salesReturnState.maybeWhen(
+            success: (salesReturnData, totalAmount) {
+              if (salesReturnData.isEmpty == true) {
                 return Center(
                   child: Container(
                     height: 0.5.sh,
@@ -121,9 +130,9 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                 );
               }
               return ListView.builder(
-                itemCount: salesInvoiceData.length,
+                itemCount: salesReturnData.length,
                 itemBuilder: (context, index) {
-                  final salesInvoice = salesInvoiceData[index];
+                  final salesReturn = salesReturnData[index];
                   final notifier = ValueNotifier<bool>(false);
 
                   return Padding(
@@ -151,9 +160,10 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                                   context.router.push(PdfViewerRoute(
                                       pdfUrl: UrlResources.downloadSalesInvoice,
                                       queryParameters: {
-                                        'SaleIDPK': salesInvoice.saleIdpk,
+                                        'SaleReturnIDPK':
+                                            salesReturn.salesReturnIdpk,
                                       },
-                                      pdfName: salesInvoice.customerName));
+                                      pdfName: salesReturn.customerName));
                                 }),
                           ),
                           Expanded(
@@ -171,16 +181,15 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                                     ? context.onPrimaryColor
                                     : null,
                                 onTap: () async {
-                                  await ref
-                                      .read(cartProvider.notifier)
-                                      .reinsertSalesForm(salesInvoice, ref);
-                                  if (mounted) {
-                                    context.router.push(AddNewSalesRoute(
-                                      title: context
-                                          .translate(AppStrings.addNewSales),
-                                      isForPurchase: false,
-                                    ));
-                                  }
+                                  // await ref
+                                  //     .read(salesProvider.notifier)
+                                  //     .reinsertSalesForm(salesInvoice, ref);
+                                  // if (mounted) {
+                                  //   context.router.push(AddNewSalesRoute(
+                                  //     title: context
+                                  //         .translate(AppStrings.addNewSales),
+                                  //   ));
+                                  // }
                                 }),
                           ),
                         ],
@@ -207,15 +216,22 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                             iconHeight: 24.0,
                             iconWidth: 24.0,
                             onTap: () => _showDeleteDialog(context,
-                                salesIdpk: salesInvoice.saleIdpk ?? "",
-                                customerID: salesInvoice.custemerIdfk ?? ""),
+                                salesIdpk: salesReturn.salesReturnIdpk ?? "",
+                                customerID: salesReturn.customerName ?? ""),
                           ),
                         ),
                       ]),
-                      child: SalesTransactionCard(
-                        salesInvoice: salesInvoice,
+                      child: CustomTransactionCard(
                         isSelectedNotifier: notifier,
                         isTaxEnabled: isTaxRegisrationEnabled,
+                        amount: salesReturn.netTotal,
+                        date: salesReturn.returnDate,
+                        discount: salesReturn.discount,
+                        grossAmount: salesReturn.grossAmount,
+                        netAmount: salesReturn.netTotal,
+                        paymentMethod: salesReturn.salesReturnMode ?? "",
+                        referenceNo: salesReturn.referenceNo,
+                        tax: salesReturn.tax,
                       ),
                     ),
                   );
@@ -250,7 +266,7 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                         color:
                             context.defaultTextColor.withValues(alpha: 0.32)),
                   ),
-                  salesInvoiceState.maybeWhen(
+                  salesReturnState.maybeWhen(
                     success: (salesInvoice, totalAmount) => Text(
                       totalAmount?.toStringAsFixed(2) ?? "0.0",
                       style: context.textTheme.bodyLarge
@@ -270,8 +286,7 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
               PrimaryButton(
                 onPressed: () => context.router.push(
                   AddNewSalesRoute(
-                    title: context.translate(AppStrings.addNewSales),
-                    isForPurchase: false,
+                    title: context.translate(AppStrings.addNewSalesReturn),
                   ),
                 ),
                 child: Row(
@@ -347,12 +362,11 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
               onPrimaryTap: () {
                 ref
                     .read(deleteSalesNotifierProvider.notifier)
-                    .deleteSalesInvoice(
+                    .deleteSalesReturn(
                       request: SalesParams(
                         fromDate: ref.read(dateRangeProvider).fromDate,
                         toDate: ref.read(dateRangeProvider).toDate,
-                        salesIDPK: salesIdpk,
-                        customerID: customerID,
+                        salesReturnIdpk: salesIdpk,
                       ),
                     );
                 context.router.popForced();

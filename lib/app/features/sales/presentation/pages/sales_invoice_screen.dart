@@ -14,6 +14,7 @@ import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/pay
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sales/delete_sales_notifier.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_invoice_state.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
@@ -172,13 +173,12 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                                     : null,
                                 onTap: () async {
                                   await ref
-                                      .read(cartProvider.notifier)
+                                      .read(salesProvider.notifier)
                                       .reinsertSalesForm(salesInvoice, ref);
                                   if (mounted) {
                                     context.router.push(AddNewSalesRoute(
                                       title: context
                                           .translate(AppStrings.addNewSales),
-                                      isForPurchase: false,
                                     ));
                                   }
                                 }),
@@ -271,7 +271,6 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                 onPressed: () => context.router.push(
                   AddNewSalesRoute(
                     title: context.translate(AppStrings.addNewSales),
-                    isForPurchase: false,
                   ),
                 ),
                 child: Row(

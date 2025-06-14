@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,9 +22,8 @@ import 'package:easy_vat_v2/gen/assets.gen.dart';
 
 @RoutePage()
 class AddNewSalesScreen extends ConsumerStatefulWidget {
-  final bool isForPurchase;
   final String? title;
-  const AddNewSalesScreen({super.key, this.isForPurchase = false, this.title});
+  const AddNewSalesScreen({super.key, this.title});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -75,8 +75,8 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
                   soldByNotifier: soldByNotifier,
                   cashAccountNotifier: cashAccountNotifier,
                   salesAccountNotifier: salesAccountNotifier,
-                  purchaseNoController:
-                      widget.isForPurchase ? purchaseNoController : null,
+                  isSalesReturn: widget.title ==
+                      context.translate(AppStrings.addNewSalesReturn),
                 ),
                 SizedBox(
                   height: 10,
@@ -110,7 +110,7 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
                   controller: _noteController,
                   maxLines: 5,
                   onChanged: (value) =>
-                      ref.read(cartProvider.notifier).setNotes(value),
+                      ref.read(salesProvider.notifier).setNotes(value),
                   hint: context.translate(AppStrings.writeNote),
                 ),
                 SizedBox(
@@ -121,12 +121,14 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: AddSalesFooterWidget(
-          saleNoController: saleNoController,
-          refNoController: refNoController,
-          salesModeNotifier: salesModeNotifier,
-          soldByNotifier: soldByNotifier,
-          salesType: widget.title),
+      bottomNavigationBar: SafeArea(
+        child: AddSalesFooterWidget(
+            saleNoController: saleNoController,
+            refNoController: refNoController,
+            salesModeNotifier: salesModeNotifier,
+            soldByNotifier: soldByNotifier,
+            salesType: widget.title),
+      ),
     );
   }
 
@@ -166,10 +168,7 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
           icon: Icon(Icons.adaptive.arrow_back),
         );
       }),
-      title: Text(widget.title ??
-          (widget.isForPurchase
-              ? context.translate(AppStrings.addNewPurchase)
-              : context.translate(AppStrings.addNewSales))),
+      title: Text(widget.title ?? (context.translate(AppStrings.addNewSales))),
       actions: [
         Consumer(builder: (context, ref, child) {
           return IconButton(

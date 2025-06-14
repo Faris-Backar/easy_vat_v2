@@ -202,5 +202,6 @@
   "invNo": "InvNo",
   "doYouWantToPrintInvoice":"Do you want to print invoice?",
   "debit": "Debit",
-  "addedToCart":"Added to cart"
+  "addedToCart":"Added to cart",
+  "addNewSalesReturn":"Add New Sales Return"
 }

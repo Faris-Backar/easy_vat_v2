@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,7 +9,6 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
-import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_filter_params.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_notifiers.dart';
@@ -56,7 +55,7 @@ class SalesAppBarConfig {
   final Future<void> Function(SalesParams params)? fetchFunction;
 
   /// Custom filter function for applying filters
-  final Future<void> Function(SalesInvoiceFilterParams params)? filterFunction;
+  final Future<void> Function(SalesParams params)? filterFunction;
 
   /// Additional popup menu items
   final List<PopupMenuEntry<String>>? additionalPopupMenuItems;
@@ -162,14 +161,10 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
                 ),
                 InkWell(
                   onTap: () {
-                    if (widget.config.filterFunction != null) {
-                      widget.config.filterFunction!(
-                          SalesInvoiceFilterParams(clearAllFilter: true));
-                    } else {
-                      salesModeNotifier.value = null;
-                      soldByNotifier.value = null;
-                      ref.read(cartProvider.notifier).selectedCustomer = null;
-                    }
+                    salesModeNotifier.value = null;
+                    soldByNotifier.value = null;
+                    ref.read(salesProvider.notifier).selectedCustomer = null;
+
                     context.router.popForced();
                   },
                   child: Text(
@@ -264,7 +259,7 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
                       fromDate: ref.read(dateRangeProvider).fromDate,
                       toDate: ref.read(dateRangeProvider).toDate,
                       customerID: ref
-                          .read(cartProvider.notifier)
+                          .read(salesProvider.notifier)
                           .selectedCustomer
                           ?.ledgerIdpk,
                       salesMode: salesModeNotifier.value,

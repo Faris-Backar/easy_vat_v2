@@ -142,7 +142,7 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
           netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
           currentStock: itemsList[i].item.currentStock ?? 0.0,
           profitPercentage: 0.0,
-          expiryDate: cartPrvdr.salesDate,
+          expiryDate: purchaseDate,
           storeIdfk: userDetailsFromPrefs?.storeDetails?.storeIdpk ??
               PrefResources.emptyGuid,
           importId: PrefResources.emptyGuid,
@@ -306,8 +306,7 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
   reinsertPurchaseInvoiceForm(
       PurchaseInvoiceEntity purchaseInvoice, WidgetRef ref) async {
     final cartPrvdr = ref.read(cartProvider.notifier);
-    state = PurchaseState.initial();
-    cartPrvdr.clearCart();
+    clearPurchase(ref);
     setEditMode(true);
     List<CartEntity> updatedItemsList = [];
     ref.read(supplierNotfierProvider.notifier).getSupplier();
@@ -404,8 +403,7 @@ class PurchaseNotifier extends StateNotifier<PurchaseState> {
   reinsertPurchaseReturnForm(
       PurchaseReturnEntity purchaseInvoice, WidgetRef ref) async {
     final cartPrvdr = ref.read(cartProvider.notifier);
-    state = PurchaseState.initial();
-    cartPrvdr.clearCart();
+    clearPurchase(ref);
     setEditMode(true);
     List<CartEntity> updatedItemsList = [];
     ref.read(supplierNotfierProvider.notifier).getSupplier();

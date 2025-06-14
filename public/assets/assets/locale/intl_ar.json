@@ -161,14 +161,14 @@
   "termsAndCondition": "الشروط والأحكام",
   "connectAdmin": "اتصال المسؤول",
   "whatIsCode": "ما هو رمزي؟",
-  "addNewPurchaseReturn":  "إضافة مرتجع شراء جديد",
+  "addNewPurchaseReturn": "إضافة مرتجع شراء جديد",
   "addNewPurchaseOrder": "إضافة أمر شراء جديد",
   "addNewSalesOrder": "إضافة طلب بيع جديد",
   "addNewSalesQuatation": "إضافة عرض سعر جديد",
   "addNewExpense": "إضافة مصروف جديد",
   "clearCart": "مسح السلة",
   "clearCartMessage": "هل أنت متأكد أنك تريد مسح السلة؟",
- "expenseNo": "رقم المصاريف",
+  "expenseNo": "رقم المصاريف",
   "supInvNo": "رقم فاتورة المورد",
   "barcodePostionMessage": "ضع الباركود داخل الإطار للمسح",
   "gross": "إجمالي",
@@ -194,8 +194,13 @@
   "incorrectPassword": "كلمة المرور غير صحيحة",
   "itemCurrentlyOutOfStock": "العنصر غير متوفر حالياً",
   "stock": "المخزون",
-  "expNo":"ExpNo",
-  "doYouWantToPrintInvoice": "هل تريد طباعة الفاتورة؟"
-
-
+  "expNo": "ExpNo",
+  "paymentMode": "طريقة الدفع",
+  "pleaseSelectASupplier": "الرجاء اختيار المورد",
+  "addSupplier": "إضافة المورد",
+  "addLedger": "إضافة دفتر الأستاذ",
+  "doYouWantToPrintInvoice": "هل تريد طباعة الفاتورة؟",
+  "debit": "دَين",
+  "addedToCart": "تمت الإضافة إلى السلة",
+  "addNewSalesReturn": "إضافة مرتجع مبيعات جديد"
 }

@@ -155,7 +155,6 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
             ),
             PrimaryButton(
               onPressed: () => context.router.push(AddNewSalesRoute(
-                isForPurchase: false,
                 title: context.translate(AppStrings.addNewSalesQuatation),
               )),
               child: Row(
