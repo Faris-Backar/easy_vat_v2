@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
+import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 //import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
@@ -17,6 +18,7 @@ import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_ca
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/expense_ledger/expense_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
+import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -155,22 +157,28 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                         children: [
                           Expanded(
                             child: _buildSlidingAction(
-                              color: AppUtils.isDarkMode(context)
-                                  ? CustomColors.getTransactionSkyBlueColor(
-                                      context)
-                                  : CustomColors.getTransactionSkyBlueColor(
-                                          context)
-                                      .withValues(alpha: 0.2),
-                              borderRadiusTopLeft: 10.0,
-                              borderRadiusBottomLeft: 10.0,
-                              icon: Assets.icons.print,
-                              iconColor: AppUtils.isDarkMode(context)
-                                  ? context.onPrimaryColor
-                                  : null,
-                              onTap: () {
-                                // handle print
-                              },
-                            ),
+                                color: AppUtils.isDarkMode(context)
+                                    ? CustomColors.getTransactionSkyBlueColor(
+                                        context)
+                                    : CustomColors.getTransactionSkyBlueColor(
+                                            context)
+                                        .withValues(alpha: 0.2),
+                                borderRadiusTopLeft: 10.0,
+                                borderRadiusBottomLeft: 10.0,
+                                icon: Assets.icons.print,
+                                iconColor: AppUtils.isDarkMode(context)
+                                    ? context.onPrimaryColor
+                                    : null,
+                                // handle Print
+                                onTap: () async {
+                                  context.router.push(PdfViewerRoute(
+                                      pdfUrl: UrlResources.downloadExpense,
+                                      pdfType: PDFType.expense,
+                                      queryParameters: {
+                                        "ExpenseIDPK": expense.expenseIDPK ?? ""
+                                      },
+                                      pdfName: expense.supplierName));
+                                }),
                           ),
                           Expanded(
                               child: _buildSlidingAction(

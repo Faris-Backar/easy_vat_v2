@@ -349,6 +349,7 @@ class PdfViewerRoute extends _i27.PageRouteInfo<PdfViewerRouteArgs> {
   PdfViewerRoute({
     _i29.Key? key,
     required String pdfUrl,
+    required _i14.PDFType pdfType,
     String? pdfName,
     required Map<String, dynamic> queryParameters,
     List<_i27.PageRouteInfo>? children,
@@ -359,6 +360,7 @@ class PdfViewerRoute extends _i27.PageRouteInfo<PdfViewerRouteArgs> {
             pdfUrl: pdfUrl,
             pdfName: pdfName,
             queryParameters: queryParameters,
+            pdfType: pdfType,
           ),
           initialChildren: children,
         );
@@ -372,6 +374,7 @@ class PdfViewerRoute extends _i27.PageRouteInfo<PdfViewerRouteArgs> {
       return _i14.PdfViewerScreen(
         key: args.key,
         pdfUrl: args.pdfUrl,
+        pdfType: args.pdfType,
         pdfName: args.pdfName,
         queryParameters: args.queryParameters,
       );
@@ -383,6 +386,7 @@ class PdfViewerRouteArgs {
   const PdfViewerRouteArgs({
     this.key,
     required this.pdfUrl,
+    required this.pdfType,
     this.pdfName,
     required this.queryParameters,
   });
@@ -391,13 +395,15 @@ class PdfViewerRouteArgs {
 
   final String pdfUrl;
 
+  final _i14.PDFType pdfType;
+
   final String? pdfName;
 
   final Map<String, dynamic> queryParameters;
 
   @override
   String toString() {
-    return 'PdfViewerRouteArgs{key: $key, pdfUrl: $pdfUrl, pdfName: $pdfName, queryParameters: $queryParameters}';
+    return 'PdfViewerRouteArgs{key: $key, pdfUrl: $pdfUrl, pdfType: $pdfType, pdfName: $pdfName, queryParameters: $queryParameters}';
   }
 }
 
