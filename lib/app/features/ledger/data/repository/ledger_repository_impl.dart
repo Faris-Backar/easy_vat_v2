@@ -92,4 +92,22 @@ class LedgerRepositoryImpl extends LedgerRepository {
       return Left(ServerFailure(message: e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, List<LedgerAccountEntity>>> fetchIncomeLedger() async {
+    try {
+      final response = await client.get(UrlResources.getLedgerAccount);
+      if (response.statusCode == 200) {
+        List<LedgerAccountModel> incomeLedger = (response.data as List)
+            .map((json) => LedgerAccountModel.fromJson(json))
+            .toList();
+        return Right(incomeLedger);
+      }
+      return Left(ServerFailure(message: "Something went wrong."));
+    } on DioException catch (e) {
+      return Left(ServerFailure(message: e.response?.data ?? e.error ?? ""));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
 }
