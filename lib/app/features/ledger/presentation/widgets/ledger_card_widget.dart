@@ -70,24 +70,83 @@ class _LedgerCardWidgetState extends State<LedgerCardWidget> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Row(
+                //   children: [
+                //     Expanded(
+                //         child: Text(
+                //             "${widget.index + 1} - ${widget.ledger.ledger.ledgerName}",
+                //             style: context.textTheme.bodyMedium
+                //                 ?.copyWith(fontWeight: FontWeight.w600))),
+                //     const SizedBox(
+                //       width: 8,
+                //     ),
+                //     IconButton(
+                //         onPressed: () => _isExpanded.value = !_isExpanded.value,
+                //         icon: AnimatedRotation(
+                //           turns: isExpanded ? 0.5 : 0.0,
+                //           duration: const Duration(milliseconds: 300),
+                //           child: const Icon(Icons.keyboard_arrow_down),
+                //         ))
+                //   ],
+                // ),
+                // Row(
+                //   children: [
+                //     _buildHeaderText(
+                //       "${context.translate(AppStrings.curBal)} : ${widget.ledger.currentBalance}",
+                //       textColor: (widget.ledger.currentBalance) >= 0
+                //           ? Colors.green
+                //           : context.errorColor,
+                //     ),
+                //   ],
+                // ),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      width: 20,
+                      child: Text(
+                        "${widget.index + 1} - ",
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ),
                     Expanded(
-                        child: Text(
-                            "${widget.index + 1} - ${widget.ledger.ledgerName}",
-                            style: context.textTheme.bodyMedium
-                                ?.copyWith(fontWeight: FontWeight.w600))),
-                    const SizedBox(
-                      width: 8,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.ledger.ledger.ledgerName ?? "",
+                            style: context.textTheme.bodyMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            "${context.translate(AppStrings.curBal)} : ${widget.ledger.currentBalance}",
+                            style: context.textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: widget.ledger.currentBalance >= 0
+                                  ? Colors.green
+                                  : context.errorColor,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     IconButton(
-                        onPressed: () => _isExpanded.value = !_isExpanded.value,
-                        icon: AnimatedRotation(
-                          turns: isExpanded ? 0.5 : 0.0,
-                          duration: const Duration(milliseconds: 300),
-                          child: const Icon(Icons.keyboard_arrow_down),
-                        ))
+                      onPressed: () => _isExpanded.value = !_isExpanded.value,
+                      icon: AnimatedRotation(
+                        turns: isExpanded ? 0.5 : 0.0,
+                        duration: const Duration(milliseconds: 300),
+                        child: const Icon(Icons.keyboard_arrow_down),
+                      ),
+                    ),
                   ],
+                ),
+
+                const SizedBox(
+                  height: 2,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,31 +159,28 @@ class _LedgerCardWidgetState extends State<LedgerCardWidget> {
                       width: 8,
                     ),
                     _buildHeaderText(
-                      context.translate(AppStrings.group),
-                      flex: 2,
+                      context.translate(AppStrings.grossTotal),
+                      flex: 3,
                     ),
                     const SizedBox(
-                      width: 8,
+                      width: 2,
                     ),
                     _buildHeaderText(
-                      context.translate(AppStrings.nature),
+                      "${context.translate(AppStrings.tax)}%",
                       flex: 2,
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
+                    // const SizedBox(
+                    //   width: 8,
+                    // ),
                     _buildHeaderText(
-                      context.translate(AppStrings.opBal),
-                      flex: 2,
+                      context.translate(AppStrings.taxAmount),
+                      flex: 3,
                     ),
-                    const SizedBox(
-                      width: 4,
-                    ),
+                    // const SizedBox(
+                    //   width: 8,
+                    // ),
                     _buildHeaderText(
-                      context.translate(AppStrings.curBal),
-                      textColor: (widget.ledger.currentBalance) >= 0
-                          ? Colors.green
-                          : context.errorColor,
+                      context.translate(AppStrings.netTotal),
                       flex: 2,
                     )
                   ],
@@ -134,40 +190,33 @@ class _LedgerCardWidgetState extends State<LedgerCardWidget> {
                 ),
                 Row(
                   children: [
+                    _buildValueText(widget.ledger.ledger.ledgerCode ?? "",
+                        flex: 2, textAlign: TextAlign.start),
+                    // const SizedBox(
+                    //   width: 8,
+                    // ),
+                    _buildValueText(widget.ledger.grossTotal.toStringAsFixed(2),
+                        flex: 2, textAlign: TextAlign.center),
+                    // const SizedBox(
+                    //   width: 8,
+                    // ),
                     _buildValueText(
-                      widget.ledger.ledgerCode.toString(),
+                        widget.ledger.taxPercentage.toStringAsFixed(2),
+                        flex: 2,
+                        textAlign: TextAlign.center),
+                    // const SizedBox(
+                    //   width: 18,
+                    // ),
+                    _buildValueText(
+                      widget.ledger.taxAmount.toStringAsFixed(2),
                       flex: 2,
+                      textAlign: TextAlign.center,
                     ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    _buildValueText(
-                      widget.ledger.groupName,
-                      flex: 2,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    _buildValueText(
-                      widget.ledger.nature,
-                      flex: 2,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    _buildValueText(
-                      widget.ledger.openingBalance.toStringAsFixed(2),
-                      flex: 2,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    _buildValueText(
-                        "${widget.ledger.currentBalance.toStringAsFixed(2)} ${widget.ledger.currentBalanceType}",
-                        textColor: (widget.ledger.currentBalance) >= 0
-                            ? Colors.green
-                            : context.errorColor,
-                        flex: 2)
+                    // const SizedBox(
+                    //   width: 8,
+                    // ),
+                    _buildValueText(widget.ledger.netTotal.toStringAsFixed(2),
+                        flex: 2, textAlign: TextAlign.center)
                   ],
                 ),
                 AnimatedCrossFade(
@@ -188,27 +237,27 @@ class _LedgerCardWidgetState extends State<LedgerCardWidget> {
                                 width: 8,
                               ),
                               _buildHeaderText(
-                                context.translate(AppStrings.taxPercentage),
+                                context.translate(AppStrings.description),
                                 flex: 2,
                               ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              _buildHeaderText(
-                                  context.translate(AppStrings.taxAmount),
-                                  flex: 2),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              _buildHeaderText(
-                                  context.translate(AppStrings.grossTotal),
-                                  flex: 2),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              _buildHeaderText(
-                                  context.translate(AppStrings.netTotal),
-                                  flex: 2),
+                              // const SizedBox(
+                              //   width: 8,
+                              // ),
+                              // _buildHeaderText(
+                              //     context.translate(AppStrings.taxAmount),
+                              //     flex: 2),
+                              // const SizedBox(
+                              //   width: 8,
+                              // ),
+                              // _buildHeaderText(
+                              //     context.translate(AppStrings.grossTotal),
+                              //     flex: 2),
+                              // const SizedBox(
+                              //   width: 8,
+                              // ),
+                              // _buildHeaderText(
+                              //     context.translate(AppStrings.netTotal),
+                              //     flex: 2),
                             ],
                           ),
                           const SizedBox(
@@ -216,29 +265,32 @@ class _LedgerCardWidgetState extends State<LedgerCardWidget> {
                           ),
                           Row(
                             children: [
+                              const SizedBox(
+                                width: 8,
+                              ),
                               _buildValueText(
-                                widget.ledger.taxPercentage.toStringAsFixed(2),
+                                widget.ledger.description,
                                 flex: 2,
                               ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              _buildValueText(
-                                widget.ledger.taxAmount.toStringAsFixed(2),
-                                flex: 2,
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              _buildValueText(
-                                  widget.ledger.grossTotal.toStringAsFixed(2),
-                                  flex: 2),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              _buildValueText(
-                                  widget.ledger.netTotal.toStringAsFixed(2),
-                                  flex: 2)
+                              // const SizedBox(
+                              //   width: 8,
+                              // ),
+                              // _buildValueText(
+                              //   widget.ledger.taxAmount.toStringAsFixed(2),
+                              //   flex: 2,
+                              // ),
+                              // const SizedBox(
+                              //   width: 8,
+                              // ),
+                              // _buildValueText(
+                              //     widget.ledger.grossTotal.toStringAsFixed(2),
+                              //     flex: 2),
+                              // const SizedBox(
+                              //   width: 8,
+                              // ),
+                              // _buildValueText(
+                              //     widget.ledger.netTotal.toStringAsFixed(2),
+                              //     flex: 2)
                             ],
                           )
                         ],
