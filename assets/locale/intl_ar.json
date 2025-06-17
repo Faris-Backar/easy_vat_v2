@@ -214,7 +214,8 @@
    "addNewLedger": "إضافة دفتر أستاذ جديد",
    "discardledgerChangesMessage": "لديك قيود دفترية غير محفوظة. هل ترغب في حذفها والرجوع؟",
    "deleteExpenseConfirmationMessage": "تم حذف النفقات بنجاح",
-  "debit": "دَين",
-  "addedToCart": "تمت الإضافة إلى السلة",
-  "addNewSalesReturn": "إضافة مرتجع مبيعات جديد"
+  "addNewSalesReturn": "إضافة مرتجع مبيعات جديد",
+   "addNewIncome": "إضافة دخل جديد",
+   "incNo": "رقم الدخل"
+
 }

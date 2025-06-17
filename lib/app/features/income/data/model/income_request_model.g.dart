@@ -16,11 +16,10 @@ _$IncomeRequestModelImpl _$$IncomeRequestModelImplFromJson(
           ? null
           : DateTime.parse(json['incomeDate'] as String),
       paymentMode: json['paymentMode'] as String?,
-      purchasedBy: json['purchasedBy'] as String?,
+      soldBy: json['soldBy'] as String?,
       customerIDFK: json['customerIDFK'] as String?,
       crLedgerIDFK: json['crLedgerIDFK'] as String?,
       drLedgerIDFK: json['drLedgerIDFK'] as String?,
-      supplierInvoiceNo: json['supplierInvoiceNo'] as String?,
       grossTotal: (json['grossTotal'] as num?)?.toDouble(),
       discount: (json['discount'] as num?)?.toDouble(),
       tax: (json['tax'] as num?)?.toDouble(),
@@ -53,11 +52,10 @@ Map<String, dynamic> _$$IncomeRequestModelImplToJson(
       'referenceNo': instance.referenceNo,
       'incomeDate': instance.incomeDate?.toIso8601String(),
       'paymentMode': instance.paymentMode,
-      'purchasedBy': instance.purchasedBy,
+      'soldBy': instance.soldBy,
       'customerIDFK': instance.customerIDFK,
       'crLedgerIDFK': instance.crLedgerIDFK,
       'drLedgerIDFK': instance.drLedgerIDFK,
-      'supplierInvoiceNo': instance.supplierInvoiceNo,
       'grossTotal': instance.grossTotal,
       'discount': instance.discount,
       'tax': instance.tax,
@@ -89,6 +87,7 @@ _$IncomeDetailsImpl _$$IncomeDetailsImplFromJson(Map<String, dynamic> json) =>
       companyIDPK: json['companyIDPK'] as String?,
       currentBalance: (json['currentBalance'] as num?)?.toDouble(),
       ledgerName: json['ledgerName'] as String?,
+      ledgerCode: json['ledgerCode'] as String?,
     );
 
 Map<String, dynamic> _$$IncomeDetailsImplToJson(_$IncomeDetailsImpl instance) =>
@@ -104,4 +103,5 @@ Map<String, dynamic> _$$IncomeDetailsImplToJson(_$IncomeDetailsImpl instance) =>
       'companyIDPK': instance.companyIDPK,
       'currentBalance': instance.currentBalance,
       'ledgerName': instance.ledgerName,
+      'ledgerCode': instance.ledgerCode,
     };

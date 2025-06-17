@@ -2,6 +2,7 @@ import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:easy_vat_v2/app/features/customer/domain/entities/customer_entity.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/salesman/domain/entity/sales_man_entity.dart';
+import 'package:easy_vat_v2/app/features/supplier/domain/entities/supplier_entity.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'cart_state.freezed.dart';
@@ -19,6 +20,7 @@ class CartState with _$CartState {
       String? refNo,
       DateTime? saleDate,
       CustomerEntity? selectedCustomer,
+      SupplierEntity? selectedSupplier,
       String? salesMode,
       SalesManEntity? soldBy,
       LedgerAccountEntity? cashAccount,
@@ -42,5 +44,6 @@ class CartState with _$CartState {
       saleDate: DateTime.now(),
       isForUpdate: false,
       isTaxEnabled: false,
-      selectedCustomer: null);
+      selectedCustomer: null,
+      selectedSupplier: null);
 }

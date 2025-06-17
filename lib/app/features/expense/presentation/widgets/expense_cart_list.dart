@@ -67,26 +67,25 @@ class ExpenseCartList extends StatelessWidget {
           extentRatio: 0.50,
           children: [
             InkWell(
-                onTap: () => _showEditDialog(context, index), // Edit Dialog
                 child: Container(
-                  child: _buildSlidingAction(
-                      width: 80.w,
-                      onTap: () => _showDeleteDialog(context, index),
-                      color: AppUtils.isDarkMode(context)
-                          ? CustomColors.getTransactionCardBlueColor(context)
-                          : CustomColors.getTransactionCardBlueColor(context)
-                              .withValues(alpha: 0.15),
-                      icon: Assets.icons.edit,
-                      borderRadiusTopLeft: 10.0,
-                      borderRadiusBottomLeft: 10.0,
-                      borderRadiusBottomRight: 0.0,
-                      borderRadiusTopRight: 0.0,
-                      iconColor: AppUtils.isDarkMode(context)
-                          ? context.onPrimaryColor
-                          : null,
-                      iconHeight: 24.0,
-                      iconWidth: 24.0),
-                )),
+              child: _buildSlidingAction(
+                  width: 80.w,
+                  onTap: () => _showEditDialog(context, index), // Edit Dialog
+                  color: AppUtils.isDarkMode(context)
+                      ? CustomColors.getTransactionCardBlueColor(context)
+                      : CustomColors.getTransactionCardBlueColor(context)
+                          .withValues(alpha: 0.15),
+                  icon: Assets.icons.edit,
+                  borderRadiusTopLeft: 10.0,
+                  borderRadiusBottomLeft: 10.0,
+                  borderRadiusBottomRight: 0.0,
+                  borderRadiusTopRight: 0.0,
+                  iconColor: AppUtils.isDarkMode(context)
+                      ? context.onPrimaryColor
+                      : null,
+                  iconHeight: 24.0,
+                  iconWidth: 24.0),
+            )),
             InkWell(
                 child: Container(
               child: _buildSlidingAction(

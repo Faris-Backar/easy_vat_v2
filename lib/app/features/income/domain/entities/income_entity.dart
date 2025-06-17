@@ -12,11 +12,10 @@ abstract class IncomeListEntity {
   final String? referenceNo;
   final DateTime? incomeDate;
   final String? paymentMode;
-  final String? purchasedBy;
+  final String? soldBy;
   final String? customerIDFK;
   final String? crLedgerIDFK;
   final String? drLedgerIDFK;
-  final String? supplierInvoiceNo;
   final double? grossTotal;
   final double? discount;
   final double? tax;
@@ -40,11 +39,10 @@ abstract class IncomeListEntity {
       this.referenceNo,
       this.incomeDate,
       this.paymentMode,
-      this.purchasedBy,
+      this.soldBy,
       this.customerIDFK,
       this.crLedgerIDFK,
       this.drLedgerIDFK,
-      this.supplierInvoiceNo,
       this.grossTotal,
       this.discount,
       this.tax,
@@ -75,6 +73,7 @@ abstract class IncomeDetailsEntity {
   final String? companyIDPK;
   final double? currentBalance;
   final String? ledgerName;
+  final String? ledgerCode;
 
   IncomeDetailsEntity(
       {this.incomeIDPK,
@@ -87,5 +86,6 @@ abstract class IncomeDetailsEntity {
       this.rowguid,
       this.companyIDPK,
       this.currentBalance,
-      this.ledgerName});
+      this.ledgerName,
+      this.ledgerCode});
 }

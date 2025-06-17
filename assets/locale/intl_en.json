@@ -215,5 +215,7 @@
   "addNewLedger": "AddNewLedger",
   "discardledgerChangesMessage": "You have unsaved ledger entries. Do you want to discard them and go back?",
   "deleteExpenseConfirmationMessage": "Expense deleted Successfully",
-  "addNewSalesReturn":"Add New Sales Return"
+  "addNewSalesReturn":"Add New Sales Return",
+  "addNewIncome": "Add New Income",
+  "incNo" : "IncNo"
 }

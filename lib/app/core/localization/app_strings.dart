@@ -223,4 +223,6 @@ class AppStrings {
       "discardledgerChangesMessage";
   static const String deleteExpenseConfirmationMessage =
       "deleteExpenseConfirmationMessage";
+  static const String addNewIncome = "addNewIncome";
+  static const String incNo = "incNo";
 }

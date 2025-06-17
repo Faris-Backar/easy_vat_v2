@@ -25,11 +25,10 @@ mixin _$IncomeRequestModel {
   String? get referenceNo => throw _privateConstructorUsedError;
   DateTime? get incomeDate => throw _privateConstructorUsedError;
   String? get paymentMode => throw _privateConstructorUsedError;
-  String? get purchasedBy => throw _privateConstructorUsedError;
+  String? get soldBy => throw _privateConstructorUsedError;
   String? get customerIDFK => throw _privateConstructorUsedError;
   String? get crLedgerIDFK => throw _privateConstructorUsedError;
   String? get drLedgerIDFK => throw _privateConstructorUsedError;
-  String? get supplierInvoiceNo => throw _privateConstructorUsedError;
   double? get grossTotal => throw _privateConstructorUsedError;
   double? get discount => throw _privateConstructorUsedError;
   double? get tax => throw _privateConstructorUsedError;
@@ -69,11 +68,10 @@ abstract class $IncomeRequestModelCopyWith<$Res> {
       String? referenceNo,
       DateTime? incomeDate,
       String? paymentMode,
-      String? purchasedBy,
+      String? soldBy,
       String? customerIDFK,
       String? crLedgerIDFK,
       String? drLedgerIDFK,
-      String? supplierInvoiceNo,
       double? grossTotal,
       double? discount,
       double? tax,
@@ -112,11 +110,10 @@ class _$IncomeRequestModelCopyWithImpl<$Res, $Val extends IncomeRequestModel>
     Object? referenceNo = freezed,
     Object? incomeDate = freezed,
     Object? paymentMode = freezed,
-    Object? purchasedBy = freezed,
+    Object? soldBy = freezed,
     Object? customerIDFK = freezed,
     Object? crLedgerIDFK = freezed,
     Object? drLedgerIDFK = freezed,
-    Object? supplierInvoiceNo = freezed,
     Object? grossTotal = freezed,
     Object? discount = freezed,
     Object? tax = freezed,
@@ -155,9 +152,9 @@ class _$IncomeRequestModelCopyWithImpl<$Res, $Val extends IncomeRequestModel>
           ? _value.paymentMode
           : paymentMode // ignore: cast_nullable_to_non_nullable
               as String?,
-      purchasedBy: freezed == purchasedBy
-          ? _value.purchasedBy
-          : purchasedBy // ignore: cast_nullable_to_non_nullable
+      soldBy: freezed == soldBy
+          ? _value.soldBy
+          : soldBy // ignore: cast_nullable_to_non_nullable
               as String?,
       customerIDFK: freezed == customerIDFK
           ? _value.customerIDFK
@@ -170,10 +167,6 @@ class _$IncomeRequestModelCopyWithImpl<$Res, $Val extends IncomeRequestModel>
       drLedgerIDFK: freezed == drLedgerIDFK
           ? _value.drLedgerIDFK
           : drLedgerIDFK // ignore: cast_nullable_to_non_nullable
-              as String?,
-      supplierInvoiceNo: freezed == supplierInvoiceNo
-          ? _value.supplierInvoiceNo
-          : supplierInvoiceNo // ignore: cast_nullable_to_non_nullable
               as String?,
       grossTotal: freezed == grossTotal
           ? _value.grossTotal
@@ -257,11 +250,10 @@ abstract class _$$IncomeRequestModelImplCopyWith<$Res>
       String? referenceNo,
       DateTime? incomeDate,
       String? paymentMode,
-      String? purchasedBy,
+      String? soldBy,
       String? customerIDFK,
       String? crLedgerIDFK,
       String? drLedgerIDFK,
-      String? supplierInvoiceNo,
       double? grossTotal,
       double? discount,
       double? tax,
@@ -298,11 +290,10 @@ class __$$IncomeRequestModelImplCopyWithImpl<$Res>
     Object? referenceNo = freezed,
     Object? incomeDate = freezed,
     Object? paymentMode = freezed,
-    Object? purchasedBy = freezed,
+    Object? soldBy = freezed,
     Object? customerIDFK = freezed,
     Object? crLedgerIDFK = freezed,
     Object? drLedgerIDFK = freezed,
-    Object? supplierInvoiceNo = freezed,
     Object? grossTotal = freezed,
     Object? discount = freezed,
     Object? tax = freezed,
@@ -341,9 +332,9 @@ class __$$IncomeRequestModelImplCopyWithImpl<$Res>
           ? _value.paymentMode
           : paymentMode // ignore: cast_nullable_to_non_nullable
               as String?,
-      purchasedBy: freezed == purchasedBy
-          ? _value.purchasedBy
-          : purchasedBy // ignore: cast_nullable_to_non_nullable
+      soldBy: freezed == soldBy
+          ? _value.soldBy
+          : soldBy // ignore: cast_nullable_to_non_nullable
               as String?,
       customerIDFK: freezed == customerIDFK
           ? _value.customerIDFK
@@ -356,10 +347,6 @@ class __$$IncomeRequestModelImplCopyWithImpl<$Res>
       drLedgerIDFK: freezed == drLedgerIDFK
           ? _value.drLedgerIDFK
           : drLedgerIDFK // ignore: cast_nullable_to_non_nullable
-              as String?,
-      supplierInvoiceNo: freezed == supplierInvoiceNo
-          ? _value.supplierInvoiceNo
-          : supplierInvoiceNo // ignore: cast_nullable_to_non_nullable
               as String?,
       grossTotal: freezed == grossTotal
           ? _value.grossTotal
@@ -438,11 +425,10 @@ class _$IncomeRequestModelImpl implements _IncomeRequestModel {
       this.referenceNo,
       this.incomeDate,
       this.paymentMode,
-      this.purchasedBy,
+      this.soldBy,
       this.customerIDFK,
       this.crLedgerIDFK,
       this.drLedgerIDFK,
-      this.supplierInvoiceNo,
       this.grossTotal,
       this.discount,
       this.tax,
@@ -475,15 +461,13 @@ class _$IncomeRequestModelImpl implements _IncomeRequestModel {
   @override
   final String? paymentMode;
   @override
-  final String? purchasedBy;
+  final String? soldBy;
   @override
   final String? customerIDFK;
   @override
   final String? crLedgerIDFK;
   @override
   final String? drLedgerIDFK;
-  @override
-  final String? supplierInvoiceNo;
   @override
   final double? grossTotal;
   @override
@@ -526,7 +510,7 @@ class _$IncomeRequestModelImpl implements _IncomeRequestModel {
 
   @override
   String toString() {
-    return 'IncomeRequestModel(incomeIDPK: $incomeIDPK, incomeNo: $incomeNo, referenceNo: $referenceNo, incomeDate: $incomeDate, paymentMode: $paymentMode, purchasedBy: $purchasedBy, customerIDFK: $customerIDFK, crLedgerIDFK: $crLedgerIDFK, drLedgerIDFK: $drLedgerIDFK, supplierInvoiceNo: $supplierInvoiceNo, grossTotal: $grossTotal, discount: $discount, tax: $tax, netTotal: $netTotal, roundOff: $roundOff, remarks: $remarks, isEditable: $isEditable, isCanceled: $isCanceled, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, companyIDPK: $companyIDPK, customerName: $customerName, incomeDetails: $incomeDetails)';
+    return 'IncomeRequestModel(incomeIDPK: $incomeIDPK, incomeNo: $incomeNo, referenceNo: $referenceNo, incomeDate: $incomeDate, paymentMode: $paymentMode, soldBy: $soldBy, customerIDFK: $customerIDFK, crLedgerIDFK: $crLedgerIDFK, drLedgerIDFK: $drLedgerIDFK, grossTotal: $grossTotal, discount: $discount, tax: $tax, netTotal: $netTotal, roundOff: $roundOff, remarks: $remarks, isEditable: $isEditable, isCanceled: $isCanceled, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, companyIDPK: $companyIDPK, customerName: $customerName, incomeDetails: $incomeDetails)';
   }
 
   @override
@@ -544,16 +528,13 @@ class _$IncomeRequestModelImpl implements _IncomeRequestModel {
                 other.incomeDate == incomeDate) &&
             (identical(other.paymentMode, paymentMode) ||
                 other.paymentMode == paymentMode) &&
-            (identical(other.purchasedBy, purchasedBy) ||
-                other.purchasedBy == purchasedBy) &&
+            (identical(other.soldBy, soldBy) || other.soldBy == soldBy) &&
             (identical(other.customerIDFK, customerIDFK) ||
                 other.customerIDFK == customerIDFK) &&
             (identical(other.crLedgerIDFK, crLedgerIDFK) ||
                 other.crLedgerIDFK == crLedgerIDFK) &&
             (identical(other.drLedgerIDFK, drLedgerIDFK) ||
                 other.drLedgerIDFK == drLedgerIDFK) &&
-            (identical(other.supplierInvoiceNo, supplierInvoiceNo) ||
-                other.supplierInvoiceNo == supplierInvoiceNo) &&
             (identical(other.grossTotal, grossTotal) ||
                 other.grossTotal == grossTotal) &&
             (identical(other.discount, discount) ||
@@ -594,11 +575,10 @@ class _$IncomeRequestModelImpl implements _IncomeRequestModel {
         referenceNo,
         incomeDate,
         paymentMode,
-        purchasedBy,
+        soldBy,
         customerIDFK,
         crLedgerIDFK,
         drLedgerIDFK,
-        supplierInvoiceNo,
         grossTotal,
         discount,
         tax,
@@ -641,11 +621,10 @@ abstract class _IncomeRequestModel implements IncomeRequestModel {
       final String? referenceNo,
       final DateTime? incomeDate,
       final String? paymentMode,
-      final String? purchasedBy,
+      final String? soldBy,
       final String? customerIDFK,
       final String? crLedgerIDFK,
       final String? drLedgerIDFK,
-      final String? supplierInvoiceNo,
       final double? grossTotal,
       final double? discount,
       final double? tax,
@@ -677,15 +656,13 @@ abstract class _IncomeRequestModel implements IncomeRequestModel {
   @override
   String? get paymentMode;
   @override
-  String? get purchasedBy;
+  String? get soldBy;
   @override
   String? get customerIDFK;
   @override
   String? get crLedgerIDFK;
   @override
   String? get drLedgerIDFK;
-  @override
-  String? get supplierInvoiceNo;
   @override
   double? get grossTotal;
   @override
@@ -744,6 +721,7 @@ mixin _$IncomeDetails {
   String? get companyIDPK => throw _privateConstructorUsedError;
   double? get currentBalance => throw _privateConstructorUsedError;
   String? get ledgerName => throw _privateConstructorUsedError;
+  String? get ledgerCode => throw _privateConstructorUsedError;
 
   /// Serializes this IncomeDetails to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -772,7 +750,8 @@ abstract class $IncomeDetailsCopyWith<$Res> {
       String? rowguid,
       String? companyIDPK,
       double? currentBalance,
-      String? ledgerName});
+      String? ledgerName,
+      String? ledgerCode});
 }
 
 /// @nodoc
@@ -801,6 +780,7 @@ class _$IncomeDetailsCopyWithImpl<$Res, $Val extends IncomeDetails>
     Object? companyIDPK = freezed,
     Object? currentBalance = freezed,
     Object? ledgerName = freezed,
+    Object? ledgerCode = freezed,
   }) {
     return _then(_value.copyWith(
       incomeIDPK: freezed == incomeIDPK
@@ -847,6 +827,10 @@ class _$IncomeDetailsCopyWithImpl<$Res, $Val extends IncomeDetails>
           ? _value.ledgerName
           : ledgerName // ignore: cast_nullable_to_non_nullable
               as String?,
+      ledgerCode: freezed == ledgerCode
+          ? _value.ledgerCode
+          : ledgerCode // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -870,7 +854,8 @@ abstract class _$$IncomeDetailsImplCopyWith<$Res>
       String? rowguid,
       String? companyIDPK,
       double? currentBalance,
-      String? ledgerName});
+      String? ledgerName,
+      String? ledgerCode});
 }
 
 /// @nodoc
@@ -897,6 +882,7 @@ class __$$IncomeDetailsImplCopyWithImpl<$Res>
     Object? companyIDPK = freezed,
     Object? currentBalance = freezed,
     Object? ledgerName = freezed,
+    Object? ledgerCode = freezed,
   }) {
     return _then(_$IncomeDetailsImpl(
       incomeIDPK: freezed == incomeIDPK
@@ -943,6 +929,10 @@ class __$$IncomeDetailsImplCopyWithImpl<$Res>
           ? _value.ledgerName
           : ledgerName // ignore: cast_nullable_to_non_nullable
               as String?,
+      ledgerCode: freezed == ledgerCode
+          ? _value.ledgerCode
+          : ledgerCode // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -961,7 +951,8 @@ class _$IncomeDetailsImpl implements _IncomeDetails {
       this.rowguid,
       this.companyIDPK,
       this.currentBalance,
-      this.ledgerName});
+      this.ledgerName,
+      this.ledgerCode});
 
   factory _$IncomeDetailsImpl.fromJson(Map<String, dynamic> json) =>
       _$$IncomeDetailsImplFromJson(json);
@@ -988,10 +979,12 @@ class _$IncomeDetailsImpl implements _IncomeDetails {
   final double? currentBalance;
   @override
   final String? ledgerName;
+  @override
+  final String? ledgerCode;
 
   @override
   String toString() {
-    return 'IncomeDetails(incomeIDPK: $incomeIDPK, ledgerIDPK: $ledgerIDPK, description: $description, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercentage: $taxPercentage, netTotal: $netTotal, rowguid: $rowguid, companyIDPK: $companyIDPK, currentBalance: $currentBalance, ledgerName: $ledgerName)';
+    return 'IncomeDetails(incomeIDPK: $incomeIDPK, ledgerIDPK: $ledgerIDPK, description: $description, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercentage: $taxPercentage, netTotal: $netTotal, rowguid: $rowguid, companyIDPK: $companyIDPK, currentBalance: $currentBalance, ledgerName: $ledgerName, ledgerCode: $ledgerCode)';
   }
 
   @override
@@ -1019,7 +1012,9 @@ class _$IncomeDetailsImpl implements _IncomeDetails {
             (identical(other.currentBalance, currentBalance) ||
                 other.currentBalance == currentBalance) &&
             (identical(other.ledgerName, ledgerName) ||
-                other.ledgerName == ledgerName));
+                other.ledgerName == ledgerName) &&
+            (identical(other.ledgerCode, ledgerCode) ||
+                other.ledgerCode == ledgerCode));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -1036,7 +1031,8 @@ class _$IncomeDetailsImpl implements _IncomeDetails {
       rowguid,
       companyIDPK,
       currentBalance,
-      ledgerName);
+      ledgerName,
+      ledgerCode);
 
   /// Create a copy of IncomeDetails
   /// with the given fields replaced by the non-null parameter values.
@@ -1066,7 +1062,8 @@ abstract class _IncomeDetails implements IncomeDetails {
       final String? rowguid,
       final String? companyIDPK,
       final double? currentBalance,
-      final String? ledgerName}) = _$IncomeDetailsImpl;
+      final String? ledgerName,
+      final String? ledgerCode}) = _$IncomeDetailsImpl;
 
   factory _IncomeDetails.fromJson(Map<String, dynamic> json) =
       _$IncomeDetailsImpl.fromJson;
@@ -1093,6 +1090,8 @@ abstract class _IncomeDetails implements IncomeDetails {
   double? get currentBalance;
   @override
   String? get ledgerName;
+  @override
+  String? get ledgerCode;
 
   /// Create a copy of IncomeDetails
   /// with the given fields replaced by the non-null parameter values.

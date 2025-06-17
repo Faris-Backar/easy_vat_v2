@@ -7,6 +7,7 @@ import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_invoi
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
+import 'package:easy_vat_v2/app/features/supplier/domain/entities/supplier_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:easy_vat_v2/app/features/cart/domain/entities/cart_entity.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_state.dart';
@@ -45,6 +46,7 @@ class CartNotifier extends StateNotifier<CartState> {
   String salesMode = "";
   SalesManEntity? soldBy;
   CustomerEntity? selectedCustomer;
+  SupplierEntity? selectedSupplier;
   double totalItemGrossAmont = 0.0;
   String shippingAddress = "";
   bool isForEdit = false;
@@ -188,6 +190,11 @@ class CartNotifier extends StateNotifier<CartState> {
   setCustomer(CustomerEntity customer) {
     selectedCustomer = customer;
     state = state.copyWith(selectedCustomer: selectedCustomer);
+  }
+
+  setSupplier(SupplierEntity suppiler) {
+    selectedSupplier = suppiler;
+    state = state.copyWith(selectedSupplier: selectedSupplier);
   }
 
   removeCustomer() {

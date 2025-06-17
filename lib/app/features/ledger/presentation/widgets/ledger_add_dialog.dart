@@ -252,10 +252,6 @@ class _LedgerAddDialogState extends ConsumerState<LedgerAddDialog> {
         ledgerId: widget.ledgerEntry != null
             ? widget.ledgerEntry!.ledgerId
             : (ref.read(expenseCartProvider).ledgerList?.length ?? 0) + 1,
-        ledgerName: ledger.ledgerName ?? "",
-        ledgerCode: ledger.ledgerCode ?? "",
-        groupName: ledger.groupName ?? "",
-        nature: ledger.nature ?? "",
         openingBalance: ledger.openingBalance ?? 0.0,
         currentBalance: ledger.currentBalance ?? 0.0,
         currentBalanceType: ledger.currentBalanceType ?? "",

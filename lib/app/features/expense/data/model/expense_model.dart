@@ -213,9 +213,6 @@ class ExpenseDetailsModel extends ExpenseDetailsEntity {
               : null,
           ledgerName: json["ledgerName"],
           ledgerCode: json["ledgerCode"],
-          openingBalance: json["openingBalance"] != null
-              ? (json["grossTotal"] as num).toDouble()
-              : null,
           groupName: json["groupName"],
           nature: json["nature"]);
 

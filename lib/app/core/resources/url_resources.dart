@@ -51,6 +51,7 @@ class UrlResources {
   static const String getSalesAccount = "Ledger/Select/GetSalesLedger";
   static const String getBankAccount = "Ledger/Select/GetBankLedger";
   static const String getExpenseAccount = "Ledger/Select/GetExpenseLedger";
+  static const String getLedgerAccount = "Ledger/Select/GetIncomeLedger";
 
   //salesman
   static const String getSalesMan = "Salesman/Select/SelectAll";
@@ -90,4 +91,11 @@ class UrlResources {
   //supplier
   static const String getSuppliers = "/Supplier/Select/LoadSupplier";
   static const String searchSupplier = "/Supplier/Select/SearchSupplier";
+
+  //income
+  static const String getIncome = "Income/Select/BetweenDate";
+  static const String createIncome = "Income/Insert";
+  static const String updateIncome = "Income/Update";
+  static const String deleteIncome = "Income/Delete";
+  static const String downloadIncome = "Income/DownloadInvoice";
 }

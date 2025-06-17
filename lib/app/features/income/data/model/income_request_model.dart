@@ -11,11 +11,10 @@ class IncomeRequestModel with _$IncomeRequestModel {
     String? referenceNo,
     DateTime? incomeDate,
     String? paymentMode,
-    String? purchasedBy,
+    String? soldBy,
     String? customerIDFK,
     String? crLedgerIDFK,
     String? drLedgerIDFK,
-    String? supplierInvoiceNo,
     double? grossTotal,
     double? discount,
     double? tax,
@@ -40,19 +39,19 @@ class IncomeRequestModel with _$IncomeRequestModel {
 
 @freezed
 class IncomeDetails with _$IncomeDetails {
-  const factory IncomeDetails({
-    String? incomeIDPK,
-    String? ledgerIDPK,
-    String? description,
-    double? grossTotal,
-    double? taxAmount,
-    double? taxPercentage,
-    double? netTotal,
-    String? rowguid,
-    String? companyIDPK,
-    double? currentBalance,
-    String? ledgerName,
-  }) = _IncomeDetails;
+  const factory IncomeDetails(
+      {String? incomeIDPK,
+      String? ledgerIDPK,
+      String? description,
+      double? grossTotal,
+      double? taxAmount,
+      double? taxPercentage,
+      double? netTotal,
+      String? rowguid,
+      String? companyIDPK,
+      double? currentBalance,
+      String? ledgerName,
+      String? ledgerCode}) = _IncomeDetails;
 
   factory IncomeDetails.fromJson(Map<String, dynamic> json) =>
       _$IncomeDetailsFromJson(json);

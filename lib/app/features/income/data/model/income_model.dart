@@ -25,11 +25,10 @@ class IncomeListModel extends IncomeListEntity {
       super.referenceNo,
       super.incomeDate,
       super.paymentMode,
-      super.purchasedBy,
+      super.soldBy,
       super.customerIDFK,
       super.crLedgerIDFK,
       super.drLedgerIDFK,
-      super.supplierInvoiceNo,
       super.grossTotal,
       super.discount,
       super.tax,
@@ -57,11 +56,10 @@ class IncomeListModel extends IncomeListEntity {
               ? DateTime.parse(json["incomeDate"])
               : null,
           paymentMode: json["paymentMode"],
-          purchasedBy: json["purchasedBy"],
+          soldBy: json["soldBy"],
           customerIDFK: json["customerIDFK"],
           crLedgerIDFK: json["crLedgerIDFK"],
           drLedgerIDFK: json["drLedgerIDFK"],
-          supplierInvoiceNo: json["supplierInvoiceNo"],
           grossTotal: json["grossTotal"] != null
               ? (json["grossTotal"] as num).toDouble()
               : null,
@@ -101,11 +99,10 @@ class IncomeListModel extends IncomeListEntity {
         referenceNo: entity.referenceNo,
         incomeDate: entity.incomeDate,
         paymentMode: entity.paymentMode,
-        purchasedBy: entity.purchasedBy,
+        soldBy: entity.soldBy,
         customerIDFK: entity.customerIDFK,
         crLedgerIDFK: entity.crLedgerIDFK,
         drLedgerIDFK: entity.drLedgerIDFK,
-        supplierInvoiceNo: entity.supplierInvoiceNo,
         grossTotal: entity.grossTotal,
         discount: entity.discount,
         tax: entity.tax,
@@ -134,11 +131,10 @@ class IncomeListModel extends IncomeListEntity {
         "referenceNo": referenceNo,
         "incomeDate": incomeDate?.toIso8601String(),
         "paymentMode": paymentMode,
-        "purchasedBy": purchasedBy,
+        "soldBy": soldBy,
         "customerIDFK": customerIDFK,
         "crLedgerIDFK": crLedgerIDFK,
         "drLedgerIDFK": drLedgerIDFK,
-        "supplierInvoiceNo": supplierInvoiceNo,
         "grossTotal": grossTotal,
         "discount": discount,
         "tax": tax,
@@ -180,47 +176,48 @@ class IncomeDetailsModel extends IncomeDetailsEntity {
       super.rowguid,
       super.companyIDPK,
       super.currentBalance,
-      super.ledgerName});
+      super.ledgerName,
+      super.ledgerCode});
 
   factory IncomeDetailsModel.fromJson(Map<String, dynamic> json) =>
       IncomeDetailsModel(
-        incomeIDPK: json["incomeIDPK"],
-        ledgerIDPK: json["ledgerIDPK"],
-        description: json["description"],
-        grossTotal: json["grossTotal"] != null
-            ? (json["grossTotal"] as num).toDouble()
-            : null,
-        taxAmount: json["taxAmount"] != null
-            ? (json["taxAmount"] as num).toDouble()
-            : null,
-        taxPercentage: json["taxPercentage"] != null
-            ? (json["taxPercentage"] as num).toDouble()
-            : null,
-        netTotal: json["netTotal"] != null
-            ? (json["netTotal"] as num).toDouble()
-            : null,
-        rowguid: json["rowguid"],
-        companyIDPK: json["companyIDPK"],
-        currentBalance: json["currentBalance"] != null
-            ? (json["currentBalance"] as num).toDouble()
-            : null,
-        ledgerName: json["ledgerName"],
-      );
+          incomeIDPK: json["incomeIDPK"],
+          ledgerIDPK: json["ledgerIDPK"],
+          description: json["description"],
+          grossTotal: json["grossTotal"] != null
+              ? (json["grossTotal"] as num).toDouble()
+              : null,
+          taxAmount: json["taxAmount"] != null
+              ? (json["taxAmount"] as num).toDouble()
+              : null,
+          taxPercentage: json["taxPercentage"] != null
+              ? (json["taxPercentage"] as num).toDouble()
+              : null,
+          netTotal: json["netTotal"] != null
+              ? (json["netTotal"] as num).toDouble()
+              : null,
+          rowguid: json["rowguid"],
+          companyIDPK: json["companyIDPK"],
+          currentBalance: json["currentBalance"] != null
+              ? (json["currentBalance"] as num).toDouble()
+              : null,
+          ledgerName: json["ledgerName"],
+          ledgerCode: json["ledgerCode"]);
 
   factory IncomeDetailsModel.fromEntity(IncomeDetailsEntity entity) {
     return IncomeDetailsModel(
-      incomeIDPK: entity.incomeIDPK,
-      ledgerIDPK: entity.ledgerIDPK,
-      description: entity.description,
-      grossTotal: entity.grossTotal,
-      taxAmount: entity.taxAmount,
-      taxPercentage: entity.taxPercentage,
-      netTotal: entity.netTotal,
-      rowguid: entity.rowguid,
-      companyIDPK: entity.companyIDPK,
-      currentBalance: entity.currentBalance,
-      ledgerName: entity.ledgerName,
-    );
+        incomeIDPK: entity.incomeIDPK,
+        ledgerIDPK: entity.ledgerIDPK,
+        description: entity.description,
+        grossTotal: entity.grossTotal,
+        taxAmount: entity.taxAmount,
+        taxPercentage: entity.taxPercentage,
+        netTotal: entity.netTotal,
+        rowguid: entity.rowguid,
+        companyIDPK: entity.companyIDPK,
+        currentBalance: entity.currentBalance,
+        ledgerName: entity.ledgerName,
+        ledgerCode: entity.ledgerCode);
   }
 
   Map<String, dynamic> toJson() => {
@@ -235,5 +232,6 @@ class IncomeDetailsModel extends IncomeDetailsEntity {
         "companyIDPK": companyIDPK,
         "currentBalance": currentBalance,
         "ledgerName": ledgerName,
+        "ledgerCode": ledgerCode
       };
 }

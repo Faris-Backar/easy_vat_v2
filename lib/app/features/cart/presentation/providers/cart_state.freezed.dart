@@ -26,6 +26,7 @@ mixin _$CartState {
   String? get refNo => throw _privateConstructorUsedError;
   DateTime? get saleDate => throw _privateConstructorUsedError;
   CustomerEntity? get selectedCustomer => throw _privateConstructorUsedError;
+  SupplierEntity? get selectedSupplier => throw _privateConstructorUsedError;
   String? get salesMode => throw _privateConstructorUsedError;
   SalesManEntity? get soldBy => throw _privateConstructorUsedError;
   LedgerAccountEntity? get cashAccount => throw _privateConstructorUsedError;
@@ -56,6 +57,7 @@ abstract class $CartStateCopyWith<$Res> {
       String? refNo,
       DateTime? saleDate,
       CustomerEntity? selectedCustomer,
+      SupplierEntity? selectedSupplier,
       String? salesMode,
       SalesManEntity? soldBy,
       LedgerAccountEntity? cashAccount,
@@ -89,6 +91,7 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
     Object? refNo = freezed,
     Object? saleDate = freezed,
     Object? selectedCustomer = freezed,
+    Object? selectedSupplier = freezed,
     Object? salesMode = freezed,
     Object? soldBy = freezed,
     Object? cashAccount = freezed,
@@ -137,6 +140,10 @@ class _$CartStateCopyWithImpl<$Res, $Val extends CartState>
           ? _value.selectedCustomer
           : selectedCustomer // ignore: cast_nullable_to_non_nullable
               as CustomerEntity?,
+      selectedSupplier: freezed == selectedSupplier
+          ? _value.selectedSupplier
+          : selectedSupplier // ignore: cast_nullable_to_non_nullable
+              as SupplierEntity?,
       salesMode: freezed == salesMode
           ? _value.salesMode
           : salesMode // ignore: cast_nullable_to_non_nullable
@@ -184,6 +191,7 @@ abstract class _$$CartStateImplCopyWith<$Res>
       String? refNo,
       DateTime? saleDate,
       CustomerEntity? selectedCustomer,
+      SupplierEntity? selectedSupplier,
       String? salesMode,
       SalesManEntity? soldBy,
       LedgerAccountEntity? cashAccount,
@@ -215,6 +223,7 @@ class __$$CartStateImplCopyWithImpl<$Res>
     Object? refNo = freezed,
     Object? saleDate = freezed,
     Object? selectedCustomer = freezed,
+    Object? selectedSupplier = freezed,
     Object? salesMode = freezed,
     Object? soldBy = freezed,
     Object? cashAccount = freezed,
@@ -263,6 +272,10 @@ class __$$CartStateImplCopyWithImpl<$Res>
           ? _value.selectedCustomer
           : selectedCustomer // ignore: cast_nullable_to_non_nullable
               as CustomerEntity?,
+      selectedSupplier: freezed == selectedSupplier
+          ? _value.selectedSupplier
+          : selectedSupplier // ignore: cast_nullable_to_non_nullable
+              as SupplierEntity?,
       salesMode: freezed == salesMode
           ? _value.salesMode
           : salesMode // ignore: cast_nullable_to_non_nullable
@@ -305,6 +318,7 @@ class _$CartStateImpl implements _CartState {
       this.refNo,
       this.saleDate,
       this.selectedCustomer,
+      this.selectedSupplier,
       this.salesMode,
       this.soldBy,
       this.cashAccount,
@@ -342,6 +356,8 @@ class _$CartStateImpl implements _CartState {
   @override
   final CustomerEntity? selectedCustomer;
   @override
+  final SupplierEntity? selectedSupplier;
+  @override
   final String? salesMode;
   @override
   final SalesManEntity? soldBy;
@@ -356,7 +372,7 @@ class _$CartStateImpl implements _CartState {
 
   @override
   String toString() {
-    return 'CartState(itemList: $itemList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, totalTax: $totalTax, subtotal: $subtotal, salesNo: $salesNo, refNo: $refNo, saleDate: $saleDate, selectedCustomer: $selectedCustomer, salesMode: $salesMode, soldBy: $soldBy, cashAccount: $cashAccount, salesAccount: $salesAccount, isForUpdate: $isForUpdate, isTaxEnabled: $isTaxEnabled)';
+    return 'CartState(itemList: $itemList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, totalTax: $totalTax, subtotal: $subtotal, salesNo: $salesNo, refNo: $refNo, saleDate: $saleDate, selectedCustomer: $selectedCustomer, selectedSupplier: $selectedSupplier, salesMode: $salesMode, soldBy: $soldBy, cashAccount: $cashAccount, salesAccount: $salesAccount, isForUpdate: $isForUpdate, isTaxEnabled: $isTaxEnabled)';
   }
 
   @override
@@ -380,6 +396,8 @@ class _$CartStateImpl implements _CartState {
                 other.saleDate == saleDate) &&
             (identical(other.selectedCustomer, selectedCustomer) ||
                 other.selectedCustomer == selectedCustomer) &&
+            (identical(other.selectedSupplier, selectedSupplier) ||
+                other.selectedSupplier == selectedSupplier) &&
             (identical(other.salesMode, salesMode) ||
                 other.salesMode == salesMode) &&
             (identical(other.soldBy, soldBy) || other.soldBy == soldBy) &&
@@ -406,6 +424,7 @@ class _$CartStateImpl implements _CartState {
       refNo,
       saleDate,
       selectedCustomer,
+      selectedSupplier,
       salesMode,
       soldBy,
       cashAccount,
@@ -434,6 +453,7 @@ abstract class _CartState implements CartState {
       final String? refNo,
       final DateTime? saleDate,
       final CustomerEntity? selectedCustomer,
+      final SupplierEntity? selectedSupplier,
       final String? salesMode,
       final SalesManEntity? soldBy,
       final LedgerAccountEntity? cashAccount,
@@ -461,6 +481,8 @@ abstract class _CartState implements CartState {
   DateTime? get saleDate;
   @override
   CustomerEntity? get selectedCustomer;
+  @override
+  SupplierEntity? get selectedSupplier;
   @override
   String? get salesMode;
   @override

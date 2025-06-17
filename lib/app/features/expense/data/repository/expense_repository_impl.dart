@@ -9,6 +9,7 @@ import 'package:easy_vat_v2/app/features/expense/domain/entities/expense_entity.
 import 'package:easy_vat_v2/app/features/expense/domain/repositories/expense_repository.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ExpenseRepositoryImpl extends ExpenseRepository {
   ExpenseRepositoryImpl();
@@ -106,6 +107,34 @@ class ExpenseRepositoryImpl extends ExpenseRepository {
               ""));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> downloadExpense(
+      {required String expenseIDPK}) async {
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final filePath = "${tempDir.path}/expense_$expenseIDPK.pdf";
+
+      final response = await client.download(
+          UrlResources.downloadExpense, filePath,
+          queryParameters: {"ExpenseIDPK": expenseIDPK});
+
+      if (response.statusCode == 200) {
+        return right(filePath);
+      } else {
+        return left(ServerFailure(
+            message:
+                "Download failed with status code ${response.statusCode}"));
+      }
+    } on DioException catch (e) {
+      return left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.message ??
+              "Dio error"));
+    } catch (e) {
+      return left(ServerFailure(message: e.toString()));
     }
   }
 }

@@ -1,8 +1,7 @@
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 
-class ExpenseCartEntity {
+class IncomeCartEntity {
   final int ledgerId;
-  final double openingBalance;
   final double currentBalance;
   final String currentBalanceType;
   final LedgerAccountEntity ledger;
@@ -14,9 +13,8 @@ class ExpenseCartEntity {
   final String description;
   final double tax;
 
-  ExpenseCartEntity(
+  IncomeCartEntity(
       {required this.ledgerId,
-      required this.openingBalance,
       required this.currentBalance,
       required this.currentBalanceType,
       required this.ledger,
@@ -28,11 +26,10 @@ class ExpenseCartEntity {
       required this.description,
       required this.tax});
 
-  ExpenseCartEntity copyWith(
+  IncomeCartEntity copyWith(
       {int? ledgerId,
       String? groupName,
       String? nature,
-      double? openingBalance,
       double? currentBalance,
       String? currentBalanceType,
       LedgerAccountEntity? ledger,
@@ -43,9 +40,8 @@ class ExpenseCartEntity {
       double? discount,
       String? description,
       double? tax}) {
-    return ExpenseCartEntity(
+    return IncomeCartEntity(
         ledgerId: ledgerId ?? this.ledgerId,
-        openingBalance: openingBalance ?? this.openingBalance,
         currentBalance: currentBalance ?? this.currentBalance,
         currentBalanceType: currentBalanceType ?? this.currentBalanceType,
         ledger: ledger ?? this.ledger,
@@ -60,6 +56,6 @@ class ExpenseCartEntity {
 
   @override
   String toString() {
-    return "ExpenseCartEntity(ledgerId: $ledgerId,openingBalance: $openingBalance,currentBalance: $currentBalance,currentBalanceType: $currentBalanceType, ledger: $ledger, netTotal: $netTotal, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercentage: $taxPercentage, discount: $discount, description: $description, tax: $tax)";
+    return "IncomeCartEntity(ledgerId: $ledgerId,currentBalance: $currentBalance,currentBalanceType: $currentBalanceType, ledger: $ledger, netTotal: $netTotal, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercentage: $taxPercentage, discount: $discount, description: $description, tax: $tax)";
   }
 }

@@ -208,33 +208,34 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                           )),
                         ],
                       ),
-                      startActionPane:
-                          ActionPane(motion: ScrollMotion(), children: [
-                        Expanded(child: Container()),
-                        Expanded(
-                          child: _buildSlidingAction(
-                              color: AppUtils.isDarkMode(context)
-                                  ? CustomColors.getTransactionCardRedColor(
-                                      context)
-                                  : CustomColors.getTransactionCardRedColor(
+                      startActionPane: ActionPane(
+                          motion: ScrollMotion(),
+                          extentRatio: 0.25,
+                          children: [
+                            Expanded(
+                              child: _buildSlidingAction(
+                                  color: AppUtils.isDarkMode(context)
+                                      ? CustomColors.getTransactionCardRedColor(
                                           context)
-                                      .withValues(alpha: 0.2),
-                              icon: Assets.icons.delete,
-                              borderRadiusTopLeft: 10.0,
-                              borderRadiusBottomLeft: 10.0,
-                              borderRadiusBottomRight: 10.0,
-                              borderRadiusTopRight: 10.0,
-                              iconColor: AppUtils.isDarkMode(context)
-                                  ? context.onPrimaryColor
-                                  : null,
-                              iconHeight: 24.0,
-                              iconWidth: 24.0,
-                              // handle Delete
-                              onTap: () => _showDeleteDialog(context,
-                                  expenseIDPK: expense.expenseIDPK ?? "",
-                                  supplierID: expense.supplierIDFK ?? "")),
-                        ),
-                      ]),
+                                      : CustomColors.getTransactionCardRedColor(
+                                              context)
+                                          .withValues(alpha: 0.2),
+                                  icon: Assets.icons.delete,
+                                  borderRadiusTopLeft: 10.0,
+                                  borderRadiusBottomLeft: 10.0,
+                                  borderRadiusBottomRight: 10.0,
+                                  borderRadiusTopRight: 10.0,
+                                  iconColor: AppUtils.isDarkMode(context)
+                                      ? context.onPrimaryColor
+                                      : null,
+                                  iconHeight: 24.0,
+                                  iconWidth: 24.0,
+                                  // handle Delete
+                                  onTap: () => _showDeleteDialog(context,
+                                      expenseIDPK: expense.expenseIDPK ?? "",
+                                      supplierID: expense.supplierIDFK ?? "")),
+                            ),
+                          ]),
                       child: ExpenseCard(
                         expense: expense,
                         isSelectedNotifier: notifier,

@@ -34,6 +34,7 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(expenseCartProvider);
+
     return Column(
       children: [
         if (isTaxRegistrationEnabled)
