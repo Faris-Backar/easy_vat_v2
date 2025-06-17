@@ -32,6 +32,12 @@ class UrlResources {
   static const String updateSalesReturn = "SalesReturn/Update";
   static const String deleteSalesReturn = "SalesReturn/Delete";
 
+  //salesQuotation
+  static const String getSalesQuotation = "Quotation/Select/BetweenDate";
+  static const String createSalesQuotation = "Quotation/Insert";
+  static const String updateSalesQuotation = "Quotation/Update";
+  static const String deleteSalesQuotation = "Quotation/Delete";
+
   //customer
   static const String getCustomers = "Customer/Select/LoadCustomer";
   static const String searchCustomers = "Customer/Select/SearchCustomer";

@@ -9,9 +9,11 @@ import 'package:easy_vat_v2/app/core/utils/date_format_utils.dart';
 import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_invoice_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_quotation_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_request_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_quotation_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_return_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/repositories/sales_repository.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
@@ -365,5 +367,74 @@ class SalesRepositoryImpl extends SalesRepository {
     } catch (e) {
       return left(ServerFailure(message: e.toString()));
     }
+  }
+
+  @override
+  Future<Either<Failure, SalesQuotationEntity>> createSalesQuotation(
+      {required SalesReturnModel salesQuotationRequest}) async {
+    try {
+      final data = salesQuotationRequest.toJson();
+      final response = await client.post(
+        UrlResources.createSalesInvoice,
+        data: data,
+      );
+      if (response.statusCode == 200 && response.data["status"] == true) {
+        final salesQuotationModel = SalesQuotationModel.fromJson(response.data);
+        return right(salesQuotationModel);
+      } else {
+        return left(ServerFailure(message: response.data["message"]));
+      }
+    } on DioException catch (e) {
+      return left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.error?.toString() ??
+              ""));
+    } catch (e) {
+      return left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteSalesQuotation(
+      {required SalesParams salesQuotationRequest}) {
+    // TODO: implement deleteSalesQuotation
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<Either<Failure, List<SalesQuotationEntity>>> getSalesQuotation(
+      {required SalesParams salesQuotationRequest}) async {
+    try {
+      final response = await client.get(
+        UrlResources.getSalesQuotation,
+        queryParameters: {
+          "fromDate":
+              DateFormatUtils.getDateOnly(date: salesQuotationRequest.fromDate),
+          "toDate":
+              DateFormatUtils.getDateOnly(date: salesQuotationRequest.toDate),
+        },
+      );
+      if (response.statusCode == 200) {
+        final salesQuotationList = List<SalesQuotationModel>.from(
+            response.data.map((x) => SalesQuotationModel.fromJson(x)));
+        return Right(salesQuotationList);
+      }
+      return Left(ServerFailure(message: ""));
+    } on DioException catch (e) {
+      return Left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.error?.toString() ??
+              ""));
+    } catch (e) {
+      log("salesreturn error => ${e.toString()}");
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, SalesQuotationEntity>> updateSalesQuotation(
+      {required SalesReturnModel salesQuotationRequest}) {
+    // TODO: implement updateSalesQuotation
+    throw UnimplementedError();
   }
 }

@@ -4,6 +4,7 @@ import "package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart
 import "package:easy_vat_v2/app/features/sales/data/model/sales_request_model.dart";
 import "package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart";
 import "package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart";
+import "package:easy_vat_v2/app/features/sales/domain/entities/sales_quotation_entity.dart";
 import "package:easy_vat_v2/app/features/sales/domain/entities/sales_return_entity.dart";
 import "package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart";
 
@@ -39,4 +40,14 @@ abstract class SalesRepository {
       {required SalesReturnModel salesReturnRequestParams});
   Future<Either<Failure, bool>> deleteSalesreturn(
       {required SalesParams salesReturnRequestParams});
+
+//salesQuotation
+  Future<Either<Failure, List<SalesQuotationEntity>>> getSalesQuotation(
+      {required SalesParams salesQuotationRequest});
+  Future<Either<Failure, SalesQuotationEntity>> createSalesQuotation(
+      {required SalesReturnModel salesQuotationRequest});
+  Future<Either<Failure, SalesQuotationEntity>> updateSalesQuotation(
+      {required SalesReturnModel salesQuotationRequest});
+  Future<Either<Failure, bool>> deleteSalesQuotation(
+      {required SalesParams salesQuotationRequest});
 }
