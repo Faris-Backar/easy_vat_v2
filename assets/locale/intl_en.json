@@ -217,11 +217,11 @@
   "deleteExpenseConfirmationMessage": "Expense deleted Successfully",
   "addNewSalesReturn":"Add New Sales Return",
   "addNewIncome": "Add New Income",
-  "incNo" : "IncNo",
   "deleteIncomeConfirmationMessage": "Income deleted Successfully",
-  "addNewSalesReturn": "Add New Sales Return",
   "privacyPolicy": "Privacy Policy",
   "whatIsMyCode": "What is my code?",
   "quotationId": "Quotation ID",
-  "salesOrderId": "Sales Order ID"
+  "salesOrderId": "Sales Order ID",
+  "incNo" : "IncNo"
+
 }

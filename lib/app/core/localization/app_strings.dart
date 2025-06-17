@@ -228,5 +228,5 @@ class AppStrings {
   static const String incNo = "incNo";
   static const String deleteIncomeConfirmationMessage =
       "deleteIncomeConfirmationMessage";
-  static const String quotationId= "quotationId";
+  static const String quotationId = "quotationId";
 }
