@@ -90,7 +90,7 @@ class SupplierEntity {
         ledgerIDPK: ledgerIDPK ?? this.ledgerIDPK,
         ledgerName: ledgerName ?? this.ledgerName,
         description: description ?? this.description,
-        taxPercentage: taxtpercentage ?? this.taxPercentage,
+        taxPercentage: taxPercentage ?? this.taxPercentage,
         mailingName: mailingName ?? this.mailingName,
         billingAddress: billingAddress ?? this.billingAddress,
         countryIDFK: countryIDFK ?? this.countryIDFK,

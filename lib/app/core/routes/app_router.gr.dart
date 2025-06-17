@@ -196,7 +196,10 @@ class AddNewSalesRoute extends _i28.PageRouteInfo<AddNewSalesRouteArgs> {
   }) : super(
           AddNewSalesRoute.name,
           args: AddNewSalesRouteArgs(
-              key: key, title: title, isForPurchase: isForPurchase),
+            key: key,
+            title: title,
+            isForPurchase: isForPurchase,
+          ),
           initialChildren: children,
         );
 
@@ -218,8 +221,11 @@ class AddNewSalesRoute extends _i28.PageRouteInfo<AddNewSalesRouteArgs> {
 }
 
 class AddNewSalesRouteArgs {
-  const AddNewSalesRouteArgs(
-      {this.key, this.title, this.isForPurchase = false});
+  const AddNewSalesRouteArgs({
+    this.key,
+    this.title,
+    this.isForPurchase = false,
+  });
 
   final _i29.Key? key;
   final String? title;
@@ -406,9 +412,9 @@ class PdfViewerRoute extends _i28.PageRouteInfo<PdfViewerRouteArgs> {
           args: PdfViewerRouteArgs(
             key: key,
             pdfUrl: pdfUrl,
+            pdfType: pdfType,
             pdfName: pdfName,
             queryParameters: queryParameters,
-            pdfType: pdfType,
           ),
           initialChildren: children,
         );
