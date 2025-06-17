@@ -1,0 +1,18 @@
+import 'package:dartz/dartz.dart';
+import 'package:easy_vat_v2/app/core/app_core.dart';
+import 'package:easy_vat_v2/app/core/usecase/usecase.dart';
+import 'package:easy_vat_v2/app/features/income/domain/entities/income_entity.dart';
+import 'package:easy_vat_v2/app/features/income/domain/repositories/income_repository.dart';
+import 'package:easy_vat_v2/app/features/income/domain/usecase/params/income_params.dart';
+
+class DeleteIncomeUsecase
+    extends UseCase<Either<Failure, IncomeEntity>, IncomeParams> {
+  final IncomeRepository incomeRepository;
+  DeleteIncomeUsecase({required this.incomeRepository});
+
+  @override
+  Future<Either<Failure, IncomeEntity>> call(
+      {required IncomeParams params}) async {
+    return await incomeRepository.deleteIncome(incomeRequestParams: params);
+  }
+}
