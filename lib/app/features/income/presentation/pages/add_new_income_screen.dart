@@ -44,7 +44,6 @@ class _AddNewIncomeScreenState extends ConsumerState<AddNewIncomeScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(incomeCartProvider);
-
     return Scaffold(
       appBar: _buildAppBar(),
       backgroundColor: context.surfaceColor,
