@@ -23,7 +23,7 @@ import 'package:easy_vat_v2/gen/assets.gen.dart';
 @RoutePage()
 class AddNewSalesScreen extends ConsumerStatefulWidget {
   final String? title;
-  const AddNewSalesScreen({super.key, this.title});
+  const AddNewSalesScreen({super.key, this.title, required bool isForPurchase});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>

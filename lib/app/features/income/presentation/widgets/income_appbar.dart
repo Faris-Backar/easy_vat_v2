@@ -1,10 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/expense/presentation/widgets/filter_widget.dart';
+import 'package:easy_vat_v2/app/features/income/domain/usecase/params/income_filter_params.dart';
+import 'package:easy_vat_v2/app/features/income/domain/usecase/params/income_params.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/providers/income/income_notifier.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/providers/income_cart/income_cart_provider.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/widgets/filter_widget.dart';
+import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_selector_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
+import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
@@ -32,6 +40,8 @@ class IncomeAppbar extends ConsumerStatefulWidget
 class IncomeAppBarConfig {
   final String title;
   final Future<bool> Function()? onWillPop;
+  final Future<void> Function(IncomeParams params)? fetchFunction;
+  final Future<void> Function(IncomeFilterParams params)? filterFunction;
   final List<PopupMenuEntry<String>>? additionalPopupMenuItems;
   final bool showDateRangePicker;
   final bool showSearchBar;
@@ -40,6 +50,8 @@ class IncomeAppBarConfig {
   const IncomeAppBarConfig({
     this.title = "",
     this.onWillPop,
+    this.fetchFunction,
+    this.filterFunction,
     this.additionalPopupMenuItems,
     this.showDateRangePicker = true,
     this.showSearchBar = true,
@@ -49,6 +61,9 @@ class IncomeAppBarConfig {
 
 class _IncomeAppBarState extends ConsumerState<IncomeAppbar> {
   late final ValueNotifier<bool> isSearchNotEmpty;
+  final ValueNotifier<int?> incomeNoNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> customerNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> paymentMethodNotifier = ValueNotifier(null);
 
   DateTime? selectedIncomeDate;
 
@@ -70,6 +85,158 @@ class _IncomeAppBarState extends ConsumerState<IncomeAppbar> {
   void dispose() {
     isSearchNotEmpty.dispose();
     super.dispose();
+  }
+
+  Future<void> _defaultFetchIncome() async {
+    final dateRange = ref.read(dateRangeProvider);
+    final params = IncomeParams(
+        incomeIDPK: PrefResources.emptyGuid,
+        customerID: PrefResources.emptyGuid,
+        fromDate: dateRange.fromDate,
+        toDate: dateRange.toDate);
+
+    if (widget.config.fetchFunction != null) {
+      await widget.config.fetchFunction!(params);
+    } else {
+      await ref
+          .read(incomeNotifierProvider.notifier)
+          .fetchIncome(params: params);
+    }
+  }
+
+  _buildFilterBottomSheet(BuildContext context) {
+    final paymentModeState = ref.read(paymentModeNotifierProvider);
+    return showModalBottomSheet(
+        context: context,
+        backgroundColor: context.colorScheme.tertiaryContainer,
+        builder: (context) => Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        context.translate(AppStrings.filters),
+                        style: context.textTheme.bodyMedium
+                            ?.copyWith(fontWeight: FontWeight.w700),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          if (widget.config.filterFunction != null) {
+                            widget.config.filterFunction!(
+                                IncomeFilterParams(clearAllFilter: true));
+                          } else {
+                            paymentMethodNotifier.value = null;
+                          }
+                          context.router.popForced();
+                        },
+                        child: Text(
+                          context.translate(AppStrings.clearAll),
+                          style: context.textTheme.bodySmall?.copyWith(
+                              fontWeight: FontWeight.w500,
+                              color: AppUtils.isDarkMode(context)
+                                  ? Color(0xFF8B62F1)
+                                  : context.colorScheme.primary,
+                              decoration: TextDecoration.underline),
+                        ),
+                      )
+                    ],
+                  ),
+                  const Divider(),
+                  SizedBox(
+                    height: 12.h,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: paymentModeState.when(
+                          initial: () => SizedBox.shrink(),
+                          loading: () => Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
+                          error: (message) => Text("Error: $message"),
+                          loaded: (paymentModes, selectedPaymentMode) {
+                            return DropdownField(
+                                label:
+                                    context.translate(AppStrings.paymentMode),
+                                valueNotifier: paymentMethodNotifier,
+                                items: paymentModes
+                                    .map((mode) => mode.paymentModes)
+                                    .toList(),
+                                backgroundColor: AppUtils.isDarkMode(context)
+                                    ? context.colorScheme.tertiaryContainer
+                                    : context.surfaceColor,
+                                onChanged: (newValue) {
+                                  paymentMethodNotifier.value = newValue;
+                                });
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        width: 12.w,
+                      ),
+                      Expanded(
+                          child: paymentModeState.when(
+                              initial: () => const SizedBox.shrink(),
+                              loading: () => Center(
+                                    child: CircularProgressIndicator.adaptive(),
+                                  ),
+                              error: (message) => Text("Error: $message"),
+                              loaded: (paymentModes, seletedPaymentMode) {
+                                return DropdownField(
+                                  label: context.translate(AppStrings.soldBy),
+                                  valueNotifier: paymentMethodNotifier,
+                                  items: paymentModes
+                                      .map((mode) => mode.paymentModes)
+                                      .toList(),
+                                  backgroundColor: AppUtils.isDarkMode(context)
+                                      ? context.colorScheme.tertiaryContainer
+                                      : context.surfaceColor,
+                                  onChanged: (newValue) {
+                                    paymentMethodNotifier.value = newValue;
+                                  },
+                                );
+                              }))
+                    ],
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  Row(
+                    children: [Expanded(child: CustomerSelectorWidget())],
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: PrimaryButton(
+                      label: context.translate(AppStrings.filter),
+                      onPressed: () {
+                        final params = IncomeParams(
+                            fromDate: ref.read(dateRangeProvider).fromDate,
+                            toDate: ref.read(dateRangeProvider).toDate,
+                            customerID: ref
+                                .read(incomeCartProvider.notifier)
+                                .selectedCustomer
+                                ?.ledgerIdpk,
+                            paymentMode: paymentMethodNotifier.value);
+
+                        if (widget.config.filterFunction != null) {
+                        } else {
+                          ref
+                              .read(incomeNotifierProvider.notifier)
+                              .fetchIncome(params: params);
+                        }
+                        context.router.popForced();
+                      },
+                    ),
+                  )
+                ],
+              ),
+            ));
   }
 
   @override
@@ -153,7 +320,7 @@ class _IncomeAppBarState extends ConsumerState<IncomeAppbar> {
                             width: 10.w,
                           ),
                           InkWell(
-                            onTap: () {}, // fetch Income
+                            onTap: _defaultFetchIncome, // fetch Income
                             child: Container(
                               height: 36.h,
                               width: 41.w,
@@ -225,8 +392,10 @@ class _IncomeAppBarState extends ConsumerState<IncomeAppbar> {
                   hintDecoration: context.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w500,
                       color: context.defaultTextColor.withValues(alpha: 0.32)),
-                  onChanged:
-                      (value) {}, // Income Notifier Provider and seach Income
+                  onChanged: (value) => ref
+                      .read(incomeNotifierProvider.notifier)
+                      .searchIncome(
+                          value), // Income Notifier Provider and seach Income
                   suffixIcon: hasText
                       ? Padding(
                           padding: const EdgeInsets.all(12.0),
@@ -254,51 +423,51 @@ class _IncomeAppBarState extends ConsumerState<IncomeAppbar> {
     );
   }
 
-  _buildFilterBottomSheet(BuildContext context) {
-    return showModalBottomSheet(
-        context: context,
-        backgroundColor: context.colorScheme.tertiaryContainer,
-        builder: (context) => Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        context.translate(AppStrings.filter),
-                        style: context.textTheme.bodyMedium
-                            ?.copyWith(fontWeight: FontWeight.w700),
-                      ),
-                      InkWell(
-                        onTap: () {}, // filter function
-                        child: Text(
-                          context.translate(AppStrings.clearAll),
-                          style: context.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: AppUtils.isDarkMode(context)
-                                  ? Color(0xFF8B62F1)
-                                  : context.colorScheme.primary,
-                              decoration: TextDecoration.underline),
-                        ),
-                      )
-                    ],
-                  ),
-                  const Divider(),
-                  SizedBox(
-                    height: 12.h,
-                  ),
-                  Row(), // payment Mode
-                  SizedBox(
-                    width: double.infinity,
-                    child: PrimaryButton(
-                      label: context.translate(AppStrings.filter),
-                      onPressed: () {},
-                    ),
-                  )
-                ],
-              ),
-            ));
-  }
+  // _buildFilterBottomSheet(BuildContext context) {
+  //   return showModalBottomSheet(
+  //       context: context,
+  //       backgroundColor: context.colorScheme.tertiaryContainer,
+  //       builder: (context) => Padding(
+  //             padding: const EdgeInsets.all(16.0),
+  //             child: Column(
+  //               mainAxisSize: MainAxisSize.min,
+  //               children: [
+  //                 Row(
+  //                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //                   children: [
+  //                     Text(
+  //                       context.translate(AppStrings.filter),
+  //                       style: context.textTheme.bodyMedium
+  //                           ?.copyWith(fontWeight: FontWeight.w700),
+  //                     ),
+  //                     InkWell(
+  //                       onTap: () {}, // filter function
+  //                       child: Text(
+  //                         context.translate(AppStrings.clearAll),
+  //                         style: context.textTheme.bodySmall?.copyWith(
+  //                             fontWeight: FontWeight.w500,
+  //                             color: AppUtils.isDarkMode(context)
+  //                                 ? Color(0xFF8B62F1)
+  //                                 : context.colorScheme.primary,
+  //                             decoration: TextDecoration.underline),
+  //                       ),
+  //                     )
+  //                   ],
+  //                 ),
+  //                 const Divider(),
+  //                 SizedBox(
+  //                   height: 12.h,
+  //                 ),
+  //                 Row(), // payment Mode
+  //                 SizedBox(
+  //                   width: double.infinity,
+  //                   child: PrimaryButton(
+  //                     label: context.translate(AppStrings.filter),
+  //                     onPressed: () {},
+  //                   ),
+  //                 )
+  //               ],
+  //             ),
+  //           ));
+  // }
 }

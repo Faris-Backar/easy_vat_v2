@@ -24,7 +24,7 @@ class IncomeNotifiers extends StateNotifier<IncomeState> {
       : super(IncomeState.initial());
 
   fetchIncome({required IncomeParams params}) async {
-    state = const IncomeState.initial();
+    state = const IncomeState.loading();
     final result =
         await incomeRepository.getIncome(incomeRequestParams: params);
     result.fold((failure) => state = IncomeState.failure(failure.message),

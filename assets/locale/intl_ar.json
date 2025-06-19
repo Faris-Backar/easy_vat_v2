@@ -216,6 +216,7 @@
    "deleteExpenseConfirmationMessage": "تم حذف النفقات بنجاح",
   "addNewSalesReturn": "إضافة مرتجع مبيعات جديد",
    "addNewIncome": "إضافة دخل جديد",
-   "incNo": "رقم الدخل"
+   "incNo": "رقم الدخل",
+   "deleteIncomeConfirmationMessage": "تم حذف الدخل بنجاح"
 
 }

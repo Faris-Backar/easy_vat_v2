@@ -225,4 +225,6 @@ class AppStrings {
       "deleteExpenseConfirmationMessage";
   static const String addNewIncome = "addNewIncome";
   static const String incNo = "incNo";
+  static const String deleteIncomeConfirmationMessage =
+      "deleteIncomeConfirmationMessage";
 }

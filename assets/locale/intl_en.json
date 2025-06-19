@@ -217,5 +217,6 @@
   "deleteExpenseConfirmationMessage": "Expense deleted Successfully",
   "addNewSalesReturn":"Add New Sales Return",
   "addNewIncome": "Add New Income",
-  "incNo" : "IncNo"
+  "incNo" : "IncNo",
+  "deleteIncomeConfirmationMessage": "Income deleted Successfully"
 }

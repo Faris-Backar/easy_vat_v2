@@ -2,6 +2,7 @@ import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_e
 
 class IncomeCartEntity {
   final int ledgerId;
+  final double openingBalance;
   final double currentBalance;
   final String currentBalanceType;
   final LedgerAccountEntity ledger;
@@ -15,6 +16,7 @@ class IncomeCartEntity {
 
   IncomeCartEntity(
       {required this.ledgerId,
+      required this.openingBalance,
       required this.currentBalance,
       required this.currentBalanceType,
       required this.ledger,
@@ -28,8 +30,7 @@ class IncomeCartEntity {
 
   IncomeCartEntity copyWith(
       {int? ledgerId,
-      String? groupName,
-      String? nature,
+      double? openingBalance,
       double? currentBalance,
       String? currentBalanceType,
       LedgerAccountEntity? ledger,
@@ -42,6 +43,7 @@ class IncomeCartEntity {
       double? tax}) {
     return IncomeCartEntity(
         ledgerId: ledgerId ?? this.ledgerId,
+        openingBalance: openingBalance ?? this.openingBalance,
         currentBalance: currentBalance ?? this.currentBalance,
         currentBalanceType: currentBalanceType ?? this.currentBalanceType,
         ledger: ledger ?? this.ledger,
@@ -56,6 +58,6 @@ class IncomeCartEntity {
 
   @override
   String toString() {
-    return "IncomeCartEntity(ledgerId: $ledgerId,currentBalance: $currentBalance,currentBalanceType: $currentBalanceType, ledger: $ledger, netTotal: $netTotal, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercentage: $taxPercentage, discount: $discount, description: $description, tax: $tax)";
+    return "IncomeCartEntity(ledgerId: $ledgerId,opening: $openingBalance,currentBalance: $currentBalance,currentBalanceType: $currentBalanceType, ledger: $ledger, netTotal: $netTotal, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercentage: $taxPercentage, discount: $discount, description: $description, tax: $tax)";
   }
 }

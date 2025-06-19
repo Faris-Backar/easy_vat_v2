@@ -83,6 +83,8 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
   }
 
   void addLedgerIntoIncomeCart({required IncomeCartEntity ledger}) {
+    log("Adding ledger: ${ledger.ledger.ledgerName}");
+    print("Adding ledger: ${ledger.ledger.ledgerName}");
     detailList.add(ledger);
     _getRateSplitUp(ledger: ledger);
     state = state.copyWith(ledgerList: detailList);
@@ -104,27 +106,28 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
     if (index != -1) {
       final oldLedger = detailList[index];
       _decreaseRateSplitUp(ledger: oldLedger);
+
+      final tax = isTaxEnabled ? cartLedger.taxAmount : 0.0;
+      final netTotal = cartLedger.grossTotal + (isTaxEnabled ? tax : 0.0);
+
+      final updatedLedger = IncomeCartEntity(
+          ledgerId: cartLedger.ledgerId,
+          openingBalance: cartLedger.openingBalance,
+          currentBalance: cartLedger.currentBalance,
+          currentBalanceType: cartLedger.currentBalanceType,
+          ledger: cartLedger.ledger,
+          netTotal: netTotal,
+          grossTotal: cartLedger.grossTotal,
+          taxAmount: isTaxEnabled ? cartLedger.taxAmount : 0.0,
+          taxPercentage: cartLedger.taxPercentage,
+          discount: cartLedger.discount,
+          description: cartLedger.description,
+          tax: isTaxEnabled ? cartLedger.tax : 0.0);
+
+      detailList[index] = updatedLedger;
+      _getRateSplitUp(ledger: updatedLedger);
+      state = state.copyWith(ledgerList: detailList);
     }
-
-    final tax = isTaxEnabled ? cartLedger.taxAmount : 0.0;
-    final netTotal = cartLedger.grossTotal + (isTaxEnabled ? tax : 0.0);
-
-    final updatedLedger = IncomeCartEntity(
-        ledgerId: cartLedger.ledgerId,
-        currentBalance: cartLedger.currentBalance,
-        currentBalanceType: cartLedger.currentBalanceType,
-        ledger: cartLedger.ledger,
-        netTotal: netTotal,
-        grossTotal: cartLedger.grossTotal,
-        taxAmount: isTaxEnabled ? cartLedger.taxAmount : 0.0,
-        taxPercentage: cartLedger.taxPercentage,
-        discount: cartLedger.discount,
-        description: cartLedger.description,
-        tax: isTaxEnabled ? cartLedger.tax : 0.0);
-
-    detailList[index] = updatedLedger;
-    _getRateSplitUp(ledger: updatedLedger);
-    state = state.copyWith(ledgerList: detailList);
   }
 
   setIncomeNo(String incomeNo) {
@@ -270,10 +273,11 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
         createdBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
         createdDate: incomeDate,
         modifiedBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
+        modifiedDate: DateTime.now(),
         rowguid: PrefResources.emptyGuid,
         companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
         customerName: selectedCustomer?.ledgerName ?? "cash");
-
+    log("newIncome: $newIncome");
     return newIncome;
   }
 
@@ -298,7 +302,7 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
 
   double calculateTotalTax(
       {required double grossTotal, required double taxPercentage}) {
-    if (isTaxEnabled) return 0.0;
+    if (!isTaxEnabled) return 0.0;
 
     double taxAmount = (grossTotal * taxPercentage) / 100;
     return taxAmount;
@@ -311,7 +315,7 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
     return grossTotal + (isTaxEnabled ? taxAmount : 0.0) - discount;
   }
 
-  LedgerAccountEntity covertIncomeDetailsToDetails(
+  LedgerAccountEntity convertIncomeDetailsToDetails(
       IncomeDetailsEntity incomeDetails) {
     return LedgerAccountEntity(
         ledgerIdpk: incomeDetails.ledgerIDPK,
@@ -370,7 +374,7 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
       for (var index = 0; index < income.incomeDetails!.length; index++) {
         final incomeDetail = income.incomeDetails![index];
         final discount = income.discount ?? 0.0;
-        final ledgerEntity = covertIncomeDetailsToDetails(incomeDetail);
+        final ledgerEntity = convertIncomeDetailsToDetails(incomeDetail);
         final taxPercentage = ledgerEntity.taxPercentage ?? 0.0;
         final grossTotal = income.grossTotal ?? 0.0;
         final taxAmount = isTaxEnabled
@@ -381,6 +385,7 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
 
         final cartLedger = IncomeCartEntity(
             ledgerId: (index + 1),
+            openingBalance: ledgerEntity.openingBalance?.toDouble() ?? 0.0,
             currentBalance: ledgerEntity.currentBalance?.toDouble() ?? 0.0,
             currentBalanceType: ledgerEntity.currentBalanceType ?? "",
             ledger: ledgerEntity,
@@ -408,7 +413,7 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
       {required IncomeCartEntity ledger, bool isInitial = false}) {
     if (isTaxEnabled) {
       taxAmount += ledger.taxAmount;
-      totalAmount += ledger.grossTotal + ledger.taxAmount - discount;
+      totalAmount += (ledger.grossTotal + ledger.taxAmount - discount);
     } else {
       totalAmount += ledger.grossTotal - discount;
     }
@@ -424,7 +429,7 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
   void _decreaseRateSplitUp({required IncomeCartEntity ledger}) {
     if (isTaxEnabled) {
       taxAmount -= ledger.tax;
-      totalAmount -= ledger.grossTotal + ledger.taxAmount - discount;
+      totalAmount -= (ledger.grossTotal + ledger.taxAmount - discount);
     } else {
       totalAmount -= ledger.grossTotal - discount;
     }

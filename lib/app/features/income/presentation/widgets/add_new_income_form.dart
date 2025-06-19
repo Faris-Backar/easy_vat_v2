@@ -1,11 +1,11 @@
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/providers/income_cart/income_cart_provider.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/widgets/customer_info_widget.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/data/model/payment_mode_model.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_info_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
@@ -38,17 +38,36 @@ class _AddNewIncomeFormState extends ConsumerState<AddNewIncomeForm> {
   @override
   void initState() {
     super.initState();
+
+    final cart = ref.read(incomeCartProvider);
+    widget.incomeNoController.text = cart.incomeNo ?? "";
+    widget.refNoController.text = cart.refNo ?? "";
+    widget.soldByController.text = cart.soldBy ?? "";
+
+    widget.refNoController.addListener(() {
+      ref
+          .read(incomeCartProvider.notifier)
+          .setRefNo(widget.refNoController.text);
+    });
+
+    widget.soldByController.addListener(() {
+      ref
+          .read(incomeCartProvider.notifier)
+          .setSoldBy(widget.soldByController.text);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final paymentModeState = ref.watch(paymentModeNotifierProvider);
     final cashLedgerState = ref.watch(cashLedgerNotifierProvider);
+    ref.watch(incomeCartProvider).soldBy ?? "";
     return Column(
       children: [
         Row(
           children: [
-            Expanded(flex: 4, child: CustomerInfoWidget()),
+            Expanded(
+                flex: 4, child: CustomerInfoWidget()), // customer info widget
             SizedBox(
               width: 10.w,
             ),
@@ -84,9 +103,7 @@ class _AddNewIncomeFormState extends ConsumerState<AddNewIncomeForm> {
                     label: context.translate(AppStrings.date),
                     // initial value
                     onDateSelected: (data) {
-                      ref
-                          .read(expenseCartProvider.notifier)
-                          .setExpenseDate(data); // need to change
+                      ref.read(incomeCartProvider.notifier).setIncomeDate(data);
                     },
                     labelAndTextfieldGap: 2,
                     backgroundColor: AppUtils.isDarkMode(context)
@@ -199,9 +216,8 @@ class _AddNewIncomeFormState extends ConsumerState<AddNewIncomeForm> {
                                       widget.cashAccountNotifier.value =
                                           ledgerNames.first;
                                       ref
-                                          .read(expenseCartProvider.notifier)
-                                          .setExpenseAccount(
-                                              ledgers.first); //need to change
+                                          .read(incomeCartProvider.notifier)
+                                          .setIncomeAccount(ledgers.first);
                                     });
                                   }
                                   return DropdownField(
@@ -228,9 +244,8 @@ class _AddNewIncomeFormState extends ConsumerState<AddNewIncomeForm> {
                                                       ?.toLowerCase() ==
                                                   newValue.toLowerCase());
                                           ref
-                                              .read(
-                                                  expenseCartProvider.notifier)
-                                              .setCashAccount(
+                                              .read(incomeCartProvider.notifier)
+                                              .setIncomeAccount(
                                                   cashLedger); // need to change
                                         }
                                       });
@@ -293,7 +308,7 @@ class _AddNewIncomeFormState extends ConsumerState<AddNewIncomeForm> {
 
   void _getdefaultSelection(List<PaymentModeModel> paymentModes) {
     final currentPaymentMode =
-        ref.read(expenseCartProvider.notifier).paymentMode.toLowerCase();
+        ref.read(incomeCartProvider.notifier).paymentMode.toLowerCase();
     final selectedMode = paymentModes.firstWhere(
       (mode) => currentPaymentMode.isNotEmpty
           ? mode.paymentModes.toLowerCase() == currentPaymentMode
@@ -303,7 +318,7 @@ class _AddNewIncomeFormState extends ConsumerState<AddNewIncomeForm> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final selectedValue = selectedMode.paymentModes;
-      ref.read(expenseCartProvider.notifier).setPaymentMode(selectedValue);
+      ref.read(incomeCartProvider.notifier).setPaymentMode(selectedValue);
       widget.paymentModeNotifier.value = selectedValue;
 
       final selectedLower = selectedValue.toLowerCase();

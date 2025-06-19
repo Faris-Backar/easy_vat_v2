@@ -7,6 +7,7 @@ import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/items_bottom_modal_sheet.dart';
+import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/create_sales/create_sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/download_sales/download_sales_invoices_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
@@ -152,6 +153,7 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                                 ref.read(cartProvider.notifier).clearCart();
                                 context.router.push(PdfViewerRoute(
                                   pdfUrl: UrlResources.downloadSalesInvoice,
+                                  pdfType: PDFType.salesInvoice,
                                   queryParameters: {
                                     'SaleIDPK': success.salesIDPK,
                                   },

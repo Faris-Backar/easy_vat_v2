@@ -1,6 +1,7 @@
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/providers/income_cart/income_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/dotted_line.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:flutter/material.dart';
@@ -32,14 +33,23 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(incomeCartProvider);
     return Column(
       children: [
-        if (isTaxRegistrationEnabled)
-          _buildAmountSplitup(context,
-              label: context.translate(AppStrings.totalBeforeTax)),
-        SizedBox(
-          height: 5,
-        ),
+        // if (isTaxRegistrationEnabled)
+        //   _buildAmountSplitup(context,
+        //       content: state.grossTotal.toStringAsFixed(2),
+        //       label: context.translate(AppStrings.totalBeforeTax)),
+        // SizedBox(
+        //   height: 5,
+        // ),
+        // if (isTaxRegistrationEnabled)
+        //   _buildAmountSplitup(context,
+        //       label: state.taxAmount.toStringAsFixed(2),
+        //       content: context.translate(AppStrings.totalTax)),
+        // SizedBox(
+        //   height: 5,
+        // ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -60,6 +70,14 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
                 textInputType: TextInputType.number,
                 textInputAction: TextInputAction.done,
                 // onchanged
+                onChanged: (disc) {
+                  final discountAmount = double.tryParse(disc) ?? 0.0;
+                  if (discountAmount >= 0) {
+                    ref
+                        .read(incomeCartProvider.notifier)
+                        .applyDiscount(discountAmount);
+                  }
+                },
                 hintDecoration: context.textTheme.bodySmall?.copyWith(
                   fontWeight: FontWeight.w500,
                   color: context.defaultTextColor.withValues(alpha: 0.32),
@@ -79,7 +97,9 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
           painter: DottedLinePainter(color: context.colorScheme.outline),
         ),
         _buildAmountSplitup(context,
-            label: context.translate(AppStrings.roundOf)),
+            content: state.roundOf.toStringAsFixed(2),
+            label: context.translate(AppStrings.roundOf),
+            isDottedDivider: false),
         SizedBox(
           height: 5,
         ),
@@ -90,6 +110,11 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
               context.translate(AppStrings.totalAmount),
               style: context.textTheme.bodySmall
                   ?.copyWith(fontWeight: FontWeight.w600),
+            ),
+            Text(
+              state.totalAmount.toStringAsFixed(2),
+              style: context.textTheme.bodyMedium
+                  ?.copyWith(fontWeight: FontWeight.w700),
             )
           ],
         )
@@ -98,7 +123,9 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
   }
 
   Widget _buildAmountSplitup(BuildContext context,
-      {required String label, bool isDottedDivider = true}) {
+      {required String label,
+      required String content,
+      bool isDottedDivider = true}) {
     return Column(
       children: [
         Row(
