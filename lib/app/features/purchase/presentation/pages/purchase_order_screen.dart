@@ -153,7 +153,8 @@ class _PurchaseOrderScreenState extends ConsumerState<PurchaseOrderScreen> {
             ),
             PrimaryButton(
               onPressed: () => context.router.push(AddNewSalesRoute(
-                  title: context.translate(AppStrings.addNewPurchaseOrder))),
+                  title: context.translate(AppStrings.addNewPurchaseOrder),
+                  isForPurchase: true)),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [

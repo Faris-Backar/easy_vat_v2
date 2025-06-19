@@ -295,6 +295,7 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
               PrimaryButton(
                 onPressed: () => context.router.push(
                   AddNewSalesRoute(
+                    isForPurchase: false,
                     title: context.translate(AppStrings.addNewSalesQuatation),
                   ),
                 ),
