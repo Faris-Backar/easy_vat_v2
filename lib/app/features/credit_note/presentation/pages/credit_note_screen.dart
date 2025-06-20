@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/credit_note/presentation/widgets/credit_note_appbar.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -49,7 +50,8 @@ class _CreditNoteScreenState extends ConsumerState<CreditNoteScreen> {
                 height: 10,
               ),
               PrimaryButton(
-                onPressed: () {},
+                onPressed: () => context.router.push(AddNewCreditNoteRoute(
+                    title: context.translate(AppStrings.creditNote))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

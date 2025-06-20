@@ -222,6 +222,10 @@
   "quotationId": "Quotation ID",
   "salesOrderId": "Sales Order ID",
   "incNo" : "IncNo",
-  "deleteIncomeConfirmationMessage": "Income deleted Successfully"
-
+  "deleteIncomeConfirmationMessage": "Income deleted Successfully",
+  "addNewJournal": "Add New Journal",
+  "addNewCreditNote": "Add New Credit Note",
+  "addNewDebitNote": "Add New Debit Note",
+  "addNewContra": "Add New Contra",
+  "addNewDividend": "Add New Dividend"
 }

@@ -221,7 +221,11 @@
   "privacyPolicy": "سياسة الخصوصية",
   "whatIsMyCode": "ما هو الرمز الخاص بي؟",
   "quotationId": "رقم عرض السعر",
-  "salesOrderId": "معرّف أمر البيع"
-
+  "salesOrderId": "معرّف أمر البيع",
+   "addNewJournal": "إضافة مجلة جديدة",
+   "addNewCreditNote": "إضافة مذكرة ائتمان جديدة",
+   "addNewDebitNote": "إضافة مذكرة خصم جديدة",
+   "addNewContra": "إضافة مضاد جديد",
+   "addNewDividend": "إضافة أرباح جديدة"
 
 }

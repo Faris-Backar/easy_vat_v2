@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/dividend_appbar.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -47,7 +48,8 @@ class _DividendScreenState extends ConsumerState<DividendScreen> {
                 height: 10,
               ),
               PrimaryButton(
-                onPressed: () {},
+                onPressed: () => context.router.push(AddNewDividendRoute(
+                    title: context.translate(AppStrings.addNewDividend))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [

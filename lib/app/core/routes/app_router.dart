@@ -47,10 +47,15 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: IncomeRoute.page, path: income),
         AutoRoute(page: AddNewIncomeRoute.page, path: addNewIncome),
         AutoRoute(page: JournalRoute.page, path: journal),
+        AutoRoute(page: AddNewJournalRoute.page, path: addNewJournal),
         AutoRoute(page: CreditNoteRoute.page, path: creditNote),
+        AutoRoute(page: AddNewCreditNoteRoute.page, path: addNewCreditNote),
         AutoRoute(page: DebitNoteRoute.page, path: debitNote),
+        AutoRoute(page: AddNewDebitNoteRoute.page, path: addNewDebitNote),
         AutoRoute(page: ContraRoute.page, path: contra),
+        AutoRoute(page: AddNewContraRoute.page, path: addNewContra),
         AutoRoute(page: DividendRoute.page, path: dividend),
+        AutoRoute(page: AddNewDividendRoute.page, path: addNewDividend)
       ];
 
   // Routes constants
@@ -83,10 +88,15 @@ class AppRouter extends RootStackRouter {
   static const String income = "/income";
   static const String addNewIncome = "/addNewIncome";
   static const String journal = "/journal";
+  static const String addNewJournal = "/addNewJournal";
   static const String creditNote = "/creditNote";
+  static const String addNewCreditNote = "/addNewCreditNote";
   static const String debitNote = "/debitNote";
+  static const String addNewDebitNote = "/addNewDebitNote";
   static const String contra = "/contra";
+  static const String addNewContra = "/addNewContra";
   static const String dividend = "/dividend";
+  static const String addNewDividend = "/addNewDividend";
 }
 
 class AuthGuard extends AutoRouteGuard {

@@ -228,5 +228,12 @@ class AppStrings {
   static const String incNo = "incNo";
   static const String deleteIncomeConfirmationMessage =
       "deleteIncomeConfirmationMessage";
+
   static const String quotationId = "quotationId";
+
+  static const String addNewJournal = "addNewJournal";
+  static const String addNewCreditNote = "addNewCreditNote";
+  static const String addNewDebitNote = "addNewDebitNote";
+  static const String addNewContra = "addNewContra";
+  static const String addNewDividend = "addNewDividend";
 }

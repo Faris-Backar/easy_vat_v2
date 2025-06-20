@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/contra/presentation/widgets/contra_appbar.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -47,7 +48,8 @@ class _ContraScreenState extends ConsumerState<ContraScreen> {
                 height: 10,
               ),
               PrimaryButton(
-                onPressed: () {},
+                onPressed: () => context.router.push(AddNewContraRoute(
+                    title: context.translate(AppStrings.addNewContra))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
