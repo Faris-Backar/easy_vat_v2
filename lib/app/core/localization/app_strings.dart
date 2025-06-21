@@ -241,4 +241,5 @@ class AppStrings {
   static const String selectedLedger = "selectedLedger";
   static const String debitTotal = "debitTotal";
   static const String creditTotal = "creditTotal";
+  static const String contraNo = "contraNo";
 }

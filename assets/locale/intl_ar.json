@@ -231,6 +231,7 @@
    "entryMode": "وضع الدخول",
    "selectedLedger": "دفتر الأستاذ المحدد",
    "debitTotal": "إجمالي المدين",
-   "creditTotal": "إجمالي الائتمان"
+   "creditTotal": "إجمالي الائتمان",
+   "contraNo": "رقم مضاد"
 
 }

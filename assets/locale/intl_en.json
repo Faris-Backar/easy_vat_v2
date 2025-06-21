@@ -232,5 +232,6 @@
   "entryMode": "EntryMode",
   "selectedLedger": "Selected Ledger",
   "debitTotal": "Debit Total",
-  "creditTotal": "Credit Total"
+  "creditTotal": "Credit Total",
+  "contraNo": "Contra No"
 }
