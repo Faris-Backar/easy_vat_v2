@@ -232,6 +232,8 @@
    "selectedLedger": "دفتر الأستاذ المحدد",
    "debitTotal": "إجمالي المدين",
    "creditTotal": "إجمالي الائتمان",
-   "contraNo": "رقم مضاد"
+   "contraNo": "رقم مضاد",
+   "creditNoteNo": "رقم مذكرة الائتمان",
+   "debitNoteNo": "رقم مذكرة الخصم"
 
 }

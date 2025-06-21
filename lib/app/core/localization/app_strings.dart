@@ -242,4 +242,6 @@ class AppStrings {
   static const String debitTotal = "debitTotal";
   static const String creditTotal = "creditTotal";
   static const String contraNo = "contraNo";
+  static const String creditNoteNo = "creditNoteNo";
+  static const String debitNoteNo = "debitNoteNo";
 }

@@ -233,5 +233,7 @@
   "selectedLedger": "Selected Ledger",
   "debitTotal": "Debit Total",
   "creditTotal": "Credit Total",
-  "contraNo": "Contra No"
+  "contraNo": "Contra No",
+  "creditNoteNo": "Credit Note No",
+  "debitNoteNo": "Debit Note No"
 }
