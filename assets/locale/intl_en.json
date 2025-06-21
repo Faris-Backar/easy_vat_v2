@@ -227,5 +227,10 @@
   "addNewCreditNote": "Add New Credit Note",
   "addNewDebitNote": "Add New Debit Note",
   "addNewContra": "Add New Contra",
-  "addNewDividend": "Add New Dividend"
+  "addNewDividend": "Add New Dividend",
+  "journalNo": "Journal No",
+  "entryMode": "EntryMode",
+  "selectedLedger": "Selected Ledger",
+  "debitTotal": "Debit Total",
+  "creditTotal": "Credit Total"
 }

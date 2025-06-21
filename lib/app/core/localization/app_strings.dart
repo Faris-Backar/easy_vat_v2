@@ -236,4 +236,9 @@ class AppStrings {
   static const String addNewDebitNote = "addNewDebitNote";
   static const String addNewContra = "addNewContra";
   static const String addNewDividend = "addNewDividend";
+  static const String journalNo = "journalNo";
+  static const String entryMode = "entryMode";
+  static const String selectedLedger = "selectedLedger";
+  static const String debitTotal = "debitTotal";
+  static const String creditTotal = "creditTotal";
 }

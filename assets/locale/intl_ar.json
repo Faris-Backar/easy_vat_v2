@@ -226,6 +226,11 @@
    "addNewCreditNote": "إضافة مذكرة ائتمان جديدة",
    "addNewDebitNote": "إضافة مذكرة خصم جديدة",
    "addNewContra": "إضافة مضاد جديد",
-   "addNewDividend": "إضافة أرباح جديدة"
+   "addNewDividend": "إضافة أرباح جديدة",
+   "journalNo": "رقم المجلة",
+   "entryMode": "وضع الدخول",
+   "selectedLedger": "دفتر الأستاذ المحدد",
+   "debitTotal": "إجمالي المدين",
+   "creditTotal": "إجمالي الائتمان"
 
 }
