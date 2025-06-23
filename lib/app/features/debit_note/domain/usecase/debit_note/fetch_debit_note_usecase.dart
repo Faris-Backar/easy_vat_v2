@@ -1,0 +1,19 @@
+import 'package:dartz/dartz.dart';
+import 'package:easy_vat_v2/app/core/error/failure.dart';
+import 'package:easy_vat_v2/app/core/usecase/usecase.dart';
+import 'package:easy_vat_v2/app/features/debit_note/domain/entity/debit_note_entry_entity.dart';
+import 'package:easy_vat_v2/app/features/debit_note/domain/repositories/debit_note_repository.dart';
+import 'package:easy_vat_v2/app/features/debit_note/domain/usecase/params/debit_note_params.dart';
+
+class FetchDebitNoteUsecase
+    extends UseCase<Either<Failure, DebitNoteEntryEntity>, DebitNoteParams> {
+  final DebitNoteRepository debitNoteRepository;
+  FetchDebitNoteUsecase({required this.debitNoteRepository});
+
+  @override
+  Future<Either<Failure, DebitNoteEntryEntity>> call(
+      {required DebitNoteParams params}) async {
+    return await debitNoteRepository.getDebitNoteEntry(
+        debitNoteRequestParams: params);
+  }
+}
