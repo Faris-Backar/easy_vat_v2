@@ -5,13 +5,13 @@ import 'package:easy_vat_v2/app/features/credit_note/data/model/credit_note_requ
 import 'package:easy_vat_v2/app/features/credit_note/domain/entity/credit_note_entry_entity.dart';
 import 'package:easy_vat_v2/app/features/credit_note/domain/repositories/credit_note_repository.dart';
 
-class UpdateCreditNoteUsecase extends UseCase<
-    Either<Failure, CreditNoteEntryEntity>, CreditNoteRequestModel> {
+class UpdateCreditNoteUsecase
+    extends UseCase<Either<Failure, CreditNoteEntity>, CreditNoteRequestModel> {
   final CreditNoteRepository creditNoteRepository;
   UpdateCreditNoteUsecase({required this.creditNoteRepository});
 
   @override
-  Future<Either<Failure, CreditNoteEntryEntity>> call(
+  Future<Either<Failure, CreditNoteEntity>> call(
       {required CreditNoteRequestModel params}) async {
     return await creditNoteRepository.updateCreditNoteEntry(
         creditNoteRequestParams: params);

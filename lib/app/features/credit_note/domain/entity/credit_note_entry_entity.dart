@@ -1,8 +1,10 @@
-// abstract class CreditNoteEntryEntity {
-//   final List<CreditNoteEntryEntity>? creditNoteEntry;
+abstract class CreditNoteEntity {
+  final bool? status;
+  final String? message;
+  final List<CreditNoteEntryEntity>? creditNoteEntry;
 
-//   CreditNoteEntryEntity({this.creditNoteEntry});
-// }
+  CreditNoteEntity({this.status, this.message, this.creditNoteEntry});
+}
 
 abstract class CreditNoteEntryEntity {
   final String? creditNoteIDPK;

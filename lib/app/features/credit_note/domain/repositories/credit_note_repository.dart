@@ -5,13 +5,13 @@ import 'package:easy_vat_v2/app/features/credit_note/domain/entity/credit_note_e
 import 'package:easy_vat_v2/app/features/credit_note/domain/usecase/params/credit_note_params.dart';
 
 abstract class CreditNoteRepository {
-  Future<Either<Failure, CreditNoteEntryEntity>> getCreditNoteEntry(
+  Future<Either<Failure, CreditNoteEntity>> getCreditNoteEntry(
       {required CreditNoteParams creditNoteRequestParams});
-  Future<Either<Failure, CreditNoteEntryEntity>> createCreditNoteEntry(
+  Future<Either<Failure, CreditNoteEntity>> createCreditNoteEntry(
       {required CreditNoteRequestModel creditNoteRequestParams});
-  Future<Either<Failure, CreditNoteEntryEntity>> updateCreditNoteEntry(
+  Future<Either<Failure, CreditNoteEntity>> updateCreditNoteEntry(
       {required CreditNoteRequestModel creditNoteRequestParams});
-  Future<Either<Failure, CreditNoteEntryEntity>> deleteCreditNoteEntry(
+  Future<Either<Failure, CreditNoteEntity>> deleteCreditNoteEntry(
       {required CreditNoteParams creditNoteRequestParams});
   Future<Either<Failure, String>> downloadCreditNoteEntry(
       {required String creditNoteIDPK});

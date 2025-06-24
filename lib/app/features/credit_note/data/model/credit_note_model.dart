@@ -1,5 +1,25 @@
 import 'package:easy_vat_v2/app/features/credit_note/domain/entity/credit_note_entry_entity.dart';
 
+class CreditNoteModel extends CreditNoteEntity {
+  CreditNoteModel({super.message, super.creditNoteEntry, super.status});
+
+  factory CreditNoteModel.fromJson(Map<String, dynamic> json) =>
+      CreditNoteModel(
+          creditNoteEntry: json["creditNote"] != null
+              ? List<CreditNoteEntryModel>.from(
+                  json["creditNote"].map((x) => CreditNoteModel.fromJson(x)))
+              : []);
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "message": message,
+        "creditNote": List<CreditNoteModel>.from(
+            (creditNoteEntry as List<CreditNoteEntryModel>?)
+                    ?.map((x) => x.toJson()) ??
+                [])
+      };
+}
+
 class CreditNoteEntryModel extends CreditNoteEntryEntity {
   CreditNoteEntryModel({
     super.creditNoteIDPK,

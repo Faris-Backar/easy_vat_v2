@@ -17,15 +17,14 @@ class CreditNoteRepositoryImpl extends CreditNoteRepository {
   final dio = Dio();
 
   @override
-  Future<Either<Failure, CreditNoteEntryEntity>> getCreditNoteEntry(
+  Future<Either<Failure, CreditNoteEntity>> getCreditNoteEntry(
       {required CreditNoteParams creditNoteRequestParams}) async {
     try {
       final data = creditNoteRequestParams.toJson();
       final response =
           await client.post(UrlResources.getCreditNoteEntry, data: data);
       if (response.statusCode == 200) {
-        final creditNoteEntryList =
-            CreditNoteEntryModel.fromJson(response.data);
+        final creditNoteEntryList = CreditNoteModel.fromJson(response.data);
         return Right(creditNoteEntryList);
       }
       return Left(ServerFailure(message: ""));
@@ -40,15 +39,14 @@ class CreditNoteRepositoryImpl extends CreditNoteRepository {
   }
 
   @override
-  Future<Either<Failure, CreditNoteEntryEntity>> createCreditNoteEntry(
+  Future<Either<Failure, CreditNoteEntity>> createCreditNoteEntry(
       {required CreditNoteRequestModel creditNoteRequestParams}) async {
     try {
       final data = creditNoteRequestParams.toJson();
       final response =
           await client.post(UrlResources.createCreditNoteEntry, data: data);
       if (response.statusCode == 200) {
-        final creditNoteEntryList =
-            CreditNoteEntryModel.fromJson(response.data);
+        final creditNoteEntryList = CreditNoteModel.fromJson(response.data);
         return Right(creditNoteEntryList);
       }
       return Left(ServerFailure(message: ""));
@@ -63,15 +61,14 @@ class CreditNoteRepositoryImpl extends CreditNoteRepository {
   }
 
   @override
-  Future<Either<Failure, CreditNoteEntryEntity>> updateCreditNoteEntry(
+  Future<Either<Failure, CreditNoteEntity>> updateCreditNoteEntry(
       {required CreditNoteRequestModel creditNoteRequestParams}) async {
     try {
       final data = creditNoteRequestParams.toJson();
       final response =
           await client.post(UrlResources.updateCreditNoteEntry, data: data);
       if (response.statusCode == 200) {
-        final creditNoteEntryList =
-            CreditNoteEntryModel.fromJson(response.data);
+        final creditNoteEntryList = CreditNoteModel.fromJson(response.data);
         return Right(creditNoteEntryList);
       }
       return Left(ServerFailure(message: ""));
@@ -86,15 +83,14 @@ class CreditNoteRepositoryImpl extends CreditNoteRepository {
   }
 
   @override
-  Future<Either<Failure, CreditNoteEntryEntity>> deleteCreditNoteEntry(
+  Future<Either<Failure, CreditNoteEntity>> deleteCreditNoteEntry(
       {required CreditNoteParams creditNoteRequestParams}) async {
     try {
       final data = creditNoteRequestParams.toJson();
       final response =
           await client.post(UrlResources.deleteCreditNoteEntry, data: data);
       if (response.statusCode == 200) {
-        final creditNoteEntryList =
-            CreditNoteEntryModel.fromJson(response.data);
+        final creditNoteEntryList = CreditNoteModel.fromJson(response.data);
         return Right(creditNoteEntryList);
       }
       return Left(ServerFailure(message: ""));

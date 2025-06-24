@@ -6,12 +6,12 @@ import 'package:easy_vat_v2/app/features/credit_note/domain/repositories/credit_
 import 'package:easy_vat_v2/app/features/credit_note/domain/usecase/params/credit_note_params.dart';
 
 class DeleteCreditNoteUsecase
-    extends UseCase<Either<Failure, CreditNoteEntryEntity>, CreditNoteParams> {
+    extends UseCase<Either<Failure, CreditNoteEntity>, CreditNoteParams> {
   final CreditNoteRepository creditNoteRepository;
   DeleteCreditNoteUsecase({required this.creditNoteRepository});
 
   @override
-  Future<Either<Failure, CreditNoteEntryEntity>> call(
+  Future<Either<Failure, CreditNoteEntity>> call(
       {required CreditNoteParams params}) async {
     return await creditNoteRepository.deleteCreditNoteEntry(
         creditNoteRequestParams: params);
