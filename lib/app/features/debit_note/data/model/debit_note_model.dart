@@ -1,5 +1,24 @@
 import 'package:easy_vat_v2/app/features/debit_note/domain/entity/debit_note_entry_entity.dart';
 
+class DebitNoteModel extends DebitNoteEntity {
+  DebitNoteModel({super.message, super.status, super.debitNoteEntry});
+
+  factory DebitNoteModel.fromJson(Map<String, dynamic> json) => DebitNoteModel(
+      debitNoteEntry: json["debitNote"] != null
+          ? List<DebitNoteEntryModel>.from(
+              json["debitNote"].map((x) => DebitNoteEntryModel.fromJson(x)))
+          : []);
+
+  Map<String, dynamic> toJson() => {
+        "status": status,
+        "message": message,
+        "debitNote": List<DebitNoteEntryModel>.from(
+            (debitNoteEntry as List<DebitNoteEntryModel>?)
+                    ?.map((x) => x.toJson()) ??
+                [])
+      };
+}
+
 class DebitNoteEntryModel extends DebitNoteEntryEntity {
   DebitNoteEntryModel({
     super.debitNoteIDPK,
@@ -18,7 +37,7 @@ class DebitNoteEntryModel extends DebitNoteEntryEntity {
     super.modifiedDate,
     super.rowguid,
     super.companyIDPK,
-    super.customerName,
+    super.supplierName,
     super.customerBalance,
     List<DebitNoteEntryDetailsModel>? debitNoteEntryDetails,
   }) : super(debitNoteEntryDetails: debitNoteEntryDetails);
@@ -49,7 +68,7 @@ class DebitNoteEntryModel extends DebitNoteEntryEntity {
             : null,
         rowguid: json["rowguid"],
         companyIDPK: json["companyIDPK"],
-        customerName: json["customerName"],
+        supplierName: json["supplierName"],
         customerBalance: json["customerBalance"] != null
             ? (json["customerBalance"] as num).toDouble()
             : null,
@@ -78,7 +97,7 @@ class DebitNoteEntryModel extends DebitNoteEntryEntity {
       modifiedDate: entity.modifiedDate,
       rowguid: entity.rowguid,
       companyIDPK: entity.companyIDPK,
-      customerName: entity.customerName,
+      supplierName: entity.supplierName,
       customerBalance: entity.customerBalance,
       debitNoteEntryDetails: entity.debitNoteEntryDetails
           ?.map((item) => item is DebitNoteEntryDetailsModel
@@ -105,7 +124,7 @@ class DebitNoteEntryModel extends DebitNoteEntryEntity {
         "modifiedDate": modifiedDate?.toIso8601String(),
         "rowguid": rowguid,
         "companyIDPK": companyIDPK,
-        "customerName": customerName,
+        "supplierName": supplierName,
         "customerBalance": customerBalance,
         "debitNoteEntryDetails": debitNoteEntryDetails != null
             ? List<dynamic>.from(debitNoteEntryDetails!

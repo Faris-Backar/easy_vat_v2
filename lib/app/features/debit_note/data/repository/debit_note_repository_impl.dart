@@ -17,14 +17,14 @@ class DebitNoteRepositoryImpl extends DebitNoteRepository {
   final dio = Dio();
 
   @override
-  Future<Either<Failure, DebitNoteEntryEntity>> getDebitNoteEntry(
+  Future<Either<Failure, DebitNoteEntity>> getDebitNoteEntry(
       {required DebitNoteParams debitNoteRequestParams}) async {
     try {
       final data = debitNoteRequestParams.toJson();
       final response =
           await client.post(UrlResources.getDebitNoteEntry, data: data);
       if (response.statusCode == 200) {
-        final debitNoteList = DebitNoteEntryModel.fromJson(response.data);
+        final debitNoteList = DebitNoteModel.fromJson(response.data);
         return Right(debitNoteList);
       }
       return Left(ServerFailure(message: ""));
@@ -39,14 +39,14 @@ class DebitNoteRepositoryImpl extends DebitNoteRepository {
   }
 
   @override
-  Future<Either<Failure, DebitNoteEntryEntity>> createDebitNoteEntry(
+  Future<Either<Failure, DebitNoteEntity>> createDebitNoteEntry(
       {required DebitNoteRequestModel debitNoteRequestParams}) async {
     try {
       final data = debitNoteRequestParams.toJson();
       final response =
           await client.post(UrlResources.createDebitNoteEntry, data: data);
       if (response.statusCode == 200) {
-        final debitNoteList = DebitNoteEntryModel.fromJson(response.data);
+        final debitNoteList = DebitNoteModel.fromJson(response.data);
         return Right(debitNoteList);
       }
       return Left(ServerFailure(message: ""));
@@ -61,14 +61,14 @@ class DebitNoteRepositoryImpl extends DebitNoteRepository {
   }
 
   @override
-  Future<Either<Failure, DebitNoteEntryEntity>> updateDebitNoteEntry(
+  Future<Either<Failure, DebitNoteEntity>> updateDebitNoteEntry(
       {required DebitNoteRequestModel debitNoteRequestParams}) async {
     try {
       final data = debitNoteRequestParams.toJson();
       final response =
           await client.post(UrlResources.updateDebitNoteEntry, data: data);
       if (response.statusCode == 200) {
-        final debitNoteList = DebitNoteEntryModel.fromJson(response.data);
+        final debitNoteList = DebitNoteModel.fromJson(response.data);
         return Right(debitNoteList);
       }
       return Left(ServerFailure(message: ""));
@@ -83,14 +83,14 @@ class DebitNoteRepositoryImpl extends DebitNoteRepository {
   }
 
   @override
-  Future<Either<Failure, DebitNoteEntryEntity>> deleteDebitNoteEntry(
+  Future<Either<Failure, DebitNoteEntity>> deleteDebitNoteEntry(
       {required DebitNoteParams debitNoteRequestParams}) async {
     try {
       final data = debitNoteRequestParams.toJson();
       final response =
           await client.post(UrlResources.deleteDebitNoteEntry, data: data);
       if (response.statusCode == 200) {
-        final debitNoteList = DebitNoteEntryModel.fromJson(response.data);
+        final debitNoteList = DebitNoteModel.fromJson(response.data);
         return Right(debitNoteList);
       }
       return Left(ServerFailure(message: ""));

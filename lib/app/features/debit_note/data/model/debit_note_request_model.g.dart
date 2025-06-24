@@ -31,7 +31,7 @@ _$DebitNoteRequestModelImpl _$$DebitNoteRequestModelImplFromJson(
           : DateTime.parse(json['modifiedDate'] as String),
       rowguid: json['rowguid'] as String?,
       companyIDPK: json['companyIDPK'] as String?,
-      customerName: json['customerName'] as String?,
+      supplierName: json['supplierName'] as String?,
       customerBalance: (json['customerBalance'] as num?)?.toDouble(),
       debitNoteEntryDetails: (json['debitNoteEntryDetails'] as List<dynamic>?)
           ?.map(
@@ -58,7 +58,7 @@ Map<String, dynamic> _$$DebitNoteRequestModelImplToJson(
       'modifiedDate': instance.modifiedDate?.toIso8601String(),
       'rowguid': instance.rowguid,
       'companyIDPK': instance.companyIDPK,
-      'customerName': instance.customerName,
+      'supplierName': instance.supplierName,
       'customerBalance': instance.customerBalance,
       'debitNoteEntryDetails': instance.debitNoteEntryDetails,
     };

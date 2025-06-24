@@ -5,13 +5,13 @@ import 'package:easy_vat_v2/app/features/debit_note/domain/entity/debit_note_ent
 import 'package:easy_vat_v2/app/features/debit_note/domain/usecase/params/debit_note_params.dart';
 
 abstract class DebitNoteRepository {
-  Future<Either<Failure, DebitNoteEntryEntity>> getDebitNoteEntry(
+  Future<Either<Failure, DebitNoteEntity>> getDebitNoteEntry(
       {required DebitNoteParams debitNoteRequestParams});
-  Future<Either<Failure, DebitNoteEntryEntity>> createDebitNoteEntry(
+  Future<Either<Failure, DebitNoteEntity>> createDebitNoteEntry(
       {required DebitNoteRequestModel debitNoteRequestParams});
-  Future<Either<Failure, DebitNoteEntryEntity>> updateDebitNoteEntry(
+  Future<Either<Failure, DebitNoteEntity>> updateDebitNoteEntry(
       {required DebitNoteRequestModel debitNoteRequestParams});
-  Future<Either<Failure, DebitNoteEntryEntity>> deleteDebitNoteEntry(
+  Future<Either<Failure, DebitNoteEntity>> deleteDebitNoteEntry(
       {required DebitNoteParams debitNoteRequestParams});
   Future<Either<Failure, String>> downloadDebitNoteEntry(
       {required String debitNoteIDPK});

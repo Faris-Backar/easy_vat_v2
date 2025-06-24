@@ -1,3 +1,11 @@
+abstract class DebitNoteEntity {
+  final bool? status;
+  final String? message;
+  final List<DebitNoteEntryEntity>? debitNoteEntry;
+
+  DebitNoteEntity({this.status, this.message, this.debitNoteEntry});
+}
+
 abstract class DebitNoteEntryEntity {
   final String? debitNoteIDPK;
   final String? supplierIDPK;
@@ -15,7 +23,7 @@ abstract class DebitNoteEntryEntity {
   final DateTime? modifiedDate;
   final String? rowguid;
   final String? companyIDPK;
-  final String? customerName;
+  final String? supplierName;
   final double? customerBalance;
   final List<DebitNoteEntryDetailsEntity>? debitNoteEntryDetails;
 
@@ -36,7 +44,7 @@ abstract class DebitNoteEntryEntity {
       this.modifiedDate,
       this.rowguid,
       this.companyIDPK,
-      this.customerName,
+      this.supplierName,
       this.customerBalance,
       this.debitNoteEntryDetails});
 }

@@ -5,13 +5,13 @@ import 'package:easy_vat_v2/app/features/debit_note/data/model/debit_note_reques
 import 'package:easy_vat_v2/app/features/debit_note/domain/entity/debit_note_entry_entity.dart';
 import 'package:easy_vat_v2/app/features/debit_note/domain/repositories/debit_note_repository.dart';
 
-class UpdateDebitNoteUsecase extends UseCase<
-    Either<Failure, DebitNoteEntryEntity>, DebitNoteRequestModel> {
+class UpdateDebitNoteUsecase
+    extends UseCase<Either<Failure, DebitNoteEntity>, DebitNoteRequestModel> {
   final DebitNoteRepository debitNoteRepository;
   UpdateDebitNoteUsecase({required this.debitNoteRepository});
 
   @override
-  Future<Either<Failure, DebitNoteEntryEntity>> call(
+  Future<Either<Failure, DebitNoteEntity>> call(
       {required DebitNoteRequestModel params}) async {
     return await debitNoteRepository.updateDebitNoteEntry(
         debitNoteRequestParams: params);

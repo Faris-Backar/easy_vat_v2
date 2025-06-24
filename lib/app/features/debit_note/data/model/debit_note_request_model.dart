@@ -22,7 +22,7 @@ class DebitNoteRequestModel with _$DebitNoteRequestModel {
     DateTime? modifiedDate,
     String? rowguid,
     String? companyIDPK,
-    String? customerName,
+    String? supplierName,
     double? customerBalance,
     List<DebitNoteEntryDetails>? debitNoteEntryDetails,
   }) = _DebitNoteRequestModel;

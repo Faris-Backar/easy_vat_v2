@@ -6,12 +6,12 @@ import 'package:easy_vat_v2/app/features/debit_note/domain/repositories/debit_no
 import 'package:easy_vat_v2/app/features/debit_note/domain/usecase/params/debit_note_params.dart';
 
 class DeleteDebitNoteUsecase
-    extends UseCase<Either<Failure, DebitNoteEntryEntity>, DebitNoteParams> {
+    extends UseCase<Either<Failure, DebitNoteEntity>, DebitNoteParams> {
   final DebitNoteRepository debitNoteRepository;
   DeleteDebitNoteUsecase({required this.debitNoteRepository});
 
   @override
-  Future<Either<Failure, DebitNoteEntryEntity>> call(
+  Future<Either<Failure, DebitNoteEntity>> call(
       {required DebitNoteParams params}) async {
     return await debitNoteRepository.deleteDebitNoteEntry(
         debitNoteRequestParams: params);
