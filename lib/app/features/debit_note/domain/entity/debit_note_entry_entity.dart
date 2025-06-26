@@ -9,10 +9,13 @@ abstract class DebitNoteEntity {
 abstract class DebitNoteEntryEntity {
   final String? debitNoteIDPK;
   final String? supplierIDPK;
+  final String? crLedgerIDPK;
+  final String? drLedgerIDPK;
   final int? debitNoteNo;
   final String? referenceNo;
   final DateTime? debitNoteDate;
   final String? description;
+  final String? paymentMode;
   final double? totalAmount;
   final String? remarks;
   final bool? isEditable;
@@ -30,10 +33,13 @@ abstract class DebitNoteEntryEntity {
   DebitNoteEntryEntity(
       {this.debitNoteIDPK,
       this.supplierIDPK,
+      this.crLedgerIDPK,
+      this.drLedgerIDPK,
       this.debitNoteNo,
       this.referenceNo,
       this.debitNoteDate,
       this.description,
+      this.paymentMode,
       this.totalAmount,
       this.remarks,
       this.isEditable,

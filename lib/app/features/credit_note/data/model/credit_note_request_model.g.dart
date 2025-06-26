@@ -11,6 +11,8 @@ _$CreditNoteRequestModelImpl _$$CreditNoteRequestModelImplFromJson(
     _$CreditNoteRequestModelImpl(
       creditNoteIDPK: json['creditNoteIDPK'] as String?,
       customerIDPK: json['customerIDPK'] as String?,
+      crLedgerIDPK: json['crLedgerIDPK'] as String?,
+      drLedgerIDPK: json['drLedgerIDPK'] as String?,
       creditNoteNo: (json['creditNoteNo'] as num?)?.toInt(),
       referenceNo: json['referenceNo'] as String?,
       creditNoteDate: json['creditNoteDate'] == null
@@ -18,6 +20,7 @@ _$CreditNoteRequestModelImpl _$$CreditNoteRequestModelImplFromJson(
           : DateTime.parse(json['creditNoteDate'] as String),
       description: json['description'] as String?,
       totalAmount: (json['totalAmount'] as num?)?.toDouble(),
+      paymentMode: json['paymentMode'] as String?,
       remarks: json['remarks'] as String?,
       isEditable: json['isEditable'] as bool?,
       isCanceled: json['isCanceled'] as bool?,
@@ -44,11 +47,14 @@ Map<String, dynamic> _$$CreditNoteRequestModelImplToJson(
     <String, dynamic>{
       'creditNoteIDPK': instance.creditNoteIDPK,
       'customerIDPK': instance.customerIDPK,
+      'crLedgerIDPK': instance.crLedgerIDPK,
+      'drLedgerIDPK': instance.drLedgerIDPK,
       'creditNoteNo': instance.creditNoteNo,
       'referenceNo': instance.referenceNo,
       'creditNoteDate': instance.creditNoteDate?.toIso8601String(),
       'description': instance.description,
       'totalAmount': instance.totalAmount,
+      'paymentMode': instance.paymentMode,
       'remarks': instance.remarks,
       'isEditable': instance.isEditable,
       'isCanceled': instance.isCanceled,

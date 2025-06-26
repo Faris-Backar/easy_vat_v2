@@ -23,11 +23,14 @@ CreditNoteRequestModel _$CreditNoteRequestModelFromJson(
 mixin _$CreditNoteRequestModel {
   String? get creditNoteIDPK => throw _privateConstructorUsedError;
   String? get customerIDPK => throw _privateConstructorUsedError;
+  String? get crLedgerIDPK => throw _privateConstructorUsedError;
+  String? get drLedgerIDPK => throw _privateConstructorUsedError;
   int? get creditNoteNo => throw _privateConstructorUsedError;
   String? get referenceNo => throw _privateConstructorUsedError;
   DateTime? get creditNoteDate => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   double? get totalAmount => throw _privateConstructorUsedError;
+  String? get paymentMode => throw _privateConstructorUsedError;
   String? get remarks => throw _privateConstructorUsedError;
   bool? get isEditable => throw _privateConstructorUsedError;
   bool? get isCanceled => throw _privateConstructorUsedError;
@@ -61,11 +64,14 @@ abstract class $CreditNoteRequestModelCopyWith<$Res> {
   $Res call(
       {String? creditNoteIDPK,
       String? customerIDPK,
+      String? crLedgerIDPK,
+      String? drLedgerIDPK,
       int? creditNoteNo,
       String? referenceNo,
       DateTime? creditNoteDate,
       String? description,
       double? totalAmount,
+      String? paymentMode,
       String? remarks,
       bool? isEditable,
       bool? isCanceled,
@@ -98,11 +104,14 @@ class _$CreditNoteRequestModelCopyWithImpl<$Res,
   $Res call({
     Object? creditNoteIDPK = freezed,
     Object? customerIDPK = freezed,
+    Object? crLedgerIDPK = freezed,
+    Object? drLedgerIDPK = freezed,
     Object? creditNoteNo = freezed,
     Object? referenceNo = freezed,
     Object? creditNoteDate = freezed,
     Object? description = freezed,
     Object? totalAmount = freezed,
+    Object? paymentMode = freezed,
     Object? remarks = freezed,
     Object? isEditable = freezed,
     Object? isCanceled = freezed,
@@ -125,6 +134,14 @@ class _$CreditNoteRequestModelCopyWithImpl<$Res,
           ? _value.customerIDPK
           : customerIDPK // ignore: cast_nullable_to_non_nullable
               as String?,
+      crLedgerIDPK: freezed == crLedgerIDPK
+          ? _value.crLedgerIDPK
+          : crLedgerIDPK // ignore: cast_nullable_to_non_nullable
+              as String?,
+      drLedgerIDPK: freezed == drLedgerIDPK
+          ? _value.drLedgerIDPK
+          : drLedgerIDPK // ignore: cast_nullable_to_non_nullable
+              as String?,
       creditNoteNo: freezed == creditNoteNo
           ? _value.creditNoteNo
           : creditNoteNo // ignore: cast_nullable_to_non_nullable
@@ -145,6 +162,10 @@ class _$CreditNoteRequestModelCopyWithImpl<$Res,
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
               as double?,
+      paymentMode: freezed == paymentMode
+          ? _value.paymentMode
+          : paymentMode // ignore: cast_nullable_to_non_nullable
+              as String?,
       remarks: freezed == remarks
           ? _value.remarks
           : remarks // ignore: cast_nullable_to_non_nullable
@@ -209,11 +230,14 @@ abstract class _$$CreditNoteRequestModelImplCopyWith<$Res>
   $Res call(
       {String? creditNoteIDPK,
       String? customerIDPK,
+      String? crLedgerIDPK,
+      String? drLedgerIDPK,
       int? creditNoteNo,
       String? referenceNo,
       DateTime? creditNoteDate,
       String? description,
       double? totalAmount,
+      String? paymentMode,
       String? remarks,
       bool? isEditable,
       bool? isCanceled,
@@ -245,11 +269,14 @@ class __$$CreditNoteRequestModelImplCopyWithImpl<$Res>
   $Res call({
     Object? creditNoteIDPK = freezed,
     Object? customerIDPK = freezed,
+    Object? crLedgerIDPK = freezed,
+    Object? drLedgerIDPK = freezed,
     Object? creditNoteNo = freezed,
     Object? referenceNo = freezed,
     Object? creditNoteDate = freezed,
     Object? description = freezed,
     Object? totalAmount = freezed,
+    Object? paymentMode = freezed,
     Object? remarks = freezed,
     Object? isEditable = freezed,
     Object? isCanceled = freezed,
@@ -272,6 +299,14 @@ class __$$CreditNoteRequestModelImplCopyWithImpl<$Res>
           ? _value.customerIDPK
           : customerIDPK // ignore: cast_nullable_to_non_nullable
               as String?,
+      crLedgerIDPK: freezed == crLedgerIDPK
+          ? _value.crLedgerIDPK
+          : crLedgerIDPK // ignore: cast_nullable_to_non_nullable
+              as String?,
+      drLedgerIDPK: freezed == drLedgerIDPK
+          ? _value.drLedgerIDPK
+          : drLedgerIDPK // ignore: cast_nullable_to_non_nullable
+              as String?,
       creditNoteNo: freezed == creditNoteNo
           ? _value.creditNoteNo
           : creditNoteNo // ignore: cast_nullable_to_non_nullable
@@ -292,6 +327,10 @@ class __$$CreditNoteRequestModelImplCopyWithImpl<$Res>
           ? _value.totalAmount
           : totalAmount // ignore: cast_nullable_to_non_nullable
               as double?,
+      paymentMode: freezed == paymentMode
+          ? _value.paymentMode
+          : paymentMode // ignore: cast_nullable_to_non_nullable
+              as String?,
       remarks: freezed == remarks
           ? _value.remarks
           : remarks // ignore: cast_nullable_to_non_nullable
@@ -350,11 +389,14 @@ class _$CreditNoteRequestModelImpl implements _CreditNoteRequestModel {
   const _$CreditNoteRequestModelImpl(
       {this.creditNoteIDPK,
       this.customerIDPK,
+      this.crLedgerIDPK,
+      this.drLedgerIDPK,
       this.creditNoteNo,
       this.referenceNo,
       this.creditNoteDate,
       this.description,
       this.totalAmount,
+      this.paymentMode,
       this.remarks,
       this.isEditable,
       this.isCanceled,
@@ -377,6 +419,10 @@ class _$CreditNoteRequestModelImpl implements _CreditNoteRequestModel {
   @override
   final String? customerIDPK;
   @override
+  final String? crLedgerIDPK;
+  @override
+  final String? drLedgerIDPK;
+  @override
   final int? creditNoteNo;
   @override
   final String? referenceNo;
@@ -386,6 +432,8 @@ class _$CreditNoteRequestModelImpl implements _CreditNoteRequestModel {
   final String? description;
   @override
   final double? totalAmount;
+  @override
+  final String? paymentMode;
   @override
   final String? remarks;
   @override
@@ -421,7 +469,7 @@ class _$CreditNoteRequestModelImpl implements _CreditNoteRequestModel {
 
   @override
   String toString() {
-    return 'CreditNoteRequestModel(creditNoteIDPK: $creditNoteIDPK, customerIDPK: $customerIDPK, creditNoteNo: $creditNoteNo, referenceNo: $referenceNo, creditNoteDate: $creditNoteDate, description: $description, totalAmount: $totalAmount, remarks: $remarks, isEditable: $isEditable, isCanceled: $isCanceled, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, companyIDPK: $companyIDPK, customerName: $customerName, customerBalance: $customerBalance, creditNoteEntryDetails: $creditNoteEntryDetails)';
+    return 'CreditNoteRequestModel(creditNoteIDPK: $creditNoteIDPK, customerIDPK: $customerIDPK, crLedgerIDPK: $crLedgerIDPK, drLedgerIDPK: $drLedgerIDPK, creditNoteNo: $creditNoteNo, referenceNo: $referenceNo, creditNoteDate: $creditNoteDate, description: $description, totalAmount: $totalAmount, paymentMode: $paymentMode, remarks: $remarks, isEditable: $isEditable, isCanceled: $isCanceled, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, companyIDPK: $companyIDPK, customerName: $customerName, customerBalance: $customerBalance, creditNoteEntryDetails: $creditNoteEntryDetails)';
   }
 
   @override
@@ -433,6 +481,10 @@ class _$CreditNoteRequestModelImpl implements _CreditNoteRequestModel {
                 other.creditNoteIDPK == creditNoteIDPK) &&
             (identical(other.customerIDPK, customerIDPK) ||
                 other.customerIDPK == customerIDPK) &&
+            (identical(other.crLedgerIDPK, crLedgerIDPK) ||
+                other.crLedgerIDPK == crLedgerIDPK) &&
+            (identical(other.drLedgerIDPK, drLedgerIDPK) ||
+                other.drLedgerIDPK == drLedgerIDPK) &&
             (identical(other.creditNoteNo, creditNoteNo) ||
                 other.creditNoteNo == creditNoteNo) &&
             (identical(other.referenceNo, referenceNo) ||
@@ -443,6 +495,8 @@ class _$CreditNoteRequestModelImpl implements _CreditNoteRequestModel {
                 other.description == description) &&
             (identical(other.totalAmount, totalAmount) ||
                 other.totalAmount == totalAmount) &&
+            (identical(other.paymentMode, paymentMode) ||
+                other.paymentMode == paymentMode) &&
             (identical(other.remarks, remarks) || other.remarks == remarks) &&
             (identical(other.isEditable, isEditable) ||
                 other.isEditable == isEditable) &&
@@ -473,11 +527,14 @@ class _$CreditNoteRequestModelImpl implements _CreditNoteRequestModel {
         runtimeType,
         creditNoteIDPK,
         customerIDPK,
+        crLedgerIDPK,
+        drLedgerIDPK,
         creditNoteNo,
         referenceNo,
         creditNoteDate,
         description,
         totalAmount,
+        paymentMode,
         remarks,
         isEditable,
         isCanceled,
@@ -513,11 +570,14 @@ abstract class _CreditNoteRequestModel implements CreditNoteRequestModel {
   const factory _CreditNoteRequestModel(
           {final String? creditNoteIDPK,
           final String? customerIDPK,
+          final String? crLedgerIDPK,
+          final String? drLedgerIDPK,
           final int? creditNoteNo,
           final String? referenceNo,
           final DateTime? creditNoteDate,
           final String? description,
           final double? totalAmount,
+          final String? paymentMode,
           final String? remarks,
           final bool? isEditable,
           final bool? isCanceled,
@@ -540,6 +600,10 @@ abstract class _CreditNoteRequestModel implements CreditNoteRequestModel {
   @override
   String? get customerIDPK;
   @override
+  String? get crLedgerIDPK;
+  @override
+  String? get drLedgerIDPK;
+  @override
   int? get creditNoteNo;
   @override
   String? get referenceNo;
@@ -549,6 +613,8 @@ abstract class _CreditNoteRequestModel implements CreditNoteRequestModel {
   String? get description;
   @override
   double? get totalAmount;
+  @override
+  String? get paymentMode;
   @override
   String? get remarks;
   @override

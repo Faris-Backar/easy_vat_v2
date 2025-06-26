@@ -11,11 +11,14 @@ _$DebitNoteRequestModelImpl _$$DebitNoteRequestModelImplFromJson(
     _$DebitNoteRequestModelImpl(
       debitNoteIDPK: json['debitNoteIDPK'] as String?,
       supplierIDPK: json['supplierIDPK'] as String?,
+      crLedgerIDPK: json['crLedgerIDPK'] as String?,
+      drLedgerIDPK: json['drLedgerIDPK'] as String?,
       debitNoteNo: (json['debitNoteNo'] as num?)?.toInt(),
       referenceNo: json['referenceNo'] as String?,
       debitNoteDate: json['debitNoteDate'] == null
           ? null
           : DateTime.parse(json['debitNoteDate'] as String),
+      paymentMode: json['paymentMode'] as String?,
       description: json['description'] as String?,
       totalAmount: (json['totalAmount'] as num?)?.toDouble(),
       remarks: json['remarks'] as String?,
@@ -44,9 +47,12 @@ Map<String, dynamic> _$$DebitNoteRequestModelImplToJson(
     <String, dynamic>{
       'debitNoteIDPK': instance.debitNoteIDPK,
       'supplierIDPK': instance.supplierIDPK,
+      'crLedgerIDPK': instance.crLedgerIDPK,
+      'drLedgerIDPK': instance.drLedgerIDPK,
       'debitNoteNo': instance.debitNoteNo,
       'referenceNo': instance.referenceNo,
       'debitNoteDate': instance.debitNoteDate?.toIso8601String(),
+      'paymentMode': instance.paymentMode,
       'description': instance.description,
       'totalAmount': instance.totalAmount,
       'remarks': instance.remarks,

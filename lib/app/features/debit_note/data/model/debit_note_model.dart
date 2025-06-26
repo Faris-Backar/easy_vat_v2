@@ -23,10 +23,13 @@ class DebitNoteEntryModel extends DebitNoteEntryEntity {
   DebitNoteEntryModel({
     super.debitNoteIDPK,
     super.supplierIDPK,
+    super.crLedgerIDPK,
+    super.drLedgerIDPK,
     super.debitNoteNo,
     super.referenceNo,
     super.debitNoteDate,
     super.description,
+    super.paymentMode,
     super.totalAmount,
     super.remarks,
     super.isEditable,
@@ -46,12 +49,15 @@ class DebitNoteEntryModel extends DebitNoteEntryEntity {
       DebitNoteEntryModel(
         debitNoteIDPK: json["debitNoteIDPK"],
         supplierIDPK: json["supplierIDPK"],
+        crLedgerIDPK: json["crLedgerIDPK"],
+        drLedgerIDPK: json["drLedgerIDPK"],
         debitNoteNo: json["debitNoteNo"],
         referenceNo: json["referenceNo"],
         debitNoteDate: json["debitNoteDate"] != null
             ? DateTime.parse(json["debitNoteDate"])
             : null,
         description: json["description"],
+        paymentMode: json["paymentMode"],
         totalAmount: json["totalAmount"] != null
             ? (json["totalAmount"] as num).toDouble()
             : null,
@@ -83,10 +89,13 @@ class DebitNoteEntryModel extends DebitNoteEntryEntity {
     return DebitNoteEntryModel(
       debitNoteIDPK: entity.debitNoteIDPK,
       supplierIDPK: entity.supplierIDPK,
+      crLedgerIDPK: entity.crLedgerIDPK,
+      drLedgerIDPK: entity.drLedgerIDPK,
       debitNoteNo: entity.debitNoteNo,
       referenceNo: entity.referenceNo,
       debitNoteDate: entity.debitNoteDate,
       description: entity.description,
+      paymentMode: entity.paymentMode,
       totalAmount: entity.totalAmount,
       remarks: entity.remarks,
       isEditable: entity.isEditable,
@@ -110,10 +119,13 @@ class DebitNoteEntryModel extends DebitNoteEntryEntity {
   Map<String, dynamic> toJson() => {
         "debitNoteIDPK": debitNoteIDPK,
         "supplierIDPK": supplierIDPK,
+        "crLedgerIDPK": crLedgerIDPK,
+        "drLedgerIDPK": drLedgerIDPK,
         "debitNoteNo": debitNoteNo,
         "referenceNo": referenceNo,
         "debitNoteDate": debitNoteDate?.toIso8601String(),
         "description": description,
+        "paymentMode": paymentMode,
         "totalAmount": totalAmount,
         "remarks": remarks,
         "isEditable": isEditable,

@@ -23,9 +23,12 @@ DebitNoteRequestModel _$DebitNoteRequestModelFromJson(
 mixin _$DebitNoteRequestModel {
   String? get debitNoteIDPK => throw _privateConstructorUsedError;
   String? get supplierIDPK => throw _privateConstructorUsedError;
+  String? get crLedgerIDPK => throw _privateConstructorUsedError;
+  String? get drLedgerIDPK => throw _privateConstructorUsedError;
   int? get debitNoteNo => throw _privateConstructorUsedError;
   String? get referenceNo => throw _privateConstructorUsedError;
   DateTime? get debitNoteDate => throw _privateConstructorUsedError;
+  String? get paymentMode => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   double? get totalAmount => throw _privateConstructorUsedError;
   String? get remarks => throw _privateConstructorUsedError;
@@ -61,9 +64,12 @@ abstract class $DebitNoteRequestModelCopyWith<$Res> {
   $Res call(
       {String? debitNoteIDPK,
       String? supplierIDPK,
+      String? crLedgerIDPK,
+      String? drLedgerIDPK,
       int? debitNoteNo,
       String? referenceNo,
       DateTime? debitNoteDate,
+      String? paymentMode,
       String? description,
       double? totalAmount,
       String? remarks,
@@ -98,9 +104,12 @@ class _$DebitNoteRequestModelCopyWithImpl<$Res,
   $Res call({
     Object? debitNoteIDPK = freezed,
     Object? supplierIDPK = freezed,
+    Object? crLedgerIDPK = freezed,
+    Object? drLedgerIDPK = freezed,
     Object? debitNoteNo = freezed,
     Object? referenceNo = freezed,
     Object? debitNoteDate = freezed,
+    Object? paymentMode = freezed,
     Object? description = freezed,
     Object? totalAmount = freezed,
     Object? remarks = freezed,
@@ -125,6 +134,14 @@ class _$DebitNoteRequestModelCopyWithImpl<$Res,
           ? _value.supplierIDPK
           : supplierIDPK // ignore: cast_nullable_to_non_nullable
               as String?,
+      crLedgerIDPK: freezed == crLedgerIDPK
+          ? _value.crLedgerIDPK
+          : crLedgerIDPK // ignore: cast_nullable_to_non_nullable
+              as String?,
+      drLedgerIDPK: freezed == drLedgerIDPK
+          ? _value.drLedgerIDPK
+          : drLedgerIDPK // ignore: cast_nullable_to_non_nullable
+              as String?,
       debitNoteNo: freezed == debitNoteNo
           ? _value.debitNoteNo
           : debitNoteNo // ignore: cast_nullable_to_non_nullable
@@ -137,6 +154,10 @@ class _$DebitNoteRequestModelCopyWithImpl<$Res,
           ? _value.debitNoteDate
           : debitNoteDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      paymentMode: freezed == paymentMode
+          ? _value.paymentMode
+          : paymentMode // ignore: cast_nullable_to_non_nullable
+              as String?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -209,9 +230,12 @@ abstract class _$$DebitNoteRequestModelImplCopyWith<$Res>
   $Res call(
       {String? debitNoteIDPK,
       String? supplierIDPK,
+      String? crLedgerIDPK,
+      String? drLedgerIDPK,
       int? debitNoteNo,
       String? referenceNo,
       DateTime? debitNoteDate,
+      String? paymentMode,
       String? description,
       double? totalAmount,
       String? remarks,
@@ -244,9 +268,12 @@ class __$$DebitNoteRequestModelImplCopyWithImpl<$Res>
   $Res call({
     Object? debitNoteIDPK = freezed,
     Object? supplierIDPK = freezed,
+    Object? crLedgerIDPK = freezed,
+    Object? drLedgerIDPK = freezed,
     Object? debitNoteNo = freezed,
     Object? referenceNo = freezed,
     Object? debitNoteDate = freezed,
+    Object? paymentMode = freezed,
     Object? description = freezed,
     Object? totalAmount = freezed,
     Object? remarks = freezed,
@@ -271,6 +298,14 @@ class __$$DebitNoteRequestModelImplCopyWithImpl<$Res>
           ? _value.supplierIDPK
           : supplierIDPK // ignore: cast_nullable_to_non_nullable
               as String?,
+      crLedgerIDPK: freezed == crLedgerIDPK
+          ? _value.crLedgerIDPK
+          : crLedgerIDPK // ignore: cast_nullable_to_non_nullable
+              as String?,
+      drLedgerIDPK: freezed == drLedgerIDPK
+          ? _value.drLedgerIDPK
+          : drLedgerIDPK // ignore: cast_nullable_to_non_nullable
+              as String?,
       debitNoteNo: freezed == debitNoteNo
           ? _value.debitNoteNo
           : debitNoteNo // ignore: cast_nullable_to_non_nullable
@@ -283,6 +318,10 @@ class __$$DebitNoteRequestModelImplCopyWithImpl<$Res>
           ? _value.debitNoteDate
           : debitNoteDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      paymentMode: freezed == paymentMode
+          ? _value.paymentMode
+          : paymentMode // ignore: cast_nullable_to_non_nullable
+              as String?,
       description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
@@ -349,9 +388,12 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
   const _$DebitNoteRequestModelImpl(
       {this.debitNoteIDPK,
       this.supplierIDPK,
+      this.crLedgerIDPK,
+      this.drLedgerIDPK,
       this.debitNoteNo,
       this.referenceNo,
       this.debitNoteDate,
+      this.paymentMode,
       this.description,
       this.totalAmount,
       this.remarks,
@@ -376,11 +418,17 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
   @override
   final String? supplierIDPK;
   @override
+  final String? crLedgerIDPK;
+  @override
+  final String? drLedgerIDPK;
+  @override
   final int? debitNoteNo;
   @override
   final String? referenceNo;
   @override
   final DateTime? debitNoteDate;
+  @override
+  final String? paymentMode;
   @override
   final String? description;
   @override
@@ -420,7 +468,7 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
 
   @override
   String toString() {
-    return 'DebitNoteRequestModel(debitNoteIDPK: $debitNoteIDPK, supplierIDPK: $supplierIDPK, debitNoteNo: $debitNoteNo, referenceNo: $referenceNo, debitNoteDate: $debitNoteDate, description: $description, totalAmount: $totalAmount, remarks: $remarks, isEditable: $isEditable, isCanceled: $isCanceled, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, companyIDPK: $companyIDPK, supplierName: $supplierName, customerBalance: $customerBalance, debitNoteEntryDetails: $debitNoteEntryDetails)';
+    return 'DebitNoteRequestModel(debitNoteIDPK: $debitNoteIDPK, supplierIDPK: $supplierIDPK, crLedgerIDPK: $crLedgerIDPK, drLedgerIDPK: $drLedgerIDPK, debitNoteNo: $debitNoteNo, referenceNo: $referenceNo, debitNoteDate: $debitNoteDate, paymentMode: $paymentMode, description: $description, totalAmount: $totalAmount, remarks: $remarks, isEditable: $isEditable, isCanceled: $isCanceled, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, companyIDPK: $companyIDPK, supplierName: $supplierName, customerBalance: $customerBalance, debitNoteEntryDetails: $debitNoteEntryDetails)';
   }
 
   @override
@@ -432,12 +480,18 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
                 other.debitNoteIDPK == debitNoteIDPK) &&
             (identical(other.supplierIDPK, supplierIDPK) ||
                 other.supplierIDPK == supplierIDPK) &&
+            (identical(other.crLedgerIDPK, crLedgerIDPK) ||
+                other.crLedgerIDPK == crLedgerIDPK) &&
+            (identical(other.drLedgerIDPK, drLedgerIDPK) ||
+                other.drLedgerIDPK == drLedgerIDPK) &&
             (identical(other.debitNoteNo, debitNoteNo) ||
                 other.debitNoteNo == debitNoteNo) &&
             (identical(other.referenceNo, referenceNo) ||
                 other.referenceNo == referenceNo) &&
             (identical(other.debitNoteDate, debitNoteDate) ||
                 other.debitNoteDate == debitNoteDate) &&
+            (identical(other.paymentMode, paymentMode) ||
+                other.paymentMode == paymentMode) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.totalAmount, totalAmount) ||
@@ -472,9 +526,12 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
         runtimeType,
         debitNoteIDPK,
         supplierIDPK,
+        crLedgerIDPK,
+        drLedgerIDPK,
         debitNoteNo,
         referenceNo,
         debitNoteDate,
+        paymentMode,
         description,
         totalAmount,
         remarks,
@@ -512,9 +569,12 @@ abstract class _DebitNoteRequestModel implements DebitNoteRequestModel {
   const factory _DebitNoteRequestModel(
           {final String? debitNoteIDPK,
           final String? supplierIDPK,
+          final String? crLedgerIDPK,
+          final String? drLedgerIDPK,
           final int? debitNoteNo,
           final String? referenceNo,
           final DateTime? debitNoteDate,
+          final String? paymentMode,
           final String? description,
           final double? totalAmount,
           final String? remarks,
@@ -539,11 +599,17 @@ abstract class _DebitNoteRequestModel implements DebitNoteRequestModel {
   @override
   String? get supplierIDPK;
   @override
+  String? get crLedgerIDPK;
+  @override
+  String? get drLedgerIDPK;
+  @override
   int? get debitNoteNo;
   @override
   String? get referenceNo;
   @override
   DateTime? get debitNoteDate;
+  @override
+  String? get paymentMode;
   @override
   String? get description;
   @override

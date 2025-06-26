@@ -24,9 +24,12 @@ class CreditNoteEntryModel extends CreditNoteEntryEntity {
   CreditNoteEntryModel({
     super.creditNoteIDPK,
     super.customerIDPK,
+    super.crLedgerIDPK,
+    super.drLedgerIDPK,
     super.creditNoteNo,
     super.referenceNo,
     super.creditNoteDate,
+    super.paymentMode,
     super.description,
     super.totalAmount,
     super.remarks,
@@ -47,12 +50,15 @@ class CreditNoteEntryModel extends CreditNoteEntryEntity {
       CreditNoteEntryModel(
         creditNoteIDPK: json["creditNoteIDPK"],
         customerIDPK: json["customerIDPK"],
+        crLedgerIDPK: json["crLedgerIDPK"],
+        drLedgerIDPK: json["drLedgerIDPK"],
         creditNoteNo: json["creditNoteNo"],
         referenceNo: json["referenceNo"],
         creditNoteDate: json["creditNoteDate"] != null
             ? DateTime.parse(json["creditNoteDate"])
             : null,
         description: json["description"],
+        paymentMode: json["paymentMode"],
         totalAmount: json["totalAmount"] != null
             ? (json["totalAmount"] as num).toDouble()
             : null,
@@ -84,10 +90,13 @@ class CreditNoteEntryModel extends CreditNoteEntryEntity {
     return CreditNoteEntryModel(
       creditNoteIDPK: entity.creditNoteIDPK,
       customerIDPK: entity.customerIDPK,
+      crLedgerIDPK: entity.crLedgerIDPK,
+      drLedgerIDPK: entity.drLedgerIDPK,
       creditNoteNo: entity.creditNoteNo,
       referenceNo: entity.referenceNo,
       creditNoteDate: entity.creditNoteDate,
       description: entity.description,
+      paymentMode: entity.paymentMode,
       totalAmount: entity.totalAmount,
       remarks: entity.remarks,
       isEditable: entity.isEditable,
@@ -111,10 +120,13 @@ class CreditNoteEntryModel extends CreditNoteEntryEntity {
   Map<String, dynamic> toJson() => {
         "creditNoteIDPK": creditNoteIDPK,
         "customerIDPK": customerIDPK,
+        "crLedgerIDPK": crLedgerIDPK,
+        "drLedgerIDPK": drLedgerIDPK,
         "creditNoteNo": creditNoteNo,
         "referenceNo": referenceNo,
         "creditNoteDate": creditNoteDate?.toIso8601String(),
         "description": description,
+        "paymentMode": paymentMode,
         "totalAmount": totalAmount,
         "remarks": remarks,
         "isEditable": isEditable,

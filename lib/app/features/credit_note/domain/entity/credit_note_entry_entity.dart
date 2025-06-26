@@ -9,10 +9,13 @@ abstract class CreditNoteEntity {
 abstract class CreditNoteEntryEntity {
   final String? creditNoteIDPK;
   final String? customerIDPK;
+  final String? drLedgerIDPK;
+  final String? crLedgerIDPK;
   final int? creditNoteNo;
   final String? referenceNo;
   final DateTime? creditNoteDate;
   final String? description;
+  final String? paymentMode;
   final double? totalAmount;
   final String? remarks;
   final bool? isEditable;
@@ -31,8 +34,11 @@ abstract class CreditNoteEntryEntity {
       {this.creditNoteIDPK,
       this.customerIDPK,
       this.creditNoteNo,
+      this.drLedgerIDPK,
+      this.crLedgerIDPK,
       this.referenceNo,
       this.creditNoteDate,
+      this.paymentMode,
       this.description,
       this.totalAmount,
       this.remarks,
