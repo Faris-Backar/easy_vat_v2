@@ -223,4 +223,5 @@ class AppStrings {
       "discardledgerChangesMessage";
   static const String deleteExpenseConfirmationMessage =
       "deleteExpenseConfirmationMessage";
+  static const String quotationId= "quotationId";
 }

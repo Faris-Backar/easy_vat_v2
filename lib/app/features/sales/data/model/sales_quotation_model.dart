@@ -37,8 +37,8 @@ class SalesQuotationModel extends SalesQuotationEntity {
   factory SalesQuotationModel.fromJson(Map<String, dynamic> json) =>
       SalesQuotationModel(
         quotationIdpk: json["quotationIDPK"],
-        quotationNo: (json["quotationNo"] is int)
-            ? json["quotationNo"].toDouble()
+        quotationNo: (json["quotationNo"] is double)
+            ? json["quotationNo"]?.toInt()
             : json["quotationNo"],
         quotationDate: DateTime.tryParse(json["quotationDate"] ?? ''),
         referenceNo: json["referenceNo"],

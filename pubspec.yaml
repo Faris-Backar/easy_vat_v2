@@ -45,6 +45,7 @@ dependencies:
   printing: ^5.14.2
   web: ^1.1.1
   open_filex: ^4.7.0
+  archive: ^4.0.7
   
 dev_dependencies:
   flutter_test:

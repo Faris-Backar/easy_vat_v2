@@ -214,5 +214,8 @@
   "deleteExpenseConfirmationMessage": "تم حذف النفقات بنجاح",
   "debit": "دَين",
   "addedToCart": "تمت الإضافة إلى السلة",
-  "addNewSalesReturn": "إضافة مرتجع مبيعات جديد"
+  "addNewSalesReturn": "إضافة مرتجع مبيعات جديد",
+  "privacyPolicy": "سياسة الخصوصية",
+  "whatIsMyCode": "ما هو الرمز الخاص بي؟",
+  "quotationId": "رقم عرض السعر"
 }

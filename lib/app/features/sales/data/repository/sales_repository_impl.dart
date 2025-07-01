@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:archive/archive.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/error/failure.dart';
@@ -25,17 +26,59 @@ class SalesRepositoryImpl extends SalesRepository {
   final client = DioService().dio;
   @override
   Future<Either<Failure, SalesInvoiceEntity>> getSalesInvoices(
-      {required SalesParams salesInvoiceRequestParams}) async {
+      {required SalesParams salesInvoiceRequestParams,
+      bool isCompressedFetch = false}) async {
     try {
       final data = salesInvoiceRequestParams.toJson();
 
-      final response = await client.post(
-        UrlResources.getSalesInvoice,
-        data: data,
-      );
-      if (response.statusCode == 200) {
-        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
-        return Right(salesInvoiceList);
+      if (isCompressedFetch) {
+        // final dio = Dio();
+
+        // final url =
+        // 'https://easyvatapi.microzys.in/Sales/00000000-0000-0000-0000-000000000000?fromDate${DateFormatUtils.getCustomDateFormat(date: salesInvoiceRequestParams.fromDate, formate: "yyyy-MM-dd")}=&toDate=${DateFormatUtils.getCustomDateFormat(date: salesInvoiceRequestParams.toDate, formate: "yyyy-MM-dd")}';
+        // log("compressed Url => $url");
+        final response = await client.post(
+          'Sales/00000000-0000-0000-0000-000000000000?fromDate${DateFormatUtils.getCustomDateFormat(date: salesInvoiceRequestParams.fromDate, formate: "yyyy-MM-dd")}=&toDate=${DateFormatUtils.getCustomDateFormat(date: salesInvoiceRequestParams.toDate, formate: "yyyy-MM-dd")}',
+          options: Options(
+            responseType: ResponseType.bytes,
+            headers: {
+              'Accept-Encoding': 'gzip',
+            },
+          ),
+        );
+        // final response = await dio.get<List<int>>(
+        //   url,
+        //   options: Options(
+        //     responseType: ResponseType.bytes,
+        //     headers: {
+        //       'Accept-Encoding': 'gzip',
+        //     },
+        //   ),
+        // );
+
+        if (response.statusCode != 200 ||
+            response.data == null ||
+            response.data!.isEmpty) {
+          return Left(ServerFailure(message: "Some thing went wrong"));
+        }
+        final decompressedBytes = GZipDecoder().decodeBytes(response.data!);
+        final jsonStr = utf8.decode(decompressedBytes);
+        final responseJsonList = List<SalesInvoiceListModel>.from(
+            json.decode(jsonStr).map((x) => SalesInvoiceListModel.fromJson(x)));
+        log("jsonList => $responseJsonList");
+        final salesData = SalesInvoiceModel(
+            message: "success", status: true, salesList: responseJsonList);
+        return Right(salesData);
+      } else {
+        final response = await client.post(
+          UrlResources.getSalesInvoice,
+          data: data,
+        );
+
+        if (response.statusCode == 200) {
+          final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
+          return Right(salesInvoiceList);
+        }
       }
       return Left(ServerFailure(message: ""));
     } on DioException catch (e) {
@@ -371,11 +414,11 @@ class SalesRepositoryImpl extends SalesRepository {
 
   @override
   Future<Either<Failure, SalesQuotationEntity>> createSalesQuotation(
-      {required SalesReturnModel salesQuotationRequest}) async {
+      {required SalesQuotationModel salesQuotationRequest}) async {
     try {
       final data = salesQuotationRequest.toJson();
       final response = await client.post(
-        UrlResources.createSalesInvoice,
+        UrlResources.createSalesQuotation,
         data: data,
       );
       if (response.statusCode == 200 && response.data["status"] == true) {
@@ -396,28 +439,43 @@ class SalesRepositoryImpl extends SalesRepository {
 
   @override
   Future<Either<Failure, bool>> deleteSalesQuotation(
-      {required SalesParams salesQuotationRequest}) {
-    // TODO: implement deleteSalesQuotation
-    throw UnimplementedError();
+      {required SalesParams salesQuotationRequest}) async {
+    try {
+      final data = salesQuotationRequest.toJson();
+      final response = await client.post(
+        UrlResources.deleteSalesQuotation,
+        data: data,
+      );
+      if (response.statusCode == 200) {
+        return right(true);
+      }
+      return left(ServerFailure(message: ""));
+    } on DioException catch (e) {
+      return left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.error?.toString() ??
+              ""));
+    } catch (e) {
+      return left(ServerFailure(message: e.toString()));
+    }
   }
 
   @override
   Future<Either<Failure, List<SalesQuotationEntity>>> getSalesQuotation(
       {required SalesParams salesQuotationRequest}) async {
     try {
-      final response = await client.get(
+      final response = await client.post(
         UrlResources.getSalesQuotation,
-        queryParameters: {
-          "fromDate":
-              DateFormatUtils.getDateOnly(date: salesQuotationRequest.fromDate),
-          "toDate":
-              DateFormatUtils.getDateOnly(date: salesQuotationRequest.toDate),
-        },
+        data: salesQuotationRequest.toJson(),
       );
       if (response.statusCode == 200) {
-        final salesQuotationList = List<SalesQuotationModel>.from(
-            response.data.map((x) => SalesQuotationModel.fromJson(x)));
-        return Right(salesQuotationList);
+        if ((response.data["quotation"] as List).isNotEmpty) {
+          final salesQuotationList = List<SalesQuotationModel>.from(response
+              .data["quotation"]
+              .map((x) => SalesQuotationModel.fromJson(x)));
+          return Right(salesQuotationList);
+        }
+        return Right([]);
       }
       return Left(ServerFailure(message: ""));
     } on DioException catch (e) {
@@ -433,8 +491,25 @@ class SalesRepositoryImpl extends SalesRepository {
 
   @override
   Future<Either<Failure, SalesQuotationEntity>> updateSalesQuotation(
-      {required SalesReturnModel salesQuotationRequest}) {
-    // TODO: implement updateSalesQuotation
-    throw UnimplementedError();
+      {required SalesQuotationModel salesQuotationRequest}) async {
+    try {
+      final data = salesQuotationRequest.toJson();
+      final response = await client.post(
+        UrlResources.updateSalesQuotation,
+        data: data,
+      );
+      if (response.statusCode == 200) {
+        final salesInvoiceList = SalesQuotationModel.fromJson(response.data);
+        return right(salesInvoiceList);
+      }
+      return left(ServerFailure(message: ""));
+    } on DioException catch (e) {
+      return left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.error?.toString() ??
+              ""));
+    } catch (e) {
+      return left(ServerFailure(message: e.toString()));
+    }
   }
 }

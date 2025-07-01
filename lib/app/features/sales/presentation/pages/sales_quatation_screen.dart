@@ -15,6 +15,7 @@ import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoi
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sales/delete_sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/fetch_sales_quotation/fetch_sales_quotation.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
@@ -178,13 +179,14 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
                                     ? context.onPrimaryColor
                                     : null,
                                 onTap: () async {
-                                  // await ref
-                                  //     .read(salesProvider.notifier)
-                                  //     .reinsertSalesForm(salesQuotation, ref);
+                                  await ref
+                                      .read(salesProvider.notifier)
+                                      .reinsertSalesQuotationForm(
+                                          salesQuotation, ref);
                                   if (mounted) {
                                     context.router.push(AddNewSalesRoute(
-                                      title: context
-                                          .translate(AppStrings.addNewSales),
+                                      title: context.translate(
+                                          AppStrings.addNewSalesQuatation),
                                     ));
                                   }
                                 }),
@@ -227,6 +229,9 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
                         grossAmount: salesQuotation.grossTotal,
                         netAmount: salesQuotation.grandTotal,
                         // paymentMethod: salesQuotation.sales ?? "",
+                        transactionTitle: AppStrings.quotationId,
+                        transactionId:
+                            salesQuotation.quotationNo?.toString() ?? "0",
                         referenceNo: salesQuotation.referenceNo,
                         tax: salesQuotation.tax,
                       ),
@@ -283,7 +288,7 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
               PrimaryButton(
                 onPressed: () => context.router.push(
                   AddNewSalesRoute(
-                    title: context.translate(AppStrings.addNewSales),
+                    title: context.translate(AppStrings.addNewSalesQuatation),
                   ),
                 ),
                 child: Row(
@@ -359,11 +364,11 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
               onPrimaryTap: () {
                 ref
                     .read(deleteSalesNotifierProvider.notifier)
-                    .deleteSalesInvoice(
+                    .deleteSalesQuotation(
                       request: SalesParams(
                         fromDate: ref.read(dateRangeProvider).fromDate,
                         toDate: ref.read(dateRangeProvider).toDate,
-                        salesIDPK: salesIdpk,
+                        salesQuotationIdpk: salesIdpk,
                         customerID: customerID,
                       ),
                     );

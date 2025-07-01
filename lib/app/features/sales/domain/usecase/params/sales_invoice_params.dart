@@ -37,7 +37,7 @@ class SalesParams {
       if (salesMode != null) "saleMode": salesMode,
       if (soldBy != null) "soldBy": soldBy,
       if (salesReturnIdpk != null) "salesReturnIDPK": salesReturnIdpk,
-      if (salesReturnIdpk != null) "quotationIDPK": salesReturnIdpk
+      if (salesQuotationIdpk != null) "quotationIDPK": salesQuotationIdpk
     };
   }
 
