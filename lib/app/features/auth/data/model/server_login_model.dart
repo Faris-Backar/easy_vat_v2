@@ -109,9 +109,9 @@ class CompanyDetailModel extends CompanyDetailEntity {
         expairyDate: DateTime.parse(json["expairyDate"]),
         serverType: json["serverType"],
         isOnline: json["isOnline"],
-        companyPermission: List<CompanyPermissionModel>.from(
+        companyPermission:json["companyPermission"]!=null? List<CompanyPermissionModel>.from(
             json["companyPermission"]
-                .map((x) => CompanyPermissionModel.fromJson(x))),
+                .map((x) => CompanyPermissionModel.fromJson(x))):[],
       );
 
   Map<String, dynamic> toJson() => {

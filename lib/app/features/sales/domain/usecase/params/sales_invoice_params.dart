@@ -9,6 +9,7 @@ class SalesParams {
   final String? soldBy;
   final String? salesMode;
   final String? salesReturnIdpk;
+  final String? salesQuotationIdpk;
 
   SalesParams(
       {this.salesIDPK,
@@ -17,7 +18,8 @@ class SalesParams {
       this.customerID,
       this.soldBy,
       this.salesMode,
-      this.salesReturnIdpk});
+      this.salesReturnIdpk,
+      this.salesQuotationIdpk});
 
   /// Converts DateTime to ISO 8601 string (e.g., "2025-02-26T14:26:31.476Z")
   String _formatDate(DateTime date) {
@@ -34,7 +36,8 @@ class SalesParams {
         'customerID': customerID ?? "00000000-0000-0000-0000-000000000000",
       if (salesMode != null) "saleMode": salesMode,
       if (soldBy != null) "soldBy": soldBy,
-      if (salesReturnIdpk != null) "salesReturnIDPK": salesReturnIdpk
+      if (salesReturnIdpk != null) "salesReturnIDPK": salesReturnIdpk,
+      if (salesQuotationIdpk != null) "quotationIDPK": salesQuotationIdpk
     };
   }
 

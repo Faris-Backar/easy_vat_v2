@@ -266,7 +266,7 @@ class _SalesAppBarState extends ConsumerState<SalesAppBar> {
                       soldBy: soldByNotifier.value);
 
                   if (widget.config.filterFunction != null) {
-                    // widget.config.filterFunction!(params);
+                    widget.config.filterFunction!(params);
                   } else {
                     ref
                         .read(salesInvoiceNotifierProvider.notifier)

@@ -1,5 +1,5 @@
 import 'package:easy_vat_v2/app/features/sales/data/repository/sales_repository_impl.dart';
-import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_order_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/sales_order/fetch_sales_order_usecase.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_order/sales_order_state.dart';
@@ -18,7 +18,7 @@ final salesOrderNotifierProvider =
 
 class SalesOrderNotifiers extends StateNotifier<SalesOrderState> {
   final FetchSalesOrderUsecase fetchSalesOrderUsecase;
-  List<SalesInvoiceListEntity>? salesList;
+  List<SalesOrderEntity>? salesOrderList;
   DateTime? fromDate;
   DateTime? toDate;
 
@@ -29,38 +29,16 @@ class SalesOrderNotifiers extends StateNotifier<SalesOrderState> {
     state = const SalesOrderState.loading();
     final result = await fetchSalesOrderUsecase.call(params: params);
     result.fold((failure) => state = SalesOrderState.failure(failure.message),
-        (salesInvoice) {
-      salesList = salesInvoice.salesList;
-      return state = SalesOrderState.success(salesInvoice.salesList ?? []);
+        (salesOrders) {
+      salesOrderList = salesOrders;
+      double totalAmount = 0.0;
+      for (var i = 0; i < (salesOrders.length); i++) {
+        totalAmount += salesOrders[i].netTotal ?? 0.0;
+      }
+      return state = SalesOrderState.success(
+          salesOrderList: salesOrders, totalAmount: totalAmount);
     });
   }
-
-  // void filterSalesInvoice({required SalesInvoiceFilterParams params}) {
-  //   if (params.clearAllFilter) {
-  //     state = SalesOrderState.success(salesList ?? []);
-  //   } else {
-  //     if (salesList == null) return;
-
-  //     final filteredSales = salesList?.where((sale) {
-  //       final matchesDate = params.salesDate == null ||
-  //           (sale.saleDate != null &&
-  //               sale.saleDate!.toLocal().isAtSameMomentAs(params.salesDate!));
-
-  //       final matchesMode = params.salesMode == null ||
-  //           (sale.saleMode != null &&
-  //               sale.saleMode!.toLowerCase() ==
-  //                   params.salesMode!.toLowerCase());
-
-  //       final matchesSoldBy = params.soldBy == null ||
-  //           (sale.soldBy != null &&
-  //               sale.soldBy!.toLowerCase() == params.soldBy!.toLowerCase());
-
-  //       return matchesDate && matchesMode && matchesSoldBy;
-  //     }).toList();
-
-  //     state = SalesOrderState.success(filteredSales ?? []);
-  //   }
-  // }
 
   clearDates() {
     fromDate = null;

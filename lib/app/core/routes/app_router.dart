@@ -65,7 +65,7 @@ class AppRouter extends RootStackRouter {
   static const String login = "/login";
   static const String pin = "/pin";
   static const String salesReturn = "/salesReturn";
-  static const String salesQuatation = "/salesQuatation";
+  static const String salesQuatation = "/salesQuotation";
   static const String salesOrder = "/salesOrder";
   static const String purchaseReturn = "/purchaseReturn";
   static const String purchaseOrder = "/purchaseOrder";

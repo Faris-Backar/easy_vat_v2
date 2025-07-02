@@ -25,10 +25,13 @@ class SalesInoiveNotifiers extends StateNotifier<SalesInvoiceState> {
   SalesInoiveNotifiers({required this.salesInvoiceRepository})
       : super(SalesInvoiceState.initial());
 
-  fetchSalesInvoice({required SalesParams params}) async {
+  fetchSalesInvoice(
+      {required SalesParams params,
+      bool isCompressedFetchedItems = false}) async {
     state = const SalesInvoiceState.loading();
     final result = await salesInvoiceRepository.getSalesInvoices(
-        salesInvoiceRequestParams: params);
+        salesInvoiceRequestParams: params,
+        isCompressedFetch: isCompressedFetchedItems);
     result.fold((failure) => state = SalesInvoiceState.failure(failure.message),
         (salesInvoice) {
       salesList = salesInvoice.salesList;

@@ -40,6 +40,7 @@ class AppStrings {
   static const String vehicleRegistration = "vehicleRegistration";
   static const String salesQuotation = "salesQuotation";
   static const String salesOrder = "salesOrder";
+  static const String salesOrderId = "salesOrderId";
   static const String deliveryNote = "deliveryNote";
   static const String purchaseOrder = "purchaseOrder";
   static const String goodsReceipt = "goodsReciept";
@@ -78,7 +79,7 @@ class AppStrings {
   static const String filter = "filter";
   static const String addNewSales = "addNewSales";
   static const String addNewSalesOrder = "addNewSalesOrder";
-  static const String addNewSalesQuatation = "addNewSalesQuatation";
+  static const String addNewSalesQuatation = "addNewSalesQuotation";
   static const String addNewSalesReturn = "addNewSalesReturn";
   static const String addNewPurchase = "addNewPurchase";
   static const String addNewPurchaseReturn = "addNewPurchaseReturn";
@@ -227,4 +228,5 @@ class AppStrings {
   static const String incNo = "incNo";
   static const String deleteIncomeConfirmationMessage =
       "deleteIncomeConfirmationMessage";
+  static const String quotationId= "quotationId";
 }

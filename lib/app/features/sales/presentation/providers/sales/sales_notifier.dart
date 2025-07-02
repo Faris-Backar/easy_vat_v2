@@ -9,9 +9,11 @@ import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_e
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart';
+import 'package:easy_vat_v2/app/features/sales/data/model/sales_quotation_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_request_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_quotation_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_return_entity.dart';
 import 'package:easy_vat_v2/app/features/salesman/domain/entity/sales_man_entity.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
@@ -608,5 +610,199 @@ class SalesNotifier extends StateNotifier<SalesState> {
       retailRate: returnedItem.sellingPrice?.toDouble(),
       taxPercentage: returnedItem.taxPercentage?.toDouble(),
     );
+  }
+
+  Future<SalesQuotationModel> createNewSaleQuotation(WidgetRef ref) async {
+    double itemTotalTax = 0.0;
+    double netTotal = 0.0;
+    final List<QuotationDetailModel> items = [];
+    final userDetailsFromPrefs =
+        await AppCredentialPreferenceHelper().getUserDetails();
+    final cartPrvd = ref.read(cartProvider.notifier);
+    final itemsList = cartPrvd.itemsList;
+
+    for (var i = 0; i < itemsList.length; i++) {
+      final grossTotal =
+          (itemsList[i].item.retailRate ?? 0.0 * itemsList[i].qty);
+
+      final taxAmount = isTaxEnabled
+          ? ((itemsList[i].qty * itemsList[i].rate) *
+                  (itemsList[i].item.taxPercentage ?? 0.0)) /
+              100
+          : 0.0;
+
+      totalItemGrossAmont += grossTotal;
+      itemTotalTax += taxAmount;
+      netTotal += (grossTotal + taxAmount);
+
+      final item = QuotationDetailModel(
+        quotationIdpk: salesIdpk,
+        itemIdpk: itemsList[i].item.itemIdpk ?? "",
+        barcode: itemsList[i].item.barcode ?? "",
+        itemCode: itemsList[i].item.itemCode ?? "",
+        itemName: itemsList[i].item.itemName ?? "",
+        description: itemsList[i].item.description ?? "",
+        unit: itemsList[i].unit,
+        quantity: itemsList[i].qty,
+        cost: itemsList[i].cost,
+        sellingPrice: itemsList[i].rate,
+        grossTotal: grossTotal,
+        taxAmount: taxAmount,
+        profitAmount: 0.0,
+        profitPercentage: 0.0,
+        projectIdpk: PrefResources.emptyGuid,
+        lpoIdpk: PrefResources.emptyGuid,
+        rowguid: PrefResources.emptyGuid,
+        companyIdpk: userDetailsFromPrefs?.companyInfo?.companyIdpk ??
+            PrefResources.emptyGuid,
+        totalCost: itemsList[i].cost,
+        taxPercentage:
+            isTaxEnabled ? (itemsList[i].item.taxPercentage ?? 0.0) : 0.0,
+        netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
+        suppliersIdpk: userDetailsFromPrefs?.storeDetails?.storeIdpk ??
+            PrefResources.emptyGuid,
+        subItem: [],
+      );
+      items.add(item);
+    }
+
+    final newSale = SalesQuotationModel(
+      quotationIdpk: salesIdpk,
+      quotationDate: salesDate,
+      createdDate: salesDate,
+      createdBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
+      modifiedBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
+      rowguid: PrefResources.emptyGuid,
+      dsicount: cartPrvd.discount,
+      grossTotal: totalItemGrossAmont,
+      grandTotal: netTotal,
+      referenceNo: refNo,
+      projectIdpk: PrefResources.emptyGuid,
+      quotationDetailModel: items,
+      remarks: notes,
+      tax: isTaxEnabled ? itemTotalTax : 0.0,
+      companyIdpk: userDetailsFromPrefs?.companyInfo?.companyIdpk ??
+          PrefResources.emptyGuid,
+      customerIdpk: selectedCustomer?.ledgerIdpk ?? PrefResources.emptyGuid,
+      genaralNote: notes,
+      quotationNo: salesNo.isNotEmpty ? int.parse(salesNo) : 0,
+      salesmanIdpk: soldBy?.userIdpk ?? PrefResources.emptyGuid,
+      modifiedDate: DateTime.now(),
+    );
+    return newSale;
+  }
+
+  ItemEntity convertQuotationItemToItem(QuotationDetailEntity quotationedItem) {
+    return ItemEntity(
+      itemIdpk: quotationedItem.itemIdpk,
+      barcode: quotationedItem.barcode,
+      itemCode: quotationedItem.itemCode,
+      itemName: quotationedItem.itemName,
+      description: quotationedItem.description,
+      unit: quotationedItem.unit,
+      cost: quotationedItem.cost?.toDouble(),
+      retailRate: quotationedItem.sellingPrice?.toDouble(),
+      taxPercentage: quotationedItem.taxPercentage?.toDouble(),
+    );
+  }
+
+  reinsertSalesQuotationForm(
+      SalesQuotationEntity salesQuotation, WidgetRef ref) async {
+    final cartPrvd = ref.read(cartProvider.notifier);
+    cartPrvd.clearCart();
+    cartPrvd.setEditMode(true);
+    setEditMode(true);
+    List<CartEntity> updatedItemsList = [];
+    ref.read(customerNotifierProvider.notifier).getCustomer();
+    final customerList = ref.read(customerNotifierProvider).customerList;
+    final selectedCustomer = customerList != null
+        ? customerList.firstWhere((customer) =>
+            customer.ledgerIdpk?.toLowerCase() ==
+            salesQuotation.customerIdpk?.toLowerCase())
+        : CustomerEntity(
+            ledgerName: salesQuotation.customerName,
+            ledgerIdpk: salesQuotation.customerIdpk);
+    // if (salesQuotation.customerName?.toLowerCase() != "cash") {
+    //   final cashLedger = ref
+    //       .read(cashLedgerNotifierProvider.notifier)
+    //       .getLedgerById(salesQuotation. ?? '');
+
+    //   if (cashLedger != null) {
+    //     setCashAccount(cashLedger);
+    //   }
+    // }
+
+    // final salesLedger = ref
+    //     .read(salesLedgerNotifierProvider.notifier)
+    //     .getLedgerById(salesQuotation.crLedgerIdfk!);
+    // if (salesLedger != null) {
+    //   setSalesAccount(salesLedger);
+    // }
+
+    // final soldBy = ref
+    //     .read(salesManProvider.notifier)
+    //     .getSalesManByName(salesQuotation.retu ?? "");
+    // if (soldBy != null) {
+    //   setSoldBy(soldBy);
+    // }
+    // final updatedCustomerWithAddress = selectedCustomer.copyWith(
+    //     billingAddress: salesQuotation.cashCustomerAddress,
+    //     shippingAddress: salesQuotation.shippingAddress);
+    setSalesIdpk(salesQuotation.quotationIdpk ?? "");
+    setCustomer(selectedCustomer);
+    setSalesNo(salesQuotation.quotationNo?.toString() ?? "");
+    setRefNo(salesQuotation.referenceNo ?? "");
+    setSalesDate(salesQuotation.quotationDate ?? DateTime.now());
+    // setSalesMode(salesQuotation.quotat ?? "Cash");
+
+    // adding items to cart.
+    if (salesQuotation.quotationDetails?.isNotEmpty == true) {
+      for (var index = 0;
+          index < salesQuotation.quotationDetails!.length;
+          index++) {
+        final soldItem = salesQuotation.quotationDetails![index];
+        final itemEntity = convertQuotationItemToItem(soldItem);
+        final priceBeforeTax = cartPrvd.calculateBeforeTax(
+            retailRate: itemEntity.retailRate ?? 0.0,
+            qty: soldItem.quantity?.toDouble() ?? 0.0);
+
+        // Calculate tax based on tax setting
+        final totalTax = isTaxEnabled
+            ? cartPrvd.calculateTotalTax(
+                retailRate: itemEntity.retailRate ?? 0.0,
+                qty: soldItem.quantity?.toDouble() ?? 0.0,
+                taxPercentage: itemEntity.taxPercentage ?? 0.0)
+            : 0.0;
+
+        final grossTotal = cartPrvd.calculateGross(
+            retailRate: itemEntity.retailRate ?? 0.0,
+            qty: soldItem.quantity?.toDouble() ?? 0.0,
+            discount: 0.0);
+
+        final netTotal =
+            cartPrvd.calculateNetTotal(grossTotal: grossTotal, tax: totalTax);
+
+        final cartItem = CartEntity(
+          cartItemId: (index + 1),
+          item: itemEntity,
+          qty: soldItem.quantity?.toDouble() ?? 0.0,
+          rate: itemEntity.retailRate ?? 0.0,
+          cost: itemEntity.cost ?? 0.0,
+          unit: itemEntity.unit ?? "",
+          description: soldItem.description ?? "",
+          discount: 0.0,
+          gross: grossTotal,
+          tax: totalTax,
+          priceBeforeTax: priceBeforeTax,
+          netTotal: netTotal,
+        );
+
+        updatedItemsList.add(cartItem);
+        cartPrvd.getRateSplitUp(item: cartItem);
+
+        cartPrvd.itemsList = updatedItemsList;
+      }
+    }
+    cartPrvd.updateState();
   }
 }

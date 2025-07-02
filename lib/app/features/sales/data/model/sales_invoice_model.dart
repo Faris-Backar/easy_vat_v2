@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
 
 class SalesInvoiceModel extends SalesInvoiceEntity {
@@ -266,6 +268,11 @@ class SalesInvoiceListModel extends SalesInvoiceListEntity {
       ?.map((item) =>
           item is SoldItemModel ? item : SoldItemModel.fromEntity(item))
       .toList();
+
+  @override
+  String toString() {
+    return json.encode(toJson());
+  }
 }
 
 class SoldItemModel extends SoldItemEntity {
@@ -417,6 +424,10 @@ class SoldItemModel extends SoldItemEntity {
       ?.map(
           (item) => item is SubItemModel ? item : SubItemModel.fromEntity(item))
       .toList();
+  @override
+  String toString() {
+    return json.encode(toJson());
+  }
 }
 
 class SubItemModel extends SubItemEntity {
@@ -510,4 +521,8 @@ class SubItemModel extends SubItemEntity {
         "supplierIDFK": supplierIdfk,
         "isEditable": isEditable,
       };
+  @override
+  String toString() {
+    return json.encode(toJson());
+  }
 }

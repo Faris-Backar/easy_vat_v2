@@ -375,10 +375,16 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
         }
       } else if (salesType ==
           context.translate(AppStrings.addNewSalesQuatation).toLowerCase()) {
-        final newSale = await salesPrvd.createNewSale(ref);
-        ref
-            .read(createSalesNotifierProvider.notifier)
-            .createSalesQuotation(request: newSale);
+        final newSale = await salesPrvd.createNewSaleQuotation(ref);
+        if (ref.read(salesProvider.notifier).isForEdit == true) {
+            ref
+              .read(updateSalesNotifierProvider.notifier)
+              .updateSalesQuotation(request: newSale);
+        } else {
+          ref
+              .read(createSalesNotifierProvider.notifier)
+              .createSalesQuotation(request: newSale);
+        }
       } else if (salesType ==
           context.translate(AppStrings.addNewSalesReturn).toLowerCase()) {
         final newSaleReturn = await salesPrvd.createNewSaleReturn(ref);
