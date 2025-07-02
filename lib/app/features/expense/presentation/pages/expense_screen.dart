@@ -4,9 +4,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
+import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-//import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/delete_expense/delete_expense_notifier.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_notifier.dart';
@@ -17,6 +17,7 @@ import 'package:easy_vat_v2/app/features/expense/presentation/widgets/expense_ca
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/expense_ledger/expense_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
+import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -155,22 +156,28 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                         children: [
                           Expanded(
                             child: _buildSlidingAction(
-                              color: AppUtils.isDarkMode(context)
-                                  ? CustomColors.getTransactionSkyBlueColor(
-                                      context)
-                                  : CustomColors.getTransactionSkyBlueColor(
-                                          context)
-                                      .withValues(alpha: 0.2),
-                              borderRadiusTopLeft: 10.0,
-                              borderRadiusBottomLeft: 10.0,
-                              icon: Assets.icons.print,
-                              iconColor: AppUtils.isDarkMode(context)
-                                  ? context.onPrimaryColor
-                                  : null,
-                              onTap: () {
-                                // handle print
-                              },
-                            ),
+                                color: AppUtils.isDarkMode(context)
+                                    ? CustomColors.getTransactionSkyBlueColor(
+                                        context)
+                                    : CustomColors.getTransactionSkyBlueColor(
+                                            context)
+                                        .withValues(alpha: 0.2),
+                                borderRadiusTopLeft: 10.0,
+                                borderRadiusBottomLeft: 10.0,
+                                icon: Assets.icons.print,
+                                iconColor: AppUtils.isDarkMode(context)
+                                    ? context.onPrimaryColor
+                                    : null,
+                                // handle Print
+                                onTap: () async {
+                                  context.router.push(PdfViewerRoute(
+                                      pdfUrl: UrlResources.downloadExpense,
+                                      pdfType: PDFType.expense,
+                                      queryParameters: {
+                                        "ExpenseIDPK": expense.expenseIDPK ?? ""
+                                      },
+                                      pdfName: expense.supplierName));
+                                }),
                           ),
                           Expanded(
                               child: _buildSlidingAction(
@@ -200,33 +207,34 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
                           )),
                         ],
                       ),
-                      startActionPane:
-                          ActionPane(motion: ScrollMotion(), children: [
-                        Expanded(child: Container()),
-                        Expanded(
-                          child: _buildSlidingAction(
-                              color: AppUtils.isDarkMode(context)
-                                  ? CustomColors.getTransactionCardRedColor(
-                                      context)
-                                  : CustomColors.getTransactionCardRedColor(
+                      startActionPane: ActionPane(
+                          motion: ScrollMotion(),
+                          extentRatio: 0.25,
+                          children: [
+                            Expanded(
+                              child: _buildSlidingAction(
+                                  color: AppUtils.isDarkMode(context)
+                                      ? CustomColors.getTransactionCardRedColor(
                                           context)
-                                      .withValues(alpha: 0.2),
-                              icon: Assets.icons.delete,
-                              borderRadiusTopLeft: 10.0,
-                              borderRadiusBottomLeft: 10.0,
-                              borderRadiusBottomRight: 10.0,
-                              borderRadiusTopRight: 10.0,
-                              iconColor: AppUtils.isDarkMode(context)
-                                  ? context.onPrimaryColor
-                                  : null,
-                              iconHeight: 24.0,
-                              iconWidth: 24.0,
-                              // handle Delete
-                              onTap: () => _showDeleteDialog(context,
-                                  expenseIDPK: expense.expenseIDPK ?? "",
-                                  supplierID: expense.supplierIDFK ?? "")),
-                        ),
-                      ]),
+                                      : CustomColors.getTransactionCardRedColor(
+                                              context)
+                                          .withValues(alpha: 0.2),
+                                  icon: Assets.icons.delete,
+                                  borderRadiusTopLeft: 10.0,
+                                  borderRadiusBottomLeft: 10.0,
+                                  borderRadiusBottomRight: 10.0,
+                                  borderRadiusTopRight: 10.0,
+                                  iconColor: AppUtils.isDarkMode(context)
+                                      ? context.onPrimaryColor
+                                      : null,
+                                  iconHeight: 24.0,
+                                  iconWidth: 24.0,
+                                  // handle Delete
+                                  onTap: () => _showDeleteDialog(context,
+                                      expenseIDPK: expense.expenseIDPK ?? "",
+                                      supplierID: expense.supplierIDFK ?? "")),
+                            ),
+                          ]),
                       child: ExpenseCard(
                         expense: expense,
                         isSelectedNotifier: notifier,
@@ -247,69 +255,72 @@ class _ExpenseInvoiceScreenState extends ConsumerState<ExpenseScreen> {
           ),
         );
       }),
-      bottomNavigationBar: Container(
-        color: AppUtils.isDarkMode(context)
-            ? context.colorScheme.tertiaryContainer
-            : context.surfaceColor,
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 5.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  context.translate(AppStrings.total),
-                  style: context.textTheme.bodyMedium?.copyWith(
-                    color: context.defaultTextColor.withValues(alpha: 0.32),
-                  ),
-                ),
-                expenseState.maybeWhen(
-                    success: (expense, totalAmount) => Text(
-                          totalAmount?.toStringAsFixed(2) ?? "0.0",
-                          style: context.textTheme.bodyLarge?.copyWith(
-                              fontSize: 17, fontWeight: FontWeight.w600),
-                        ),
-                    orElse: () => Text(
-                          ref
-                              .watch(expenseCartProvider)
-                              .totalAmount
-                              .toStringAsFixed(2),
-                          style: context.textTheme.bodyLarge?.copyWith(
-                              fontSize: 17, fontWeight: FontWeight.w600),
-                        ))
-
-                // Text(
-                //   ref.watch(cartProvider).totalAmount.toStringAsFixed(2),
-                //   style: context.textTheme.bodyLarge?.copyWith(
-                //     fontSize: 17,
-                //     fontWeight: FontWeight.w600,
-                //   ),
-                // ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            PrimaryButton(
-              onPressed: () => context.router.push(
-                AddNewExpenseRoute(),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          color: AppUtils.isDarkMode(context)
+              ? context.colorScheme.tertiaryContainer
+              : context.surfaceColor,
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Icon(Icons.add_circle_outline_rounded,
-                      color: Colors.white),
-                  SizedBox(width: 5.w),
                   Text(
-                    context.translate(AppStrings.addNew),
+                    context.translate(AppStrings.total),
                     style: context.textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white,
+                      color: context.defaultTextColor.withValues(alpha: 0.32),
                     ),
                   ),
+                  expenseState.maybeWhen(
+                      success: (expense, totalAmount) => Text(
+                            totalAmount?.toStringAsFixed(2) ?? "0.0",
+                            style: context.textTheme.bodyLarge?.copyWith(
+                                fontSize: 17, fontWeight: FontWeight.w600),
+                          ),
+                      orElse: () => Text(
+                            ref
+                                .watch(expenseCartProvider)
+                                .totalAmount
+                                .toStringAsFixed(2),
+                            style: context.textTheme.bodyLarge?.copyWith(
+                                fontSize: 17, fontWeight: FontWeight.w600),
+                          ))
+
+                  // Text(
+                  //   ref.watch(cartProvider).totalAmount.toStringAsFixed(2),
+                  //   style: context.textTheme.bodyLarge?.copyWith(
+                  //     fontSize: 17,
+                  //     fontWeight: FontWeight.w600,
+                  //   ),
+                  // ),
                 ],
               ),
-            ),
-          ],
+              SizedBox(height: 10),
+              PrimaryButton(
+                onPressed: () => context.router.push(
+                  AddNewExpenseRoute(
+                      tittle: context.translate(AppStrings.addNewExpense)),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.add_circle_outline_rounded,
+                        color: Colors.white),
+                    SizedBox(width: 5.w),
+                    Text(
+                      context.translate(AppStrings.addNew),
+                      style: context.textTheme.bodyMedium?.copyWith(
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

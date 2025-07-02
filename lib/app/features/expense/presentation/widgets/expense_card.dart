@@ -156,7 +156,8 @@ class ExpenseCard extends StatelessWidget {
                                   formate: "dd-MM-yyyy - hh:MM a",
                                 ),
                                 style: context.textTheme.bodySmall?.copyWith(
-                                  color: Colors.grey.shade800,
+                                  color: context.defaultTextColor
+                                      .withValues(alpha: 0.9),
                                 ),
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -167,7 +168,8 @@ class ExpenseCard extends StatelessWidget {
                                 child: Text(
                                   expense.purchasedBy ?? "",
                                   style: context.textTheme.labelSmall?.copyWith(
-                                    color: Colors.grey.shade800,
+                                    color: context.defaultTextColor
+                                        .withValues(alpha: 0.9),
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1,

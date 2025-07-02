@@ -57,6 +57,7 @@ class UrlResources {
   static const String getSalesAccount = "Ledger/Select/GetSalesLedger";
   static const String getBankAccount = "Ledger/Select/GetBankLedger";
   static const String getExpenseAccount = "Ledger/Select/GetExpenseLedger";
+  static const String getLedgerAccount = "Ledger/Select/GetIncomeLedger";
 
   //salesman
   static const String getSalesMan = "Salesman/Select/SelectAll";
@@ -87,12 +88,20 @@ class UrlResources {
       "ServerLogIn/authentication/verifyuserlogin";
 
   //expense
-  static const String getExpense = "/Expense/Select/BetweenDate";
-  static const String createExpense = "/Expense/Insert";
-  static const String updateExpense = "/Expense/Update";
-  static const String deleteExpense = "/Expense/Delete";
+  static const String getExpense = "Expense/Select/BetweenDate";
+  static const String createExpense = "Expense/Insert";
+  static const String updateExpense = "Expense/Update";
+  static const String deleteExpense = "Expense/Delete";
+  static const String downloadExpense = "Expense/DownloadInvoice";
 
   //supplier
   static const String getSuppliers = "/Supplier/Select/LoadSupplier";
   static const String searchSupplier = "/Supplier/Select/SearchSupplier";
+
+  //income
+  static const String getIncome = "Income/Select/BetweenDate";
+  static const String createIncome = "Income/Insert";
+  static const String updateIncome = "Income/Update";
+  static const String deleteIncome = "Income/Delete";
+  static const String downloadIncome = "Income/DownloadInvoice";
 }

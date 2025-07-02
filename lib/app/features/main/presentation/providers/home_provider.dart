@@ -73,7 +73,8 @@ final allowedHomeFormIdsProvider = FutureProvider<List<String>>((ref) async {
     "GymCustomerManage",
     "Contra",
     "ExpenseInvoice",
-    "Expenses"
+    "Expenses",
+    "Income"
   }.toList();
   homeList.addAll(allList);
   return homeList;

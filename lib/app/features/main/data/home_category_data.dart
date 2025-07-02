@@ -111,7 +111,7 @@ class HomeCategoryData {
             label: context.translate(AppStrings.income),
             icon: Assets.icons.income,
             darkIcon: Assets.icons.dark.incomeDark,
-            pagePath: "",
+            pagePath: AppRouter.income,
             formId: AppStrings.income),
       ];
 
@@ -343,7 +343,7 @@ class HomeCategoryData {
             label: context.translate(AppStrings.income),
             icon: Assets.icons.income,
             darkIcon: Assets.icons.dark.incomeDark,
-            pagePath: "",
+            pagePath: AppRouter.income,
             formId: AppStrings.income),
       ];
 

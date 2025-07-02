@@ -4,6 +4,7 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
+
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
@@ -16,7 +17,8 @@ import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sal
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_order/sales_order_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_order/sales_order_state.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
-// import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_slidable_widget.dart';
+
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_card.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_transaction_card.dart';

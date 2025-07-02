@@ -13,4 +13,6 @@ abstract class ExpenseRepository {
       {required ExpenseRequestModel expenseRequestParams});
   Future<Either<Failure, ExpenseEntity>> deleteExpense(
       {required ExpenseParams expenseParams});
+  Future<Either<Failure, String>> downloadExpense(
+      {required String expenseIDPK});
 }

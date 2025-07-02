@@ -2,10 +2,6 @@ import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_e
 
 class ExpenseCartEntity {
   final int ledgerId;
-  final String ledgerName;
-  final String ledgerCode;
-  final String groupName;
-  final String nature;
   final double openingBalance;
   final double currentBalance;
   final String currentBalanceType;
@@ -20,10 +16,6 @@ class ExpenseCartEntity {
 
   ExpenseCartEntity(
       {required this.ledgerId,
-      required this.ledgerName,
-      required this.ledgerCode,
-      required this.groupName,
-      required this.nature,
       required this.openingBalance,
       required this.currentBalance,
       required this.currentBalanceType,
@@ -38,8 +30,6 @@ class ExpenseCartEntity {
 
   ExpenseCartEntity copyWith(
       {int? ledgerId,
-      String? ledgerName,
-      String? ledgerCode,
       String? groupName,
       String? nature,
       double? openingBalance,
@@ -55,10 +45,6 @@ class ExpenseCartEntity {
       double? tax}) {
     return ExpenseCartEntity(
         ledgerId: ledgerId ?? this.ledgerId,
-        ledgerName: ledgerName ?? this.ledgerName,
-        ledgerCode: ledgerCode ?? this.ledgerCode,
-        groupName: groupName ?? this.groupName,
-        nature: nature ?? this.nature,
         openingBalance: openingBalance ?? this.openingBalance,
         currentBalance: currentBalance ?? this.currentBalance,
         currentBalanceType: currentBalanceType ?? this.currentBalanceType,
@@ -74,6 +60,6 @@ class ExpenseCartEntity {
 
   @override
   String toString() {
-    return "ExpenseCartEntity(ledgerId: $ledgerId,ledgerName: $ledgerName,ledgerCode: $ledgerCode,groupName: $groupName,nature: $nature,openingBalance: $openingBalance,currentBalance: $currentBalance,currentBalanceType: $currentBalanceType, ledger: $ledger, netTotal: $netTotal, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercentage: $taxPercentage, discount: $discount, description: $description, tax: $tax)";
+    return "ExpenseCartEntity(ledgerId: $ledgerId,openingBalance: $openingBalance,currentBalance: $currentBalance,currentBalanceType: $currentBalanceType, ledger: $ledger, netTotal: $netTotal, grossTotal: $grossTotal, taxAmount: $taxAmount, taxPercentage: $taxPercentage, discount: $discount, description: $description, tax: $tax)";
   }
 }

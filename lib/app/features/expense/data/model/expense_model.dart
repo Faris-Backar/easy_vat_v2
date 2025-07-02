@@ -63,11 +63,19 @@ class ExpenseListModel extends ExpenseListEntity {
         crLedgerIDFK: json["crLedgerIDFK"],
         drLedgerIDFK: json["drLedgerIDFK"],
         supplierInvoiceNo: json["supplierInvoiceNo"],
-        grossTotal: json["grossTotal"],
-        discount: json["discount"],
-        tax: json["tax"],
-        netTotal: json["netTotal"],
-        roundOff: json["roundOff"],
+        grossTotal: json["grossTotal"] != null
+            ? (json["grossTotal"] as num).toDouble()
+            : null,
+        discount: json["discount"] != null
+            ? (json["discount"] as num).toDouble()
+            : null,
+        tax: json["tax"] != null ? (json["tax"] as num).toDouble() : null,
+        netTotal: json["netTotal"] != null
+            ? (json["netTotal"] as num).toDouble()
+            : null,
+        roundOff: json["roundOff"] != null
+            ? (json["roundOff"] as num).toDouble()
+            : null,
         remarks: json["remarks"],
         isEditable: json["isEditable"],
         isCanceled: json["isCanceled"],
@@ -186,16 +194,25 @@ class ExpenseDetailsModel extends ExpenseDetailsEntity {
           expenseIDPK: json["expenseIDPK"],
           ledgerIDPK: json["ledgerIDPK"],
           description: json["description"],
-          grossTotal: json["grossTotal"],
-          taxPercentage: json["taxPercentage"],
-          taxAmount: json["taxAmount"],
-          netTotal: json["netTotal"],
+          grossTotal: json["grossTotal"] != null
+              ? (json["grossTotal"] as num).toDouble()
+              : null,
+          taxPercentage: json["taxPercentage"] != null
+              ? (json["taxPercentage"] as num).toDouble()
+              : null,
+          taxAmount: json["taxAmount"] != null
+              ? (json["taxAmount"] as num).toDouble()
+              : null,
+          netTotal: json["netTotal"] != null
+              ? (json["netTotal"] as num).toDouble()
+              : null,
           rowguid: json["rowguid"],
           companyIDPK: json["companyIDPK"],
-          currentBalance: json["currentBalance"],
+          currentBalance: json["currentBalance"] != null
+              ? (json["currentBalance"] as num).toDouble()
+              : null,
           ledgerName: json["ledgerName"],
           ledgerCode: json["ledgerCode"],
-          openingBalance: json["openingBalance"],
           groupName: json["groupName"],
           nature: json["nature"]);
 

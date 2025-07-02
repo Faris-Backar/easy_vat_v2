@@ -15,6 +15,7 @@ import 'package:easy_vat_v2/app/features/expense/presentation/providers/date_ran
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
+import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/usecase/params/purchase_params.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/delete_purchase/delete_purchase_notifier.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/fetch_purchase_return/fetch_purchase_return_notifier.dart';
@@ -170,6 +171,7 @@ class _PurchaseReturnScreenState extends ConsumerState<PurchaseReturnScreen> {
                                         'PurchaseIDPK':
                                             purchaseReturn.purchaseReturnIDPK,
                                       },
+                                      pdfType: PDFType.salesInvoice,
                                       pdfName: purchaseReturn.supplierName));
                                 }),
                           ),

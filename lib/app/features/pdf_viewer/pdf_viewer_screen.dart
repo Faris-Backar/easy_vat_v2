@@ -26,10 +26,12 @@ import './functions/pdf_downloader_stub.dart'
 class PdfViewerScreen extends StatefulWidget {
   final String pdfUrl;
   final String? pdfName;
+  final PDFType pdfType;
   final Map<String, dynamic> queryParameters;
   const PdfViewerScreen(
       {super.key,
       required this.pdfUrl,
+      required this.pdfType,
       this.pdfName,
       required this.queryParameters});
 
@@ -37,12 +39,22 @@ class PdfViewerScreen extends StatefulWidget {
   State<PdfViewerScreen> createState() => _PdfViewerScreenState();
 }
 
+enum PDFType { salesInvoice, expense, income }
+
 class _PdfViewerScreenState extends State<PdfViewerScreen> {
+  late final PDFType _pdfType;
+
+  @override
+  void initState() {
+    super.initState();
+    _pdfType = widget.pdfType;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.translate(AppStrings.salesInvoice)),
+        title: Text(_getTitle()),
       ),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -77,7 +89,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        height: 55.h,
+        height: 65.h,
         color: context.colorScheme.tertiaryContainer,
         child: SafeArea(
           child: Row(
@@ -130,7 +142,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   Future<Uint8List> _loadPdfFromNetwork() async {
     try {
       final response = await DioService().dio.get<List<int>>(
-            UrlResources.downloadSalesInvoice,
+            _getloadUrl(),
             queryParameters: widget.queryParameters,
             options: Options(
               responseType: ResponseType.bytes,
@@ -302,5 +314,27 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
     final androidVersion =
         int.tryParse(Platform.version.split(" ").first) ?? 30;
     return androidVersion < 29;
+  }
+
+  String _getTitle() {
+    switch (_pdfType) {
+      case PDFType.salesInvoice:
+        return context.translate(AppStrings.salesInvoice);
+      case PDFType.expense:
+        return context.translate(AppStrings.expenses);
+      case PDFType.income:
+        return context.translate(AppStrings.income);
+    }
+  }
+
+  String _getloadUrl() {
+    switch (_pdfType) {
+      case PDFType.salesInvoice:
+        return UrlResources.downloadSalesInvoice;
+      case PDFType.expense:
+        return UrlResources.downloadExpense;
+      case PDFType.income:
+        return UrlResources.downloadIncome;
+    }
   }
 }

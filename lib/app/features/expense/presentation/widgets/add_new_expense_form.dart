@@ -1,7 +1,6 @@
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_info_widget.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
@@ -41,17 +40,30 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
   @override
   void initState() {
     super.initState();
+
+    final cart = ref.read(expenseCartProvider);
+    widget.expenseNoController.text = cart.expenseNo ?? "";
+    widget.refNoController.text = cart.refNo ?? "";
+    widget.purchasedByController.text = cart.purchasedBy ?? "";
+
+    widget.refNoController.addListener(() {
+      ref
+          .read(expenseCartProvider.notifier)
+          .setRefNo(widget.refNoController.text);
+    });
+
+    widget.purchasedByController.addListener(() {
+      ref
+          .read(expenseCartProvider.notifier)
+          .setPurchasedBy(widget.purchasedByController.text);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final paymentModeState = ref.watch(paymentModeNotifierProvider);
     final cashLedgerState = ref.watch(cashLedgerNotifierProvider);
-    widget.expenseNoController.text =
-        ref.watch(expenseCartProvider).expenseNo ?? "";
-    widget.refNoController.text = ref.watch(expenseCartProvider).refNo ?? "";
-    widget.purchasedByController.text =
-        ref.watch(expenseCartProvider).purchasedBy ?? "";
+    ref.watch(expenseCartProvider).purchasedBy ?? "";
     return Column(
       children: [
         Row(
@@ -148,7 +160,7 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
                         final shouldFetchBank =
                             (newValue?.toLowerCase() == "bank" ||
                                 newValue?.toLowerCase() == "card" ||
-                                newValue?.toLowerCase() == "Credit");
+                                newValue?.toLowerCase() == "credit");
                         if (shouldFetchCash) {
                           widget.cashAccountNotifier.value = null;
                           ref
@@ -199,6 +211,12 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
                                     child: CircularProgressIndicator.adaptive(),
                                   ),
                               loaded: (ledgers) {
+                                final currentPaymentMode = widget
+                                    .paymentModeNotifier.value
+                                    ?.toLowerCase();
+                                if (currentPaymentMode == 'credit') {
+                                  return const SizedBox.shrink();
+                                }
                                 List<String> ledgerNames = [];
                                 ledgerNames = ledgers
                                     .map((ledger) => ledger.ledgerName ?? "")
@@ -210,8 +228,8 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
                                     widget.cashAccountNotifier.value =
                                         ledgerNames.first;
                                     ref
-                                        .read(cartProvider.notifier)
-                                        .setSalesAccount(ledgers.first);
+                                        .read(expenseCartProvider.notifier)
+                                        .setExpenseAccount(ledgers.first);
                                   });
                                 }
                                 return DropdownField(
@@ -238,7 +256,7 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
                                                     ?.toLowerCase() ==
                                                 newValue.toLowerCase());
                                         ref
-                                            .read(cartProvider.notifier)
+                                            .read(expenseCartProvider.notifier)
                                             .setCashAccount(cashLedger);
                                       }
                                     });
