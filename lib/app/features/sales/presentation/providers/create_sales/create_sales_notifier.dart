@@ -82,8 +82,7 @@ class CreateSalesNotifier extends StateNotifier<CreateSalesState> {
 
       result.fold(
         (l) => state = CreateSalesState.failure(l.message),
-        (r) =>
-            state = CreateSalesState.success(r.salesList?.first.saleIdpk ?? ""),
+        (r) => state = CreateSalesState.success(r.salesOrderIdpk ?? ""),
       );
     } catch (e) {
       state = CreateSalesState.failure(e.toString());

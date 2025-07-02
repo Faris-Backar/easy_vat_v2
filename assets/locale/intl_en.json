@@ -218,5 +218,6 @@
   "addNewSalesReturn": "Add New Sales Return",
   "privacyPolicy": "Privacy Policy",
   "whatIsMyCode": "What is my code?",
-  "quotationId": "Quotation ID"
+  "quotationId": "Quotation ID",
+  "salesOrderId": "Sales Order ID"
 }

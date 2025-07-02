@@ -14,6 +14,7 @@ import 'package:easy_vat_v2/app/features/sales/data/model/sales_quotation_model.
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_request_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_order_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_quotation_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_return_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/repositories/sales_repository.dart';
@@ -121,18 +122,17 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesInvoiceEntity>> getSalesOrders(
+  Future<Either<Failure, List<SalesOrderEntity>>> getSalesOrders(
       {required SalesParams salesOrderRequestParams}) async {
     try {
       final data = salesOrderRequestParams.toJson();
-      log("Date time => $data");
       final response = await client.post(
         UrlResources.getSalesOrder,
         data: data,
       );
       if (response.statusCode == 200) {
-        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
-        return Right(salesInvoiceList);
+        final salesOrderList = SalesOrderResponseModel.fromJson(response.data);
+        return Right(salesOrderList.salesOrder);
       }
       return Left(ServerFailure(message: ""));
     } on DioException catch (e) {
@@ -146,7 +146,7 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesInvoiceEntity>> createSalesOrders(
+  Future<Either<Failure, SalesOrderEntity>> createSalesOrders(
       {required SalesOrderModel salesOrderRequestParams}) async {
     try {
       final data = salesOrderRequestParams.toJson();
@@ -156,14 +156,11 @@ class SalesRepositoryImpl extends SalesRepository {
         UrlResources.createSalesOrder,
         data: data,
       );
-      if (response.statusCode == 200) {
-        final salesOrderResult = SalesInvoiceModel.fromJson(response.data);
-        if (salesOrderResult.status == true) {
-          return right(salesOrderResult);
-        }
-        return left(ServerFailure(message: salesOrderResult.message ?? ""));
+      if (response.statusCode == 200 && response.data["status"] == true) {
+        final salesOrderResult = SalesOrderModel.fromJson(response.data);
+        return right(salesOrderResult);
       }
-      return left(ServerFailure(message: ""));
+      return left(ServerFailure(message: response.data["message"]));
     } on DioException catch (e) {
       return left(ServerFailure(
           message: e.response?.statusMessage?.toString() ??
@@ -287,7 +284,7 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesInvoiceEntity>> deleteSalesOrders(
+  Future<Either<Failure, bool>> deleteSalesOrders(
       {required SalesOrderModel salesOrderRequestParams}) async {
     try {
       final data = salesOrderRequestParams.toJson();
@@ -295,11 +292,10 @@ class SalesRepositoryImpl extends SalesRepository {
         UrlResources.deleteSalesOrder,
         data: data,
       );
-      if (response.statusCode == 200) {
-        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
-        return right(salesInvoiceList);
+      if (response.statusCode == 200 && response.data["status"] == true) {
+        return right(true);
       }
-      return left(ServerFailure(message: ""));
+      return left(ServerFailure(message: response.data["message"]));
     } on DioException catch (e) {
       return left(ServerFailure(
           message: e.response?.statusMessage?.toString() ??
@@ -311,7 +307,7 @@ class SalesRepositoryImpl extends SalesRepository {
   }
 
   @override
-  Future<Either<Failure, SalesInvoiceEntity>> updateSalesOrders(
+  Future<Either<Failure, SalesOrderEntity>> updateSalesOrders(
       {required SalesOrderModel salesOrderRequestParams}) async {
     try {
       final data = salesOrderRequestParams.toJson();
@@ -320,8 +316,8 @@ class SalesRepositoryImpl extends SalesRepository {
         data: data,
       );
       if (response.statusCode == 200) {
-        final salesInvoiceList = SalesInvoiceModel.fromJson(response.data);
-        return right(salesInvoiceList);
+        final salesOrderList = SalesOrderModel.fromJson(response.data);
+        return right(salesOrderList);
       }
       return left(ServerFailure(message: ""));
     } on DioException catch (e) {

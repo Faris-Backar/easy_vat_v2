@@ -79,6 +79,9 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
           fetchFunction: (SalesParams params) => ref
               .read(salesQuotationNotifierProvider.notifier)
               .fetchSalesQuotation(params: params),
+          filterFunction: (SalesParams params) => ref
+              .read(salesQuotationNotifierProvider.notifier)
+              .fetchSalesQuotation(params: params),
         ),
       ),
       backgroundColor: context.surfaceColor,
@@ -166,30 +169,33 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
                           ),
                           Expanded(
                             child: _buildSlidingAction(
-                                color: AppUtils.isDarkMode(context)
-                                    ? CustomColors.getTransactionCardBlueColor(
-                                        context)
-                                    : CustomColors.getTransactionCardBlueColor(
-                                            context)
-                                        .withValues(alpha: .2),
-                                icon: Assets.icons.view,
-                                borderRadiusTopRight: 10.0,
-                                borderRadiusBottomRight: 10.0,
-                                iconColor: AppUtils.isDarkMode(context)
-                                    ? context.onPrimaryColor
-                                    : null,
-                                onTap: () async {
-                                  await ref
-                                      .read(salesProvider.notifier)
-                                      .reinsertSalesQuotationForm(
-                                          salesQuotation, ref);
-                                  if (mounted) {
-                                    context.router.push(AddNewSalesRoute(
+                              color: AppUtils.isDarkMode(context)
+                                  ? CustomColors.getTransactionCardBlueColor(
+                                      context)
+                                  : CustomColors.getTransactionCardBlueColor(
+                                          context)
+                                      .withValues(alpha: .2),
+                              icon: Assets.icons.view,
+                              borderRadiusTopRight: 10.0,
+                              borderRadiusBottomRight: 10.0,
+                              iconColor: AppUtils.isDarkMode(context)
+                                  ? context.onPrimaryColor
+                                  : null,
+                              onTap: () async {
+                                await ref
+                                    .read(salesProvider.notifier)
+                                    .reinsertSalesQuotationForm(
+                                        salesQuotation, ref);
+                                if (mounted) {
+                                  context.router.push(
+                                    AddNewSalesRoute(
                                       title: context.translate(
                                           AppStrings.addNewSalesQuatation),
-                                    ));
-                                  }
-                                }),
+                                    ),
+                                  );
+                                }
+                              },
+                            ),
                           ),
                         ],
                       ),
@@ -324,8 +330,8 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
     double? borderRadiusBottomLeft,
     double? borderRadiusBottomRight,
     double? width,
-    double? iconHeight, // Add this parameter
-    double? iconWidth, // Add this parameter
+    double? iconHeight,
+    double? iconWidth,
   }) {
     return InkWell(
       onTap: onTap,

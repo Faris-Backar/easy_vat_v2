@@ -217,5 +217,6 @@
   "addNewSalesReturn": "إضافة مرتجع مبيعات جديد",
   "privacyPolicy": "سياسة الخصوصية",
   "whatIsMyCode": "ما هو الرمز الخاص بي؟",
-  "quotationId": "رقم عرض السعر"
+  "quotationId": "رقم عرض السعر",
+  "salesOrderId": "معرّف أمر البيع"
 }

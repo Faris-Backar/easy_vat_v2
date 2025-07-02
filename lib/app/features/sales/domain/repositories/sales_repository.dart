@@ -5,6 +5,7 @@ import "package:easy_vat_v2/app/features/sales/data/model/sales_quotation_model.
 import "package:easy_vat_v2/app/features/sales/data/model/sales_request_model.dart";
 import "package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart";
 import "package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart";
+import "package:easy_vat_v2/app/features/sales/domain/entities/sales_order_entity.dart";
 import "package:easy_vat_v2/app/features/sales/domain/entities/sales_quotation_entity.dart";
 import "package:easy_vat_v2/app/features/sales/domain/entities/sales_return_entity.dart";
 import "package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart";
@@ -24,13 +25,13 @@ abstract class SalesRepository {
       {required String salesIdpk});
 
   //salesOrder
-  Future<Either<Failure, SalesInvoiceEntity>> getSalesOrders(
+  Future<Either<Failure, List<SalesOrderEntity>>> getSalesOrders(
       {required SalesParams salesOrderRequestParams});
-  Future<Either<Failure, SalesInvoiceEntity>> createSalesOrders(
+  Future<Either<Failure, SalesOrderEntity>> createSalesOrders(
       {required SalesOrderModel salesOrderRequestParams});
-  Future<Either<Failure, SalesInvoiceEntity>> updateSalesOrders(
+  Future<Either<Failure, SalesOrderEntity>> updateSalesOrders(
       {required SalesOrderModel salesOrderRequestParams});
-  Future<Either<Failure, SalesInvoiceEntity>> deleteSalesOrders(
+  Future<Either<Failure, bool>> deleteSalesOrders(
       {required SalesOrderModel salesOrderRequestParams});
 
 //salesReturn

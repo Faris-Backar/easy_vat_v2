@@ -40,6 +40,7 @@ class AppStrings {
   static const String vehicleRegistration = "vehicleRegistration";
   static const String salesQuotation = "salesQuotation";
   static const String salesOrder = "salesOrder";
+  static const String salesOrderId = "salesOrderId";
   static const String deliveryNote = "deliveryNote";
   static const String purchaseOrder = "purchaseOrder";
   static const String goodsReceipt = "goodsReciept";
