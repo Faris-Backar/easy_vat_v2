@@ -14,7 +14,9 @@ class JournalCartState with _$JournalCartState {
       String? journalNo,
       String? refNo,
       String? entryMode,
+      String? description,
       LedgerAccountEntity? allAccount,
+      LedgerAccountEntity? selectedLedger,
       bool? isForUpdate,
       DateTime? journalDate}) = _JournalCartState;
 
@@ -24,6 +26,8 @@ class JournalCartState with _$JournalCartState {
         crAmount: 0.0,
         ledgerList: null,
         journalNo: null,
+        description: null,
+        selectedLedger: null,
         journalDate: DateTime.now(),
         refNo: null,
         entryMode: null,

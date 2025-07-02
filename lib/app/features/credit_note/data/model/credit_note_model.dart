@@ -5,15 +5,15 @@ class CreditNoteModel extends CreditNoteEntity {
 
   factory CreditNoteModel.fromJson(Map<String, dynamic> json) =>
       CreditNoteModel(
-          creditNoteEntry: json["creditNote"] != null
-              ? List<CreditNoteEntryModel>.from(
-                  json["creditNote"].map((x) => CreditNoteModel.fromJson(x)))
+          creditNoteEntry: json["creditNoteEntry"] != null
+              ? List<CreditNoteEntryModel>.from(json["creditNoteEntry"]
+                  .map((x) => CreditNoteEntryModel.fromJson(x)))
               : []);
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "creditNote": List<CreditNoteModel>.from(
+        "creditNoteEntry": List<CreditNoteEntryModel>.from(
             (creditNoteEntry as List<CreditNoteEntryModel>?)
                     ?.map((x) => x.toJson()) ??
                 [])
@@ -24,12 +24,13 @@ class CreditNoteEntryModel extends CreditNoteEntryEntity {
   CreditNoteEntryModel({
     super.creditNoteIDPK,
     super.customerIDPK,
-    super.crLedgerIDPK,
-    super.drLedgerIDPK,
+    super.crLedgerIDFK,
+    super.drLedgerIDFK,
     super.creditNoteNo,
     super.referenceNo,
     super.creditNoteDate,
     super.paymentMode,
+    super.soldBy,
     super.description,
     super.totalAmount,
     super.remarks,
@@ -50,8 +51,8 @@ class CreditNoteEntryModel extends CreditNoteEntryEntity {
       CreditNoteEntryModel(
         creditNoteIDPK: json["creditNoteIDPK"],
         customerIDPK: json["customerIDPK"],
-        crLedgerIDPK: json["crLedgerIDPK"],
-        drLedgerIDPK: json["drLedgerIDPK"],
+        crLedgerIDFK: json["crLedgerIDFK"],
+        drLedgerIDFK: json["drLedgerIDFK"],
         creditNoteNo: json["creditNoteNo"],
         referenceNo: json["referenceNo"],
         creditNoteDate: json["creditNoteDate"] != null
@@ -59,6 +60,7 @@ class CreditNoteEntryModel extends CreditNoteEntryEntity {
             : null,
         description: json["description"],
         paymentMode: json["paymentMode"],
+        soldBy: json["soldBy"],
         totalAmount: json["totalAmount"] != null
             ? (json["totalAmount"] as num).toDouble()
             : null,
@@ -90,13 +92,14 @@ class CreditNoteEntryModel extends CreditNoteEntryEntity {
     return CreditNoteEntryModel(
       creditNoteIDPK: entity.creditNoteIDPK,
       customerIDPK: entity.customerIDPK,
-      crLedgerIDPK: entity.crLedgerIDPK,
-      drLedgerIDPK: entity.drLedgerIDPK,
+      crLedgerIDFK: entity.crLedgerIDFK,
+      drLedgerIDFK: entity.drLedgerIDFK,
       creditNoteNo: entity.creditNoteNo,
       referenceNo: entity.referenceNo,
       creditNoteDate: entity.creditNoteDate,
       description: entity.description,
       paymentMode: entity.paymentMode,
+      soldBy: entity.soldBy,
       totalAmount: entity.totalAmount,
       remarks: entity.remarks,
       isEditable: entity.isEditable,
@@ -120,13 +123,14 @@ class CreditNoteEntryModel extends CreditNoteEntryEntity {
   Map<String, dynamic> toJson() => {
         "creditNoteIDPK": creditNoteIDPK,
         "customerIDPK": customerIDPK,
-        "crLedgerIDPK": crLedgerIDPK,
-        "drLedgerIDPK": drLedgerIDPK,
+        "crLedgerIDFK": crLedgerIDFK,
+        "drLedgerIDFK": drLedgerIDFK,
         "creditNoteNo": creditNoteNo,
         "referenceNo": referenceNo,
         "creditNoteDate": creditNoteDate?.toIso8601String(),
         "description": description,
         "paymentMode": paymentMode,
+        "soldBy": soldBy,
         "totalAmount": totalAmount,
         "remarks": remarks,
         "isEditable": isEditable,

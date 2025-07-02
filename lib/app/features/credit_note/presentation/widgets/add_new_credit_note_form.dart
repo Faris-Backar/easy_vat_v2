@@ -1,7 +1,7 @@
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/income/presentation/providers/income_cart/income_cart_provider.dart';
+import 'package:easy_vat_v2/app/features/credit_note/presentation/providers/credit_note_cart/credit_note_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/customer_info_widget.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/data/model/payment_mode_model.dart';
@@ -38,13 +38,30 @@ class _AddNewCreditNoteFormState extends ConsumerState<AddNewCreditNoteForm> {
   @override
   void initState() {
     super.initState();
+
+    final cart = ref.read(creditNoteCartProvider);
+    widget.creditNoteNoController.text = cart.creditNoteNo ?? "";
+    widget.refNoController.text = cart.refNo ?? "";
+    widget.soldByController.text = cart.soldBy ?? "";
+
+    widget.refNoController.addListener(() {
+      ref
+          .read(creditNoteCartProvider.notifier)
+          .setRefNo(widget.refNoController.text);
+    });
+
+    widget.soldByController.addListener(() {
+      ref
+          .read(creditNoteCartProvider.notifier)
+          .setSoldBy(widget.soldByController.text);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     final paymentModeState = ref.watch(paymentModeNotifierProvider);
     final cashLedgerState = ref.watch(cashLedgerNotifierProvider);
-    ref.watch(incomeCartProvider).soldBy ?? ""; // need to change
+    ref.watch(creditNoteCartProvider).soldBy ?? "";
     return Column(
       children: [
         Row(
@@ -88,7 +105,10 @@ class _AddNewCreditNoteFormState extends ConsumerState<AddNewCreditNoteForm> {
                     builder: (context, ref, child) {
                       return DatePickerTextField(
                         label: context.translate(AppStrings.date),
-                        onDateSelected: (date) {
+                        onDateSelected: (data) {
+                          ref
+                              .read(creditNoteCartProvider.notifier)
+                              .setCreditNoteDate(data);
                           // credit note date
                         },
                         labelAndTextfieldGap: 2,
@@ -203,8 +223,8 @@ class _AddNewCreditNoteFormState extends ConsumerState<AddNewCreditNoteForm> {
                                   widget.cashAccountNotifier.value =
                                       ledgerNames.first;
                                   ref
-                                      .read(incomeCartProvider.notifier)
-                                      .setIncomeAccount(ledgers.first);
+                                      .read(creditNoteCartProvider.notifier)
+                                      .setAllAccount(ledgers.first);
                                 });
                               }
                               return DropdownField(
@@ -228,9 +248,8 @@ class _AddNewCreditNoteFormState extends ConsumerState<AddNewCreditNoteForm> {
                                                   ?.toLowerCase() ==
                                               newValue.toLowerCase());
                                       ref
-                                          .read(incomeCartProvider.notifier)
-                                          .setIncomeAccount(
-                                              cashledger); // need to confirm
+                                          .read(creditNoteCartProvider.notifier)
+                                          .setAllAccount(cashledger);
                                     }
                                   });
                             },
@@ -293,10 +312,8 @@ class _AddNewCreditNoteFormState extends ConsumerState<AddNewCreditNoteForm> {
   }
 
   void _getDefaultSelection(List<PaymentModeModel> paymentModes) {
-    final currentPaymentMode = ref
-        .read(incomeCartProvider.notifier)
-        .paymentMode
-        .toLowerCase(); // need to change
+    final currentPaymentMode =
+        ref.read(creditNoteCartProvider.notifier).paymentMode.toLowerCase();
     final selectedMode = paymentModes.firstWhere(
       (mode) => currentPaymentMode.isNotEmpty
           ? mode.paymentModes.toLowerCase() == currentPaymentMode
@@ -306,9 +323,8 @@ class _AddNewCreditNoteFormState extends ConsumerState<AddNewCreditNoteForm> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final selectedValue = selectedMode.paymentModes;
-      ref
-          .read(incomeCartProvider.notifier)
-          .setPaymentMode(selectedValue); // need to change
+      ref.read(creditNoteCartProvider.notifier).setPaymentMode(selectedValue);
+      widget.paymentModeNotifier.value = selectedValue;
 
       final selectedLower = selectedValue.toLowerCase();
       if (selectedLower == "cash") {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
@@ -21,10 +23,13 @@ class DebitNoteRepositoryImpl extends DebitNoteRepository {
       {required DebitNoteParams debitNoteRequestParams}) async {
     try {
       final data = debitNoteRequestParams.toJson();
+      log("Error: $data");
       final response =
           await client.post(UrlResources.getDebitNoteEntry, data: data);
+      log("Error: $response");
       if (response.statusCode == 200) {
         final debitNoteList = DebitNoteModel.fromJson(response.data);
+        log("Error: $response");
         return Right(debitNoteList);
       }
       return Left(ServerFailure(message: ""));

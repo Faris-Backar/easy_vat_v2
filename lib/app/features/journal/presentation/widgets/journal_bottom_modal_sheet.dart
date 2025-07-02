@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/widgets/income_ledger_details_card.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/widgets/journal_add_dialog.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/all_ledgers/all_ledgers_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -15,7 +17,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class JournalBottomModalSheet extends ConsumerStatefulWidget {
-  const JournalBottomModalSheet({super.key});
+  final LedgerAccountEntity? ledger;
+  const JournalBottomModalSheet({
+    super.key,
+    this.ledger,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -131,10 +137,20 @@ class _JournalBottomModalSheetState
           onTap: () {
             if ((ledgerList[index].isActive ?? false)) {
               journalDetailsExpansionNotifier.value = index;
+              showDialog(
+                  context: context,
+                  builder: (context) => JournalAddDialog(
+                        ledger: ledgerList[index],
+                      ));
             } else {
               AppUtils.showToast(context, AppStrings.ledgerCurrentlyNotActive);
             }
           },
+          child: ValueListenableBuilder(
+              valueListenable: journalDetailsExpansionNotifier,
+              builder: (context, value, child) {
+                return IncomeLedgerDetailsCard(ledger: ledgerList[index]);
+              }),
         ),
       ),
     );
@@ -158,7 +174,9 @@ class _JournalBottomModalSheetState
   }
 }
 
-Future<void> showLedgerBottomSheet(BuildContext context) async {
+Future<void> showLedgerBottomSheet(
+  BuildContext context,
+) async {
   await showModalBottomSheet(
       context: context,
       isScrollControlled: true,

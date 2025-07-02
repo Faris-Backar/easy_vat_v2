@@ -1,12 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/credit_note/domain/usecase/params/credit_note_filter_params.dart';
+import 'package:easy_vat_v2/app/features/credit_note/domain/usecase/params/credit_note_params.dart';
+import 'package:easy_vat_v2/app/features/credit_note/presentation/providers/credit_note/credit_note_notifier.dart';
+import 'package:easy_vat_v2/app/features/credit_note/presentation/providers/credit_note_cart/credit_note_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/filter_widget.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_selector_widget.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
 import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
+import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
@@ -32,6 +39,8 @@ class CreditNoteAppbar extends ConsumerStatefulWidget
 class CreditNoteAppBarConfig {
   final String title;
   final Future<bool> Function()? onWillPop;
+  final Future<void> Function(CreditNoteParams params)? fetchFunction;
+  final Future<void> Function(CreditNoteFilterParams params)? filterFunction;
   final List<PopupMenuEntry<String>>? additionalPopupMenuItems;
   final bool showDateRangePicker;
   final bool showSearchBar;
@@ -40,6 +49,8 @@ class CreditNoteAppBarConfig {
   const CreditNoteAppBarConfig({
     this.title = "",
     this.onWillPop,
+    this.fetchFunction,
+    this.filterFunction,
     this.additionalPopupMenuItems,
     this.showDateRangePicker = true,
     this.showSearchBar = true,
@@ -49,6 +60,8 @@ class CreditNoteAppBarConfig {
 
 class _CreditNoteAppBarState extends ConsumerState<CreditNoteAppbar> {
   late final ValueNotifier<bool> isSearchNotEmpty;
+  final ValueNotifier<int?> creditNoteNoNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> customerNotifier = ValueNotifier(null);
   final ValueNotifier<String?> paymentMethodNotifier = ValueNotifier(null);
 
   @override
@@ -71,10 +84,28 @@ class _CreditNoteAppBarState extends ConsumerState<CreditNoteAppbar> {
     super.dispose();
   }
 
+  Future<void> _defaultFetchCreditNote() async {
+    final dateRange = ref.read(dateRangeProvider);
+    final params = CreditNoteParams(
+        creditNoteIDPK: PrefResources.emptyGuid,
+        fromDate: dateRange.fromDate,
+        toDate: dateRange.toDate,
+        customerID: PrefResources.emptyGuid);
+
+    if (widget.config.fetchFunction != null) {
+      await widget.config.fetchFunction!(params);
+    } else {
+      await ref
+          .read(creditNoteNotifierProvider.notifier)
+          .fetchCreditNote(params: params);
+    }
+  }
+
   _buidlFilterBottomSheet(BuildContext context) {
     final paymentModeState = ref.read(paymentModeNotifierProvider);
     return showModalBottomSheet(
         context: context,
+        backgroundColor: context.colorScheme.tertiaryContainer,
         builder: (context) => Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -89,7 +120,15 @@ class _CreditNoteAppBarState extends ConsumerState<CreditNoteAppbar> {
                             ?.copyWith(fontWeight: FontWeight.w700),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          if (widget.config.filterFunction != null) {
+                            widget.config.filterFunction!(
+                                CreditNoteFilterParams(clearAllFilter: true));
+                          } else {
+                            paymentMethodNotifier.value = null;
+                          }
+                          context.router.popForced();
+                        },
                         child: Text(
                           context.translate(AppStrings.clearAll),
                           style: context.textTheme.bodySmall?.copyWith(
@@ -135,7 +174,58 @@ class _CreditNoteAppBarState extends ConsumerState<CreditNoteAppbar> {
                       SizedBox(
                         width: 12.w,
                       ),
+                      Expanded(
+                          child: paymentModeState.when(
+                              initial: () => const SizedBox.shrink(),
+                              loading: () => Center(
+                                    child: CircularProgressIndicator.adaptive(),
+                                  ),
+                              error: (message) => Text("Error: $message"),
+                              loaded: (paymentModes, selectedPaymentMode) {
+                                return DropdownField(
+                                    label: context.translate(AppStrings.soldBy),
+                                    valueNotifier: paymentMethodNotifier,
+                                    items: paymentModes
+                                        .map((mode) => mode.paymentModes)
+                                        .toList(),
+                                    onChanged: (newValue) {
+                                      paymentMethodNotifier.value = newValue;
+                                    });
+                              }))
                     ],
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  Row(
+                    children: [Expanded(child: CustomerSelectorWidget())],
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: PrimaryButton(
+                      label: context.translate(AppStrings.filter),
+                      onPressed: () {
+                        final params = CreditNoteParams(
+                            fromDate: ref.read(dateRangeProvider).fromDate,
+                            toDate: ref.read(dateRangeProvider).toDate,
+                            customerID: ref
+                                .read(creditNoteCartProvider.notifier)
+                                .selectedCustomer
+                                ?.ledgerIdpk,
+                            paymentMode: paymentMethodNotifier.value);
+
+                        if (widget.config.filterFunction != null) {
+                        } else {
+                          ref
+                              .read(creditNoteNotifierProvider.notifier)
+                              .fetchCreditNote(params: params);
+                        }
+                        context.router.popForced();
+                      },
+                    ),
                   )
                 ],
               ),
@@ -223,7 +313,7 @@ class _CreditNoteAppBarState extends ConsumerState<CreditNoteAppbar> {
                         ),
                         InkWell(
                           onTap: () {
-                            // fetch func
+                            _defaultFetchCreditNote(); // fetch func
                           },
                           child: Container(
                             height: 36.h,
@@ -298,8 +388,11 @@ class _CreditNoteAppBarState extends ConsumerState<CreditNoteAppbar> {
                           fontWeight: FontWeight.w500,
                           color:
                               context.defaultTextColor.withValues(alpha: 0.32)),
-                      onChanged:
-                          (value) {}, // CreditNote Notifier provider and search creditNote
+                      onChanged: (value) {
+                        ref
+                            .read(creditNoteNotifierProvider.notifier)
+                            .searchCreditNote(value);
+                      }, // CreditNote Notifier provider and search creditNote
                       suffixIcon: hasText
                           ? Padding(
                               padding: const EdgeInsets.all(12.0),

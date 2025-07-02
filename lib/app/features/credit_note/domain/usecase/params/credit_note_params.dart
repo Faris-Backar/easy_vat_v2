@@ -7,10 +7,12 @@ class CreditNoteParams {
   final String? creditNoteIDPK;
   final DateTime fromDate;
   final DateTime toDate;
+  final String? paymentMode;
   final String? customerID;
   CreditNoteParams(
       {this.creditNoteIDPK,
       required this.fromDate,
+      this.paymentMode,
       required this.toDate,
       this.customerID});
 
@@ -22,7 +24,9 @@ class CreditNoteParams {
     return {
       "creditNoteIDPK": creditNoteIDPK ?? PrefResources.emptyGuid,
       "fromDate": _formateDate(fromDate),
-      "toDate": _formateDate(toDate)
+      "toDate": _formateDate(toDate),
+      "paymentMode": paymentMode,
+      "customerID": customerID
     };
   }
 

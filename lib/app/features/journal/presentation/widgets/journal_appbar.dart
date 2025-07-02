@@ -1,12 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/filter_widget.dart';
-import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
+import 'package:easy_vat_v2/app/features/journal/domain/usecase/params/journal_filter_params.dart';
+import 'package:easy_vat_v2/app/features/journal/domain/usecase/params/journal_params.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/journal/journal_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
-import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
+import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
@@ -32,6 +35,8 @@ class JournalAppbar extends ConsumerStatefulWidget
 class JournalAppBarConfig {
   final String title;
   final Future<bool> Function()? onWillPop;
+  final Future<void> Function(JournalParams params)? fetchFunction;
+  final Future<void> Function(JournalFilterParams params)? filterFunction;
   final List<PopupMenuEntry<String>>? additionalPopupMenuItems;
   final bool showDateRangePicker;
   final bool showSearchBar;
@@ -40,6 +45,8 @@ class JournalAppBarConfig {
   const JournalAppBarConfig({
     this.title = "",
     this.onWillPop,
+    this.fetchFunction,
+    this.filterFunction,
     this.additionalPopupMenuItems,
     this.showDateRangePicker = true,
     this.showSearchBar = true,
@@ -49,6 +56,8 @@ class JournalAppBarConfig {
 
 class _JournalAppBarState extends ConsumerState<JournalAppbar> {
   late final ValueNotifier<bool> isSearchNotEmpty;
+  final ValueNotifier<int?> journalNoNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> entryModeNotifier = ValueNotifier(null);
   final ValueNotifier<String?> paymentMethodNotifier = ValueNotifier(null);
 
   @override
@@ -71,8 +80,23 @@ class _JournalAppBarState extends ConsumerState<JournalAppbar> {
     super.dispose();
   }
 
+  Future<void> _defaultFetchJournal() async {
+    final dateRange = ref.read(dateRangeProvider);
+    final params = JournalParams(
+        journalIDPK: PrefResources.emptyGuid,
+        fromDate: dateRange.fromDate,
+        toDate: dateRange.toDate);
+
+    if (widget.config.fetchFunction != null) {
+      await widget.config.fetchFunction!(params);
+    } else {
+      await ref
+          .read(journalNotifierProvider.notifier)
+          .fetchJournal(params: params);
+    }
+  }
+
   _buidlFilterBottomSheet(BuildContext context) {
-    final paymentModeState = ref.read(paymentModeNotifierProvider);
     return showModalBottomSheet(
         context: context,
         builder: (context) => Padding(
@@ -89,7 +113,15 @@ class _JournalAppBarState extends ConsumerState<JournalAppbar> {
                             ?.copyWith(fontWeight: FontWeight.w700),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          if (widget.config.filterFunction != null) {
+                            widget.config.filterFunction!(
+                                JournalFilterParams(clearAllFilter: true));
+                          } else {
+                            paymentMethodNotifier.value = null;
+                          }
+                          context.router.popForced();
+                        },
                         child: Text(
                           context.translate(AppStrings.clearAll),
                           style: context.textTheme.bodySmall?.copyWith(
@@ -108,34 +140,56 @@ class _JournalAppBarState extends ConsumerState<JournalAppbar> {
                   ),
                   Row(
                     children: [
-                      Expanded(
-                        child: paymentModeState.when(
-                          initial: () => SizedBox.shrink(),
-                          loading: () => Center(
-                            child: CircularProgressIndicator.adaptive(),
-                          ),
-                          error: (message) => Text("Error: $message"),
-                          loaded: (paymentModes, selectedPaymentMode) {
-                            return DropdownField(
-                                label:
-                                    context.translate(AppStrings.paymentMode),
-                                valueNotifier: paymentMethodNotifier,
-                                items: paymentModes
-                                    .map((mode) => mode.paymentModes)
-                                    .toList(),
-                                backgroundColor: AppUtils.isDarkMode(context)
-                                    ? context.colorScheme.tertiaryContainer
-                                    : context.surfaceColor,
-                                onChanged: (newValue) {
-                                  paymentMethodNotifier.value = newValue;
-                                });
-                          },
-                        ),
-                      ),
+                      // Expanded(
+                      //   child: paymentModeState.when(
+                      //     initial: () => SizedBox.shrink(),
+                      //     loading: () => Center(
+                      //       child: CircularProgressIndicator.adaptive(),
+                      //     ),
+                      //     error: (message) => Text("Error: $message"),
+                      //     loaded: (paymentModes, selectedPaymentMode) {
+                      //       return DropdownField(
+                      //           label:
+                      //               context.translate(AppStrings.paymentMode),
+                      //           valueNotifier: paymentMethodNotifier,
+                      //           items: paymentModes
+                      //               .map((mode) => mode.paymentModes)
+                      //               .toList(),
+                      //           backgroundColor: AppUtils.isDarkMode(context)
+                      //               ? context.colorScheme.tertiaryContainer
+                      //               : context.surfaceColor,
+                      //           onChanged: (newValue) {
+                      //             paymentMethodNotifier.value = newValue;
+                      //           });
+                      //     },
+                      //   ),
+                      // ),
                       SizedBox(
                         width: 12.w,
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: PrimaryButton(
+                      label: context.translate(AppStrings.filter),
+                      onPressed: () {
+                        final params = JournalParams(
+                            fromDate: ref.read(dateRangeProvider).fromDate,
+                            toDate: ref.read(dateRangeProvider).toDate);
+
+                        if (widget.config.filterFunction != null) {
+                        } else {
+                          ref
+                              .read(journalNotifierProvider.notifier)
+                              .fetchJournal(params: params);
+                        }
+                        context.router.popForced();
+                      },
+                    ),
                   )
                 ],
               ),
@@ -222,9 +276,7 @@ class _JournalAppBarState extends ConsumerState<JournalAppbar> {
                           width: 10.w,
                         ),
                         InkWell(
-                          onTap: () {
-                            // fetch func
-                          },
+                          onTap: _defaultFetchJournal,
                           child: Container(
                             height: 36.h,
                             width: 41.w,
@@ -298,8 +350,10 @@ class _JournalAppBarState extends ConsumerState<JournalAppbar> {
                           fontWeight: FontWeight.w500,
                           color:
                               context.defaultTextColor.withValues(alpha: 0.32)),
-                      onChanged:
-                          (value) {}, // Journal Notifier provider and search journal
+                      onChanged: (value) => ref
+                          .read(journalNotifierProvider.notifier)
+                          .searchJournal(
+                              value), // Journal Notifier provider and search journal
                       suffixIcon: hasText
                           ? Padding(
                               padding: const EdgeInsets.all(12.0),

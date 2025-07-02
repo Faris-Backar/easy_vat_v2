@@ -23,7 +23,9 @@ mixin _$JournalCartState {
   String? get journalNo => throw _privateConstructorUsedError;
   String? get refNo => throw _privateConstructorUsedError;
   String? get entryMode => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   LedgerAccountEntity? get allAccount => throw _privateConstructorUsedError;
+  LedgerAccountEntity? get selectedLedger => throw _privateConstructorUsedError;
   bool? get isForUpdate => throw _privateConstructorUsedError;
   DateTime? get journalDate => throw _privateConstructorUsedError;
 
@@ -48,7 +50,9 @@ abstract class $JournalCartStateCopyWith<$Res> {
       String? journalNo,
       String? refNo,
       String? entryMode,
+      String? description,
       LedgerAccountEntity? allAccount,
+      LedgerAccountEntity? selectedLedger,
       bool? isForUpdate,
       DateTime? journalDate});
 }
@@ -75,7 +79,9 @@ class _$JournalCartStateCopyWithImpl<$Res, $Val extends JournalCartState>
     Object? journalNo = freezed,
     Object? refNo = freezed,
     Object? entryMode = freezed,
+    Object? description = freezed,
     Object? allAccount = freezed,
+    Object? selectedLedger = freezed,
     Object? isForUpdate = freezed,
     Object? journalDate = freezed,
   }) {
@@ -108,9 +114,17 @@ class _$JournalCartStateCopyWithImpl<$Res, $Val extends JournalCartState>
           ? _value.entryMode
           : entryMode // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
       allAccount: freezed == allAccount
           ? _value.allAccount
           : allAccount // ignore: cast_nullable_to_non_nullable
+              as LedgerAccountEntity?,
+      selectedLedger: freezed == selectedLedger
+          ? _value.selectedLedger
+          : selectedLedger // ignore: cast_nullable_to_non_nullable
               as LedgerAccountEntity?,
       isForUpdate: freezed == isForUpdate
           ? _value.isForUpdate
@@ -140,7 +154,9 @@ abstract class _$$JournalCartStateImplCopyWith<$Res>
       String? journalNo,
       String? refNo,
       String? entryMode,
+      String? description,
       LedgerAccountEntity? allAccount,
+      LedgerAccountEntity? selectedLedger,
       bool? isForUpdate,
       DateTime? journalDate});
 }
@@ -165,7 +181,9 @@ class __$$JournalCartStateImplCopyWithImpl<$Res>
     Object? journalNo = freezed,
     Object? refNo = freezed,
     Object? entryMode = freezed,
+    Object? description = freezed,
     Object? allAccount = freezed,
+    Object? selectedLedger = freezed,
     Object? isForUpdate = freezed,
     Object? journalDate = freezed,
   }) {
@@ -198,9 +216,17 @@ class __$$JournalCartStateImplCopyWithImpl<$Res>
           ? _value.entryMode
           : entryMode // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
       allAccount: freezed == allAccount
           ? _value.allAccount
           : allAccount // ignore: cast_nullable_to_non_nullable
+              as LedgerAccountEntity?,
+      selectedLedger: freezed == selectedLedger
+          ? _value.selectedLedger
+          : selectedLedger // ignore: cast_nullable_to_non_nullable
               as LedgerAccountEntity?,
       isForUpdate: freezed == isForUpdate
           ? _value.isForUpdate
@@ -225,7 +251,9 @@ class _$JournalCartStateImpl implements _JournalCartState {
       this.journalNo,
       this.refNo,
       this.entryMode,
+      this.description,
       this.allAccount,
+      this.selectedLedger,
       this.isForUpdate,
       this.journalDate})
       : _ledgerList = ledgerList;
@@ -253,7 +281,11 @@ class _$JournalCartStateImpl implements _JournalCartState {
   @override
   final String? entryMode;
   @override
+  final String? description;
+  @override
   final LedgerAccountEntity? allAccount;
+  @override
+  final LedgerAccountEntity? selectedLedger;
   @override
   final bool? isForUpdate;
   @override
@@ -261,7 +293,7 @@ class _$JournalCartStateImpl implements _JournalCartState {
 
   @override
   String toString() {
-    return 'JournalCartState(ledgerList: $ledgerList, totalAmount: $totalAmount, drAmount: $drAmount, crAmount: $crAmount, journalNo: $journalNo, refNo: $refNo, entryMode: $entryMode, allAccount: $allAccount, isForUpdate: $isForUpdate, journalDate: $journalDate)';
+    return 'JournalCartState(ledgerList: $ledgerList, totalAmount: $totalAmount, drAmount: $drAmount, crAmount: $crAmount, journalNo: $journalNo, refNo: $refNo, entryMode: $entryMode, description: $description, allAccount: $allAccount, selectedLedger: $selectedLedger, isForUpdate: $isForUpdate, journalDate: $journalDate)';
   }
 
   @override
@@ -282,8 +314,12 @@ class _$JournalCartStateImpl implements _JournalCartState {
             (identical(other.refNo, refNo) || other.refNo == refNo) &&
             (identical(other.entryMode, entryMode) ||
                 other.entryMode == entryMode) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.allAccount, allAccount) ||
                 other.allAccount == allAccount) &&
+            (identical(other.selectedLedger, selectedLedger) ||
+                other.selectedLedger == selectedLedger) &&
             (identical(other.isForUpdate, isForUpdate) ||
                 other.isForUpdate == isForUpdate) &&
             (identical(other.journalDate, journalDate) ||
@@ -300,7 +336,9 @@ class _$JournalCartStateImpl implements _JournalCartState {
       journalNo,
       refNo,
       entryMode,
+      description,
       allAccount,
+      selectedLedger,
       isForUpdate,
       journalDate);
 
@@ -323,7 +361,9 @@ abstract class _JournalCartState implements JournalCartState {
       final String? journalNo,
       final String? refNo,
       final String? entryMode,
+      final String? description,
       final LedgerAccountEntity? allAccount,
+      final LedgerAccountEntity? selectedLedger,
       final bool? isForUpdate,
       final DateTime? journalDate}) = _$JournalCartStateImpl;
 
@@ -342,7 +382,11 @@ abstract class _JournalCartState implements JournalCartState {
   @override
   String? get entryMode;
   @override
+  String? get description;
+  @override
   LedgerAccountEntity? get allAccount;
+  @override
+  LedgerAccountEntity? get selectedLedger;
   @override
   bool? get isForUpdate;
   @override

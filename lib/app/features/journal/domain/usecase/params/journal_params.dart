@@ -7,13 +7,12 @@ class JournalParams {
   final String? journalIDPK;
   final DateTime fromDate;
   final DateTime toDate;
-  final String? entryMode;
 
-  JournalParams(
-      {this.journalIDPK,
-      required this.fromDate,
-      required this.toDate,
-      this.entryMode});
+  JournalParams({
+    this.journalIDPK,
+    required this.fromDate,
+    required this.toDate,
+  });
 
   String _formateDate(DateTime date) {
     return DateFormat("yyyy-MM-dd").format(date.toUtc());
@@ -24,7 +23,6 @@ class JournalParams {
       "journalIDPK": journalIDPK ?? PrefResources.emptyGuid,
       "fromDate": _formateDate(fromDate),
       "toDate": _formateDate(toDate),
-      "entryMode": entryMode
     };
   }
 

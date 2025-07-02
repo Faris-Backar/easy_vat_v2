@@ -23,12 +23,14 @@ DebitNoteRequestModel _$DebitNoteRequestModelFromJson(
 mixin _$DebitNoteRequestModel {
   String? get debitNoteIDPK => throw _privateConstructorUsedError;
   String? get supplierIDPK => throw _privateConstructorUsedError;
-  String? get crLedgerIDPK => throw _privateConstructorUsedError;
-  String? get drLedgerIDPK => throw _privateConstructorUsedError;
+  String? get crLedgerIDFK => throw _privateConstructorUsedError;
+  String? get drLedgerIDFK => throw _privateConstructorUsedError;
   int? get debitNoteNo => throw _privateConstructorUsedError;
   String? get referenceNo => throw _privateConstructorUsedError;
+  String? get supplierReferenceNo => throw _privateConstructorUsedError;
   DateTime? get debitNoteDate => throw _privateConstructorUsedError;
   String? get paymentMode => throw _privateConstructorUsedError;
+  String? get purchasedBy => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   double? get totalAmount => throw _privateConstructorUsedError;
   String? get remarks => throw _privateConstructorUsedError;
@@ -41,7 +43,7 @@ mixin _$DebitNoteRequestModel {
   String? get rowguid => throw _privateConstructorUsedError;
   String? get companyIDPK => throw _privateConstructorUsedError;
   String? get supplierName => throw _privateConstructorUsedError;
-  double? get customerBalance => throw _privateConstructorUsedError;
+  double? get supplierBalance => throw _privateConstructorUsedError;
   List<DebitNoteEntryDetails>? get debitNoteEntryDetails =>
       throw _privateConstructorUsedError;
 
@@ -64,12 +66,14 @@ abstract class $DebitNoteRequestModelCopyWith<$Res> {
   $Res call(
       {String? debitNoteIDPK,
       String? supplierIDPK,
-      String? crLedgerIDPK,
-      String? drLedgerIDPK,
+      String? crLedgerIDFK,
+      String? drLedgerIDFK,
       int? debitNoteNo,
       String? referenceNo,
+      String? supplierReferenceNo,
       DateTime? debitNoteDate,
       String? paymentMode,
+      String? purchasedBy,
       String? description,
       double? totalAmount,
       String? remarks,
@@ -82,7 +86,7 @@ abstract class $DebitNoteRequestModelCopyWith<$Res> {
       String? rowguid,
       String? companyIDPK,
       String? supplierName,
-      double? customerBalance,
+      double? supplierBalance,
       List<DebitNoteEntryDetails>? debitNoteEntryDetails});
 }
 
@@ -104,12 +108,14 @@ class _$DebitNoteRequestModelCopyWithImpl<$Res,
   $Res call({
     Object? debitNoteIDPK = freezed,
     Object? supplierIDPK = freezed,
-    Object? crLedgerIDPK = freezed,
-    Object? drLedgerIDPK = freezed,
+    Object? crLedgerIDFK = freezed,
+    Object? drLedgerIDFK = freezed,
     Object? debitNoteNo = freezed,
     Object? referenceNo = freezed,
+    Object? supplierReferenceNo = freezed,
     Object? debitNoteDate = freezed,
     Object? paymentMode = freezed,
+    Object? purchasedBy = freezed,
     Object? description = freezed,
     Object? totalAmount = freezed,
     Object? remarks = freezed,
@@ -122,7 +128,7 @@ class _$DebitNoteRequestModelCopyWithImpl<$Res,
     Object? rowguid = freezed,
     Object? companyIDPK = freezed,
     Object? supplierName = freezed,
-    Object? customerBalance = freezed,
+    Object? supplierBalance = freezed,
     Object? debitNoteEntryDetails = freezed,
   }) {
     return _then(_value.copyWith(
@@ -134,13 +140,13 @@ class _$DebitNoteRequestModelCopyWithImpl<$Res,
           ? _value.supplierIDPK
           : supplierIDPK // ignore: cast_nullable_to_non_nullable
               as String?,
-      crLedgerIDPK: freezed == crLedgerIDPK
-          ? _value.crLedgerIDPK
-          : crLedgerIDPK // ignore: cast_nullable_to_non_nullable
+      crLedgerIDFK: freezed == crLedgerIDFK
+          ? _value.crLedgerIDFK
+          : crLedgerIDFK // ignore: cast_nullable_to_non_nullable
               as String?,
-      drLedgerIDPK: freezed == drLedgerIDPK
-          ? _value.drLedgerIDPK
-          : drLedgerIDPK // ignore: cast_nullable_to_non_nullable
+      drLedgerIDFK: freezed == drLedgerIDFK
+          ? _value.drLedgerIDFK
+          : drLedgerIDFK // ignore: cast_nullable_to_non_nullable
               as String?,
       debitNoteNo: freezed == debitNoteNo
           ? _value.debitNoteNo
@@ -150,6 +156,10 @@ class _$DebitNoteRequestModelCopyWithImpl<$Res,
           ? _value.referenceNo
           : referenceNo // ignore: cast_nullable_to_non_nullable
               as String?,
+      supplierReferenceNo: freezed == supplierReferenceNo
+          ? _value.supplierReferenceNo
+          : supplierReferenceNo // ignore: cast_nullable_to_non_nullable
+              as String?,
       debitNoteDate: freezed == debitNoteDate
           ? _value.debitNoteDate
           : debitNoteDate // ignore: cast_nullable_to_non_nullable
@@ -157,6 +167,10 @@ class _$DebitNoteRequestModelCopyWithImpl<$Res,
       paymentMode: freezed == paymentMode
           ? _value.paymentMode
           : paymentMode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      purchasedBy: freezed == purchasedBy
+          ? _value.purchasedBy
+          : purchasedBy // ignore: cast_nullable_to_non_nullable
               as String?,
       description: freezed == description
           ? _value.description
@@ -206,9 +220,9 @@ class _$DebitNoteRequestModelCopyWithImpl<$Res,
           ? _value.supplierName
           : supplierName // ignore: cast_nullable_to_non_nullable
               as String?,
-      customerBalance: freezed == customerBalance
-          ? _value.customerBalance
-          : customerBalance // ignore: cast_nullable_to_non_nullable
+      supplierBalance: freezed == supplierBalance
+          ? _value.supplierBalance
+          : supplierBalance // ignore: cast_nullable_to_non_nullable
               as double?,
       debitNoteEntryDetails: freezed == debitNoteEntryDetails
           ? _value.debitNoteEntryDetails
@@ -230,12 +244,14 @@ abstract class _$$DebitNoteRequestModelImplCopyWith<$Res>
   $Res call(
       {String? debitNoteIDPK,
       String? supplierIDPK,
-      String? crLedgerIDPK,
-      String? drLedgerIDPK,
+      String? crLedgerIDFK,
+      String? drLedgerIDFK,
       int? debitNoteNo,
       String? referenceNo,
+      String? supplierReferenceNo,
       DateTime? debitNoteDate,
       String? paymentMode,
+      String? purchasedBy,
       String? description,
       double? totalAmount,
       String? remarks,
@@ -248,7 +264,7 @@ abstract class _$$DebitNoteRequestModelImplCopyWith<$Res>
       String? rowguid,
       String? companyIDPK,
       String? supplierName,
-      double? customerBalance,
+      double? supplierBalance,
       List<DebitNoteEntryDetails>? debitNoteEntryDetails});
 }
 
@@ -268,12 +284,14 @@ class __$$DebitNoteRequestModelImplCopyWithImpl<$Res>
   $Res call({
     Object? debitNoteIDPK = freezed,
     Object? supplierIDPK = freezed,
-    Object? crLedgerIDPK = freezed,
-    Object? drLedgerIDPK = freezed,
+    Object? crLedgerIDFK = freezed,
+    Object? drLedgerIDFK = freezed,
     Object? debitNoteNo = freezed,
     Object? referenceNo = freezed,
+    Object? supplierReferenceNo = freezed,
     Object? debitNoteDate = freezed,
     Object? paymentMode = freezed,
+    Object? purchasedBy = freezed,
     Object? description = freezed,
     Object? totalAmount = freezed,
     Object? remarks = freezed,
@@ -286,7 +304,7 @@ class __$$DebitNoteRequestModelImplCopyWithImpl<$Res>
     Object? rowguid = freezed,
     Object? companyIDPK = freezed,
     Object? supplierName = freezed,
-    Object? customerBalance = freezed,
+    Object? supplierBalance = freezed,
     Object? debitNoteEntryDetails = freezed,
   }) {
     return _then(_$DebitNoteRequestModelImpl(
@@ -298,13 +316,13 @@ class __$$DebitNoteRequestModelImplCopyWithImpl<$Res>
           ? _value.supplierIDPK
           : supplierIDPK // ignore: cast_nullable_to_non_nullable
               as String?,
-      crLedgerIDPK: freezed == crLedgerIDPK
-          ? _value.crLedgerIDPK
-          : crLedgerIDPK // ignore: cast_nullable_to_non_nullable
+      crLedgerIDFK: freezed == crLedgerIDFK
+          ? _value.crLedgerIDFK
+          : crLedgerIDFK // ignore: cast_nullable_to_non_nullable
               as String?,
-      drLedgerIDPK: freezed == drLedgerIDPK
-          ? _value.drLedgerIDPK
-          : drLedgerIDPK // ignore: cast_nullable_to_non_nullable
+      drLedgerIDFK: freezed == drLedgerIDFK
+          ? _value.drLedgerIDFK
+          : drLedgerIDFK // ignore: cast_nullable_to_non_nullable
               as String?,
       debitNoteNo: freezed == debitNoteNo
           ? _value.debitNoteNo
@@ -314,6 +332,10 @@ class __$$DebitNoteRequestModelImplCopyWithImpl<$Res>
           ? _value.referenceNo
           : referenceNo // ignore: cast_nullable_to_non_nullable
               as String?,
+      supplierReferenceNo: freezed == supplierReferenceNo
+          ? _value.supplierReferenceNo
+          : supplierReferenceNo // ignore: cast_nullable_to_non_nullable
+              as String?,
       debitNoteDate: freezed == debitNoteDate
           ? _value.debitNoteDate
           : debitNoteDate // ignore: cast_nullable_to_non_nullable
@@ -321,6 +343,10 @@ class __$$DebitNoteRequestModelImplCopyWithImpl<$Res>
       paymentMode: freezed == paymentMode
           ? _value.paymentMode
           : paymentMode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      purchasedBy: freezed == purchasedBy
+          ? _value.purchasedBy
+          : purchasedBy // ignore: cast_nullable_to_non_nullable
               as String?,
       description: freezed == description
           ? _value.description
@@ -370,9 +396,9 @@ class __$$DebitNoteRequestModelImplCopyWithImpl<$Res>
           ? _value.supplierName
           : supplierName // ignore: cast_nullable_to_non_nullable
               as String?,
-      customerBalance: freezed == customerBalance
-          ? _value.customerBalance
-          : customerBalance // ignore: cast_nullable_to_non_nullable
+      supplierBalance: freezed == supplierBalance
+          ? _value.supplierBalance
+          : supplierBalance // ignore: cast_nullable_to_non_nullable
               as double?,
       debitNoteEntryDetails: freezed == debitNoteEntryDetails
           ? _value._debitNoteEntryDetails
@@ -388,12 +414,14 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
   const _$DebitNoteRequestModelImpl(
       {this.debitNoteIDPK,
       this.supplierIDPK,
-      this.crLedgerIDPK,
-      this.drLedgerIDPK,
+      this.crLedgerIDFK,
+      this.drLedgerIDFK,
       this.debitNoteNo,
       this.referenceNo,
+      this.supplierReferenceNo,
       this.debitNoteDate,
       this.paymentMode,
+      this.purchasedBy,
       this.description,
       this.totalAmount,
       this.remarks,
@@ -406,7 +434,7 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
       this.rowguid,
       this.companyIDPK,
       this.supplierName,
-      this.customerBalance,
+      this.supplierBalance,
       final List<DebitNoteEntryDetails>? debitNoteEntryDetails})
       : _debitNoteEntryDetails = debitNoteEntryDetails;
 
@@ -418,17 +446,21 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
   @override
   final String? supplierIDPK;
   @override
-  final String? crLedgerIDPK;
+  final String? crLedgerIDFK;
   @override
-  final String? drLedgerIDPK;
+  final String? drLedgerIDFK;
   @override
   final int? debitNoteNo;
   @override
   final String? referenceNo;
   @override
+  final String? supplierReferenceNo;
+  @override
   final DateTime? debitNoteDate;
   @override
   final String? paymentMode;
+  @override
+  final String? purchasedBy;
   @override
   final String? description;
   @override
@@ -454,7 +486,7 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
   @override
   final String? supplierName;
   @override
-  final double? customerBalance;
+  final double? supplierBalance;
   final List<DebitNoteEntryDetails>? _debitNoteEntryDetails;
   @override
   List<DebitNoteEntryDetails>? get debitNoteEntryDetails {
@@ -468,7 +500,7 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
 
   @override
   String toString() {
-    return 'DebitNoteRequestModel(debitNoteIDPK: $debitNoteIDPK, supplierIDPK: $supplierIDPK, crLedgerIDPK: $crLedgerIDPK, drLedgerIDPK: $drLedgerIDPK, debitNoteNo: $debitNoteNo, referenceNo: $referenceNo, debitNoteDate: $debitNoteDate, paymentMode: $paymentMode, description: $description, totalAmount: $totalAmount, remarks: $remarks, isEditable: $isEditable, isCanceled: $isCanceled, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, companyIDPK: $companyIDPK, supplierName: $supplierName, customerBalance: $customerBalance, debitNoteEntryDetails: $debitNoteEntryDetails)';
+    return 'DebitNoteRequestModel(debitNoteIDPK: $debitNoteIDPK, supplierIDPK: $supplierIDPK, crLedgerIDFK: $crLedgerIDFK, drLedgerIDFK: $drLedgerIDFK, debitNoteNo: $debitNoteNo, referenceNo: $referenceNo, supplierReferenceNo: $supplierReferenceNo, debitNoteDate: $debitNoteDate, paymentMode: $paymentMode, purchasedBy: $purchasedBy, description: $description, totalAmount: $totalAmount, remarks: $remarks, isEditable: $isEditable, isCanceled: $isCanceled, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, companyIDPK: $companyIDPK, supplierName: $supplierName, supplierBalance: $supplierBalance, debitNoteEntryDetails: $debitNoteEntryDetails)';
   }
 
   @override
@@ -480,18 +512,22 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
                 other.debitNoteIDPK == debitNoteIDPK) &&
             (identical(other.supplierIDPK, supplierIDPK) ||
                 other.supplierIDPK == supplierIDPK) &&
-            (identical(other.crLedgerIDPK, crLedgerIDPK) ||
-                other.crLedgerIDPK == crLedgerIDPK) &&
-            (identical(other.drLedgerIDPK, drLedgerIDPK) ||
-                other.drLedgerIDPK == drLedgerIDPK) &&
+            (identical(other.crLedgerIDFK, crLedgerIDFK) ||
+                other.crLedgerIDFK == crLedgerIDFK) &&
+            (identical(other.drLedgerIDFK, drLedgerIDFK) ||
+                other.drLedgerIDFK == drLedgerIDFK) &&
             (identical(other.debitNoteNo, debitNoteNo) ||
                 other.debitNoteNo == debitNoteNo) &&
             (identical(other.referenceNo, referenceNo) ||
                 other.referenceNo == referenceNo) &&
+            (identical(other.supplierReferenceNo, supplierReferenceNo) ||
+                other.supplierReferenceNo == supplierReferenceNo) &&
             (identical(other.debitNoteDate, debitNoteDate) ||
                 other.debitNoteDate == debitNoteDate) &&
             (identical(other.paymentMode, paymentMode) ||
                 other.paymentMode == paymentMode) &&
+            (identical(other.purchasedBy, purchasedBy) ||
+                other.purchasedBy == purchasedBy) &&
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.totalAmount, totalAmount) ||
@@ -514,8 +550,8 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
                 other.companyIDPK == companyIDPK) &&
             (identical(other.supplierName, supplierName) ||
                 other.supplierName == supplierName) &&
-            (identical(other.customerBalance, customerBalance) ||
-                other.customerBalance == customerBalance) &&
+            (identical(other.supplierBalance, supplierBalance) ||
+                other.supplierBalance == supplierBalance) &&
             const DeepCollectionEquality()
                 .equals(other._debitNoteEntryDetails, _debitNoteEntryDetails));
   }
@@ -526,12 +562,14 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
         runtimeType,
         debitNoteIDPK,
         supplierIDPK,
-        crLedgerIDPK,
-        drLedgerIDPK,
+        crLedgerIDFK,
+        drLedgerIDFK,
         debitNoteNo,
         referenceNo,
+        supplierReferenceNo,
         debitNoteDate,
         paymentMode,
+        purchasedBy,
         description,
         totalAmount,
         remarks,
@@ -544,7 +582,7 @@ class _$DebitNoteRequestModelImpl implements _DebitNoteRequestModel {
         rowguid,
         companyIDPK,
         supplierName,
-        customerBalance,
+        supplierBalance,
         const DeepCollectionEquality().hash(_debitNoteEntryDetails)
       ]);
 
@@ -569,12 +607,14 @@ abstract class _DebitNoteRequestModel implements DebitNoteRequestModel {
   const factory _DebitNoteRequestModel(
           {final String? debitNoteIDPK,
           final String? supplierIDPK,
-          final String? crLedgerIDPK,
-          final String? drLedgerIDPK,
+          final String? crLedgerIDFK,
+          final String? drLedgerIDFK,
           final int? debitNoteNo,
           final String? referenceNo,
+          final String? supplierReferenceNo,
           final DateTime? debitNoteDate,
           final String? paymentMode,
+          final String? purchasedBy,
           final String? description,
           final double? totalAmount,
           final String? remarks,
@@ -587,7 +627,7 @@ abstract class _DebitNoteRequestModel implements DebitNoteRequestModel {
           final String? rowguid,
           final String? companyIDPK,
           final String? supplierName,
-          final double? customerBalance,
+          final double? supplierBalance,
           final List<DebitNoteEntryDetails>? debitNoteEntryDetails}) =
       _$DebitNoteRequestModelImpl;
 
@@ -599,17 +639,21 @@ abstract class _DebitNoteRequestModel implements DebitNoteRequestModel {
   @override
   String? get supplierIDPK;
   @override
-  String? get crLedgerIDPK;
+  String? get crLedgerIDFK;
   @override
-  String? get drLedgerIDPK;
+  String? get drLedgerIDFK;
   @override
   int? get debitNoteNo;
   @override
   String? get referenceNo;
   @override
+  String? get supplierReferenceNo;
+  @override
   DateTime? get debitNoteDate;
   @override
   String? get paymentMode;
+  @override
+  String? get purchasedBy;
   @override
   String? get description;
   @override
@@ -635,7 +679,7 @@ abstract class _DebitNoteRequestModel implements DebitNoteRequestModel {
   @override
   String? get supplierName;
   @override
-  double? get customerBalance;
+  double? get supplierBalance;
   @override
   List<DebitNoteEntryDetails>? get debitNoteEntryDetails;
 

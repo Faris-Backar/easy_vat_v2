@@ -11,14 +11,16 @@ _$DebitNoteRequestModelImpl _$$DebitNoteRequestModelImplFromJson(
     _$DebitNoteRequestModelImpl(
       debitNoteIDPK: json['debitNoteIDPK'] as String?,
       supplierIDPK: json['supplierIDPK'] as String?,
-      crLedgerIDPK: json['crLedgerIDPK'] as String?,
-      drLedgerIDPK: json['drLedgerIDPK'] as String?,
+      crLedgerIDFK: json['crLedgerIDFK'] as String?,
+      drLedgerIDFK: json['drLedgerIDFK'] as String?,
       debitNoteNo: (json['debitNoteNo'] as num?)?.toInt(),
       referenceNo: json['referenceNo'] as String?,
+      supplierReferenceNo: json['supplierReferenceNo'] as String?,
       debitNoteDate: json['debitNoteDate'] == null
           ? null
           : DateTime.parse(json['debitNoteDate'] as String),
       paymentMode: json['paymentMode'] as String?,
+      purchasedBy: json['purchasedBy'] as String?,
       description: json['description'] as String?,
       totalAmount: (json['totalAmount'] as num?)?.toDouble(),
       remarks: json['remarks'] as String?,
@@ -35,7 +37,7 @@ _$DebitNoteRequestModelImpl _$$DebitNoteRequestModelImplFromJson(
       rowguid: json['rowguid'] as String?,
       companyIDPK: json['companyIDPK'] as String?,
       supplierName: json['supplierName'] as String?,
-      customerBalance: (json['customerBalance'] as num?)?.toDouble(),
+      supplierBalance: (json['supplierBalance'] as num?)?.toDouble(),
       debitNoteEntryDetails: (json['debitNoteEntryDetails'] as List<dynamic>?)
           ?.map(
               (e) => DebitNoteEntryDetails.fromJson(e as Map<String, dynamic>))
@@ -47,12 +49,14 @@ Map<String, dynamic> _$$DebitNoteRequestModelImplToJson(
     <String, dynamic>{
       'debitNoteIDPK': instance.debitNoteIDPK,
       'supplierIDPK': instance.supplierIDPK,
-      'crLedgerIDPK': instance.crLedgerIDPK,
-      'drLedgerIDPK': instance.drLedgerIDPK,
+      'crLedgerIDFK': instance.crLedgerIDFK,
+      'drLedgerIDFK': instance.drLedgerIDFK,
       'debitNoteNo': instance.debitNoteNo,
       'referenceNo': instance.referenceNo,
+      'supplierReferenceNo': instance.supplierReferenceNo,
       'debitNoteDate': instance.debitNoteDate?.toIso8601String(),
       'paymentMode': instance.paymentMode,
+      'purchasedBy': instance.purchasedBy,
       'description': instance.description,
       'totalAmount': instance.totalAmount,
       'remarks': instance.remarks,
@@ -65,7 +69,7 @@ Map<String, dynamic> _$$DebitNoteRequestModelImplToJson(
       'rowguid': instance.rowguid,
       'companyIDPK': instance.companyIDPK,
       'supplierName': instance.supplierName,
-      'customerBalance': instance.customerBalance,
+      'supplierBalance': instance.supplierBalance,
       'debitNoteEntryDetails': instance.debitNoteEntryDetails,
     };
 

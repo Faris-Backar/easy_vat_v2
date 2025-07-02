@@ -1,13 +1,19 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/journal/presentation/widgets/debit_ledger_details_card.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/widgets/income_ledger_details_card.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/journal_cart/journal_cart_provider.dart';
 //import 'package:easy_vat_v2/app/features/journal/presentation/widgets/debit_ledger_info_tab_context.dart';
 import 'package:easy_vat_v2/app/features/ledger/data/model/ledger_account_model.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/all_ledgers/all_ledgers_notifier.dart';
+import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/refresh_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/search_debouncer.dart';
+import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
+import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
+import 'package:easy_vat_v2/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,6 +34,17 @@ class _LedgerInfoWidgetState extends ConsumerState<LedgerInfoWidget> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _fetchAndSelectLedger();
+    });
+  }
+
+  Future<void> _fetchAndSelectLedger() async {
+    final selectedLedger = ref.read(journalCartProvider).selectedLedger;
+    if (selectedLedger != null) {
+      ref.read(journalCartProvider.notifier).setLedger(selectedLedger);
+    }
+    await ref.read(allLedgerNotifierProvider.notifier).fetchAllLedgers();
   }
 
   @override
@@ -114,7 +131,75 @@ class _LedgerInfoWidgetState extends ConsumerState<LedgerInfoWidget> {
                               ),
                           itemCount: ledgers.length);
                     }),
-              )
+              ),
+            Container(
+              height: 67,
+              width: double.infinity,
+              color: AppUtils.isDarkMode(context)
+                  ? context.surfaceColor
+                  : context.colorScheme.surfaceContainerLowest,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: SecondaryButton(
+                      onPressed: () {},
+                      label: context.translate(AppStrings.addLedger),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgIcon(
+                            icon: Assets.icons.ledger,
+                            color: AppUtils.isDarkMode(context)
+                                ? context.defaultTextColor
+                                : null,
+                          ),
+                          SizedBox(
+                            width: 6.w,
+                          ),
+                          Text(
+                            context.translate(AppStrings.addLedger),
+                            style: context.textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                color: AppUtils.isDarkMode(context)
+                                    ? context.defaultTextColor
+                                    : context.colorScheme.primary),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 4.w,
+                  ),
+                  Expanded(
+                    child: ValueListenableBuilder(
+                        valueListenable: _expansionNotifier,
+                        builder: (context, int? value, child) {
+                          return PrimaryButton(
+                            label: context.translate(AppStrings.submit),
+                            bgColor: context.colorScheme.primary,
+                            onPressed: value != null
+                                ? () {
+                                    final ledgerNotifier = ref.read(
+                                        allLedgerNotifierProvider.notifier);
+                                    final ledgers = ledgerNotifier.allLedgers;
+
+                                    if (ledgers.isNotEmpty) {
+                                      final selectedLedger =
+                                          ledgers[_expansionNotifier.value!];
+                                      ref
+                                          .read(journalCartProvider.notifier)
+                                          .setLedger(selectedLedger);
+                                      context.router.popForced();
+                                    }
+                                  }
+                                : null,
+                          );
+                        }),
+                  )
+                ],
+              ),
+            )
           ],
         ),
       );
@@ -126,7 +211,7 @@ class _LedgerInfoWidgetState extends ConsumerState<LedgerInfoWidget> {
     final isExpanded = expandedIndex == index;
     return InkWell(
       onTap: () => _expansionNotifier.value = isExpanded ? null : index,
-      child: DebitLedgerDetailsCard(isExpanded: isExpanded, ledger: ledger),
+      child: IncomeLedgerDetailsCard(isExpanded: isExpanded, ledger: ledger),
     );
   }
 
@@ -168,8 +253,45 @@ class _LedgerInfoWidgetState extends ConsumerState<LedgerInfoWidget> {
                           _expansionNotifier.value = null;
                         });
                       },
-                      // child: DebitLedgerInfoTabContext(
-                      //     ledgerName: "Ledger Name", currentBalance: "0.0"),
+                      child: Consumer(
+                        builder: (context, ref, _) {
+                          final selectedLedger =
+                              ref.watch(journalCartProvider).selectedLedger;
+
+                          final ledgerName =
+                              selectedLedger?.ledgerName?.trim().isNotEmpty ==
+                                      true
+                                  ? selectedLedger?.ledgerName!
+                                  : "Select a Ledger";
+
+                          final currentBalance =
+                              selectedLedger?.currentBalance != null
+                                  ? selectedLedger!.currentBalance!
+                                      .toStringAsFixed(2)
+                                  : '0.0';
+
+                          return Container(
+                              padding: const EdgeInsets.symmetric(vertical: 8),
+                              alignment: Alignment.topLeft,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    ledgerName ?? "",
+                                    style:
+                                        context.textTheme.bodyMedium?.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  if (selectedLedger?.currentBalance != null)
+                                    Text(
+                                      "${context.translate(AppStrings.curBal)} : $currentBalance",
+                                      style: context.textTheme.bodySmall,
+                                    ),
+                                ],
+                              ));
+                        },
+                      ),
                     )
                   ],
                 ),

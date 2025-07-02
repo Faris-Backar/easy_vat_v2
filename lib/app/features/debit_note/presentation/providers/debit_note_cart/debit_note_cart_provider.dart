@@ -38,6 +38,7 @@ class DebitNoteCartNotifier extends StateNotifier<DebitNoteCartState> {
   LedgerAccountEntity? drLedger;
   LedgerAccountEntity? crLedger;
   SupplierEntity? selectedSupplier;
+  String supplierReferenceNo = "";
   String description = "";
   String notes = "";
   String paymentMode = "";
@@ -152,6 +153,11 @@ class DebitNoteCartNotifier extends StateNotifier<DebitNoteCartState> {
     state = state.copyWith(purchasedBy: purchasedBy);
   }
 
+  setSupplierRefNo(String supplierReferenceNo) {
+    this.supplierReferenceNo = supplierReferenceNo;
+    state = state.copyWith(supplierReferenceNo: supplierReferenceNo);
+  }
+
   setCashAccount(LedgerAccountEntity cashAccount) {
     this.cashAccount = cashAccount;
     state = state.copyWith(cashAccount: cashAccount);
@@ -191,7 +197,7 @@ class DebitNoteCartNotifier extends StateNotifier<DebitNoteCartState> {
 
   Future<DebitNoteRequestModel> createNewDebitNote() async {
     double netTotal = 0.0;
-    double crAmount = 0.0;
+    double totalcrAmount = 0.0;
     double totalTax = 0.0;
     final List<DebitNoteEntryDetails> details = [];
     final userDetailsFromPrefs =
@@ -204,7 +210,7 @@ class DebitNoteCartNotifier extends StateNotifier<DebitNoteCartState> {
       final taxAmount = isTaxEnabled
           ? ((detailList[i].crAmount) * (detailList[i].taxPercentage)) / 100
           : 0.0;
-      crAmount += crAmount;
+      totalcrAmount += crAmount;
       totalTax += taxAmount;
       netTotal += crAmount + taxAmount;
 
@@ -212,7 +218,7 @@ class DebitNoteCartNotifier extends StateNotifier<DebitNoteCartState> {
           debitNoteIDPK: debitNoteIDPK,
           ledgerIDPK: detailList[i].ledger.ledgerIdpk ?? "",
           description: detailList[i].description,
-          crAmount: details[i].crAmount,
+          crAmount: totalcrAmount,
           tax: isTaxEnabled ? totalTax : 0.0,
           taxPercentage: isTaxEnabled ? (detailList[i].taxPercentage) : 0.0,
           netTotal: netTotal,
@@ -224,13 +230,21 @@ class DebitNoteCartNotifier extends StateNotifier<DebitNoteCartState> {
 
     final newDebitNote = DebitNoteRequestModel(
         debitNoteIDPK: debitNoteIDPK,
+        crLedgerIDFK: selectedSupplier?.ledgerIDPK ??
+            allAccount?.ledgerIdpk ??
+            cashAccount?.ledgerIdpk ??
+            PrefResources.emptyGuid,
+        drLedgerIDFK: PrefResources.emptyGuid,
         supplierIDPK: selectedSupplier?.ledgerIDPK ??
             cashAccount?.ledgerIdpk ??
             PrefResources.emptyGuid,
         referenceNo: refNo,
+        supplierReferenceNo: supplierReferenceNo,
+        purchasedBy: purchasedBy,
         debitNoteNo: 0,
         debitNoteDate: debitNoteDate,
         paymentMode: paymentMode,
+        debitNoteEntryDetails: details,
         description: description,
         totalAmount: netTotal,
         remarks: notes,
@@ -243,7 +257,7 @@ class DebitNoteCartNotifier extends StateNotifier<DebitNoteCartState> {
         rowguid: PrefResources.emptyGuid,
         companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
         supplierName: selectedSupplier?.ledgerName ?? "cash",
-        customerBalance: selectedSupplier?.currentBalance ?? 0.0);
+        supplierBalance: selectedSupplier?.currentBalance ?? 0.0);
     log("newDebitNote: $newDebitNote");
     return newDebitNote;
   }
@@ -304,7 +318,7 @@ class DebitNoteCartNotifier extends StateNotifier<DebitNoteCartState> {
     if (debitNote.supplierName?.toLowerCase() != "cash") {
       final cashLedger = ref
           .read(cashLedgerNotifierProvider.notifier)
-          .getLedgerById(debitNote.drLedgerIDPK ?? "");
+          .getLedgerById(debitNote.drLedgerIDFK ?? "");
 
       if (cashLedger != null) {
         setCashAccount(cashLedger);
@@ -313,7 +327,7 @@ class DebitNoteCartNotifier extends StateNotifier<DebitNoteCartState> {
 
     final allLedger = ref
         .read(allLedgerNotifierProvider.notifier)
-        .getLedgerById(debitNote.drLedgerIDPK!);
+        .getLedgerById(debitNote.drLedgerIDFK!);
     if (allLedger != null) {
       setAllAccount(allLedger);
     }
@@ -326,7 +340,8 @@ class DebitNoteCartNotifier extends StateNotifier<DebitNoteCartState> {
     setRefNo(debitNote.referenceNo ?? "");
     setDebitNoteDate(debitNote.debitNoteDate ?? DateTime.now());
     setPaymentMode(debitNote.paymentMode ?? "Cash");
-    // setSoldBy(creditNote.s)
+    setPurchasedBy(debitNote.purchasedBy ?? "");
+    setSupplierRefNo(debitNote.supplierReferenceNo ?? "");
     setNotes(debitNote.remarks ?? "");
 
     if (debitNote.debitNoteEntryDetails?.isNotEmpty == true) {
@@ -373,7 +388,7 @@ class DebitNoteCartNotifier extends StateNotifier<DebitNoteCartState> {
       totalAmount += ledger.crAmount;
     }
 
-    if (isInitial) {
+    if (!isInitial) {
       state = state.copyWith(
           totalAmount: totalAmount,
           taxAmount: taxAmount,

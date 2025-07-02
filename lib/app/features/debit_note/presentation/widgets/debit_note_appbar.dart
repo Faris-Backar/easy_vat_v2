@@ -1,12 +1,19 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/debit_note/domain/usecase/params/debit_note_filter_params.dart';
+import 'package:easy_vat_v2/app/features/debit_note/domain/usecase/params/debit_note_params.dart';
+import 'package:easy_vat_v2/app/features/debit_note/presentation/providers/debit_note/debit_note_notifier.dart';
+import 'package:easy_vat_v2/app/features/debit_note/presentation/providers/debit_note_cart/debit_note_cart_provider.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/widgets/supplier_selector_widget.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/filter_widget.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
 import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
+import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
@@ -32,6 +39,8 @@ class DebitNoteAppbar extends ConsumerStatefulWidget
 class DebitNoteAppBarConfig {
   final String title;
   final Future<bool> Function()? onWillPop;
+  final Future<void> Function(DebitNoteParams params)? fetchFunction;
+  final Future<void> Function(DebitNoteFilterParams params)? filterFunction;
   final List<PopupMenuEntry<String>>? additionalPopupMenuItems;
   final bool showDateRangePicker;
   final bool showSearchBar;
@@ -41,6 +50,8 @@ class DebitNoteAppBarConfig {
     this.title = "",
     this.onWillPop,
     this.additionalPopupMenuItems,
+    this.fetchFunction,
+    this.filterFunction,
     this.showDateRangePicker = true,
     this.showSearchBar = true,
     this.showFilterButton = true,
@@ -48,8 +59,12 @@ class DebitNoteAppBarConfig {
 }
 
 class _DebitNoteAppBarState extends ConsumerState<DebitNoteAppbar> {
+  final ValueNotifier<int?> debitNoteNoNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> supplierNotifier = ValueNotifier(null);
   late final ValueNotifier<bool> isSearchNotEmpty;
   final ValueNotifier<String?> paymentMethodNotifier = ValueNotifier(null);
+
+  DateTime? selectedSupplierDate;
 
   @override
   void initState() {
@@ -71,6 +86,23 @@ class _DebitNoteAppBarState extends ConsumerState<DebitNoteAppbar> {
     super.dispose();
   }
 
+  Future<void> _defaultFetchDebitNote() async {
+    final dateRange = ref.read(dateRangeProvider);
+    final params = DebitNoteParams(
+        debitNoteIDPK: PrefResources.emptyGuid,
+        supplierID: PrefResources.emptyGuid,
+        fromDate: dateRange.fromDate,
+        toDate: dateRange.toDate);
+
+    if (widget.config.fetchFunction != null) {
+      await widget.config.fetchFunction!(params);
+    } else {
+      await ref
+          .read(debitNoteNotifierProvider.notifier)
+          .fetchDebitNote(params: params);
+    }
+  }
+
   _buidlFilterBottomSheet(BuildContext context) {
     final paymentModeState = ref.read(paymentModeNotifierProvider);
     return showModalBottomSheet(
@@ -89,7 +121,15 @@ class _DebitNoteAppBarState extends ConsumerState<DebitNoteAppbar> {
                             ?.copyWith(fontWeight: FontWeight.w700),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          if (widget.config.filterFunction != null) {
+                            widget.config.filterFunction!(
+                                DebitNoteFilterParams(clearAllFilter: true));
+                          } else {
+                            paymentMethodNotifier.value = null;
+                          }
+                          context.router.popForced();
+                        },
                         child: Text(
                           context.translate(AppStrings.clearAll),
                           style: context.textTheme.bodySmall?.copyWith(
@@ -135,7 +175,61 @@ class _DebitNoteAppBarState extends ConsumerState<DebitNoteAppbar> {
                       SizedBox(
                         width: 12.w,
                       ),
+                      Expanded(
+                        child: paymentModeState.when(
+                          initial: () => const SizedBox.shrink(),
+                          loading: () => Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
+                          error: (message) => Text("Error: $message"),
+                          loaded: (paymentModes, selectedPaymentMode) {
+                            return DropdownField(
+                                label:
+                                    context.translate(AppStrings.purchasedBy),
+                                valueNotifier: paymentMethodNotifier,
+                                items: paymentModes
+                                    .map((mode) => mode.paymentModes)
+                                    .toList(),
+                                onChanged: (newValue) {
+                                  paymentMethodNotifier.value = newValue;
+                                });
+                          },
+                        ),
+                      )
                     ],
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  Row(
+                    children: [Expanded(child: SupplierSelectorWidget())],
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: PrimaryButton(
+                      label: context.translate(AppStrings.filter),
+                      onPressed: () {
+                        final params = DebitNoteParams(
+                            fromDate: ref.read(dateRangeProvider).fromDate,
+                            toDate: ref.read(dateRangeProvider).toDate,
+                            supplierID: ref
+                                .read(debitNoteCartProvider.notifier)
+                                .selectedSupplier
+                                ?.ledgerIDPK,
+                            paymentMode: paymentMethodNotifier.value);
+
+                        if (widget.config.filterFunction != null) {
+                        } else {
+                          ref
+                              .read(debitNoteNotifierProvider.notifier)
+                              .fetchDebitNote(params: params);
+                        }
+                        context.router.popForced();
+                      },
+                    ),
                   )
                 ],
               ),
@@ -222,9 +316,7 @@ class _DebitNoteAppBarState extends ConsumerState<DebitNoteAppbar> {
                           width: 10.w,
                         ),
                         InkWell(
-                          onTap: () {
-                            // fetch func
-                          },
+                          onTap: _defaultFetchDebitNote,
                           child: Container(
                             height: 36.h,
                             width: 41.w,
@@ -298,8 +390,10 @@ class _DebitNoteAppBarState extends ConsumerState<DebitNoteAppbar> {
                           fontWeight: FontWeight.w500,
                           color:
                               context.defaultTextColor.withValues(alpha: 0.32)),
-                      onChanged:
-                          (value) {}, // DebitNote Notifier provider and search DebitNote
+                      onChanged: (value) => ref
+                          .read(debitNoteNotifierProvider.notifier)
+                          .searchDebitNote(
+                              value), // DebitNote Notifier provider and search DebitNote
                       suffixIcon: hasText
                           ? Padding(
                               padding: const EdgeInsets.all(12.0),

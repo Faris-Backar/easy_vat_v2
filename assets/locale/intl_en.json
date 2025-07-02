@@ -235,5 +235,13 @@
   "creditTotal": "Credit Total",
   "contraNo": "Contra No",
   "creditNoteNo": "Credit Note No",
-  "debitNoteNo": "Debit Note No"
+  "debitNoteNo": "Debit Note No",
+  "deleteCreditNoteConfirmationMessage": "Credit Note deleted Successfully",
+  "drAmount": "Debit Amount",
+  "deleteDebitNoteConfirmationMessage": "Debit Note deleted Successfully",
+  "crAmount": "Credit Amount",
+  "supRefNo": "Sup Ref No",
+  "deleteJournalConfirmationMessage": "Journal deleted Successfully",
+  "ledgerMode": "Ledger Mode",
+  "ledgerBal": "Ledger Balance"
 }

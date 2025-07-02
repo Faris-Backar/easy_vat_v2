@@ -1,7 +1,7 @@
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/journal/presentation/widgets/journal_bottom_modal_sheet.dart';
+//import 'package:easy_vat_v2/app/features/journal/presentation/widgets/journal_bottom_modal_sheet.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +55,7 @@ class _AddContraFooterWidgetState extends State<AddContraFooterWidget> {
           child: Consumer(builder: (context, WidgetRef ref, child) {
             return _buildActionButtom(context, Icons.add_circle_outline_rounded,
                 context.translate(AppStrings.addLedger), () {
-              showLedgerBottomSheet(context);
+              // showLedgerBottomSheet(context);
             });
           }),
         )

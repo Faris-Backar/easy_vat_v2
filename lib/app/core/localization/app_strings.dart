@@ -244,4 +244,15 @@ class AppStrings {
   static const String contraNo = "contraNo";
   static const String creditNoteNo = "creditNoteNo";
   static const String debitNoteNo = "debitNoteNo";
+  static const String deleteCreditNoteConfirmationMessage =
+      "deleteCreditNoteConfirmationMessage";
+  static const String drAmount = "drAmount";
+  static const String deleteDebitNoteConfirmationMessage =
+      "deleteDebitNoteConfirmationMessage";
+  static const String crAmount = "crAmount";
+  static const String supRefNo = "supRefNo";
+  static const String deleteJournalConfirmationMessage =
+      "deleteJournalConfirmationMessage";
+  static const String ledgerMode = "ledgerMode";
+  static const String ledgerBal = "ledgerBal";
 }

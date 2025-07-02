@@ -7,10 +7,12 @@ class DebitNoteParams {
   final String? debitNoteIDPK;
   final DateTime fromDate;
   final DateTime toDate;
+  final String? paymentMode;
   final String? supplierID;
   DebitNoteParams(
       {this.debitNoteIDPK,
       required this.fromDate,
+      this.paymentMode,
       required this.toDate,
       this.supplierID});
 

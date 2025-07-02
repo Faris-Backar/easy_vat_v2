@@ -9,10 +9,12 @@ abstract class DebitNoteEntity {
 abstract class DebitNoteEntryEntity {
   final String? debitNoteIDPK;
   final String? supplierIDPK;
-  final String? crLedgerIDPK;
-  final String? drLedgerIDPK;
+  final String? crLedgerIDFK;
+  final String? drLedgerIDFK;
   final int? debitNoteNo;
   final String? referenceNo;
+  final String? supplierReferenceNo;
+  final String? purchasedBy;
   final DateTime? debitNoteDate;
   final String? description;
   final String? paymentMode;
@@ -27,17 +29,19 @@ abstract class DebitNoteEntryEntity {
   final String? rowguid;
   final String? companyIDPK;
   final String? supplierName;
-  final double? customerBalance;
+  final double? supplierBalance;
   final List<DebitNoteEntryDetailsEntity>? debitNoteEntryDetails;
 
   DebitNoteEntryEntity(
       {this.debitNoteIDPK,
       this.supplierIDPK,
-      this.crLedgerIDPK,
-      this.drLedgerIDPK,
+      this.crLedgerIDFK,
+      this.drLedgerIDFK,
       this.debitNoteNo,
       this.referenceNo,
+      this.supplierReferenceNo,
       this.debitNoteDate,
+      this.purchasedBy,
       this.description,
       this.paymentMode,
       this.totalAmount,
@@ -51,7 +55,7 @@ abstract class DebitNoteEntryEntity {
       this.rowguid,
       this.companyIDPK,
       this.supplierName,
-      this.customerBalance,
+      this.supplierBalance,
       this.debitNoteEntryDetails});
 }
 

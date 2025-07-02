@@ -5,17 +5,22 @@ import 'package:easy_vat_v2/app/features/auth/presentation/functions/app_credent
 import 'package:easy_vat_v2/app/features/journal/data/model/journal_request_model.dart';
 import 'package:easy_vat_v2/app/features/journal/domain/entity/journal_cart_entity.dart';
 import 'package:easy_vat_v2/app/features/journal/domain/entity/journal_entity.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_notifier.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_state.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/journal_cart/journal_cart_state.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/ledger_mode/ledger_mode_notifier.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/ledger_mode/ledger_mode_state.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final journalCartProvider =
-    StateNotifierProvider<JournalCartNotifier, JournalCartState>((ref) {
-  return JournalCartNotifier();
-});
+    StateNotifierProvider<JournalCartNotifier, JournalCartState>(
+  (ref) => JournalCartNotifier(ref),
+);
 
 class JournalCartNotifier extends StateNotifier<JournalCartState> {
-  JournalCartNotifier() : super(JournalCartState.initial());
+  final Ref ref;
+  JournalCartNotifier(this.ref) : super(JournalCartState.initial());
 
   List<JournalCartEntity> detailList = [];
   double totalAmount = 0.0;
@@ -27,14 +32,39 @@ class JournalCartNotifier extends StateNotifier<JournalCartState> {
   String notes = "";
   String description = "";
   LedgerAccountEntity? allAccount;
+  LedgerAccountEntity? selectedLedger;
   String toAccount = "";
   String entryMode = "";
   bool isForEdit = false;
   String journalIDPK = PrefResources.emptyGuid;
 
+  // void _recalculateTotals() {
+  //   totalAmount = 0.0;
+  //   drAmount = 0.0;
+
+  //   final entryMode = ref.read(entryModeProvider);
+
+  //   for (final ledger in detailList) {
+  //     drAmount += ledger.drAmount;
+
+  //     if (entryMode == EntryModeState.singleEntry()) {
+  //       totalAmount += ledger.netTotal;
+  //     }
+  //   }
+
+  //   if (entryMode == EntryModeState.doubleEntry()) {
+  //     totalAmount = drAmount;
+  //   }
+
+  //   state = state.copyWith(totalAmount: totalAmount, drAmount: drAmount);
+  // }
+
   void addLedgerIntoJournalCart({required JournalCartEntity ledger}) {
     detailList.add(ledger);
-    _getRateSplitUp(ledger: ledger, entryMode: entryMode);
+    _getRateSplitUp(
+      ledger: ledger,
+    );
+    // _recalculateTotals();
     state = state.copyWith(ledgerList: detailList);
   }
 
@@ -69,7 +99,10 @@ class JournalCartNotifier extends StateNotifier<JournalCartState> {
           description: cartLedger.description);
 
       detailList[index] = updatedLedger;
-      _getRateSplitUp(ledger: updatedLedger, entryMode: entryMode);
+      _getRateSplitUp(
+        ledger: updatedLedger,
+      );
+      // _recalculateTotals();
       state = state.copyWith(ledgerList: detailList);
     }
   }
@@ -100,10 +133,21 @@ class JournalCartNotifier extends StateNotifier<JournalCartState> {
 
   setDescription(String description) {
     this.description = description;
+    state = state.copyWith(description: description);
   }
 
   setNotes(String notes) {
     this.notes = notes;
+  }
+
+  setLedger(LedgerAccountEntity ledger) {
+    selectedLedger = ledger;
+    state = state.copyWith(selectedLedger: selectedLedger);
+  }
+
+  removeLedger() {
+    selectedLedger = LedgerAccountEntity(ledgerName: "Debit Ledger");
+    state = state.copyWith(selectedLedger: selectedLedger);
   }
 
   setEditMode(bool enableEdit) {
@@ -121,10 +165,19 @@ class JournalCartNotifier extends StateNotifier<JournalCartState> {
     final companyDetails =
         await AppCredentialPreferenceHelper().getCompanyInfo();
 
+    final mode = ref.read(entryModeProvider);
+    final entryMode = ref.read(entryModeProvider).when(
+        singleEntry: () => "Single Entry", doubleEntry: () => "Doube Entry");
+
     for (var i = 0; i < detailList.length; i++) {
       drAmount = detailList[i].drAmount;
       crAmount = detailList[i].crAmount;
-      netTotal = detailList[i].netTotal;
+
+      if (mode == EntryModeState.singleEntry()) {
+        netTotal += detailList[i].netTotal;
+      } else if (mode == EntryModeState.doubleEntry()) {
+        netTotal += detailList[i].drAmount;
+      }
 
       final detail = JournalDetail(
           journalIDPK: journalIDPK,
@@ -156,7 +209,7 @@ class JournalCartNotifier extends StateNotifier<JournalCartState> {
       rowguid: PrefResources.emptyGuid,
       companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
       entryMode: entryMode,
-      toAccount: toAccount,
+      toAccount: selectedLedger?.ledgerIdpk ?? PrefResources.emptyGuid,
       journalEntryDetail: details,
     );
     log("newJournal: $newJournal");
@@ -168,13 +221,15 @@ class JournalCartNotifier extends StateNotifier<JournalCartState> {
     totalAmount = 0.0;
     drAmount = 0.0;
     crAmount = 0.0;
+    refNo = "";
     journalNo = "";
     journalDate = DateTime.now();
     journalIDPK = PrefResources.emptyGuid;
     allAccount = null;
     toAccount = "";
     notes = "";
-    state = JournalCartState.initial().copyWith(entryMode: entryMode);
+    ref.read(entryModeProvider.notifier).state = EntryModeState.singleEntry();
+    state = JournalCartState.initial();
   }
 
   double calculateNetTotal({required double totalAmount}) {
@@ -192,11 +247,11 @@ class JournalCartNotifier extends StateNotifier<JournalCartState> {
   LedgerAccountEntity covertJournalDetailsToDetails(
       JournalEntryDetailEntity journalDetails) {
     return LedgerAccountEntity(
-      ledgerIdpk: journalDetails.ledgerIDPK,
-      description: journalDetails.description,
-      ledgerName: journalDetails.ledgerName,
-      currentBalance: journalDetails.currentBalance,
-    );
+        ledgerIdpk: journalDetails.ledgerIDPK,
+        description: journalDetails.description,
+        ledgerName: journalDetails.ledgerName,
+        currentBalance: journalDetails.currentBalance,
+        ledgerCode: journalDetails.ledgerIDPK);
   }
 
   reinsertJournalForm(JournalEntryEntity journal, WidgetRef ref) async {
@@ -210,7 +265,13 @@ class JournalCartNotifier extends StateNotifier<JournalCartState> {
     setNotes(journal.remarks ?? "");
     setDescription(journal.description ?? "");
 
-    if (journal.journalEntryDetail?.isEmpty == true) {
+    final entryMode = journal.entryMode?.toLowerCase();
+    final entryModeState = (entryMode == "single entry")
+        ? EntryModeState.singleEntry()
+        : EntryModeState.doubleEntry();
+    ref.read(entryModeProvider.notifier).state = entryModeState;
+
+    if (journal.journalEntryDetail?.isNotEmpty == true) {
       for (var index = 0; index < journal.journalEntryDetail!.length; index++) {
         final journalDetail = journal.journalEntryDetail![index];
         final ledgerEntity = covertJournalDetailsToDetails(journalDetail);
@@ -228,7 +289,24 @@ class JournalCartNotifier extends StateNotifier<JournalCartState> {
             description: ledgerEntity.description ?? "");
 
         updatedLedgerList.add(cartLedger);
-        _getRateSplitUp(ledger: cartLedger, entryMode: entryMode);
+
+        if (entryModeState == EntryModeState.singleEntry()) {
+          setLedger(ledgerEntity);
+        }
+
+        if (cartLedger.drAmount > 0) {
+          ref
+              .read(ledgerModeProvider(cartLedger.ledger.ledgerCode).notifier)
+              .state = LedgerModeState.debitLedger();
+        } else if (cartLedger.crAmount > 0) {
+          ref
+              .read(ledgerModeProvider(cartLedger.ledger.ledgerCode).notifier)
+              .state = LedgerModeState.creditLedger();
+        }
+
+        _getRateSplitUp(
+          ledger: cartLedger,
+        );
 
         detailList = updatedLedgerList;
       }
@@ -236,15 +314,24 @@ class JournalCartNotifier extends StateNotifier<JournalCartState> {
     updateState();
   }
 
-  void _getRateSplitUp(
-      {required JournalCartEntity ledger,
-      bool isInitial = true,
-      required String entryMode}) {
-    if (entryMode == "Single Entry") {
+  void _getRateSplitUp({
+    required JournalCartEntity ledger,
+    bool isInitial = false,
+  }) {
+    final entryMode = ref.read(entryModeProvider);
+    final ledgerMode =
+        ref.read(ledgerModeProvider(ledger.ledger.ledgerCode ?? ""));
+
+    if (entryMode == EntryModeState.singleEntry()) {
       totalAmount += ledger.netTotal;
-    } else {
+    } else if (entryMode == EntryModeState.doubleEntry() &&
+        ledgerMode == LedgerModeState.debitLedger()) {
       drAmount += ledger.drAmount;
+      totalAmount += ledger.drAmount;
+    } else if (entryMode == EntryModeState.doubleEntry() &&
+        ledgerMode == LedgerModeState.creditLedger()) {
       crAmount += ledger.crAmount;
+      totalAmount += ledger.crAmount;
     }
 
     if (!isInitial) {
@@ -255,13 +342,21 @@ class JournalCartNotifier extends StateNotifier<JournalCartState> {
 
   void _decreaseRateSplitUp(
       {required JournalCartEntity ledger, required String entryMode}) {
-    if (entryMode == "Single Entry") {
-      totalAmount += ledger.netTotal;
-    } else {
-      drAmount += ledger.drAmount;
-      crAmount += ledger.crAmount;
-    }
+    final entryMode = ref.read(entryModeProvider);
+    final ledgerMode =
+        ref.read(ledgerModeProvider(ledger.ledger.ledgerCode ?? ""));
 
+    if (entryMode == EntryModeState.singleEntry()) {
+      totalAmount -= ledger.netTotal;
+    } else if (entryMode == EntryModeState.doubleEntry() &&
+        ledgerMode == LedgerModeState.debitLedger()) {
+      drAmount -= ledger.drAmount;
+      totalAmount -= ledger.drAmount;
+    } else if (entryMode == EntryModeState.doubleEntry() &&
+        ledgerMode == LedgerModeState.creditLedger()) {
+      crAmount -= ledger.crAmount;
+      totalAmount -= ledger.crAmount;
+    }
     state = state.copyWith(
         totalAmount: totalAmount, crAmount: crAmount, drAmount: drAmount);
   }

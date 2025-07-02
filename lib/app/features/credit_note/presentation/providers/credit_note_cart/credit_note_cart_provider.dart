@@ -196,7 +196,7 @@ class CreditNoteCartNotifier extends StateNotifier<CreditNoteCartState> {
 
   Future<CreditNoteRequestModel> createNewCreditNote() async {
     double netTotal = 0.0;
-    double drAmount = 0.0;
+    double totalDrAmount = 0.0;
     double totalTax = 0.0;
     final List<CreditNoteEntryDetails> details = [];
     final userDetailsFromPrefs =
@@ -209,7 +209,7 @@ class CreditNoteCartNotifier extends StateNotifier<CreditNoteCartState> {
       final taxAmount = isTaxEnabled
           ? ((detailList[i].drAmount) * (detailList[i].taxPercentage)) / 100
           : 0.0;
-      drAmount += drAmount;
+      totalDrAmount += drAmount;
       totalTax += taxAmount;
       netTotal += drAmount + taxAmount;
 
@@ -217,7 +217,7 @@ class CreditNoteCartNotifier extends StateNotifier<CreditNoteCartState> {
           creditNoteIDPK: creditNoteIDPK,
           ledgerIDPK: detailList[i].ledger.ledgerIdpk ?? "",
           description: detailList[i].description,
-          drAmount: details[i].drAmount,
+          drAmount: totalDrAmount,
           tax: isTaxEnabled ? totalTax : 0.0,
           taxPercentage: isTaxEnabled ? (detailList[i].taxPercentage) : 0.0,
           netTotal: netTotal,
@@ -229,6 +229,10 @@ class CreditNoteCartNotifier extends StateNotifier<CreditNoteCartState> {
 
     final newCreditNote = CreditNoteRequestModel(
         creditNoteIDPK: creditNoteIDPK,
+        drLedgerIDFK: PrefResources.emptyGuid,
+        crLedgerIDFK: selectedCustomer?.ledgerIdpk ??
+            allAccount?.ledgerIdpk ??
+            PrefResources.emptyGuid,
         customerIDPK: selectedCustomer?.ledgerIdpk ??
             cashAccount?.ledgerIdpk ??
             PrefResources.emptyGuid,
@@ -238,6 +242,7 @@ class CreditNoteCartNotifier extends StateNotifier<CreditNoteCartState> {
         paymentMode: paymentMode,
         description: description,
         totalAmount: netTotal,
+        soldBy: soldBy,
         remarks: notes,
         isEditable: true,
         isCanceled: false,
@@ -246,6 +251,7 @@ class CreditNoteCartNotifier extends StateNotifier<CreditNoteCartState> {
         modifiedBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
         modifiedDate: DateTime.now(),
         rowguid: PrefResources.emptyGuid,
+        creditNoteEntryDetails: details,
         companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
         customerName: selectedCustomer?.ledgerName ?? "cash",
         customerBalance: selectedCustomer?.currentBalance ?? 0.0);
@@ -310,7 +316,7 @@ class CreditNoteCartNotifier extends StateNotifier<CreditNoteCartState> {
     if (creditNote.customerName?.toLowerCase() != "cash") {
       final cashLedger = ref
           .read(cashLedgerNotifierProvider.notifier)
-          .getLedgerById(creditNote.crLedgerIDPK ?? "");
+          .getLedgerById(creditNote.crLedgerIDFK ?? "");
 
       if (cashLedger != null) {
         setCashAccount(cashLedger);
@@ -319,7 +325,7 @@ class CreditNoteCartNotifier extends StateNotifier<CreditNoteCartState> {
 
     final allLedger = ref
         .read(allLedgerNotifierProvider.notifier)
-        .getLedgerById(creditNote.crLedgerIDPK!);
+        .getLedgerById(creditNote.crLedgerIDFK!);
     if (allLedger != null) {
       setAllAccount(allLedger);
     }
@@ -332,7 +338,7 @@ class CreditNoteCartNotifier extends StateNotifier<CreditNoteCartState> {
     setRefNo(creditNote.referenceNo ?? "");
     setCreditNoteDate(creditNote.creditNoteDate ?? DateTime.now());
     setPaymentMode(creditNote.paymentMode ?? "Cash");
-    // setSoldBy(creditNote.s)
+    setSoldBy(creditNote.soldBy ?? "");
     setNotes(creditNote.remarks ?? "");
 
     if (creditNote.creditNoteEntryDetails?.isNotEmpty == true) {
@@ -379,7 +385,7 @@ class CreditNoteCartNotifier extends StateNotifier<CreditNoteCartState> {
       totalAmount += ledger.drAmount;
     }
 
-    if (isInitial) {
+    if (!isInitial) {
       state = state.copyWith(
           totalAmount: totalAmount,
           taxAmount: taxAmount,

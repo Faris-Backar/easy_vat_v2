@@ -63,8 +63,7 @@ class _AddNewContraScreenState extends ConsumerState<AddNewContraScreen> {
                 alignment: Alignment.centerRight,
                 child: SizedBox(
                   width: 0.5.sw,
-                  child: DebitCreditAmountWidget(
-                      entryModeNotifier: entryModeNotifier),
+                  child: DebitCreditAmountWidget(),
                 ),
               ),
               SizedBox(

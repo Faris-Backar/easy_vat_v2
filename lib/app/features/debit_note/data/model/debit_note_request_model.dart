@@ -8,12 +8,14 @@ class DebitNoteRequestModel with _$DebitNoteRequestModel {
   const factory DebitNoteRequestModel({
     String? debitNoteIDPK,
     String? supplierIDPK,
-    String? crLedgerIDPK,
-    String? drLedgerIDPK,
+    String? crLedgerIDFK,
+    String? drLedgerIDFK,
     int? debitNoteNo,
     String? referenceNo,
+    String? supplierReferenceNo,
     DateTime? debitNoteDate,
     String? paymentMode,
+    String? purchasedBy,
     String? description,
     double? totalAmount,
     String? remarks,
@@ -26,7 +28,7 @@ class DebitNoteRequestModel with _$DebitNoteRequestModel {
     String? rowguid,
     String? companyIDPK,
     String? supplierName,
-    double? customerBalance,
+    double? supplierBalance,
     List<DebitNoteEntryDetails>? debitNoteEntryDetails,
   }) = _DebitNoteRequestModel;
 
