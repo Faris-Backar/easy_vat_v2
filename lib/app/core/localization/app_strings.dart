@@ -257,4 +257,6 @@ class AppStrings {
   static const String ledgerBal = "ledgerBal";
   static const String deleteContraConfirmationMessage =
       "deleteContraConfirmationMessage";
+  static const String dividendNo = "dividendNo";
+  static const String issuedBy = "issuedBy";
 }

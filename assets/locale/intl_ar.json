@@ -243,5 +243,7 @@
    "deleteJournalConfirmationMessage": "تم حذف المجلة بنجاح",
    "ledgerMode": "وضع دفتر الأستاذ",
    "ledgerBal": "رصيد دفتر الأستاذ",
-   "deleteContraConfirmationMessage": "تم حذف الكونترا بنجاح"
+   "deleteContraConfirmationMessage": "تم حذف الكونترا بنجاح",
+   "dividendNo": "رقم توزيع الأرباح" ,
+   "issuedBy" : "صادر عن"
 }

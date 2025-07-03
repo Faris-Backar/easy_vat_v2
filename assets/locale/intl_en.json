@@ -244,5 +244,7 @@
   "deleteJournalConfirmationMessage": "Journal deleted Successfully",
   "ledgerMode": "Ledger Mode",
   "ledgerBal": "Ledger Balance",
-  "deleteContraConfirmationMessage": "Contra deleted Successfully"
+  "deleteContraConfirmationMessage": "Contra deleted Successfully",
+  "dividendNo" : "Dividend No",
+  "issuedBy" : "Issued By"
 }

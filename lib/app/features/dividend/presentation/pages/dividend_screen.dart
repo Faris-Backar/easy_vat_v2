@@ -4,6 +4,9 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/dividend_appbar.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/expense_ledger/expense_ledger_notifier.dart';
+import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,6 +22,18 @@ class DividendScreen extends ConsumerStatefulWidget {
 
 class _DividendScreenState extends ConsumerState<DividendScreen> {
   final _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
+      ref.read(cashLedgerNotifierProvider.notifier).fetchBankLedgers();
+      ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
+      ref.read(expenseLedgerNotifierProvider.notifier).fetchExpenseLedgers();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
