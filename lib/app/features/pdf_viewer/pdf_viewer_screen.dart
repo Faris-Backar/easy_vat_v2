@@ -39,7 +39,15 @@ class PdfViewerScreen extends StatefulWidget {
   State<PdfViewerScreen> createState() => _PdfViewerScreenState();
 }
 
-enum PDFType { salesInvoice, expense, income, creditNote, debitNote, journal }
+enum PDFType {
+  salesInvoice,
+  expense,
+  income,
+  creditNote,
+  debitNote,
+  journal,
+  contra
+}
 
 class _PdfViewerScreenState extends State<PdfViewerScreen> {
   late final PDFType _pdfType;
@@ -330,6 +338,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         return context.translate(AppStrings.debitNote);
       case PDFType.journal:
         return context.translate(AppStrings.journal);
+      case PDFType.contra:
+        return context.translate(AppStrings.contra);
     }
   }
 
@@ -347,6 +357,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         return UrlResources.downloadDebitNoteEntry;
       case PDFType.journal:
         return UrlResources.downloadJournal;
+      case PDFType.contra:
+        return UrlResources.downloadContra;
     }
   }
 }

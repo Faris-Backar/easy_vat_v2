@@ -243,5 +243,6 @@
   "supRefNo": "Sup Ref No",
   "deleteJournalConfirmationMessage": "Journal deleted Successfully",
   "ledgerMode": "Ledger Mode",
-  "ledgerBal": "Ledger Balance"
+  "ledgerBal": "Ledger Balance",
+  "deleteContraConfirmationMessage": "Contra deleted Successfully"
 }

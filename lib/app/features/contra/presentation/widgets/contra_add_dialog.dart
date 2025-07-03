@@ -2,13 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/journal/domain/entity/journal_cart_entity.dart';
+import 'package:easy_vat_v2/app/features/contra/domain/entity/contra_cart_entity.dart';
+import 'package:easy_vat_v2/app/features/contra/presentation/providers/contra_cart/contra_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_notifier.dart';
-import 'package:easy_vat_v2/app/features/journal/presentation/providers/journal_cart/journal_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/ledger_mode/ledger_mode_notifier.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/ledger_mode/ledger_mode_state.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
-
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
@@ -17,23 +16,18 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class JournalAddDialog extends ConsumerStatefulWidget {
+class ContraAddDialog extends ConsumerStatefulWidget {
   final LedgerAccountEntity ledger;
-
-  final JournalCartEntity? ledgerEntry;
-  const JournalAddDialog({
-    super.key,
-    required this.ledger,
-    this.ledgerEntry,
-  });
+  final ContraCartEntity? ledgerEntry;
+  const ContraAddDialog({super.key, required this.ledger, this.ledgerEntry});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _JournalAddDialogState();
+      _ContraAddDialogState();
 }
 
-class _JournalAddDialogState extends ConsumerState<JournalAddDialog> {
-  JournalCartEntity? cart;
+class _ContraAddDialogState extends ConsumerState<ContraAddDialog> {
+  ContraCartEntity? cart;
   late LedgerAccountEntity ledger;
   final _descriptionController = TextEditingController();
   final _drAmountController = TextEditingController();
@@ -46,6 +40,7 @@ class _JournalAddDialogState extends ConsumerState<JournalAddDialog> {
   @override
   void initState() {
     super.initState();
+
     cart = widget.ledgerEntry;
     ledger = widget.ledger;
 
@@ -284,22 +279,22 @@ class _JournalAddDialogState extends ConsumerState<JournalAddDialog> {
           label: widget.ledgerEntry != null
               ? context.translate(AppStrings.updateLedger)
               : context.translate(AppStrings.addLedger),
-          onPressed: _handleJournalCartAction,
+          onPressed: _handleContraCartAction,
         )
       ],
     );
   }
 
-  void _handleJournalCartAction() {
-    final journalCartNotifier = ref.read(journalCartProvider.notifier);
+  void _handleContraCartAction() {
+    final contraCartNotifier = ref.read(contraCartProvider.notifier);
     final drAmount = double.tryParse(_drAmountController.text) ?? 0.0;
     final crAmount = double.tryParse(_crAmountController.text) ?? 0.0;
     final totalAmount = double.tryParse(_totalAmountController.text) ?? 0.0;
 
-    final journalCartEntity = JournalCartEntity(
+    final contraCartEntity = ContraCartEntity(
         ledgerId: widget.ledgerEntry != null
             ? widget.ledgerEntry!.ledgerId
-            : (ref.read(journalCartProvider).ledgerList?.length ?? 0),
+            : (ref.read(contraCartProvider).ledgerList?.length ?? 0),
         ledger: ledger,
         currentBalance: ledger.currentBalance ?? 0.0,
         netTotal: totalAmount,
@@ -308,10 +303,9 @@ class _JournalAddDialogState extends ConsumerState<JournalAddDialog> {
         description: _descriptionController.text);
 
     if (widget.ledgerEntry == null) {
-      journalCartNotifier.addLedgerIntoJournalCart(ledger: journalCartEntity);
+      contraCartNotifier.addLedgerIntoContraCart(ledger: contraCartEntity);
     } else {
-      journalCartNotifier.updateJournalCartLedger(
-          cartLedger: journalCartEntity);
+      contraCartNotifier.updateContraCartLedger(cartLedger: contraCartEntity);
     }
     context.router.popForced();
   }

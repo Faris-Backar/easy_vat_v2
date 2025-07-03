@@ -42,74 +42,86 @@ class _AddNewJournalScreenState extends ConsumerState<AddNewJournalScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(journalCartProvider);
-    return Scaffold(
-      appBar: _buidAppBar(),
-      backgroundColor: context.surfaceColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              AddNewJournalForm(
-                journalNoController: journalNoController,
-                refNoController: refNoController,
-                descriptionController: descriptionController,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                height: 5,
-                thickness: 3,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: state.ledgerList == null || state.ledgerList!.isEmpty
-                    ? _buildEmptyState(context)
-                    : JournalCartList(
-                        ledgerList: state.ledgerList!,
-                      ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: SizedBox(
-                  width: 0.5.sw,
-                  child: DebitCreditAmountWidget(
-                    debitTotal: 0.0,
-                    creditTotal: 0.0,
-                    totalAmount: 0.0,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) async {
+        if (!didPop) {
+          bool shouldExit = await _onWillPop(context);
+          if (shouldExit) {
+            context.router.popForced();
+          }
+        }
+      },
+      child: Scaffold(
+        appBar: _buidAppBar(),
+        backgroundColor: context.surfaceColor,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                AddNewJournalForm(
+                  journalNoController: journalNoController,
+                  refNoController: refNoController,
+                  descriptionController: descriptionController,
+                  notesController: noteController,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Divider(
+                  height: 5,
+                  thickness: 3,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: state.ledgerList == null || state.ledgerList!.isEmpty
+                      ? _buildEmptyState(context)
+                      : JournalCartList(
+                          ledgerList: state.ledgerList!,
+                        ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: SizedBox(
+                    width: 0.5.sw,
+                    child: DebitCreditAmountWidget(
+                      debitTotal: 0.0,
+                      creditTotal: 0.0,
+                      totalAmount: 0.0,
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Divider(
-                height: 5,
-                thickness: 3,
-              ),
-              CustomTextField(
-                label: context.translate(AppStrings.note),
-                controller: noteController,
-                maxLines: 5,
-                onChanged: (value) =>
-                    ref.read(journalCartProvider.notifier).setNotes(value),
-                hint: context.translate(AppStrings.writeNote),
-              ),
-              SizedBox(
-                height: 16,
-              )
-            ],
+                SizedBox(
+                  height: 16,
+                ),
+                Divider(
+                  height: 5,
+                  thickness: 3,
+                ),
+                CustomTextField(
+                  label: context.translate(AppStrings.note),
+                  controller: noteController,
+                  maxLines: 5,
+                  onChanged: (value) =>
+                      ref.watch(journalCartProvider.notifier).setNotes(value),
+                  hint: context.translate(AppStrings.writeNote),
+                ),
+                SizedBox(
+                  height: 16,
+                )
+              ],
+            ),
           ),
         ),
+        bottomNavigationBar: AddJournalFooterWidget(
+            journalNoController: journalNoController,
+            refNoController: refNoController,
+            descriptionController: descriptionController),
       ),
-      bottomNavigationBar: AddJournalFooterWidget(
-          journalNoController: journalNoController,
-          refNoController: refNoController,
-          descriptionController: descriptionController),
     );
   }
 
@@ -159,5 +171,38 @@ class _AddNewJournalScreenState extends ConsumerState<AddNewJournalScreen> {
 
   Widget _buildEmptyState(BuildContext context) {
     return Center();
+  }
+
+  Future<bool> _onWillPop(BuildContext context) async {
+    final ledgerList = ref.read(journalCartProvider).ledgerList;
+
+    if (ledgerList != null && ledgerList.isNotEmpty) {
+      final shouldExit = await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text(
+                  context.translate(AppStrings.discardChanges),
+                ),
+                content: Text(
+                    context.translate(AppStrings.discardledgerChangesMessage)),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text(context.translate(AppStrings.cancel)),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: Text(context.translate(AppStrings.discard)),
+                  )
+                ],
+              ));
+      if (shouldExit == true) {
+        ref.read(journalCartProvider.notifier).clearJournalCart();
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return true;
   }
 }

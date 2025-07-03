@@ -24,7 +24,7 @@ class ContraRequestModel with _$ContraRequestModel {
     String? entryMode,
     String? toAccount,
     String? toAccountName,
-    List<ContraEntryDetails>? contraEntryDetails,
+    List<ContraEntryDetail>? contraEntryDetail,
   }) = _ContraRequestModel;
 
   factory ContraRequestModel.fromJson(Map<String, dynamic> json) =>
@@ -32,8 +32,8 @@ class ContraRequestModel with _$ContraRequestModel {
 }
 
 @freezed
-class ContraEntryDetails with _$ContraEntryDetails {
-  const factory ContraEntryDetails({
+class ContraEntryDetail with _$ContraEntryDetail {
+  const factory ContraEntryDetail({
     String? contraIDPK,
     String? ledgerIDPK,
     String? ledgerName,
@@ -43,8 +43,8 @@ class ContraEntryDetails with _$ContraEntryDetails {
     double? drAmount,
     double? crAmount,
     String? companyIDPK,
-  }) = _ContraEntryDetails;
+  }) = _ContraEntryDetail;
 
-  factory ContraEntryDetails.fromJson(Map<String, dynamic> json) =>
-      _$ContraEntryDetailsFromJson(json);
+  factory ContraEntryDetail.fromJson(Map<String, dynamic> json) =>
+      _$ContraEntryDetailFromJson(json);
 }

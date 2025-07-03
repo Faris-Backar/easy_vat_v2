@@ -25,7 +25,7 @@ abstract class ContraEntryEntity {
   final String? entryMode;
   final String? toAccount;
   final String? toAccountName;
-  final List<ContraEntryDetailsEntity>? contraEntryDetails;
+  final List<ContraEntryDetailEntity>? contraEntryDetail;
 
   ContraEntryEntity(
       {this.contraIDPK,
@@ -46,10 +46,10 @@ abstract class ContraEntryEntity {
       this.entryMode,
       this.toAccount,
       this.toAccountName,
-      this.contraEntryDetails});
+      this.contraEntryDetail});
 }
 
-abstract class ContraEntryDetailsEntity {
+abstract class ContraEntryDetailEntity {
   final String? contraIDPK;
   final String? ledgerIDPK;
   final String? ledgerName;
@@ -59,7 +59,7 @@ abstract class ContraEntryDetailsEntity {
   final double? drAmount;
   final double? crAmount;
   final String? companyIDPK;
-  ContraEntryDetailsEntity({
+  ContraEntryDetailEntity({
     this.contraIDPK,
     this.ledgerIDPK,
     this.ledgerName,

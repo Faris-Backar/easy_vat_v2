@@ -24,7 +24,7 @@ class ContraNotifiers extends StateNotifier<ContraState> {
       : super(ContraState.initial());
 
   fetchContra({required ContraParams params}) async {
-    state = const ContraState.initial();
+    state = const ContraState.loading();
     final result =
         await contraRepository.getContra(contraRequestParams: params);
     result.fold((failure) => state = ContraState.failure(failure.message),

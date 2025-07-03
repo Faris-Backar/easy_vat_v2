@@ -38,7 +38,7 @@ mixin _$ContraRequestModel {
   String? get entryMode => throw _privateConstructorUsedError;
   String? get toAccount => throw _privateConstructorUsedError;
   String? get toAccountName => throw _privateConstructorUsedError;
-  List<ContraEntryDetails>? get contraEntryDetails =>
+  List<ContraEntryDetail>? get contraEntryDetail =>
       throw _privateConstructorUsedError;
 
   /// Serializes this ContraRequestModel to a JSON map.
@@ -76,7 +76,7 @@ abstract class $ContraRequestModelCopyWith<$Res> {
       String? entryMode,
       String? toAccount,
       String? toAccountName,
-      List<ContraEntryDetails>? contraEntryDetails});
+      List<ContraEntryDetail>? contraEntryDetail});
 }
 
 /// @nodoc
@@ -112,7 +112,7 @@ class _$ContraRequestModelCopyWithImpl<$Res, $Val extends ContraRequestModel>
     Object? entryMode = freezed,
     Object? toAccount = freezed,
     Object? toAccountName = freezed,
-    Object? contraEntryDetails = freezed,
+    Object? contraEntryDetail = freezed,
   }) {
     return _then(_value.copyWith(
       contraIDPK: freezed == contraIDPK
@@ -187,10 +187,10 @@ class _$ContraRequestModelCopyWithImpl<$Res, $Val extends ContraRequestModel>
           ? _value.toAccountName
           : toAccountName // ignore: cast_nullable_to_non_nullable
               as String?,
-      contraEntryDetails: freezed == contraEntryDetails
-          ? _value.contraEntryDetails
-          : contraEntryDetails // ignore: cast_nullable_to_non_nullable
-              as List<ContraEntryDetails>?,
+      contraEntryDetail: freezed == contraEntryDetail
+          ? _value.contraEntryDetail
+          : contraEntryDetail // ignore: cast_nullable_to_non_nullable
+              as List<ContraEntryDetail>?,
     ) as $Val);
   }
 }
@@ -222,7 +222,7 @@ abstract class _$$ContraRequestModelImplCopyWith<$Res>
       String? entryMode,
       String? toAccount,
       String? toAccountName,
-      List<ContraEntryDetails>? contraEntryDetails});
+      List<ContraEntryDetail>? contraEntryDetail});
 }
 
 /// @nodoc
@@ -256,7 +256,7 @@ class __$$ContraRequestModelImplCopyWithImpl<$Res>
     Object? entryMode = freezed,
     Object? toAccount = freezed,
     Object? toAccountName = freezed,
-    Object? contraEntryDetails = freezed,
+    Object? contraEntryDetail = freezed,
   }) {
     return _then(_$ContraRequestModelImpl(
       contraIDPK: freezed == contraIDPK
@@ -331,10 +331,10 @@ class __$$ContraRequestModelImplCopyWithImpl<$Res>
           ? _value.toAccountName
           : toAccountName // ignore: cast_nullable_to_non_nullable
               as String?,
-      contraEntryDetails: freezed == contraEntryDetails
-          ? _value._contraEntryDetails
-          : contraEntryDetails // ignore: cast_nullable_to_non_nullable
-              as List<ContraEntryDetails>?,
+      contraEntryDetail: freezed == contraEntryDetail
+          ? _value._contraEntryDetail
+          : contraEntryDetail // ignore: cast_nullable_to_non_nullable
+              as List<ContraEntryDetail>?,
     ));
   }
 }
@@ -361,8 +361,8 @@ class _$ContraRequestModelImpl implements _ContraRequestModel {
       this.entryMode,
       this.toAccount,
       this.toAccountName,
-      final List<ContraEntryDetails>? contraEntryDetails})
-      : _contraEntryDetails = contraEntryDetails;
+      final List<ContraEntryDetail>? contraEntryDetail})
+      : _contraEntryDetail = contraEntryDetail;
 
   factory _$ContraRequestModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ContraRequestModelImplFromJson(json);
@@ -403,20 +403,20 @@ class _$ContraRequestModelImpl implements _ContraRequestModel {
   final String? toAccount;
   @override
   final String? toAccountName;
-  final List<ContraEntryDetails>? _contraEntryDetails;
+  final List<ContraEntryDetail>? _contraEntryDetail;
   @override
-  List<ContraEntryDetails>? get contraEntryDetails {
-    final value = _contraEntryDetails;
+  List<ContraEntryDetail>? get contraEntryDetail {
+    final value = _contraEntryDetail;
     if (value == null) return null;
-    if (_contraEntryDetails is EqualUnmodifiableListView)
-      return _contraEntryDetails;
+    if (_contraEntryDetail is EqualUnmodifiableListView)
+      return _contraEntryDetail;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
 
   @override
   String toString() {
-    return 'ContraRequestModel(contraIDPK: $contraIDPK, contraNo: $contraNo, referenceNo: $referenceNo, contraDate: $contraDate, description: $description, totalAmount: $totalAmount, remarks: $remarks, isEditable: $isEditable, isCanceled: $isCanceled, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, companyIDPK: $companyIDPK, entryMode: $entryMode, toAccount: $toAccount, toAccountName: $toAccountName, contraEntryDetails: $contraEntryDetails)';
+    return 'ContraRequestModel(contraIDPK: $contraIDPK, contraNo: $contraNo, referenceNo: $referenceNo, contraDate: $contraDate, description: $description, totalAmount: $totalAmount, remarks: $remarks, isEditable: $isEditable, isCanceled: $isCanceled, createdBy: $createdBy, createdDate: $createdDate, modifiedBy: $modifiedBy, modifiedDate: $modifiedDate, rowguid: $rowguid, companyIDPK: $companyIDPK, entryMode: $entryMode, toAccount: $toAccount, toAccountName: $toAccountName, contraEntryDetail: $contraEntryDetail)';
   }
 
   @override
@@ -459,7 +459,7 @@ class _$ContraRequestModelImpl implements _ContraRequestModel {
             (identical(other.toAccountName, toAccountName) ||
                 other.toAccountName == toAccountName) &&
             const DeepCollectionEquality()
-                .equals(other._contraEntryDetails, _contraEntryDetails));
+                .equals(other._contraEntryDetail, _contraEntryDetail));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -484,7 +484,7 @@ class _$ContraRequestModelImpl implements _ContraRequestModel {
         entryMode,
         toAccount,
         toAccountName,
-        const DeepCollectionEquality().hash(_contraEntryDetails)
+        const DeepCollectionEquality().hash(_contraEntryDetail)
       ]);
 
   /// Create a copy of ContraRequestModel
@@ -524,7 +524,7 @@ abstract class _ContraRequestModel implements ContraRequestModel {
           final String? entryMode,
           final String? toAccount,
           final String? toAccountName,
-          final List<ContraEntryDetails>? contraEntryDetails}) =
+          final List<ContraEntryDetail>? contraEntryDetail}) =
       _$ContraRequestModelImpl;
 
   factory _ContraRequestModel.fromJson(Map<String, dynamic> json) =
@@ -567,7 +567,7 @@ abstract class _ContraRequestModel implements ContraRequestModel {
   @override
   String? get toAccountName;
   @override
-  List<ContraEntryDetails>? get contraEntryDetails;
+  List<ContraEntryDetail>? get contraEntryDetail;
 
   /// Create a copy of ContraRequestModel
   /// with the given fields replaced by the non-null parameter values.
@@ -577,12 +577,12 @@ abstract class _ContraRequestModel implements ContraRequestModel {
       throw _privateConstructorUsedError;
 }
 
-ContraEntryDetails _$ContraEntryDetailsFromJson(Map<String, dynamic> json) {
-  return _ContraEntryDetails.fromJson(json);
+ContraEntryDetail _$ContraEntryDetailFromJson(Map<String, dynamic> json) {
+  return _ContraEntryDetail.fromJson(json);
 }
 
 /// @nodoc
-mixin _$ContraEntryDetails {
+mixin _$ContraEntryDetail {
   String? get contraIDPK => throw _privateConstructorUsedError;
   String? get ledgerIDPK => throw _privateConstructorUsedError;
   String? get ledgerName => throw _privateConstructorUsedError;
@@ -593,21 +593,21 @@ mixin _$ContraEntryDetails {
   double? get crAmount => throw _privateConstructorUsedError;
   String? get companyIDPK => throw _privateConstructorUsedError;
 
-  /// Serializes this ContraEntryDetails to a JSON map.
+  /// Serializes this ContraEntryDetail to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of ContraEntryDetails
+  /// Create a copy of ContraEntryDetail
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $ContraEntryDetailsCopyWith<ContraEntryDetails> get copyWith =>
+  $ContraEntryDetailCopyWith<ContraEntryDetail> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $ContraEntryDetailsCopyWith<$Res> {
-  factory $ContraEntryDetailsCopyWith(
-          ContraEntryDetails value, $Res Function(ContraEntryDetails) then) =
-      _$ContraEntryDetailsCopyWithImpl<$Res, ContraEntryDetails>;
+abstract class $ContraEntryDetailCopyWith<$Res> {
+  factory $ContraEntryDetailCopyWith(
+          ContraEntryDetail value, $Res Function(ContraEntryDetail) then) =
+      _$ContraEntryDetailCopyWithImpl<$Res, ContraEntryDetail>;
   @useResult
   $Res call(
       {String? contraIDPK,
@@ -622,16 +622,16 @@ abstract class $ContraEntryDetailsCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$ContraEntryDetailsCopyWithImpl<$Res, $Val extends ContraEntryDetails>
-    implements $ContraEntryDetailsCopyWith<$Res> {
-  _$ContraEntryDetailsCopyWithImpl(this._value, this._then);
+class _$ContraEntryDetailCopyWithImpl<$Res, $Val extends ContraEntryDetail>
+    implements $ContraEntryDetailCopyWith<$Res> {
+  _$ContraEntryDetailCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of ContraEntryDetails
+  /// Create a copy of ContraEntryDetail
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -688,11 +688,11 @@ class _$ContraEntryDetailsCopyWithImpl<$Res, $Val extends ContraEntryDetails>
 }
 
 /// @nodoc
-abstract class _$$ContraEntryDetailsImplCopyWith<$Res>
-    implements $ContraEntryDetailsCopyWith<$Res> {
-  factory _$$ContraEntryDetailsImplCopyWith(_$ContraEntryDetailsImpl value,
-          $Res Function(_$ContraEntryDetailsImpl) then) =
-      __$$ContraEntryDetailsImplCopyWithImpl<$Res>;
+abstract class _$$ContraEntryDetailImplCopyWith<$Res>
+    implements $ContraEntryDetailCopyWith<$Res> {
+  factory _$$ContraEntryDetailImplCopyWith(_$ContraEntryDetailImpl value,
+          $Res Function(_$ContraEntryDetailImpl) then) =
+      __$$ContraEntryDetailImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -708,14 +708,14 @@ abstract class _$$ContraEntryDetailsImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$ContraEntryDetailsImplCopyWithImpl<$Res>
-    extends _$ContraEntryDetailsCopyWithImpl<$Res, _$ContraEntryDetailsImpl>
-    implements _$$ContraEntryDetailsImplCopyWith<$Res> {
-  __$$ContraEntryDetailsImplCopyWithImpl(_$ContraEntryDetailsImpl _value,
-      $Res Function(_$ContraEntryDetailsImpl) _then)
+class __$$ContraEntryDetailImplCopyWithImpl<$Res>
+    extends _$ContraEntryDetailCopyWithImpl<$Res, _$ContraEntryDetailImpl>
+    implements _$$ContraEntryDetailImplCopyWith<$Res> {
+  __$$ContraEntryDetailImplCopyWithImpl(_$ContraEntryDetailImpl _value,
+      $Res Function(_$ContraEntryDetailImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of ContraEntryDetails
+  /// Create a copy of ContraEntryDetail
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -730,7 +730,7 @@ class __$$ContraEntryDetailsImplCopyWithImpl<$Res>
     Object? crAmount = freezed,
     Object? companyIDPK = freezed,
   }) {
-    return _then(_$ContraEntryDetailsImpl(
+    return _then(_$ContraEntryDetailImpl(
       contraIDPK: freezed == contraIDPK
           ? _value.contraIDPK
           : contraIDPK // ignore: cast_nullable_to_non_nullable
@@ -773,8 +773,8 @@ class __$$ContraEntryDetailsImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$ContraEntryDetailsImpl implements _ContraEntryDetails {
-  const _$ContraEntryDetailsImpl(
+class _$ContraEntryDetailImpl implements _ContraEntryDetail {
+  const _$ContraEntryDetailImpl(
       {this.contraIDPK,
       this.ledgerIDPK,
       this.ledgerName,
@@ -785,8 +785,8 @@ class _$ContraEntryDetailsImpl implements _ContraEntryDetails {
       this.crAmount,
       this.companyIDPK});
 
-  factory _$ContraEntryDetailsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$ContraEntryDetailsImplFromJson(json);
+  factory _$ContraEntryDetailImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ContraEntryDetailImplFromJson(json);
 
   @override
   final String? contraIDPK;
@@ -809,14 +809,14 @@ class _$ContraEntryDetailsImpl implements _ContraEntryDetails {
 
   @override
   String toString() {
-    return 'ContraEntryDetails(contraIDPK: $contraIDPK, ledgerIDPK: $ledgerIDPK, ledgerName: $ledgerName, currentBalance: $currentBalance, currentBalanceType: $currentBalanceType, description: $description, drAmount: $drAmount, crAmount: $crAmount, companyIDPK: $companyIDPK)';
+    return 'ContraEntryDetail(contraIDPK: $contraIDPK, ledgerIDPK: $ledgerIDPK, ledgerName: $ledgerName, currentBalance: $currentBalance, currentBalanceType: $currentBalanceType, description: $description, drAmount: $drAmount, crAmount: $crAmount, companyIDPK: $companyIDPK)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$ContraEntryDetailsImpl &&
+            other is _$ContraEntryDetailImpl &&
             (identical(other.contraIDPK, contraIDPK) ||
                 other.contraIDPK == contraIDPK) &&
             (identical(other.ledgerIDPK, ledgerIDPK) ||
@@ -851,25 +851,25 @@ class _$ContraEntryDetailsImpl implements _ContraEntryDetails {
       crAmount,
       companyIDPK);
 
-  /// Create a copy of ContraEntryDetails
+  /// Create a copy of ContraEntryDetail
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$ContraEntryDetailsImplCopyWith<_$ContraEntryDetailsImpl> get copyWith =>
-      __$$ContraEntryDetailsImplCopyWithImpl<_$ContraEntryDetailsImpl>(
+  _$$ContraEntryDetailImplCopyWith<_$ContraEntryDetailImpl> get copyWith =>
+      __$$ContraEntryDetailImplCopyWithImpl<_$ContraEntryDetailImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ContraEntryDetailsImplToJson(
+    return _$$ContraEntryDetailImplToJson(
       this,
     );
   }
 }
 
-abstract class _ContraEntryDetails implements ContraEntryDetails {
-  const factory _ContraEntryDetails(
+abstract class _ContraEntryDetail implements ContraEntryDetail {
+  const factory _ContraEntryDetail(
       {final String? contraIDPK,
       final String? ledgerIDPK,
       final String? ledgerName,
@@ -878,10 +878,10 @@ abstract class _ContraEntryDetails implements ContraEntryDetails {
       final String? description,
       final double? drAmount,
       final double? crAmount,
-      final String? companyIDPK}) = _$ContraEntryDetailsImpl;
+      final String? companyIDPK}) = _$ContraEntryDetailImpl;
 
-  factory _ContraEntryDetails.fromJson(Map<String, dynamic> json) =
-      _$ContraEntryDetailsImpl.fromJson;
+  factory _ContraEntryDetail.fromJson(Map<String, dynamic> json) =
+      _$ContraEntryDetailImpl.fromJson;
 
   @override
   String? get contraIDPK;
@@ -902,10 +902,10 @@ abstract class _ContraEntryDetails implements ContraEntryDetails {
   @override
   String? get companyIDPK;
 
-  /// Create a copy of ContraEntryDetails
+  /// Create a copy of ContraEntryDetail
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$ContraEntryDetailsImplCopyWith<_$ContraEntryDetailsImpl> get copyWith =>
+  _$$ContraEntryDetailImplCopyWith<_$ContraEntryDetailImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

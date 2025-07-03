@@ -33,8 +33,8 @@ _$ContraRequestModelImpl _$$ContraRequestModelImplFromJson(
       entryMode: json['entryMode'] as String?,
       toAccount: json['toAccount'] as String?,
       toAccountName: json['toAccountName'] as String?,
-      contraEntryDetails: (json['contraEntryDetails'] as List<dynamic>?)
-          ?.map((e) => ContraEntryDetails.fromJson(e as Map<String, dynamic>))
+      contraEntryDetail: (json['contraEntryDetail'] as List<dynamic>?)
+          ?.map((e) => ContraEntryDetail.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -59,12 +59,12 @@ Map<String, dynamic> _$$ContraRequestModelImplToJson(
       'entryMode': instance.entryMode,
       'toAccount': instance.toAccount,
       'toAccountName': instance.toAccountName,
-      'contraEntryDetails': instance.contraEntryDetails,
+      'contraEntryDetail': instance.contraEntryDetail,
     };
 
-_$ContraEntryDetailsImpl _$$ContraEntryDetailsImplFromJson(
+_$ContraEntryDetailImpl _$$ContraEntryDetailImplFromJson(
         Map<String, dynamic> json) =>
-    _$ContraEntryDetailsImpl(
+    _$ContraEntryDetailImpl(
       contraIDPK: json['contraIDPK'] as String?,
       ledgerIDPK: json['ledgerIDPK'] as String?,
       ledgerName: json['ledgerName'] as String?,
@@ -76,8 +76,8 @@ _$ContraEntryDetailsImpl _$$ContraEntryDetailsImplFromJson(
       companyIDPK: json['companyIDPK'] as String?,
     );
 
-Map<String, dynamic> _$$ContraEntryDetailsImplToJson(
-        _$ContraEntryDetailsImpl instance) =>
+Map<String, dynamic> _$$ContraEntryDetailImplToJson(
+        _$ContraEntryDetailImpl instance) =>
     <String, dynamic>{
       'contraIDPK': instance.contraIDPK,
       'ledgerIDPK': instance.ledgerIDPK,

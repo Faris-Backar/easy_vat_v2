@@ -23,7 +23,10 @@ mixin _$ContraCartState {
   String? get contraNo => throw _privateConstructorUsedError;
   String? get refNo => throw _privateConstructorUsedError;
   String? get entryMode => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
+  String? get notes => throw _privateConstructorUsedError;
   LedgerAccountEntity? get allAccount => throw _privateConstructorUsedError;
+  LedgerAccountEntity? get selectedLedger => throw _privateConstructorUsedError;
   bool? get isForUpdate => throw _privateConstructorUsedError;
   DateTime? get contraDate => throw _privateConstructorUsedError;
 
@@ -48,7 +51,10 @@ abstract class $ContraCartStateCopyWith<$Res> {
       String? contraNo,
       String? refNo,
       String? entryMode,
+      String? description,
+      String? notes,
       LedgerAccountEntity? allAccount,
+      LedgerAccountEntity? selectedLedger,
       bool? isForUpdate,
       DateTime? contraDate});
 }
@@ -75,7 +81,10 @@ class _$ContraCartStateCopyWithImpl<$Res, $Val extends ContraCartState>
     Object? contraNo = freezed,
     Object? refNo = freezed,
     Object? entryMode = freezed,
+    Object? description = freezed,
+    Object? notes = freezed,
     Object? allAccount = freezed,
+    Object? selectedLedger = freezed,
     Object? isForUpdate = freezed,
     Object? contraDate = freezed,
   }) {
@@ -108,9 +117,21 @@ class _$ContraCartStateCopyWithImpl<$Res, $Val extends ContraCartState>
           ? _value.entryMode
           : entryMode // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
       allAccount: freezed == allAccount
           ? _value.allAccount
           : allAccount // ignore: cast_nullable_to_non_nullable
+              as LedgerAccountEntity?,
+      selectedLedger: freezed == selectedLedger
+          ? _value.selectedLedger
+          : selectedLedger // ignore: cast_nullable_to_non_nullable
               as LedgerAccountEntity?,
       isForUpdate: freezed == isForUpdate
           ? _value.isForUpdate
@@ -140,7 +161,10 @@ abstract class _$$ContraCartStateImplCopyWith<$Res>
       String? contraNo,
       String? refNo,
       String? entryMode,
+      String? description,
+      String? notes,
       LedgerAccountEntity? allAccount,
+      LedgerAccountEntity? selectedLedger,
       bool? isForUpdate,
       DateTime? contraDate});
 }
@@ -165,7 +189,10 @@ class __$$ContraCartStateImplCopyWithImpl<$Res>
     Object? contraNo = freezed,
     Object? refNo = freezed,
     Object? entryMode = freezed,
+    Object? description = freezed,
+    Object? notes = freezed,
     Object? allAccount = freezed,
+    Object? selectedLedger = freezed,
     Object? isForUpdate = freezed,
     Object? contraDate = freezed,
   }) {
@@ -198,9 +225,21 @@ class __$$ContraCartStateImplCopyWithImpl<$Res>
           ? _value.entryMode
           : entryMode // ignore: cast_nullable_to_non_nullable
               as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
       allAccount: freezed == allAccount
           ? _value.allAccount
           : allAccount // ignore: cast_nullable_to_non_nullable
+              as LedgerAccountEntity?,
+      selectedLedger: freezed == selectedLedger
+          ? _value.selectedLedger
+          : selectedLedger // ignore: cast_nullable_to_non_nullable
               as LedgerAccountEntity?,
       isForUpdate: freezed == isForUpdate
           ? _value.isForUpdate
@@ -225,7 +264,10 @@ class _$ContraCartStateImpl implements _ContraCartState {
       this.contraNo,
       this.refNo,
       this.entryMode,
+      this.description,
+      this.notes,
       this.allAccount,
+      this.selectedLedger,
       this.isForUpdate,
       this.contraDate})
       : _ledgerList = ledgerList;
@@ -253,7 +295,13 @@ class _$ContraCartStateImpl implements _ContraCartState {
   @override
   final String? entryMode;
   @override
+  final String? description;
+  @override
+  final String? notes;
+  @override
   final LedgerAccountEntity? allAccount;
+  @override
+  final LedgerAccountEntity? selectedLedger;
   @override
   final bool? isForUpdate;
   @override
@@ -261,7 +309,7 @@ class _$ContraCartStateImpl implements _ContraCartState {
 
   @override
   String toString() {
-    return 'ContraCartState(ledgerList: $ledgerList, totalAmount: $totalAmount, drAmount: $drAmount, crAmount: $crAmount, contraNo: $contraNo, refNo: $refNo, entryMode: $entryMode, allAccount: $allAccount, isForUpdate: $isForUpdate, contraDate: $contraDate)';
+    return 'ContraCartState(ledgerList: $ledgerList, totalAmount: $totalAmount, drAmount: $drAmount, crAmount: $crAmount, contraNo: $contraNo, refNo: $refNo, entryMode: $entryMode, description: $description, notes: $notes, allAccount: $allAccount, selectedLedger: $selectedLedger, isForUpdate: $isForUpdate, contraDate: $contraDate)';
   }
 
   @override
@@ -282,8 +330,13 @@ class _$ContraCartStateImpl implements _ContraCartState {
             (identical(other.refNo, refNo) || other.refNo == refNo) &&
             (identical(other.entryMode, entryMode) ||
                 other.entryMode == entryMode) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.notes, notes) || other.notes == notes) &&
             (identical(other.allAccount, allAccount) ||
                 other.allAccount == allAccount) &&
+            (identical(other.selectedLedger, selectedLedger) ||
+                other.selectedLedger == selectedLedger) &&
             (identical(other.isForUpdate, isForUpdate) ||
                 other.isForUpdate == isForUpdate) &&
             (identical(other.contraDate, contraDate) ||
@@ -300,7 +353,10 @@ class _$ContraCartStateImpl implements _ContraCartState {
       contraNo,
       refNo,
       entryMode,
+      description,
+      notes,
       allAccount,
+      selectedLedger,
       isForUpdate,
       contraDate);
 
@@ -323,7 +379,10 @@ abstract class _ContraCartState implements ContraCartState {
       final String? contraNo,
       final String? refNo,
       final String? entryMode,
+      final String? description,
+      final String? notes,
       final LedgerAccountEntity? allAccount,
+      final LedgerAccountEntity? selectedLedger,
       final bool? isForUpdate,
       final DateTime? contraDate}) = _$ContraCartStateImpl;
 
@@ -342,7 +401,13 @@ abstract class _ContraCartState implements ContraCartState {
   @override
   String? get entryMode;
   @override
+  String? get description;
+  @override
+  String? get notes;
+  @override
   LedgerAccountEntity? get allAccount;
+  @override
+  LedgerAccountEntity? get selectedLedger;
   @override
   bool? get isForUpdate;
   @override

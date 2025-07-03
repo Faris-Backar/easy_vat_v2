@@ -7,13 +7,11 @@ class ContraParams {
   final String? contraIDPK;
   final DateTime fromDate;
   final DateTime toDate;
-  final String? entryMode;
 
   ContraParams({
     this.contraIDPK,
     required this.fromDate,
     required this.toDate,
-    this.entryMode,
   });
 
   String _formateDate(DateTime date) {
@@ -25,7 +23,6 @@ class ContraParams {
       "contraIDPK": contraIDPK ?? PrefResources.emptyGuid,
       "fromDate": _formateDate(fromDate),
       "toDate": _formateDate(toDate),
-      "entryMode": entryMode,
     };
   }
 

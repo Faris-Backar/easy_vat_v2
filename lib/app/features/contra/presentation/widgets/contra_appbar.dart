@@ -1,12 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/contra/domain/usecase/params/contra_filter_params.dart';
+import 'package:easy_vat_v2/app/features/contra/domain/usecase/params/contra_params.dart';
+import 'package:easy_vat_v2/app/features/contra/presentation/providers/contra/contra_notifier.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/filter_widget.dart';
-import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
-import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
+import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
@@ -32,6 +35,8 @@ class ContraAppbar extends ConsumerStatefulWidget
 class ContraAppBarConfig {
   final String title;
   final Future<bool> Function()? onWillPop;
+  final Future<void> Function(ContraParams params)? fetchFunction;
+  final Future<void> Function(ContraFilterParams params)? filterFunction;
   final List<PopupMenuEntry<String>>? additionalPopupMenuItems;
   final bool showDateRangePicker;
   final bool showSearchBar;
@@ -40,6 +45,8 @@ class ContraAppBarConfig {
   const ContraAppBarConfig({
     this.title = "",
     this.onWillPop,
+    this.fetchFunction,
+    this.filterFunction,
     this.additionalPopupMenuItems,
     this.showDateRangePicker = true,
     this.showSearchBar = true,
@@ -71,8 +78,23 @@ class _ContraAppBarState extends ConsumerState<ContraAppbar> {
     super.dispose();
   }
 
+  Future<void> _defaultFetchContra() async {
+    final dateRange = ref.read(dateRangeProvider);
+    final params = ContraParams(
+        contraIDPK: PrefResources.emptyGuid,
+        fromDate: dateRange.fromDate,
+        toDate: dateRange.toDate);
+
+    if (widget.config.fetchFunction != null) {
+      await widget.config.fetchFunction!(params);
+    } else {
+      await ref
+          .read(contraNotifierProvider.notifier)
+          .fetchContra(params: params);
+    }
+  }
+
   _buidlFilterBottomSheet(BuildContext context) {
-    final paymentModeState = ref.read(paymentModeNotifierProvider);
     return showModalBottomSheet(
         context: context,
         builder: (context) => Padding(
@@ -89,7 +111,13 @@ class _ContraAppBarState extends ConsumerState<ContraAppbar> {
                             ?.copyWith(fontWeight: FontWeight.w700),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          if (widget.config.filterFunction != null) {
+                            widget.config.filterFunction!(
+                                ContraFilterParams(clearAllFilter: true));
+                          }
+                          context.router.popForced();
+                        },
                         child: Text(
                           context.translate(AppStrings.clearAll),
                           style: context.textTheme.bodySmall?.copyWith(
@@ -108,34 +136,56 @@ class _ContraAppBarState extends ConsumerState<ContraAppbar> {
                   ),
                   Row(
                     children: [
-                      Expanded(
-                        child: paymentModeState.when(
-                          initial: () => SizedBox.shrink(),
-                          loading: () => Center(
-                            child: CircularProgressIndicator.adaptive(),
-                          ),
-                          error: (message) => Text("Error: $message"),
-                          loaded: (paymentModes, selectedPaymentMode) {
-                            return DropdownField(
-                                label:
-                                    context.translate(AppStrings.paymentMode),
-                                valueNotifier: paymentMethodNotifier,
-                                items: paymentModes
-                                    .map((mode) => mode.paymentModes)
-                                    .toList(),
-                                backgroundColor: AppUtils.isDarkMode(context)
-                                    ? context.colorScheme.tertiaryContainer
-                                    : context.surfaceColor,
-                                onChanged: (newValue) {
-                                  paymentMethodNotifier.value = newValue;
-                                });
-                          },
-                        ),
-                      ),
+                      // Expanded(
+                      //   child: paymentModeState.when(
+                      //     initial: () => SizedBox.shrink(),
+                      //     loading: () => Center(
+                      //       child: CircularProgressIndicator.adaptive(),
+                      //     ),
+                      //     error: (message) => Text("Error: $message"),
+                      //     loaded: (paymentModes, selectedPaymentMode) {
+                      //       return DropdownField(
+                      //           label:
+                      //               context.translate(AppStrings.paymentMode),
+                      //           valueNotifier: paymentMethodNotifier,
+                      //           items: paymentModes
+                      //               .map((mode) => mode.paymentModes)
+                      //               .toList(),
+                      //           backgroundColor: AppUtils.isDarkMode(context)
+                      //               ? context.colorScheme.tertiaryContainer
+                      //               : context.surfaceColor,
+                      //           onChanged: (newValue) {
+                      //             paymentMethodNotifier.value = newValue;
+                      //           });
+                      //     },
+                      //   ),
+                      // ),
                       SizedBox(
                         width: 12.w,
                       ),
                     ],
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: PrimaryButton(
+                      label: context.translate(AppStrings.filter),
+                      onPressed: () {
+                        final params = ContraParams(
+                            fromDate: ref.read(dateRangeProvider).fromDate,
+                            toDate: ref.read(dateRangeProvider).toDate);
+
+                        if (widget.config.filterFunction != null) {
+                        } else {
+                          ref
+                              .read(contraNotifierProvider.notifier)
+                              .fetchContra(params: params);
+                        }
+                        context.router.popForced();
+                      },
+                    ),
                   )
                 ],
               ),
@@ -222,9 +272,7 @@ class _ContraAppBarState extends ConsumerState<ContraAppbar> {
                           width: 10.w,
                         ),
                         InkWell(
-                          onTap: () {
-                            // fetch func
-                          },
+                          onTap: _defaultFetchContra,
                           child: Container(
                             height: 36.h,
                             width: 41.w,
@@ -298,8 +346,10 @@ class _ContraAppBarState extends ConsumerState<ContraAppbar> {
                           fontWeight: FontWeight.w500,
                           color:
                               context.defaultTextColor.withValues(alpha: 0.32)),
-                      onChanged:
-                          (value) {}, // Contra Notifier provider and search contra
+                      onChanged: (value) => ref
+                          .read(contraNotifierProvider.notifier)
+                          .searchContra(
+                              value), // Contra Notifier provider and search contra
                       suffixIcon: hasText
                           ? Padding(
                               padding: const EdgeInsets.all(12.0),

@@ -1,30 +1,26 @@
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/features/contra/presentation/providers/contra_cart/contra_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/widgets/dotted_line.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_notifier.dart';
-import 'package:easy_vat_v2/app/features/journal/presentation/providers/journal_cart/journal_cart_provider.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DebitCreditAmountWidget extends ConsumerStatefulWidget {
+class ContraAmountSplitupWidget extends ConsumerStatefulWidget {
   final double? totalAmount;
   final double? debitTotal;
   final double? creditTotal;
 
-  const DebitCreditAmountWidget({
-    super.key,
-    this.totalAmount,
-    this.debitTotal,
-    this.creditTotal,
-  });
+  const ContraAmountSplitupWidget(
+      {super.key, this.totalAmount, this.creditTotal, this.debitTotal});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _DebitCreditAmountWidgetState();
+      _ContraAmountWidgetState();
 }
 
-class _DebitCreditAmountWidgetState
-    extends ConsumerState<DebitCreditAmountWidget> {
+class _ContraAmountWidgetState
+    extends ConsumerState<ContraAmountSplitupWidget> {
   @override
   void initState() {
     super.initState();
@@ -32,7 +28,7 @@ class _DebitCreditAmountWidgetState
 
   @override
   Widget build(BuildContext context) {
-    final journalState = ref.watch(journalCartProvider);
+    final contraState = ref.watch(contraCartProvider);
 
     final entryMode = ref.watch(entryModeProvider);
     return Consumer(
@@ -49,7 +45,7 @@ class _DebitCreditAmountWidgetState
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          journalState.totalAmount.toStringAsFixed(2),
+                          contraState.totalAmount.toStringAsFixed(2),
                           style: context.textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.w700),
                         )
@@ -68,7 +64,7 @@ class _DebitCreditAmountWidgetState
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          journalState.drAmount.toStringAsFixed(2),
+                          contraState.drAmount.toStringAsFixed(2),
                           style: context.textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.w700),
                         )
@@ -94,7 +90,7 @@ class _DebitCreditAmountWidgetState
                               ?.copyWith(fontWeight: FontWeight.w600),
                         ),
                         Text(
-                          journalState.crAmount.toStringAsFixed(2),
+                          contraState.crAmount.toStringAsFixed(2),
                           style: context.textTheme.bodyMedium
                               ?.copyWith(fontWeight: FontWeight.w700),
                         )
@@ -105,37 +101,4 @@ class _DebitCreditAmountWidgetState
       },
     );
   }
-
-  // Widget _buidAmountSplitup(BuildContext context,
-  //     {required String label, bool isDottedDivider = true}) {
-  //   return Column(
-  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //     children: [
-  //       Row(
-  //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-  //         children: [
-  //           Text(
-  //             label,
-  //             style: context.textTheme.bodySmall?.copyWith(
-  //                 color: context.colorScheme.outline,
-  //                 fontWeight: FontWeight.w500),
-  //           )
-  //         ],
-  //       ),
-  //       SizedBox(
-  //         height: 5,
-  //       ),
-  //       if (isDottedDivider)
-  //         CustomPaint(
-  //           size: Size(double.infinity, 1),
-  //           painter: DottedLinePainter(color: context.colorScheme.outline),
-  //         )
-  //       else
-  //         Divider(
-  //           height: 0,
-  //           thickness: 2,
-  //         )
-  //     ],
-  //   );
-  // }
 }

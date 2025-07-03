@@ -6,16 +6,20 @@ import 'package:easy_vat_v2/app/features/contra/data/model/contra_request_model.
 import 'package:easy_vat_v2/app/features/contra/domain/entity/contra_cart_entity.dart';
 import 'package:easy_vat_v2/app/features/contra/domain/entity/contra_entity.dart';
 import 'package:easy_vat_v2/app/features/contra/presentation/providers/contra_cart/contra_cart_state.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_notifier.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_state.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/ledger_mode/ledger_mode_notifier.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/ledger_mode/ledger_mode_state.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final contraCartProvider =
-    StateNotifierProvider<ContraCartNotifier, ContraCartState>((ref) {
-  return ContraCartNotifier();
-});
+    StateNotifierProvider<ContraCartNotifier, ContraCartState>(
+        (ref) => ContraCartNotifier(ref));
 
 class ContraCartNotifier extends StateNotifier<ContraCartState> {
-  ContraCartNotifier() : super(ContraCartState.initial());
+  final Ref ref;
+  ContraCartNotifier(this.ref) : super(ContraCartState.initial());
 
   List<ContraCartEntity> detailList = [];
   double totalAmount = 0.0;
@@ -27,33 +31,34 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
   String notes = "";
   String description = "";
   LedgerAccountEntity? allAccount;
+  LedgerAccountEntity? selectedLedger;
   String toAccount = "";
   String entryMode = "";
   bool isForEdit = false;
   String contraIDPK = PrefResources.emptyGuid;
 
-  void addLedgerIntoJournalCart({required ContraCartEntity ledger}) {
+  void addLedgerIntoContraCart({required ContraCartEntity ledger}) {
     detailList.add(ledger);
-    _getRateSplitUp(ledger: ledger, entryMode: entryMode);
+    _getRateSplitUp(ledger: ledger);
     state = state.copyWith(ledgerList: detailList);
   }
 
-  void removeLedgerFromJournalCart({required int index}) {
+  void removeLedgerFromContraCart({required int index}) {
     if (index >= 0 && index < detailList.length) {
       final ContraCartEntity removeLedger = detailList[index];
-      _decreaseRateSplitUp(ledger: removeLedger, entryMode: entryMode);
+      _decreaseRateSplitUp(ledger: removeLedger);
       detailList.removeAt(index);
       state = state.copyWith(ledgerList: detailList);
     }
   }
 
-  void updateJournalCartLedger({required ContraCartEntity cartLedger}) {
+  void updateContraCartLedger({required ContraCartEntity cartLedger}) {
     final index = detailList
         .indexWhere((ledger) => cartLedger.ledgerId == ledger.ledgerId);
 
     if (index != -1) {
       final oldLedger = detailList[index];
-      _decreaseRateSplitUp(ledger: oldLedger, entryMode: entryMode);
+      _decreaseRateSplitUp(ledger: oldLedger);
 
       final netTotal = cartLedger.netTotal;
       final drAmount = cartLedger.drAmount;
@@ -69,7 +74,9 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
           description: cartLedger.description);
 
       detailList[index] = updatedLedger;
-      _getRateSplitUp(ledger: updatedLedger, entryMode: entryMode);
+      _getRateSplitUp(
+        ledger: updatedLedger,
+      );
       state = state.copyWith(ledgerList: detailList);
     }
   }
@@ -100,10 +107,22 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
 
   setDescription(String description) {
     this.description = description;
+    state = state.copyWith(description: description);
   }
 
   setNotes(String notes) {
     this.notes = notes;
+    state = state.copyWith(notes: notes);
+  }
+
+  setLedger(LedgerAccountEntity ledger) {
+    selectedLedger = ledger;
+    state = state.copyWith(selectedLedger: selectedLedger);
+  }
+
+  removeLedger() {
+    selectedLedger = LedgerAccountEntity(ledgerName: "Debit Ledger");
+    state = state.copyWith(selectedLedger: selectedLedger);
   }
 
   setEditMode(bool enableEdit) {
@@ -113,26 +132,37 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
 
   Future<ContraRequestModel> createNewContra() async {
     double netTotal = 0.0;
-    final List<ContraEntryDetails> details = [];
+    final List<ContraEntryDetail> details = [];
     final useDetailsFromPrefs =
         await AppCredentialPreferenceHelper().getUserDetails();
     final companyDetails =
         await AppCredentialPreferenceHelper().getCompanyInfo();
 
-    for (var i = 0; i < detailList.length; i++) {
-      drAmount = detailList[i].drAmount;
-      crAmount = detailList[i].crAmount;
-      netTotal = detailList[i].netTotal;
+    final mode = ref.read(entryModeProvider);
+    final entryMode = ref.read(entryModeProvider).when(
+        singleEntry: () => "Single Entry", doubleEntry: () => "Double Entry");
 
-      final detail = ContraEntryDetails(
+    for (var i = 0; i < detailList.length; i++) {
+      double drAmount = detailList[i].drAmount;
+      double crAmount = detailList[i].crAmount;
+
+      if (mode == EntryModeState.singleEntry()) {
+        netTotal += detailList[i].netTotal;
+        crAmount = detailList[i].netTotal;
+        drAmount = 0.0;
+      } else if (mode == EntryModeState.doubleEntry()) {
+        netTotal += detailList[i].drAmount;
+      }
+
+      final detail = ContraEntryDetail(
           contraIDPK: contraIDPK,
           ledgerIDPK: detailList[i].ledger.ledgerIdpk ?? "",
           description: detailList[i].description,
           ledgerName: detailList[i].ledger.ledgerName,
           currentBalance: detailList[i].ledger.currentBalance ?? 0.0,
           currentBalanceType: detailList[i].ledger.currentBalanceType ?? "",
-          drAmount: detailList[i].drAmount,
-          crAmount: detailList[i].crAmount,
+          drAmount: drAmount,
+          crAmount: crAmount,
           companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid);
       details.add(detail);
     }
@@ -154,8 +184,9 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
       rowguid: PrefResources.emptyGuid,
       companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
       entryMode: entryMode,
-      toAccount: toAccount,
-      contraEntryDetails: details,
+      toAccount: selectedLedger?.ledgerIdpk ?? PrefResources.emptyGuid,
+      toAccountName: selectedLedger?.ledgerName ?? "",
+      contraEntryDetail: details,
     );
     log("newContra: $newContra");
     return newContra;
@@ -167,11 +198,13 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
     drAmount = 0.0;
     crAmount = 0.0;
     contraNo = "";
+    refNo = "";
     contraDate = DateTime.now();
     contraIDPK = PrefResources.emptyGuid;
     allAccount = null;
     toAccount = "";
     notes = "";
+    ref.read(entryModeProvider.notifier).state = EntryModeState.singleEntry();
     state = ContraCartState.initial().copyWith(entryMode: entryMode);
   }
 
@@ -188,16 +221,16 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
   }
 
   LedgerAccountEntity covertContraDetailsToDetails(
-      ContraEntryDetailsEntity contraDetails) {
+      ContraEntryDetailEntity contraDetails) {
     return LedgerAccountEntity(
-      ledgerIdpk: contraDetails.ledgerIDPK,
-      description: contraDetails.description,
-      ledgerName: contraDetails.ledgerName,
-      currentBalance: contraDetails.currentBalance,
-    );
+        ledgerIdpk: contraDetails.ledgerIDPK,
+        description: contraDetails.description,
+        ledgerName: contraDetails.ledgerName,
+        currentBalance: contraDetails.currentBalance,
+        ledgerCode: contraDetails.ledgerIDPK);
   }
 
-  reinsertJournalForm(ContraEntryEntity contra, WidgetRef ref) async {
+  reinsertContraForm(ContraEntryEntity contra, WidgetRef ref) async {
     clearContraCart();
     setEditMode(true);
     List<ContraCartEntity> updatedLedgerList = [];
@@ -208,13 +241,19 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
     setNotes(contra.remarks ?? "");
     setDescription(contra.description ?? "");
 
-    if (contra.contraEntryDetails?.isEmpty == true) {
-      for (var index = 0; index < contra.contraEntryDetails!.length; index++) {
-        final journalDetail = contra.contraEntryDetails![index];
-        final ledgerEntity = covertContraDetailsToDetails(journalDetail);
+    final entryMode = contra.entryMode?.toLowerCase();
+    final entryModeState = (entryMode == "single entry")
+        ? EntryModeState.singleEntry()
+        : EntryModeState.doubleEntry();
+    ref.read(entryModeProvider.notifier).state = entryModeState;
+
+    if (contra.contraEntryDetail?.isNotEmpty == true) {
+      for (var index = 0; index < contra.contraEntryDetail!.length; index++) {
+        final contraDetail = contra.contraEntryDetail![index];
+        final ledgerEntity = covertContraDetailsToDetails(contraDetail);
         final netTotal = contra.totalAmount;
-        final drAmount = journalDetail.drAmount;
-        final crAmount = journalDetail.crAmount;
+        final drAmount = contraDetail.drAmount;
+        final crAmount = contraDetail.crAmount;
 
         final cartLedger = ContraCartEntity(
             ledgerId: (index + 1),
@@ -226,7 +265,22 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
             description: ledgerEntity.description ?? "");
 
         updatedLedgerList.add(cartLedger);
-        _getRateSplitUp(ledger: cartLedger, entryMode: entryMode);
+
+        if (entryModeState == EntryModeState.singleEntry()) {
+          setLedger(ledgerEntity);
+        }
+
+        if (cartLedger.drAmount > 0) {
+          ref
+              .read(ledgerModeProvider(cartLedger.ledger.ledgerCode).notifier)
+              .state = LedgerModeState.debitLedger();
+        } else if (cartLedger.crAmount > 0) {
+          ref
+              .read(ledgerModeProvider(cartLedger.ledger.ledgerCode).notifier)
+              .state = LedgerModeState.creditLedger();
+        }
+
+        _getRateSplitUp(ledger: cartLedger);
 
         detailList = updatedLedgerList;
       }
@@ -234,30 +288,49 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
     updateState();
   }
 
-  void _getRateSplitUp(
-      {required ContraCartEntity ledger,
-      bool isInitial = true,
-      required String entryMode}) {
-    if (entryMode == "Single Entry") {
+  void _getRateSplitUp({
+    required ContraCartEntity ledger,
+    bool isInitial = false,
+  }) {
+    final entryMode = ref.read(entryModeProvider);
+    final ledgerMode =
+        ref.read(ledgerModeProvider(ledger.ledger.ledgerCode ?? ""));
+    if (entryMode == EntryModeState.singleEntry()) {
       totalAmount += ledger.netTotal;
-    } else {
+      crAmount += ledger.netTotal;
+      drAmount = 0.0;
+    } else if (entryMode == EntryModeState.doubleEntry() &&
+        ledgerMode == LedgerModeState.debitLedger()) {
       drAmount += ledger.drAmount;
+      totalAmount += ledger.drAmount;
+    } else if (entryMode == EntryModeState.doubleEntry() &&
+        ledgerMode == LedgerModeState.creditLedger()) {
       crAmount += ledger.crAmount;
+      totalAmount += ledger.crAmount;
     }
-
     if (!isInitial) {
       state = state.copyWith(
           totalAmount: totalAmount, drAmount: drAmount, crAmount: crAmount);
     }
   }
 
-  void _decreaseRateSplitUp(
-      {required ContraCartEntity ledger, required String entryMode}) {
-    if (entryMode == "Single Entry") {
-      totalAmount += ledger.netTotal;
-    } else {
-      drAmount += ledger.drAmount;
-      crAmount += ledger.crAmount;
+  void _decreaseRateSplitUp({required ContraCartEntity ledger}) {
+    final entryMode = ref.read(entryModeProvider);
+    final ledgerMode =
+        ref.read(ledgerModeProvider(ledger.ledger.ledgerCode ?? ""));
+
+    if (entryMode == EntryModeState.singleEntry()) {
+      totalAmount -= ledger.netTotal;
+      crAmount -= ledger.netTotal;
+      drAmount = 0.0;
+    } else if (entryMode == EntryModeState.doubleEntry() &&
+        ledgerMode == LedgerModeState.debitLedger()) {
+      drAmount -= ledger.drAmount;
+      totalAmount = ledger.drAmount;
+    } else if (entryMode == EntryModeState.doubleEntry() &&
+        ledgerMode == LedgerModeState.creditLedger()) {
+      crAmount -= ledger.crAmount;
+      totalAmount = ledger.crAmount;
     }
 
     state = state.copyWith(
@@ -265,11 +338,13 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
   }
 
   updateState() {
+    final currentEntryMode = ref.read(entryModeProvider).when(
+        singleEntry: () => "Single Entry", doubleEntry: () => "Double Entry");
     state = state.copyWith(
         ledgerList: detailList,
         totalAmount: totalAmount,
         drAmount: drAmount,
         crAmount: crAmount,
-        entryMode: entryMode);
+        entryMode: currentEntryMode);
   }
 }

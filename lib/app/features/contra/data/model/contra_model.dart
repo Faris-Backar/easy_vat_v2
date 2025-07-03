@@ -38,8 +38,8 @@ class ContraEntryModel extends ContraEntryEntity {
     super.entryMode,
     super.toAccount,
     super.toAccountName,
-    List<ContraEntryDetailsModel>? contraEntryDetails,
-  }) : super(contraEntryDetails: contraEntryDetails);
+    List<ContraEntryDetailModel>? contraEntryDetail,
+  }) : super(contraEntryDetail: contraEntryDetail);
 
   factory ContraEntryModel.fromJson(Map<String, dynamic> json) =>
       ContraEntryModel(
@@ -69,9 +69,9 @@ class ContraEntryModel extends ContraEntryEntity {
         entryMode: json["entryMode"],
         toAccount: json["toAccount"],
         toAccountName: json["toAccountName"],
-        contraEntryDetails: json["contraEntryDetails"] != null
-            ? List<ContraEntryDetailsModel>.from(json["contraEntryDetails"]
-                .map((x) => ContraEntryDetailsModel.fromJson(x)))
+        contraEntryDetail: json["contraEntryDetail"] != null
+            ? List<ContraEntryDetailModel>.from(json["contraEntryDetail"]
+                .map((x) => ContraEntryDetailModel.fromJson(x)))
             : null,
       );
 
@@ -95,10 +95,10 @@ class ContraEntryModel extends ContraEntryEntity {
       entryMode: entity.entryMode,
       toAccount: entity.toAccount,
       toAccountName: entity.toAccountName,
-      contraEntryDetails: entity.contraEntryDetails
-          ?.map((item) => item is ContraEntryDetailsModel
+      contraEntryDetail: entity.contraEntryDetail
+          ?.map((item) => item is ContraEntryDetailModel
               ? item
-              : ContraEntryDetailsModel.fromEntity(item))
+              : ContraEntryDetailModel.fromEntity(item))
           .toList(),
     );
   }
@@ -122,23 +122,22 @@ class ContraEntryModel extends ContraEntryEntity {
         "entryMode": entryMode,
         "toAccount": toAccount,
         "toAccountName": toAccountName,
-        "contraEntryDetails": contraEntryDetails != null
-            ? List<dynamic>.from(contraEntryDetails!
-                .map((x) => x is ContraEntryDetailsModel ? x.toJson() : null)
+        "contraEntryDetail": contraEntryDetail != null
+            ? List<dynamic>.from(contraEntryDetail!
+                .map((x) => x is ContraEntryDetailModel ? x.toJson() : null)
                 .where((x) => x != null))
             : [],
       };
 
-  List<ContraEntryDetailsModel>? get modelContraEntryDetails =>
-      contraEntryDetails
-          ?.map((item) => item is ContraEntryDetailsModel
-              ? item
-              : ContraEntryDetailsModel.fromEntity(item))
-          .toList();
+  List<ContraEntryDetailModel>? get modelContraEntryDetail => contraEntryDetail
+      ?.map((item) => item is ContraEntryDetailModel
+          ? item
+          : ContraEntryDetailModel.fromEntity(item))
+      .toList();
 }
 
-class ContraEntryDetailsModel extends ContraEntryDetailsEntity {
-  ContraEntryDetailsModel({
+class ContraEntryDetailModel extends ContraEntryDetailEntity {
+  ContraEntryDetailModel({
     super.contraIDPK,
     super.ledgerIDPK,
     super.ledgerName,
@@ -150,8 +149,8 @@ class ContraEntryDetailsModel extends ContraEntryDetailsEntity {
     super.companyIDPK,
   });
 
-  factory ContraEntryDetailsModel.fromJson(Map<String, dynamic> json) =>
-      ContraEntryDetailsModel(
+  factory ContraEntryDetailModel.fromJson(Map<String, dynamic> json) =>
+      ContraEntryDetailModel(
         contraIDPK: json["contraIDPK"],
         ledgerIDPK: json["ledgerIDPK"],
         ledgerName: json["ledgerName"],
@@ -169,8 +168,8 @@ class ContraEntryDetailsModel extends ContraEntryDetailsEntity {
         companyIDPK: json["companyIDPK"],
       );
 
-  factory ContraEntryDetailsModel.fromEntity(ContraEntryDetailsEntity entity) {
-    return ContraEntryDetailsModel(
+  factory ContraEntryDetailModel.fromEntity(ContraEntryDetailEntity entity) {
+    return ContraEntryDetailModel(
       contraIDPK: entity.contraIDPK,
       ledgerIDPK: entity.ledgerIDPK,
       ledgerName: entity.ledgerName,

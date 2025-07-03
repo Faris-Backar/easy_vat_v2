@@ -14,7 +14,10 @@ class ContraCartState with _$ContraCartState {
       String? contraNo,
       String? refNo,
       String? entryMode,
+      String? description,
+      String? notes,
       LedgerAccountEntity? allAccount,
+      LedgerAccountEntity? selectedLedger,
       bool? isForUpdate,
       DateTime? contraDate}) = _ContraCartState;
 
@@ -24,6 +27,9 @@ class ContraCartState with _$ContraCartState {
       crAmount: 0.0,
       ledgerList: null,
       contraDate: DateTime.now(),
+      description: null,
+      notes: null,
+      selectedLedger: null,
       contraNo: null,
       refNo: null,
       entryMode: null,

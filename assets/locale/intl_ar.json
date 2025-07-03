@@ -242,5 +242,6 @@
    "supRefNo": "رقم مرجع المورد",
    "deleteJournalConfirmationMessage": "تم حذف المجلة بنجاح",
    "ledgerMode": "وضع دفتر الأستاذ",
-   "ledgerBal": "رصيد دفتر الأستاذ"
+   "ledgerBal": "رصيد دفتر الأستاذ",
+   "deleteContraConfirmationMessage": "تم حذف الكونترا بنجاح"
 }

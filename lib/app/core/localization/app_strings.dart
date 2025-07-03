@@ -255,4 +255,6 @@ class AppStrings {
       "deleteJournalConfirmationMessage";
   static const String ledgerMode = "ledgerMode";
   static const String ledgerBal = "ledgerBal";
+  static const String deleteContraConfirmationMessage =
+      "deleteContraConfirmationMessage";
 }

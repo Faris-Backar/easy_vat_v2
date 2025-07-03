@@ -16,12 +16,14 @@ class AddNewJournalForm extends ConsumerStatefulWidget {
   final TextEditingController journalNoController;
   final TextEditingController refNoController;
   final TextEditingController descriptionController;
+  final TextEditingController notesController;
 
   const AddNewJournalForm({
     super.key,
     required this.journalNoController,
     required this.refNoController,
     required this.descriptionController,
+    required this.notesController,
   });
 
   @override
@@ -38,6 +40,7 @@ class _AddNewJournalFormState extends ConsumerState<AddNewJournalForm> {
     widget.journalNoController.text = cart.journalNo ?? "";
     widget.refNoController.text = cart.refNo ?? "";
     widget.descriptionController.text = cart.description ?? "";
+    widget.notesController.text = cart.notes ?? "";
 
     widget.refNoController.addListener(() {
       ref
@@ -65,7 +68,8 @@ class _AddNewJournalFormState extends ConsumerState<AddNewJournalForm> {
               child: DropdownButton<EntryModeState>(
                 value: entryMode,
                 onChanged: (EntryModeState? newValue) {
-                  if (newValue != null) {
+                  if (newValue != null && newValue != entryMode) {
+                    ref.read(journalCartProvider.notifier).clearJournalCart();
                     ref.read(entryModeProvider.notifier).setEntryMode(newValue);
                   }
                 },

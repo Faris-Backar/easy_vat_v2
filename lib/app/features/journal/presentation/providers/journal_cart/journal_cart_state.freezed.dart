@@ -24,6 +24,7 @@ mixin _$JournalCartState {
   String? get refNo => throw _privateConstructorUsedError;
   String? get entryMode => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
+  String? get notes => throw _privateConstructorUsedError;
   LedgerAccountEntity? get allAccount => throw _privateConstructorUsedError;
   LedgerAccountEntity? get selectedLedger => throw _privateConstructorUsedError;
   bool? get isForUpdate => throw _privateConstructorUsedError;
@@ -51,6 +52,7 @@ abstract class $JournalCartStateCopyWith<$Res> {
       String? refNo,
       String? entryMode,
       String? description,
+      String? notes,
       LedgerAccountEntity? allAccount,
       LedgerAccountEntity? selectedLedger,
       bool? isForUpdate,
@@ -80,6 +82,7 @@ class _$JournalCartStateCopyWithImpl<$Res, $Val extends JournalCartState>
     Object? refNo = freezed,
     Object? entryMode = freezed,
     Object? description = freezed,
+    Object? notes = freezed,
     Object? allAccount = freezed,
     Object? selectedLedger = freezed,
     Object? isForUpdate = freezed,
@@ -118,6 +121,10 @@ class _$JournalCartStateCopyWithImpl<$Res, $Val extends JournalCartState>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
       allAccount: freezed == allAccount
           ? _value.allAccount
           : allAccount // ignore: cast_nullable_to_non_nullable
@@ -155,6 +162,7 @@ abstract class _$$JournalCartStateImplCopyWith<$Res>
       String? refNo,
       String? entryMode,
       String? description,
+      String? notes,
       LedgerAccountEntity? allAccount,
       LedgerAccountEntity? selectedLedger,
       bool? isForUpdate,
@@ -182,6 +190,7 @@ class __$$JournalCartStateImplCopyWithImpl<$Res>
     Object? refNo = freezed,
     Object? entryMode = freezed,
     Object? description = freezed,
+    Object? notes = freezed,
     Object? allAccount = freezed,
     Object? selectedLedger = freezed,
     Object? isForUpdate = freezed,
@@ -220,6 +229,10 @@ class __$$JournalCartStateImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
       allAccount: freezed == allAccount
           ? _value.allAccount
           : allAccount // ignore: cast_nullable_to_non_nullable
@@ -252,6 +265,7 @@ class _$JournalCartStateImpl implements _JournalCartState {
       this.refNo,
       this.entryMode,
       this.description,
+      this.notes,
       this.allAccount,
       this.selectedLedger,
       this.isForUpdate,
@@ -283,6 +297,8 @@ class _$JournalCartStateImpl implements _JournalCartState {
   @override
   final String? description;
   @override
+  final String? notes;
+  @override
   final LedgerAccountEntity? allAccount;
   @override
   final LedgerAccountEntity? selectedLedger;
@@ -293,7 +309,7 @@ class _$JournalCartStateImpl implements _JournalCartState {
 
   @override
   String toString() {
-    return 'JournalCartState(ledgerList: $ledgerList, totalAmount: $totalAmount, drAmount: $drAmount, crAmount: $crAmount, journalNo: $journalNo, refNo: $refNo, entryMode: $entryMode, description: $description, allAccount: $allAccount, selectedLedger: $selectedLedger, isForUpdate: $isForUpdate, journalDate: $journalDate)';
+    return 'JournalCartState(ledgerList: $ledgerList, totalAmount: $totalAmount, drAmount: $drAmount, crAmount: $crAmount, journalNo: $journalNo, refNo: $refNo, entryMode: $entryMode, description: $description, notes: $notes, allAccount: $allAccount, selectedLedger: $selectedLedger, isForUpdate: $isForUpdate, journalDate: $journalDate)';
   }
 
   @override
@@ -316,6 +332,7 @@ class _$JournalCartStateImpl implements _JournalCartState {
                 other.entryMode == entryMode) &&
             (identical(other.description, description) ||
                 other.description == description) &&
+            (identical(other.notes, notes) || other.notes == notes) &&
             (identical(other.allAccount, allAccount) ||
                 other.allAccount == allAccount) &&
             (identical(other.selectedLedger, selectedLedger) ||
@@ -337,6 +354,7 @@ class _$JournalCartStateImpl implements _JournalCartState {
       refNo,
       entryMode,
       description,
+      notes,
       allAccount,
       selectedLedger,
       isForUpdate,
@@ -362,6 +380,7 @@ abstract class _JournalCartState implements JournalCartState {
       final String? refNo,
       final String? entryMode,
       final String? description,
+      final String? notes,
       final LedgerAccountEntity? allAccount,
       final LedgerAccountEntity? selectedLedger,
       final bool? isForUpdate,
@@ -383,6 +402,8 @@ abstract class _JournalCartState implements JournalCartState {
   String? get entryMode;
   @override
   String? get description;
+  @override
+  String? get notes;
   @override
   LedgerAccountEntity? get allAccount;
   @override
