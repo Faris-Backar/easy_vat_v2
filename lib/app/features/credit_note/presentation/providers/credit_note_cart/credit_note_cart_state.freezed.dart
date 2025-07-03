@@ -24,6 +24,7 @@ mixin _$CreditNoteCartState {
   String? get creditNoteNo => throw _privateConstructorUsedError;
   String? get refNo => throw _privateConstructorUsedError;
   CustomerEntity? get selectedCustomer => throw _privateConstructorUsedError;
+  String? get notes => throw _privateConstructorUsedError;
   String? get paymentMode => throw _privateConstructorUsedError;
   String? get soldBy => throw _privateConstructorUsedError;
   LedgerAccountEntity? get cashAccount => throw _privateConstructorUsedError;
@@ -53,6 +54,7 @@ abstract class $CreditNoteCartStateCopyWith<$Res> {
       String? creditNoteNo,
       String? refNo,
       CustomerEntity? selectedCustomer,
+      String? notes,
       String? paymentMode,
       String? soldBy,
       LedgerAccountEntity? cashAccount,
@@ -84,6 +86,7 @@ class _$CreditNoteCartStateCopyWithImpl<$Res, $Val extends CreditNoteCartState>
     Object? creditNoteNo = freezed,
     Object? refNo = freezed,
     Object? selectedCustomer = freezed,
+    Object? notes = freezed,
     Object? paymentMode = freezed,
     Object? soldBy = freezed,
     Object? cashAccount = freezed,
@@ -121,6 +124,10 @@ class _$CreditNoteCartStateCopyWithImpl<$Res, $Val extends CreditNoteCartState>
           ? _value.selectedCustomer
           : selectedCustomer // ignore: cast_nullable_to_non_nullable
               as CustomerEntity?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
       paymentMode: freezed == paymentMode
           ? _value.paymentMode
           : paymentMode // ignore: cast_nullable_to_non_nullable
@@ -169,6 +176,7 @@ abstract class _$$CreditNoteCartStateImplCopyWith<$Res>
       String? creditNoteNo,
       String? refNo,
       CustomerEntity? selectedCustomer,
+      String? notes,
       String? paymentMode,
       String? soldBy,
       LedgerAccountEntity? cashAccount,
@@ -198,6 +206,7 @@ class __$$CreditNoteCartStateImplCopyWithImpl<$Res>
     Object? creditNoteNo = freezed,
     Object? refNo = freezed,
     Object? selectedCustomer = freezed,
+    Object? notes = freezed,
     Object? paymentMode = freezed,
     Object? soldBy = freezed,
     Object? cashAccount = freezed,
@@ -235,6 +244,10 @@ class __$$CreditNoteCartStateImplCopyWithImpl<$Res>
           ? _value.selectedCustomer
           : selectedCustomer // ignore: cast_nullable_to_non_nullable
               as CustomerEntity?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
       paymentMode: freezed == paymentMode
           ? _value.paymentMode
           : paymentMode // ignore: cast_nullable_to_non_nullable
@@ -278,6 +291,7 @@ class _$CreditNoteCartStateImpl implements _CreditNoteCartState {
       this.creditNoteNo,
       this.refNo,
       this.selectedCustomer,
+      this.notes,
       this.paymentMode,
       this.soldBy,
       this.cashAccount,
@@ -310,6 +324,8 @@ class _$CreditNoteCartStateImpl implements _CreditNoteCartState {
   @override
   final CustomerEntity? selectedCustomer;
   @override
+  final String? notes;
+  @override
   final String? paymentMode;
   @override
   final String? soldBy;
@@ -326,7 +342,7 @@ class _$CreditNoteCartStateImpl implements _CreditNoteCartState {
 
   @override
   String toString() {
-    return 'CreditNoteCartState(ledgerList: $ledgerList, totalAmount: $totalAmount, drAmount: $drAmount, taxAmount: $taxAmount, creditNoteNo: $creditNoteNo, refNo: $refNo, selectedCustomer: $selectedCustomer, paymentMode: $paymentMode, soldBy: $soldBy, cashAccount: $cashAccount, allAccount: $allAccount, isForUpdate: $isForUpdate, creditNoteDate: $creditNoteDate, isTaxEnabled: $isTaxEnabled)';
+    return 'CreditNoteCartState(ledgerList: $ledgerList, totalAmount: $totalAmount, drAmount: $drAmount, taxAmount: $taxAmount, creditNoteNo: $creditNoteNo, refNo: $refNo, selectedCustomer: $selectedCustomer, notes: $notes, paymentMode: $paymentMode, soldBy: $soldBy, cashAccount: $cashAccount, allAccount: $allAccount, isForUpdate: $isForUpdate, creditNoteDate: $creditNoteDate, isTaxEnabled: $isTaxEnabled)';
   }
 
   @override
@@ -347,6 +363,7 @@ class _$CreditNoteCartStateImpl implements _CreditNoteCartState {
             (identical(other.refNo, refNo) || other.refNo == refNo) &&
             (identical(other.selectedCustomer, selectedCustomer) ||
                 other.selectedCustomer == selectedCustomer) &&
+            (identical(other.notes, notes) || other.notes == notes) &&
             (identical(other.paymentMode, paymentMode) ||
                 other.paymentMode == paymentMode) &&
             (identical(other.soldBy, soldBy) || other.soldBy == soldBy) &&
@@ -372,6 +389,7 @@ class _$CreditNoteCartStateImpl implements _CreditNoteCartState {
       creditNoteNo,
       refNo,
       selectedCustomer,
+      notes,
       paymentMode,
       soldBy,
       cashAccount,
@@ -399,6 +417,7 @@ abstract class _CreditNoteCartState implements CreditNoteCartState {
       final String? creditNoteNo,
       final String? refNo,
       final CustomerEntity? selectedCustomer,
+      final String? notes,
       final String? paymentMode,
       final String? soldBy,
       final LedgerAccountEntity? cashAccount,
@@ -421,6 +440,8 @@ abstract class _CreditNoteCartState implements CreditNoteCartState {
   String? get refNo;
   @override
   CustomerEntity? get selectedCustomer;
+  @override
+  String? get notes;
   @override
   String? get paymentMode;
   @override

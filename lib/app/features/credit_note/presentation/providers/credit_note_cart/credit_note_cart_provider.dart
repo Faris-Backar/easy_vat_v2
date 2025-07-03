@@ -165,6 +165,7 @@ class CreditNoteCartNotifier extends StateNotifier<CreditNoteCartState> {
 
   setNotes(String notes) {
     this.notes = notes;
+    state = state.copyWith(notes: notes);
   }
 
   setDescription(String description) {

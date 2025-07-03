@@ -41,70 +41,82 @@ class _AddNewCreditNoteScreenState
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(creditNoteCartProvider);
-    return Scaffold(
-      appBar: _buildAppBar(),
-      backgroundColor: context.surfaceColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              AddNewCreditNoteForm(
-                  creditNoteNoController: creditNoteNoController,
-                  refNoController: refNoController,
-                  soldByController: soldByController,
-                  paymentModeNotifier: paymentModeNotifier,
-                  cashAccountNotifier: cashAccountNotifier),
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                height: 5,
-                thickness: 3,
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: state.ledgerList == null || state.ledgerList!.isEmpty
-                    ? _buildEmptyState(context)
-                    : CreditNoteCartList(ledgerList: state.ledgerList!),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: SizedBox(
-                  width: 0.5.sw,
-                  child: DebitAmountSplitupWidget(),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) async {
+        if (!didPop) {
+          bool shouldExit = await _onWillPop(context);
+          if (shouldExit) {
+            context.router.popForced();
+          }
+        }
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        backgroundColor: context.surfaceColor,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                AddNewCreditNoteForm(
+                    creditNoteNoController: creditNoteNoController,
+                    refNoController: refNoController,
+                    soldByController: soldByController,
+                    paymentModeNotifier: paymentModeNotifier,
+                    notesController: _noteController,
+                    cashAccountNotifier: cashAccountNotifier),
+                SizedBox(
+                  height: 10,
                 ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Divider(
-                height: 5,
-                thickness: 3,
-              ),
-              CustomTextField(
-                label: context.translate(AppStrings.note),
-                controller: _noteController,
-                maxLines: 5,
-                onChanged: (value) =>
-                    ref.read(creditNoteCartProvider.notifier).setNotes(value),
-                hint: context.translate(AppStrings.writeNote),
-              ),
-              SizedBox(
-                height: 16,
-              )
-            ],
+                Divider(
+                  height: 5,
+                  thickness: 3,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: state.ledgerList == null || state.ledgerList!.isEmpty
+                      ? _buildEmptyState(context)
+                      : CreditNoteCartList(ledgerList: state.ledgerList!),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: SizedBox(
+                    width: 0.5.sw,
+                    child: DebitAmountSplitupWidget(),
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Divider(
+                  height: 5,
+                  thickness: 3,
+                ),
+                CustomTextField(
+                  label: context.translate(AppStrings.note),
+                  controller: _noteController,
+                  maxLines: 5,
+                  onChanged: (value) =>
+                      ref.read(creditNoteCartProvider.notifier).setNotes(value),
+                  hint: context.translate(AppStrings.writeNote),
+                ),
+                SizedBox(
+                  height: 16,
+                )
+              ],
+            ),
           ),
         ),
+        bottomNavigationBar: AddCreditFooterWidget(
+            creditNoteNoController: creditNoteNoController,
+            refNoController: refNoController,
+            paymentMethodNotifier: paymentModeNotifier,
+            soldByController: soldByController),
       ),
-      bottomNavigationBar: AddCreditFooterWidget(
-          creditNoteNoController: creditNoteNoController,
-          refNoController: refNoController,
-          paymentMethodNotifier: paymentModeNotifier,
-          soldByController: soldByController),
     );
   }
 
@@ -157,5 +169,38 @@ class _AddNewCreditNoteScreenState
 
   Widget _buildEmptyState(BuildContext context) {
     return Center();
+  }
+
+  Future<bool> _onWillPop(BuildContext context) async {
+    final ledgerList = ref.read(creditNoteCartProvider).ledgerList;
+
+    if (ledgerList != null && ledgerList.isNotEmpty) {
+      final shouldExit = await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text(
+                  context.translate(AppStrings.discardChanges),
+                ),
+                content: Text(
+                    context.translate(AppStrings.discardledgerChangesMessage)),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text(context.translate(AppStrings.cancel)),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: Text(context.translate(AppStrings.discard)),
+                  )
+                ],
+              ));
+      if (shouldExit == true) {
+        ref.read(creditNoteCartProvider.notifier).clearCreditNoteCart();
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return true;
   }
 }

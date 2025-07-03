@@ -22,6 +22,7 @@ mixin _$IncomeCartState {
   double get roundOf => throw _privateConstructorUsedError;
   double get grossTotal => throw _privateConstructorUsedError;
   double get taxAmount => throw _privateConstructorUsedError;
+  String? get notes => throw _privateConstructorUsedError;
   String? get incomeNo => throw _privateConstructorUsedError;
   String? get refNo => throw _privateConstructorUsedError;
   CustomerEntity? get selectedCustomer => throw _privateConstructorUsedError;
@@ -55,6 +56,7 @@ abstract class $IncomeCartStateCopyWith<$Res> {
       double roundOf,
       double grossTotal,
       double taxAmount,
+      String? notes,
       String? incomeNo,
       String? refNo,
       CustomerEntity? selectedCustomer,
@@ -90,6 +92,7 @@ class _$IncomeCartStateCopyWithImpl<$Res, $Val extends IncomeCartState>
     Object? roundOf = null,
     Object? grossTotal = null,
     Object? taxAmount = null,
+    Object? notes = freezed,
     Object? incomeNo = freezed,
     Object? refNo = freezed,
     Object? selectedCustomer = freezed,
@@ -128,6 +131,10 @@ class _$IncomeCartStateCopyWithImpl<$Res, $Val extends IncomeCartState>
           ? _value.taxAmount
           : taxAmount // ignore: cast_nullable_to_non_nullable
               as double,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
       incomeNo: freezed == incomeNo
           ? _value.incomeNo
           : incomeNo // ignore: cast_nullable_to_non_nullable
@@ -195,6 +202,7 @@ abstract class _$$IncomeCartStateImplCopyWith<$Res>
       double roundOf,
       double grossTotal,
       double taxAmount,
+      String? notes,
       String? incomeNo,
       String? refNo,
       CustomerEntity? selectedCustomer,
@@ -228,6 +236,7 @@ class __$$IncomeCartStateImplCopyWithImpl<$Res>
     Object? roundOf = null,
     Object? grossTotal = null,
     Object? taxAmount = null,
+    Object? notes = freezed,
     Object? incomeNo = freezed,
     Object? refNo = freezed,
     Object? selectedCustomer = freezed,
@@ -266,6 +275,10 @@ class __$$IncomeCartStateImplCopyWithImpl<$Res>
           ? _value.taxAmount
           : taxAmount // ignore: cast_nullable_to_non_nullable
               as double,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
+              as String?,
       incomeNo: freezed == incomeNo
           ? _value.incomeNo
           : incomeNo // ignore: cast_nullable_to_non_nullable
@@ -328,6 +341,7 @@ class _$IncomeCartStateImpl implements _IncomeCartState {
       required this.roundOf,
       required this.grossTotal,
       required this.taxAmount,
+      this.notes,
       this.incomeNo,
       this.refNo,
       this.selectedCustomer,
@@ -363,6 +377,8 @@ class _$IncomeCartStateImpl implements _IncomeCartState {
   @override
   final double taxAmount;
   @override
+  final String? notes;
+  @override
   final String? incomeNo;
   @override
   final String? refNo;
@@ -389,7 +405,7 @@ class _$IncomeCartStateImpl implements _IncomeCartState {
 
   @override
   String toString() {
-    return 'IncomeCartState(ledgerList: $ledgerList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, grossTotal: $grossTotal, taxAmount: $taxAmount, incomeNo: $incomeNo, refNo: $refNo, selectedCustomer: $selectedCustomer, paymentMode: $paymentMode, soldBy: $soldBy, cashAccount: $cashAccount, incomeAccount: $incomeAccount, drledger: $drledger, crledger: $crledger, isForUpdate: $isForUpdate, incomeDate: $incomeDate, isTaxEnabled: $isTaxEnabled)';
+    return 'IncomeCartState(ledgerList: $ledgerList, totalAmount: $totalAmount, discount: $discount, roundOf: $roundOf, grossTotal: $grossTotal, taxAmount: $taxAmount, notes: $notes, incomeNo: $incomeNo, refNo: $refNo, selectedCustomer: $selectedCustomer, paymentMode: $paymentMode, soldBy: $soldBy, cashAccount: $cashAccount, incomeAccount: $incomeAccount, drledger: $drledger, crledger: $crledger, isForUpdate: $isForUpdate, incomeDate: $incomeDate, isTaxEnabled: $isTaxEnabled)';
   }
 
   @override
@@ -408,6 +424,7 @@ class _$IncomeCartStateImpl implements _IncomeCartState {
                 other.grossTotal == grossTotal) &&
             (identical(other.taxAmount, taxAmount) ||
                 other.taxAmount == taxAmount) &&
+            (identical(other.notes, notes) || other.notes == notes) &&
             (identical(other.incomeNo, incomeNo) ||
                 other.incomeNo == incomeNo) &&
             (identical(other.refNo, refNo) || other.refNo == refNo) &&
@@ -433,26 +450,28 @@ class _$IncomeCartStateImpl implements _IncomeCartState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_ledgerList),
-      totalAmount,
-      discount,
-      roundOf,
-      grossTotal,
-      taxAmount,
-      incomeNo,
-      refNo,
-      selectedCustomer,
-      paymentMode,
-      soldBy,
-      cashAccount,
-      incomeAccount,
-      drledger,
-      crledger,
-      isForUpdate,
-      incomeDate,
-      isTaxEnabled);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        const DeepCollectionEquality().hash(_ledgerList),
+        totalAmount,
+        discount,
+        roundOf,
+        grossTotal,
+        taxAmount,
+        notes,
+        incomeNo,
+        refNo,
+        selectedCustomer,
+        paymentMode,
+        soldBy,
+        cashAccount,
+        incomeAccount,
+        drledger,
+        crledger,
+        isForUpdate,
+        incomeDate,
+        isTaxEnabled
+      ]);
 
   /// Create a copy of IncomeCartState
   /// with the given fields replaced by the non-null parameter values.
@@ -472,6 +491,7 @@ abstract class _IncomeCartState implements IncomeCartState {
       required final double roundOf,
       required final double grossTotal,
       required final double taxAmount,
+      final String? notes,
       final String? incomeNo,
       final String? refNo,
       final CustomerEntity? selectedCustomer,
@@ -497,6 +517,8 @@ abstract class _IncomeCartState implements IncomeCartState {
   double get grossTotal;
   @override
   double get taxAmount;
+  @override
+  String? get notes;
   @override
   String? get incomeNo;
   @override

@@ -26,6 +26,7 @@ mixin _$DebitNoteCartState {
   SupplierEntity? get selectedSupplier => throw _privateConstructorUsedError;
   String? get paymentMode => throw _privateConstructorUsedError;
   String? get purchasedBy => throw _privateConstructorUsedError;
+  String? get notes => throw _privateConstructorUsedError;
   String? get supplierReferenceNo => throw _privateConstructorUsedError;
   LedgerAccountEntity? get cashAccount => throw _privateConstructorUsedError;
   LedgerAccountEntity? get allAccount => throw _privateConstructorUsedError;
@@ -58,6 +59,7 @@ abstract class $DebitNoteCartStateCopyWith<$Res> {
       SupplierEntity? selectedSupplier,
       String? paymentMode,
       String? purchasedBy,
+      String? notes,
       String? supplierReferenceNo,
       LedgerAccountEntity? cashAccount,
       LedgerAccountEntity? allAccount,
@@ -92,6 +94,7 @@ class _$DebitNoteCartStateCopyWithImpl<$Res, $Val extends DebitNoteCartState>
     Object? selectedSupplier = freezed,
     Object? paymentMode = freezed,
     Object? purchasedBy = freezed,
+    Object? notes = freezed,
     Object? supplierReferenceNo = freezed,
     Object? cashAccount = freezed,
     Object? allAccount = freezed,
@@ -137,6 +140,10 @@ class _$DebitNoteCartStateCopyWithImpl<$Res, $Val extends DebitNoteCartState>
       purchasedBy: freezed == purchasedBy
           ? _value.purchasedBy
           : purchasedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
               as String?,
       supplierReferenceNo: freezed == supplierReferenceNo
           ? _value.supplierReferenceNo
@@ -192,6 +199,7 @@ abstract class _$$DebitNoteCartStateImplCopyWith<$Res>
       SupplierEntity? selectedSupplier,
       String? paymentMode,
       String? purchasedBy,
+      String? notes,
       String? supplierReferenceNo,
       LedgerAccountEntity? cashAccount,
       LedgerAccountEntity? allAccount,
@@ -224,6 +232,7 @@ class __$$DebitNoteCartStateImplCopyWithImpl<$Res>
     Object? selectedSupplier = freezed,
     Object? paymentMode = freezed,
     Object? purchasedBy = freezed,
+    Object? notes = freezed,
     Object? supplierReferenceNo = freezed,
     Object? cashAccount = freezed,
     Object? allAccount = freezed,
@@ -269,6 +278,10 @@ class __$$DebitNoteCartStateImplCopyWithImpl<$Res>
       purchasedBy: freezed == purchasedBy
           ? _value.purchasedBy
           : purchasedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
+      notes: freezed == notes
+          ? _value.notes
+          : notes // ignore: cast_nullable_to_non_nullable
               as String?,
       supplierReferenceNo: freezed == supplierReferenceNo
           ? _value.supplierReferenceNo
@@ -319,6 +332,7 @@ class _$DebitNoteCartStateImpl implements _DebitNoteCartState {
       this.selectedSupplier,
       this.paymentMode,
       this.purchasedBy,
+      this.notes,
       this.supplierReferenceNo,
       this.cashAccount,
       this.allAccount,
@@ -356,6 +370,8 @@ class _$DebitNoteCartStateImpl implements _DebitNoteCartState {
   @override
   final String? purchasedBy;
   @override
+  final String? notes;
+  @override
   final String? supplierReferenceNo;
   @override
   final LedgerAccountEntity? cashAccount;
@@ -374,7 +390,7 @@ class _$DebitNoteCartStateImpl implements _DebitNoteCartState {
 
   @override
   String toString() {
-    return 'DebitNoteCartState(ledgerList: $ledgerList, totalAmount: $totalAmount, crAmount: $crAmount, taxAmount: $taxAmount, debitNoteNo: $debitNoteNo, refNo: $refNo, selectedSupplier: $selectedSupplier, paymentMode: $paymentMode, purchasedBy: $purchasedBy, supplierReferenceNo: $supplierReferenceNo, cashAccount: $cashAccount, allAccount: $allAccount, drLedger: $drLedger, crLedger: $crLedger, isForUpdate: $isForUpdate, debitNoteDate: $debitNoteDate, isTaxEnabled: $isTaxEnabled)';
+    return 'DebitNoteCartState(ledgerList: $ledgerList, totalAmount: $totalAmount, crAmount: $crAmount, taxAmount: $taxAmount, debitNoteNo: $debitNoteNo, refNo: $refNo, selectedSupplier: $selectedSupplier, paymentMode: $paymentMode, purchasedBy: $purchasedBy, notes: $notes, supplierReferenceNo: $supplierReferenceNo, cashAccount: $cashAccount, allAccount: $allAccount, drLedger: $drLedger, crLedger: $crLedger, isForUpdate: $isForUpdate, debitNoteDate: $debitNoteDate, isTaxEnabled: $isTaxEnabled)';
   }
 
   @override
@@ -399,6 +415,7 @@ class _$DebitNoteCartStateImpl implements _DebitNoteCartState {
                 other.paymentMode == paymentMode) &&
             (identical(other.purchasedBy, purchasedBy) ||
                 other.purchasedBy == purchasedBy) &&
+            (identical(other.notes, notes) || other.notes == notes) &&
             (identical(other.supplierReferenceNo, supplierReferenceNo) ||
                 other.supplierReferenceNo == supplierReferenceNo) &&
             (identical(other.cashAccount, cashAccount) ||
@@ -429,6 +446,7 @@ class _$DebitNoteCartStateImpl implements _DebitNoteCartState {
       selectedSupplier,
       paymentMode,
       purchasedBy,
+      notes,
       supplierReferenceNo,
       cashAccount,
       allAccount,
@@ -459,6 +477,7 @@ abstract class _DebitNoteCartState implements DebitNoteCartState {
       final SupplierEntity? selectedSupplier,
       final String? paymentMode,
       final String? purchasedBy,
+      final String? notes,
       final String? supplierReferenceNo,
       final LedgerAccountEntity? cashAccount,
       final LedgerAccountEntity? allAccount,
@@ -486,6 +505,8 @@ abstract class _DebitNoteCartState implements DebitNoteCartState {
   String? get paymentMode;
   @override
   String? get purchasedBy;
+  @override
+  String? get notes;
   @override
   String? get supplierReferenceNo;
   @override

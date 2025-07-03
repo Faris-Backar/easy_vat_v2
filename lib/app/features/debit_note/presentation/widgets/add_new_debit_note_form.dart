@@ -18,6 +18,7 @@ class AddNewDebitNoteForm extends ConsumerStatefulWidget {
   final TextEditingController refNoController;
   final TextEditingController purchasedByController;
   final TextEditingController supplierRefNoController;
+  final TextEditingController notesController;
   final ValueNotifier<String?> paymentModeNotifier;
   final ValueNotifier<String?> cashAccountNotifier;
   const AddNewDebitNoteForm(
@@ -26,6 +27,7 @@ class AddNewDebitNoteForm extends ConsumerStatefulWidget {
       required this.refNoController,
       required this.purchasedByController,
       required this.paymentModeNotifier,
+      required this.notesController,
       required this.cashAccountNotifier,
       required this.supplierRefNoController});
 
@@ -45,6 +47,7 @@ class _AddNewDebitNoteFormState extends ConsumerState<AddNewDebitNoteForm> {
     widget.debitNoteNoController.text = cart.debitNoteNo ?? "";
     widget.refNoController.text = cart.refNo ?? "";
     widget.purchasedByController.text = cart.purchasedBy ?? "";
+    widget.notesController.text = cart.notes ?? "";
 
     widget.refNoController.addListener(() {
       ref

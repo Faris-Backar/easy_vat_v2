@@ -170,6 +170,7 @@ class DebitNoteCartNotifier extends StateNotifier<DebitNoteCartState> {
 
   setNotes(String notes) {
     this.notes = notes;
+    state = state.copyWith(notes: notes);
   }
 
   setDescription(String description) {

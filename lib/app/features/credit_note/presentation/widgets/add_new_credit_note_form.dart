@@ -17,6 +17,7 @@ class AddNewCreditNoteForm extends ConsumerStatefulWidget {
   final TextEditingController creditNoteNoController;
   final TextEditingController refNoController;
   final TextEditingController soldByController;
+  final TextEditingController notesController;
   final ValueNotifier<String?> paymentModeNotifier;
   final ValueNotifier<String?> cashAccountNotifier;
   const AddNewCreditNoteForm(
@@ -25,6 +26,7 @@ class AddNewCreditNoteForm extends ConsumerStatefulWidget {
       required this.refNoController,
       required this.soldByController,
       required this.paymentModeNotifier,
+      required this.notesController,
       required this.cashAccountNotifier});
 
   @override
@@ -43,6 +45,7 @@ class _AddNewCreditNoteFormState extends ConsumerState<AddNewCreditNoteForm> {
     widget.creditNoteNoController.text = cart.creditNoteNo ?? "";
     widget.refNoController.text = cart.refNo ?? "";
     widget.soldByController.text = cart.soldBy ?? "";
+    widget.notesController.text = cart.notes ?? "";
 
     widget.refNoController.addListener(() {
       ref

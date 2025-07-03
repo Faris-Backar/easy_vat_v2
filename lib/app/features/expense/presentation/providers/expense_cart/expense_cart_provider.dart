@@ -171,6 +171,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
 
   setNotes(String notes) {
     this.notes = notes;
+    state = state.copyWith(notes: notes);
   }
 
   setSupplier(SupplierEntity supplier) {
