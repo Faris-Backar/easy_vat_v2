@@ -259,4 +259,6 @@ class AppStrings {
       "deleteContraConfirmationMessage";
   static const String dividendNo = "dividendNo";
   static const String issuedBy = "issuedBy";
+  static const String deleteDividendConfirmationMessage =
+      "deleteDividendConfirmationMessage";
 }

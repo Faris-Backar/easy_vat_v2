@@ -246,5 +246,6 @@
   "ledgerBal": "Ledger Balance",
   "deleteContraConfirmationMessage": "Contra deleted Successfully",
   "dividendNo" : "Dividend No",
-  "issuedBy" : "Issued By"
+  "issuedBy" : "Issued By",
+  "deleteDividendConfirmationMessage": "Dividend deleted Successfully"
 }

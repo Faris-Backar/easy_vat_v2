@@ -245,5 +245,6 @@
    "ledgerBal": "رصيد دفتر الأستاذ",
    "deleteContraConfirmationMessage": "تم حذف الكونترا بنجاح",
    "dividendNo": "رقم توزيع الأرباح" ,
-   "issuedBy" : "صادر عن"
+   "issuedBy" : "صادر عن",
+   "deleteDividendConfirmationMessage": "تم حذف الأرباح بنجاح"
 }

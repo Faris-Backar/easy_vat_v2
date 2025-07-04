@@ -1,12 +1,17 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/dividend/domain/usecase/params/dividend_filter_params.dart';
+import 'package:easy_vat_v2/app/features/dividend/domain/usecase/params/dividend_params.dart';
+import 'package:easy_vat_v2/app/features/dividend/presentation/providers/dividend/dividend_notifier.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/filter_widget.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
 import 'package:easy_vat_v2/app/features/widgets/dropdown_field.dart';
+import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/app/features/widgets/text_input_form_field.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
@@ -32,6 +37,8 @@ class DividendAppbar extends ConsumerStatefulWidget
 class DividendAppBarConfig {
   final String title;
   final Future<bool> Function()? onWillPop;
+  final Future<void> Function(DividendParams params)? fetchFunction;
+  final Future<void> Function(DividendFilterParams params)? filterFunction;
   final List<PopupMenuEntry<String>>? additionalPopupMenuItems;
   final bool showDateRangePicker;
   final bool showSearchBar;
@@ -41,6 +48,8 @@ class DividendAppBarConfig {
     this.title = "",
     this.onWillPop,
     this.additionalPopupMenuItems,
+    this.fetchFunction,
+    this.filterFunction,
     this.showDateRangePicker = true,
     this.showSearchBar = true,
     this.showFilterButton = true,
@@ -69,6 +78,22 @@ class _DividendAppBarState extends ConsumerState<DividendAppbar> {
   void dispose() {
     isSearchNotEmpty.dispose();
     super.dispose();
+  }
+
+  Future<void> _defaultFetchDividend() async {
+    final dateRange = ref.read(dateRangeProvider);
+    final params = DividendParams(
+        dividendIDPK: PrefResources.emptyGuid,
+        fromDate: dateRange.fromDate,
+        toDate: dateRange.toDate);
+
+    if (widget.config.fetchFunction != null) {
+      await widget.config.fetchFunction!(params);
+    } else {
+      await ref
+          .read(dividendNotifierProvider.notifier)
+          .fetchDividend(params: params);
+    }
   }
 
   _buidlFilterBottomSheet(BuildContext context) {
@@ -135,7 +160,53 @@ class _DividendAppBarState extends ConsumerState<DividendAppbar> {
                       SizedBox(
                         width: 12.w,
                       ),
+                      Expanded(
+                        child: paymentModeState.when(
+                          initial: () => const SizedBox.shrink(),
+                          loading: () => Center(
+                            child: CircularProgressIndicator.adaptive(),
+                          ),
+                          error: (message) => Text("Error: $message"),
+                          loaded: (paymentModes, selectedPaymentMode) {
+                            return DropdownField(
+                                label: context.translate(AppStrings.issuedBy),
+                                valueNotifier: paymentMethodNotifier,
+                                items: paymentModes
+                                    .map((mode) => mode.paymentModes)
+                                    .toList(),
+                                backgroundColor: AppUtils.isDarkMode(context)
+                                    ? context.colorScheme.tertiaryContainer
+                                    : context.surfaceColor,
+                                onChanged: (newValue) {
+                                  paymentMethodNotifier.value = newValue;
+                                });
+                          },
+                        ),
+                      )
                     ],
+                  ),
+                  SizedBox(
+                    height: 16.h,
+                  ),
+                  SizedBox(
+                    width: double.infinity,
+                    child: PrimaryButton(
+                      label: context.translate(AppStrings.filter),
+                      onPressed: () {
+                        final params = DividendParams(
+                          fromDate: ref.read(dateRangeProvider).fromDate,
+                          toDate: ref.read(dateRangeProvider).toDate,
+                        );
+
+                        if (widget.config.filterFunction != null) {
+                        } else {
+                          ref
+                              .read(dividendNotifierProvider.notifier)
+                              .fetchDividend(params: params);
+                        }
+                        context.router.popForced();
+                      },
+                    ),
                   )
                 ],
               ),
@@ -222,9 +293,7 @@ class _DividendAppBarState extends ConsumerState<DividendAppbar> {
                           width: 10.w,
                         ),
                         InkWell(
-                          onTap: () {
-                            // fetch func
-                          },
+                          onTap: _defaultFetchDividend,
                           child: Container(
                             height: 36.h,
                             width: 41.w,
@@ -298,8 +367,10 @@ class _DividendAppBarState extends ConsumerState<DividendAppbar> {
                           fontWeight: FontWeight.w500,
                           color:
                               context.defaultTextColor.withValues(alpha: 0.32)),
-                      onChanged:
-                          (value) {}, // Dividend Notifier provider and search Dividend
+                      onChanged: (value) => ref
+                          .read(dividendNotifierProvider.notifier)
+                          .searchDividend(
+                              value), // Dividend Notifier provider and search Dividend
                       suffixIcon: hasText
                           ? Padding(
                               padding: const EdgeInsets.all(12.0),

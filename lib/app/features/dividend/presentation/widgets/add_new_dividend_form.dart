@@ -1,6 +1,7 @@
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/dividend/presentation/providers/dividend_cart/dividend_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/expense_ledger_info_widget.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
@@ -40,6 +41,12 @@ class _AddNewDividendFormState extends ConsumerState<AddNewDividendForm> {
   @override
   void initState() {
     super.initState();
+
+    final cart = ref.read(dividendCartProvider);
+    widget.dividendNoController.text = cart.dividendNo ?? "";
+    widget.refNoController.text = cart.refNo ?? "";
+    widget.issuedByController.text = cart.issuedBy ?? "";
+    widget.notesController.text = cart.notes ?? "";
   }
 
   @override

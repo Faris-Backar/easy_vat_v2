@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/features/dividend/presentation/providers/dividend_cart/dividend_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/add_dividend_footer_widget.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/add_new_dividend_form.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/dividend_amount_widget.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/capital_ledger/capital_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,71 +31,87 @@ class _AddNewDividendScreenState extends ConsumerState<AddNewDividendScreen> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref
+          .read(capitalLedgerNotifierProvider.notifier)
+          .fetchCapitalLedgers();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buidAppBar(),
-      backgroundColor: context.surfaceColor,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              AddNewDividendForm(
-                  refNoController: refNoController,
-                  issuedByController: issuedByController,
-                  notesController: _noteController,
-                  paymentModeNotifier: paymentModeNotifier,
-                  cashAccountNotifier: cashAccountNotifier,
-                  dividendNoController: dividendNoController),
-              SizedBox(
-                height: 10,
-              ),
-              Divider(
-                height: 5,
-                thickness: 3,
-              ),
-              Padding(padding: const EdgeInsets.symmetric(vertical: 8.0)),
-              SizedBox(
-                height: 16,
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: SizedBox(
-                  width: 0.5.sw,
-                  child: DividendAmountWidget(),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) async {
+        if (!didPop) {
+          bool shouldExit = await _onWillPop(context);
+          if (shouldExit) {
+            context.router.popForced();
+          }
+        }
+      },
+      child: Scaffold(
+        appBar: _buidAppBar(),
+        backgroundColor: context.surfaceColor,
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                AddNewDividendForm(
+                    refNoController: refNoController,
+                    issuedByController: issuedByController,
+                    notesController: _noteController,
+                    paymentModeNotifier: paymentModeNotifier,
+                    cashAccountNotifier: cashAccountNotifier,
+                    dividendNoController: dividendNoController),
+                SizedBox(
+                  height: 10,
                 ),
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Divider(
-                height: 5,
-                thickness: 3,
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              CustomTextField(
-                label: context.translate(AppStrings.note),
-                controller: _noteController,
-                maxLines: 5,
-                hint: context.translate(AppStrings.writeNote),
-              ),
-              SizedBox(
-                height: 16,
-              )
-            ],
+                Divider(
+                  height: 5,
+                  thickness: 3,
+                ),
+                Padding(padding: const EdgeInsets.symmetric(vertical: 8.0)),
+                SizedBox(
+                  height: 16,
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: SizedBox(
+                    width: 0.5.sw,
+                    child: DividendAmountWidget(),
+                  ),
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                Divider(
+                  height: 5,
+                  thickness: 3,
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+                CustomTextField(
+                  label: context.translate(AppStrings.note),
+                  controller: _noteController,
+                  maxLines: 5,
+                  hint: context.translate(AppStrings.writeNote),
+                ),
+                SizedBox(
+                  height: 16,
+                )
+              ],
+            ),
           ),
         ),
+        bottomNavigationBar: AddDividendFooterWidget(
+            dividendNoController: dividendNoController,
+            refNoController: refNoController,
+            issuedByController: issuedByController,
+            paymentModeNotifier: paymentModeNotifier),
       ),
-      bottomNavigationBar: AddDividendFooterWidget(
-          dividendNoController: dividendNoController,
-          refNoController: refNoController,
-          issuedByController: issuedByController,
-          paymentModeNotifier: paymentModeNotifier),
     );
   }
 
@@ -106,5 +124,38 @@ class _AddNewDividendScreenState extends ConsumerState<AddNewDividendScreen> {
       }),
       title: Text(context.translate(AppStrings.addNewDividend)),
     );
+  }
+
+  Future<bool> _onWillPop(BuildContext context) async {
+    final ledgerList = ref.read(dividendCartProvider).ledgerList;
+
+    if (ledgerList != null && ledgerList.isNotEmpty) {
+      final shouldExit = await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text(
+                  context.translate(AppStrings.discardChanges),
+                ),
+                content: Text(
+                    context.translate(AppStrings.discardledgerChangesMessage)),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text(context.translate(AppStrings.cancel)),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: Text(context.translate(AppStrings.discard)),
+                  )
+                ],
+              ));
+      if (shouldExit == true) {
+        ref.read(dividendCartProvider.notifier).clearDividendCart();
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return true;
   }
 }

@@ -46,7 +46,8 @@ enum PDFType {
   creditNote,
   debitNote,
   journal,
-  contra
+  contra,
+  dividend
 }
 
 class _PdfViewerScreenState extends State<PdfViewerScreen> {
@@ -340,6 +341,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         return context.translate(AppStrings.journal);
       case PDFType.contra:
         return context.translate(AppStrings.contra);
+      case PDFType.dividend:
+        return context.translate(AppStrings.dividend);
     }
   }
 
@@ -359,6 +362,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         return UrlResources.downloadJournal;
       case PDFType.contra:
         return UrlResources.downloadContra;
+      case PDFType.dividend:
+        return UrlResources.downloadDividend;
     }
   }
 }
