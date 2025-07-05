@@ -64,6 +64,10 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
       final drAmount = cartLedger.drAmount;
       final crAmount = cartLedger.crAmount;
 
+      final ledgerMode = (drAmount > 0)
+          ? LedgerModeState.debitLedger()
+          : LedgerModeState.creditLedger();
+
       final updatedLedger = ContraCartEntity(
           ledgerId: cartLedger.ledgerId,
           ledger: cartLedger.ledger,
@@ -71,6 +75,7 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
           netTotal: netTotal,
           drAmount: drAmount,
           crAmount: crAmount,
+          ledgerMode: ledgerMode,
           description: cartLedger.description);
 
       detailList[index] = updatedLedger;
@@ -247,6 +252,10 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
         : EntryModeState.doubleEntry();
     ref.read(entryModeProvider.notifier).state = entryModeState;
 
+    final ledgerMode = (drAmount) > 0
+        ? LedgerModeState.debitLedger()
+        : LedgerModeState.creditLedger();
+
     if (contra.contraEntryDetail?.isNotEmpty == true) {
       for (var index = 0; index < contra.contraEntryDetail!.length; index++) {
         final contraDetail = contra.contraEntryDetail![index];
@@ -262,6 +271,7 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
             netTotal: netTotal?.toDouble() ?? 0.0,
             drAmount: drAmount?.toDouble() ?? 0.0,
             crAmount: crAmount?.toDouble() ?? 0.0,
+            ledgerMode: ledgerMode,
             description: ledgerEntity.description ?? "");
 
         updatedLedgerList.add(cartLedger);
@@ -293,18 +303,18 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
     bool isInitial = false,
   }) {
     final entryMode = ref.read(entryModeProvider);
-    final ledgerMode =
-        ref.read(ledgerModeProvider(ledger.ledger.ledgerCode ?? ""));
+    // final ledgerMode =
+    //     ref.read(ledgerModeProvider(ledger.ledger.ledgerCode ?? ""));
     if (entryMode == EntryModeState.singleEntry()) {
       totalAmount += ledger.netTotal;
       crAmount += ledger.netTotal;
       drAmount = 0.0;
     } else if (entryMode == EntryModeState.doubleEntry() &&
-        ledgerMode == LedgerModeState.debitLedger()) {
+        ledger.ledgerMode == LedgerModeState.debitLedger()) {
       drAmount += ledger.drAmount;
       totalAmount += ledger.drAmount;
     } else if (entryMode == EntryModeState.doubleEntry() &&
-        ledgerMode == LedgerModeState.creditLedger()) {
+        ledger.ledgerMode == LedgerModeState.creditLedger()) {
       crAmount += ledger.crAmount;
       totalAmount += ledger.crAmount;
     }
@@ -316,19 +326,19 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
 
   void _decreaseRateSplitUp({required ContraCartEntity ledger}) {
     final entryMode = ref.read(entryModeProvider);
-    final ledgerMode =
-        ref.read(ledgerModeProvider(ledger.ledger.ledgerCode ?? ""));
+    // final ledgerMode =
+    //     ref.read(ledgerModeProvider(ledger.ledger.ledgerCode ?? ""));
 
     if (entryMode == EntryModeState.singleEntry()) {
       totalAmount -= ledger.netTotal;
       crAmount -= ledger.netTotal;
       drAmount = 0.0;
     } else if (entryMode == EntryModeState.doubleEntry() &&
-        ledgerMode == LedgerModeState.debitLedger()) {
+        ledger.ledgerMode == LedgerModeState.debitLedger()) {
       drAmount -= ledger.drAmount;
       totalAmount = ledger.drAmount;
     } else if (entryMode == EntryModeState.doubleEntry() &&
-        ledgerMode == LedgerModeState.creditLedger()) {
+        ledger.ledgerMode == LedgerModeState.creditLedger()) {
       crAmount -= ledger.crAmount;
       totalAmount = ledger.crAmount;
     }

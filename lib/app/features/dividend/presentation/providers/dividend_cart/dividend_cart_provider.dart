@@ -7,6 +7,7 @@ import 'package:easy_vat_v2/app/features/dividend/domain/entity/dividend_cart_en
 import 'package:easy_vat_v2/app/features/dividend/domain/entity/dividend_entity.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/providers/dividend_cart/dividend_cart_state.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final dividendCartProvider =
@@ -116,7 +117,7 @@ class DividendCartNotifier extends StateNotifier<DividendCartState> {
   }
 
   setNotes(String notes) {
-    notes = notes;
+    this.notes = notes;
     state = state.copyWith(notes: notes);
   }
 
@@ -126,7 +127,7 @@ class DividendCartNotifier extends StateNotifier<DividendCartState> {
   }
 
   removeLedger() {
-    selectedLedger = LedgerAccountEntity(ledgerName: "Expense Ledger");
+    selectedLedger = LedgerAccountEntity(ledgerName: "Select a Ledger");
     state = state.copyWith(selectedLedger: selectedLedger);
   }
 
@@ -153,7 +154,7 @@ class DividendCartNotifier extends StateNotifier<DividendCartState> {
           ledgerName: detailList[i].ledger.ledgerName ?? "",
           currentBalance: detailList[i].ledger.currentBalance ?? 0.0,
           currentBalanceType: detailList[i].ledger.currentBalanceType ?? "",
-          description: detailList[i].ledger.description ?? "",
+          description: detailList[i].description,
           netTotal: netTotal,
           rowguid: detailList[i].ledger.rowguid ?? PrefResources.emptyGuid,
           companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid);
@@ -170,7 +171,9 @@ class DividendCartNotifier extends StateNotifier<DividendCartState> {
         crLedgerIDFK: selectedLedger?.ledgerIdpk ??
             cashAccount?.ledgerIdpk ??
             PrefResources.emptyGuid,
-        drLedgerIDFK: PrefResources.emptyGuid,
+        drLedgerIDFK: selectedLedger?.ledgerIdpk ??
+            cashAccount?.ledgerIdpk ??
+            PrefResources.emptyGuid,
         expenseLedger: selectedLedger?.ledgerIdpk ?? PrefResources.emptyGuid,
         cashAccount: selectedLedger?.ledgerIdpk ?? PrefResources.emptyGuid,
         issuedBy: issuedBy,
@@ -225,15 +228,39 @@ class DividendCartNotifier extends StateNotifier<DividendCartState> {
     setDividendIDPK(dividend.dividendIDPK ?? "");
     setDividendNo(dividend.dividendNo?.toString() ?? "");
     setRefNo(dividend.referenceNo ?? "");
+    setPaymentMode(dividend.paymentMode ?? "Cash");
     setDividendDate(dividend.dividendDate ?? DateTime.now());
-    setNotes(dividend.remarks ?? "");
+    setIssuedBy(dividend.issuedBy ?? "");
+    final remarks = dividend.remarks ?? "";
+    setNotes(remarks);
     setDescription(description);
+
+    final ledger = ref
+        .read(cashLedgerNotifierProvider.notifier)
+        .getLedgerById(dividend.crLedgerIDFK ?? "");
+
+    if (ledger != null) {
+      final group = ledger.groupName?.toLowerCase();
+      final paymentMode = ledger.defaultPaymentMode?.toLowerCase();
+
+      final isCashorBank = group == 'cash' ||
+          group == 'bank' ||
+          paymentMode == 'cash' ||
+          paymentMode == 'bank' ||
+          paymentMode == 'card';
+
+      if (isCashorBank) {
+        setCashAccount(ledger);
+      } else {
+        setCapitalAccount(ledger);
+      }
+    }
 
     if (dividend.dividendDetails?.isNotEmpty == true) {
       for (var index = 0; index < dividend.dividendDetails!.length; index++) {
         final dividendDetail = dividend.dividendDetails![index];
         final ledgerEntity = covertDividendDetailsToDetails(dividendDetail);
-        final netTotal = totalAmount;
+        final netTotal = dividendDetail.netTotal ?? 0.0;
 
         final cartLedger = DividendCartEntity(
             ledgerId: (index + 1),

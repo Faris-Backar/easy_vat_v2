@@ -13,8 +13,8 @@ import 'package:easy_vat_v2/app/features/dividend/presentation/providers/dividen
 import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/dividend_appbar.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/dividend_card.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/providers/date_range/date_range_provider.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/capital_ledger/capital_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
-import 'package:easy_vat_v2/app/features/ledger/presentation/provider/expense_ledger/expense_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
@@ -45,7 +45,7 @@ class _DividendScreenState extends ConsumerState<DividendScreen> {
       ref.read(cashLedgerNotifierProvider.notifier).fetchCashLedgers();
       ref.read(cashLedgerNotifierProvider.notifier).fetchBankLedgers();
       ref.read(paymentModeNotifierProvider.notifier).fetchPaymentModes();
-      ref.read(expenseLedgerNotifierProvider.notifier).fetchExpenseLedgers();
+      ref.read(capitalLedgerNotifierProvider.notifier).fetchCapitalLedgers();
       ref.read(dividendNotifierProvider.notifier).fetchDividend(
           params: DividendParams(
               dividendIDPK: PrefResources.emptyGuid,

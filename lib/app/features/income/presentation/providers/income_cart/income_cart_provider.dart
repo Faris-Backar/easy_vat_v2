@@ -255,11 +255,11 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
         incomeDate: incomeDate,
         paymentMode: paymentMode,
         soldBy: soldBy,
-        customerIDFK: selectedCustomer?.ledgerIdpk ??
-            cashAccount?.ledgerIdpk ??
+        customerIDFK: cashAccount?.ledgerIdpk ??
+            selectedCustomer?.ledgerIdpk ??
             PrefResources.emptyGuid,
-        crLedgerIDFK: selectedCustomer?.ledgerIdpk ??
-            incomeAccount?.ledgerIdpk ??
+        crLedgerIDFK: incomeAccount?.ledgerIdpk ??
+            selectedCustomer?.ledgerIdpk ??
             PrefResources.emptyGuid,
         drLedgerIDFK: PrefResources.emptyGuid,
         grossTotal: totalGross,

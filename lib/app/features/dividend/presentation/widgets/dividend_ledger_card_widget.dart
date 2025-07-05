@@ -1,20 +1,21 @@
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/income/domain/entities/income_cart_entity.dart';
+import 'package:easy_vat_v2/app/features/dividend/domain/entity/dividend_cart_entity.dart';
 import 'package:flutter/material.dart';
 
-class IncomeLedgerCardWidget extends StatefulWidget {
-  final IncomeCartEntity ledger;
+class DividendLedgerCardWidget extends StatefulWidget {
+  final DividendCartEntity ledger;
   final int index;
-  const IncomeLedgerCardWidget(
+  const DividendLedgerCardWidget(
       {super.key, required this.ledger, required this.index});
 
   @override
-  State<IncomeLedgerCardWidget> createState() => _IncomeLedgerCardWidgetState();
+  State<DividendLedgerCardWidget> createState() =>
+      _DividendLedgerCardWidgetState();
 }
 
-class _IncomeLedgerCardWidgetState extends State<IncomeLedgerCardWidget> {
+class _DividendLedgerCardWidgetState extends State<DividendLedgerCardWidget> {
   final ValueNotifier<bool> _isExpanded = ValueNotifier(false);
 
   @override
@@ -71,38 +72,38 @@ class _IncomeLedgerCardWidgetState extends State<IncomeLedgerCardWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
                       width: 20,
                       child: Text(
-                        "${widget.index + 1} - ",
+                        "${widget.index + 1} -",
                         style: context.textTheme.bodyMedium
                             ?.copyWith(fontWeight: FontWeight.w600),
                       ),
                     ),
                     Expanded(
-                        child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.ledger.ledger.ledgerName ?? "",
-                          style: context.textTheme.bodyMedium
-                              ?.copyWith(fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          "${context.translate(AppStrings.curBal)} : ${widget.ledger.currentBalance}",
-                          style: context.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w500,
-                              color: widget.ledger.currentBalance >= 0
-                                  ? Colors.green
-                                  : context.errorColor),
-                        )
-                      ],
-                    )),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            widget.ledger.ledger.ledgerName ?? "",
+                            style: context.textTheme.bodyMedium
+                                ?.copyWith(fontWeight: FontWeight.w600),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          Text(
+                            "${context.translate(AppStrings.curBal)} : ${widget.ledger.currentBalance}",
+                            style: context.textTheme.bodySmall?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: widget.ledger.currentBalance >= 0
+                                    ? Colors.green
+                                    : context.errorColor),
+                          )
+                        ],
+                      ),
+                    ),
                     IconButton(
                         onPressed: () => _isExpanded.value = !_isExpanded.value,
                         icon: AnimatedRotation(
@@ -118,40 +119,14 @@ class _IncomeLedgerCardWidgetState extends State<IncomeLedgerCardWidget> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildHeaderText(
-                      context.translate(AppStrings.ledgerCode),
-                      flex: 2,
-                    ),
-                    const SizedBox(
-                      width: 8,
-                    ),
-                    _buildHeaderText(context.translate(AppStrings.grossTotal),
-                        flex: 3),
-                    const SizedBox(
-                      width: 2,
-                    ),
-                    _buildHeaderText("${context.translate(AppStrings.tax)}%",
-                        flex: 2),
-                    _buildHeaderText(context.translate(AppStrings.taxAmount),
-                        flex: 3),
-                    _buildHeaderText(context.translate(AppStrings.netTotal),
-                        flex: 2)
+                    _buildHeaderText(context.translate(AppStrings.totalAmount),
+                        flex: 2, textAlign: TextAlign.end)
                   ],
                 ),
                 Row(
                   children: [
-                    _buildValueText(widget.ledger.ledger.ledgerCode ?? "",
-                        flex: 2, textAlign: TextAlign.start),
-                    _buildValueText(widget.ledger.grossTotal.toStringAsFixed(2),
-                        flex: 2, textAlign: TextAlign.start),
-                    _buildValueText(
-                        widget.ledger.taxPercentage.toStringAsFixed(2),
-                        flex: 2,
-                        textAlign: TextAlign.center),
-                    _buildValueText(widget.ledger.taxAmount.toStringAsFixed(2),
-                        flex: 2, textAlign: TextAlign.center),
                     _buildValueText(widget.ledger.netTotal.toStringAsFixed(2),
-                        textAlign: TextAlign.center, flex: 2)
+                        flex: 2, textAlign: TextAlign.end)
                   ],
                 ),
                 AnimatedCrossFade(
@@ -172,9 +147,7 @@ class _IncomeLedgerCardWidgetState extends State<IncomeLedgerCardWidget> {
                                 width: 8,
                               ),
                               _buildHeaderText(
-                                  context.translate(
-                                    AppStrings.description,
-                                  ),
+                                  context.translate(AppStrings.description),
                                   flex: 2)
                             ],
                           ),

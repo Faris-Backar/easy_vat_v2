@@ -235,6 +235,7 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                                       .reinsertSalesForm(salesInvoice, ref);
                                   if (mounted) {
                                     context.router.push(AddNewSalesRoute(
+                                      isForPurchase: false,
                                       title: context
                                           .translate(AppStrings.addNewSales), isForPurchase: false,
                                     ));
@@ -328,6 +329,7 @@ class _PosScreenState extends ConsumerState<PosScreen> {
               PrimaryButton(
                 onPressed: () => context.router.push(
                   AddNewSalesRoute(
+                    isForPurchase: false,
                     title: context.translate(AppStrings.addNewSales),
                     isForPurchase: false
                   ),

@@ -4,6 +4,7 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/journal/domain/entity/journal_cart_entity.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_notifier.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_state.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/journal_cart/journal_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/ledger_mode/ledger_mode_notifier.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/ledger_mode/ledger_mode_state.dart';
@@ -292,9 +293,22 @@ class _JournalAddDialogState extends ConsumerState<JournalAddDialog> {
 
   void _handleJournalCartAction() {
     final journalCartNotifier = ref.read(journalCartProvider.notifier);
-    final drAmount = double.tryParse(_drAmountController.text) ?? 0.0;
-    final crAmount = double.tryParse(_crAmountController.text) ?? 0.0;
-    final totalAmount = double.tryParse(_totalAmountController.text) ?? 0.0;
+    final ledgerMode = ref.read(ledgerModeProvider(widget.ledger.ledgerCode!));
+    double drAmount = 0.0;
+    double crAmount = 0.0;
+    double totalAmount = 0.0;
+
+    if (ref.read(entryModeProvider) == EntryModeState.singleEntry()) {
+      totalAmount = double.tryParse(_totalAmountController.text) ?? 0.0;
+    } else {
+      if (ledgerMode == LedgerModeState.debitLedger()) {
+        drAmount = double.tryParse(_drAmountController.text) ?? 0.0;
+        crAmount = 0.0;
+      } else if (ledgerMode == LedgerModeState.creditLedger()) {
+        crAmount = double.tryParse(_crAmountController.text) ?? 0.0;
+        drAmount = 0.0;
+      }
+    }
 
     final journalCartEntity = JournalCartEntity(
         ledgerId: widget.ledgerEntry != null
@@ -305,6 +319,7 @@ class _JournalAddDialogState extends ConsumerState<JournalAddDialog> {
         netTotal: totalAmount,
         drAmount: drAmount,
         crAmount: crAmount,
+        ledgerMode: ledgerMode,
         description: _descriptionController.text);
 
     if (widget.ledgerEntry == null) {

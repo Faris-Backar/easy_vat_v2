@@ -217,7 +217,7 @@ class DividendCard extends StatelessWidget {
       children: [
         _buildDetailRow(
           context,
-          label: context.translate(AppStrings.discount),
+          label: context.translate(AppStrings.netTotal),
           value: "₹ ${dividend.netTotal?.toStringAsFixed(2) ?? "0.00"}",
           isTotal: true,
         ),

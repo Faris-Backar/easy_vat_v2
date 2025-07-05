@@ -133,7 +133,11 @@ class _AddNewContraFormState extends ConsumerState<AddNewContraForm> {
                     builder: (context, ref, child) {
                       return DatePickerTextField(
                         label: context.translate(AppStrings.date),
-                        onDateSelected: (data) {},
+                        onDateSelected: (date) {
+                          ref
+                              .read(contraCartProvider.notifier)
+                              .setContraDate(date);
+                        },
                         labelAndTextfieldGap: 2,
                         backgroundColor: AppUtils.isDarkMode(context)
                             ? context.colorScheme.tertiaryContainer
