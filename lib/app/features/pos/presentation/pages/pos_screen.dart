@@ -206,13 +206,16 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                                 borderRadiusBottomLeft: 10,
                                 borderRadiusTopLeft: 10,
                                 onTap: () async {
-                                  context.router.push(PdfViewerRoute(
+                                  context.router.push(
+                                    PdfViewerRoute(
                                       pdfUrl: UrlResources.downloadSalesInvoice,
                                       queryParameters: {
                                         'SaleIDPK': salesInvoice.saleIdpk,
                                       },
                                       pdfName: salesInvoice.customerName,
-                                      pdfType: PDFType.salesInvoice,),);
+                                      pdfType: PDFType.salesInvoice,
+                                    ),
+                                  );
                                 }),
                           ),
                           Expanded(
