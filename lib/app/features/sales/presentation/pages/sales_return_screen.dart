@@ -192,6 +192,7 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                                     context.router.push(AddNewSalesRoute(
                                       title: context.translate(
                                           AppStrings.addNewSalesReturn),
+                                      isForPurchase: false,
                                     ));
                                   }
                                 }),
@@ -291,6 +292,7 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                 onPressed: () => context.router.push(
                   AddNewSalesRoute(
                     title: context.translate(AppStrings.addNewSalesReturn),
+                    isForPurchase: false,
                   ),
                 ),
                 child: Row(

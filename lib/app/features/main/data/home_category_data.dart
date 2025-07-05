@@ -55,7 +55,7 @@ class HomeCategoryData {
             label: context.translate(AppStrings.journal),
             icon: Assets.icons.journal,
             darkIcon: Assets.icons.dark.journalDark,
-            pagePath: "",
+            pagePath: AppRouter.journal,
             formId: AppStrings.journal),
         HomeDataModel(
             category: AppStrings.quickItems,
@@ -97,7 +97,7 @@ class HomeCategoryData {
             label: context.translate(AppStrings.contra),
             icon: Assets.icons.contra,
             darkIcon: Assets.icons.dark.contraDark,
-            pagePath: "",
+            pagePath: AppRouter.contra,
             formId: AppStrings.contra),
         HomeDataModel(
             category: AppStrings.quickItems,
@@ -266,7 +266,7 @@ class HomeCategoryData {
             label: context.translate(AppStrings.creditNote),
             icon: Assets.icons.creditNote,
             darkIcon: Assets.icons.dark.creditNoteDark,
-            pagePath: "",
+            pagePath: AppRouter.creditNote,
             formId: AppStrings.creditNote),
         HomeDataModel(
             category: AppStrings.accountVoucher,
@@ -294,7 +294,7 @@ class HomeCategoryData {
             label: context.translate(AppStrings.debitNote),
             icon: Assets.icons.debitNote,
             darkIcon: Assets.icons.dark.debitNoteDark,
-            pagePath: "",
+            pagePath: AppRouter.debitNote,
             formId: AppStrings.debitNote),
         HomeDataModel(
             category: AppStrings.accountVoucher,
@@ -315,28 +315,28 @@ class HomeCategoryData {
             label: context.translate(AppStrings.journal),
             icon: Assets.icons.journal,
             darkIcon: Assets.icons.dark.journalDark,
-            pagePath: "",
+            pagePath: AppRouter.journal,
             formId: AppStrings.journal),
         HomeDataModel(
             category: AppStrings.accountVoucher,
             label: context.translate(AppStrings.contra),
             icon: Assets.icons.contra,
             darkIcon: Assets.icons.dark.contraDark,
-            pagePath: "",
+            pagePath: AppRouter.contra,
             formId: AppStrings.contra),
         HomeDataModel(
             category: AppStrings.accountVoucher,
             label: context.translate(AppStrings.dividend),
             icon: Assets.icons.dividend,
             darkIcon: Assets.icons.dark.dividendDark,
-            pagePath: "",
+            pagePath: AppRouter.dividend,
             formId: AppStrings.dividend),
         HomeDataModel(
             category: AppStrings.accountVoucher,
             label: context.translate(AppStrings.contra),
             icon: Assets.icons.contra,
             darkIcon: Assets.icons.dark.contraDark,
-            pagePath: "",
+            pagePath: AppRouter.contra,
             formId: AppStrings.contra),
         HomeDataModel(
             category: AppStrings.accountVoucher,

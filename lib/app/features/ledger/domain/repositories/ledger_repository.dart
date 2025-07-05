@@ -8,4 +8,6 @@ abstract class LedgerRepository {
   Future<Either<Failure, List<LedgerAccountEntity>>> fetchBankLedger();
   Future<Either<Failure, List<LedgerAccountEntity>>> fetchExpenseLedger();
   Future<Either<Failure, List<LedgerAccountEntity>>> fetchIncomeLedger();
+  Future<Either<Failure, List<LedgerAccountEntity>>> fetchLedger();
+  Future<Either<Failure, List<LedgerAccountEntity>>> fetchCapitalLedger();
 }

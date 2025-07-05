@@ -181,6 +181,7 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                                     context.router.push(AddNewSalesRoute(
                                       title: context
                                           .translate(AppStrings.addNewSales),
+                                      isForPurchase: false,
                                     ));
                                   }
                                 }),
@@ -273,6 +274,7 @@ class _SalesInvoiceScreenState extends ConsumerState<SalesInvoiceScreen> {
                 onPressed: () => context.router.push(
                   AddNewSalesRoute(
                     title: context.translate(AppStrings.addNewSales),
+                    isForPurchase: false,
                   ),
                 ),
                 child: Row(

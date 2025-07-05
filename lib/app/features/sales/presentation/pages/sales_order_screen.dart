@@ -12,13 +12,13 @@ import 'package:easy_vat_v2/app/features/expense/presentation/providers/date_ran
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
+import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sales/delete_sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_order/sales_order_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_order/sales_order_state.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
 
-import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_card.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_transaction_card.dart';
@@ -160,6 +160,7 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
                                 onTap: () async {
                                   context.router.push(PdfViewerRoute(
                                       pdfUrl: UrlResources.downloadSalesInvoice,
+                                      pdfType: PDFType.salesInvoice,
                                       queryParameters: {
                                         'quotationIDPK':
                                             salesOrder.salesOrderIdpk,
@@ -294,6 +295,7 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
               PrimaryButton(
                 onPressed: () => context.router.push(
                   AddNewSalesRoute(
+                    isForPurchase: false,
                     title: context.translate(AppStrings.addNewSalesQuatation),
                   ),
                 ),

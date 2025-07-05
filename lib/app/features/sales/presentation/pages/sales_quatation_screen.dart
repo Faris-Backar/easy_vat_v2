@@ -11,12 +11,16 @@ import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provid
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
+import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sales/delete_sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/fetch_sales_quotation/fetch_sales_quotation.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
+
+//import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_slidable_widget.dart';
+
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_transaction_card.dart';
@@ -164,6 +168,7 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
                                         'quotationIDPK':
                                             salesQuotation.quotationIdpk,
                                       },
+                                      pdfType: PDFType.salesInvoice,
                                       pdfName: salesQuotation.customerName));
                                 }),
                           ),
@@ -189,6 +194,7 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
                                 if (mounted) {
                                   context.router.push(
                                     AddNewSalesRoute(
+                                      isForPurchase: false,
                                       title: context.translate(
                                           AppStrings.addNewSalesQuatation),
                                     ),
@@ -294,6 +300,7 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
               PrimaryButton(
                 onPressed: () => context.router.push(
                   AddNewSalesRoute(
+                    isForPurchase: false,
                     title: context.translate(AppStrings.addNewSalesQuatation),
                   ),
                 ),

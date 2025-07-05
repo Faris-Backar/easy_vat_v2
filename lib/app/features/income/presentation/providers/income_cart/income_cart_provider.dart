@@ -171,6 +171,7 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
 
   setNotes(String notes) {
     this.notes = notes;
+    state = state.copyWith(notes: notes);
   }
 
   setCustomer(CustomerEntity customer) {
