@@ -15,6 +15,7 @@ import 'package:easy_vat_v2/app/features/expense/presentation/providers/date_ran
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
+import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_invoice_model.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sales/delete_sales_notifier.dart';
@@ -210,7 +211,8 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                                       queryParameters: {
                                         'SaleIDPK': salesInvoice.saleIdpk,
                                       },
-                                      pdfName: salesInvoice.customerName));
+                                      pdfName: salesInvoice.customerName,
+                                      pdfType: PDFType.salesInvoice,),);
                                 }),
                           ),
                           Expanded(

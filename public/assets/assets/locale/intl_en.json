@@ -215,7 +215,13 @@
   "addNewLedger": "AddNewLedger",
   "discardledgerChangesMessage": "You have unsaved ledger entries. Do you want to discard them and go back?",
   "deleteExpenseConfirmationMessage": "Expense deleted Successfully",
+  "addNewSalesReturn":"Add New Sales Return",
+  "addNewIncome": "Add New Income",
+  "incNo" : "IncNo",
+  "deleteIncomeConfirmationMessage": "Income deleted Successfully",
   "addNewSalesReturn": "Add New Sales Return",
   "privacyPolicy": "Privacy Policy",
-   "whatIsMyCode": "What is my code?"
+  "whatIsMyCode": "What is my code?",
+  "quotationId": "Quotation ID",
+  "salesOrderId": "Sales Order ID"
 }
