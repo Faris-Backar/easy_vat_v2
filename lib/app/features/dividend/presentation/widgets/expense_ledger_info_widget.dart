@@ -2,8 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/dividend/presentation/providers/dividend_cart/dividend_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/income_ledger_details_card.dart';
-import 'package:easy_vat_v2/app/features/journal/presentation/providers/journal_cart/journal_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/ledger/data/model/ledger_account_model.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/expense_ledger/expense_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -34,6 +34,19 @@ class _ExpenseLedgerInfoWidgetState
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await _fetchAndSelectLedger();
+    });
+  }
+
+  Future<void> _fetchAndSelectLedger() async {
+    final selectedLedger = ref.read(dividendCartProvider).selectedLedger;
+    if (selectedLedger != null) {
+      ref.read(dividendCartProvider.notifier).setLedger(selectedLedger);
+    }
+    await ref
+        .read(expenseLedgerNotifierProvider.notifier)
+        .fetchExpenseLedgers();
   }
 
   @override
@@ -178,8 +191,7 @@ class _ExpenseLedgerInfoWidgetState
                                       final selectedLedger =
                                           ledgers[_expansionNotifier.value!];
                                       ref
-                                          .read(journalCartProvider
-                                              .notifier) // need to change
+                                          .read(dividendCartProvider.notifier)
                                           .setLedger(selectedLedger);
                                       context.router.popForced();
                                     }
@@ -229,61 +241,113 @@ class _ExpenseLedgerInfoWidgetState
                 padding: const EdgeInsets.all(8.0),
                 child: TabBarView(
                   children: [
-                    InkWell(
-                      onTap: () {
-                        showModalBottomSheet(
-                            context: context,
-                            useSafeArea: true,
-                            isScrollControlled: true,
-                            backgroundColor: AppUtils.isDarkMode(context)
-                                ? context.colorScheme.surfaceContainer
-                                : context.colorScheme.surfaceContainerLowest,
-                            builder: (context) =>
-                                _buildLedgerBottomSheet(context)).whenComplete(
-                            () {
-                          _expansionNotifier.value = null;
-                        });
-                      },
-                      child: Consumer(
-                        builder: (context, ref, _) {
-                          final selectedLedger =
-                              ref.watch(journalCartProvider).selectedLedger;
+                    InkWell(onTap: () {
+                      showModalBottomSheet(
+                              context: context,
+                              useSafeArea: true,
+                              isScrollControlled: true,
+                              backgroundColor: AppUtils.isDarkMode(context)
+                                  ? context.colorScheme.surfaceContainer
+                                  : context.colorScheme.surfaceContainerLowest,
+                              builder: (context) =>
+                                  _buildLedgerBottomSheet(context))
+                          .whenComplete(() {
+                        _expansionNotifier.value = null;
+                      });
+                    }, child: Consumer(
+                      builder: (context, ref, _) {
+                        final selectedLedger =
+                            ref.watch(dividendCartProvider).selectedLedger;
 
-                          final ledgerName =
-                              selectedLedger?.ledgerName?.trim().isNotEmpty ==
-                                      true
-                                  ? selectedLedger?.ledgerName!
-                                  : "Select a Ledger";
+                        final ledgerName =
+                            selectedLedger?.ledgerName?.trim().isNotEmpty ==
+                                    true
+                                ? selectedLedger!.ledgerName!
+                                : "Select a Ledger";
 
-                          final currentBalance =
-                              selectedLedger?.currentBalance != null
-                                  ? selectedLedger!.currentBalance!
-                                      .toStringAsFixed(2)
-                                  : '0.0';
+                        final currentBalance = selectedLedger?.currentBalance !=
+                                null
+                            ? selectedLedger!.currentBalance!.toStringAsFixed(2)
+                            : null;
 
-                          return Container(
-                              padding: const EdgeInsets.symmetric(vertical: 8),
-                              alignment: Alignment.topLeft,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                        return InkWell(
+                          onTap: () {
+                            showModalBottomSheet(
+                              context: context,
+                              useSafeArea: true,
+                              isScrollControlled: true,
+                              backgroundColor: AppUtils.isDarkMode(context)
+                                  ? context.colorScheme.surfaceContainer
+                                  : context.colorScheme.surfaceContainerLowest,
+                              builder: (context) =>
+                                  _buildLedgerBottomSheet(context),
+                            ).whenComplete(() {
+                              _expansionNotifier.value = null;
+                            });
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
                                 children: [
-                                  Text(
-                                    ledgerName ?? "",
-                                    style:
-                                        context.textTheme.bodyMedium?.copyWith(
-                                      fontWeight: FontWeight.w600,
+                                  Expanded(
+                                    flex: 5,
+                                    child: Text(
+                                      ledgerName,
+                                      style: context.textTheme.bodyMedium
+                                          ?.copyWith(
+                                        fontWeight: FontWeight.w600,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
                                   ),
-                                  if (selectedLedger?.currentBalance != null)
-                                    Text(
-                                      "${context.translate(AppStrings.curBal)} : $currentBalance",
-                                      style: context.textTheme.bodySmall,
-                                    ),
+                                  if (selectedLedger != null &&
+                                      (selectedLedger.ledgerName?.isNotEmpty ??
+                                          false))
+                                    InkWell(
+                                      onTap: () {
+                                        ref
+                                            .read(dividendCartProvider.notifier)
+                                            .removeLedger();
+                                      },
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Container(
+                                        width: 24,
+                                        height: 24,
+                                        margin: const EdgeInsets.only(left: 8),
+                                        decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(12),
+                                          color: context.colorScheme.error
+                                              .withValues(alpha: 0.1),
+                                          border: Border.all(
+                                            color: context.colorScheme.error
+                                                .withValues(alpha: 0.3),
+                                            width: 1,
+                                          ),
+                                        ),
+                                        child: Icon(
+                                          Icons.close_rounded,
+                                          size: 16,
+                                          color: context.colorScheme.error,
+                                        ),
+                                      ),
+                                    )
                                 ],
-                              ));
-                        },
-                      ),
-                    )
+                              ),
+                              if (currentBalance != null)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 4),
+                                  child: Text(
+                                    "${context.translate(AppStrings.curBal)}: $currentBalance",
+                                    style: context.textTheme.bodySmall,
+                                  ),
+                                )
+                            ],
+                          ),
+                        );
+                      },
+                    ))
                   ],
                 ),
               ))

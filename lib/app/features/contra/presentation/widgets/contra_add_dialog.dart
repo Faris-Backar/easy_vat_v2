@@ -5,6 +5,7 @@ import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/contra/domain/entity/contra_cart_entity.dart';
 import 'package:easy_vat_v2/app/features/contra/presentation/providers/contra_cart/contra_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_notifier.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_state.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/ledger_mode/ledger_mode_notifier.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/ledger_mode/ledger_mode_state.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
@@ -287,9 +288,22 @@ class _ContraAddDialogState extends ConsumerState<ContraAddDialog> {
 
   void _handleContraCartAction() {
     final contraCartNotifier = ref.read(contraCartProvider.notifier);
-    final drAmount = double.tryParse(_drAmountController.text) ?? 0.0;
-    final crAmount = double.tryParse(_crAmountController.text) ?? 0.0;
-    final totalAmount = double.tryParse(_totalAmountController.text) ?? 0.0;
+    final ledgerMode = ref.read(ledgerModeProvider(widget.ledger.ledgerCode!));
+    double drAmount = 0.0;
+    double crAmount = 0.0;
+    double totalAmount = 0.0;
+
+    if (ref.read(entryModeProvider) == EntryModeState.singleEntry()) {
+      totalAmount = double.tryParse(_totalAmountController.text) ?? 0.0;
+    } else {
+      if (ledgerMode == LedgerModeState.debitLedger()) {
+        drAmount = double.tryParse(_drAmountController.text) ?? 0.0;
+        crAmount = 0.0;
+      } else if (ledgerMode == LedgerModeState.creditLedger()) {
+        crAmount = double.tryParse(_crAmountController.text) ?? 0.0;
+        drAmount = 0.0;
+      }
+    }
 
     final contraCartEntity = ContraCartEntity(
         ledgerId: widget.ledgerEntry != null
@@ -300,6 +314,7 @@ class _ContraAddDialogState extends ConsumerState<ContraAddDialog> {
         netTotal: totalAmount,
         drAmount: drAmount,
         crAmount: crAmount,
+        ledgerMode: ledgerMode,
         description: _descriptionController.text);
 
     if (widget.ledgerEntry == null) {

@@ -3,7 +3,6 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/providers/dividend_cart/dividend_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/expense_ledger_info_widget.dart';
-import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/data/model/payment_mode_model.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
@@ -53,6 +52,7 @@ class _AddNewDividendFormState extends ConsumerState<AddNewDividendForm> {
   Widget build(BuildContext context) {
     final paymentModeState = ref.watch(paymentModeNotifierProvider);
     final cashLedgerState = ref.watch(cashLedgerNotifierProvider);
+    ref.watch(dividendCartProvider).issuedBy ?? "";
     return Column(
       children: [
         Row(
@@ -97,13 +97,12 @@ class _AddNewDividendFormState extends ConsumerState<AddNewDividendForm> {
                       return DatePickerTextField(
                         label: context.translate(AppStrings.date),
                         labelAndTextfieldGap: 2,
-                        initialValue: ref
-                            .watch(expenseCartProvider)
-                            .expenseDate, // need to change
-                        onDateSelected: (data) {
+                        initialValue:
+                            ref.watch(dividendCartProvider).dividendDate,
+                        onDateSelected: (date) {
                           ref
-                              .read(expenseCartProvider.notifier)
-                              .setExpenseDate(data);
+                              .read(dividendCartProvider.notifier)
+                              .setDividendDate(date);
                         },
                         backgroundColor: AppUtils.isDarkMode(context)
                             ? context.colorScheme.tertiaryContainer
@@ -130,7 +129,7 @@ class _AddNewDividendFormState extends ConsumerState<AddNewDividendForm> {
                 error: (message) => Text('Error: $message'),
                 loaded: (paymentModes, selectedPaymentMode) {
                   if (paymentModes.isNotEmpty &&
-                      widget.cashAccountNotifier.value == null) {
+                      widget.paymentModeNotifier.value == null) {
                     _getdefaultSelection(paymentModes);
                   }
                   return DropdownField(
@@ -217,9 +216,8 @@ class _AddNewDividendFormState extends ConsumerState<AddNewDividendForm> {
                                   widget.cashAccountNotifier.value =
                                       ledgerNames.first;
                                   ref
-                                      .read(expenseCartProvider.notifier)
-                                      .setExpenseAccount(
-                                          ledgers.first); // need to change
+                                      .read(dividendCartProvider.notifier)
+                                      .setCapitalAccount(ledgers.first);
                                 });
                               }
                               return DropdownField(
@@ -243,7 +241,7 @@ class _AddNewDividendFormState extends ConsumerState<AddNewDividendForm> {
                                                   ?.toLowerCase() ==
                                               newValue.toLowerCase());
                                       ref
-                                          .read(expenseCartProvider.notifier)
+                                          .read(dividendCartProvider.notifier)
                                           .setCashAccount(cashLedger);
                                     }
                                   });
@@ -307,10 +305,9 @@ class _AddNewDividendFormState extends ConsumerState<AddNewDividendForm> {
     );
   }
 
-  // need to Change
   void _getdefaultSelection(List<PaymentModeModel> paymentModes) {
     final currentPaymentMode =
-        ref.read(expenseCartProvider.notifier).paymentMode.toLowerCase();
+        ref.read(dividendCartProvider.notifier).paymentMode.toLowerCase();
     final selectedMode = paymentModes.firstWhere(
       (mode) => currentPaymentMode.isNotEmpty
           ? mode.paymentModes.toLowerCase() == currentPaymentMode
@@ -320,7 +317,7 @@ class _AddNewDividendFormState extends ConsumerState<AddNewDividendForm> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final selectedValue = selectedMode.paymentModes;
-      ref.read(expenseCartProvider.notifier).setPaymentMode(selectedValue);
+      ref.read(dividendCartProvider.notifier).setPaymentMode(selectedValue);
       widget.paymentModeNotifier.value = selectedValue;
 
       final selectedLower = selectedValue.toLowerCase();

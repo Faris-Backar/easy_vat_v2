@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
@@ -21,8 +23,9 @@ class DividendRepositoryImpl extends DividendRepository {
       {required DividendParams dividendRequestParams}) async {
     try {
       final data = dividendRequestParams.toJson();
+      log("Error: $data");
       final response = await client.post(UrlResources.getDividend, data: data);
-
+      log("Error: $response");
       if (response.statusCode == 200) {
         final dividendList = DividendModel.fromJson(response.data);
         return Right(dividendList);
@@ -47,8 +50,8 @@ class DividendRepositoryImpl extends DividendRepository {
       final response =
           await client.post(UrlResources.createDividend, data: data);
       if (response.statusCode == 200) {
-        final expense = DividendModel.fromJson(response.data);
-        return Right(expense);
+        final dividend = DividendModel.fromJson(response.data);
+        return Right(dividend);
       }
       return Left(ServerFailure(message: ""));
     } on DioException catch (e) {
@@ -70,8 +73,8 @@ class DividendRepositoryImpl extends DividendRepository {
       final response =
           await client.post(UrlResources.updateDividend, data: data);
       if (response.statusCode == 200) {
-        final expense = DividendModel.fromJson(response.data);
-        return Right(expense);
+        final dividend = DividendModel.fromJson(response.data);
+        return Right(dividend);
       }
       return Left(ServerFailure(message: ""));
     } on DioException catch (e) {
@@ -93,8 +96,8 @@ class DividendRepositoryImpl extends DividendRepository {
       final response =
           await client.post(UrlResources.deleteDividend, data: data);
       if (response.statusCode == 200) {
-        final expense = DividendModel.fromJson(response.data);
-        return Right(expense);
+        final dividend = DividendModel.fromJson(response.data);
+        return Right(dividend);
       }
       return Left(ServerFailure(message: ""));
     } on DioException catch (e) {
@@ -112,7 +115,7 @@ class DividendRepositoryImpl extends DividendRepository {
       {required String dividendIDPK}) async {
     try {
       final tempDir = await getTemporaryDirectory();
-      final filePath = "${tempDir.path}/expense_$dividendIDPK.pdf";
+      final filePath = "${tempDir.path}/dividend_$dividendIDPK.pdf";
 
       final response = await client.download(
           UrlResources.downloadDividend, filePath,

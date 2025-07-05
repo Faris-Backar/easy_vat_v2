@@ -5,6 +5,7 @@ import 'package:easy_vat_v2/app/features/dividend/presentation/providers/dividen
 import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/add_dividend_footer_widget.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/add_new_dividend_form.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/dividend_amount_widget.dart';
+import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/dividend_cart_list.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/capital_ledger/capital_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class AddNewDividendScreen extends ConsumerStatefulWidget {
 class _AddNewDividendScreenState extends ConsumerState<AddNewDividendScreen> {
   final dividendNoController = TextEditingController();
   final refNoController = TextEditingController();
-  final _noteController = TextEditingController();
+  final noteController = TextEditingController();
   final issuedByController = TextEditingController();
   final ValueNotifier<String?> paymentModeNotifier = ValueNotifier(null);
   final ValueNotifier<String?> cashAccountNotifier = ValueNotifier(null);
@@ -40,6 +41,7 @@ class _AddNewDividendScreenState extends ConsumerState<AddNewDividendScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(dividendCartProvider);
     return PopScope(
       canPop: false,
       onPopInvokedWithResult: (bool didPop, Object? result) async {
@@ -61,7 +63,7 @@ class _AddNewDividendScreenState extends ConsumerState<AddNewDividendScreen> {
                 AddNewDividendForm(
                     refNoController: refNoController,
                     issuedByController: issuedByController,
-                    notesController: _noteController,
+                    notesController: noteController,
                     paymentModeNotifier: paymentModeNotifier,
                     cashAccountNotifier: cashAccountNotifier,
                     dividendNoController: dividendNoController),
@@ -72,7 +74,12 @@ class _AddNewDividendScreenState extends ConsumerState<AddNewDividendScreen> {
                   height: 5,
                   thickness: 3,
                 ),
-                Padding(padding: const EdgeInsets.symmetric(vertical: 8.0)),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                  child: state.ledgerList == null || state.ledgerList!.isEmpty
+                      ? _buildEmptyState(context)
+                      : DividendCartList(ledgerList: state.ledgerList!),
+                ),
                 SizedBox(
                   height: 16,
                 ),
@@ -95,9 +102,11 @@ class _AddNewDividendScreenState extends ConsumerState<AddNewDividendScreen> {
                 ),
                 CustomTextField(
                   label: context.translate(AppStrings.note),
-                  controller: _noteController,
+                  controller: noteController,
                   maxLines: 5,
                   hint: context.translate(AppStrings.writeNote),
+                  onChanged: (value) =>
+                      ref.watch(dividendCartProvider.notifier).setNotes(value),
                 ),
                 SizedBox(
                   height: 16,
@@ -119,7 +128,40 @@ class _AddNewDividendScreenState extends ConsumerState<AddNewDividendScreen> {
     return AppBar(
       leading: Consumer(builder: (context, ref, child) {
         return IconButton(
-            onPressed: () => context.router.popForced(),
+            onPressed: () async {
+              final ledgerList = ref.read(dividendCartProvider).ledgerList;
+
+              if (ledgerList != null && ledgerList.isNotEmpty) {
+                final shouldExit = await showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                          title: Text(
+                              context.translate(AppStrings.discardChanges)),
+                          content: Text(context.translate(
+                              AppStrings.discardledgerChangesMessage)),
+                          actions: [
+                            TextButton(
+                                onPressed: () =>
+                                    Navigator.of(context).pop(false),
+                                child:
+                                    Text(context.translate(AppStrings.cancel))),
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(true),
+                              child:
+                                  Text(context.translate(AppStrings.discard)),
+                            ),
+                          ],
+                        ));
+                if (shouldExit == true) {
+                  ref.read(dividendCartProvider.notifier).clearDividendCart();
+                  if (mounted) {
+                    context.router.popForced();
+                  }
+                }
+              } else {
+                context.router.popForced();
+              }
+            },
             icon: Icon(Icons.adaptive.arrow_back));
       }),
       title: Text(context.translate(AppStrings.addNewDividend)),
@@ -157,5 +199,9 @@ class _AddNewDividendScreenState extends ConsumerState<AddNewDividendScreen> {
       }
     }
     return true;
+  }
+
+  Widget _buildEmptyState(BuildContext context) {
+    return Center();
   }
 }

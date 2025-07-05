@@ -259,12 +259,12 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
       expenseDate: expenseDate,
       paymentMode: paymentMode,
       purchasedBy: purchasedBy,
-      supplierIDFK: selectedSupplier?.ledgerIDPK ??
-          cashAccount?.ledgerIdpk ??
+      supplierIDFK: cashAccount?.ledgerIdpk ??
+          selectedSupplier?.ledgerIDPK ??
           PrefResources.emptyGuid,
-      crLedgerIDFK: selectedSupplier?.ledgerIDPK ??
-          expenseAccount?.ledgerIdpk ??
+      crLedgerIDFK: expenseAccount?.ledgerIdpk ??
           cashAccount?.ledgerIdpk ??
+          selectedSupplier?.ledgerIDPK ??
           PrefResources.emptyGuid,
       drLedgerIDFK: PrefResources.emptyGuid,
       supplierInvoiceNo: supplierInvoiceNo,

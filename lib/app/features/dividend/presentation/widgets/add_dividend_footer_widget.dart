@@ -1,13 +1,18 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
-import 'package:easy_vat_v2/app/features/cart/presentation/widgets/expense_bottom_modal_sheet.dart';
-import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
+import 'package:easy_vat_v2/app/features/dividend/presentation/providers/create_dividend/create_dividend_notifier.dart';
+import 'package:easy_vat_v2/app/features/dividend/presentation/providers/dividend_cart/dividend_cart_provider.dart';
+import 'package:easy_vat_v2/app/features/dividend/presentation/providers/update_dividend/update_dividend_notifier.dart';
+import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/dividend_bottom_modal_sheet.dart';
+import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class AddDividendFooterWidget extends StatefulWidget {
   final TextEditingController dividendNoController;
@@ -32,8 +37,7 @@ class _AddDividendFooterWidgetState extends State<AddDividendFooterWidget> {
     return Consumer(
       builder: (context, ref, child) {
         final isCartNotEmptry =
-            (ref.watch(expenseCartProvider).ledgerList?.length ?? 0) >
-                0; // need to change
+            (ref.watch(dividendCartProvider).ledgerList?.length ?? 0) > 0;
         return AnimatedContainer(
           duration: Duration(milliseconds: 300),
           height: isCartNotEmptry ? 107.h : 67.h,
@@ -50,7 +54,96 @@ class _AddDividendFooterWidgetState extends State<AddDividendFooterWidget> {
                     blurStyle: BlurStyle.outer),
               ]),
           child: Column(
-            children: [_buildButtonsRow(context)],
+            children: [
+              _buildButtonsRow(context),
+              if (isCartNotEmptry) ...[
+                SizedBox(
+                  height: 6,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  height: 40.h,
+                  child: Consumer(builder: (context, WidgetRef ref, child) {
+                    ref.listen(createDividendNotifierProvider,
+                        (previous, next) {
+                      next.mapOrNull(
+                          success: (success) {
+                            final successMessage =
+                                "Dividend successfully created!";
+
+                            Fluttertoast.showToast(
+                                msg: successMessage,
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM);
+                            ref
+                                .read(dividendCartProvider.notifier)
+                                .clearDividendCart();
+                            context.router.popForced();
+                          },
+                          failure: (message) => ScaffoldMessenger.of(context)
+                              .showSnackBar(
+                                  SnackBar(content: Text(message.error))));
+                    });
+
+                    ref.listen(updateDividendNotifierProvider,
+                        (previous, next) {
+                      next.mapOrNull(
+                          success: (success) {
+                            final successMessage =
+                                "Dividend successfully updated!";
+
+                            Fluttertoast.showToast(
+                                msg: successMessage,
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM);
+
+                            ref
+                                .read(dividendCartProvider.notifier)
+                                .clearDividendCart();
+                            context.router.popForced();
+                          },
+                          failure: (message) => ScaffoldMessenger.of(context)
+                              .showSnackBar(
+                                  SnackBar(content: Text(message.error))));
+                    });
+
+                    if (ref.read(dividendCartProvider).isForUpdate == true) {
+                      final state = ref.watch(updateDividendNotifierProvider);
+                      return state.maybeWhen(
+                        orElse: () => PrimaryButton(
+                          label:
+                              ref.read(dividendCartProvider).isForUpdate == true
+                                  ? context.translate(AppStrings.update)
+                                  : context.translate(AppStrings.save),
+                          isLoading: false,
+                          onPressed: () async =>
+                              await _createUpdateDividend(ref),
+                        ),
+                        loading: () => PrimaryButton(
+                          label: context.translate(AppStrings.save),
+                          isLoading: true,
+                          onPressed: () {},
+                        ),
+                      );
+                    } else {
+                      final state = ref.watch(createDividendNotifierProvider);
+
+                      return state.maybeWhen(
+                        orElse: () => PrimaryButton(
+                          label:
+                              ref.read(dividendCartProvider).isForUpdate == true
+                                  ? context.translate(AppStrings.update)
+                                  : context.translate(AppStrings.save),
+                          isLoading: false,
+                          onPressed: () async =>
+                              await _createUpdateDividend(ref),
+                        ),
+                      );
+                    }
+                  }),
+                )
+              ]
+            ],
           ),
         );
       },
@@ -67,7 +160,7 @@ class _AddDividendFooterWidgetState extends State<AddDividendFooterWidget> {
                   context,
                   Icons.add_circle_outline_rounded,
                   context.translate(AppStrings.addLedger), () {
-                showExpenseBottomSheet(context); // need to change
+                showCapitalLedgerBottomSheet(context);
               });
             },
           ),
@@ -122,5 +215,25 @@ class _AddDividendFooterWidgetState extends State<AddDividendFooterWidget> {
                       : context.colorScheme.primary)
                   : null)),
     );
+  }
+
+  _createUpdateDividend(WidgetRef ref) async {
+    final divCartPrvd = ref.read(dividendCartProvider.notifier);
+    divCartPrvd.setDividendNo(widget.dividendNoController.text);
+    divCartPrvd.setRefNo(widget.refNoController.text);
+    divCartPrvd.setPaymentMode(widget.paymentModeNotifier.value ?? "");
+    divCartPrvd.setIssuedBy(widget.issuedByController.text);
+
+    final newDividend = await divCartPrvd.createNewDividend();
+
+    if (ref.read(dividendCartProvider).isForUpdate == true) {
+      ref
+          .read(updateDividendNotifierProvider.notifier)
+          .updateDividend(request: newDividend);
+    } else {
+      ref
+          .read(createDividendNotifierProvider.notifier)
+          .createDividend(request: newDividend);
+    }
   }
 }
