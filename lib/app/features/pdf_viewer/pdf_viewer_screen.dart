@@ -34,13 +34,15 @@ class PdfViewerScreen extends StatefulWidget {
       required this.pdfType,
       this.pdfName,
       required this.queryParameters});
-
   @override
   State<PdfViewerScreen> createState() => _PdfViewerScreenState();
 }
 
 enum PDFType {
   salesInvoice,
+  salesQuotation,
+  salesOrder,
+  salesReturn,
   expense,
   income,
   creditNote,
@@ -150,8 +152,11 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
 
   Future<Uint8List> _loadPdfFromNetwork() async {
     try {
+      final url = _getloadUrl();
+      debugPrint(
+          "PDF URL: $url \n Query Parameters: ${widget.queryParameters} \n PDF Name: ${widget.pdfName}");
       final response = await DioService().dio.get<List<int>>(
-            _getloadUrl(),
+            url,
             queryParameters: widget.queryParameters,
             options: Options(
               responseType: ResponseType.bytes,
@@ -183,7 +188,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   Future<void> _downloadPDF() async {
     try {
       final response = await DioService().dio.get<List<int>>(
-            widget.pdfUrl,
+            _getloadUrl(),
             queryParameters: widget.queryParameters,
             options: Options(
               responseType: ResponseType.bytes,
@@ -226,7 +231,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
     if (kIsWeb) return;
     try {
       final response = await DioService().dio.get<List<int>>(
-            widget.pdfUrl,
+            _getloadUrl(),
             queryParameters: widget.queryParameters,
             options: Options(
               responseType: ResponseType.bytes,
@@ -258,7 +263,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
   Future<void> _printPDF() async {
     try {
       final response = await DioService().dio.get<List<int>>(
-            widget.pdfUrl,
+            _getloadUrl(),
             queryParameters: widget.queryParameters,
             options: Options(
               responseType: ResponseType.bytes,
@@ -343,6 +348,12 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         return context.translate(AppStrings.contra);
       case PDFType.dividend:
         return context.translate(AppStrings.dividend);
+      case PDFType.salesQuotation:
+        return context.translate(AppStrings.salesQuotation);
+      case PDFType.salesOrder:
+        return context.translate(AppStrings.salesOrder);
+      case PDFType.salesReturn:
+        return context.translate(AppStrings.salesReturn);
     }
   }
 
@@ -364,6 +375,12 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         return UrlResources.downloadContra;
       case PDFType.dividend:
         return UrlResources.downloadDividend;
+      case PDFType.salesQuotation:
+        return UrlResources.downloadSalesQuotation;
+      case PDFType.salesOrder:
+        return UrlResources.downloadSalesOrder;
+      case PDFType.salesReturn:
+        return UrlResources.downloadSalesReturn;
     }
   }
 }

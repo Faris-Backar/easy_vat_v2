@@ -2,21 +2,32 @@ part of 'sales_notifier.dart';
 
 @freezed
 class SalesState with _$SalesState {
-  const factory SalesState(
-      {String? salesNo,
-      String? refNo,
-      DateTime? saleDate,
-      CustomerEntity? selectedCustomer,
-      String? salesMode,
-      SalesManEntity? soldBy,
-      LedgerAccountEntity? cashAccount,
-      LedgerAccountEntity? salesAccount,
-      String? expenseNo,
-      String? paymentMode,
-      LedgerAccountEntity? drledger,
-      LedgerAccountEntity? crledger,
-      DateTime? expenseDate,
-      bool? isForUpdate}) = _SalesState;
+  const factory SalesState({
+    String? salesNo,
+    String? refNo,
+    DateTime? saleDate,
+    CustomerEntity? selectedCustomer,
+    String? salesMode,
+    SalesManEntity? soldBy,
+    LedgerAccountEntity? cashAccount,
+    LedgerAccountEntity? salesAccount,
+    String? expenseNo,
+    String? paymentMode,
+    LedgerAccountEntity? drledger,
+    LedgerAccountEntity? crledger,
+    DateTime? expenseDate,
+    bool? isForUpdate,
+    String? vehicleNo,
+    String? requestNo,
+    String? quotationValidity,
+    String? quotationRequstNo,
+    String? generalNo,
+    String? projectDescription,
+    String? quotationNo,
+    String? orderNo,
+    String? termsAndCondition,
+    String? paymentTerms,
+  }) = _SalesState;
 
   factory SalesState.initial() => SalesState(
       salesNo: null,
@@ -32,5 +43,14 @@ class SalesState with _$SalesState {
       drledger: null,
       crledger: null,
       isForUpdate: false,
-      selectedCustomer: null);
+      selectedCustomer: CustomerEntity(ledgerName: "Cash", isActive: true),
+      vehicleNo: null,
+      requestNo: null,
+      quotationValidity: null,
+      quotationRequstNo: null,
+      generalNo: null,
+      projectDescription: null,
+      quotationNo: null,
+      orderNo: null,
+      termsAndCondition: null);
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
@@ -5,6 +7,7 @@ import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledge
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/data/model/payment_mode_model.dart';
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/pages/add_new_sales_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_info_widget.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
@@ -18,11 +21,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AddNewSalesForm extends ConsumerStatefulWidget {
   final TextEditingController saleNoController;
   final TextEditingController refNoController;
+
   final ValueNotifier<String?> salesModeNotifier;
   final ValueNotifier<String?> soldByNotifier;
   final ValueNotifier<String?> cashAccountNotifier;
   final ValueNotifier<String?> salesAccountNotifier;
   final bool isSalesReturn;
+  final SalesType salesType;
 
   const AddNewSalesForm({
     super.key,
@@ -33,6 +38,7 @@ class AddNewSalesForm extends ConsumerStatefulWidget {
     required this.cashAccountNotifier,
     required this.salesAccountNotifier,
     this.isSalesReturn = false,
+    this.salesType = SalesType.salesInvoice,
   });
 
   @override
@@ -42,21 +48,31 @@ class AddNewSalesForm extends ConsumerStatefulWidget {
 
 class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
   final _viewMoreNotifier = ValueNotifier(false);
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
+  final TextEditingController _paymentTermsController = TextEditingController();
+  final TextEditingController _projectDescriptionController =
+      TextEditingController();
+  final TextEditingController _termsAndConditionController =
+      TextEditingController();
+  final TextEditingController requestNoController = TextEditingController();
+  final TextEditingController generalNoController = TextEditingController();
+  final TextEditingController vehicleNoController = TextEditingController();
+  final TextEditingController quotationValidityController =
+      TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final salesManState = ref.watch(salesManProvider);
-    final paymentModeState = ref.watch(paymentModeNotifierProvider);
-    final cashLedgerState = ref.watch(cashLedgerNotifierProvider);
-    final salesLedgerState = ref.watch(salesLedgerNotifierProvider);
-    widget.saleNoController.text = ref.watch(salesProvider).salesNo ?? "";
-    widget.refNoController.text = ref.watch(salesProvider).refNo ?? "";
+    // Initialize controllers with values from the sales provider
     final salesPrvd = ref.watch(salesProvider);
+    widget.saleNoController.text = salesPrvd.salesNo ?? "";
+    widget.refNoController.text = salesPrvd.refNo ?? "";
+    _paymentTermsController.text = salesPrvd.paymentTerms ?? "";
+    _projectDescriptionController.text = salesPrvd.projectDescription ?? "";
+    _termsAndConditionController.text = salesPrvd.termsAndCondition ?? "";
+    requestNoController.text = salesPrvd.quotationRequstNo ?? "";
+    generalNoController.text = salesPrvd.generalNo ?? "";
+    vehicleNoController.text = salesPrvd.vehicleNo ?? "";
+    quotationValidityController.text = salesPrvd.quotationValidity ?? "";
+
+    log("vehicleNo: ${vehicleNoController.text} || ${salesPrvd.vehicleNo} \n QuatationValidity: ${quotationValidityController.text} || ${salesPrvd.quotationValidity}");
 
     return Column(
       children: [
@@ -72,11 +88,11 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                 children: [
                   SizedBox(
                     child: CustomTextField(
-                      label: context.translate(AppStrings.salesNo),
+                      label: salesNoLabel(),
                       controller: widget.saleNoController,
                       height: 38.h,
                       labelAndTextfieldGap: 2,
-                      hint: context.translate(AppStrings.salesNo),
+                      hint: salesNoLabel(),
                       fillColor: context.surfaceColor,
                       enabled: false,
                     ),
@@ -115,150 +131,293 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
         SizedBox(
           height: 10,
         ),
+        buildSalesFields(),
+      ],
+    );
+  }
+
+  Widget buildSalesFields() {
+    if (widget.salesType == SalesType.salesQuotation) {
+      return Column(
+        children: [
+          SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: CustomTextField(
+                  label: context.translate(AppStrings.requestNo),
+                  hint: context.translate(AppStrings.enterRequestNo),
+                  height: 38.h,
+                  onChanged: (value) => ref
+                      .read(salesProvider.notifier)
+                      .setQuotationRequstNo(value),
+                  controller: requestNoController,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: CustomTextField(
+                  label: context.translate(AppStrings.generalNo),
+                  hint: context.translate(AppStrings.enterGeneralNo),
+                  height: 38.h,
+                  onChanged: (value) =>
+                      ref.read(salesProvider.notifier).setGeneralNo(value),
+                  controller: generalNoController,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+
+          // 👇 View More Section (Vehicle No + Validity + Description)
+          ValueListenableBuilder(
+            valueListenable: _viewMoreNotifier,
+            builder: (context, isExpanded, _) {
+              return AnimatedCrossFade(
+                duration: const Duration(milliseconds: 300),
+                crossFadeState: isExpanded
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond,
+                firstChild: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomTextField(
+                            label: context.translate(AppStrings.vehicleNo),
+                            hint: context.translate(AppStrings.enterVehicleNo),
+                            height: 38.h,
+                            controller: vehicleNoController,
+                            onChanged: (value) => ref
+                                .read(salesProvider.notifier)
+                                .setVehicleNumber(value),
+                          ),
+                        ),
+                        SizedBox(width: 10.w),
+                        Expanded(
+                          child: CustomTextField(
+                            label:
+                                context.translate(AppStrings.quotationValidity),
+                            hint: context
+                                .translate(AppStrings.enterQuotationValidity),
+                            height: 38.h,
+                            controller: quotationValidityController,
+                            onChanged: (value) => ref
+                                .read(salesProvider.notifier)
+                                .setQuotationValidity(value),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    CustomTextField(
+                      label: context.translate(AppStrings.paymentTerms),
+                      controller: _paymentTermsController,
+                      onChanged: (value) => ref
+                          .read(salesProvider.notifier)
+                          .setPaymentTerms(value),
+                      hint: context.translate(AppStrings.enterPaymentTerms),
+                    ),
+                    SizedBox(height: 10),
+                    CustomTextField(
+                      label: context.translate(AppStrings.projectDescription),
+                      controller: _projectDescriptionController,
+                      maxLines: 5,
+                      onChanged: (value) => ref
+                          .read(salesProvider.notifier)
+                          .setProjectDescription(value),
+                      hint:
+                          context.translate(AppStrings.enterProjectDescription),
+                    ),
+                    SizedBox(height: 10),
+                    CustomTextField(
+                      label: context.translate(AppStrings.termsAndCondition),
+                      controller: _termsAndConditionController,
+                      maxLines: 5,
+                      onFieldSubmitted: (value) => ref
+                          .read(salesProvider.notifier)
+                          .setTermsAndCondition(value),
+                      hint:
+                          context.translate(AppStrings.enterTermsAndCondition),
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                ),
+                secondChild: const SizedBox.shrink(),
+              );
+            },
+          ),
+
+          // 👇 View More / View Less Toggle Button
+          InkWell(
+            onTap: () {
+              _viewMoreNotifier.value = !_viewMoreNotifier.value;
+            },
+            child: Container(
+              height: 30,
+              width: double.infinity,
+              padding: const EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: AppUtils.isDarkMode(context)
+                    ? context.colorScheme.tertiaryContainer
+                    : context.colorScheme.secondary.withValues(alpha: 0.2),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    _viewMoreNotifier.value
+                        ? context.translate(AppStrings.viewLess)
+                        : context.translate(AppStrings.viewMore),
+                    style: context.textTheme.bodySmall?.copyWith(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: context.colorScheme.secondary,
+                    ),
+                  ),
+                  Icon(
+                    _viewMoreNotifier.value
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                    size: 16,
+                    color: context.colorScheme.secondary,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    // 👇 Default: Sales Invoice, Return, or Order
+    return _buildDefaultSalesFields(); // Extracted to keep it clean
+  }
+
+  _buildDefaultSalesFields() {
+    return Column(
+      children: [
+        SizedBox(height: 10),
         Row(
           children: [
             Expanded(
-              child: paymentModeState.when(
-                initial: () => const SizedBox.shrink(),
-                loading: () =>
-                    Center(child: CircularProgressIndicator.adaptive()),
-                error: (message) => Text('Error: $message'),
-                loaded: (paymentModes, selectedPaymentMode) {
-                  if (paymentModes.isNotEmpty &&
-                      widget.salesModeNotifier.value == null) {
-                    _getDefaultSelection(paymentModes);
-                  }
-
-                  return DropdownField(
-                    label: context.translate(AppStrings.salesMode),
-                    valueNotifier: widget.salesModeNotifier,
-                    items:
-                        paymentModes.map((mode) => mode.paymentModes).toList(),
-                    backgroundColor: AppUtils.isDarkMode(context)
-                        ? context.colorScheme.tertiaryContainer
-                        : context.surfaceColor,
-                    onChanged: (newValue) {
-                      widget.salesModeNotifier.value = newValue;
-                      final shouldFetchCash = newValue?.toLowerCase() == "cash";
-
-                      final shouldFetchBank =
-                          (newValue?.toLowerCase() == "bank" ||
-                              newValue?.toLowerCase() == "card" ||
-                              newValue?.toLowerCase() == "credit");
-
-                      if (shouldFetchCash) {
-                        widget.cashAccountNotifier.value = null;
-                        ref
-                            .read(cashLedgerNotifierProvider.notifier)
-                            .fetchCashLedgers();
-                      } else if (shouldFetchBank) {
-                        widget.cashAccountNotifier.value = null;
-                        ref
-                            .read(cashLedgerNotifierProvider.notifier)
-                            .fetchBankLedgers();
+              child: ref.watch(paymentModeNotifierProvider).when(
+                    initial: () => const SizedBox.shrink(),
+                    loading: () => const Center(
+                        child: CircularProgressIndicator.adaptive()),
+                    error: (message) => Text('Error: $message'),
+                    loaded: (paymentModes, _) {
+                      if (paymentModes.isNotEmpty &&
+                          widget.salesModeNotifier.value == null) {
+                        _getDefaultSelection(paymentModes);
                       }
-                    },
-                  );
-                },
-              ),
-            ),
-            SizedBox(
-              width: 10.w,
-            ),
-            Expanded(
-              child: salesManState.maybeWhen(
-                loaded: (employeeList) {
-                  final List<String> employeeNames = employeeList
-                      .map((employee) => employee.empName ?? "")
-                      .where((name) => name.isNotEmpty)
-                      .toList();
 
-                  final providerSoldBy = ref.read(salesProvider).soldBy;
-
-                  if (employeeNames.isNotEmpty) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      final fallbackSoldBy = employeeNames.first;
-                      final validProviderValue =
-                          providerSoldBy?.empName?.toLowerCase().trim();
-                      final matchedEmployee = employeeNames.firstWhere(
-                        (name) =>
-                            name.toLowerCase().trim() == validProviderValue,
-                        orElse: () => fallbackSoldBy,
+                      return DropdownField(
+                        label: context.translate(AppStrings.salesMode),
+                        valueNotifier: widget.salesModeNotifier,
+                        items: paymentModes.map((e) => e.paymentModes).toList(),
+                        backgroundColor: AppUtils.isDarkMode(context)
+                            ? context.colorScheme.tertiaryContainer
+                            : context.surfaceColor,
+                        onChanged: (newValue) {
+                          widget.salesModeNotifier.value = newValue;
+                          final lower = newValue?.toLowerCase();
+                          if (lower == "cash") {
+                            widget.cashAccountNotifier.value = null;
+                            ref
+                                .read(cashLedgerNotifierProvider.notifier)
+                                .fetchCashLedgers();
+                          } else if (["bank", "card", "credit"]
+                              .contains(lower)) {
+                            widget.cashAccountNotifier.value = null;
+                            ref
+                                .read(cashLedgerNotifierProvider.notifier)
+                                .fetchBankLedgers();
+                          }
+                        },
                       );
-                      if (widget.soldByNotifier.value != matchedEmployee) {
-                        widget.soldByNotifier.value = matchedEmployee;
-
-                        final selectedEmployee = employeeList.firstWhere(
-                          (emp) =>
-                              emp.empName?.toLowerCase().trim() ==
-                              matchedEmployee.toLowerCase(),
-                        );
-
-                        ref
-                            .read(salesProvider.notifier)
-                            .setSoldBy(selectedEmployee);
-                      }
-                    });
-                  }
-
-                  return DropdownField(
-                    height: 38.h,
-                    labelAndTextFieldGap: 2,
-                    label: context.translate(AppStrings.soldBy),
-                    valueNotifier: widget.soldByNotifier,
-                    onChanged: (newValue) {
-                      widget.soldByNotifier.value = newValue;
-
-                      if (newValue != null) {
-                        final selectedEmployee = employeeList.firstWhere(
-                          (employee) =>
-                              employee.empName?.trim().toLowerCase() ==
-                              newValue.toLowerCase(),
-                        );
-
-                        ref
-                            .read(salesProvider.notifier)
-                            .setSoldBy(selectedEmployee);
-                      }
                     },
-                    items: employeeNames,
-                    backgroundColor: AppUtils.isDarkMode(context)
-                        ? context.colorScheme.tertiaryContainer
-                        : context.surfaceColor,
-                  );
-                },
-                loading: () => const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                ),
-                error: (message) => Text(message),
-                orElse: () => const SizedBox.shrink(),
-              ),
+                  ),
+            ),
+            SizedBox(width: 10.w),
+            Expanded(
+              child: ref.watch(salesManProvider).maybeWhen(
+                    loaded: (employees) {
+                      final employeeNames = employees
+                          .map((e) => e.empName ?? "")
+                          .where((name) => name.isNotEmpty)
+                          .toList();
+
+                      final providerSoldBy = ref.read(salesProvider).soldBy;
+
+                      if (employeeNames.isNotEmpty) {
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          final fallbackSoldBy = employeeNames.first;
+                          final validValue =
+                              providerSoldBy?.empName?.toLowerCase().trim();
+                          final matched = employeeNames.firstWhere(
+                            (name) => name.toLowerCase().trim() == validValue,
+                            orElse: () => fallbackSoldBy,
+                          );
+                          if (widget.soldByNotifier.value != matched) {
+                            widget.soldByNotifier.value = matched;
+                            final selectedEmp = employees.firstWhere(
+                              (e) =>
+                                  e.empName?.toLowerCase().trim() ==
+                                  matched.toLowerCase(),
+                            );
+                            ref
+                                .read(salesProvider.notifier)
+                                .setSoldBy(selectedEmp);
+                          }
+                        });
+                      }
+
+                      return DropdownField(
+                        height: 38.h,
+                        labelAndTextFieldGap: 2,
+                        label: context.translate(AppStrings.soldBy),
+                        valueNotifier: widget.soldByNotifier,
+                        onChanged: (newValue) {
+                          widget.soldByNotifier.value = newValue;
+                          final emp = employees.firstWhere(
+                            (e) =>
+                                e.empName?.toLowerCase().trim() ==
+                                newValue?.toLowerCase(),
+                          );
+                          ref.read(salesProvider.notifier).setSoldBy(emp);
+                        },
+                        items: employeeNames,
+                        backgroundColor: AppUtils.isDarkMode(context)
+                            ? context.colorScheme.tertiaryContainer
+                            : context.surfaceColor,
+                      );
+                    },
+                    orElse: () => const SizedBox.shrink(),
+                    loading: () => const Center(
+                        child: CircularProgressIndicator.adaptive()),
+                    error: (message) => Text(message),
+                  ),
             ),
           ],
         ),
-        SizedBox(
-          height: 10,
-        ),
+        SizedBox(height: 10),
         ValueListenableBuilder(
           valueListenable: _viewMoreNotifier,
-          builder: (BuildContext context, bool isExpanded, Widget? child) {
+          builder: (_, isExpanded, __) {
             return AnimatedContainer(
-              duration: Duration(milliseconds: 500),
-              height: isExpanded ? 80.h : 0.0,
-              child: Column(
+              duration: const Duration(milliseconds: 500),
+              height: isExpanded ? 80.h : 0,
+              child: Row(
                 children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: cashLedgerState.maybeWhen(
-                          loading: () => Center(
-                            child: CircularProgressIndicator.adaptive(),
-                          ),
+                  Expanded(
+                    child: ref.watch(cashLedgerNotifierProvider).maybeWhen(
+                          loading: () =>
+                              const CircularProgressIndicator.adaptive(),
                           loaded: (ledgers) {
-                            List<String> ledgerNames = [];
-                            ledgerNames = ledgers
-                                .map((ledger) => ledger.ledgerName ?? "")
-                                .toList();
+                            final ledgerNames =
+                                ledgers.map((e) => e.ledgerName ?? "").toList();
                             if (ledgerNames.isNotEmpty &&
                                 widget.cashAccountNotifier.value == null) {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -266,72 +425,57 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                     ledgerNames.first;
                                 ref
                                     .read(salesProvider.notifier)
-                                    .setSalesAccount(ledgers.first);
+                                    .setCashAccount(ledgers.first);
                               });
                             }
                             return DropdownField(
-                                height: 38.h,
-                                labelAndTextFieldGap: 2,
-                                label: (widget
-                                            .salesModeNotifier.value?.isEmpty ==
-                                        true)
-                                    ? context.translate(AppStrings.cashAccount)
-                                    : "${widget.salesModeNotifier.value ?? "Cash"} Account",
-                                valueNotifier: widget.cashAccountNotifier,
-                                backgroundColor: AppUtils.isDarkMode(context)
-                                    ? context.colorScheme.tertiaryContainer
-                                    : context.surfaceColor,
-                                items: ledgerNames,
-                                onChanged: (newValue) {
-                                  widget.cashAccountNotifier.value = newValue;
-                                  if (newValue != null) {
-                                    final cashLedger = ledgers.firstWhere(
-                                        (cashLedger) =>
-                                            cashLedger.ledgerName
-                                                ?.toLowerCase() ==
-                                            newValue.toLowerCase());
-                                    ref
-                                        .read(salesProvider.notifier)
-                                        .setCashAccount(cashLedger);
-                                  }
-                                });
+                              label:
+                                  "${widget.salesModeNotifier.value ?? "Cash"} Account",
+                              valueNotifier: widget.cashAccountNotifier,
+                              items: ledgerNames,
+                              height: 38.h,
+                              labelAndTextFieldGap: 2,
+                              onChanged: (newValue) {
+                                widget.cashAccountNotifier.value = newValue;
+                                final matched = ledgers.firstWhere((l) =>
+                                    l.ledgerName?.toLowerCase() ==
+                                    newValue?.toLowerCase());
+                                ref
+                                    .read(salesProvider.notifier)
+                                    .setCashAccount(matched);
+                              },
+                              backgroundColor: AppUtils.isDarkMode(context)
+                                  ? context.colorScheme.tertiaryContainer
+                                  : context.surfaceColor,
+                            );
                           },
-                          error: (message) => Text(message),
-                          orElse: () => SizedBox.shrink(),
+                          orElse: () => const SizedBox.shrink(),
+                          error: (msg) => Text(msg),
                         ),
-                      ),
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      Expanded(
-                        child: salesLedgerState.maybeWhen(
-                          loading: () => const Center(
-                            child: CircularProgressIndicator.adaptive(),
-                          ),
+                  ),
+                  SizedBox(width: 10.w),
+                  Expanded(
+                    child: ref.watch(salesLedgerNotifierProvider).maybeWhen(
+                          loading: () =>
+                              const CircularProgressIndicator.adaptive(),
                           loaded: (ledgers) {
-                            if (ledgers.isEmpty) {
-                              return Text('No sales ledger data available');
-                            }
-
-                            final List<String> ledgerNames = ledgers
-                                .map((ledger) => ledger.ledgerName ?? "")
-                                .where((name) => name.isNotEmpty)
+                            final names = ledgers
+                                .map((e) => e.ledgerName ?? "")
+                                .where((e) => e.isNotEmpty)
                                 .toList();
-
-                            if (ledgerNames.isNotEmpty &&
+                            if (names.isNotEmpty &&
                                 widget.salesAccountNotifier.value == null) {
                               WidgetsBinding.instance.addPostFrameCallback((_) {
                                 final defaultLedger = widget.isSalesReturn
                                     ? ledgers.firstWhere(
-                                        (ledger) =>
-                                            ledger.ledgerName
+                                        (l) =>
+                                            l.ledgerName
                                                 ?.toLowerCase()
                                                 .trim() ==
-                                            'sales return',
+                                            "sales return",
                                         orElse: () => ledgers.first,
                                       )
                                     : ledgers.first;
-
                                 widget.salesAccountNotifier.value =
                                     defaultLedger.ledgerName;
                                 ref
@@ -339,40 +483,29 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                                     .setSalesAccount(defaultLedger);
                               });
                             }
-
                             return DropdownField(
-                                height: 38.h,
-                                labelAndTextFieldGap: 2,
-                                label:
-                                    context.translate(AppStrings.salesAccount),
-                                valueNotifier: widget.salesAccountNotifier,
-                                items: ledgerNames,
-                                backgroundColor: AppUtils.isDarkMode(context)
-                                    ? context.colorScheme.tertiaryContainer
-                                    : context.surfaceColor,
-                                onChanged: (newValue) {
-                                  widget.salesAccountNotifier.value = newValue;
-                                  if (newValue != null) {
-                                    final salesLedger = ledgers.firstWhere(
-                                      (cashLedger) =>
-                                          cashLedger.ledgerName
-                                              ?.toLowerCase() ==
-                                          newValue.toLowerCase(),
-                                    );
-                                    ref
-                                        .read(salesProvider.notifier)
-                                        .setSalesAccount(salesLedger);
-                                  }
-                                });
+                              label: context.translate(AppStrings.salesAccount),
+                              valueNotifier: widget.salesAccountNotifier,
+                              items: names,
+                              height: 38.h,
+                              labelAndTextFieldGap: 2,
+                              onChanged: (newValue) {
+                                widget.salesAccountNotifier.value = newValue;
+                                final matched = ledgers.firstWhere((l) =>
+                                    l.ledgerName?.toLowerCase() ==
+                                    newValue?.toLowerCase());
+                                ref
+                                    .read(salesProvider.notifier)
+                                    .setSalesAccount(matched);
+                              },
+                              backgroundColor: AppUtils.isDarkMode(context)
+                                  ? context.colorScheme.tertiaryContainer
+                                  : context.surfaceColor,
+                            );
                           },
-                          error: (message) => Text(message),
                           orElse: () => const SizedBox.shrink(),
+                          error: (msg) => Text(msg),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
                   ),
                 ],
               ),
@@ -381,21 +514,19 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
         ),
         ValueListenableBuilder(
           valueListenable: _viewMoreNotifier,
-          builder: (BuildContext context, bool isExpanded, Widget? child) {
+          builder: (_, isExpanded, __) {
             return InkWell(
-              onTap: () {
-                _viewMoreNotifier.value = !_viewMoreNotifier.value;
-              },
+              onTap: () => _viewMoreNotifier.value = !isExpanded,
               child: Container(
                 height: 30,
                 width: double.infinity,
+                padding: const EdgeInsets.all(5.0),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(4.0),
+                  borderRadius: BorderRadius.circular(4),
                   color: AppUtils.isDarkMode(context)
                       ? context.colorScheme.tertiaryContainer
                       : context.colorScheme.secondary.withValues(alpha: 0.2),
                 ),
-                padding: const EdgeInsets.all(5.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -410,9 +541,9 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
                     ),
                     Icon(
                       isExpanded
-                          ? Icons.keyboard_arrow_up_rounded
-                          : Icons.keyboard_arrow_down_rounded,
-                      size: 16.0,
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                      size: 16,
                       color: context.colorScheme.secondary,
                     ),
                   ],
@@ -450,5 +581,18 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
         ref.read(cashLedgerNotifierProvider.notifier).fetchBankLedgers();
       }
     });
+  }
+
+  salesNoLabel() {
+    if (widget.salesType == SalesType.salesInvoice) {
+      return context.translate(AppStrings.salesNo);
+    } else if (widget.salesType == SalesType.salesReturn) {
+      return context.translate(AppStrings.salesNo);
+    } else if (widget.salesType == SalesType.salesQuotation) {
+      return context.translate(AppStrings.quotationNo);
+    } else if (widget.salesType == SalesType.salesOrder) {
+      return context.translate(AppStrings.orderNo);
+    }
+    return context.translate(AppStrings.salesNo);
   }
 }

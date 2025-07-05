@@ -55,6 +55,8 @@ class CustomTransactionCard extends StatelessWidget {
         return Colors.purple;
       case 'credit':
         return Colors.orange;
+      case 'quotation':
+        return Colors.green;
       default:
         return Colors.grey;
     }
@@ -70,6 +72,8 @@ class CustomTransactionCard extends StatelessWidget {
         return Icons.account_balance;
       case 'credit':
         return Icons.person_rounded;
+      case 'quotation':
+        return Icons.receipt_long;
       default:
         return Icons.help_outline;
     }
@@ -85,6 +89,8 @@ class CustomTransactionCard extends StatelessWidget {
         return 'Bank';
       case 'credit':
         return 'Credit';
+      case 'quotation':
+        return 'Quotation';
       default:
         return 'Unknown';
     }

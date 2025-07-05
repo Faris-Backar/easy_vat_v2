@@ -261,4 +261,21 @@ class AppStrings {
   static const String issuedBy = "issuedBy";
   static const String deleteDividendConfirmationMessage =
       "deleteDividendConfirmationMessage";
+  static const String quotationNo = "quotationNo";
+  static const String orderNo = "orderNo";
+  static const String projectDescription = "projectDescription";
+  static const String quotationValidity = "quotationValidity";
+  static const String enterRequestNo = "enterRequestNo";
+  static const String requestNo = "requestNo";
+  static const String enterGeneralNo = "enterGeneralNo";
+  static const String generalNo = "generalNo";
+  static const String enterVehicleNo = "enterVehicleNo";
+  static const String vehicleNo = "vehicleNo";
+  static const String enterQuotationValidity = "enterQuotationValidity";
+  static const String enterProjectDescription = "enterProjectDescription";
+  static const String enterOrderNo = "enterOrderNo";
+  static const String enterTermsAndCondition = "enterTermsAndCondition";
+  static const String enterPaymentTerms = "enterPaymentTerms";
+  static const String paymentTerms = "paymentTerms";
+  
 }

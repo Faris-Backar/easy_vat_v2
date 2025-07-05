@@ -30,6 +30,16 @@ mixin _$SalesState {
   LedgerAccountEntity? get crledger => throw _privateConstructorUsedError;
   DateTime? get expenseDate => throw _privateConstructorUsedError;
   bool? get isForUpdate => throw _privateConstructorUsedError;
+  String? get vehicleNo => throw _privateConstructorUsedError;
+  String? get requestNo => throw _privateConstructorUsedError;
+  String? get quotationValidity => throw _privateConstructorUsedError;
+  String? get quotationRequstNo => throw _privateConstructorUsedError;
+  String? get generalNo => throw _privateConstructorUsedError;
+  String? get projectDescription => throw _privateConstructorUsedError;
+  String? get quotationNo => throw _privateConstructorUsedError;
+  String? get orderNo => throw _privateConstructorUsedError;
+  String? get termsAndCondition => throw _privateConstructorUsedError;
+  String? get paymentTerms => throw _privateConstructorUsedError;
 
   /// Create a copy of SalesState
   /// with the given fields replaced by the non-null parameter values.
@@ -58,7 +68,17 @@ abstract class $SalesStateCopyWith<$Res> {
       LedgerAccountEntity? drledger,
       LedgerAccountEntity? crledger,
       DateTime? expenseDate,
-      bool? isForUpdate});
+      bool? isForUpdate,
+      String? vehicleNo,
+      String? requestNo,
+      String? quotationValidity,
+      String? quotationRequstNo,
+      String? generalNo,
+      String? projectDescription,
+      String? quotationNo,
+      String? orderNo,
+      String? termsAndCondition,
+      String? paymentTerms});
 }
 
 /// @nodoc
@@ -90,6 +110,16 @@ class _$SalesStateCopyWithImpl<$Res, $Val extends SalesState>
     Object? crledger = freezed,
     Object? expenseDate = freezed,
     Object? isForUpdate = freezed,
+    Object? vehicleNo = freezed,
+    Object? requestNo = freezed,
+    Object? quotationValidity = freezed,
+    Object? quotationRequstNo = freezed,
+    Object? generalNo = freezed,
+    Object? projectDescription = freezed,
+    Object? quotationNo = freezed,
+    Object? orderNo = freezed,
+    Object? termsAndCondition = freezed,
+    Object? paymentTerms = freezed,
   }) {
     return _then(_value.copyWith(
       salesNo: freezed == salesNo
@@ -148,6 +178,46 @@ class _$SalesStateCopyWithImpl<$Res, $Val extends SalesState>
           ? _value.isForUpdate
           : isForUpdate // ignore: cast_nullable_to_non_nullable
               as bool?,
+      vehicleNo: freezed == vehicleNo
+          ? _value.vehicleNo
+          : vehicleNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      requestNo: freezed == requestNo
+          ? _value.requestNo
+          : requestNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quotationValidity: freezed == quotationValidity
+          ? _value.quotationValidity
+          : quotationValidity // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quotationRequstNo: freezed == quotationRequstNo
+          ? _value.quotationRequstNo
+          : quotationRequstNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      generalNo: freezed == generalNo
+          ? _value.generalNo
+          : generalNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectDescription: freezed == projectDescription
+          ? _value.projectDescription
+          : projectDescription // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quotationNo: freezed == quotationNo
+          ? _value.quotationNo
+          : quotationNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      orderNo: freezed == orderNo
+          ? _value.orderNo
+          : orderNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      termsAndCondition: freezed == termsAndCondition
+          ? _value.termsAndCondition
+          : termsAndCondition // ignore: cast_nullable_to_non_nullable
+              as String?,
+      paymentTerms: freezed == paymentTerms
+          ? _value.paymentTerms
+          : paymentTerms // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -174,7 +244,17 @@ abstract class _$$SalesStateImplCopyWith<$Res>
       LedgerAccountEntity? drledger,
       LedgerAccountEntity? crledger,
       DateTime? expenseDate,
-      bool? isForUpdate});
+      bool? isForUpdate,
+      String? vehicleNo,
+      String? requestNo,
+      String? quotationValidity,
+      String? quotationRequstNo,
+      String? generalNo,
+      String? projectDescription,
+      String? quotationNo,
+      String? orderNo,
+      String? termsAndCondition,
+      String? paymentTerms});
 }
 
 /// @nodoc
@@ -204,6 +284,16 @@ class __$$SalesStateImplCopyWithImpl<$Res>
     Object? crledger = freezed,
     Object? expenseDate = freezed,
     Object? isForUpdate = freezed,
+    Object? vehicleNo = freezed,
+    Object? requestNo = freezed,
+    Object? quotationValidity = freezed,
+    Object? quotationRequstNo = freezed,
+    Object? generalNo = freezed,
+    Object? projectDescription = freezed,
+    Object? quotationNo = freezed,
+    Object? orderNo = freezed,
+    Object? termsAndCondition = freezed,
+    Object? paymentTerms = freezed,
   }) {
     return _then(_$SalesStateImpl(
       salesNo: freezed == salesNo
@@ -262,6 +352,46 @@ class __$$SalesStateImplCopyWithImpl<$Res>
           ? _value.isForUpdate
           : isForUpdate // ignore: cast_nullable_to_non_nullable
               as bool?,
+      vehicleNo: freezed == vehicleNo
+          ? _value.vehicleNo
+          : vehicleNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      requestNo: freezed == requestNo
+          ? _value.requestNo
+          : requestNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quotationValidity: freezed == quotationValidity
+          ? _value.quotationValidity
+          : quotationValidity // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quotationRequstNo: freezed == quotationRequstNo
+          ? _value.quotationRequstNo
+          : quotationRequstNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      generalNo: freezed == generalNo
+          ? _value.generalNo
+          : generalNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectDescription: freezed == projectDescription
+          ? _value.projectDescription
+          : projectDescription // ignore: cast_nullable_to_non_nullable
+              as String?,
+      quotationNo: freezed == quotationNo
+          ? _value.quotationNo
+          : quotationNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      orderNo: freezed == orderNo
+          ? _value.orderNo
+          : orderNo // ignore: cast_nullable_to_non_nullable
+              as String?,
+      termsAndCondition: freezed == termsAndCondition
+          ? _value.termsAndCondition
+          : termsAndCondition // ignore: cast_nullable_to_non_nullable
+              as String?,
+      paymentTerms: freezed == paymentTerms
+          ? _value.paymentTerms
+          : paymentTerms // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -283,7 +413,17 @@ class _$SalesStateImpl implements _SalesState {
       this.drledger,
       this.crledger,
       this.expenseDate,
-      this.isForUpdate});
+      this.isForUpdate,
+      this.vehicleNo,
+      this.requestNo,
+      this.quotationValidity,
+      this.quotationRequstNo,
+      this.generalNo,
+      this.projectDescription,
+      this.quotationNo,
+      this.orderNo,
+      this.termsAndCondition,
+      this.paymentTerms});
 
   @override
   final String? salesNo;
@@ -313,10 +453,30 @@ class _$SalesStateImpl implements _SalesState {
   final DateTime? expenseDate;
   @override
   final bool? isForUpdate;
+  @override
+  final String? vehicleNo;
+  @override
+  final String? requestNo;
+  @override
+  final String? quotationValidity;
+  @override
+  final String? quotationRequstNo;
+  @override
+  final String? generalNo;
+  @override
+  final String? projectDescription;
+  @override
+  final String? quotationNo;
+  @override
+  final String? orderNo;
+  @override
+  final String? termsAndCondition;
+  @override
+  final String? paymentTerms;
 
   @override
   String toString() {
-    return 'SalesState(salesNo: $salesNo, refNo: $refNo, saleDate: $saleDate, selectedCustomer: $selectedCustomer, salesMode: $salesMode, soldBy: $soldBy, cashAccount: $cashAccount, salesAccount: $salesAccount, expenseNo: $expenseNo, paymentMode: $paymentMode, drledger: $drledger, crledger: $crledger, expenseDate: $expenseDate, isForUpdate: $isForUpdate)';
+    return 'SalesState(salesNo: $salesNo, refNo: $refNo, saleDate: $saleDate, selectedCustomer: $selectedCustomer, salesMode: $salesMode, soldBy: $soldBy, cashAccount: $cashAccount, salesAccount: $salesAccount, expenseNo: $expenseNo, paymentMode: $paymentMode, drledger: $drledger, crledger: $crledger, expenseDate: $expenseDate, isForUpdate: $isForUpdate, vehicleNo: $vehicleNo, requestNo: $requestNo, quotationValidity: $quotationValidity, quotationRequstNo: $quotationRequstNo, generalNo: $generalNo, projectDescription: $projectDescription, quotationNo: $quotationNo, orderNo: $orderNo, termsAndCondition: $termsAndCondition, paymentTerms: $paymentTerms)';
   }
 
   @override
@@ -348,26 +508,56 @@ class _$SalesStateImpl implements _SalesState {
             (identical(other.expenseDate, expenseDate) ||
                 other.expenseDate == expenseDate) &&
             (identical(other.isForUpdate, isForUpdate) ||
-                other.isForUpdate == isForUpdate));
+                other.isForUpdate == isForUpdate) &&
+            (identical(other.vehicleNo, vehicleNo) ||
+                other.vehicleNo == vehicleNo) &&
+            (identical(other.requestNo, requestNo) ||
+                other.requestNo == requestNo) &&
+            (identical(other.quotationValidity, quotationValidity) ||
+                other.quotationValidity == quotationValidity) &&
+            (identical(other.quotationRequstNo, quotationRequstNo) ||
+                other.quotationRequstNo == quotationRequstNo) &&
+            (identical(other.generalNo, generalNo) ||
+                other.generalNo == generalNo) &&
+            (identical(other.projectDescription, projectDescription) ||
+                other.projectDescription == projectDescription) &&
+            (identical(other.quotationNo, quotationNo) ||
+                other.quotationNo == quotationNo) &&
+            (identical(other.orderNo, orderNo) || other.orderNo == orderNo) &&
+            (identical(other.termsAndCondition, termsAndCondition) ||
+                other.termsAndCondition == termsAndCondition) &&
+            (identical(other.paymentTerms, paymentTerms) ||
+                other.paymentTerms == paymentTerms));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      salesNo,
-      refNo,
-      saleDate,
-      selectedCustomer,
-      salesMode,
-      soldBy,
-      cashAccount,
-      salesAccount,
-      expenseNo,
-      paymentMode,
-      drledger,
-      crledger,
-      expenseDate,
-      isForUpdate);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        salesNo,
+        refNo,
+        saleDate,
+        selectedCustomer,
+        salesMode,
+        soldBy,
+        cashAccount,
+        salesAccount,
+        expenseNo,
+        paymentMode,
+        drledger,
+        crledger,
+        expenseDate,
+        isForUpdate,
+        vehicleNo,
+        requestNo,
+        quotationValidity,
+        quotationRequstNo,
+        generalNo,
+        projectDescription,
+        quotationNo,
+        orderNo,
+        termsAndCondition,
+        paymentTerms
+      ]);
 
   /// Create a copy of SalesState
   /// with the given fields replaced by the non-null parameter values.
@@ -393,7 +583,17 @@ abstract class _SalesState implements SalesState {
       final LedgerAccountEntity? drledger,
       final LedgerAccountEntity? crledger,
       final DateTime? expenseDate,
-      final bool? isForUpdate}) = _$SalesStateImpl;
+      final bool? isForUpdate,
+      final String? vehicleNo,
+      final String? requestNo,
+      final String? quotationValidity,
+      final String? quotationRequstNo,
+      final String? generalNo,
+      final String? projectDescription,
+      final String? quotationNo,
+      final String? orderNo,
+      final String? termsAndCondition,
+      final String? paymentTerms}) = _$SalesStateImpl;
 
   @override
   String? get salesNo;
@@ -423,6 +623,26 @@ abstract class _SalesState implements SalesState {
   DateTime? get expenseDate;
   @override
   bool? get isForUpdate;
+  @override
+  String? get vehicleNo;
+  @override
+  String? get requestNo;
+  @override
+  String? get quotationValidity;
+  @override
+  String? get quotationRequstNo;
+  @override
+  String? get generalNo;
+  @override
+  String? get projectDescription;
+  @override
+  String? get quotationNo;
+  @override
+  String? get orderNo;
+  @override
+  String? get termsAndCondition;
+  @override
+  String? get paymentTerms;
 
   /// Create a copy of SalesState
   /// with the given fields replaced by the non-null parameter values.
