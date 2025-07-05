@@ -34,7 +34,6 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
   final saleNoController = TextEditingController();
   final refNoController = TextEditingController();
   final _noteController = TextEditingController();
-  final purchaseNoController = TextEditingController();
   final ValueNotifier<String?> salesModeNotifier = ValueNotifier(null);
   final ValueNotifier<String?> soldByNotifier = ValueNotifier(null);
   final ValueNotifier<String?> cashAccountNotifier = ValueNotifier(null);
@@ -75,6 +74,7 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
                   soldByNotifier: soldByNotifier,
                   cashAccountNotifier: cashAccountNotifier,
                   salesAccountNotifier: salesAccountNotifier,
+                  salesType: salesType,
                   isSalesReturn: widget.title ==
                       context.translate(AppStrings.addNewSalesReturn),
                 ),
@@ -147,16 +147,17 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
                   primaryButtonLabel: context.translate(AppStrings.discard),
                   secondaryButtonLabel: context.translate(AppStrings.cancel),
                   onPrimaryTap: () {
-                    Navigator.of(context).pop(true); // return true
+                    Navigator.of(context).pop(true);
                   },
                   onSecondaryTap: () {
-                    Navigator.of(context).pop(false); // return false
+                    Navigator.of(context).pop(false);
                   },
                 ),
               );
 
               if (shouldExit == true) {
                 ref.read(cartProvider.notifier).clearCart();
+                ref.read(salesProvider.notifier).clear();
                 if (mounted) {
                   context.router.popForced();
                 }
@@ -187,4 +188,18 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
       ],
     );
   }
+
+  SalesType get salesType {
+    if (widget.title == context.translate(AppStrings.addNewSalesReturn)) {
+      return SalesType.salesReturn;
+    } else if (widget.title ==
+        context.translate(AppStrings.addNewSalesQuatation)) {
+      return SalesType.salesQuotation;
+    } else if (widget.title == context.translate(AppStrings.addNewSalesOrder)) {
+      return SalesType.salesOrder;
+    }
+    return SalesType.salesInvoice;
+  }
 }
+
+enum SalesType { salesInvoice, salesReturn, salesQuotation, salesOrder }

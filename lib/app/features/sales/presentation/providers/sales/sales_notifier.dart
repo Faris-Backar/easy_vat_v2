@@ -45,6 +45,13 @@ class SalesNotifier extends StateNotifier<SalesState> {
   String salesIdpk = PrefResources.emptyGuid;
   String paymentMode = "";
   String salesNo = "";
+  String quotationValidity = "";
+  String quotationRequstNo = "";
+  String vehicleNumber = "";
+  String generalNo = "";
+  String projectDescription = "";
+  String termsAndCondition = "";
+  String paymentTerms = "";
 
   setSalesNo(String salesNo) {
     this.salesNo = salesNo;
@@ -111,6 +118,61 @@ class SalesNotifier extends StateNotifier<SalesState> {
   setPaymentMode(String paymentMode) {
     this.paymentMode = paymentMode;
     state = state.copyWith(paymentMode: paymentMode);
+  }
+
+  setQuotationValidity(String quotationValidity) {
+    this.quotationValidity = quotationValidity;
+    state = state.copyWith(quotationValidity: quotationValidity);
+  }
+
+  setGeneralNo(String generalNo) {
+    this.generalNo = generalNo;
+    state = state.copyWith(generalNo: generalNo);
+  }
+
+  setVehicleNumber(String vehicleNo) {
+    vehicleNumber = vehicleNo;
+    state = state.copyWith(vehicleNo: vehicleNumber);
+  }
+
+  setQuotationRequstNo(String quotationRequstNo) {
+    this.quotationRequstNo = quotationRequstNo;
+    state = state.copyWith(quotationRequstNo: quotationRequstNo);
+  }
+
+  setProjectDescription(String projectDescription) {
+    this.projectDescription = projectDescription;
+    state = state.copyWith(projectDescription: projectDescription);
+  }
+
+  setTermsAndCondition(String termsAndCondition) {
+    this.termsAndCondition = termsAndCondition;
+    state = state.copyWith(termsAndCondition: termsAndCondition);
+  }
+
+  setPaymentTerms(String paymentTerms) {
+    this.paymentTerms = paymentTerms;
+    state = state.copyWith(paymentTerms: paymentTerms);
+  }
+
+  clear() async {
+    salesDate = DateTime.now();
+    refNo = "";
+    cashAccount = null;
+    salesAccount = null;
+    notes = "";
+    salesMode = "";
+    soldBy = null;
+    selectedCustomer = CustomerEntity(ledgerName: "Cash", isActive: true);
+    totalItemGrossAmont = 0.0;
+    shippingAddress = "";
+    isForEdit = false;
+    isTaxEnabled = true;
+    salesIdpk = PrefResources.emptyGuid;
+    paymentMode = "";
+    salesNo = "";
+    quotationValidity = "";
+    state = SalesState.initial();
   }
 
   Future<SalesRequestModel> createNewSale(WidgetRef ref) async {
@@ -667,28 +729,34 @@ class SalesNotifier extends StateNotifier<SalesState> {
     }
 
     final newSale = SalesQuotationModel(
-      quotationIdpk: salesIdpk,
-      quotationDate: salesDate,
-      createdDate: salesDate,
-      createdBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
-      modifiedBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
-      rowguid: PrefResources.emptyGuid,
-      dsicount: cartPrvd.discount,
-      grossTotal: totalItemGrossAmont,
-      grandTotal: netTotal,
-      referenceNo: refNo,
-      projectIdpk: PrefResources.emptyGuid,
-      quotationDetailModel: items,
-      remarks: notes,
-      tax: isTaxEnabled ? itemTotalTax : 0.0,
-      companyIdpk: userDetailsFromPrefs?.companyInfo?.companyIdpk ??
-          PrefResources.emptyGuid,
-      customerIdpk: selectedCustomer?.ledgerIdpk ?? PrefResources.emptyGuid,
-      genaralNote: notes,
-      quotationNo: salesNo.isNotEmpty ? int.parse(salesNo) : 0,
-      salesmanIdpk: soldBy?.userIdpk ?? PrefResources.emptyGuid,
-      modifiedDate: DateTime.now(),
-    );
+        quotationIdpk: salesIdpk,
+        quotationDate: salesDate,
+        createdDate: salesDate,
+        createdBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
+        modifiedBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
+        rowguid: PrefResources.emptyGuid,
+        dsicount: cartPrvd.discount,
+        grossTotal: totalItemGrossAmont,
+        grandTotal: netTotal,
+        referenceNo: refNo,
+        projectIdpk: PrefResources.emptyGuid,
+        quotationDetailModel: items,
+        projectDescription: projectDescription,
+        remarks: notes,
+        tax: isTaxEnabled ? itemTotalTax : 0.0,
+        companyIdpk: userDetailsFromPrefs?.companyInfo?.companyIdpk ??
+            PrefResources.emptyGuid,
+        customerIdpk: selectedCustomer?.ledgerIdpk ?? PrefResources.emptyGuid,
+        genaralNote: generalNo,
+        requestNo: quotationRequstNo,
+        vehicleNo: vehicleNumber,
+        quotationNo: salesNo.isNotEmpty ? int.parse(salesNo) : 0,
+        salesmanIdpk: soldBy?.userIdpk ?? PrefResources.emptyGuid,
+        modifiedDate: DateTime.now(),
+        quotationValidity: quotationValidity,
+        deliveryTerms: termsAndCondition,
+        quotationSubject: quotationValidity,
+        paymentTerms: paymentTerms);
     return newSale;
   }
 
@@ -722,38 +790,18 @@ class SalesNotifier extends StateNotifier<SalesState> {
         : CustomerEntity(
             ledgerName: salesQuotation.customerName,
             ledgerIdpk: salesQuotation.customerIdpk);
-    // if (salesQuotation.customerName?.toLowerCase() != "cash") {
-    //   final cashLedger = ref
-    //       .read(cashLedgerNotifierProvider.notifier)
-    //       .getLedgerById(salesQuotation. ?? '');
-
-    //   if (cashLedger != null) {
-    //     setCashAccount(cashLedger);
-    //   }
-    // }
-
-    // final salesLedger = ref
-    //     .read(salesLedgerNotifierProvider.notifier)
-    //     .getLedgerById(salesQuotation.crLedgerIdfk!);
-    // if (salesLedger != null) {
-    //   setSalesAccount(salesLedger);
-    // }
-
-    // final soldBy = ref
-    //     .read(salesManProvider.notifier)
-    //     .getSalesManByName(salesQuotation.retu ?? "");
-    // if (soldBy != null) {
-    //   setSoldBy(soldBy);
-    // }
-    // final updatedCustomerWithAddress = selectedCustomer.copyWith(
-    //     billingAddress: salesQuotation.cashCustomerAddress,
-    //     shippingAddress: salesQuotation.shippingAddress);
     setSalesIdpk(salesQuotation.quotationIdpk ?? "");
     setCustomer(selectedCustomer);
     setSalesNo(salesQuotation.quotationNo?.toString() ?? "");
     setRefNo(salesQuotation.referenceNo ?? "");
     setSalesDate(salesQuotation.quotationDate ?? DateTime.now());
-    // setSalesMode(salesQuotation.quotat ?? "Cash");
+    setQuotationRequstNo(salesQuotation.requestNo ?? "");
+    setGeneralNo(salesQuotation.genaralNote ?? "");
+    setVehicleNumber(salesQuotation.vehicleNo ?? "");
+    setQuotationValidity(salesQuotation.quotationValidity ?? "");
+    setProjectDescription(salesQuotation.projectDescription ?? "");
+    setTermsAndCondition(salesQuotation.deliveryTerms ?? "");
+    setPaymentTerms(salesQuotation.paymentTerms ?? "");
 
     // adding items to cart.
     if (salesQuotation.quotationDetails?.isNotEmpty == true) {
@@ -799,7 +847,6 @@ class SalesNotifier extends StateNotifier<SalesState> {
 
         updatedItemsList.add(cartItem);
         cartPrvd.getRateSplitUp(item: cartItem);
-
         cartPrvd.itemsList = updatedItemsList;
       }
     }

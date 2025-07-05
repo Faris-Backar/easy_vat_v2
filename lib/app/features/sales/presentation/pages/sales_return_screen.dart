@@ -165,7 +165,7 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                                         'SaleReturnIDPK':
                                             salesReturn.salesReturnIdpk,
                                       },
-                                      pdfType: PDFType.salesInvoice,
+                                      pdfType: PDFType.salesReturn,
                                       pdfName: salesReturn.customerName));
                                 }),
                           ),

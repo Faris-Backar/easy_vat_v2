@@ -160,7 +160,7 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
                                 onTap: () async {
                                   context.router.push(PdfViewerRoute(
                                       pdfUrl: UrlResources.downloadSalesInvoice,
-                                      pdfType: PDFType.salesInvoice,
+                                      pdfType: PDFType.salesOrder,
                                       queryParameters: {
                                         'quotationIDPK':
                                             salesOrder.salesOrderIdpk,

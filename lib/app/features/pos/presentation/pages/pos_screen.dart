@@ -211,8 +211,8 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                                       queryParameters: {
                                         'SaleIDPK': salesInvoice.saleIdpk,
                                       },
-                                      pdfType: PDFType.salesInvoice,
-                                      pdfName: salesInvoice.customerName));
+                                      pdfName: salesInvoice.customerName,
+                                      pdfType: PDFType.salesInvoice,),);
                                 }),
                           ),
                           Expanded(
@@ -237,7 +237,7 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                                     context.router.push(AddNewSalesRoute(
                                       isForPurchase: false,
                                       title: context
-                                          .translate(AppStrings.addNewSales),
+                                          .translate(AppStrings.addNewSales), isForPurchase: false,
                                     ));
                                   }
                                 }),
@@ -331,6 +331,7 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                   AddNewSalesRoute(
                     isForPurchase: false,
                     title: context.translate(AppStrings.addNewSales),
+                    isForPurchase: false
                   ),
                 ),
                 child: Row(

@@ -163,13 +163,13 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
                                 borderRadiusTopLeft: 10,
                                 onTap: () async {
                                   context.router.push(PdfViewerRoute(
-                                      pdfUrl: UrlResources.downloadSalesInvoice,
+                                      pdfUrl: UrlResources.downloadSalesQuotation,
                                       queryParameters: {
                                         'quotationIDPK':
                                             salesQuotation.quotationIdpk,
                                       },
-                                      pdfType: PDFType.salesInvoice,
-                                      pdfName: salesQuotation.customerName));
+                                      pdfName: salesQuotation.customerName,
+                                      pdfType: PDFType.salesQuotation));
                                 }),
                           ),
                           Expanded(
@@ -240,7 +240,8 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
                         discount: salesQuotation.dsicount,
                         grossAmount: salesQuotation.grossTotal,
                         netAmount: salesQuotation.grandTotal,
-                        // paymentMethod: salesQuotation.sales ?? "",
+                        paymentMethod: "Quotation",
+                        title: context.translate(AppStrings.salesQuotation),
                         transactionTitle: AppStrings.quotationId,
                         transactionId:
                             salesQuotation.quotationNo?.toString() ?? "0",
