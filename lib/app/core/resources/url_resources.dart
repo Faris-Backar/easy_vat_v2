@@ -58,6 +58,9 @@ class UrlResources {
   static const String getBankAccount = "Ledger/Select/GetBankLedger";
   static const String getExpenseAccount = "Ledger/Select/GetExpenseLedger";
   static const String getLedgerAccount = "Ledger/Select/GetIncomeLedger";
+  static const String getCapitalLedgerAccount =
+      "Ledger/Select/GetCapitalLedger";
+  static const String getAllLedger = "Ledger/Select/SelectAll";
 
   //salesman
   static const String getSalesMan = "Salesman/Select/SelectAll";
@@ -104,4 +107,40 @@ class UrlResources {
   static const String updateIncome = "Income/Update";
   static const String deleteIncome = "Income/Delete";
   static const String downloadIncome = "Income/DownloadInvoice";
+
+  //journal
+  static const String getJournal = "Journal/Select/BetweenDate";
+  static const String createJournal = "Journal/Insert";
+  static const String updateJournal = "Journal/Update";
+  static const String deleteJournal = "Journal/Delete";
+  static const String downloadJournal = "Journal/DownloadInvoice";
+
+  //credit Note Entry
+  static const String getCreditNoteEntry = "CreditNoteEntry/Select/BetweenDate";
+  static const String createCreditNoteEntry = "CreditNoteEntry/Insert";
+  static const String updateCreditNoteEntry = "CreditNoteEntry/Update";
+  static const String deleteCreditNoteEntry = "CreditNoteEntry/Delete";
+  static const String downloadCreditNoteEntry =
+      "CreditNoteEntry/DownloadInvoice";
+
+  //debit Note Entry
+  static const String getDebitNoteEntry = "DebitNoteEntry/Select/BetweenDate";
+  static const String createDebitNoteEntry = "DebitNoteEntry/Insert";
+  static const String updateDebitNoteEntry = "DebiteNoteEntry/Update";
+  static const String deleteDebitNoteEntry = "DebitNoteEntry/Delete";
+  static const String downloadDebitNoteEntry = "DebitNoteEntry/DownloadInvoice";
+
+  //contra
+  static const String getContra = "Contra/Select/BetweenDate";
+  static const String createContra = "Contra/Insert";
+  static const String updateContra = "Contra/Update";
+  static const String deleteContra = "Contra/Delete";
+  static const String downloadContra = "Contra/DownloadInvoice";
+
+  //dividend
+  static const String getDividend = "Dividend/Select/BetweenDate";
+  static const String createDividend = "Dividend/Insert";
+  static const String updateDividend = "Dividend/Update";
+  static const String deleteDividend = "Dividend/Delete";
+  static const String downloadDividend = "Dividend/DownloadInvoice";
 }

@@ -18,6 +18,9 @@ import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sal
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/fetch_sales_quotation/fetch_sales_quotation.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
+
+//import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_slidable_widget.dart';
+
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_transaction_card.dart';
@@ -191,6 +194,7 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
                                 if (mounted) {
                                   context.router.push(
                                     AddNewSalesRoute(
+                                      isForPurchase: false,
                                       title: context.translate(
                                           AppStrings.addNewSalesQuatation),
                                     ),
@@ -296,6 +300,7 @@ class _SalesQuatationScreenState extends ConsumerState<SalesQuatationScreen> {
               PrimaryButton(
                 onPressed: () => context.router.push(
                   AddNewSalesRoute(
+                    isForPurchase: false,
                     title: context.translate(AppStrings.addNewSalesQuatation),
                   ),
                 ),

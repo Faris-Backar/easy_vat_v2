@@ -19,7 +19,6 @@ import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_orde
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_order/sales_order_state.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
 
-import 'package:easy_vat_v2/app/features/sales/presentation/widgets/transaction_card.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_transaction_card.dart';
@@ -161,12 +160,12 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
                                 onTap: () async {
                                   context.router.push(PdfViewerRoute(
                                       pdfUrl: UrlResources.downloadSalesInvoice,
+                                      pdfType: PDFType.salesInvoice,
                                       queryParameters: {
                                         'quotationIDPK':
                                             salesOrder.salesOrderIdpk,
                                       },
-                                      pdfName: salesOrder.customerIdpk,
-                                      pdfType: PDFType.salesInvoice));
+                                      pdfName: salesOrder.customerIdpk));
                                 }),
                           ),
                           Expanded(
@@ -296,6 +295,7 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
               PrimaryButton(
                 onPressed: () => context.router.push(
                   AddNewSalesRoute(
+                    isForPurchase: false,
                     title: context.translate(AppStrings.addNewSalesQuatation),
                   ),
                 ),

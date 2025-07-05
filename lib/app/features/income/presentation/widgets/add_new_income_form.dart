@@ -17,12 +17,14 @@ class AddNewIncomeForm extends ConsumerStatefulWidget {
   final TextEditingController incomeNoController;
   final TextEditingController refNoController;
   final TextEditingController soldByController;
+  final TextEditingController noteController;
   final ValueNotifier<String?> paymentModeNotifier;
   final ValueNotifier<String?> cashAccountNotifier;
   const AddNewIncomeForm(
       {super.key,
       required this.incomeNoController,
       required this.refNoController,
+      required this.noteController,
       required this.paymentModeNotifier,
       required this.soldByController,
       required this.cashAccountNotifier});
@@ -43,6 +45,7 @@ class _AddNewIncomeFormState extends ConsumerState<AddNewIncomeForm> {
     widget.incomeNoController.text = cart.incomeNo ?? "";
     widget.refNoController.text = cart.refNo ?? "";
     widget.soldByController.text = cart.soldBy ?? "";
+    widget.noteController.text = cart.notes ?? "";
 
     widget.refNoController.addListener(() {
       ref

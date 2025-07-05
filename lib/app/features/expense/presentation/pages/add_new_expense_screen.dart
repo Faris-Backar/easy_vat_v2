@@ -53,83 +53,96 @@ class _AddNewExpenseScreenState extends ConsumerState<AddNewExpenseScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(expenseCartProvider);
-    return Scaffold(
-      appBar: _buildAppBar(),
-      backgroundColor: context.surfaceColor,
-      body: GestureDetector(
-        onHorizontalDragEnd: (DragEndDetails details) {
-          if (details.primaryVelocity! < -100) {
-            _handleSwipeToNext();
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (bool didPop, Object? result) async {
+        if (!didPop) {
+          bool shouldExit = await _onWillPop(context);
+          if (shouldExit) {
+            context.router.popForced();
           }
-        },
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                AddNewExpenseForm(
-                  expenseNoController: expenseNoController,
-                  refNoController: refNoController,
-                  purchasedByController: purchasedByController,
-                  paymentModeNotifier: paymentModeNotifier,
-                  cashAccountNotifier: cashAccountNotifier,
-                  supplierInvNoController: supplierInvNoController,
-                ), //AddNewExpenseForm
-                SizedBox(
-                  height: 10,
-                ),
-                Divider(
-                  height: 5,
-                  thickness: 3,
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: state.ledgerList == null || state.ledgerList!.isEmpty
-                      ? _buildEmptyState(context)
-                      : ExpenseCartList(ledgerList: state.ledgerList!),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: SizedBox(
-                    width: 0.5.sw,
-                    child: AmountSplitupWidget(),
+        }
+      },
+      child: Scaffold(
+        appBar: _buildAppBar(),
+        backgroundColor: context.surfaceColor,
+        body: GestureDetector(
+          onHorizontalDragEnd: (DragEndDetails details) {
+            if (details.primaryVelocity! < -100) {
+              _handleSwipeToNext();
+            }
+          },
+          child: Padding(
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  AddNewExpenseForm(
+                    expenseNoController: expenseNoController,
+                    refNoController: refNoController,
+                    purchasedByController: purchasedByController,
+                    paymentModeNotifier: paymentModeNotifier,
+                    cashAccountNotifier: cashAccountNotifier,
+                    notesController: _noteController,
+                    supplierInvNoController: supplierInvNoController,
+                  ), //AddNewExpenseForm
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                Divider(
-                  height: 5,
-                  thickness: 3,
-                ),
-                SizedBox(
-                  height: 16,
-                ),
-                CustomTextField(
-                  label: context.translate(AppStrings.note),
-                  controller: _noteController,
-                  maxLines: 5,
-                  onChanged: (value) =>
-                      ref.read(expenseCartProvider.notifier).setNotes(value),
-                  hint: context.translate(AppStrings.writeNote),
-                ),
-                SizedBox(
-                  height: 16,
-                )
-              ],
+                  Divider(
+                    height: 5,
+                    thickness: 3,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: state.ledgerList == null || state.ledgerList!.isEmpty
+                        ? _buildEmptyState(context)
+                        : ExpenseCartList(ledgerList: state.ledgerList!),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: SizedBox(
+                      width: 0.5.sw,
+                      child: AmountSplitupWidget(),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Divider(
+                    height: 5,
+                    thickness: 3,
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  CustomTextField(
+                    label: context.translate(AppStrings.note),
+                    controller: _noteController,
+                    maxLines: 5,
+                    onChanged: (value) =>
+                        ref.read(expenseCartProvider.notifier).setNotes(value),
+                    hint: context.translate(AppStrings.writeNote),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  )
+                ],
+              ),
             ),
           ),
         ),
-      ),
-      bottomNavigationBar: AddExpenseFooterWidget(
-        expenseNoController: expenseNoController,
-        refNoController: refNoController,
-        paymentModeNotifier: paymentModeNotifier,
-        purchasedByController: purchasedByController,
-        supInvNoController: supplierInvNoController,
+        bottomNavigationBar: AddExpenseFooterWidget(
+          expenseNoController: expenseNoController,
+          refNoController: refNoController,
+          paymentModeNotifier: paymentModeNotifier,
+          purchasedByController: purchasedByController,
+          supInvNoController: supplierInvNoController,
+        ),
       ),
     );
   }
@@ -176,27 +189,43 @@ class _AddNewExpenseScreenState extends ConsumerState<AddNewExpenseScreen> {
         },
       ),
       title: Text(context.translate(AppStrings.addNewExpense)),
-      // actions: [
-      //   Consumer(
-      //     builder: (context, ref, child) {
-      //       return IconButton(
-      //           onPressed: () => context.router.pushNamed(AppRouter.cart),
-      //           icon: Badge.count(
-      //             backgroundColor: CustomColors.inActiveRedColor(context),
-      //             textColor: Colors.white,
-      //             count: ref.watch(cartProvider).itemList?.length ?? 0,
-      //             child: SvgIcon(
-      //               icon: Assets.icons.cart,
-      //               color: context.defaultTextColor,
-      //             ),
-      //           ));
-      //     },
-      //   )
-      // ],
     );
   }
 
   Widget _buildEmptyState(BuildContext context) {
     return Center();
+  }
+
+  Future<bool> _onWillPop(BuildContext context) async {
+    final ledgerList = ref.read(expenseCartProvider).ledgerList;
+
+    if (ledgerList != null && ledgerList.isNotEmpty) {
+      final shouldExit = await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                title: Text(
+                  context.translate(AppStrings.discardChanges),
+                ),
+                content: Text(
+                    context.translate(AppStrings.discardledgerChangesMessage)),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text(context.translate(AppStrings.cancel)),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: Text(context.translate(AppStrings.discard)),
+                  )
+                ],
+              ));
+      if (shouldExit == true) {
+        ref.read(expenseCartProvider.notifier).clearExpenseCart();
+        return true;
+      } else {
+        return false;
+      }
+    }
+    return true;
   }
 }

@@ -228,5 +228,37 @@ class AppStrings {
   static const String incNo = "incNo";
   static const String deleteIncomeConfirmationMessage =
       "deleteIncomeConfirmationMessage";
-  static const String quotationId= "quotationId";
+
+  static const String quotationId = "quotationId";
+
+  static const String addNewJournal = "addNewJournal";
+  static const String addNewCreditNote = "addNewCreditNote";
+  static const String addNewDebitNote = "addNewDebitNote";
+  static const String addNewContra = "addNewContra";
+  static const String addNewDividend = "addNewDividend";
+  static const String journalNo = "journalNo";
+  static const String entryMode = "entryMode";
+  static const String selectedLedger = "selectedLedger";
+  static const String debitTotal = "debitTotal";
+  static const String creditTotal = "creditTotal";
+  static const String contraNo = "contraNo";
+  static const String creditNoteNo = "creditNoteNo";
+  static const String debitNoteNo = "debitNoteNo";
+  static const String deleteCreditNoteConfirmationMessage =
+      "deleteCreditNoteConfirmationMessage";
+  static const String drAmount = "drAmount";
+  static const String deleteDebitNoteConfirmationMessage =
+      "deleteDebitNoteConfirmationMessage";
+  static const String crAmount = "crAmount";
+  static const String supRefNo = "supRefNo";
+  static const String deleteJournalConfirmationMessage =
+      "deleteJournalConfirmationMessage";
+  static const String ledgerMode = "ledgerMode";
+  static const String ledgerBal = "ledgerBal";
+  static const String deleteContraConfirmationMessage =
+      "deleteContraConfirmationMessage";
+  static const String dividendNo = "dividendNo";
+  static const String issuedBy = "issuedBy";
+  static const String deleteDividendConfirmationMessage =
+      "deleteDividendConfirmationMessage";
 }

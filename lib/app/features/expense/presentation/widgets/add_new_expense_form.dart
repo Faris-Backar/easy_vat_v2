@@ -18,6 +18,7 @@ class AddNewExpenseForm extends ConsumerStatefulWidget {
   final TextEditingController refNoController;
   final TextEditingController purchasedByController;
   final TextEditingController supplierInvNoController;
+  final TextEditingController notesController;
   final ValueNotifier<String?> paymentModeNotifier;
   final ValueNotifier<String?> cashAccountNotifier;
   const AddNewExpenseForm(
@@ -27,6 +28,7 @@ class AddNewExpenseForm extends ConsumerStatefulWidget {
       required this.purchasedByController,
       required this.paymentModeNotifier,
       required this.cashAccountNotifier,
+      required this.notesController,
       required this.supplierInvNoController});
 
   @override
@@ -45,6 +47,7 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
     widget.expenseNoController.text = cart.expenseNo ?? "";
     widget.refNoController.text = cart.refNo ?? "";
     widget.purchasedByController.text = cart.purchasedBy ?? "";
+    widget.notesController.text = cart.notes ?? "";
 
     widget.refNoController.addListener(() {
       ref

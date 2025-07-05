@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 
 class IncomeLedgerDetailsCard extends StatelessWidget {
   final LedgerAccountEntity ledger;
-  const IncomeLedgerDetailsCard({super.key, required this.ledger});
+  final bool? isExpanded;
+  const IncomeLedgerDetailsCard(
+      {super.key, this.isExpanded, required this.ledger});
 
   @override
   Widget build(BuildContext context) {
