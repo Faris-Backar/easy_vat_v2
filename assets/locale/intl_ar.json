@@ -261,5 +261,10 @@
   "generalNo": "الرقم العام",
   "vehicleNo": "رقم المركبة",
   "enterPaymentTerms": "أدخل شروط الدفع",
-  "paymentTerms": "شروط الدفع"
+  "paymentTerms": "شروط الدفع",
+   "addNewStockTransfer": "إضافة نقل أسهم جديد",
+   "stockTransferNo": "رقم نقل الأسهم",
+   "fromStore": "من المتجر",
+   "toStore": "للتخزين"
+
 }

@@ -242,7 +242,7 @@ class HomeCategoryData {
             label: context.translate(AppStrings.stockTransfer),
             icon: Assets.icons.stockTransfer,
             darkIcon: Assets.icons.dark.stockTransferDark,
-            pagePath: "",
+            pagePath: AppRouter.stockTransfer,
             formId: AppStrings.stockTransfer),
       ];
 

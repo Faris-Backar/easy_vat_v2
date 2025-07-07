@@ -277,5 +277,8 @@ class AppStrings {
   static const String enterTermsAndCondition = "enterTermsAndCondition";
   static const String enterPaymentTerms = "enterPaymentTerms";
   static const String paymentTerms = "paymentTerms";
-  
+  static const String addNewStockTransfer = "addNewStockTransfer";
+  static const String stockTransferNo = "stockTransferNo";
+  static const String fromStore = "fromStore";
+  static const String toStore = "toStore";
 }

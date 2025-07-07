@@ -262,5 +262,10 @@
   "enterProjectDescription": "Enter Project Description",
   "enterTermsAndCondition": "Enter Terms and Condition",
   "paymentTerms": "Payment Terms",
-  "enterPaymentTerms": "Enter Payment Terms"
+  "enterPaymentTerms": "Enter Payment Terms",
+  "addNewStockTransfer": "Add New Stock Transfer",
+  "stockTransferNo": "Stock Transfer No",
+  "fromStore": "From Store",
+  "toStore": "To Store"
+
 }
