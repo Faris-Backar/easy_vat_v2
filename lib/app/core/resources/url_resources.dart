@@ -147,4 +147,7 @@ class UrlResources {
   static const String updateDividend = "Dividend/Update";
   static const String deleteDividend = "Dividend/Delete";
   static const String downloadDividend = "Dividend/DownloadInvoice";
+
+  //Store
+  static const String getStore = "Store/Select/SelectAll";
 }

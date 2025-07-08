@@ -4,6 +4,7 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/stock_transfer/presentation/widgets/stock_transfer_appbar.dart';
+import 'package:easy_vat_v2/app/features/store/presentation/providers/store_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -24,6 +25,10 @@ class _StockTransferScreenState extends ConsumerState<StockTransferScreen> {
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      ref.read(storeProvider.notifier).getStore();
+    });
   }
 
   @override
