@@ -266,6 +266,10 @@
   "addNewStockTransfer": "Add New Stock Transfer",
   "stockTransferNo": "Stock Transfer No",
   "fromStore": "From Store",
-  "toStore": "To Store"
+  "toStore": "To Store",
+  "deleteStockTransferConfirmationMessage": "Stock Transfer deleted Successfully",
+  "barcodeNo": "Barcode No",
+  "totalSellValue": "Total Sell Value",
+  "totalNetCost": "Total Net Cost"
 
 }

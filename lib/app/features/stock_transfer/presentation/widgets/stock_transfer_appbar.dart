@@ -1,9 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/filter_widget.dart';
+import 'package:easy_vat_v2/app/features/stock_transfer/domain/usecase/params/stock_transfer_filter_params.dart';
+import 'package:easy_vat_v2/app/features/stock_transfer/domain/usecase/params/stock_transfer_params.dart';
+import 'package:easy_vat_v2/app/features/stock_transfer/presentation/providers/fetch_stock_transfer/fetch_stock_transfer_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_range_picker.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -32,6 +36,8 @@ class StockTransferAppbar extends ConsumerStatefulWidget
 class StockTransferAppBarConfig {
   final String title;
   final Future<bool> Function()? onWillPop;
+  final Future<void> Function(StockTransferParams params)? fetchFunction;
+  final Future<void> Function(StockTransferFilterParams params)? filterFunction;
   final List<PopupMenuEntry<String>>? additionalPopupMenuItems;
   final bool showDateRangePicker;
   final bool showSearchBar;
@@ -43,6 +49,8 @@ class StockTransferAppBarConfig {
       {this.title = "",
       this.additionalPopupMenuItems,
       this.showDateRangePicker = true,
+      this.fetchFunction,
+      this.filterFunction,
       this.showSearchBar = true,
       this.showfilterButton = true,
       this.enableBarcodeScanning = false,
@@ -52,6 +60,10 @@ class StockTransferAppBarConfig {
 
 class _StockTransferAppBarState extends ConsumerState<StockTransferAppbar> {
   late final ValueNotifier<bool> isSearchNotEmpty;
+  final ValueNotifier<int?> stockTransferNoNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> toStoreNotifier = ValueNotifier(null);
+  final ValueNotifier<String?> fromStoreNotifier = ValueNotifier(null);
+
   DateTime? selectedStockTransferDate;
 
   @override
@@ -72,6 +84,22 @@ class _StockTransferAppBarState extends ConsumerState<StockTransferAppbar> {
   void dispose() {
     isSearchNotEmpty.dispose();
     super.dispose();
+  }
+
+  Future<void> _defaultFetchStockTransfer() async {
+    final dateRange = ref.read(dateRangeProvider);
+    final params = StockTransferParams(
+        stockTransferIDPK: PrefResources.emptyGuid,
+        fromDate: dateRange.fromDate,
+        toDate: dateRange.toDate);
+
+    if (widget.config.fetchFunction != null) {
+      await widget.config.fetchFunction!(params);
+    } else {
+      await ref
+          .read(fetchStockTransferNotifierProvider.notifier)
+          .fetchStockTransfer(params: params);
+    }
   }
 
   @override
@@ -141,14 +169,21 @@ class _StockTransferAppBarState extends ConsumerState<StockTransferAppbar> {
                         Expanded(
                           flex: 5,
                           child: DateRangePicker(
-                              onFromDateSelected: (selectedDate) {},
-                              onToDateSelected: (slelectedDate) {}),
+                              onFromDateSelected: (selectedDate) {
+                            ref
+                                .read(dateRangeProvider.notifier)
+                                .updateFromDate(selectedDate);
+                          }, onToDateSelected: (selectedDate) {
+                            ref
+                                .read(dateRangeProvider.notifier)
+                                .updateToDate(selectedDate);
+                          }),
                         ),
                         SizedBox(
                           width: 10.w,
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: _defaultFetchStockTransfer,
                           child: Container(
                             height: 36.h,
                             width: 41.w,
@@ -214,7 +249,9 @@ class _StockTransferAppBarState extends ConsumerState<StockTransferAppbar> {
                       fontWeight: FontWeight.w500,
                       color: context.defaultTextColor.withValues(alpha: 0.32),
                     ),
-                    onChanged: (value) {},
+                    onChanged: (value) => ref
+                        .read(fetchStockTransferNotifierProvider.notifier)
+                        .searchStockTransfer(value),
                     suffixIcon: hasText
                         ? Padding(
                             padding: const EdgeInsets.all(12.0),
@@ -261,7 +298,14 @@ class _StockTransferAppBarState extends ConsumerState<StockTransferAppbar> {
                             ?.copyWith(fontWeight: FontWeight.w700),
                       ),
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          if (widget.config.filterFunction != null) {
+                            widget.config.filterFunction!(
+                                StockTransferFilterParams(
+                                    clearAllFilter: true));
+                          }
+                          context.router.popForced();
+                        },
                         child: Text(
                           context.translate(AppStrings.clearAll),
                           style: context.textTheme.bodySmall?.copyWith(
@@ -347,22 +391,18 @@ class _StockTransferAppBarState extends ConsumerState<StockTransferAppbar> {
                     child: PrimaryButton(
                       label: context.translate(AppStrings.filter),
                       onPressed: () {
-                        // final params = ExpenseParams(
-                        //     fromDate: ref.read(dateRangeProvider).fromDate,
-                        //     toDate: ref.read(dateRangeProvider).toDate,
-                        //     supplierID: ref
-                        //         .read(expenseCartProvider.notifier)
-                        //         .selectedSupplier
-                        //         ?.ledgerIDPK,
-                        //     paymentMode: paymentMethodNotifier.value);
+                        final params = StockTransferParams(
+                          fromDate: ref.read(dateRangeProvider).fromDate,
+                          toDate: ref.read(dateRangeProvider).toDate,
+                        );
 
-                        // if (widget.config.filterFunction != null) {
-                        // } else {
-                        //   ref
-                        //       .read(expenseNotifierProvider.notifier)
-                        //       .fetchExpenses(params: params);
-                        // }
-                        // context.router.popForced();
+                        if (widget.config.filterFunction != null) {
+                        } else {
+                          ref
+                              .read(fetchStockTransferNotifierProvider.notifier)
+                              .fetchStockTransfer(params: params);
+                        }
+                        context.router.popForced();
                       },
                     ),
                   )

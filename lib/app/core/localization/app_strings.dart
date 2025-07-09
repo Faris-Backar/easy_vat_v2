@@ -281,4 +281,9 @@ class AppStrings {
   static const String stockTransferNo = "stockTransferNo";
   static const String fromStore = "fromStore";
   static const String toStore = "toStore";
+  static const String deleteStockTransferConfirmationMessage =
+      "deleteStockTransferConfirmationMessage";
+  static const String barcodeNo = "barcodeNo";
+  static const String totalSellValue = "totalSellValue";
+  static const String totalNetCost = "totalNetCost";
 }

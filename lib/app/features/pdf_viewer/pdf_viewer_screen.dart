@@ -49,7 +49,8 @@ enum PDFType {
   debitNote,
   journal,
   contra,
-  dividend
+  dividend,
+  stockTransfer
 }
 
 class _PdfViewerScreenState extends State<PdfViewerScreen> {
@@ -354,6 +355,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         return context.translate(AppStrings.salesOrder);
       case PDFType.salesReturn:
         return context.translate(AppStrings.salesReturn);
+      case PDFType.stockTransfer:
+        return context.translate(AppStrings.stockTransfer);
     }
   }
 
@@ -381,6 +384,8 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         return UrlResources.downloadSalesOrder;
       case PDFType.salesReturn:
         return UrlResources.downloadSalesReturn;
+      case PDFType.stockTransfer:
+        return UrlResources.downloadStockTransfer;
     }
   }
 }

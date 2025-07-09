@@ -240,7 +240,7 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                                     context.router.push(AddNewSalesRoute(
                                       isForPurchase: false,
                                       title: context
-                                          .translate(AppStrings.addNewSales), isForPurchase: false,
+                                          .translate(AppStrings.addNewSales),
                                     ));
                                   }
                                 }),
@@ -334,7 +334,6 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                   AddNewSalesRoute(
                     isForPurchase: false,
                     title: context.translate(AppStrings.addNewSales),
-                    isForPurchase: false
                   ),
                 ),
                 child: Row(

@@ -265,6 +265,10 @@
    "addNewStockTransfer": "إضافة نقل أسهم جديد",
    "stockTransferNo": "رقم نقل الأسهم",
    "fromStore": "من المتجر",
-   "toStore": "للتخزين"
+   "toStore": "للتخزين",
+   "deleteStockTransferConfirmationMessage": "تم حذف نقل الأسهم بنجاح",
+   "barcodeNo": "رقم الباركود",
+   "totalSellValue": "إجمالي قيمة البيع",
+   "totalNetCost": "إجمالي التكلفة الصافية"
 
 }
