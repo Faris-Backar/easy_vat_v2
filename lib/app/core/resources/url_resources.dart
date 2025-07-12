@@ -63,6 +63,8 @@ class UrlResources {
   static const String getLedgerAccount = "Ledger/Select/GetIncomeLedger";
   static const String getCapitalLedgerAccount =
       "Ledger/Select/GetCapitalLedger";
+  static const String getCashBankLedgerAccount =
+      "Ledger/Select/GetCashBankLedger";
   static const String getAllLedger = "Ledger/Select/SelectAll";
 
   //salesman

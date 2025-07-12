@@ -5,7 +5,7 @@ import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/contra/presentation/providers/contra_cart/contra_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/income_ledger_details_card.dart';
 import 'package:easy_vat_v2/app/features/ledger/data/model/ledger_account_model.dart';
-import 'package:easy_vat_v2/app/features/ledger/presentation/provider/all_ledgers/all_ledgers_notifier.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_bank_ledgers/cash_bank_ledger_notfier.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/refresh_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/search_debouncer.dart';
@@ -43,7 +43,9 @@ class _DebitLedgerInfoWidgetState extends ConsumerState<DebitLedgerInfoWidget> {
     if (selectedLedger != null) {
       ref.read(contraCartProvider.notifier).setLedger(selectedLedger);
     }
-    await ref.read(allLedgerNotifierProvider.notifier).fetchAllLedgers();
+    await ref
+        .read(cashBankLedgerNotifierProvider.notifier)
+        .fetchCashBankLedgers();
   }
 
   @override
@@ -53,7 +55,7 @@ class _DebitLedgerInfoWidgetState extends ConsumerState<DebitLedgerInfoWidget> {
 
   Widget _buildLedgerBottomSheet(BuildContext context) {
     return Consumer(builder: (context, WidgetRef ref, child) {
-      final ledgerState = ref.watch(allLedgerNotifierProvider);
+      final ledgerState = ref.watch(cashBankLedgerNotifierProvider);
       final isLoaded = ledgerState.maybeWhen(
         loaded: (_) => true,
         orElse: () => false,
@@ -82,11 +84,11 @@ class _DebitLedgerInfoWidgetState extends ConsumerState<DebitLedgerInfoWidget> {
                       searchDebouncer.run(() {
                         if (value.isEmpty) {
                           ref
-                              .read(allLedgerNotifierProvider.notifier)
-                              .fetchAllLedgers();
+                              .read(cashBankLedgerNotifierProvider.notifier)
+                              .fetchCashBankLedgers();
                         } else if (value.length > 3) {
                           ref
-                              .read(allLedgerNotifierProvider.notifier)
+                              .read(cashBankLedgerNotifierProvider.notifier)
                               .getLedgerById(value);
                         }
                       });
@@ -99,8 +101,8 @@ class _DebitLedgerInfoWidgetState extends ConsumerState<DebitLedgerInfoWidget> {
                 RefreshButton(onTap: () {
                   _searchController.text = "";
                   ref
-                      .read(allLedgerNotifierProvider.notifier)
-                      .fetchAllLedgers();
+                      .read(cashBankLedgerNotifierProvider.notifier)
+                      .fetchCashBankLedgers();
                 })
               ],
             ),
@@ -180,8 +182,10 @@ class _DebitLedgerInfoWidgetState extends ConsumerState<DebitLedgerInfoWidget> {
                             onPressed: value != null
                                 ? () {
                                     final ledgerNotifier = ref.read(
-                                        allLedgerNotifierProvider.notifier);
-                                    final ledgers = ledgerNotifier.allLedgers;
+                                        cashBankLedgerNotifierProvider
+                                            .notifier);
+                                    final ledgers =
+                                        ledgerNotifier.cashBankLedgers;
 
                                     if (ledgers.isNotEmpty) {
                                       final selectedLedger =

@@ -5,7 +5,7 @@ import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/contra/presentation/widgets/contra_add_dialog.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/income_ledger_details_card.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
-import 'package:easy_vat_v2/app/features/ledger/presentation/provider/all_ledgers/all_ledgers_notifier.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_bank_ledgers/cash_bank_ledger_notfier.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/refresh_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/search_debouncer.dart';
@@ -33,7 +33,7 @@ class _ContraBottomModalSheetState
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(allLedgerNotifierProvider);
+    final state = ref.watch(cashBankLedgerNotifierProvider);
     return Container(
       height: 1.sh,
       width: double.infinity,
@@ -83,8 +83,8 @@ class _ContraBottomModalSheetState
               searchDebouncer.run(() {
                 if (value.isEmpty) {
                   ref
-                      .read(allLedgerNotifierProvider.notifier)
-                      .fetchAllLedgers();
+                      .read(cashBankLedgerNotifierProvider.notifier)
+                      .fetchCashBankLedgers();
                 } else {}
               });
             },
@@ -119,7 +119,9 @@ class _ContraBottomModalSheetState
         ),
         RefreshButton(onTap: () {
           searchController.text = "";
-          ref.read(allLedgerNotifierProvider.notifier).fetchAllLedgers();
+          ref
+              .read(cashBankLedgerNotifierProvider.notifier)
+              .fetchCashBankLedgers();
         })
       ],
     );
