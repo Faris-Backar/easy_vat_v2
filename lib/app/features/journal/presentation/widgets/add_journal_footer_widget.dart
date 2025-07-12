@@ -1,10 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/date_range/date_range_provider.dart';
+import 'package:easy_vat_v2/app/features/journal/domain/usecase/params/journal_params.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/create_journal/create_journal_notifier.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_notifier.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_state.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/journal/journal_notifier.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/journal_cart/journal_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/update_journal/update_journal_notifier.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/widgets/journal_bottom_modal_sheet.dart';
@@ -76,6 +80,11 @@ class _AddJournalFooterWidgetState extends State<AddJournalFooterWidget> {
                             .read(journalCartProvider.notifier)
                             .clearJournalCart();
                         context.router.popForced();
+                        ref.read(journalNotifierProvider.notifier).fetchJournal(
+                            params: JournalParams(
+                                journalIDPK: PrefResources.emptyGuid,
+                                fromDate: ref.read(dateRangeProvider).fromDate,
+                                toDate: ref.read(dateRangeProvider).toDate));
                       },
                       failure: (message) => ScaffoldMessenger.of(context)
                           .showSnackBar(SnackBar(content: Text(message.error))),
@@ -96,6 +105,15 @@ class _AddJournalFooterWidgetState extends State<AddJournalFooterWidget> {
                               .read(journalCartProvider.notifier)
                               .clearJournalCart();
                           context.router.popForced();
+                          ref
+                              .read(journalNotifierProvider.notifier)
+                              .fetchJournal(
+                                  params: JournalParams(
+                                      journalIDPK: PrefResources.emptyGuid,
+                                      fromDate:
+                                          ref.read(dateRangeProvider).fromDate,
+                                      toDate:
+                                          ref.read(dateRangeProvider).toDate));
                         },
                         failure: (message) => ScaffoldMessenger.of(context)
                             .showSnackBar(

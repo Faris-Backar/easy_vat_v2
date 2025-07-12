@@ -1,11 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/debit_note/domain/usecase/params/debit_note_params.dart';
 import 'package:easy_vat_v2/app/features/debit_note/presentation/providers/create_debit_note/create_debit_note_notifier.dart';
+import 'package:easy_vat_v2/app/features/debit_note/presentation/providers/debit_note/debit_note_notifier.dart';
 import 'package:easy_vat_v2/app/features/debit_note/presentation/providers/debit_note_cart/debit_note_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/debit_note/presentation/providers/update_debit_note/update_debit_note_notifier.dart';
 import 'package:easy_vat_v2/app/features/debit_note/presentation/widgets/debit_note_bottom_model_sheet.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -82,6 +86,17 @@ class _AddDebitNoteFooterWidgetState extends State<AddDebitNoteFooterWidget> {
                                 .read(debitNoteCartProvider.notifier)
                                 .clearDebitNoteCart();
                             context.router.popForced();
+                            ref
+                                .read(debitNoteNotifierProvider.notifier)
+                                .fetchDebitNote(
+                                    params: DebitNoteParams(
+                                        debitNoteIDPK: PrefResources.emptyGuid,
+                                        fromDate: ref
+                                            .read(dateRangeProvider)
+                                            .fromDate,
+                                        toDate: ref
+                                            .read(dateRangeProvider)
+                                            .toDate));
                           },
                           failure: (message) => ScaffoldMessenger.of(context)
                               .showSnackBar(
@@ -104,6 +119,17 @@ class _AddDebitNoteFooterWidgetState extends State<AddDebitNoteFooterWidget> {
                                 .read(debitNoteCartProvider.notifier)
                                 .clearDebitNoteCart();
                             context.router.popForced();
+                            ref
+                                .read(debitNoteNotifierProvider.notifier)
+                                .fetchDebitNote(
+                                    params: DebitNoteParams(
+                                        debitNoteIDPK: PrefResources.emptyGuid,
+                                        fromDate: ref
+                                            .read(dateRangeProvider)
+                                            .fromDate,
+                                        toDate: ref
+                                            .read(dateRangeProvider)
+                                            .toDate));
                           },
                           failure: (message) => ScaffoldMessenger.of(context)
                               .showSnackBar(

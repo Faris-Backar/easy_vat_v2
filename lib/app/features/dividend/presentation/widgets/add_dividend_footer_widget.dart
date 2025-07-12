@@ -1,11 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/dividend/domain/usecase/params/dividend_params.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/providers/create_dividend/create_dividend_notifier.dart';
+import 'package:easy_vat_v2/app/features/dividend/presentation/providers/dividend/dividend_notifier.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/providers/dividend_cart/dividend_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/providers/update_dividend/update_dividend_notifier.dart';
 import 'package:easy_vat_v2/app/features/dividend/presentation/widgets/dividend_bottom_modal_sheet.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -79,6 +83,17 @@ class _AddDividendFooterWidgetState extends State<AddDividendFooterWidget> {
                                 .read(dividendCartProvider.notifier)
                                 .clearDividendCart();
                             context.router.popForced();
+                            ref
+                                .read(dividendNotifierProvider.notifier)
+                                .fetchDividend(
+                                    params: DividendParams(
+                                        dividendIDPK: PrefResources.emptyGuid,
+                                        fromDate: ref
+                                            .read(dateRangeProvider)
+                                            .fromDate,
+                                        toDate: ref
+                                            .read(dateRangeProvider)
+                                            .toDate));
                           },
                           failure: (message) => ScaffoldMessenger.of(context)
                               .showSnackBar(
@@ -101,6 +116,17 @@ class _AddDividendFooterWidgetState extends State<AddDividendFooterWidget> {
                                 .read(dividendCartProvider.notifier)
                                 .clearDividendCart();
                             context.router.popForced();
+                            ref
+                                .read(dividendNotifierProvider.notifier)
+                                .fetchDividend(
+                                    params: DividendParams(
+                                        dividendIDPK: PrefResources.emptyGuid,
+                                        fromDate: ref
+                                            .read(dateRangeProvider)
+                                            .fromDate,
+                                        toDate: ref
+                                            .read(dateRangeProvider)
+                                            .toDate));
                           },
                           failure: (message) => ScaffoldMessenger.of(context)
                               .showSnackBar(
