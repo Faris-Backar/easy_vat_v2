@@ -29,7 +29,7 @@ class ExpenseLedgerNotifier extends StateNotifier<ExpenseLedgerState> {
       : super(ExpenseLedgerState.initial());
 
   fetchExpenseLedgers({bool isRefresh = false}) async {
-    if (expenseLedgers.isNotEmpty && !isRefresh) {
+    if (expenseLedgers.isNotEmpty && isRefresh) {
       state = ExpenseLedgerState.loaded(ledgers: expenseLedgers);
     } else {
       state = const ExpenseLedgerState.loading();

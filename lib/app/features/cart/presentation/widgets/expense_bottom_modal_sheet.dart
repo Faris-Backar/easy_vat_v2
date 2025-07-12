@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'dart:developer';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/expense_ledger/expense_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/widgets/ledger_add_dialog.dart';
@@ -30,6 +32,12 @@ class _ExpenseBottomModalSheetState
   final TextEditingController searchController = TextEditingController();
   final ValueNotifier<int?> expenseDetailsExpansionNotifier =
       ValueNotifier(null);
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final state =
@@ -134,46 +142,89 @@ class _ExpenseBottomModalSheetState
   }
 
   Widget _buildExpenseList(List<LedgerAccountEntity> ledgerList) {
+    final selectedIndex = expenseDetailsExpansionNotifier.value;
+    final addedLedgers = ref.watch(expenseCartProvider).ledgerList ?? [];
+
     return ListView.builder(
       itemCount: ledgerList.length,
-      itemBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: InkWell(
-          onTap: () {
-            if ((ledgerList[index].isActive ?? false)) {
-              expenseDetailsExpansionNotifier.value = index;
-              showDialog(
+      itemBuilder: (context, index) {
+        final ledger = ledgerList[index];
+        final isSelected = selectedIndex == index;
+        final isAdded =
+            addedLedgers.any((l) => l.ledger.ledgerCode == ledger.ledgerCode);
+
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 8.0),
+          child: InkWell(
+            onTap: () {
+              if ((ledger.isActive ?? false)) {
+                expenseDetailsExpansionNotifier.value = index;
+                showDialog(
                   context: context,
-                  builder: (context) =>
-                      LedgerAddDialog(ledger: ledgerList[index]));
-            } else {
-              AppUtils.showToast(context, AppStrings.ledgerCurrentlyNotActive);
-            }
-          },
-          child: ValueListenableBuilder<int?>(
-              valueListenable: expenseDetailsExpansionNotifier,
-              builder: (context, value, child) {
-                return LedgerDetailsCard(ledger: ledgerList[index]);
-              }),
-        ),
-      ),
+                  builder: (context) => LedgerAddDialog(ledger: ledger),
+                );
+              } else {
+                AppUtils.showToast(
+                    context, AppStrings.ledgerCurrentlyNotActive);
+              }
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: isAdded
+                      ? Colors.green
+                      : isSelected
+                          ? context.colorScheme.onPrimary
+                          : Colors.transparent,
+                  width: 2.0,
+                ),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              child: LedgerDetailsCard(ledger: ledger),
+            ),
+          ),
+        );
+      },
     );
   }
 
   Widget _buildSubmitButton(BuildContext context, WidgetRef ref) {
-    return Container(
-      height: 50.h,
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: PrimaryButton(
-        label: AppStrings.submit,
-        onPressed: () {
-          final selectedIndex = expenseDetailsExpansionNotifier.value;
-          if (selectedIndex != null) {
-            context.router.popForced();
-          }
-        },
-      ),
+    return Row(
+      children: [
+        Expanded(
+          flex: 5,
+          child: Container(
+            height: 50.h,
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: PrimaryButton(
+              label: AppStrings.submit,
+              onPressed: () {
+                final selectedIndex = expenseDetailsExpansionNotifier.value;
+                if (selectedIndex != null) {
+                  context.router.popForced();
+                }
+              },
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: IconButton(
+              onPressed: () {},
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              icon: Badge.count(
+                backgroundColor: CustomColors.inActiveRedColor(context),
+                textColor: Colors.white,
+                count: ref.watch(expenseCartProvider).ledgerList?.length ?? 0,
+                child: SvgIcon(
+                  icon: Assets.icons.cart,
+                  color: context.defaultTextColor,
+                ),
+              )),
+        )
+      ],
     );
   }
 }
