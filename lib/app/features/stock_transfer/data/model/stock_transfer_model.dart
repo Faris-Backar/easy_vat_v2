@@ -179,6 +179,7 @@ class StockTransferDetailsModel extends StockTransferDetailsEntity {
     super.transferQty,
     super.retailRate,
     super.cost,
+    super.netCost,
     super.sellValue,
     super.stockValue,
     super.rowguid,
@@ -211,6 +212,9 @@ class StockTransferDetailsModel extends StockTransferDetailsEntity {
           sellValue: json["sellValue"] != null
               ? (json["sellValue"] as num).toDouble()
               : null,
+          netCost: json["netCost"] != null
+              ? (json["netCost"] as num).toDouble()
+              : null,
           stockValue: json["stockValue"] != null
               ? (json["stockValue"] as num).toDouble()
               : null,
@@ -236,6 +240,7 @@ class StockTransferDetailsModel extends StockTransferDetailsEntity {
         retailRate: entity.retailRate,
         cost: entity.cost,
         sellValue: entity.sellValue,
+        netCost: entity.netCost,
         stockValue: entity.stockValue,
         rowguid: entity.rowguid,
         companyIDPK: entity.companyIDPK,
@@ -259,6 +264,7 @@ class StockTransferDetailsModel extends StockTransferDetailsEntity {
         "retailRate": retailRate,
         "cost": cost,
         "sellValue": sellValue,
+        "netCost": netCost,
         "stockValue": stockValue,
         "rowguid": rowguid,
         "companyIDPK": companyIDPK,

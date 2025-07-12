@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/pages/cart_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
 import 'package:flutter/material.dart';
@@ -173,7 +175,8 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
       actions: [
         Consumer(builder: (context, ref, child) {
           return IconButton(
-            onPressed: () => context.router.pushNamed(AppRouter.cart),
+            onPressed: () =>
+                context.router.push(CartRoute(screenType: CartScreenType.cart)),
             icon: Badge.count(
               backgroundColor: CustomColors.inActiveRedColor(context),
               textColor: Colors.white,

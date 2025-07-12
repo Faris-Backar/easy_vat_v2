@@ -7,7 +7,8 @@ part 'store_state.freezed.dart';
 class StoreState with _$StoreState {
   const factory StoreState.initial() = _Initial;
   const factory StoreState.loading() = _Loading;
-  const factory StoreState.loaded({required List<StoreEntity> storeList}) =
-      _Loaded;
+  const factory StoreState.loaded(
+      {required List<StoreEntity> storeList,
+      StoreEntity? selectedStore}) = _Loaded;
   const factory StoreState.error(String message) = _Error;
 }

@@ -270,6 +270,12 @@
   "deleteStockTransferConfirmationMessage": "Stock Transfer deleted Successfully",
   "barcodeNo": "Barcode No",
   "totalSellValue": "Total Sell Value",
-  "totalNetCost": "Total Net Cost"
-
+  "totalNetCost": "Total Net Cost",
+  "requestedQty": "Requested Qty",
+  "transferQty": "Transfer Qty",
+  "retailRate": "Retail Rate",
+  "netCost": "Net Cost",
+  "sellValue": "Sell Value",
+  "selectFromStore": "Select From Store",
+  "selectToStore": "Select To Store"
 }

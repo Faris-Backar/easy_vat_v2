@@ -689,6 +689,7 @@ mixin _$StockTransferDetails {
   double? get retailRate => throw _privateConstructorUsedError;
   double? get cost => throw _privateConstructorUsedError;
   double? get sellValue => throw _privateConstructorUsedError;
+  double? get netCost => throw _privateConstructorUsedError;
   double? get stockValue => throw _privateConstructorUsedError;
   String? get rowguid => throw _privateConstructorUsedError;
   String? get companyIDPK => throw _privateConstructorUsedError;
@@ -723,6 +724,7 @@ abstract class $StockTransferDetailsCopyWith<$Res> {
       double? retailRate,
       double? cost,
       double? sellValue,
+      double? netCost,
       double? stockValue,
       String? rowguid,
       String? companyIDPK});
@@ -757,6 +759,7 @@ class _$StockTransferDetailsCopyWithImpl<$Res,
     Object? retailRate = freezed,
     Object? cost = freezed,
     Object? sellValue = freezed,
+    Object? netCost = freezed,
     Object? stockValue = freezed,
     Object? rowguid = freezed,
     Object? companyIDPK = freezed,
@@ -814,6 +817,10 @@ class _$StockTransferDetailsCopyWithImpl<$Res,
           ? _value.sellValue
           : sellValue // ignore: cast_nullable_to_non_nullable
               as double?,
+      netCost: freezed == netCost
+          ? _value.netCost
+          : netCost // ignore: cast_nullable_to_non_nullable
+              as double?,
       stockValue: freezed == stockValue
           ? _value.stockValue
           : stockValue // ignore: cast_nullable_to_non_nullable
@@ -852,6 +859,7 @@ abstract class _$$StockTransferDetailsImplCopyWith<$Res>
       double? retailRate,
       double? cost,
       double? sellValue,
+      double? netCost,
       double? stockValue,
       String? rowguid,
       String? companyIDPK});
@@ -883,6 +891,7 @@ class __$$StockTransferDetailsImplCopyWithImpl<$Res>
     Object? retailRate = freezed,
     Object? cost = freezed,
     Object? sellValue = freezed,
+    Object? netCost = freezed,
     Object? stockValue = freezed,
     Object? rowguid = freezed,
     Object? companyIDPK = freezed,
@@ -940,6 +949,10 @@ class __$$StockTransferDetailsImplCopyWithImpl<$Res>
           ? _value.sellValue
           : sellValue // ignore: cast_nullable_to_non_nullable
               as double?,
+      netCost: freezed == netCost
+          ? _value.netCost
+          : netCost // ignore: cast_nullable_to_non_nullable
+              as double?,
       stockValue: freezed == stockValue
           ? _value.stockValue
           : stockValue // ignore: cast_nullable_to_non_nullable
@@ -973,6 +986,7 @@ class _$StockTransferDetailsImpl implements _StockTransferDetails {
       this.retailRate,
       this.cost,
       this.sellValue,
+      this.netCost,
       this.stockValue,
       this.rowguid,
       this.companyIDPK});
@@ -1007,6 +1021,8 @@ class _$StockTransferDetailsImpl implements _StockTransferDetails {
   @override
   final double? sellValue;
   @override
+  final double? netCost;
+  @override
   final double? stockValue;
   @override
   final String? rowguid;
@@ -1015,7 +1031,7 @@ class _$StockTransferDetailsImpl implements _StockTransferDetails {
 
   @override
   String toString() {
-    return 'StockTransferDetails(stockTransferIDPK: $stockTransferIDPK, itemIDPK: $itemIDPK, barcode: $barcode, itemCode: $itemCode, itemName: $itemName, unit: $unit, currentStock: $currentStock, description: $description, requestedQty: $requestedQty, transferQty: $transferQty, retailRate: $retailRate, cost: $cost, sellValue: $sellValue, stockValue: $stockValue, rowguid: $rowguid, companyIDPK: $companyIDPK)';
+    return 'StockTransferDetails(stockTransferIDPK: $stockTransferIDPK, itemIDPK: $itemIDPK, barcode: $barcode, itemCode: $itemCode, itemName: $itemName, unit: $unit, currentStock: $currentStock, description: $description, requestedQty: $requestedQty, transferQty: $transferQty, retailRate: $retailRate, cost: $cost, sellValue: $sellValue, netCost: $netCost, stockValue: $stockValue, rowguid: $rowguid, companyIDPK: $companyIDPK)';
   }
 
   @override
@@ -1046,6 +1062,7 @@ class _$StockTransferDetailsImpl implements _StockTransferDetails {
             (identical(other.cost, cost) || other.cost == cost) &&
             (identical(other.sellValue, sellValue) ||
                 other.sellValue == sellValue) &&
+            (identical(other.netCost, netCost) || other.netCost == netCost) &&
             (identical(other.stockValue, stockValue) ||
                 other.stockValue == stockValue) &&
             (identical(other.rowguid, rowguid) || other.rowguid == rowguid) &&
@@ -1070,6 +1087,7 @@ class _$StockTransferDetailsImpl implements _StockTransferDetails {
       retailRate,
       cost,
       sellValue,
+      netCost,
       stockValue,
       rowguid,
       companyIDPK);
@@ -1107,6 +1125,7 @@ abstract class _StockTransferDetails implements StockTransferDetails {
       final double? retailRate,
       final double? cost,
       final double? sellValue,
+      final double? netCost,
       final double? stockValue,
       final String? rowguid,
       final String? companyIDPK}) = _$StockTransferDetailsImpl;
@@ -1140,6 +1159,8 @@ abstract class _StockTransferDetails implements StockTransferDetails {
   double? get cost;
   @override
   double? get sellValue;
+  @override
+  double? get netCost;
   @override
   double? get stockValue;
   @override

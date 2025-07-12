@@ -1,6 +1,7 @@
 import 'package:easy_vat_v2/app/core/error/failure.dart';
 import 'package:easy_vat_v2/app/core/usecase/no_params.dart';
 import 'package:easy_vat_v2/app/features/store/data/repository/store_repository_impl.dart';
+import 'package:easy_vat_v2/app/features/store/domain/entities/store_entity.dart';
 import 'package:easy_vat_v2/app/features/store/domain/repositories/store_repository.dart';
 import 'package:easy_vat_v2/app/features/store/domain/usecase/get_store_usecase.dart';
 import 'package:easy_vat_v2/app/features/store/presentation/providers/store_state.dart';
@@ -26,9 +27,22 @@ class StoreNotifier extends StateNotifier<StoreState> {
     state = StoreState.loading();
     try {
       final result = await getStoreUsecase.call(params: NoParams());
-      result.fold((l) => state = StoreState.error(l.message), (r) {
-        state = StoreState.loaded(storeList: r);
-      });
+      result.fold(
+        (l) => state = StoreState.error(l.message),
+        (r) {
+          if (r.isEmpty) {
+            state = StoreState.loaded(storeList: r, selectedStore: null);
+          } else {
+            final stores = r.cast<StoreEntity>();
+            final defaultStore = stores.firstWhere(
+              (store) => store.isDefaultStore == true,
+              orElse: () => stores.first,
+            );
+            state = StoreState.loaded(
+                storeList: stores, selectedStore: defaultStore);
+          }
+        },
+      );
     } on Failure catch (e) {
       state = StoreState.error(e.toString());
     }

@@ -16,11 +16,15 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$StockTransferState {
+  List<StockTransferCartEntity>? get itemList =>
+      throw _privateConstructorUsedError;
+  double get totalNetCost => throw _privateConstructorUsedError;
+  double get totalSellValue => throw _privateConstructorUsedError;
   String? get stockTransferNo => throw _privateConstructorUsedError;
   String? get refNo => throw _privateConstructorUsedError;
-  DateTime get stockTransferDate => throw _privateConstructorUsedError;
+  DateTime? get stockTransferDate => throw _privateConstructorUsedError;
   String? get notes => throw _privateConstructorUsedError;
-  bool get isForUpdate => throw _privateConstructorUsedError;
+  bool? get isForUpdate => throw _privateConstructorUsedError;
   bool get isTaxEnabled => throw _privateConstructorUsedError;
   StoreEntity? get toStore => throw _privateConstructorUsedError;
   StoreEntity? get fromStore => throw _privateConstructorUsedError;
@@ -39,11 +43,14 @@ abstract class $StockTransferStateCopyWith<$Res> {
       _$StockTransferStateCopyWithImpl<$Res, StockTransferState>;
   @useResult
   $Res call(
-      {String? stockTransferNo,
+      {List<StockTransferCartEntity>? itemList,
+      double totalNetCost,
+      double totalSellValue,
+      String? stockTransferNo,
       String? refNo,
-      DateTime stockTransferDate,
+      DateTime? stockTransferDate,
       String? notes,
-      bool isForUpdate,
+      bool? isForUpdate,
       bool isTaxEnabled,
       StoreEntity? toStore,
       StoreEntity? fromStore});
@@ -64,16 +71,31 @@ class _$StockTransferStateCopyWithImpl<$Res, $Val extends StockTransferState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? itemList = freezed,
+    Object? totalNetCost = null,
+    Object? totalSellValue = null,
     Object? stockTransferNo = freezed,
     Object? refNo = freezed,
-    Object? stockTransferDate = null,
+    Object? stockTransferDate = freezed,
     Object? notes = freezed,
-    Object? isForUpdate = null,
+    Object? isForUpdate = freezed,
     Object? isTaxEnabled = null,
     Object? toStore = freezed,
     Object? fromStore = freezed,
   }) {
     return _then(_value.copyWith(
+      itemList: freezed == itemList
+          ? _value.itemList
+          : itemList // ignore: cast_nullable_to_non_nullable
+              as List<StockTransferCartEntity>?,
+      totalNetCost: null == totalNetCost
+          ? _value.totalNetCost
+          : totalNetCost // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalSellValue: null == totalSellValue
+          ? _value.totalSellValue
+          : totalSellValue // ignore: cast_nullable_to_non_nullable
+              as double,
       stockTransferNo: freezed == stockTransferNo
           ? _value.stockTransferNo
           : stockTransferNo // ignore: cast_nullable_to_non_nullable
@@ -82,18 +104,18 @@ class _$StockTransferStateCopyWithImpl<$Res, $Val extends StockTransferState>
           ? _value.refNo
           : refNo // ignore: cast_nullable_to_non_nullable
               as String?,
-      stockTransferDate: null == stockTransferDate
+      stockTransferDate: freezed == stockTransferDate
           ? _value.stockTransferDate
           : stockTransferDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as String?,
-      isForUpdate: null == isForUpdate
+      isForUpdate: freezed == isForUpdate
           ? _value.isForUpdate
           : isForUpdate // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       isTaxEnabled: null == isTaxEnabled
           ? _value.isTaxEnabled
           : isTaxEnabled // ignore: cast_nullable_to_non_nullable
@@ -119,11 +141,14 @@ abstract class _$$StockTransferStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? stockTransferNo,
+      {List<StockTransferCartEntity>? itemList,
+      double totalNetCost,
+      double totalSellValue,
+      String? stockTransferNo,
       String? refNo,
-      DateTime stockTransferDate,
+      DateTime? stockTransferDate,
       String? notes,
-      bool isForUpdate,
+      bool? isForUpdate,
       bool isTaxEnabled,
       StoreEntity? toStore,
       StoreEntity? fromStore});
@@ -142,16 +167,31 @@ class __$$StockTransferStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? itemList = freezed,
+    Object? totalNetCost = null,
+    Object? totalSellValue = null,
     Object? stockTransferNo = freezed,
     Object? refNo = freezed,
-    Object? stockTransferDate = null,
+    Object? stockTransferDate = freezed,
     Object? notes = freezed,
-    Object? isForUpdate = null,
+    Object? isForUpdate = freezed,
     Object? isTaxEnabled = null,
     Object? toStore = freezed,
     Object? fromStore = freezed,
   }) {
     return _then(_$StockTransferStateImpl(
+      itemList: freezed == itemList
+          ? _value._itemList
+          : itemList // ignore: cast_nullable_to_non_nullable
+              as List<StockTransferCartEntity>?,
+      totalNetCost: null == totalNetCost
+          ? _value.totalNetCost
+          : totalNetCost // ignore: cast_nullable_to_non_nullable
+              as double,
+      totalSellValue: null == totalSellValue
+          ? _value.totalSellValue
+          : totalSellValue // ignore: cast_nullable_to_non_nullable
+              as double,
       stockTransferNo: freezed == stockTransferNo
           ? _value.stockTransferNo
           : stockTransferNo // ignore: cast_nullable_to_non_nullable
@@ -160,18 +200,18 @@ class __$$StockTransferStateImplCopyWithImpl<$Res>
           ? _value.refNo
           : refNo // ignore: cast_nullable_to_non_nullable
               as String?,
-      stockTransferDate: null == stockTransferDate
+      stockTransferDate: freezed == stockTransferDate
           ? _value.stockTransferDate
           : stockTransferDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as DateTime?,
       notes: freezed == notes
           ? _value.notes
           : notes // ignore: cast_nullable_to_non_nullable
               as String?,
-      isForUpdate: null == isForUpdate
+      isForUpdate: freezed == isForUpdate
           ? _value.isForUpdate
           : isForUpdate // ignore: cast_nullable_to_non_nullable
-              as bool,
+              as bool?,
       isTaxEnabled: null == isTaxEnabled
           ? _value.isTaxEnabled
           : isTaxEnabled // ignore: cast_nullable_to_non_nullable
@@ -192,25 +232,43 @@ class __$$StockTransferStateImplCopyWithImpl<$Res>
 
 class _$StockTransferStateImpl implements _StockTransferState {
   const _$StockTransferStateImpl(
-      {this.stockTransferNo,
+      {final List<StockTransferCartEntity>? itemList,
+      required this.totalNetCost,
+      required this.totalSellValue,
+      this.stockTransferNo,
       this.refNo,
-      required this.stockTransferDate,
+      this.stockTransferDate,
       this.notes,
-      required this.isForUpdate,
+      this.isForUpdate,
       required this.isTaxEnabled,
       this.toStore,
-      this.fromStore});
+      this.fromStore})
+      : _itemList = itemList;
 
+  final List<StockTransferCartEntity>? _itemList;
+  @override
+  List<StockTransferCartEntity>? get itemList {
+    final value = _itemList;
+    if (value == null) return null;
+    if (_itemList is EqualUnmodifiableListView) return _itemList;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
+  final double totalNetCost;
+  @override
+  final double totalSellValue;
   @override
   final String? stockTransferNo;
   @override
   final String? refNo;
   @override
-  final DateTime stockTransferDate;
+  final DateTime? stockTransferDate;
   @override
   final String? notes;
   @override
-  final bool isForUpdate;
+  final bool? isForUpdate;
   @override
   final bool isTaxEnabled;
   @override
@@ -220,7 +278,7 @@ class _$StockTransferStateImpl implements _StockTransferState {
 
   @override
   String toString() {
-    return 'StockTransferState(stockTransferNo: $stockTransferNo, refNo: $refNo, stockTransferDate: $stockTransferDate, notes: $notes, isForUpdate: $isForUpdate, isTaxEnabled: $isTaxEnabled, toStore: $toStore, fromStore: $fromStore)';
+    return 'StockTransferState(itemList: $itemList, totalNetCost: $totalNetCost, totalSellValue: $totalSellValue, stockTransferNo: $stockTransferNo, refNo: $refNo, stockTransferDate: $stockTransferDate, notes: $notes, isForUpdate: $isForUpdate, isTaxEnabled: $isTaxEnabled, toStore: $toStore, fromStore: $fromStore)';
   }
 
   @override
@@ -228,6 +286,11 @@ class _$StockTransferStateImpl implements _StockTransferState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$StockTransferStateImpl &&
+            const DeepCollectionEquality().equals(other._itemList, _itemList) &&
+            (identical(other.totalNetCost, totalNetCost) ||
+                other.totalNetCost == totalNetCost) &&
+            (identical(other.totalSellValue, totalSellValue) ||
+                other.totalSellValue == totalSellValue) &&
             (identical(other.stockTransferNo, stockTransferNo) ||
                 other.stockTransferNo == stockTransferNo) &&
             (identical(other.refNo, refNo) || other.refNo == refNo) &&
@@ -244,8 +307,19 @@ class _$StockTransferStateImpl implements _StockTransferState {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, stockTransferNo, refNo,
-      stockTransferDate, notes, isForUpdate, isTaxEnabled, toStore, fromStore);
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(_itemList),
+      totalNetCost,
+      totalSellValue,
+      stockTransferNo,
+      refNo,
+      stockTransferDate,
+      notes,
+      isForUpdate,
+      isTaxEnabled,
+      toStore,
+      fromStore);
 
   /// Create a copy of StockTransferState
   /// with the given fields replaced by the non-null parameter values.
@@ -259,25 +333,34 @@ class _$StockTransferStateImpl implements _StockTransferState {
 
 abstract class _StockTransferState implements StockTransferState {
   const factory _StockTransferState(
-      {final String? stockTransferNo,
+      {final List<StockTransferCartEntity>? itemList,
+      required final double totalNetCost,
+      required final double totalSellValue,
+      final String? stockTransferNo,
       final String? refNo,
-      required final DateTime stockTransferDate,
+      final DateTime? stockTransferDate,
       final String? notes,
-      required final bool isForUpdate,
+      final bool? isForUpdate,
       required final bool isTaxEnabled,
       final StoreEntity? toStore,
       final StoreEntity? fromStore}) = _$StockTransferStateImpl;
 
   @override
+  List<StockTransferCartEntity>? get itemList;
+  @override
+  double get totalNetCost;
+  @override
+  double get totalSellValue;
+  @override
   String? get stockTransferNo;
   @override
   String? get refNo;
   @override
-  DateTime get stockTransferDate;
+  DateTime? get stockTransferDate;
   @override
   String? get notes;
   @override
-  bool get isForUpdate;
+  bool? get isForUpdate;
   @override
   bool get isTaxEnabled;
   @override

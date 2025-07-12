@@ -515,18 +515,39 @@ class BarcodeScannerRoute extends _i40.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.CartScreen]
-class CartRoute extends _i40.PageRouteInfo<void> {
-  const CartRoute({List<_i40.PageRouteInfo>? children})
-    : super(CartRoute.name, initialChildren: children);
+class CartRoute extends _i40.PageRouteInfo<CartRouteArgs> {
+  CartRoute({
+    _i41.Key? key,
+    required _i12.CartScreenType screenType,
+    List<_i40.PageRouteInfo>? children,
+  }) : super(
+         CartRoute.name,
+         args: CartRouteArgs(key: key, screenType: screenType),
+         initialChildren: children,
+       );
 
   static const String name = 'CartRoute';
 
   static _i40.PageInfo page = _i40.PageInfo(
     name,
     builder: (data) {
-      return const _i12.CartScreen();
+      final args = data.argsAs<CartRouteArgs>();
+      return _i12.CartScreen(key: args.key, screenType: args.screenType);
     },
   );
+}
+
+class CartRouteArgs {
+  const CartRouteArgs({this.key, required this.screenType});
+
+  final _i41.Key? key;
+
+  final _i12.CartScreenType screenType;
+
+  @override
+  String toString() {
+    return 'CartRouteArgs{key: $key, screenType: $screenType}';
+  }
 }
 
 /// generated route for

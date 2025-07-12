@@ -51,6 +51,7 @@ class StockTransferDetails with _$StockTransferDetails {
     double? retailRate,
     double? cost,
     double? sellValue,
+    double? netCost,
     double? stockValue,
     String? rowguid,
     String? companyIDPK,

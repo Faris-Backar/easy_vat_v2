@@ -12,6 +12,7 @@ import 'package:easy_vat_v2/app/features/stock_transfer/domain/usecase/params/st
 import 'package:easy_vat_v2/app/features/stock_transfer/presentation/providers/delete_stock_transfer/delete_stock_transfer_notifier.dart';
 import 'package:easy_vat_v2/app/features/stock_transfer/presentation/providers/fetch_stock_transfer/fetch_stock_transfer_notifier.dart';
 import 'package:easy_vat_v2/app/features/stock_transfer/presentation/providers/fetch_stock_transfer/fetch_stock_transfer_state.dart';
+import 'package:easy_vat_v2/app/features/stock_transfer/presentation/providers/stock_transfer/stock_transfer_notifier.dart';
 import 'package:easy_vat_v2/app/features/stock_transfer/presentation/widgets/stock_transfer_appbar.dart';
 import 'package:easy_vat_v2/app/features/stock_transfer/presentation/widgets/stock_transfer_card.dart';
 import 'package:easy_vat_v2/app/features/store/presentation/providers/store_notifier.dart';
@@ -61,7 +62,7 @@ class _StockTransferScreenState extends ConsumerState<StockTransferScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final stockTransferState = ref.watch();
+    final stockTransferState = ref.watch(fetchStockTransferNotifierProvider);
     return Scaffold(
       appBar: StockTransferAppbar(
           searchController: _searchTextController,
@@ -163,7 +164,18 @@ class _StockTransferScreenState extends ConsumerState<StockTransferScreen> {
                                 iconColor: AppUtils.isDarkMode(context)
                                     ? context.onPrimaryColor
                                     : null,
-                                onTap: () async {}),
+                                onTap: () async {
+                                  await ref
+                                      .read(stockTransferProvider.notifier)
+                                      .reinsertStockTransferForm(
+                                          stockTransfer, ref);
+                                  if (mounted) {
+                                    context.router.push(
+                                        AddNewStockTransferRoute(
+                                            title: context.translate(AppStrings
+                                                .addNewStockTransfer)));
+                                  }
+                                }),
                           )
                         ]),
                         startActionPane: ActionPane(
@@ -230,10 +242,20 @@ class _StockTransferScreenState extends ConsumerState<StockTransferScreen> {
                         color:
                             context.defaultTextColor.withValues(alpha: 0.32)),
                   ),
-                  Text(
-                    "0.0",
-                    style: context.textTheme.bodyMedium
-                        ?.copyWith(fontSize: 17, fontWeight: FontWeight.w600),
+                  stockTransferState.maybeWhen(
+                    success: (stockTransfer, totalAmount) => Text(
+                      totalAmount?.toStringAsFixed(2) ?? "0.00",
+                      style: context.textTheme.bodyMedium
+                          ?.copyWith(fontSize: 17, fontWeight: FontWeight.w600),
+                    ),
+                    orElse: () => Text(
+                      ref
+                          .watch(stockTransferProvider)
+                          .totalNetCost
+                          .toStringAsFixed(2),
+                      style: context.textTheme.bodyLarge
+                          ?.copyWith(fontSize: 17, fontWeight: FontWeight.w600),
+                    ),
                   )
                 ],
               ),

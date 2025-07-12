@@ -269,6 +269,12 @@
    "deleteStockTransferConfirmationMessage": "تم حذف نقل الأسهم بنجاح",
    "barcodeNo": "رقم الباركود",
    "totalSellValue": "إجمالي قيمة البيع",
-   "totalNetCost": "إجمالي التكلفة الصافية"
-
+   "totalNetCost": "إجمالي التكلفة الصافية",
+   "requestedQty": "الكمية المطلوبة",
+   "transferQty": "كمية النقل",
+   "retailRate": "سعر التجزئة",
+   "netCost": "التكلفة الصافية",
+  "sellValue": "بيع القيمة",
+  "selectFromStore": "اختر من المتجر",
+  "selectToStore": "حدد للتخزين"
 }

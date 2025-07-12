@@ -1,6 +1,8 @@
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/stock_transfer/presentation/providers/stock_transfer/stock_transfer_notifier.dart';
+import 'package:easy_vat_v2/app/features/store/domain/entities/store_entity.dart';
 import 'package:easy_vat_v2/app/features/store/presentation/providers/store_notifier.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/date_picker_text_field.dart';
@@ -12,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class AddNewStockTransferForm extends ConsumerStatefulWidget {
   final TextEditingController stockTransferNoController;
   final TextEditingController refNoController;
+  final TextEditingController noteController;
   final ValueNotifier<String?> fromStoreNotifier;
   final ValueNotifier<String?> toStoreNotifier;
   const AddNewStockTransferForm(
@@ -19,6 +22,7 @@ class AddNewStockTransferForm extends ConsumerStatefulWidget {
       required this.stockTransferNoController,
       required this.refNoController,
       required this.fromStoreNotifier,
+      required this.noteController,
       required this.toStoreNotifier});
 
   @override
@@ -28,15 +32,22 @@ class AddNewStockTransferForm extends ConsumerStatefulWidget {
 
 class _AddNewStockTransferFormState
     extends ConsumerState<AddNewStockTransferForm> {
+  List<StoreEntity> _storeList = [];
   @override
   void initState() {
     super.initState();
+
+    final cart = ref.read(stockTransferProvider);
+    widget.stockTransferNoController.text = cart.stockTransferNo ?? "";
+    widget.refNoController.text = cart.refNo ?? "";
+    widget.noteController.text = cart.notes ?? "";
+    widget.fromStoreNotifier.value = cart.fromStore?.storeName;
+    widget.toStoreNotifier.value = cart.toStore?.storeName;
   }
 
   @override
   Widget build(BuildContext context) {
     final storeState = ref.watch(storeProvider);
-
     return Column(
       children: [
         Row(
@@ -78,29 +89,34 @@ class _AddNewStockTransferFormState
                   SizedBox(height: 5),
                   storeState.when(
                     initial: () => const SizedBox.shrink(),
-                    loading: () => const CircularProgressIndicator.adaptive(),
+                    loading: () => const Center(
+                        child: CircularProgressIndicator.adaptive()),
                     error: (msg) => Text("Error: $msg"),
-                    loaded: (storeList) {
-                      final storeNames = storeList
-                          .map((store) => store.storeName ?? "")
-                          .toList();
+                    loaded: (stores, selectedStore) {
+                      _storeList = stores;
 
-                      if (widget.fromStoreNotifier.value == null &&
-                          storeNames.isNotEmpty) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          widget.fromStoreNotifier.value = storeNames.first;
-                        });
-                      }
+                      final storeNames =
+                          stores.map((store) => store.storeName ?? "").toList();
 
                       return DropdownField(
                         label: context.translate(AppStrings.fromStore),
                         valueNotifier: widget.fromStoreNotifier,
                         items: storeNames,
+                        hint: context.translate(AppStrings.selectFromStore),
                         backgroundColor: AppUtils.isDarkMode(context)
                             ? context.colorScheme.tertiaryContainer
                             : context.surfaceColor,
-                        onChanged: (value) {
-                          widget.fromStoreNotifier.value = value;
+                        onChanged: (selectedName) {
+                          widget.fromStoreNotifier.value = selectedName;
+
+                          final selectedStore = _storeList.firstWhere(
+                            (store) => store.storeName == selectedName,
+                            orElse: () => StoreEntity(),
+                          );
+
+                          ref
+                              .read(stockTransferProvider.notifier)
+                              .setFromStore(selectedStore);
                         },
                       );
                     },
@@ -110,37 +126,61 @@ class _AddNewStockTransferFormState
                     initial: () => const SizedBox.shrink(),
                     loading: () => const CircularProgressIndicator.adaptive(),
                     error: (msg) => Text("Error: $msg"),
-                    loaded: (storeList) {
-                      final storeNames = storeList
-                          .map((store) => store.storeName ?? "")
-                          .toList();
+                    loaded: (stores, _) {
+                      _storeList = stores;
 
-                      if (widget.toStoreNotifier.value == null &&
-                          storeNames.isNotEmpty) {
-                        WidgetsBinding.instance.addPostFrameCallback((_) {
-                          widget.toStoreNotifier.value = storeNames.first;
-                        });
-                      }
+                      final storeNames =
+                          stores.map((store) => store.storeName ?? "").toList();
 
                       return DropdownField(
                         label: context.translate(AppStrings.toStore),
                         valueNotifier: widget.toStoreNotifier,
                         items: storeNames,
+                        hint: context.translate(AppStrings.selectToStore),
                         backgroundColor: AppUtils.isDarkMode(context)
                             ? context.colorScheme.tertiaryContainer
                             : context.surfaceColor,
-                        onChanged: (value) {
-                          widget.toStoreNotifier.value = value;
+                        onChanged: (selectedName) {
+                          widget.toStoreNotifier.value = selectedName;
+
+                          final selectedStore = _storeList.firstWhere(
+                            (store) => store.storeName == selectedName,
+                            orElse: () => StoreEntity(),
+                          );
+
+                          ref
+                              .watch(stockTransferProvider.notifier)
+                              .setToStore(selectedStore);
                         },
                       );
                     },
                   ),
                 ],
               ),
-            )
+            ),
           ],
-        )
+        ),
       ],
     );
+  }
+
+  StoreEntity? getSelectedFromStore() {
+    try {
+      return _storeList.firstWhere(
+        (store) => store.storeName == widget.fromStoreNotifier.value,
+      );
+    } catch (e) {
+      return null;
+    }
+  }
+
+  StoreEntity? getSelectedToStore() {
+    try {
+      return _storeList.firstWhere(
+        (store) => store.storeName == widget.toStoreNotifier.value,
+      );
+    } catch (e) {
+      return null;
+    }
   }
 }

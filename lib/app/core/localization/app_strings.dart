@@ -286,4 +286,11 @@ class AppStrings {
   static const String barcodeNo = "barcodeNo";
   static const String totalSellValue = "totalSellValue";
   static const String totalNetCost = "totalNetCost";
+  static const String requestedQty = "requestedQty";
+  static const String transferQty = "transferQty";
+  static const String retailRate = "retailRate";
+  static const String netCost = "netCost";
+  static const String sellValue = "sellValue";
+  static const String selectFromStore = "selectFromStore";
+  static const String selectToStore = "selectToStore";
 }

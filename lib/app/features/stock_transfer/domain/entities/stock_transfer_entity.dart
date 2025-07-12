@@ -70,6 +70,7 @@ abstract class StockTransferDetailsEntity {
   final double? transferQty;
   final double? retailRate;
   final double? cost;
+  final double? netCost;
   final double? sellValue;
   final double? stockValue;
   final String? rowguid;
@@ -90,6 +91,7 @@ abstract class StockTransferDetailsEntity {
       this.cost,
       this.sellValue,
       this.stockValue,
+      this.netCost,
       this.rowguid,
       this.companyIDPK,
       this.subItems});
