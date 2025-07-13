@@ -1,11 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/contra/domain/usecase/params/contra_params.dart';
+import 'package:easy_vat_v2/app/features/contra/presentation/providers/contra/contra_notifier.dart';
 import 'package:easy_vat_v2/app/features/contra/presentation/providers/contra_cart/contra_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/contra/presentation/providers/create_contra/create_contra_notifier.dart';
 import 'package:easy_vat_v2/app/features/contra/presentation/providers/update_contra/update_contra_notifier.dart';
 import 'package:easy_vat_v2/app/features/contra/presentation/widgets/contra_bottom_model_sheet.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_notifier.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_state.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
@@ -75,6 +79,12 @@ class _AddContraFooterWidgetState extends State<AddContraFooterWidget> {
                               .read(contraCartProvider.notifier)
                               .clearContraCart();
                           context.router.popForced();
+                          ref.read(contraNotifierProvider.notifier).fetchContra(
+                              params: ContraParams(
+                                  contraIDPK: PrefResources.emptyGuid,
+                                  fromDate:
+                                      ref.read(dateRangeProvider).fromDate,
+                                  toDate: ref.read(dateRangeProvider).toDate));
                         },
                         failure: (message) => ScaffoldMessenger.of(context)
                             .showSnackBar(
@@ -94,6 +104,12 @@ class _AddContraFooterWidgetState extends State<AddContraFooterWidget> {
                               .read(contraCartProvider.notifier)
                               .clearContraCart();
                           context.router.popForced();
+                          ref.read(contraNotifierProvider.notifier).fetchContra(
+                              params: ContraParams(
+                                  contraIDPK: PrefResources.emptyGuid,
+                                  fromDate:
+                                      ref.read(dateRangeProvider).fromDate,
+                                  toDate: ref.read(dateRangeProvider).toDate));
                         },
                         failure: (message) => ScaffoldMessenger.of(context)
                             .showSnackBar(

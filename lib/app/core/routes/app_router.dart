@@ -55,7 +55,11 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: ContraRoute.page, path: contra),
         AutoRoute(page: AddNewContraRoute.page, path: addNewContra),
         AutoRoute(page: DividendRoute.page, path: dividend),
-        AutoRoute(page: AddNewDividendRoute.page, path: addNewDividend)
+        AutoRoute(page: AddNewDividendRoute.page, path: addNewDividend),
+        AutoRoute(page: StockTransferRoute.page, path: stockTransfer),
+        AutoRoute(
+            page: AddNewStockTransferRoute.page,
+            path: addNewStockTransferScreen)
       ];
 
   // Routes constants
@@ -97,6 +101,8 @@ class AppRouter extends RootStackRouter {
   static const String addNewContra = "/addNewContra";
   static const String dividend = "/dividend";
   static const String addNewDividend = "/addNewDividend";
+  static const String stockTransfer = "/stockTransfer";
+  static const String addNewStockTransferScreen = "/addNewStockTransferScreen";
 }
 
 class AuthGuard extends AutoRouteGuard {

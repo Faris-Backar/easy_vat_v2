@@ -3,11 +3,15 @@ import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/expense_bottom_modal_sheet.dart';
+import 'package:easy_vat_v2/app/features/expense/domain/usecase/params/expense_params.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/create_expense/create_expense_notifier.dart';
+import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense/expense_notifier.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/expense_cart/expense_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/expense/presentation/providers/update_expense/update_expense_notifier.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -80,6 +84,16 @@ class _AddExpenseFooterWidgetState extends State<AddExpenseFooterWidget> {
                               .read(expenseCartProvider.notifier)
                               .clearExpenseCart();
                           context.router.popForced();
+                          ref
+                              .read(expenseNotifierProvider.notifier)
+                              .fetchExpenses(
+                                  params: ExpenseParams(
+                                      expenseIDPK: PrefResources.emptyGuid,
+                                      supplierID: PrefResources.emptyGuid,
+                                      fromDate:
+                                          ref.read(dateRangeProvider).fromDate,
+                                      toDate:
+                                          ref.read(dateRangeProvider).toDate));
                         },
                         failure: (message) => ScaffoldMessenger.of(context)
                             .showSnackBar(
@@ -100,6 +114,16 @@ class _AddExpenseFooterWidgetState extends State<AddExpenseFooterWidget> {
                               .read(expenseCartProvider.notifier)
                               .clearExpenseCart();
                           context.router.popForced();
+                          ref
+                              .read(expenseNotifierProvider.notifier)
+                              .fetchExpenses(
+                                  params: ExpenseParams(
+                                      expenseIDPK: PrefResources.emptyGuid,
+                                      supplierID: PrefResources.emptyGuid,
+                                      fromDate:
+                                          ref.read(dateRangeProvider).fromDate,
+                                      toDate:
+                                          ref.read(dateRangeProvider).toDate));
                         },
                         failure: (message) => ScaffoldMessenger.of(context)
                             .showSnackBar(

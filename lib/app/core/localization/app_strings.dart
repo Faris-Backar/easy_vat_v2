@@ -277,6 +277,22 @@ class AppStrings {
   static const String enterTermsAndCondition = "enterTermsAndCondition";
   static const String enterPaymentTerms = "enterPaymentTerms";
   static const String paymentTerms = "paymentTerms";
+  static const String addNewStockTransfer = "addNewStockTransfer";
+  static const String stockTransferNo = "stockTransferNo";
+  static const String fromStore = "fromStore";
+  static const String toStore = "toStore";
+  static const String deleteStockTransferConfirmationMessage =
+      "deleteStockTransferConfirmationMessage";
+  static const String barcodeNo = "barcodeNo";
+  static const String totalSellValue = "totalSellValue";
+  static const String totalNetCost = "totalNetCost";
+  static const String requestedQty = "requestedQty";
+  static const String transferQty = "transferQty";
+  static const String retailRate = "retailRate";
+  static const String netCost = "netCost";
+  static const String sellValue = "sellValue";
+  static const String selectFromStore = "selectFromStore";
+  static const String selectToStore = "selectToStore";
   static const String deliveryMode = "deliveryMode";
   static const String enterDeliveryMode = "enterDeliveryMode";
   static const String enterQuotationNo = "enterQuotationNo";
@@ -288,6 +304,4 @@ class AppStrings {
   static const String enterProjectSite = "enterProjectSite";
   static const String lpoNo = "lpoNo";
   static const String enterLpoNo = "enterLpoNo";
-
-  
 }

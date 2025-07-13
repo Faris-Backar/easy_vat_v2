@@ -6,7 +6,7 @@ import 'package:easy_vat_v2/app/features/contra/presentation/widgets/add_contra_
 import 'package:easy_vat_v2/app/features/contra/presentation/widgets/add_new_contra_form.dart';
 import 'package:easy_vat_v2/app/features/contra/presentation/widgets/contra_amount_splitup_widget.dart';
 import 'package:easy_vat_v2/app/features/contra/presentation/widgets/contra_cart_list.dart';
-import 'package:easy_vat_v2/app/features/ledger/presentation/provider/all_ledgers/all_ledgers_notifier.dart';
+import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_bank_ledgers/cash_bank_ledger_notfier.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,7 +33,9 @@ class _AddNewContraScreenState extends ConsumerState<AddNewContraScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      await ref.read(allLedgerNotifierProvider.notifier).fetchAllLedgers();
+      await ref
+          .read(cashBankLedgerNotifierProvider.notifier)
+          .fetchCashBankLedgers();
     });
   }
 

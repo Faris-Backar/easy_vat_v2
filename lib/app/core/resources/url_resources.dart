@@ -25,8 +25,7 @@ class UrlResources {
   static const String createSalesOrder = "SalesOrder/Insert";
   static const String updateSalesOrder = "SalesOrder/Update";
   static const String deleteSalesOrder = "SalesOrder/Delete";
-    static const String downloadSalesOrder = "SalesOrder/DownloadInvoice";
-
+  static const String downloadSalesOrder = "SalesOrder/DownloadInvoice";
 
   //salesReturn
   static const String getSalesReturn = "SalesReturn/Select/BetweenDate";
@@ -64,6 +63,8 @@ class UrlResources {
   static const String getLedgerAccount = "Ledger/Select/GetIncomeLedger";
   static const String getCapitalLedgerAccount =
       "Ledger/Select/GetCapitalLedger";
+  static const String getCashBankLedgerAccount =
+      "Ledger/Select/GetCashBankLedger";
   static const String getAllLedger = "Ledger/Select/SelectAll";
 
   //salesman
@@ -147,4 +148,14 @@ class UrlResources {
   static const String updateDividend = "Dividend/Update";
   static const String deleteDividend = "Dividend/Delete";
   static const String downloadDividend = "Dividend/DownloadInvoice";
+
+  //store
+  static const String getStore = "Store/Select/SelectAll";
+
+  //stock Transfer
+  static const String getStockTransfer = "StockTransfer/Select/BetweenDate";
+  static const String createStockTransfer = "StockTransfer/Insert";
+  static const String updateStockTransfer = "StockTransfer/Update";
+  static const String deleteStockTransfer = "StockTransfer/Delete";
+  static const String downloadStockTransfer = "StockTransfer/DownloadInvoice";
 }

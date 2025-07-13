@@ -1,8 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/income/domain/usecase/params/income_params.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/providers/create_income/create_income_notifier.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/providers/date_range/date_range_provider.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/providers/income/income_notifier.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/providers/income_cart/income_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/providers/update_income/update_income_notifier.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/income_bottom_modal_sheet.dart';
@@ -75,6 +79,18 @@ class _AddIncomeFooterWidgetState extends State<AddIncomeFooterWidget> {
                                   .read(incomeCartProvider.notifier)
                                   .clearIncomeCart();
                               context.router.popForced();
+                              ref
+                                  .read(incomeNotifierProvider.notifier)
+                                  .fetchIncome(
+                                      params: IncomeParams(
+                                          incomeIDPK: PrefResources.emptyGuid,
+                                          customerID: PrefResources.emptyGuid,
+                                          fromDate: ref
+                                              .read(dateRangeProvider)
+                                              .fromDate,
+                                          toDate: ref
+                                              .read(dateRangeProvider)
+                                              .toDate));
                             },
                             failure: (message) => ScaffoldMessenger.of(context)
                                 .showSnackBar(
@@ -96,6 +112,18 @@ class _AddIncomeFooterWidgetState extends State<AddIncomeFooterWidget> {
                                   .read(incomeCartProvider.notifier)
                                   .clearIncomeCart();
                               context.router.popForced();
+                              ref
+                                  .read(incomeNotifierProvider.notifier)
+                                  .fetchIncome(
+                                      params: IncomeParams(
+                                          incomeIDPK: PrefResources.emptyGuid,
+                                          customerID: PrefResources.emptyGuid,
+                                          fromDate: ref
+                                              .read(dateRangeProvider)
+                                              .fromDate,
+                                          toDate: ref
+                                              .read(dateRangeProvider)
+                                              .toDate));
                             },
                             failure: (message) => ScaffoldMessenger.of(context)
                                 .showSnackBar(

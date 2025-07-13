@@ -2,10 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/credit_note/domain/usecase/params/credit_note_params.dart';
 import 'package:easy_vat_v2/app/features/credit_note/presentation/providers/create_credit_note/create_credit_note_notifier.dart';
+import 'package:easy_vat_v2/app/features/credit_note/presentation/providers/credit_note/credit_note_notifier.dart';
 import 'package:easy_vat_v2/app/features/credit_note/presentation/providers/credit_note_cart/credit_note_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/credit_note/presentation/providers/update_credit_note/update_credit_note_notifier.dart';
 import 'package:easy_vat_v2/app/features/credit_note/presentation/widgets/credit_note_bottom_modal_sheet.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/secondary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
@@ -75,6 +78,16 @@ class _AddCreditFooterWidgetState extends State<AddCreditFooterWidget> {
                                 .read(creditNoteCartProvider.notifier)
                                 .clearCreditNoteCart();
                             context.router.popForced();
+                            ref
+                                .read(creditNoteNotifierProvider.notifier)
+                                .fetchCreditNote(
+                                    params: CreditNoteParams(
+                                        fromDate: ref
+                                            .read(dateRangeProvider)
+                                            .fromDate,
+                                        toDate: ref
+                                            .read(dateRangeProvider)
+                                            .toDate));
                           },
                           failure: (message) => ScaffoldMessenger.of(context)
                               .showSnackBar(
@@ -96,6 +109,16 @@ class _AddCreditFooterWidgetState extends State<AddCreditFooterWidget> {
                                 .read(creditNoteCartProvider.notifier)
                                 .clearCreditNoteCart();
                             context.router.popForced();
+                            ref
+                                .read(creditNoteNotifierProvider.notifier)
+                                .fetchCreditNote(
+                                    params: CreditNoteParams(
+                                        fromDate: ref
+                                            .read(dateRangeProvider)
+                                            .fromDate,
+                                        toDate: ref
+                                            .read(dateRangeProvider)
+                                            .toDate));
                           },
                           failure: (message) => ScaffoldMessenger.of(context)
                               .showSnackBar(
