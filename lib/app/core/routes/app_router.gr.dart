@@ -406,16 +406,11 @@ class AddNewPurchaseRouteArgs {
 class AddNewSalesRoute extends _i38.PageRouteInfo<AddNewSalesRouteArgs> {
   AddNewSalesRoute({
     _i39.Key? key,
-    String? title,
-    required bool isForPurchase,
+    required _i9.SalesType salesType,
     List<_i38.PageRouteInfo>? children,
   }) : super(
          AddNewSalesRoute.name,
-         args: AddNewSalesRouteArgs(
-           key: key,
-           title: title,
-           isForPurchase: isForPurchase,
-         ),
+         args: AddNewSalesRouteArgs(key: key, salesType: salesType),
          initialChildren: children,
        );
 
@@ -425,31 +420,21 @@ class AddNewSalesRoute extends _i38.PageRouteInfo<AddNewSalesRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<AddNewSalesRouteArgs>();
-      return _i9.AddNewSalesScreen(
-        key: args.key,
-        title: args.title,
-        isForPurchase: args.isForPurchase,
-      );
+      return _i9.AddNewSalesScreen(key: args.key, salesType: args.salesType);
     },
   );
 }
 
 class AddNewSalesRouteArgs {
-  const AddNewSalesRouteArgs({
-    this.key,
-    this.title,
-    required this.isForPurchase,
-  });
+  const AddNewSalesRouteArgs({this.key, required this.salesType});
 
   final _i39.Key? key;
 
-  final String? title;
-
-  final bool isForPurchase;
+  final _i9.SalesType salesType;
 
   @override
   String toString() {
-    return 'AddNewSalesRouteArgs{key: $key, title: $title, isForPurchase: $isForPurchase}';
+    return 'AddNewSalesRouteArgs{key: $key, salesType: $salesType}';
   }
 }
 

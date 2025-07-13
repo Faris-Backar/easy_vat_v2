@@ -18,6 +18,7 @@ import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/pay
 import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_invoice_model.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/pages/add_new_sales_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sales/delete_sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_invoice/sales_invoice_state.dart';
@@ -206,13 +207,16 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                                 borderRadiusBottomLeft: 10,
                                 borderRadiusTopLeft: 10,
                                 onTap: () async {
-                                  context.router.push(PdfViewerRoute(
+                                  context.router.push(
+                                    PdfViewerRoute(
                                       pdfUrl: UrlResources.downloadSalesInvoice,
                                       queryParameters: {
                                         'SaleIDPK': salesInvoice.saleIdpk,
                                       },
                                       pdfName: salesInvoice.customerName,
-                                      pdfType: PDFType.salesInvoice,),);
+                                      pdfType: PDFType.salesInvoice,
+                                    ),
+                                  );
                                 }),
                           ),
                           Expanded(
@@ -235,9 +239,7 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                                       .reinsertSalesForm(salesInvoice, ref);
                                   if (mounted) {
                                     context.router.push(AddNewSalesRoute(
-                                      isForPurchase: false,
-                                      title: context
-                                          .translate(AppStrings.addNewSales), isForPurchase: false,
+                                      salesType: SalesType.salesInvoice,
                                     ));
                                   }
                                 }),
@@ -329,9 +331,7 @@ class _PosScreenState extends ConsumerState<PosScreen> {
               PrimaryButton(
                 onPressed: () => context.router.push(
                   AddNewSalesRoute(
-                    isForPurchase: false,
-                    title: context.translate(AppStrings.addNewSales),
-                    isForPurchase: false
+                    salesType: SalesType.salesInvoice,
                   ),
                 ),
                 child: Row(

@@ -13,6 +13,7 @@ import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledg
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/pages/add_new_sales_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/date_range/date_range_provider.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sales/delete_sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/fetch_sales_return/fetch_sales_return.dart';
@@ -190,10 +191,7 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
                                           salesReturn, ref);
                                   if (mounted) {
                                     context.router.push(AddNewSalesRoute(
-                                      title: context.translate(
-                                          AppStrings.addNewSalesReturn),
-                                      isForPurchase: false,
-                                    ));
+                                        salesType: SalesType.salesReturn));
                                   }
                                 }),
                           ),
@@ -290,10 +288,7 @@ class _SalesReturnScreenState extends ConsumerState<SalesReturnScreen> {
               ),
               PrimaryButton(
                 onPressed: () => context.router.push(
-                  AddNewSalesRoute(
-                    title: context.translate(AppStrings.addNewSalesReturn),
-                    isForPurchase: false,
-                  ),
+                  AddNewSalesRoute(salesType: SalesType.salesReturn),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,

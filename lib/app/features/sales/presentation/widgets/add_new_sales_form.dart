@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
@@ -58,6 +56,15 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
   final TextEditingController vehicleNoController = TextEditingController();
   final TextEditingController quotationValidityController =
       TextEditingController();
+  final TextEditingController deliveryMethodController =
+      TextEditingController();
+  final TextEditingController quotationNoController = TextEditingController();
+  final TextEditingController shippingAddressCintroller =
+      TextEditingController();
+  final TextEditingController projectSiteController = TextEditingController();
+  final TextEditingController lpoNoController = TextEditingController();
+  final TextEditingController generalNotesController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     // Initialize controllers with values from the sales provider
@@ -71,8 +78,13 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
     generalNoController.text = salesPrvd.generalNo ?? "";
     vehicleNoController.text = salesPrvd.vehicleNo ?? "";
     quotationValidityController.text = salesPrvd.quotationValidity ?? "";
-
-    log("vehicleNo: ${vehicleNoController.text} || ${salesPrvd.vehicleNo} \n QuatationValidity: ${quotationValidityController.text} || ${salesPrvd.quotationValidity}");
+    deliveryMethodController.text = salesPrvd.deliveryMethod ?? "";
+    quotationNoController.text = salesPrvd.quotationNo ?? "";
+    shippingAddressCintroller.text =
+        salesPrvd.selectedCustomer?.shippingAddress ?? "";
+    projectSiteController.text = salesPrvd.projectSite ?? "";
+    lpoNoController.text = salesPrvd.lpoNo ?? "";
+    generalNotesController.text = salesPrvd.generalNo ?? "";
 
     return Column(
       children: [
@@ -169,7 +181,6 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
           ),
           SizedBox(height: 10),
 
-          // 👇 View More Section (Vehicle No + Validity + Description)
           ValueListenableBuilder(
             valueListenable: _viewMoreNotifier,
             builder: (context, isExpanded, _) {
@@ -248,7 +259,182 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
             },
           ),
 
-          // 👇 View More / View Less Toggle Button
+          // 👇 View More / View Less Toggle Button for Sales Quotation
+          InkWell(
+            onTap: () {
+              _viewMoreNotifier.value = !_viewMoreNotifier.value;
+            },
+            child: Container(
+              height: 30,
+              width: double.infinity,
+              padding: const EdgeInsets.all(5.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(4),
+                color: AppUtils.isDarkMode(context)
+                    ? context.colorScheme.tertiaryContainer
+                    : context.colorScheme.secondary.withValues(alpha: 0.2),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    _viewMoreNotifier.value
+                        ? context.translate(AppStrings.viewLess)
+                        : context.translate(AppStrings.viewMore),
+                    style: context.textTheme.bodySmall?.copyWith(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: context.colorScheme.secondary,
+                    ),
+                  ),
+                  Icon(
+                    _viewMoreNotifier.value
+                        ? Icons.keyboard_arrow_up
+                        : Icons.keyboard_arrow_down,
+                    size: 16,
+                    color: context.colorScheme.secondary,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      );
+    } else if (widget.salesType == SalesType.salesOrder) {
+      return Column(
+        children: [
+          SizedBox(height: 10),
+          Row(
+            children: [
+              Expanded(
+                child: CustomTextField(
+                  label: context.translate(AppStrings.deliveryMode),
+                  hint: context.translate(AppStrings.enterDeliveryMode),
+                  height: 38.h,
+                  onChanged: (value) =>
+                      ref.read(salesProvider.notifier).setDeliveryMethod(value),
+                  controller: deliveryMethodController,
+                ),
+              ),
+              SizedBox(width: 10.w),
+              Expanded(
+                child: CustomTextField(
+                  label: context.translate(AppStrings.requestNo),
+                  hint: context.translate(AppStrings.enterRequestNo),
+                  height: 38.h,
+                  onChanged: (value) => ref
+                      .read(salesProvider.notifier)
+                      .setQuotationRequstNo(value),
+                  controller: requestNoController,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          ValueListenableBuilder(
+            valueListenable: _viewMoreNotifier,
+            builder: (context, isExpanded, _) {
+              return AnimatedCrossFade(
+                duration: const Duration(milliseconds: 300),
+                crossFadeState: isExpanded
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond,
+                firstChild: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomTextField(
+                            label: context.translate(AppStrings.quotationNo),
+                            hint:
+                                context.translate(AppStrings.enterQuotationNo),
+                            height: 38.h,
+                            onChanged: (value) => ref
+                                .read(salesProvider.notifier)
+                                .setQuotationNo(value),
+                            controller:
+                                quotationNoController,
+                          ),
+                        ),
+                        SizedBox(width: 10.w),
+                        Expanded(
+                          child: CustomTextField(
+                            label: context.translate(AppStrings.destination),
+                            hint:
+                                context.translate(AppStrings.enterDestination),
+                            height: 38.h,
+                            onChanged: (value) => ref
+                                .read(salesProvider.notifier)
+                                .setShippingAddress(value),
+                            controller: shippingAddressCintroller,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomTextField(
+                            label: context.translate(AppStrings.generalNotes),
+                            hint:
+                                context.translate(AppStrings.enterGeneralNotes),
+                            onChanged: (value) => ref
+                                .read(salesProvider.notifier)
+                                .setGeneralNo(value),
+                            controller: generalNotesController,
+                          ),
+                        ),
+                        SizedBox(width: 10.w),
+                        Expanded(
+                          child: CustomTextField(
+                            label: context.translate(AppStrings.projectSite),
+                            hint:
+                                context.translate(AppStrings.enterProjectSite),
+                            height: 38.h,
+                            onChanged: (value) => ref
+                                .read(salesProvider.notifier)
+                                .setProjectSite(value),
+                            controller: projectSiteController,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: CustomTextField(
+                            label: context.translate(AppStrings.lpoNo),
+                            hint: context.translate(AppStrings.enterLpoNo),
+                            height: 38.h,
+                            onChanged: (value) => ref
+                                .read(salesProvider.notifier)
+                                .setLpoNo(value),
+                            controller: lpoNoController,
+                          ),
+                        ),
+                        SizedBox(width: 10.w),
+                        Expanded(
+                          child: CustomTextField(
+                            label: context.translate(AppStrings.vehicleNo),
+                            hint: context.translate(AppStrings.enterVehicleNo),
+                            height: 38.h,
+                            onChanged: (value) => ref
+                                .read(salesProvider.notifier)
+                                .setVehicleNumber(value),
+                            controller: vehicleNoController,
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                  ],
+                ),
+                secondChild: const SizedBox.shrink(),
+              );
+            },
+          ),
           InkWell(
             onTap: () {
               _viewMoreNotifier.value = !_viewMoreNotifier.value;
@@ -291,8 +477,7 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
       );
     }
 
-    // 👇 Default: Sales Invoice, Return, or Order
-    return _buildDefaultSalesFields(); // Extracted to keep it clean
+    return _buildDefaultSalesFields();
   }
 
   _buildDefaultSalesFields() {

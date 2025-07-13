@@ -277,5 +277,17 @@ class AppStrings {
   static const String enterTermsAndCondition = "enterTermsAndCondition";
   static const String enterPaymentTerms = "enterPaymentTerms";
   static const String paymentTerms = "paymentTerms";
+  static const String deliveryMode = "deliveryMode";
+  static const String enterDeliveryMode = "enterDeliveryMode";
+  static const String enterQuotationNo = "enterQuotationNo";
+  static const String enterDestination = "enterDestination";
+  static const String destination = "destination";
+  static const String enterGeneralNotes = "enterGeneralNotes";
+  static const String generalNotes = "generalNotes";
+  static const String projectSite = "projectSite";
+  static const String enterProjectSite = "enterProjectSite";
+  static const String lpoNo = "lpoNo";
+  static const String enterLpoNo = "enterLpoNo";
+
   
 }

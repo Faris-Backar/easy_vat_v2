@@ -1,3 +1,4 @@
+
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sub_item_entity.dart';
 
 class SalesOrderEntity {

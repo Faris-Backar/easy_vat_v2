@@ -13,6 +13,7 @@ import 'package:easy_vat_v2/app/features/sales/data/model/sales_quotation_model.
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_request_model.dart';
 import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
+import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_order_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_quotation_entity.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_return_entity.dart';
 import 'package:easy_vat_v2/app/features/salesman/domain/entity/sales_man_entity.dart';
@@ -52,6 +53,10 @@ class SalesNotifier extends StateNotifier<SalesState> {
   String projectDescription = "";
   String termsAndCondition = "";
   String paymentTerms = "";
+  String quotationNo = "";
+  String deliveryMethod = "";
+  String projectSite = "";
+  String lpoNo = "";
 
   setSalesNo(String salesNo) {
     this.salesNo = salesNo;
@@ -153,6 +158,26 @@ class SalesNotifier extends StateNotifier<SalesState> {
   setPaymentTerms(String paymentTerms) {
     this.paymentTerms = paymentTerms;
     state = state.copyWith(paymentTerms: paymentTerms);
+  }
+
+  setDeliveryMethod(String deliveryMethod) {
+    this.deliveryMethod = deliveryMethod;
+    state = state.copyWith(deliveryMethod: deliveryMethod);
+  }
+
+  setProjectSite(String projectSite) {
+    this.projectSite = projectSite;
+    state = state.copyWith(projectSite: projectSite);
+  }
+
+  setLpoNo(String lpoNo) {
+    this.lpoNo = lpoNo;
+    state = state.copyWith(lpoNo: lpoNo);
+  }
+
+  setQuotationNo(String quotationNo) {
+    this.quotationNo = quotationNo;
+    state = state.copyWith(quotationNo: quotationNo);
   }
 
   clear() async {
@@ -489,94 +514,181 @@ class SalesNotifier extends StateNotifier<SalesState> {
     cartPrvd.updateState();
   }
 
-  Future<SalesOrderModel> createNewSaleOrder() async {
-    // final companyDetails =
-    //     await AppCredentialPreferenceHelper().getCompanyInfo();
-    // double itemTotalTax = 0.0;
-    // double netTotal = 0.0;
+  Future<SalesOrderModel> createNewSaleOrder(WidgetRef ref) async {
+    double itemTotalTax = 0.0;
+    double netTotal = 0.0;
+    final List<SalesOrderDetailModel> items = [];
+    final userDetailsFromPrefs =
+        await AppCredentialPreferenceHelper().getUserDetails();
+    final cartPrvd = ref.read(cartProvider.notifier);
+    final itemsList = cartPrvd.itemsList;
 
-    // // final uid = Uuid().v8();
-    // final List<SalesOrderDetailModel> items = [];
-    // for (var i = 0; i < itemsList.length; i++) {
-    //   final grossTotal =
-    //       (itemsList[i].item.retailRate ?? 0.0 * itemsList[i].qty);
+    for (var i = 0; i < itemsList.length; i++) {
+      final grossTotal =
+          (itemsList[i].item.retailRate ?? 0.0 * itemsList[i].qty);
 
-    //   final taxAmount = isTaxEnabled
-    //       ? ((itemsList[i].qty * itemsList[i].rate) *
-    //               (itemsList[i].item.taxPercentage ?? 0.0)) /
-    //           100
-    //       : 0.0;
+      final taxAmount = isTaxEnabled
+          ? ((itemsList[i].qty * itemsList[i].rate) *
+                  (itemsList[i].item.taxPercentage ?? 0.0)) /
+              100
+          : 0.0;
 
-    //   totalItemGrossAmont += grossTotal;
-    //   itemTotalTax += taxAmount;
-    //   netTotal += (grossTotal + taxAmount);
+      totalItemGrossAmont += grossTotal;
+      itemTotalTax += taxAmount;
+      netTotal += (grossTotal + taxAmount);
 
-    //   final item = SalesOrderDetailModel(
-    //     itemIdpk: itemsList[i].item.itemIdpk ?? "",
-    //     barcode: itemsList[i].item.barcode ?? "",
-    //     itemCode: itemsList[i].item.itemCode ?? "",
-    //     itemName: itemsList[i].item.itemName ?? "",
-    //     description: itemsList[i].item.description ?? "",
-    //     unit: itemsList[i].unit,
-    //     cost: itemsList[i].cost,
-    //     sellingPrice: itemsList[i].rate,
-    //     taxAmount: taxAmount,
-    //     taxPercentage:
-    //         isTaxEnabled ? (itemsList[i].item.taxPercentage ?? 0.0) : 0.0,
-    //     netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
-    //     projectIdpk: PrefResources.emptyGuid,
-    //     quotationIdpk: PrefResources.emptyGuid,
-    //     salesOrderIdpk: PrefResources.emptyGuid,
-    //     importId: PrefResources.emptyGuid,
-    //     rowguid: PrefResources.emptyGuid,
-    //     subItems: [],
-    //     companyIdpk: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
-    //     grossAmount: grossTotal,
-    //     quantity: itemsList[i].qty,
-    //     suppliersIdpk:
-    //         itemsList[i].item.supplierIdfk ?? PrefResources.emptyGuid,
-    //   );
-    //   items.add(item);
-    // }
+      final item = SalesOrderDetailModel(
+        salesOrderIdpk: salesIdpk,
+        importId: PrefResources.emptyGuid,
+        quotationIdpk: salesIdpk,
+        itemIdpk: itemsList[i].item.itemIdpk ?? "",
+        barcode: itemsList[i].item.barcode ?? "",
+        itemCode: itemsList[i].item.itemCode ?? "",
+        itemName: itemsList[i].item.itemName ?? "",
+        description: itemsList[i].item.description ?? "",
+        unit: itemsList[i].unit,
+        quantity: itemsList[i].qty,
+        cost: itemsList[i].cost,
+        sellingPrice: itemsList[i].rate,
+        grossAmount: grossTotal,
+        taxAmount: taxAmount,
+        projectIdpk: PrefResources.emptyGuid,
+        rowguid: PrefResources.emptyGuid,
+        companyIdpk: userDetailsFromPrefs?.companyInfo?.companyIdpk ??
+            PrefResources.emptyGuid,
+        taxPercentage:
+            isTaxEnabled ? (itemsList[i].item.taxPercentage ?? 0.0) : 0.0,
+        netTotal: grossTotal + (isTaxEnabled ? taxAmount : 0.0),
+        suppliersIdpk: userDetailsFromPrefs?.storeDetails?.storeIdpk ??
+            PrefResources.emptyGuid,
+        subItem: [],
+      );
+      items.add(item);
+    }
 
-    // final newSale = SalesOrderModel(
-    //   lpoNo: "0",
-    //   quotationNo: "0",
-    //   requestNo: "0",
-    //   salesOrderIdpk: uid,
-    //   companyIdpk: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
-    //   customerIdpk: selectedCustomer?.ledgerIdpk ?? PrefResources.emptyGuid,
-    //   salesOrderDate: DateTime.now(),
-    //   createdDate: DateTime.now(),
-    //   createdBy: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    //   modifiedBy: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
-    //   rowguid: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-    //   grossTotal: totalItemGrossAmont,
-    //   dsicount: discount,
-    //   netTotal: netTotal,
-    //   generalNote: notes,
-    //   salesOrderNo: 0,
-    //   deliveryMethod: PrefResources.emptyGuid,
-    //   destination: shippingAddress,
-    //   vehicleNo: "",
-    //   salesmanIdpk: soldBy?.userIdpk ?? PrefResources.emptyGuid,
-    //   projectIdpk: PrefResources.emptyGuid,
-    //   invoiceAddress: shippingAddress,
-    //   deliveryTerms: "",
-    //   paymentTerms: "",
-    //   referenceNo: "0",
-    //   remarks: notes,
-    //   tax: isTaxEnabled
-    //       ? itemTotalTax
-    //       : 0.0, // Only include tax if tax is enabled
-    //   isEditable: true,
-    //   isCanceled: true,
-    //   salesOrderDetails: items,
-    //   shippingAddress: shippingAddress,
-    //   modifiedDate: DateTime.now(),
-    // );
-    final newSale = SalesOrderModel();
+    final newSale = SalesOrderModel(
+        salesOrderIdpk: salesIdpk,
+        createdDate: salesDate,
+        createdBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
+        modifiedBy: userDetailsFromPrefs?.userIdpk ?? PrefResources.emptyGuid,
+        rowguid: PrefResources.emptyGuid,
+        dsicount: cartPrvd.discount,
+        grossTotal: totalItemGrossAmont,
+        referenceNo: refNo,
+        projectIdpk: PrefResources.emptyGuid,
+        remarks: notes,
+        tax: isTaxEnabled ? itemTotalTax : 0.0,
+        companyIdpk: userDetailsFromPrefs?.companyInfo?.companyIdpk ??
+            PrefResources.emptyGuid,
+        customerIdpk: selectedCustomer?.ledgerIdpk ?? PrefResources.emptyGuid,
+        requestNo: quotationRequstNo,
+        vehicleNo: vehicleNumber,
+        quotationNo: salesNo.isNotEmpty ? salesNo : "0",
+        salesmanIdpk: soldBy?.userIdpk ?? PrefResources.emptyGuid,
+        modifiedDate: DateTime.now(),
+        deliveryTerms: termsAndCondition,
+        deliveryMethod: deliveryMethod,
+        destination: shippingAddress,
+        generalNote: generalNo,
+        invoiceAddress: selectedCustomer?.billingAddress ?? "",
+        isCanceled: false,
+        isEditable: true,
+        lpoNo: lpoNo,
+        netTotal: netTotal,
+        salesOrderDate: salesDate,
+        salesOrderDetailsModel: items,
+        salesOrderNo: salesNo.isNotEmpty ? int.parse(salesNo) : 0,
+        shippingAddress: selectedCustomer?.shippingAddress ?? "",
+        paymentTerms: paymentTerms);
     return newSale;
+  }
+
+  reinsertSalesOrderForm(SalesOrderEntity salesOrder, WidgetRef ref) async {
+    final cartPrvd = ref.read(cartProvider.notifier);
+    cartPrvd.clearCart();
+    setEditMode(true);
+    List<CartEntity> updatedItemsList = [];
+    ref.read(customerNotifierProvider.notifier).getCustomer();
+    final customerList = ref.read(customerNotifierProvider).customerList;
+    final selectedCustomer = customerList != null
+        ? customerList.firstWhere((customer) =>
+            customer.ledgerIdpk?.toLowerCase() ==
+            salesOrder.customerIdpk?.toLowerCase())
+        : CustomerEntity(
+            ledgerName: "Cash", ledgerIdpk: salesOrder.customerIdpk);
+
+    final updatedCustomerWithAddress = selectedCustomer.copyWith(
+        billingAddress: salesOrder.invoiceAddress,
+        shippingAddress: salesOrder.shippingAddress);
+    setSalesIdpk(salesOrder.salesOrderIdpk ?? "");
+    setCustomer(updatedCustomerWithAddress);
+    setSalesNo(salesOrder.salesOrderNo?.toString() ?? "");
+    setRefNo(salesOrder.referenceNo ?? "");
+    setSalesDate(salesOrder.salesOrderDate ?? DateTime.now());
+
+    // adding items to cart.
+    if (salesOrder.salesOrderDetails?.isNotEmpty == true) {
+      for (var index = 0;
+          index < salesOrder.salesOrderDetails!.length;
+          index++) {
+        final orderItems = salesOrder.salesOrderDetails![index];
+        final itemEntity = convertOrderItemToItem(orderItems);
+        final priceBeforeTax = cartPrvd.calculateBeforeTax(
+            retailRate: itemEntity.retailRate ?? 0.0,
+            qty: orderItems.quantity?.toDouble() ?? 0.0);
+
+        // Calculate tax based on tax setting
+        final totalTax = isTaxEnabled
+            ? cartPrvd.calculateTotalTax(
+                retailRate: itemEntity.retailRate ?? 0.0,
+                qty: orderItems.quantity?.toDouble() ?? 0.0,
+                taxPercentage: itemEntity.taxPercentage ?? 0.0)
+            : 0.0;
+
+        final grossTotal = cartPrvd.calculateGross(
+            retailRate: itemEntity.retailRate ?? 0.0,
+            qty: orderItems.quantity?.toDouble() ?? 0.0,
+            discount: 0.0);
+
+        final netTotal =
+            cartPrvd.calculateNetTotal(grossTotal: grossTotal, tax: totalTax);
+
+        final cartItem = CartEntity(
+          cartItemId: (index + 1),
+          item: itemEntity,
+          qty: orderItems.quantity?.toDouble() ?? 0.0,
+          rate: itemEntity.retailRate ?? 0.0,
+          cost: itemEntity.cost ?? 0.0,
+          unit: itemEntity.unit ?? "",
+          description: orderItems.description ?? "",
+          discount: 0.0,
+          gross: grossTotal,
+          tax: totalTax,
+          priceBeforeTax: priceBeforeTax,
+          netTotal: netTotal,
+        );
+
+        updatedItemsList.add(cartItem);
+        cartPrvd.getRateSplitUp(item: cartItem);
+
+        cartPrvd.itemsList = updatedItemsList;
+      }
+    }
+    cartPrvd.updateState();
+  }
+
+  ItemEntity convertOrderItemToItem(SalesOrderDetailEntity orderItem) {
+    return ItemEntity(
+      itemIdpk: orderItem.itemIdpk,
+      barcode: orderItem.barcode,
+      itemCode: orderItem.itemCode,
+      itemName: orderItem.itemName,
+      description: orderItem.description,
+      unit: orderItem.unit,
+      cost: orderItem.cost?.toDouble(),
+      retailRate: orderItem.sellingPrice?.toDouble(),
+      taxPercentage: orderItem.taxPercentage?.toDouble(),
+    );
   }
 
   Future<SalesReturnModel> createNewSaleReturn(WidgetRef ref) async {
