@@ -24,8 +24,8 @@ import 'package:easy_vat_v2/gen/assets.gen.dart';
 
 @RoutePage()
 class AddNewSalesScreen extends ConsumerStatefulWidget {
-  final String? title;
-  const AddNewSalesScreen({super.key, this.title, required bool isForPurchase});
+  final SalesType salesType;
+  const AddNewSalesScreen({super.key, required this.salesType});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -76,9 +76,8 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
                   soldByNotifier: soldByNotifier,
                   cashAccountNotifier: cashAccountNotifier,
                   salesAccountNotifier: salesAccountNotifier,
-                  salesType: salesType,
-                  isSalesReturn: widget.title ==
-                      context.translate(AppStrings.addNewSalesReturn),
+                  salesType: widget.salesType,
+                  isSalesReturn: widget.salesType == SalesType.salesReturn,
                 ),
                 SizedBox(
                   height: 10,
@@ -125,11 +124,12 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
       ),
       bottomNavigationBar: SafeArea(
         child: AddSalesFooterWidget(
-            saleNoController: saleNoController,
-            refNoController: refNoController,
-            salesModeNotifier: salesModeNotifier,
-            soldByNotifier: soldByNotifier,
-            salesType: widget.title),
+          saleNoController: saleNoController,
+          refNoController: refNoController,
+          salesModeNotifier: salesModeNotifier,
+          soldByNotifier: soldByNotifier,
+          salesType: widget.salesType,
+        ),
       ),
     );
   }
@@ -171,7 +171,7 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
           icon: Icon(Icons.adaptive.arrow_back),
         );
       }),
-      title: Text(widget.title ?? (context.translate(AppStrings.addNewSales))),
+      title: Text(_getTitle(context)),
       actions: [
         Consumer(builder: (context, ref, child) {
           return IconButton(
@@ -192,16 +192,17 @@ class _AddNewSalesScreenState extends ConsumerState<AddNewSalesScreen> {
     );
   }
 
-  SalesType get salesType {
-    if (widget.title == context.translate(AppStrings.addNewSalesReturn)) {
-      return SalesType.salesReturn;
-    } else if (widget.title ==
-        context.translate(AppStrings.addNewSalesQuatation)) {
-      return SalesType.salesQuotation;
-    } else if (widget.title == context.translate(AppStrings.addNewSalesOrder)) {
-      return SalesType.salesOrder;
+  String _getTitle(BuildContext context) {
+    switch (widget.salesType) {
+      case SalesType.salesReturn:
+        return context.translate(AppStrings.addNewSalesReturn);
+      case SalesType.salesQuotation:
+        return context.translate(AppStrings.addNewSalesQuatation);
+      case SalesType.salesOrder:
+        return context.translate(AppStrings.addNewSalesOrder);
+      default:
+        return context.translate(AppStrings.addNewSales);
     }
-    return SalesType.salesInvoice;
   }
 }
 

@@ -66,28 +66,46 @@ class SubItemModel extends SubItemEntity {
         "isEditable": isEditable,
       };
 
-  // Convert Model to Entity
-  SubItemEntity toEntity() {
-    return SubItemEntity(
-      itemIdpk: itemIdpk,
-      barcode: barcode,
-      itemCode: null, // It seems this field is not present in your model
-      itemName: itemName,
-      description: description,
-      convention: convention,
-      unit: unit,
-      cost: cost,
-      retailRate: retailRate,
-      retailRateWithTax: retailRateWithTax,
-      retailPriceLock: retailPriceLock,
-      wholeSaleRate: wholeSaleRate,
-      wholeSalePriceLock: wholeSalePriceLock,
-      taxPercentage: taxPercentage,
-      currentStock: currentStock,
-      itemNameArabic: itemNameArabic,
-      accessLetter: accessLetter,
-      supplierIdfk: supplierIdfk,
-      isEditable: isEditable,
-    );
-  }
+  factory SubItemModel.fromEntity(SubItemEntity entity) => SubItemModel(
+        itemIdpk: entity.itemIdpk,
+        barcode: entity.barcode,
+        itemName: entity.itemName,
+        description: entity.description,
+        convention: entity.convention,
+        unit: entity.unit,
+        cost: entity.cost,
+        retailRate: entity.retailRate,
+        retailRateWithTax: entity.retailRateWithTax,
+        retailPriceLock: entity.retailPriceLock,
+        wholeSaleRate: entity.wholeSaleRate,
+        wholeSalePriceLock: entity.wholeSalePriceLock,
+        taxPercentage: entity.taxPercentage,
+        currentStock: entity.currentStock,
+        itemNameArabic: entity.itemNameArabic,
+        accessLetter: entity.accessLetter,
+        supplierIdfk: entity.supplierIdfk,
+        isEditable: entity.isEditable,
+      );
+
+  SubItemEntity toEntity() => SubItemEntity(
+        itemIdpk: itemIdpk,
+        barcode: barcode,
+        itemCode: itemCode,
+        itemName: itemName,
+        description: description,
+        convention: convention,
+        unit: unit,
+        cost: cost,
+        retailRate: retailRate,
+        retailRateWithTax: retailRateWithTax,
+        retailPriceLock: retailPriceLock,
+        wholeSaleRate: wholeSaleRate,
+        wholeSalePriceLock: wholeSalePriceLock,
+        taxPercentage: taxPercentage,
+        currentStock: currentStock,
+        itemNameArabic: itemNameArabic,
+        accessLetter: accessLetter,
+        supplierIdfk: supplierIdfk,
+        isEditable: isEditable,
+      );
 }

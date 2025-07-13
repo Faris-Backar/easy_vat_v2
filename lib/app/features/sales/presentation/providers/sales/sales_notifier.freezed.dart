@@ -40,6 +40,9 @@ mixin _$SalesState {
   String? get orderNo => throw _privateConstructorUsedError;
   String? get termsAndCondition => throw _privateConstructorUsedError;
   String? get paymentTerms => throw _privateConstructorUsedError;
+  String? get deliveryMethod => throw _privateConstructorUsedError;
+  String? get projectSite => throw _privateConstructorUsedError;
+  String? get lpoNo => throw _privateConstructorUsedError;
 
   /// Create a copy of SalesState
   /// with the given fields replaced by the non-null parameter values.
@@ -78,7 +81,10 @@ abstract class $SalesStateCopyWith<$Res> {
       String? quotationNo,
       String? orderNo,
       String? termsAndCondition,
-      String? paymentTerms});
+      String? paymentTerms,
+      String? deliveryMethod,
+      String? projectSite,
+      String? lpoNo});
 }
 
 /// @nodoc
@@ -120,6 +126,9 @@ class _$SalesStateCopyWithImpl<$Res, $Val extends SalesState>
     Object? orderNo = freezed,
     Object? termsAndCondition = freezed,
     Object? paymentTerms = freezed,
+    Object? deliveryMethod = freezed,
+    Object? projectSite = freezed,
+    Object? lpoNo = freezed,
   }) {
     return _then(_value.copyWith(
       salesNo: freezed == salesNo
@@ -218,6 +227,18 @@ class _$SalesStateCopyWithImpl<$Res, $Val extends SalesState>
           ? _value.paymentTerms
           : paymentTerms // ignore: cast_nullable_to_non_nullable
               as String?,
+      deliveryMethod: freezed == deliveryMethod
+          ? _value.deliveryMethod
+          : deliveryMethod // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectSite: freezed == projectSite
+          ? _value.projectSite
+          : projectSite // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lpoNo: freezed == lpoNo
+          ? _value.lpoNo
+          : lpoNo // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -254,7 +275,10 @@ abstract class _$$SalesStateImplCopyWith<$Res>
       String? quotationNo,
       String? orderNo,
       String? termsAndCondition,
-      String? paymentTerms});
+      String? paymentTerms,
+      String? deliveryMethod,
+      String? projectSite,
+      String? lpoNo});
 }
 
 /// @nodoc
@@ -294,6 +318,9 @@ class __$$SalesStateImplCopyWithImpl<$Res>
     Object? orderNo = freezed,
     Object? termsAndCondition = freezed,
     Object? paymentTerms = freezed,
+    Object? deliveryMethod = freezed,
+    Object? projectSite = freezed,
+    Object? lpoNo = freezed,
   }) {
     return _then(_$SalesStateImpl(
       salesNo: freezed == salesNo
@@ -392,6 +419,18 @@ class __$$SalesStateImplCopyWithImpl<$Res>
           ? _value.paymentTerms
           : paymentTerms // ignore: cast_nullable_to_non_nullable
               as String?,
+      deliveryMethod: freezed == deliveryMethod
+          ? _value.deliveryMethod
+          : deliveryMethod // ignore: cast_nullable_to_non_nullable
+              as String?,
+      projectSite: freezed == projectSite
+          ? _value.projectSite
+          : projectSite // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lpoNo: freezed == lpoNo
+          ? _value.lpoNo
+          : lpoNo // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -423,7 +462,10 @@ class _$SalesStateImpl implements _SalesState {
       this.quotationNo,
       this.orderNo,
       this.termsAndCondition,
-      this.paymentTerms});
+      this.paymentTerms,
+      this.deliveryMethod,
+      this.projectSite,
+      this.lpoNo});
 
   @override
   final String? salesNo;
@@ -473,10 +515,16 @@ class _$SalesStateImpl implements _SalesState {
   final String? termsAndCondition;
   @override
   final String? paymentTerms;
+  @override
+  final String? deliveryMethod;
+  @override
+  final String? projectSite;
+  @override
+  final String? lpoNo;
 
   @override
   String toString() {
-    return 'SalesState(salesNo: $salesNo, refNo: $refNo, saleDate: $saleDate, selectedCustomer: $selectedCustomer, salesMode: $salesMode, soldBy: $soldBy, cashAccount: $cashAccount, salesAccount: $salesAccount, expenseNo: $expenseNo, paymentMode: $paymentMode, drledger: $drledger, crledger: $crledger, expenseDate: $expenseDate, isForUpdate: $isForUpdate, vehicleNo: $vehicleNo, requestNo: $requestNo, quotationValidity: $quotationValidity, quotationRequstNo: $quotationRequstNo, generalNo: $generalNo, projectDescription: $projectDescription, quotationNo: $quotationNo, orderNo: $orderNo, termsAndCondition: $termsAndCondition, paymentTerms: $paymentTerms)';
+    return 'SalesState(salesNo: $salesNo, refNo: $refNo, saleDate: $saleDate, selectedCustomer: $selectedCustomer, salesMode: $salesMode, soldBy: $soldBy, cashAccount: $cashAccount, salesAccount: $salesAccount, expenseNo: $expenseNo, paymentMode: $paymentMode, drledger: $drledger, crledger: $crledger, expenseDate: $expenseDate, isForUpdate: $isForUpdate, vehicleNo: $vehicleNo, requestNo: $requestNo, quotationValidity: $quotationValidity, quotationRequstNo: $quotationRequstNo, generalNo: $generalNo, projectDescription: $projectDescription, quotationNo: $quotationNo, orderNo: $orderNo, termsAndCondition: $termsAndCondition, paymentTerms: $paymentTerms, deliveryMethod: $deliveryMethod, projectSite: $projectSite, lpoNo: $lpoNo)';
   }
 
   @override
@@ -527,7 +575,12 @@ class _$SalesStateImpl implements _SalesState {
             (identical(other.termsAndCondition, termsAndCondition) ||
                 other.termsAndCondition == termsAndCondition) &&
             (identical(other.paymentTerms, paymentTerms) ||
-                other.paymentTerms == paymentTerms));
+                other.paymentTerms == paymentTerms) &&
+            (identical(other.deliveryMethod, deliveryMethod) ||
+                other.deliveryMethod == deliveryMethod) &&
+            (identical(other.projectSite, projectSite) ||
+                other.projectSite == projectSite) &&
+            (identical(other.lpoNo, lpoNo) || other.lpoNo == lpoNo));
   }
 
   @override
@@ -556,7 +609,10 @@ class _$SalesStateImpl implements _SalesState {
         quotationNo,
         orderNo,
         termsAndCondition,
-        paymentTerms
+        paymentTerms,
+        deliveryMethod,
+        projectSite,
+        lpoNo
       ]);
 
   /// Create a copy of SalesState
@@ -593,7 +649,10 @@ abstract class _SalesState implements SalesState {
       final String? quotationNo,
       final String? orderNo,
       final String? termsAndCondition,
-      final String? paymentTerms}) = _$SalesStateImpl;
+      final String? paymentTerms,
+      final String? deliveryMethod,
+      final String? projectSite,
+      final String? lpoNo}) = _$SalesStateImpl;
 
   @override
   String? get salesNo;
@@ -643,6 +702,12 @@ abstract class _SalesState implements SalesState {
   String? get termsAndCondition;
   @override
   String? get paymentTerms;
+  @override
+  String? get deliveryMethod;
+  @override
+  String? get projectSite;
+  @override
+  String? get lpoNo;
 
   /// Create a copy of SalesState
   /// with the given fields replaced by the non-null parameter values.

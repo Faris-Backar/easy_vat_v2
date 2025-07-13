@@ -8,6 +8,7 @@ import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/items_bottom_modal_sheet.dart';
 import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/pages/add_new_sales_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/create_sales/create_sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/download_sales/download_sales_invoices_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
@@ -30,14 +31,14 @@ class AddSalesFooterWidget extends StatefulWidget {
   final ValueNotifier<String?> salesModeNotifier;
   final ValueNotifier<String?> soldByNotifier;
   final bool isForPurchase;
-  final String? salesType;
+  final SalesType salesType;
   const AddSalesFooterWidget(
       {super.key,
       required this.saleNoController,
       required this.refNoController,
       required this.salesModeNotifier,
       required this.soldByNotifier,
-      this.salesType,
+      required this.salesType,
       this.isForPurchase = false});
 
   @override
@@ -85,6 +86,7 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                         downloadCompleted: (pdfPath) {
                           LoaderDialog.hide(context);
                           ref.read(cartProvider.notifier).clearCart();
+                          ref.read(salesProvider.notifier).clear();
                           context.router.popForced();
                           context.router.popForced();
                         },
@@ -104,31 +106,9 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                     ref.listen(createSalesNotifierProvider, (previous, next) {
                       next.mapOrNull(
                         success: (success) {
-                          String successMessage;
-                          final salesType =
-                              widget.salesType?.toLowerCase() ?? "salesorder";
-                          if (salesType ==
-                              context
-                                  .translate(AppStrings.addNewSales)
-                                  .toLowerCase()) {
-                            successMessage =
-                                "Sales invoice successfully created!";
-                          } else if (salesType ==
-                              context
-                                  .translate(AppStrings.addNewSalesQuatation)
-                                  .toLowerCase()) {
-                            successMessage =
-                                "Sales quotation successfully created!";
-                          } else if (salesType ==
-                              context
-                                  .translate(AppStrings.addNewSalesReturn)
-                                  .toLowerCase()) {
-                            successMessage =
-                                "Sales return successfully created!";
-                          } else {
-                            successMessage =
-                                "Sales order successfully created!";
-                          }
+                          final successMessage =
+                              _getCreateSuccessMessage(context);
+
                           Fluttertoast.showToast(
                             msg: widget.isForPurchase
                                 ? "Purchase order successfully created!"
@@ -151,16 +131,16 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                                 context.router.popForced();
                                 context.router.popForced();
                                 ref.read(cartProvider.notifier).clearCart();
+                                ref.read(salesProvider.notifier).clear();
                                 context.router.push(PdfViewerRoute(
                                   pdfUrl: UrlResources.downloadSalesInvoice,
                                   pdfType: PDFType.salesInvoice,
-                                  queryParameters: {
-                                    'SaleIDPK': success.salesIDPK,
-                                  },
+                                  queryParameters: _getQueryParameters(success),
                                 ));
                               },
                               onSecondaryTap: () {
                                 ref.read(cartProvider.notifier).clearCart();
+                                ref.read(salesProvider.notifier).clear();
                                 context.router.popForced();
                                 context.router.popForced();
                               },
@@ -177,31 +157,8 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                     ref.listen(updateSalesNotifierProvider, (previous, next) {
                       next.mapOrNull(
                         success: (success) {
-                          String successMessage;
-                          final salesType =
-                              widget.salesType?.toLowerCase() ?? "salesorder";
-                          if (salesType ==
-                              context
-                                  .translate(AppStrings.addNewSales)
-                                  .toLowerCase()) {
-                            successMessage =
-                                "Sales invoice successfully updated!";
-                          } else if (salesType ==
-                              context
-                                  .translate(AppStrings.addNewSalesQuatation)
-                                  .toLowerCase()) {
-                            successMessage =
-                                "Sales quotation successfully updated!";
-                          } else if (salesType ==
-                              context
-                                  .translate(AppStrings.addNewSalesReturn)
-                                  .toLowerCase()) {
-                            successMessage =
-                                "Sales return successfully updated!";
-                          } else {
-                            successMessage =
-                                "Sales order successfully updated!";
-                          }
+                          final successMessage =
+                              _getUpdateSuccessMessage(context);
 
                           Fluttertoast.showToast(
                             msg: successMessage,
@@ -258,6 +215,45 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
         ),
       );
     });
+  }
+
+  Map<String, dynamic> _getQueryParameters(dynamic success) {
+    switch (widget.salesType) {
+      case SalesType.salesInvoice:
+        return {'SaleIDPK': success.salesIDPK};
+      case SalesType.salesOrder:
+        return {'SalesOrderIDPK': success.salesOrderIdpk};
+      case SalesType.salesQuotation:
+        return {'quotationIDPK': success.quotationIdpk};
+      case SalesType.salesReturn:
+        return {'SaleReturnIDPK': success.salesReturnIdpk};
+    }
+  }
+
+  String _getCreateSuccessMessage(BuildContext context) {
+    switch (widget.salesType) {
+      case SalesType.salesInvoice:
+        return "Sales invoice successfully created!";
+      case SalesType.salesQuotation:
+        return "Sales quotation successfully created!";
+      case SalesType.salesReturn:
+        return "Sales return successfully created!";
+      case SalesType.salesOrder:
+        return "Sales order successfully created!";
+    }
+  }
+
+  String _getUpdateSuccessMessage(BuildContext context) {
+    switch (widget.salesType) {
+      case SalesType.salesInvoice:
+        return "Sales invoice successfully updated!";
+      case SalesType.salesQuotation:
+        return "Sales quotation successfully updated!";
+      case SalesType.salesReturn:
+        return "Sales return successfully updated!";
+      case SalesType.salesOrder:
+        return "Sales order successfully updated!";
+    }
   }
 
   Widget _buildButtonsRow(BuildContext context) {
@@ -347,50 +343,49 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
         salesPrvd.setSoldBy(salesman.first);
       }
     }
-    final salesType = widget.salesType?.toLowerCase() ??
-        context.translate(AppStrings.addNewSalesOrder);
 
     if (salesPrvd.salesMode.toLowerCase() == "credit" &&
         salesPrvd.selectedCustomer == null) {
       Fluttertoast.showToast(
           msg: context.translate(AppStrings.pleaseSelectACustomer));
     } else {
-      if (salesType ==
-          context.translate(AppStrings.addNewSalesOrder).toLowerCase()) {
-        final newSaleOrder = await salesPrvd.createNewSaleOrder();
-        ref
-            .read(createSalesNotifierProvider.notifier)
-            .createSalesOrder(request: newSaleOrder);
-      } else if (salesType ==
-          context.translate(AppStrings.addNewSales).toLowerCase()) {
-        final newSale = await salesPrvd.createNewSale(ref);
-        if (ref.read(cartProvider).isForUpdate == true) {
-          ref
-              .read(updateSalesNotifierProvider.notifier)
-              .updateSalesInvoice(request: newSale);
-        } else {
+      switch (widget.salesType) {
+        case SalesType.salesOrder:
+          final newSaleOrder = await salesPrvd.createNewSaleOrder(ref);
           ref
               .read(createSalesNotifierProvider.notifier)
-              .createSalesInvoice(request: newSale);
-        }
-      } else if (salesType ==
-          context.translate(AppStrings.addNewSalesQuatation).toLowerCase()) {
-        final newSale = await salesPrvd.createNewSaleQuotation(ref);
-        if (ref.read(salesProvider.notifier).isForEdit == true) {
+              .createSalesOrder(request: newSaleOrder);
+          break;
+        case SalesType.salesInvoice:
+          final newSale = await salesPrvd.createNewSale(ref);
+          if (ref.read(cartProvider).isForUpdate == true) {
             ref
-              .read(updateSalesNotifierProvider.notifier)
-              .updateSalesQuotation(request: newSale);
-        } else {
+                .read(updateSalesNotifierProvider.notifier)
+                .updateSalesInvoice(request: newSale);
+          } else {
+            ref
+                .read(createSalesNotifierProvider.notifier)
+                .createSalesInvoice(request: newSale);
+          }
+          break;
+        case SalesType.salesQuotation:
+          final newSale = await salesPrvd.createNewSaleQuotation(ref);
+          if (ref.read(salesProvider.notifier).isForEdit == true) {
+            ref
+                .read(updateSalesNotifierProvider.notifier)
+                .updateSalesQuotation(request: newSale);
+          } else {
+            ref
+                .read(createSalesNotifierProvider.notifier)
+                .createSalesQuotation(request: newSale);
+          }
+          break;
+        case SalesType.salesReturn:
+          final newSaleReturn = await salesPrvd.createNewSaleReturn(ref);
           ref
               .read(createSalesNotifierProvider.notifier)
-              .createSalesQuotation(request: newSale);
-        }
-      } else if (salesType ==
-          context.translate(AppStrings.addNewSalesReturn).toLowerCase()) {
-        final newSaleReturn = await salesPrvd.createNewSaleReturn(ref);
-        ref
-            .read(createSalesNotifierProvider.notifier)
-            .createSalesReturn(request: newSaleReturn);
+              .createSalesReturn(request: newSaleReturn);
+          break;
       }
     }
   }

@@ -276,5 +276,17 @@
    "netCost": "التكلفة الصافية",
   "sellValue": "بيع القيمة",
   "selectFromStore": "اختر من المتجر",
-  "selectToStore": "حدد للتخزين"
+  "selectToStore": "حدد للتخزين",
+  "enterGeneralNotes": "أدخل الملاحظة العامة",
+  "generalNote": "ملاحظة عامة",
+  "lpoNo": "رقم LPO",
+  "projectSite": "الموقع/المشروع",
+  "enterProjectSite": "أدخل الموقع/المشروع",
+  "enterLpoNo": "أدخل رقم LPO",
+  "enterDeliveryMode": "أدخل وضع التسليم",
+  "deliveryMode": "وضع التسليم",
+  "destination": "الوجهة",
+  "enterDestination": "أدخل الوجهة",
+  "enterQuotationNo": "أدخل رقم عرض السعر",
+  "generalNotes": "ملاحظات عامة"
 }

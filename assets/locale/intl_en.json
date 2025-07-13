@@ -277,5 +277,17 @@
   "netCost": "Net Cost",
   "sellValue": "Sell Value",
   "selectFromStore": "Select From Store",
-  "selectToStore": "Select To Store"
+  "selectToStore": "Select To Store",
+  "enterGeneralNotes": "Enter General Note",
+  "generalNote": "General Note",
+  "projectSite": "Project/Site",
+  "enterProjectSite": "Enter Project/Site",
+  "lpoNo": "LPO No",
+  "enterLpoNo": "Enter LPO No",
+  "deliveryMode": "Delivery Mode",
+  "enterDeliveryMode": "Enter Delivery Mode",
+  "destination": "Destination",
+  "enterDestination": "Enter Destination",
+  "enterQuotationNo": "Enter Quotation No",
+  "generalNotes": "General Notes"
 }

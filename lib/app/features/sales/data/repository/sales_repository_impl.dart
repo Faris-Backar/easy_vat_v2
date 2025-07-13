@@ -131,8 +131,10 @@ class SalesRepositoryImpl extends SalesRepository {
         data: data,
       );
       if (response.statusCode == 200) {
-        final salesOrderList = SalesOrderResponseModel.fromJson(response.data);
-        return Right(salesOrderList.salesOrder);
+        final salesOrderList = List<SalesOrderModel>.from(response
+            .data["salesOrder"]
+            .map((x) => SalesQuotationModel.fromJson(x)));
+        return Right(salesOrderList);
       }
       return Left(ServerFailure(message: ""));
     } on DioException catch (e) {

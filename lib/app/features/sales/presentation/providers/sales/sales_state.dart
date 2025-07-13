@@ -27,6 +27,9 @@ class SalesState with _$SalesState {
     String? orderNo,
     String? termsAndCondition,
     String? paymentTerms,
+    String? deliveryMethod,
+    String? projectSite,
+    String? lpoNo,
   }) = _SalesState;
 
   factory SalesState.initial() => SalesState(
@@ -52,5 +55,9 @@ class SalesState with _$SalesState {
       projectDescription: null,
       quotationNo: null,
       orderNo: null,
-      termsAndCondition: null);
+      termsAndCondition: null,
+      paymentTerms: null,
+      deliveryMethod: null,
+      projectSite: null,
+      lpoNo: null);
 }

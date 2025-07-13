@@ -4,7 +4,6 @@ import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
-
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
@@ -14,11 +13,12 @@ import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledg
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/domain/usecase/params/sales_invoice_params.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/pages/add_new_sales_screen.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/delete_sales/delete_sales_notifier.dart';
+import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales/sales_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_order/sales_order_notifier.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/providers/sales_order/sales_order_state.dart';
 import 'package:easy_vat_v2/app/features/sales/presentation/widgets/sales_appbar.dart';
-
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_confirmation_dialog.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_transaction_card.dart';
@@ -62,11 +62,9 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
               toDate: DateTime.now(),
             ),
           );
-      WidgetsBinding.instance.addPostFrameCallback((_) async {
-        final prefs = await SharedPreferences.getInstance();
-        isTaxRegisrationEnabled =
-            prefs.getBool(PrefResources.isTaxEnabled) ?? false;
-      });
+      final prefs = await SharedPreferences.getInstance();
+      isTaxRegisrationEnabled =
+          prefs.getBool(PrefResources.isTaxEnabled) ?? false;
     });
   }
 
@@ -159,13 +157,14 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
                                 borderRadiusTopLeft: 10,
                                 onTap: () async {
                                   context.router.push(PdfViewerRoute(
-                                      pdfUrl: UrlResources.downloadSalesInvoice,
-                                      pdfType: PDFType.salesOrder,
+                                      pdfUrl:
+                                          UrlResources.downloadSalesQuotation,
                                       queryParameters: {
-                                        'quotationIDPK':
+                                        'SalesOrderIDPK':
                                             salesOrder.salesOrderIdpk,
                                       },
-                                      pdfName: salesOrder.customerIdpk));
+                                      pdfName: salesOrder.customerIdpk,
+                                      pdfType: PDFType.salesOrder));
                                 }),
                           ),
                           Expanded(
@@ -183,18 +182,16 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
                                   ? context.onPrimaryColor
                                   : null,
                               onTap: () async {
-                                // await ref
-                                //     .read(salesProvider.notifier)
-                                //     .reinsertSalesOrderForm(
-                                //         salesOrder, ref);
-                                // if (mounted) {
-                                //   context.router.push(
-                                //     AddNewSalesRoute(
-                                //       title: context.translate(
-                                //           AppStrings.addNewSalesQuatation),
-                                //     ),
-                                //   );
-                                // }
+                                await ref
+                                    .read(salesProvider.notifier)
+                                    .reinsertSalesOrderForm(salesOrder, ref);
+                                if (mounted) {
+                                  context.router.push(
+                                    AddNewSalesRoute(
+                                      salesType: SalesType.salesOrder,
+                                    ),
+                                  );
+                                }
                               },
                             ),
                           ),
@@ -295,8 +292,7 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
               PrimaryButton(
                 onPressed: () => context.router.push(
                   AddNewSalesRoute(
-                    isForPurchase: false,
-                    title: context.translate(AppStrings.addNewSalesQuatation),
+                    salesType: SalesType.salesOrder,
                   ),
                 ),
                 child: Row(
