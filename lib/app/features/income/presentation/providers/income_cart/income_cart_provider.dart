@@ -415,6 +415,7 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
       {required IncomeCartEntity ledger, bool isInitial = false}) {
     if (isTaxEnabled) {
       taxAmount += ledger.taxAmount;
+      grossTotal += ledger.grossTotal;
       totalAmount += (ledger.grossTotal + ledger.taxAmount - discount);
     } else {
       totalAmount += ledger.grossTotal - discount;
@@ -423,6 +424,7 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
     if (!isInitial) {
       state = state.copyWith(
           totalAmount: totalAmount,
+          grossTotal: grossTotal,
           taxAmount: taxAmount,
           isTaxEnabled: isTaxEnabled);
     }
@@ -431,6 +433,7 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
   void _decreaseRateSplitUp({required IncomeCartEntity ledger}) {
     if (isTaxEnabled) {
       taxAmount -= ledger.tax;
+      grossTotal -= ledger.grossTotal;
       totalAmount -= (ledger.grossTotal + ledger.taxAmount - discount);
     } else {
       totalAmount -= ledger.grossTotal - discount;
@@ -438,6 +441,7 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
 
     state = state.copyWith(
         totalAmount: totalAmount,
+        grossTotal: grossTotal,
         taxAmount: taxAmount,
         isTaxEnabled: isTaxEnabled);
   }
@@ -446,6 +450,7 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
     state = state.copyWith(
         ledgerList: detailList,
         totalAmount: totalAmount,
+        grossTotal: grossTotal,
         taxAmount: taxAmount,
         discount: discount,
         isTaxEnabled: isTaxEnabled);
