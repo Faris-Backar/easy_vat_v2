@@ -282,11 +282,11 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
 
         if (cartLedger.drAmount > 0) {
           ref
-              .read(ledgerModeProvider(cartLedger.ledger.ledgerCode).notifier)
+              .read(ledgerModeProvider(cartLedger.ledger.ledgerIdpk).notifier)
               .state = LedgerModeState.debitLedger();
         } else if (cartLedger.crAmount > 0) {
           ref
-              .read(ledgerModeProvider(cartLedger.ledger.ledgerCode).notifier)
+              .read(ledgerModeProvider(cartLedger.ledger.ledgerIdpk).notifier)
               .state = LedgerModeState.creditLedger();
         }
 

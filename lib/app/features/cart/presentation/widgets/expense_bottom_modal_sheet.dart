@@ -151,7 +151,7 @@ class _ExpenseBottomModalSheetState
         final ledger = ledgerList[index];
         final isSelected = selectedIndex == index;
         final isAdded =
-            addedLedgers.any((l) => l.ledger.ledgerCode == ledger.ledgerCode);
+            addedLedgers.any((l) => l.ledger.ledgerIdpk == ledger.ledgerIdpk);
 
         return Padding(
           padding: const EdgeInsets.only(bottom: 8.0),

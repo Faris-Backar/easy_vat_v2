@@ -30,7 +30,7 @@ class IncomeLedgerNotifier extends StateNotifier<IncomeLedgerState> {
       : super(IncomeLedgerState.initial());
 
   fetchIncomeLedgers({bool isRefresh = false}) async {
-    if (incomeLedgers.isNotEmpty && !isRefresh) {
+    if (incomeLedgers.isNotEmpty && isRefresh) {
       state = IncomeLedgerState.loaded(ledgers: incomeLedgers);
     } else {
       state = const IncomeLedgerState.loading();

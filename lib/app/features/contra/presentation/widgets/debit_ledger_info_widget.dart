@@ -212,9 +212,24 @@ class _DebitLedgerInfoWidgetState extends ConsumerState<DebitLedgerInfoWidget> {
   Widget _buildLedgerCard(
       int index, int? expandedIndex, LedgerAccountModel ledger) {
     final isExpanded = expandedIndex == index;
+    final selectedLedger = ref.watch(contraCartProvider).selectedLedger;
+    final isSelected = selectedLedger?.ledgerIdpk == ledger.ledgerIdpk;
     return InkWell(
       onTap: () => _expansionNotifier.value = isExpanded ? null : index,
-      child: IncomeLedgerDetailsCard(isExpanded: isExpanded, ledger: ledger),
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(
+            color:
+                isSelected ? context.colorScheme.primary : Colors.transparent,
+            width: 2.0,
+          ),
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: IncomeLedgerDetailsCard(
+          isExpanded: isExpanded,
+          ledger: ledger,
+        ),
+      ),
     );
   }
 

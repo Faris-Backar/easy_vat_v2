@@ -63,7 +63,7 @@ class _JournalAddDialogState extends ConsumerState<JournalAddDialog> {
   @override
   Widget build(BuildContext context) {
     final ledgerMode =
-        ref.watch(ledgerModeProvider(widget.ledger.ledgerCode ?? ""));
+        ref.watch(ledgerModeProvider(widget.ledger.ledgerIdpk ?? ""));
     final entryMode = ref.watch(entryModeProvider);
     return AlertDialog(
       backgroundColor: context.colorScheme.tertiaryContainer,
@@ -92,7 +92,8 @@ class _JournalAddDialogState extends ConsumerState<JournalAddDialog> {
                           _drAmountController.text = "0.0";
                         }
                         ref
-                            .read(ledgerModeProvider(widget.ledger.ledgerCode!)
+                            .read(ledgerModeProvider(
+                                    widget.ledger.ledgerIdpk ?? "")
                                 .notifier)
                             .setLedgerMode(newValue);
                       }
@@ -293,7 +294,8 @@ class _JournalAddDialogState extends ConsumerState<JournalAddDialog> {
 
   void _handleJournalCartAction() {
     final journalCartNotifier = ref.read(journalCartProvider.notifier);
-    final ledgerMode = ref.read(ledgerModeProvider(widget.ledger.ledgerCode!));
+    final ledgerMode =
+        ref.read(ledgerModeProvider(widget.ledger.ledgerIdpk ?? ""));
     double drAmount = 0.0;
     double crAmount = 0.0;
     double totalAmount = 0.0;
