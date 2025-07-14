@@ -617,7 +617,6 @@ class SalesNotifier extends StateNotifier<SalesState> {
             salesOrder.customerIdpk?.toLowerCase())
         : CustomerEntity(
             ledgerName: "Cash", ledgerIdpk: salesOrder.customerIdpk);
-
     final updatedCustomerWithAddress = selectedCustomer.copyWith(
         billingAddress: salesOrder.invoiceAddress,
         shippingAddress: salesOrder.shippingAddress);
