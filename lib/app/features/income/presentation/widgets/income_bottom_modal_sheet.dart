@@ -193,7 +193,7 @@ class _IncomeBottomModalSheetState
         Expanded(
           flex: 1,
           child: IconButton(
-              onPressed: () {},
+              onPressed: () => context.router.popForced(),
               splashColor: Colors.transparent,
               highlightColor: Colors.transparent,
               hoverColor: Colors.transparent,

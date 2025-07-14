@@ -258,11 +258,11 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
         customerIDFK: selectedCustomer?.ledgerIdpk ??
             cashAccount?.ledgerIdpk ??
             PrefResources.emptyGuid,
-        crLedgerIDFK: cashAccount?.ledgerIdpk ??
+        crLedgerIDFK: PrefResources.emptyGuid,
+        drLedgerIDFK: cashAccount?.ledgerIdpk ??
             incomeAccount?.ledgerIdpk ??
             selectedCustomer?.ledgerIdpk ??
             PrefResources.emptyGuid,
-        drLedgerIDFK: PrefResources.emptyGuid,
         grossTotal: totalGross,
         discount: discount,
         tax: isTaxEnabled ? totaltax : 0.0,
@@ -368,7 +368,7 @@ class IncomeCartNotifier extends StateNotifier<IncomeCartState> {
     setPaymentMode(income.paymentMode ?? "Cash");
     setSoldBy(income.soldBy ?? "");
     setNotes(income.remarks ?? "");
-
+    setCustomer(selectedCustomer);
     double discountValue = income.discount ?? 0.0;
     applyDiscount(discountValue);
 

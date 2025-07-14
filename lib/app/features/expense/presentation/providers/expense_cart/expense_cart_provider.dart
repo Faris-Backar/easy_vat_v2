@@ -259,11 +259,11 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
       expenseDate: expenseDate,
       paymentMode: paymentMode,
       purchasedBy: purchasedBy,
-      supplierIDFK: cashAccount?.ledgerIdpk ??
-          selectedSupplier?.ledgerIDPK ??
-          PrefResources.emptyGuid,
-      crLedgerIDFK: expenseAccount?.ledgerIdpk ??
+      supplierIDFK: selectedSupplier?.ledgerIDPK ??
           cashAccount?.ledgerIdpk ??
+          PrefResources.emptyGuid,
+      crLedgerIDFK: cashAccount?.ledgerIdpk ??
+          expenseAccount?.ledgerIdpk ??
           selectedSupplier?.ledgerIDPK ??
           PrefResources.emptyGuid,
       drLedgerIDFK: PrefResources.emptyGuid,
@@ -344,6 +344,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
     setEditMode(true);
     List<ExpenseCartEntity> updatedLedgerList = [];
     ref.read(supplierNotfierProvider.notifier).getSupplier();
+
     final supplierList = ref.read(supplierNotfierProvider).supplierList;
     final selectedSupplier = supplierList != null
         ? supplierList.firstWhere((supplier) =>

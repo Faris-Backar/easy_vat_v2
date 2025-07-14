@@ -44,9 +44,9 @@ class _AddNewIncomeFormState extends ConsumerState<AddNewIncomeForm> {
     final cart = ref.read(incomeCartProvider);
     widget.incomeNoController.text = cart.incomeNo ?? "";
     widget.refNoController.text = cart.refNo ?? "";
+    widget.paymentModeNotifier.value = cart.paymentMode ?? "";
     widget.soldByController.text = cart.soldBy ?? "";
     widget.noteController.text = cart.notes ?? "";
-
     widget.refNoController.addListener(() {
       ref
           .read(incomeCartProvider.notifier)
