@@ -133,10 +133,22 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                                 ref.read(cartProvider.notifier).clearCart();
                                 ref.read(salesProvider.notifier).clear();
                                 context.router.push(PdfViewerRoute(
-                                  pdfUrl: UrlResources.downloadSalesInvoice,
-                                  pdfType: PDFType.salesInvoice,
-                                  queryParameters: _getQueryParameters(success),
-                                ));
+                                    pdfUrl: UrlResources.downloadSalesInvoice,
+                                    pdfType: getPdfType(),
+                                    queryParameters: {
+                                      if (SalesType.salesInvoice ==
+                                          widget.salesType)
+                                        'SaleIDPK': success.salesIDPK
+                                      else if (SalesType.salesOrder ==
+                                          widget.salesType)
+                                        'SalesOrderIDPK': success.salesIDPK
+                                      else if (SalesType.salesQuotation ==
+                                          widget.salesType)
+                                        'quotationIDPK': success.salesIDPK
+                                      else if (SalesType.salesReturn ==
+                                          widget.salesType)
+                                        'SaleReturnIDPK': success.salesIDPK,
+                                    }));
                               },
                               onSecondaryTap: () {
                                 ref.read(cartProvider.notifier).clearCart();
@@ -217,16 +229,16 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
     });
   }
 
-  Map<String, dynamic> _getQueryParameters(dynamic success) {
+  PDFType getPdfType() {
     switch (widget.salesType) {
       case SalesType.salesInvoice:
-        return {'SaleIDPK': success.salesIDPK};
+        return PDFType.salesInvoice;
       case SalesType.salesOrder:
-        return {'SalesOrderIDPK': success.salesOrderIdpk};
+        return PDFType.salesOrder;
       case SalesType.salesQuotation:
-        return {'quotationIDPK': success.quotationIdpk};
+        return PDFType.salesQuotation;
       case SalesType.salesReturn:
-        return {'SaleReturnIDPK': success.salesReturnIdpk};
+        return PDFType.salesReturn;
     }
   }
 

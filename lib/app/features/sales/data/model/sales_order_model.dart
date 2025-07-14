@@ -157,7 +157,6 @@ class SalesOrderModel extends SalesOrderEntity {
             .toList(),
       );
 
-  @override
   SalesOrderEntity toEntity() => SalesOrderEntity(
         salesOrderIdpk: salesOrderIdpk,
         salesOrderNo: salesOrderNo,

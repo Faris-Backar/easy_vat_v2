@@ -607,6 +607,7 @@ class SalesNotifier extends StateNotifier<SalesState> {
     final cartPrvd = ref.read(cartProvider.notifier);
     cartPrvd.clearCart();
     setEditMode(true);
+    cartPrvd.setEditMode(true);
     List<CartEntity> updatedItemsList = [];
     ref.read(customerNotifierProvider.notifier).getCustomer();
     final customerList = ref.read(customerNotifierProvider).customerList;
@@ -625,6 +626,14 @@ class SalesNotifier extends StateNotifier<SalesState> {
     setSalesNo(salesOrder.salesOrderNo?.toString() ?? "");
     setRefNo(salesOrder.referenceNo ?? "");
     setSalesDate(salesOrder.salesOrderDate ?? DateTime.now());
+    setDeliveryMethod(deliveryMethod);
+    setQuotationRequstNo(quotationRequstNo);
+    setQuotationNo(quotationNo);
+    setShippingAddress(shippingAddress);
+    setGeneralNo(generalNo);
+    setProjectSite(projectDescription);
+    setLpoNo(lpoNo);
+    setVehicleNumber(vehicleNumber);
 
     // adding items to cart.
     if (salesOrder.salesOrderDetails?.isNotEmpty == true) {

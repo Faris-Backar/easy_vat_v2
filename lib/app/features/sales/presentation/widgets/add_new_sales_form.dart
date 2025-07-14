@@ -67,7 +67,6 @@ class _AddNewSalesFormState extends ConsumerState<AddNewSalesForm> {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize controllers with values from the sales provider
     final salesPrvd = ref.watch(salesProvider);
     widget.saleNoController.text = salesPrvd.salesNo ?? "";
     widget.refNoController.text = salesPrvd.refNo ?? "";
