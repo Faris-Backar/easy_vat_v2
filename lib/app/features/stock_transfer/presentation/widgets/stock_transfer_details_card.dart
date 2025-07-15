@@ -107,27 +107,27 @@ class _StockTransferDetailsCardState extends State<StockTransferDetailsCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildHeaderText(context.translate(AppStrings.barcode),
-                      flex: 2),
+                      textAlign: TextAlign.start, flex: 2),
                   const SizedBox(
                     width: 8,
                   ),
                   _buildHeaderText(context.translate(AppStrings.itemCount),
-                      flex: 2),
+                      textAlign: TextAlign.center, flex: 3),
                   const SizedBox(
                     width: 8,
                   ),
-                  _buildHeaderText(context.translate(AppStrings.qty),
-                      textAlign: TextAlign.center, flex: 1),
+                  _buildHeaderText(context.translate(AppStrings.requestedQty),
+                      textAlign: TextAlign.center, flex: 4),
                   SizedBox(
                     width: 8,
                   ),
-                  _buildHeaderText(context.translate(AppStrings.retailRate),
-                      textAlign: TextAlign.end, flex: 2),
+                  _buildHeaderText(context.translate(AppStrings.transferQty),
+                      textAlign: TextAlign.end, flex: 3),
                   const SizedBox(
                     width: 8,
                   ),
-                  _buildHeaderText(context.translate(AppStrings.cost),
-                      textAlign: TextAlign.end, flex: 2)
+                  // _buildHeaderText(context.translate(AppStrings.cost),
+                  //     textAlign: TextAlign.end, flex: 2)
                 ],
               ),
               const SizedBox(
@@ -146,22 +146,22 @@ class _StockTransferDetailsCardState extends State<StockTransferDetailsCard> {
                   ),
                   const SizedBox(width: 8),
                   _buildValueText(
-                    widget.items.transferQty.toString(),
+                    widget.items.requestedQty.toString(),
                     textAlign: TextAlign.center,
-                    flex: 1,
-                  ),
-                  const SizedBox(width: 8),
-                  _buildValueText(
-                    widget.items.retailRate.toStringAsFixed(2),
-                    textAlign: TextAlign.end,
                     flex: 2,
                   ),
                   const SizedBox(width: 8),
                   _buildValueText(
-                    widget.items.cost.toStringAsFixed(2),
-                    textAlign: TextAlign.end,
+                    widget.items.transferQty.toStringAsFixed(2),
+                    textAlign: TextAlign.center,
                     flex: 2,
                   ),
+                  // const SizedBox(width: 8),
+                  // _buildValueText(
+                  //   widget.items.cost.toStringAsFixed(2),
+                  //   textAlign: TextAlign.end,
+                  //   flex: 2,
+                  // ),
                 ],
               ),
               AnimatedCrossFade(
@@ -177,23 +177,34 @@ class _StockTransferDetailsCardState extends State<StockTransferDetailsCard> {
                         height: 12,
                       ),
                       Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          _buildHeaderText(context.translate(AppStrings.cost),
+                              textAlign: TextAlign.start, flex: 2),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          _buildHeaderText(
+                              context.translate(AppStrings.totalNetCost),
+                              textAlign: TextAlign.start,
+                              flex: 4),
+                          const SizedBox(width: 8),
+                          _buildHeaderText(
+                              context.translate(AppStrings.retailRate),
+                              textAlign: TextAlign.end,
+                              flex: 3),
                           const SizedBox(
                             width: 8,
                           ),
                           _buildHeaderText(
                               context.translate(AppStrings.totalSellValue),
                               textAlign: TextAlign.end,
-                              flex: 2),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          _buildHeaderText(
-                              context.translate(AppStrings.totalNetCost),
-                              textAlign: TextAlign.end,
-                              flex: 2),
+                              flex: 4),
                           const SizedBox(width: 8),
-                          const Spacer(flex: 1),
+                          // const Spacer(flex: 1),
                         ],
                       ),
                       const SizedBox(
@@ -201,15 +212,27 @@ class _StockTransferDetailsCardState extends State<StockTransferDetailsCard> {
                       ),
                       Row(
                         children: [
+                          _buildValueText(widget.items.cost.toStringAsFixed(2),
+                              textAlign: TextAlign.center, flex: 1),
+                          const SizedBox(
+                            width: 8,
+                          ),
                           _buildValueText(
-                              widget.items.sellValue.toStringAsFixed(2),
+                              widget.items.netCost.toStringAsFixed(2),
                               textAlign: TextAlign.center,
                               flex: 2),
                           const SizedBox(
                             width: 8,
                           ),
                           _buildValueText(
-                              widget.items.netCost.toStringAsFixed(2),
+                              widget.items.retailRate.toStringAsFixed(2),
+                              textAlign: TextAlign.center,
+                              flex: 2),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          _buildValueText(
+                              widget.items.sellValue.toStringAsFixed(2),
                               textAlign: TextAlign.center,
                               flex: 2)
                         ],
