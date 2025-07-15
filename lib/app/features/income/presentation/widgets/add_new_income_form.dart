@@ -104,7 +104,7 @@ class _AddNewIncomeFormState extends ConsumerState<AddNewIncomeForm> {
                 Consumer(builder: (context, ref, child) {
                   return DatePickerTextField(
                     label: context.translate(AppStrings.date),
-                    // initial value
+                    initialValue: ref.watch(incomeCartProvider).incomeDate,
                     onDateSelected: (data) {
                       ref.read(incomeCartProvider.notifier).setIncomeDate(data);
                     },

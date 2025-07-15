@@ -4,8 +4,6 @@ import 'package:easy_vat_v2/app/features/auth/presentation/functions/app_credent
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/cash_ledger/cash_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledger_notifier/sales_ledger_notifier.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/entities/purchase_invoice_entity.dart';
-import 'package:easy_vat_v2/app/features/sales/data/model/sales_order_model.dart';
-import 'package:easy_vat_v2/app/features/sales/data/model/sales_return_model.dart';
 import 'package:easy_vat_v2/app/features/salesman/presentation/providers/salesman_provider.dart';
 import 'package:easy_vat_v2/app/features/supplier/domain/entities/supplier_entity.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,7 +17,6 @@ import 'package:easy_vat_v2/app/features/sales/data/model/sales_request_model.da
 import 'package:easy_vat_v2/app/features/sales/domain/entities/sales_invoice_entity.dart';
 import 'package:easy_vat_v2/app/features/salesman/domain/entity/sales_man_entity.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:uuid/uuid.dart';
 
 final cartProvider = StateNotifierProvider<CartNotifier, CartState>((ref) {
   return CartNotifier();

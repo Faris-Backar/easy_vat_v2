@@ -141,6 +141,8 @@ class _AddNewJournalFormState extends ConsumerState<AddNewJournalForm> {
                     builder: (context, ref, child) {
                       return DatePickerTextField(
                         label: context.translate(AppStrings.date),
+                        initialValue:
+                            ref.watch(journalCartProvider).journalDate,
                         onDateSelected: (date) {
                           ref
                               .read(journalCartProvider.notifier)

@@ -409,9 +409,9 @@ class AddNewPurchaseRouteArgs {
 /// [_i9.AddNewSalesScreen]
 class AddNewSalesRoute extends _i40.PageRouteInfo<AddNewSalesRouteArgs> {
   AddNewSalesRoute({
-    _i39.Key? key,
+    _i41.Key? key,
     required _i9.SalesType salesType,
-    List<_i38.PageRouteInfo>? children,
+    List<_i40.PageRouteInfo>? children,
   }) : super(
          AddNewSalesRoute.name,
          args: AddNewSalesRouteArgs(key: key, salesType: salesType),
