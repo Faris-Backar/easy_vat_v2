@@ -5,13 +5,16 @@ import 'package:easy_vat_v2/app/core/error/failure.dart';
 import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/core/utils/dio_service.dart';
 import 'package:easy_vat_v2/app/features/ledger/data/model/ledger_account_model.dart';
+import 'package:easy_vat_v2/app/features/ledger/data/model/ledger_request_model.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/repositories/ledger_repository.dart';
+import 'package:easy_vat_v2/app/features/ledger/domain/usecase/params/ledger_params.dart';
 
 class LedgerRepositoryImpl extends LedgerRepository {
   LedgerRepositoryImpl();
 
   final client = DioService().dio;
+  final dio = Dio();
   @override
   Future<Either<Failure, List<LedgerAccountEntity>>> fetchCashLedger() async {
     try {
@@ -162,6 +165,67 @@ class LedgerRepositoryImpl extends LedgerRepository {
       return Left(ServerFailure(message: "Something went wrong."));
     } on DioException catch (e) {
       return Left(ServerFailure(message: e.response?.data ?? e.error ?? ""));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, LedgerAccountEntity>> createLedger(
+      {required LedgerRequestModel ledgerRequestParams}) async {
+    try {
+      final data = ledgerRequestParams.toJson();
+      final response = await client.get(UrlResources.createLedger, data: data);
+      if (response.statusCode == 200) {
+        // final ledgerList = LedgerAccountModel.fromJson(response.data);
+        return Right(response.data);
+      }
+      return Left(ServerFailure(message: ""));
+    } on DioException catch (e) {
+      return Left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.error?.toString() ??
+              ""));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, LedgerAccountEntity>> updateLedger(
+      {required LedgerRequestModel ledgerRequestParams}) async {
+    try {
+      final data = ledgerRequestParams.toJson();
+      final response = await client.post(UrlResources.updateLedger, data: data);
+      if (response.statusCode == 200) {
+        return Right(response.data);
+      }
+      return Left(ServerFailure(message: ""));
+    } on DioException catch (e) {
+      return Left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.error?.toString() ??
+              ""));
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, LedgerAccountEntity>> deleteLedger(
+      {required LedgerParams ledgerParams}) async {
+    try {
+      final data = ledgerParams.toJson();
+      final response = await client.post(UrlResources.deleteLedger, data: data);
+      if (response.statusCode == 200) {
+        return Right(response.data);
+      }
+      return Left(ServerFailure(message: ""));
+    } on DioException catch (e) {
+      return Left(ServerFailure(
+          message: e.response?.statusMessage?.toString() ??
+              e.error?.toString() ??
+              ""));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }

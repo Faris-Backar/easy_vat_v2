@@ -222,7 +222,7 @@ class DebitNoteCartNotifier extends StateNotifier<DebitNoteCartState> {
           crAmount: totalcrAmount,
           tax: isTaxEnabled ? totalTax : 0.0,
           taxPercentage: isTaxEnabled ? (detailList[i].taxPercentage) : 0.0,
-          netTotal: netTotal,
+          netTotal: detailList[i].netTotal,
           companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
           ledgerBalance: detailList[i].ledgerBalance,
           ledgerName: detailList[i].ledger.ledgerName ?? "");
