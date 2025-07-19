@@ -2,9 +2,12 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/providers/cart_provider.dart';
 import 'package:easy_vat_v2/app/features/cart/presentation/widgets/items_bottom_modal_sheet.dart';
+import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
+import 'package:easy_vat_v2/app/features/purchase/presentation/pages/add_new_purchase_screen.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/create_purchase/create_purchase_invoice_notifier.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/purchase/purchase_notifier.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/update_purchase/update_purchase_notifier.dart';
@@ -27,7 +30,7 @@ class AddPurchaseFooterWidget extends StatefulWidget {
   final TextEditingController supInvNoController;
   final ValueNotifier<String?> purchaseModeNotifier;
   final ValueNotifier<String?> purchasedByNotifier;
-  final String? purchaseType;
+  final PurchaseType? purchaseType;
   const AddPurchaseFooterWidget({
     super.key,
     this.purchaseType,
@@ -102,30 +105,25 @@ class _AddSalesFooterWidgetState extends State<AddPurchaseFooterWidget> {
                       next.mapOrNull(
                         loaded: (success) {
                           String successMessage;
-                          final purchseType =
-                              widget.purchaseType?.toLowerCase();
-                          if (purchseType ==
-                              context
-                                  .translate(AppStrings.addNewSales)
-                                  .toLowerCase()) {
-                            successMessage =
-                                "purchase invoice successfully created!";
-                          } else if (purchseType ==
-                              context
-                                  .translate(AppStrings.addNewSalesQuatation)
-                                  .toLowerCase()) {
-                            successMessage =
-                                "purchase quotation successfully created!";
-                          } else if (purchseType ==
-                              context
-                                  .translate(AppStrings.addNewSalesReturn)
-                                  .toLowerCase()) {
-                            successMessage =
-                                "purchase return successfully created!";
-                          } else {
-                            successMessage =
-                                "purchase order successfully created!";
+
+                          switch (widget.purchaseType) {
+                            case PurchaseType.purchaseInvoice:
+                              successMessage =
+                                  "purchase invoice successfully created!";
+                              break;
+                            case PurchaseType.purchaseReturn:
+                              successMessage =
+                                  "purchase return successfully created!";
+                              break;
+                            case PurchaseType.purchaseOrder:
+                              successMessage =
+                                  "purchase order successfully created!";
+                              break;
+                            default:
+                              successMessage =
+                                  "purchase invoice successfully created!";
                           }
+
                           Fluttertoast.showToast(
                             msg: successMessage,
                             toastLength: Toast.LENGTH_SHORT,
@@ -148,6 +146,20 @@ class _AddSalesFooterWidgetState extends State<AddPurchaseFooterWidget> {
                                     .clearPurchase(ref);
                                 context.router.popForced();
                                 context.router.popForced();
+                                context.router.push(PdfViewerRoute(
+                                    pdfType: getPdfType(),
+                                    queryParameters: {
+                                      if (PurchaseType.purchaseInvoice ==
+                                          widget.purchaseType)
+                                        'PurchaseIDPK': success.purchaseIDPK
+                                      else if (PurchaseType.purchaseOrder ==
+                                          widget.purchaseType)
+                                        'PurchaseOrderIDPK':
+                                            success.purchaseIDPK
+                                      else
+                                        'PurchaseReturnIDPK':
+                                            success.purchaseIDPK,
+                                    }));
                               },
                               onSecondaryTap: () {
                                 ref
@@ -170,31 +182,23 @@ class _AddSalesFooterWidgetState extends State<AddPurchaseFooterWidget> {
                       next.mapOrNull(
                         loaded: (success) {
                           String successMessage;
-                          final purchaseType =
-                              widget.purchaseType?.toLowerCase();
-                          if (purchaseType ==
-                              context
-                                  .translate(AppStrings.addNewPurchase)
-                                  .toLowerCase()) {
-                            successMessage =
-                                "Purchase invoice successfully updated!";
-                          }
-                          // else if (purchaseType ==
-                          //     context
-                          //         .translate(AppStrings.addNewPurchase)
-                          //         .toLowerCase()) {
-                          //   successMessage =
-                          //       "Purchase quotation successfully updated!";
-                          // }
-                          else if (purchaseType ==
-                              context
-                                  .translate(AppStrings.addNewPurchaseReturn)
-                                  .toLowerCase()) {
-                            successMessage =
-                                "Purchase return successfully updated!";
-                          } else {
-                            successMessage =
-                                "Purchase order successfully updated!";
+
+                          switch (widget.purchaseType) {
+                            case PurchaseType.purchaseInvoice:
+                              successMessage =
+                                  "Purchase invoice successfully updated!";
+                              break;
+                            case PurchaseType.purchaseReturn:
+                              successMessage =
+                                  "Purchase return successfully updated!";
+                              break;
+                            case PurchaseType.purchaseOrder:
+                              successMessage =
+                                  "Purchase order successfully updated!";
+                              break;
+                            default:
+                              successMessage =
+                                  "Purchase invoice successfully updated!";
                           }
 
                           Fluttertoast.showToast(
@@ -332,6 +336,19 @@ class _AddSalesFooterWidgetState extends State<AddPurchaseFooterWidget> {
     );
   }
 
+  PDFType getPdfType() {
+    switch (widget.purchaseType) {
+      case PurchaseType.purchaseInvoice:
+        return PDFType.purchaseInvoice;
+      case PurchaseType.purchaseOrder:
+        return PDFType.purchaseOrder;
+      case PurchaseType.purchaseReturn:
+        return PDFType.purchaseReturn;
+      default:
+        return PDFType.purchaseInvoice; // Default case
+    }
+  }
+
   _createUpdatePurchase(WidgetRef ref) async {
     final purchasePrvdr = ref.read(purchaseProvider.notifier);
     purchasePrvdr.setPurchaseNo(widget.purchaseNoController.text);
@@ -343,48 +360,51 @@ class _AddSalesFooterWidgetState extends State<AddPurchaseFooterWidget> {
         purchasePrvdr.setPurchasedBy(salesman.first);
       }
     }
-    final purchaseType = widget.purchaseType?.toLowerCase() ??
-        context.translate(AppStrings.addNewSalesOrder);
 
     if (purchasePrvdr.purchaseMode.toLowerCase() == "credit" &&
         purchasePrvdr.selectedSupplier == null) {
       Fluttertoast.showToast(
           msg: context.translate(AppStrings.pleaseSelectACustomer));
     } else {
-      if (purchaseType ==
-          context.translate(AppStrings.addNewSalesOrder).toLowerCase()) {
-        // final newSaleOrder = await purchasePrvdr.createNewSaleOrder();
-        // ref
-        //     .read(createSalesNotifierProvider.notifier)
-        //     .createSalesOrder(request: newSaleOrder);
-      } else if (purchaseType ==
-          context.translate(AppStrings.addNewPurchase).toLowerCase()) {
-        final newPurchaseInvoice = await ref
-            .read(purchaseProvider.notifier)
-            .createNewPurchaseInvoice(ref);
-        if (ref.read(purchaseProvider).isForUpdate == true) {
-          ref
-              .read(updatePurchaseProvider.notifier)
-              .updatePurchaseInvoice(params: newPurchaseInvoice);
-        } else {
-          ref
-              .read(createPurchaseProvider.notifier)
-              .createPurchaseInvoice(newPurchaseInvoice);
-        }
-      } else if (purchaseType ==
-          context.translate(AppStrings.addNewPurchaseReturn).toLowerCase()) {
-        final newPurchaseInvoice = await ref
-            .read(purchaseProvider.notifier)
-            .createNewPurchaseReturn(ref);
-        if (ref.read(purchaseProvider).isForUpdate == true) {
-          ref
-              .read(updatePurchaseProvider.notifier)
-              .updatePurchaseReturn(params: newPurchaseInvoice);
-        } else {
-          ref
-              .read(createPurchaseProvider.notifier)
-              .createPurchaseReturn(newPurchaseInvoice);
-        }
+      switch (widget.purchaseType) {
+        case PurchaseType.purchaseOrder:
+          // Handle purchase order creation
+          // final newSaleOrder = await purchasePrvdr.createNewSaleOrder();
+          // ref
+          //     .read(createSalesNotifierProvider.notifier)
+          //     .createSalesOrder(request: newSaleOrder);
+          break;
+        case PurchaseType.purchaseInvoice:
+          final newPurchaseInvoice = await ref
+              .read(purchaseProvider.notifier)
+              .createNewPurchaseInvoice(ref);
+          if (ref.read(purchaseProvider).isForUpdate == true) {
+            ref
+                .read(updatePurchaseProvider.notifier)
+                .updatePurchaseInvoice(params: newPurchaseInvoice);
+          } else {
+            ref
+                .read(createPurchaseProvider.notifier)
+                .createPurchaseInvoice(newPurchaseInvoice);
+          }
+          break;
+        case PurchaseType.purchaseReturn:
+          final newPurchaseInvoice = await ref
+              .read(purchaseProvider.notifier)
+              .createNewPurchaseReturn(ref);
+          if (ref.read(purchaseProvider).isForUpdate == true) {
+            ref
+                .read(updatePurchaseProvider.notifier)
+                .updatePurchaseReturn(params: newPurchaseInvoice);
+          } else {
+            ref
+                .read(createPurchaseProvider.notifier)
+                .createPurchaseReturn(newPurchaseInvoice);
+          }
+          break;
+        default:
+          // Handle default case or null
+          break;
       }
     }
   }

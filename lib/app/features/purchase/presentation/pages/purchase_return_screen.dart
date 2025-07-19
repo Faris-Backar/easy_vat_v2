@@ -5,7 +5,6 @@ import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 
 import 'package:easy_vat_v2/app/core/resources/pref_resources.dart';
-import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
@@ -17,6 +16,7 @@ import 'package:easy_vat_v2/app/features/ledger/presentation/provider/sales_ledg
 import 'package:easy_vat_v2/app/features/payment_mode/presentation/providers/payment_mode_notifiers.dart';
 import 'package:easy_vat_v2/app/features/pdf_viewer/pdf_viewer_screen.dart';
 import 'package:easy_vat_v2/app/features/purchase/domain/usecase/params/purchase_params.dart';
+import 'package:easy_vat_v2/app/features/purchase/presentation/pages/add_new_purchase_screen.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/delete_purchase/delete_purchase_notifier.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/fetch_purchase_return/fetch_purchase_return_notifier.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/purchase/purchase_notifier.dart';
@@ -165,10 +165,8 @@ class _PurchaseReturnScreenState extends ConsumerState<PurchaseReturnScreen> {
                                 borderRadiusTopLeft: 10,
                                 onTap: () async {
                                   context.router.push(PdfViewerRoute(
-                                      pdfUrl:
-                                          UrlResources.downloadPurchaseInvoice,
                                       queryParameters: {
-                                        'PurchaseIDPK':
+                                        'PurchaseReturnIDPK':
                                             purchaseReturn.purchaseReturnIDPK,
                                       },
                                       pdfType: PDFType.salesInvoice,
@@ -196,8 +194,7 @@ class _PurchaseReturnScreenState extends ConsumerState<PurchaseReturnScreen> {
                                           purchaseReturn, ref);
                                   if (mounted) {
                                     context.router.push(AddNewPurchaseRoute(
-                                      title: context.translate(
-                                          AppStrings.addNewPurchaseReturn),
+                                      purchaseType: PurchaseType.purchaseReturn,
                                     ));
                                   }
                                 }),
@@ -304,7 +301,7 @@ class _PurchaseReturnScreenState extends ConsumerState<PurchaseReturnScreen> {
               PrimaryButton(
                 onPressed: () => context.router.push(
                   AddNewPurchaseRoute(
-                    title: context.translate(AppStrings.addNewPurchaseReturn),
+                    purchaseType: PurchaseType.purchaseReturn,
                   ),
                 ),
                 child: Row(

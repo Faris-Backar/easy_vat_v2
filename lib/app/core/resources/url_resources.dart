@@ -82,12 +82,14 @@ class UrlResources {
   static const String createPurchaseOrder = "PurchaseOrder/Insert";
   static const String updatePurchaseOrder = "PurchaseOrder/Update";
   static const String deletePurchaseOrder = "PurchaseOrder/Delete";
+  static const String downloadPurchaseOrder = "PurchaseOrder/DownloadInvoice";
 
   //purchaseReturn
   static const String getPurchaseReturn = "PurchaseReturn/Select/BetweenDate";
   static const String createPurchaseReturn = "PurchaseReturn/Insert";
   static const String updatePurchaseReturn = "PurchaseReturn/Update";
   static const String deletePurchaseReturn = "PurchaseReturn/Delete";
+  static const String downloadPurchaseReturn = "PurchaseReturn/DownloadInvoice";
 
   //login
   static const String login = "LogIn/authentication/verifyuserlogin";

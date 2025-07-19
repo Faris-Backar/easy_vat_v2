@@ -1,6 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
+import 'package:easy_vat_v2/app/features/cart/presentation/pages/cart_screen.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/providers/purchase/purchase_notifier.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/widget/add_new_purchase_form.dart';
 import 'package:easy_vat_v2/app/features/purchase/presentation/widget/add_purchase_footer.dart';
@@ -20,10 +22,12 @@ import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/svg_icon.dart';
 import 'package:easy_vat_v2/gen/assets.gen.dart';
 
+enum PurchaseType { purchaseInvoice, purchaseReturn, purchaseOrder }
+
 @RoutePage()
 class AddNewPurchaseScreen extends ConsumerStatefulWidget {
-  final String? title;
-  const AddNewPurchaseScreen({super.key, this.title});
+  final PurchaseType? purchaseType;
+  const AddNewPurchaseScreen({super.key, this.purchaseType});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
@@ -119,11 +123,12 @@ class _AddNewPurchaseScreenState extends ConsumerState<AddNewPurchaseScreen> {
         ),
       ),
       bottomNavigationBar: AddPurchaseFooterWidget(
-          purchaseNoController: purchaseNoController,
-          supInvNoController: supInvNoController,
-          purchaseModeNotifier: purchaseReturnModeNotifier,
-          purchasedByNotifier: returnedByNotifier,
-          purchaseType: widget.title),
+        purchaseNoController: purchaseNoController,
+        supInvNoController: supInvNoController,
+        purchaseModeNotifier: purchaseReturnModeNotifier,
+        purchasedByNotifier: returnedByNotifier,
+        purchaseType: widget.purchaseType,
+      ),
     );
   }
 
@@ -163,11 +168,12 @@ class _AddNewPurchaseScreenState extends ConsumerState<AddNewPurchaseScreen> {
           icon: Icon(Icons.adaptive.arrow_back),
         );
       }),
-      title: Text(widget.title ?? context.translate(AppStrings.addNewPurchase)),
+      title: Text(_getTitle(context)),
       actions: [
         Consumer(builder: (context, ref, child) {
           return IconButton(
-            onPressed: () => context.router.pushNamed(AppRouter.cart),
+            onPressed: () =>
+                context.router.push(CartRoute(screenType: CartScreenType.cart)),
             icon: Badge.count(
               backgroundColor: CustomColors.inActiveRedColor(context),
               textColor: Colors.white,
@@ -181,5 +187,18 @@ class _AddNewPurchaseScreenState extends ConsumerState<AddNewPurchaseScreen> {
         }),
       ],
     );
+  }
+
+  String _getTitle(BuildContext context) {
+    switch (widget.purchaseType) {
+      case PurchaseType.purchaseInvoice:
+        return context.translate(AppStrings.addNewPurchase);
+      case PurchaseType.purchaseOrder:
+        return context.translate(AppStrings.addNewPurchaseOrder);
+      case PurchaseType.purchaseReturn:
+        return context.translate(AppStrings.addNewPurchaseReturn);
+      default:
+        return context.translate(AppStrings.addNewPurchase);
+    }
   }
 }

@@ -371,11 +371,11 @@ class AddNewJournalRouteArgs {
 class AddNewPurchaseRoute extends _i40.PageRouteInfo<AddNewPurchaseRouteArgs> {
   AddNewPurchaseRoute({
     _i41.Key? key,
-    String? title,
+    _i8.PurchaseType? purchaseType,
     List<_i40.PageRouteInfo>? children,
   }) : super(
          AddNewPurchaseRoute.name,
-         args: AddNewPurchaseRouteArgs(key: key, title: title),
+         args: AddNewPurchaseRouteArgs(key: key, purchaseType: purchaseType),
          initialChildren: children,
        );
 
@@ -387,21 +387,24 @@ class AddNewPurchaseRoute extends _i40.PageRouteInfo<AddNewPurchaseRouteArgs> {
       final args = data.argsAs<AddNewPurchaseRouteArgs>(
         orElse: () => const AddNewPurchaseRouteArgs(),
       );
-      return _i8.AddNewPurchaseScreen(key: args.key, title: args.title);
+      return _i8.AddNewPurchaseScreen(
+        key: args.key,
+        purchaseType: args.purchaseType,
+      );
     },
   );
 }
 
 class AddNewPurchaseRouteArgs {
-  const AddNewPurchaseRouteArgs({this.key, this.title});
+  const AddNewPurchaseRouteArgs({this.key, this.purchaseType});
 
   final _i41.Key? key;
 
-  final String? title;
+  final _i8.PurchaseType? purchaseType;
 
   @override
   String toString() {
-    return 'AddNewPurchaseRouteArgs{key: $key, title: $title}';
+    return 'AddNewPurchaseRouteArgs{key: $key, purchaseType: $purchaseType}';
   }
 }
 
@@ -748,7 +751,6 @@ class NoInternetRoute extends _i40.PageRouteInfo<void> {
 class PdfViewerRoute extends _i40.PageRouteInfo<PdfViewerRouteArgs> {
   PdfViewerRoute({
     _i42.Key? key,
-    required String pdfUrl,
     required _i26.PDFType pdfType,
     String? pdfName,
     required Map<String, dynamic> queryParameters,
@@ -757,7 +759,6 @@ class PdfViewerRoute extends _i40.PageRouteInfo<PdfViewerRouteArgs> {
          PdfViewerRoute.name,
          args: PdfViewerRouteArgs(
            key: key,
-           pdfUrl: pdfUrl,
            pdfType: pdfType,
            pdfName: pdfName,
            queryParameters: queryParameters,
@@ -773,7 +774,6 @@ class PdfViewerRoute extends _i40.PageRouteInfo<PdfViewerRouteArgs> {
       final args = data.argsAs<PdfViewerRouteArgs>();
       return _i26.PdfViewerScreen(
         key: args.key,
-        pdfUrl: args.pdfUrl,
         pdfType: args.pdfType,
         pdfName: args.pdfName,
         queryParameters: args.queryParameters,
@@ -785,15 +785,12 @@ class PdfViewerRoute extends _i40.PageRouteInfo<PdfViewerRouteArgs> {
 class PdfViewerRouteArgs {
   const PdfViewerRouteArgs({
     this.key,
-    required this.pdfUrl,
     required this.pdfType,
     this.pdfName,
     required this.queryParameters,
   });
 
   final _i42.Key? key;
-
-  final String pdfUrl;
 
   final _i26.PDFType pdfType;
 
@@ -803,7 +800,7 @@ class PdfViewerRouteArgs {
 
   @override
   String toString() {
-    return 'PdfViewerRouteArgs{key: $key, pdfUrl: $pdfUrl, pdfType: $pdfType, pdfName: $pdfName, queryParameters: $queryParameters}';
+    return 'PdfViewerRouteArgs{key: $key, pdfType: $pdfType, pdfName: $pdfName, queryParameters: $queryParameters}';
   }
 }
 

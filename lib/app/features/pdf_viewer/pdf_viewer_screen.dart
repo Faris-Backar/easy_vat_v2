@@ -24,13 +24,11 @@ import './functions/pdf_downloader_stub.dart'
 
 @RoutePage()
 class PdfViewerScreen extends StatefulWidget {
-  final String pdfUrl;
   final String? pdfName;
   final PDFType pdfType;
   final Map<String, dynamic> queryParameters;
   const PdfViewerScreen(
       {super.key,
-      required this.pdfUrl,
       required this.pdfType,
       this.pdfName,
       required this.queryParameters});
@@ -50,7 +48,10 @@ enum PDFType {
   journal,
   contra,
   dividend,
-  stockTransfer
+  stockTransfer,
+  purchaseInvoice,
+  purchaseOrder,
+  purchaseReturn,
 }
 
 class _PdfViewerScreenState extends State<PdfViewerScreen> {
@@ -357,6 +358,12 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         return context.translate(AppStrings.salesReturn);
       case PDFType.stockTransfer:
         return context.translate(AppStrings.stockTransfer);
+      case PDFType.purchaseInvoice:
+        return context.translate(AppStrings.purchaseInvoice);
+      case PDFType.purchaseOrder:
+        return context.translate(AppStrings.purchaseOrder);
+      case PDFType.purchaseReturn:
+        return context.translate(AppStrings.purchaseReturn);
     }
   }
 
@@ -386,6 +393,12 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
         return UrlResources.downloadSalesReturn;
       case PDFType.stockTransfer:
         return UrlResources.downloadStockTransfer;
+      case PDFType.purchaseInvoice:
+        return UrlResources.downloadPurchaseInvoice;
+      case PDFType.purchaseOrder:
+        return UrlResources.downloadPurchaseOrder;
+      case PDFType.purchaseReturn:
+        return UrlResources.downloadPurchaseReturn;
     }
   }
 }

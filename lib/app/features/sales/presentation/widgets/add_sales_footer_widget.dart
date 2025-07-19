@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
-import 'package:easy_vat_v2/app/core/resources/url_resources.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.dart';
 import 'package:easy_vat_v2/app/core/routes/app_router.gr.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
@@ -133,7 +132,6 @@ class _AddSalesFooterWidgetState extends State<AddSalesFooterWidget> {
                                 ref.read(cartProvider.notifier).clearCart();
                                 ref.read(salesProvider.notifier).clear();
                                 context.router.push(PdfViewerRoute(
-                                    pdfUrl: UrlResources.downloadSalesInvoice,
                                     pdfType: getPdfType(),
                                     queryParameters: {
                                       if (SalesType.salesInvoice ==
