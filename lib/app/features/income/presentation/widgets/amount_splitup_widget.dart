@@ -21,6 +21,7 @@ class AmountSplitupWidget extends ConsumerStatefulWidget {
 class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
   final _discountController = TextEditingController();
   bool isTaxRegistrationEnabled = false;
+  bool _isDiscountInitialized = false;
   @override
   void initState() {
     super.initState();
@@ -34,22 +35,28 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(incomeCartProvider);
+    if (!_isDiscountInitialized) {
+      _discountController.text = state.discount.toStringAsFixed(2);
+      _isDiscountInitialized = true;
+    }
     return Column(
       children: [
-        // if (isTaxRegistrationEnabled)
-        //   _buildAmountSplitup(context,
-        //       content: state.grossTotal.toStringAsFixed(2),
-        //       label: context.translate(AppStrings.totalBeforeTax)),
-        // SizedBox(
-        //   height: 5,
-        // ),
-        // if (isTaxRegistrationEnabled)
-        //   _buildAmountSplitup(context,
-        //       label: state.taxAmount.toStringAsFixed(2),
-        //       content: context.translate(AppStrings.totalTax)),
-        // SizedBox(
-        //   height: 5,
-        // ),
+        if (isTaxRegistrationEnabled)
+          _buildAmountSplitup(context,
+              content: state.grossTotal.toStringAsFixed(2),
+              label: context.translate(AppStrings.totalBeforeTax)),
+        SizedBox(
+          height: 5,
+        ),
+        if (isTaxRegistrationEnabled)
+          _buildAmountSplitup(
+            context,
+            content: state.taxAmount.toStringAsFixed(2),
+            label: context.translate(AppStrings.totalTax),
+          ),
+        SizedBox(
+          height: 5,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -69,6 +76,11 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
                 textAlign: TextAlign.right,
                 textInputType: TextInputType.number,
                 textInputAction: TextInputAction.done,
+                onTap: () {
+                  if (_discountController.text == "0.00") {
+                    _discountController.clear();
+                  }
+                },
                 // onchanged
                 onChanged: (disc) {
                   final discountAmount = double.tryParse(disc) ?? 0.0;
@@ -137,6 +149,11 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
                   color: context.colorScheme.outline,
                   fontWeight: FontWeight.w500),
             ),
+            Text(
+              content,
+              style: context.textTheme.bodyMedium
+                  ?.copyWith(fontWeight: FontWeight.w600),
+            )
           ],
         ),
         SizedBox(

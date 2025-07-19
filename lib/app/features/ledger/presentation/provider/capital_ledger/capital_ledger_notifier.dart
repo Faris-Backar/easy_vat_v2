@@ -29,7 +29,7 @@ class CapitalLedgerNotifier extends StateNotifier<CapitalLedgerState> {
       : super(CapitalLedgerState.initial());
 
   fetchCapitalLedgers({bool isRefresh = false}) async {
-    if (capitalLedgers.isNotEmpty && !isRefresh) {
+    if (capitalLedgers.isNotEmpty && isRefresh) {
       state = CapitalLedgerState.loaded(ledgers: capitalLedgers);
     } else {
       state = const CapitalLedgerState.loading();

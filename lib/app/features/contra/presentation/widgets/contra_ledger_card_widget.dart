@@ -64,7 +64,7 @@ class _ContraLedgerCardWidgetState
   Widget build(BuildContext context) {
     final entryMode = ref.watch(entryModeProvider);
     final ledgerMode =
-        ref.watch(ledgerModeProvider(widget.ledger.ledger.ledgerCode ?? ""));
+        ref.watch(ledgerModeProvider(widget.ledger.ledger.ledgerIdpk ?? ""));
     return ValueListenableBuilder(
         valueListenable: _isExpanded,
         builder: (context, isExpanded, child) {

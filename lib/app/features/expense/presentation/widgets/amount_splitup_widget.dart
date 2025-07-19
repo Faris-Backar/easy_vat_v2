@@ -20,6 +20,7 @@ class AmountSplitupWidget extends ConsumerStatefulWidget {
 class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
   final _discountController = TextEditingController();
   bool isTaxRegistrationEnabled = false;
+  bool _isDiscountInitialized = false;
 
   @override
   void initState() {
@@ -34,6 +35,10 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(expenseCartProvider);
+    if (!_isDiscountInitialized) {
+      _discountController.text = state.discount.toStringAsFixed(2);
+      _isDiscountInitialized = true;
+    }
 
     return Column(
       children: [
@@ -75,6 +80,11 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
                 textAlign: TextAlign.right,
                 textInputType: TextInputType.number,
                 textInputAction: TextInputAction.done,
+                onTap: () {
+                  if (_discountController.text == "0.00") {
+                    _discountController.clear();
+                  }
+                },
                 onChanged: (disc) {
                   final discountAmount = double.tryParse(disc) ?? 0.0;
                   if (discountAmount >= 0) {

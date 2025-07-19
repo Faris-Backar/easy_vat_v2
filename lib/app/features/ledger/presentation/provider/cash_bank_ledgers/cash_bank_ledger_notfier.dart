@@ -29,7 +29,7 @@ class CashBankLedgerNotifier extends StateNotifier<CashBankLedgerState> {
       : super(CashBankLedgerState.initial());
 
   fetchCashBankLedgers({bool isRefresh = false}) async {
-    if (cashBankLedgers.isNotEmpty && !isRefresh) {
+    if (cashBankLedgers.isNotEmpty && isRefresh) {
       state = CashBankLedgerState.loaded(ledgers: cashBankLedgers);
     } else {
       state = const CashBankLedgerState.loading();
