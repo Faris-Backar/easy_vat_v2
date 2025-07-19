@@ -147,6 +147,14 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
     final entryMode = ref.read(entryModeProvider).when(
         singleEntry: () => "Single Entry", doubleEntry: () => "Double Entry");
 
+    String toAccount = PrefResources.emptyGuid;
+
+    if (mode == EntryModeState.singleEntry()) {
+      toAccount = selectedLedger?.ledgerIdpk ?? PrefResources.emptyGuid;
+    } else if (mode == EntryModeState.doubleEntry()) {
+      toAccount = PrefResources.emptyGuid;
+    }
+
     for (var i = 0; i < detailList.length; i++) {
       double drAmount = detailList[i].drAmount;
       double crAmount = detailList[i].crAmount;
@@ -189,7 +197,7 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
       rowguid: PrefResources.emptyGuid,
       companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
       entryMode: entryMode,
-      toAccount: selectedLedger?.ledgerIdpk ?? PrefResources.emptyGuid,
+      toAccount: toAccount,
       toAccountName: selectedLedger?.ledgerName ?? "",
       contraEntryDetail: details,
     );
@@ -282,11 +290,11 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
 
         if (cartLedger.drAmount > 0) {
           ref
-              .read(ledgerModeProvider(cartLedger.ledger.ledgerCode).notifier)
+              .read(ledgerModeProvider(cartLedger.ledger.ledgerIdpk).notifier)
               .state = LedgerModeState.debitLedger();
         } else if (cartLedger.crAmount > 0) {
           ref
-              .read(ledgerModeProvider(cartLedger.ledger.ledgerCode).notifier)
+              .read(ledgerModeProvider(cartLedger.ledger.ledgerIdpk).notifier)
               .state = LedgerModeState.creditLedger();
         }
 
@@ -298,6 +306,31 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
     updateState();
   }
 
+  // void _getRateSplitUp({
+  //   required ContraCartEntity ledger,
+  //   bool isInitial = false,
+  // }) {
+  //   final entryMode = ref.read(entryModeProvider);
+  //   // final ledgerMode =
+  //   //     ref.read(ledgerModeProvider(ledger.ledger.ledgerCode ?? ""));
+  //   if (entryMode == EntryModeState.singleEntry()) {
+  //     totalAmount += ledger.netTotal;
+  //     crAmount += ledger.netTotal;
+  //     drAmount = 0.0;
+  //   } else if (entryMode == EntryModeState.doubleEntry() &&
+  //       ledger.ledgerMode == LedgerModeState.debitLedger()) {
+  //     drAmount += ledger.drAmount;
+  //     totalAmount += ledger.drAmount;
+  //   } else if (entryMode == EntryModeState.doubleEntry() &&
+  //       ledger.ledgerMode == LedgerModeState.creditLedger()) {
+  //     crAmount += ledger.crAmount;
+  //     totalAmount += ledger.crAmount;
+  //   }
+  //   if (!isInitial) {
+  //     state = state.copyWith(
+  //         totalAmount: totalAmount, drAmount: drAmount, crAmount: crAmount);
+  //   }
+  // }
   void _getRateSplitUp({
     required ContraCartEntity ledger,
     bool isInitial = false,
@@ -309,14 +342,10 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
       totalAmount += ledger.netTotal;
       crAmount += ledger.netTotal;
       drAmount = 0.0;
-    } else if (entryMode == EntryModeState.doubleEntry() &&
-        ledger.ledgerMode == LedgerModeState.debitLedger()) {
+    } else if (entryMode == EntryModeState.doubleEntry()) {
       drAmount += ledger.drAmount;
-      totalAmount += ledger.drAmount;
-    } else if (entryMode == EntryModeState.doubleEntry() &&
-        ledger.ledgerMode == LedgerModeState.creditLedger()) {
       crAmount += ledger.crAmount;
-      totalAmount += ledger.crAmount;
+      totalAmount += ledger.drAmount;
     }
     if (!isInitial) {
       state = state.copyWith(
@@ -333,19 +362,38 @@ class ContraCartNotifier extends StateNotifier<ContraCartState> {
       totalAmount -= ledger.netTotal;
       crAmount -= ledger.netTotal;
       drAmount = 0.0;
-    } else if (entryMode == EntryModeState.doubleEntry() &&
-        ledger.ledgerMode == LedgerModeState.debitLedger()) {
+    } else if (entryMode == EntryModeState.doubleEntry()) {
       drAmount -= ledger.drAmount;
-      totalAmount = ledger.drAmount;
-    } else if (entryMode == EntryModeState.doubleEntry() &&
-        ledger.ledgerMode == LedgerModeState.creditLedger()) {
       crAmount -= ledger.crAmount;
-      totalAmount = ledger.crAmount;
+      totalAmount = ledger.drAmount;
     }
 
     state = state.copyWith(
         totalAmount: totalAmount, crAmount: crAmount, drAmount: drAmount);
   }
+
+  // void _decreaseRateSplitUp({required ContraCartEntity ledger}) {
+  //   final entryMode = ref.read(entryModeProvider);
+  //   // final ledgerMode =
+  //   //     ref.read(ledgerModeProvider(ledger.ledger.ledgerCode ?? ""));
+
+  //   if (entryMode == EntryModeState.singleEntry()) {
+  //     totalAmount -= ledger.netTotal;
+  //     crAmount -= ledger.netTotal;
+  //     drAmount = 0.0;
+  //   } else if (entryMode == EntryModeState.doubleEntry() &&
+  //       ledger.ledgerMode == LedgerModeState.debitLedger()) {
+  //     drAmount -= ledger.drAmount;
+  //     totalAmount = ledger.drAmount;
+  //   } else if (entryMode == EntryModeState.doubleEntry() &&
+  //       ledger.ledgerMode == LedgerModeState.creditLedger()) {
+  //     crAmount -= ledger.crAmount;
+  //     totalAmount = ledger.crAmount;
+  //   }
+
+  //   state = state.copyWith(
+  //       totalAmount: totalAmount, crAmount: crAmount, drAmount: drAmount);
+  // }
 
   updateState() {
     final currentEntryMode = ref.read(entryModeProvider).when(

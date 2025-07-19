@@ -108,6 +108,8 @@ class _AddNewCreditNoteFormState extends ConsumerState<AddNewCreditNoteForm> {
                     builder: (context, ref, child) {
                       return DatePickerTextField(
                         label: context.translate(AppStrings.date),
+                        initialValue:
+                            ref.watch(creditNoteCartProvider).creditNoteDate,
                         onDateSelected: (data) {
                           ref
                               .read(creditNoteCartProvider.notifier)

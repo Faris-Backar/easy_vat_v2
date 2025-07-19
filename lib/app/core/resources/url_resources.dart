@@ -66,6 +66,9 @@ class UrlResources {
   static const String getCashBankLedgerAccount =
       "Ledger/Select/GetCashBankLedger";
   static const String getAllLedger = "Ledger/Select/SelectAll";
+  static const String createLedger = "Ledger/Insert";
+  static const String updateLedger = "Ledger/Update";
+  static const String deleteLedger = "Ledger/Delete";
 
   //salesman
   static const String getSalesMan = "Salesman/Select/SelectAll";
@@ -160,4 +163,11 @@ class UrlResources {
   static const String updateStockTransfer = "StockTransfer/Update";
   static const String deleteStockTransfer = "StockTransfer/Delete";
   static const String downloadStockTransfer = "StockTransfer/DownloadInvoice";
+
+  //country
+  static const String getCountry = "Country/Select/SelectAll";
+  static const String getState = "Country/State";
+
+  //group
+  static const String getGroup = "Group/Select/SelectAll";
 }

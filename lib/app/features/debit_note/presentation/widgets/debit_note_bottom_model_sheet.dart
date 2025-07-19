@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
 import 'package:easy_vat_v2/app/core/localization/app_strings.dart';
+import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
+import 'package:easy_vat_v2/app/features/debit_note/presentation/providers/debit_note_cart/debit_note_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/debit_note/presentation/widgets/debit_note_ledger_add_dialog.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/all_ledgers/all_ledgers_notifier.dart';
@@ -127,46 +129,86 @@ class _DebitNoteBottomModalSheetState
   }
 
   Widget _buildDebitNoteList(List<LedgerAccountEntity> ledgerList) {
+    final selectedIndex = debitNoteDetailsExpansionNotifier.value;
+    final addedLedgers = ref.watch(debitNoteCartProvider).ledgerList ?? [];
     return ListView.builder(
-      itemCount: ledgerList.length,
-      itemBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: InkWell(
-          onTap: () {
-            if ((ledgerList[index].isActive ?? false)) {
-              debitNoteDetailsExpansionNotifier.value = index;
-              showDialog(
-                  context: context,
-                  builder: (context) =>
-                      DebitNoteLedgerAddDialog(ledger: ledgerList[index]));
-            } else {
-              AppUtils.showToast(context, AppStrings.ledgerCurrentlyNotActive);
-            }
-          },
-          child: ValueListenableBuilder<int?>(
-              valueListenable: debitNoteDetailsExpansionNotifier,
-              builder: (context, value, child) {
-                return LedgerDetailsCard(ledger: ledgerList[index]);
-              }),
-        ),
-      ),
-    );
+        itemCount: ledgerList.length,
+        itemBuilder: (context, index) {
+          final ledger = ledgerList[index];
+          final isSelected = selectedIndex == index;
+          final isAdded =
+              addedLedgers.any((l) => l.ledger.ledgerIdpk == ledger.ledgerIdpk);
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: InkWell(
+              onTap: () {
+                if ((ledgerList[index].isActive ?? false)) {
+                  debitNoteDetailsExpansionNotifier.value = index;
+                  showDialog(
+                      context: context,
+                      builder: (context) =>
+                          DebitNoteLedgerAddDialog(ledger: ledgerList[index]));
+                } else {
+                  AppUtils.showToast(
+                      context, AppStrings.ledgerCurrentlyNotActive);
+                }
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: isAdded
+                        ? Colors.green
+                        : isSelected
+                            ? context.colorScheme.onPrimary
+                            : Colors.transparent,
+                    width: 2.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: LedgerDetailsCard(ledger: ledger),
+              ),
+            ),
+          );
+        });
   }
 
   Widget _buildSubmitButton(BuildContext context, WidgetRef ref) {
-    return Container(
-      height: 50.h,
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: PrimaryButton(
-        label: AppStrings.submit,
-        onPressed: () {
-          final selectedIndex = debitNoteDetailsExpansionNotifier.value;
-          if (selectedIndex != null) {
-            context.router.popForced();
-          }
-        },
-      ),
+    return Row(
+      children: [
+        Expanded(
+          flex: 5,
+          child: Container(
+            height: 50.h,
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: PrimaryButton(
+              label: AppStrings.submit,
+              onPressed: () {
+                final selectedIndex = debitNoteDetailsExpansionNotifier.value;
+                if (selectedIndex != null) {
+                  context.router.popForced();
+                }
+              },
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: IconButton(
+              onPressed: () => context.router.popForced(),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              icon: Badge.count(
+                backgroundColor: CustomColors.inActiveRedColor(context),
+                textColor: Colors.white,
+                count: ref.watch(debitNoteCartProvider).ledgerList?.length ?? 0,
+                child: SvgIcon(
+                  icon: Assets.icons.cart,
+                  color: context.defaultTextColor,
+                ),
+              )),
+        )
+      ],
     );
   }
 }

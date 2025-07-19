@@ -47,7 +47,9 @@ class _AddNewExpenseFormState extends ConsumerState<AddNewExpenseForm> {
     widget.expenseNoController.text = cart.expenseNo ?? "";
     widget.refNoController.text = cart.refNo ?? "";
     widget.purchasedByController.text = cart.purchasedBy ?? "";
+    widget.paymentModeNotifier.value = cart.paymentMode ?? "";
     widget.notesController.text = cart.notes ?? "";
+    widget.supplierInvNoController.text = cart.supplierInvoiceNo ?? "";
 
     widget.refNoController.addListener(() {
       ref

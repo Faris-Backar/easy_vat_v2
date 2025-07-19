@@ -161,7 +161,7 @@ class _CreditNoteScreenState extends ConsumerState<CreditNoteScreen> {
                                   .withValues(alpha: 0.2),
                           borderRadiusBottomRight: 10.0,
                           borderRadiusTopRight: 10.0,
-                          icon: Assets.icons.view,
+                          icon: Assets.icons.edit,
                           iconColor: AppUtils.isDarkMode(context)
                               ? context.onPrimaryColor
                               : null,

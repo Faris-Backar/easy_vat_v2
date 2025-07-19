@@ -242,7 +242,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
           grossTotal: detailList[i].grossTotal,
           taxAmount: taxAmount,
           taxPercentage: isTaxEnabled ? (detailList[i].taxPercentage) : 0.0,
-          netTotal: netTotal,
+          netTotal: detailList[i].netTotal,
           rowguid: detailList[i].ledger.rowguid ?? PrefResources.emptyGuid,
           companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
           openingBalance: detailList[i].ledger.openingBalance ?? 0.0,
@@ -259,11 +259,11 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
       expenseDate: expenseDate,
       paymentMode: paymentMode,
       purchasedBy: purchasedBy,
-      supplierIDFK: cashAccount?.ledgerIdpk ??
-          selectedSupplier?.ledgerIDPK ??
-          PrefResources.emptyGuid,
-      crLedgerIDFK: expenseAccount?.ledgerIdpk ??
+      supplierIDFK: selectedSupplier?.ledgerIDPK ??
           cashAccount?.ledgerIdpk ??
+          PrefResources.emptyGuid,
+      crLedgerIDFK: cashAccount?.ledgerIdpk ??
+          expenseAccount?.ledgerIdpk ??
           selectedSupplier?.ledgerIDPK ??
           PrefResources.emptyGuid,
       drLedgerIDFK: PrefResources.emptyGuid,
@@ -294,6 +294,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
     detailList.clear();
     totalAmount = 0.0;
     taxAmount = 0.0;
+    grossTotal = 0.0;
     discount = 0.0;
     roundOf = 0.0;
     expensesNo = "";
@@ -344,6 +345,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
     setEditMode(true);
     List<ExpenseCartEntity> updatedLedgerList = [];
     ref.read(supplierNotfierProvider.notifier).getSupplier();
+
     final supplierList = ref.read(supplierNotfierProvider).supplierList;
     final selectedSupplier = supplierList != null
         ? supplierList.firstWhere((supplier) =>
@@ -430,6 +432,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
       {required ExpenseCartEntity ledger, bool isInitial = false}) {
     if (isTaxEnabled) {
       taxAmount += ledger.taxAmount;
+      grossTotal += ledger.grossTotal;
       totalAmount += (ledger.grossTotal + ledger.taxAmount - discount);
     } else {
       totalAmount += ledger.grossTotal - discount;
@@ -438,6 +441,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
     if (!isInitial) {
       state = state.copyWith(
         totalAmount: totalAmount,
+        grossTotal: grossTotal,
         taxAmount: taxAmount,
         isTaxEnabled: isTaxEnabled,
       );
@@ -447,6 +451,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
   void _decreaseRateSplitUp({required ExpenseCartEntity ledger}) {
     if (isTaxEnabled) {
       taxAmount -= ledger.tax;
+      grossTotal -= ledger.grossTotal;
       totalAmount -= (ledger.grossTotal + ledger.taxAmount - discount);
     } else {
       totalAmount -= ledger.grossTotal - discount;
@@ -454,6 +459,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
 
     state = state.copyWith(
         totalAmount: totalAmount,
+        grossTotal: grossTotal,
         taxAmount: taxAmount,
         isTaxEnabled: isTaxEnabled);
   }
@@ -461,6 +467,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
   updateState() {
     state = state.copyWith(
         ledgerList: detailList,
+        grossTotal: grossTotal,
         totalAmount: totalAmount,
         taxAmount: taxAmount,
         discount: discount,

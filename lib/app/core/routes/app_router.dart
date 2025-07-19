@@ -59,7 +59,28 @@ class AppRouter extends RootStackRouter {
         AutoRoute(page: StockTransferRoute.page, path: stockTransfer),
         AutoRoute(
             page: AddNewStockTransferRoute.page,
-            path: addNewStockTransferScreen)
+            path: addNewStockTransferScreen),
+        AutoRoute(page: LedgerGroupRoute.page, path: ledgerGroup),
+        AutoRoute(page: AddNewLedgerGroupRoute.page, path: addNewLedgerGroup),
+        AutoRoute(page: LedgerRoute.page, path: ledger),
+        AutoRoute(page: AddNewLedgerRoute.page, path: addNewLedger),
+        AutoRoute(page: CustomerRoute.page, path: customer),
+        AutoRoute(page: AddNewCustomerRoute.page, path: addNewCustomer),
+        AutoRoute(page: SupplierRoute.page, path: supplier),
+        AutoRoute(page: AddNewSupplier.page, path: addNewSupplier),
+        AutoRoute(page: BankRoute.page, path: bank),
+        AutoRoute(page: AddNewBankRoute.page, path: addNewBank),
+        AutoRoute(page: ItemRoute.page, path: item),
+        AutoRoute(page: AddNewItemRoute.page, path: addNewItem),
+        AutoRoute(page: StoreRoute.page, path: store),
+        AutoRoute(page: AddNewStoreRoute.page, path: addNewStore),
+        AutoRoute(page: ServiceJobRoute.page, path: serviceJob),
+        AutoRoute(page: AddNewServiceJobRoute.page, path: addNewServiceJob),
+        AutoRoute(
+            page: VehicleRegistrationRoute.page, path: vehicleRegistration),
+        AutoRoute(
+            page: AddNewVehicleRegistration.page,
+            path: addNewVehicleRegistration)
       ];
 
   // Routes constants
@@ -103,6 +124,24 @@ class AppRouter extends RootStackRouter {
   static const String addNewDividend = "/addNewDividend";
   static const String stockTransfer = "/stockTransfer";
   static const String addNewStockTransferScreen = "/addNewStockTransferScreen";
+  static const String ledgerGroup = "/ledgerGroup";
+  static const String addNewLedgerGroup = "/addNewLedgerGroup";
+  static const String ledger = "/ledger";
+  static const String addNewLedger = "/addNewLedger";
+  static const String customer = "/customer";
+  static const String addNewCustomer = "/addNewCustomer";
+  static const String supplier = "/supplier";
+  static const String addNewSupplier = "/addNewSupplier";
+  static const String bank = "/bank";
+  static const String addNewBank = "/addNewBank";
+  static const String item = "/item";
+  static const String addNewItem = "/addNewItem";
+  static const String store = "/store";
+  static const String addNewStore = "/addNewStore";
+  static const String serviceJob = "/serviceJob";
+  static const String addNewServiceJob = "/addNewServiceJob";
+  static const String vehicleRegistration = "/vehicleRegistration";
+  static const String addNewVehicleRegistration = "/addNewVehicleRegistration";
 }
 
 class AuthGuard extends AutoRouteGuard {

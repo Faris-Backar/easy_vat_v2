@@ -1,8 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_vat_v2/app/core/app_core.dart';
 import 'package:easy_vat_v2/app/core/extensions/extensions.dart';
+import 'package:easy_vat_v2/app/core/theme/custom_colors.dart';
 import 'package:easy_vat_v2/app/core/utils/app_utils.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/income_ledger_details_card.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/entry_mode/entry_mode_notifier.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/journal_cart/journal_cart_provider.dart';
+import 'package:easy_vat_v2/app/features/journal/presentation/providers/ledger_mode/ledger_mode_notifier.dart';
 import 'package:easy_vat_v2/app/features/journal/presentation/widgets/journal_add_dialog.dart';
 import 'package:easy_vat_v2/app/features/ledger/domain/entities/ledger_account_entity.dart';
 import 'package:easy_vat_v2/app/features/ledger/presentation/provider/all_ledgers/all_ledgers_notifier.dart';
@@ -129,47 +133,100 @@ class _JournalBottomModalSheetState
   }
 
   Widget _buildAllLedgerList(List<LedgerAccountEntity> ledgerList) {
+    final selectedIndex = journalDetailsExpansionNotifier.value;
+    final addedLedgers = ref.watch(journalCartProvider).ledgerList ?? [];
+    final entryMode = ref.watch(entryModeProvider);
     return ListView.builder(
-      itemCount: ledgerList.length,
-      itemBuilder: (context, index) => Padding(
-        padding: const EdgeInsets.only(bottom: 8.0),
-        child: InkWell(
-          onTap: () {
-            if ((ledgerList[index].isActive ?? false)) {
-              journalDetailsExpansionNotifier.value = index;
-              showDialog(
-                  context: context,
-                  builder: (context) => JournalAddDialog(
-                        ledger: ledgerList[index],
-                      ));
-            } else {
-              AppUtils.showToast(context, AppStrings.ledgerCurrentlyNotActive);
-            }
-          },
-          child: ValueListenableBuilder(
-              valueListenable: journalDetailsExpansionNotifier,
-              builder: (context, value, child) {
-                return IncomeLedgerDetailsCard(ledger: ledgerList[index]);
-              }),
-        ),
-      ),
-    );
+        itemCount: ledgerList.length,
+        itemBuilder: (context, index) {
+          final ledger = ledgerList[index];
+          final isSelected = selectedIndex == index;
+
+          final isAdded =
+              addedLedgers.any((l) => l.ledger.ledgerIdpk == ledger.ledgerIdpk);
+
+          Color borderColor = Colors.transparent;
+          if (isAdded) {
+            entryMode.when(singleEntry: () {
+              borderColor = Colors.green;
+            }, doubleEntry: () {
+              final ledgerMode =
+                  ref.watch(ledgerModeProvider(ledger.ledgerIdpk ?? ""));
+              borderColor = ledgerMode.when(
+                  debitLedger: () => Colors.red,
+                  creditLedger: () => Colors.green);
+            });
+          } else if (isSelected) {
+            borderColor = context.colorScheme.primary;
+          }
+          return Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: InkWell(
+              onTap: () {
+                if ((ledgerList[index].isActive ?? false)) {
+                  journalDetailsExpansionNotifier.value = index;
+                  showDialog(
+                      context: context,
+                      builder: (context) => JournalAddDialog(
+                            ledger: ledgerList[index],
+                          ));
+                } else {
+                  AppUtils.showToast(
+                      context, AppStrings.ledgerCurrentlyNotActive);
+                }
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: borderColor,
+                    width: 2.0,
+                  ),
+                  borderRadius: BorderRadius.circular(8.0),
+                ),
+                child: IncomeLedgerDetailsCard(ledger: ledger),
+              ),
+            ),
+          );
+        });
   }
 
   Widget _buildSubmitButton(BuildContext context, WidgetRef ref) {
-    return Container(
-      height: 50.h,
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: PrimaryButton(
-        label: AppStrings.submit,
-        onPressed: () {
-          final selectedIndex = journalDetailsExpansionNotifier.value;
-          if (selectedIndex != null) {
-            context.router.popForced();
-          }
-        },
-      ),
+    return Row(
+      children: [
+        Expanded(
+          flex: 5,
+          child: Container(
+            height: 50.h,
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: PrimaryButton(
+              label: AppStrings.submit,
+              onPressed: () {
+                final selectedIndex = journalDetailsExpansionNotifier.value;
+                if (selectedIndex != null) {
+                  context.router.popForced();
+                }
+              },
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: IconButton(
+              onPressed: () => context.router.popForced(),
+              splashColor: Colors.transparent,
+              highlightColor: Colors.transparent,
+              hoverColor: Colors.transparent,
+              icon: Badge.count(
+                backgroundColor: CustomColors.inActiveRedColor(context),
+                textColor: Colors.white,
+                count: ref.watch(journalCartProvider).ledgerList?.length ?? 0,
+                child: SvgIcon(
+                  icon: Assets.icons.cart,
+                  color: context.defaultTextColor,
+                ),
+              )),
+        )
+      ],
     );
   }
 }

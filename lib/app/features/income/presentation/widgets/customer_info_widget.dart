@@ -8,7 +8,7 @@ import 'package:easy_vat_v2/app/features/customer/presentation/providers/custome
 import 'package:easy_vat_v2/app/features/income/presentation/providers/income_cart/income_cart_provider.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/customer_address_info.dart';
 import 'package:easy_vat_v2/app/features/income/presentation/widgets/customer_details_card.dart';
-import 'package:easy_vat_v2/app/features/sales/presentation/widgets/customer_info_tab_content.dart';
+import 'package:easy_vat_v2/app/features/income/presentation/widgets/customer_info_tab_content.dart';
 import 'package:easy_vat_v2/app/features/widgets/custom_text_field.dart';
 import 'package:easy_vat_v2/app/features/widgets/primary_button.dart';
 import 'package:easy_vat_v2/app/features/widgets/refresh_button.dart';
@@ -56,7 +56,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
       shippingAddressController.text =
           ref.read(incomeCartProvider).selectedCustomer?.shippingAddress ?? "";
     } else {
-      final cashCustomer = CustomerEntity(ledgerName: "cash", isActive: true);
+      final cashCustomer = CustomerEntity(ledgerName: "Cash", isActive: true);
       ref.read(incomeCartProvider.notifier).setCustomer(cashCustomer);
     }
     await ref.read(customerNotifierProvider.notifier).getCustomer();
@@ -68,7 +68,7 @@ class _CustomerInfoWidgetState extends ConsumerState<CustomerInfoWidget> {
   }
 
   Widget _buildCustomerBottomSheet(BuildContext context) {
-    return Consumer(builder: (context, WidgetRef ref, child) {
+    return Consumer(builder: (context, ref, child) {
       final customerState = ref.watch(customerNotifierProvider);
       return Container(
           height: 1.sh,

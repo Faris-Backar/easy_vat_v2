@@ -44,9 +44,9 @@ class _AddNewIncomeFormState extends ConsumerState<AddNewIncomeForm> {
     final cart = ref.read(incomeCartProvider);
     widget.incomeNoController.text = cart.incomeNo ?? "";
     widget.refNoController.text = cart.refNo ?? "";
+    widget.paymentModeNotifier.value = cart.paymentMode ?? "";
     widget.soldByController.text = cart.soldBy ?? "";
     widget.noteController.text = cart.notes ?? "";
-
     widget.refNoController.addListener(() {
       ref
           .read(incomeCartProvider.notifier)
@@ -104,7 +104,7 @@ class _AddNewIncomeFormState extends ConsumerState<AddNewIncomeForm> {
                 Consumer(builder: (context, ref, child) {
                   return DatePickerTextField(
                     label: context.translate(AppStrings.date),
-                    // initial value
+                    initialValue: ref.watch(incomeCartProvider).incomeDate,
                     onDateSelected: (data) {
                       ref.read(incomeCartProvider.notifier).setIncomeDate(data);
                     },
