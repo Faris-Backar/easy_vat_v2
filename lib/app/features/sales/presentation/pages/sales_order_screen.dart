@@ -366,16 +366,11 @@ class _SalesOrderScreenState extends ConsumerState<SalesOrderScreen> {
               primaryButtonLabel: context.translate(AppStrings.delete),
               secondaryButtonLabel: context.translate(AppStrings.cancel),
               onPrimaryTap: () {
-                ref
-                    .read(deleteSalesNotifierProvider.notifier)
-                    .deleteSalesQuotation(
-                      request: SalesParams(
-                        fromDate: ref.read(dateRangeProvider).fromDate,
-                        toDate: ref.read(dateRangeProvider).toDate,
-                        salesQuotationIdpk: salesIdpk,
-                        customerID: customerID,
-                      ),
-                    );
+                // ref
+                //     .read(deleteSalesNotifierProvider.notifier)
+                //     .deleteSalesOrder(
+                //       request:
+                //     );
                 context.router.popForced();
               },
               onSecondaryTap: () => context.router.popForced(),

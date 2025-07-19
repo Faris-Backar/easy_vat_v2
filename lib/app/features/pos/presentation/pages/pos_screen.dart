@@ -239,7 +239,8 @@ class _PosScreenState extends ConsumerState<PosScreen> {
                                       .reinsertSalesForm(salesInvoice, ref);
                                   if (mounted) {
                                     context.router.push(AddNewSalesRoute(
-                                        salesType: SalesType.salesInvoice));
+                                      salesType: SalesType.salesInvoice,
+                                    ));
                                   }
                                 }),
                           ),

@@ -130,10 +130,10 @@ class SalesRepositoryImpl extends SalesRepository {
         UrlResources.getSalesOrder,
         data: data,
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 && response.data["status"] == true) {
         final salesOrderList = List<SalesOrderModel>.from(response
             .data["salesOrder"]
-            .map((x) => SalesQuotationModel.fromJson(x)));
+            .map((x) => SalesOrderModel.fromJson(x)));
         return Right(salesOrderList);
       }
       return Left(ServerFailure(message: ""));
