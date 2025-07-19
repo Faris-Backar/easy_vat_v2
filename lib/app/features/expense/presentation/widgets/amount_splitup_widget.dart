@@ -25,7 +25,7 @@ class _AmountSplitupWidgetState extends ConsumerState<AmountSplitupWidget> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPersistentFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final prefs = await SharedPreferences.getInstance();
       isTaxRegistrationEnabled =
           prefs.getBool(PrefResources.isTaxEnabled) ?? false;

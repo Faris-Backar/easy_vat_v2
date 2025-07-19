@@ -242,7 +242,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
           grossTotal: detailList[i].grossTotal,
           taxAmount: taxAmount,
           taxPercentage: isTaxEnabled ? (detailList[i].taxPercentage) : 0.0,
-          netTotal: netTotal,
+          netTotal: detailList[i].netTotal,
           rowguid: detailList[i].ledger.rowguid ?? PrefResources.emptyGuid,
           companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid,
           openingBalance: detailList[i].ledger.openingBalance ?? 0.0,
@@ -294,6 +294,7 @@ class ExpenseCartNotifier extends StateNotifier<ExpenseCartState> {
     detailList.clear();
     totalAmount = 0.0;
     taxAmount = 0.0;
+    grossTotal = 0.0;
     discount = 0.0;
     roundOf = 0.0;
     expensesNo = "";

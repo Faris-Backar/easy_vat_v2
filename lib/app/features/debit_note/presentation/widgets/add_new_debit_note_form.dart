@@ -109,7 +109,11 @@ class _AddNewDebitNoteFormState extends ConsumerState<AddNewDebitNoteForm> {
                         label: context.translate(AppStrings.date),
                         initialValue:
                             ref.watch(debitNoteCartProvider).debitNoteDate,
-                        onDateSelected: (date) {},
+                        onDateSelected: (date) {
+                          ref
+                              .read(debitNoteCartProvider.notifier)
+                              .setDebitNoteDate(date);
+                        },
                         labelAndTextfieldGap: 2,
                         backgroundColor: AppUtils.isDarkMode(context)
                             ? context.colorScheme.tertiaryContainer

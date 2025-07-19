@@ -269,7 +269,15 @@ class _AddStockTransferWidgertState extends State<AddStockTransferWidgert> {
     final cartPrvd = ref.read(stockTransferProvider.notifier);
     cartPrvd.setStockTransferNo(widget.stockTransferNoController.text);
     cartPrvd.setRefNo(widget.refNoController.text);
-
+    final fromStore = widget.fromStoreNotifier.value;
+    final toStore = widget.toStoreNotifier.value;
+    if (fromStore != null && toStore != null && fromStore == toStore) {
+      Fluttertoast.showToast(
+          msg: "From Store and To Store must be different!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM);
+      return;
+    }
     final newStockTransfer = await cartPrvd.createNewStockTransfer();
 
     if (ref.read(stockTransferProvider).isForUpdate == true) {

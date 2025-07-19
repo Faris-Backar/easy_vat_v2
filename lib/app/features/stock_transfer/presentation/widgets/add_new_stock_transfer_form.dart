@@ -78,7 +78,13 @@ class _AddNewStockTransferFormState
                     builder: (context, WidgetRef ref, child) {
                       return DatePickerTextField(
                         label: context.translate(AppStrings.date),
-                        onDateSelected: (date) {},
+                        initialValue:
+                            ref.watch(stockTransferProvider).stockTransferDate,
+                        onDateSelected: (date) {
+                          ref
+                              .read(stockTransferProvider.notifier)
+                              .setStockTransferDate(date);
+                        },
                         labelAndTextfieldGap: 2,
                         backgroundColor: AppUtils.isDarkMode(context)
                             ? context.colorScheme.tertiaryContainer

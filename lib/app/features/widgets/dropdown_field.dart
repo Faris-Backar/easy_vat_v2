@@ -11,6 +11,7 @@ class DropdownField extends StatelessWidget {
   final List<String> items;
   final double? labelAndTextFieldGap;
   final Color? backgroundColor;
+  final bool enabled;
   final Function(String? value) onChanged;
   const DropdownField(
       {super.key,
@@ -19,6 +20,7 @@ class DropdownField extends StatelessWidget {
       required this.items,
       this.height,
       this.hint,
+      this.enabled = true,
       this.labelAndTextFieldGap,
       this.backgroundColor,
       required this.onChanged});
@@ -29,8 +31,12 @@ class DropdownField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label,
-            style: context.textTheme.bodyMedium
-                ?.copyWith(fontWeight: FontWeight.w500)),
+            style: context.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w500,
+              color: enabled
+                  ? context.textTheme.bodyMedium?.color
+                  : context.colorScheme.outline,
+            )),
         SizedBox(height: labelAndTextFieldGap ?? 5),
         ValueListenableBuilder<String?>(
           valueListenable: valueNotifier,
@@ -62,7 +68,12 @@ class DropdownField extends StatelessWidget {
                           style: context.textTheme.bodyMedium,
                         ));
                   }).toList(),
-                  onChanged: onChanged,
+                  onChanged: enabled
+                      ? (value) {
+                          valueNotifier.value = value;
+                          onChanged(value);
+                        }
+                      : null,
                 ),
               ),
             );

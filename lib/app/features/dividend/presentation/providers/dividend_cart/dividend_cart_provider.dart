@@ -155,7 +155,7 @@ class DividendCartNotifier extends StateNotifier<DividendCartState> {
           currentBalance: detailList[i].ledger.currentBalance ?? 0.0,
           currentBalanceType: detailList[i].ledger.currentBalanceType ?? "",
           description: detailList[i].description,
-          netTotal: netTotal,
+          netTotal: detailList[i].netTotal,
           rowguid: detailList[i].ledger.rowguid ?? PrefResources.emptyGuid,
           companyIDPK: companyDetails?.companyIdpk ?? PrefResources.emptyGuid);
       details.add(detail);
